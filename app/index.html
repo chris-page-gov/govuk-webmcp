@@ -12,28 +12,69 @@
     <header>
       <p class="phase">Independent experimental prototype</p>
       <h1>Trusted government knowledge discovery</h1>
-      <p>Search a tiny, checksum-verified fixture and follow its authoritative GOV.UK source.</p>
+      <p class="lede">Search a checksum-verified catalogue of GOV.UK content, public-sector data and APIs. Every result keeps its source, status and limitations visible.</p>
+      <dl class="catalogue-summary" aria-label="Verified catalogue summary">
+        <div><dt>Records</dt><dd id="record-count">Verifying…</dd></div>
+        <div><dt>Bundle</dt><dd><code id="bundle-digest">Verifying…</code></dd></div>
+        <div><dt>Runtime</dt><dd id="tool-status">Verifying…</dd></div>
+      </dl>
     </header>
     <main>
       <section aria-labelledby="search-heading">
         <h2 id="search-heading">Search government knowledge</h2>
         <form id="search-form" action="./" method="post" autocomplete="off">
           <label for="query">Search term</label>
-          <p id="query-hint" class="hint">Try “content API” or “government publishing”.</p>
+          <p id="query-hint" class="hint">Try “child benefit”, “flood API”, “geography” or “authentication”. Your query is not put in the URL or stored.</p>
           <div class="search-row">
             <input id="query" type="search" maxlength="160" aria-describedby="query-hint" required disabled>
             <button type="submit" disabled>Search</button>
           </div>
+          <details class="filters">
+            <summary>Filter results</summary>
+            <div class="filter-grid">
+              <label for="resource-type">Resource type</label>
+              <select id="resource-type" disabled><option value="">All resource types</option></select>
+              <label for="publisher">Publisher</label>
+              <select id="publisher" disabled><option value="">All publishers</option></select>
+              <label for="access-status">Access status</label>
+              <select id="access-status" disabled><option value="">All access statuses</option></select>
+              <label for="result-limit">Maximum results</label>
+              <select id="result-limit" disabled>
+                <option>8</option><option>12</option><option>20</option>
+              </select>
+            </div>
+          </details>
         </form>
-        <p id="status" role="status">Loading and verifying the local fixture…</p>
+        <p id="status" role="status">Loading and verifying the local catalogue and receipts…</p>
       </section>
       <section aria-labelledby="results-heading">
-        <h2 id="results-heading">Results</h2>
+        <div class="section-heading">
+          <h2 id="results-heading">Results</h2>
+          <button id="clear-search" class="secondary" type="button" hidden>Clear search</button>
+        </div>
         <div id="results" aria-live="polite"><p>No search has been run.</p></div>
+      </section>
+      <section id="record-panel" class="record-panel" aria-labelledby="record-heading" tabindex="-1" hidden>
+        <div class="section-heading">
+          <h2 id="record-heading">Record</h2>
+          <button id="close-record" class="secondary" type="button">Close record</button>
+        </div>
+        <div id="record-content"></div>
+        <h3>Provenance and receipt</h3>
+        <div id="provenance-content"></div>
+      </section>
+      <section class="boundary" aria-labelledby="boundary-heading">
+        <h2 id="boundary-heading">What this catalogue does not prove</h2>
+        <ul>
+          <li>Inclusion does not grant access or permission to use a service.</li>
+          <li>A confirmed licence applies only where the cited record says it does.</li>
+          <li>Digest-bound means the packaged metadata passed integrity checks, not that government certified its accuracy.</li>
+          <li>No provider API is called while you use this page.</li>
+        </ul>
       </section>
     </main>
     <footer>
-      <p>This is not an official GOV.UK service. It makes no claim of comprehensive coverage, access authority or production readiness.</p>
+      <p>This is not an official GOV.UK service. It makes no claim of comprehensive coverage, official endorsement or production readiness.</p>
     </footer>
     <script type="module" src="./app/main.js"></script>
   </body>

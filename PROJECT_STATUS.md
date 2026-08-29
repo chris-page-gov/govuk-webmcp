@@ -1,24 +1,20 @@
 # Project status and hard gates
 
-**Status:** technical build may proceed locally; personal competition submission
-is on governance hold.
+**Status:** full technical build and private GitHub publication are authorised.
+Competition registration and submission remain separate explicit actions.
 
-**Local implementation:** baseline commit `4c85db7` preserves the research seed.
-The first search vertical slice is implemented and passes the complete local
-suite recorded in `CODEX_HANDOVER.md`. No publication capability or authority
-follows from this technical status.
+**Implementation:** baseline commit `4c85db7` preserves the research seed. Chris
+Page's 29 August 2026 assurance resolves the personal ownership, resource-use,
+outside-interest and original-code licence gates for this repository. The
+private `chris-page-gov/govuk-webmcp` repository and branch/PR workflow are
+authorised. Pull request `#1` contains the complete private verification build;
+its implementation commit passed the private `Validate` workflow.
 
-## Hard gates before publication or submission
+## Source-material boundaries that remain mandatory
 
-- Written ownership/licensing decision for every reused and newly created path.
-- Warwickshire County Council outside-interest, resource-use, prize and
-  publicity decision.
-- DSIT/BDUK host/secondment conflict and outside-interest decision where
-  applicable.
-- Rights review for all third-party/open-source/OGL material.
-- Written resolution or accepted legal interpretation of the Devpost
-  “solely owned” wording when licensed open source and public-sector metadata
-  are included.
+- Retain the item-level rights and access review for all public-sector and
+  third-party source material.
+- Do not turn catalogue inclusion into a blanket access or licence claim.
 - Confirmation that no official credentials, restricted information, personal
   data or unpublished material enter the repository or deployed build.
 
@@ -33,12 +29,9 @@ follows from this technical status.
   logos.
 - Independent-prototype disclaimer on the application, repository and video.
 
-## Do not do yet
+## Still requires a separate explicit instruction
 
-- Do not create a public GitHub repository or push to an existing public repo.
-- Do not add a root open-source licence until ownership authority is confirmed.
-- Do not deploy a public site.
-- Do not use employer accounts, devices, credentials, internal sources or
-  unpublished material without explicit authority.
+- Do not make the repository public or deploy a public site.
+- Do not register for the competition or submit to Devpost.
 - Do not claim WCAG conformance, official endorsement, comprehensive coverage,
   production readiness or guaranteed accuracy.

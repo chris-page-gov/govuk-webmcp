@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:profile-record:v1",
+  "title": "Trusted government knowledge discovery profile record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "description", "resourceType", "publisher", "topics", "canonicalHumanUrl", "licence", "access", "dates", "sourceAuthority", "assertions", "provenance", "limitations", "relatedRecordIds"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "resourceType": { "$ref": "#/$defs/resourceType" },
+    "publisher": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "steward": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "topics": { "type": "array", "minItems": 1, "maxItems": 20, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 100 } },
+    "canonicalHumanUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "documentationUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "machineEndpoint": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "apiCatalogueUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "licence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["confirmed", "missing", "conflicting", "not-applicable"] },
+        "title": { "type": "string" },
+        "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "attribution": { "type": "string" }
+      }
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "note"],
+      "properties": {
+        "status": { "$ref": "#/$defs/accessStatus" },
+        "evidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed"],
+      "properties": {
+        "firstPublished": { "type": "string", "format": "date-time" },
+        "modified": { "type": "string", "format": "date-time" },
+        "observed": { "type": "string", "format": "date-time" }
+      }
+    },
+    "sourceAuthority": { "type": "string", "minLength": 1 },
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "status", "evidenceUrls"],
+        "properties": {
+          "field": { "type": "string", "minLength": 1 },
+          "status": { "$ref": "#/$defs/assertionStatus" },
+          "evidenceUrls": { "type": "array", "minItems": 1, "items": { "type": "string", "format": "uri", "pattern": "^https://" } },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["extractionMethod", "sourceDigest", "recordDigest", "bundleDigest", "evidenceReceiptId", "sources"],
+      "properties": {
+        "extractionMethod": { "type": "string", "minLength": 1 },
+        "sourceLock": { "type": "string", "minLength": 1 },
+        "sourceDigest": { "$ref": "#/$defs/sha256" },
+        "recordDigest": { "$ref": "#/$defs/sha256" },
+        "bundleDigest": { "$ref": "#/$defs/sha256" },
+        "evidenceReceiptId": { "type": "string", "pattern": "^trusted-govuk-discovery:evidence-receipt:sha256:[a-f0-9]{64}$" },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url", "title", "publisher", "observedAt"],
+            "properties": {
+              "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+              "title": { "type": "string", "minLength": 1 },
+              "publisher": { "type": "string", "minLength": 1 },
+              "observedAt": { "type": "string", "format": "date-time" },
+              "digest": { "$ref": "#/$defs/sha256" }
+            }
+          }
+        }
+      }
+    },
+    "limitations": { "type": "array", "minItems": 1, "maxItems": 12, "items": { "type": "string", "minLength": 1 } },
+    "relatedRecordIds": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "pattern": "^govuk-discovery:" } }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "resourceType": { "enum": ["govuk-content", "dataset", "api", "api-documentation", "catalogue-record", "organisation", "guidance"] },
+    "accessStatus": { "enum": ["public", "restricted", "authentication-required", "access-not-established", "not-applicable"] },
+    "assertionStatus": { "enum": ["official-source", "normalised", "inferred", "model-derived"] }
+  }
+}

@@ -1,6 +1,6 @@
 # ADR-0001: Static same-origin WebMCP boundary
 
-- **Status:** accepted for the first local vertical slice
+- **Status:** accepted and implemented for the complete private verification build
 - **Date:** 29 August 2026
 
 ## Context
@@ -16,9 +16,9 @@ does not alter those source repositories.
 - Identify the application as an independent experimental prototype.
 - Serve a static catalogue and raw-byte checksum from the same origin.
 - Make no runtime call to GOV.UK, another provider or an official API.
-- Keep the intended boundary at three read-only tools: search, exact record and
-  provenance. Implement only `search_government_knowledge` in this slice.
-- Use one deterministic search function for the accessible page and tool paths.
+- Keep the boundary at three read-only tools: search, exact record and
+  provenance.
+- Use one deterministic execution layer for the accessible page and tool paths.
 - Display authoritative GOV.UK links, assertion labels and limitations in human
   and structured results.
 - Treat imported strings as untrusted data and render them with text nodes.
@@ -29,8 +29,8 @@ does not alter those source repositories.
 
 ## Consequences
 
-The human search works when WebMCP is absent. A verified fixture is required
-before search is enabled or a tool is registered. The first slice cannot claim
-comprehensive coverage, durable receipts, provider access, official endorsement
-or production readiness. Corpus expansion and the remaining two tools require
-later backlog slices and governance decisions.
+The human journey works when WebMCP is absent. A verified catalogue and receipt
+collection are required before search is enabled or any tool is registered. The
+prototype cannot claim comprehensive coverage, provider access, official
+endorsement or production readiness. Its evidence receipts prove only the
+integrity bindings of the packaged metadata; they are not publisher signatures.

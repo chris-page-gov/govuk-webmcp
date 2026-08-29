@@ -1,0 +1,28 @@
+{
+  "@context": {
+    "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "schema": "https://schema.org/",
+    "okfx": "https://govuk-webmcp.example.invalid/ns/"
+  },
+  "@id": "okfx:trusted-govuk-discovery.profile.v1",
+  "@type": "okfx:DiscoveryProfile",
+  "dcterms:title": "Trusted government knowledge discovery profile",
+  "dcterms:description": "An additive profile for bounded, source-linked GOV.UK content, dataset and API discovery records.",
+  "okfx:requiredEvidence": [
+    "authoritative human URL",
+    "access status and evidence",
+    "licence status",
+    "observation date",
+    "field assertion status",
+    "source, record and bundle digests",
+    "visible limitations"
+  ],
+  "okfx:assertionStatuses": ["official-source", "normalised", "inferred", "model-derived"],
+  "okfx:failClosedRules": [
+    "Catalogue inclusion does not establish public access.",
+    "Missing licence evidence remains missing.",
+    "Model-derived narrative is not canonical metadata.",
+    "Tools register only after catalogue and receipt validation succeeds."
+  ]
+}

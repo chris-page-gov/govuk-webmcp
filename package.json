@@ -5,8 +5,9 @@
   "description": "Independent experimental WebMCP prototype research and local implementation workspace",
   "type": "module",
   "scripts": {
-    "fixture:build": "node scripts/build-fixture.mjs",
-    "build": "npm run fixture:build && tsc && node scripts/copy-static.mjs",
+    "catalogue:build": "node scripts/build-catalogue.mjs",
+    "catalogue:validate": "node scripts/validate-generated.mjs",
+    "build": "npm run catalogue:build && npm run catalogue:validate && tsc && node scripts/copy-static.mjs",
     "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py",
     "test:unit": "npm run build && node --test tests/unit/*.test.mjs",
     "test:browser": "npm run build && playwright test",
@@ -17,7 +18,10 @@
     "python": ">=3.11"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "typescript": "^7.0.2"
   }
 }

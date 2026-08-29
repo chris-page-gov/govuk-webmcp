@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:catalogue:v1",
+  "title": "Trusted government knowledge discovery catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "generatedAt", "profile", "bundleDigest", "sourceLocksDigest", "records"],
+  "properties": {
+    "schema": { "const": "trusted-govuk-discovery.catalogue.v1" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "profile": { "const": "trusted-govuk-discovery.profile.v1" },
+    "bundleDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sourceLocksDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "records": { "type": "array", "minItems": 30, "maxItems": 80, "items": { "$ref": "urn:govuk-webmcp:schema:profile-record:v1" } }
+  }
+}

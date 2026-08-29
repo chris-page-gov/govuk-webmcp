@@ -1,19 +1,19 @@
 # govuk-webmcp
 
-Local competition-development repository for the independent experimental
-prototype provisionally titled **Trusted GOV.UK Knowledge Discovery**.
+Private development repository for the independent experimental prototype
+**Trusted government knowledge discovery**.
 
 ## Current status
 
-This repository contains the preserved 29 August 2026 research baseline and a
-first local vertical slice: accessible search and one page-scoped WebMCP tool
-over a tiny checksum-verified fixture. See `CHANGELOG.md` and
-`docs/competition/implementation-plan.md` for lockstep status.
+This repository contains the preserved 29 August 2026 research baseline and the
+complete static prototype: accessible search, exact record and provenance views,
+plus three page-scoped WebMCP tools over an 80-record, 80-receipt,
+checksum-verified catalogue. See `CHANGELOG.md` and
+`docs/competition/implementation-plan.md` for lockstep status and evidence.
 
-It is **not yet a competition submission**, **not an official GOV.UK or UK
-Government service**, and **must not be published or connected to a public
-remote until the ownership, outside-interest, prize and publicity gates in
-`PROJECT_STATUS.md` are resolved**.
+It is **not a competition submission** and **not an official GOV.UK or UK
+government service**. The source repository is private. Public deployment,
+competition registration and Devpost submission require separate instructions.
 
 ## Start here
 
@@ -30,12 +30,16 @@ remote until the ownership, outside-interest, prize and publicity gates in
 
 ## Key implementation artefacts
 
-- `src/webmcp-tools.ts` — proposed imperative WebMCP registrations.
+- `src/webmcp-tools.ts` — implemented imperative WebMCP registrations and the
+  shared verified execution layer.
+- `app/data/sources/` — reviewed source locks and frozen input records.
+- `app/data/catalogue.json` and `app/data/receipts.json` — deterministic,
+  same-origin generated artefacts.
 - `schemas/` — input/output and record/receipt schemas.
 - `examples/` — minimal OKF and evidence-receipt examples.
 - `docs/competition/codex-build-brief.md` — one-page build contract.
 - `docs/competition/backlog.md` — Must/Should/Could backlog.
-- `governance/checklists/` — competition and pre-submission gates.
+- `governance/` — ownership assurance, competition and pre-submission gates.
 
 ## Controlling deadline
 
