@@ -17,9 +17,12 @@ Private review publication:
   the static build artefact;
 - Dependabot configuration check: passed.
 
-The follow-on `feat/browser-startup-guidance` branch replaces the apparent
+Private pull request `#5` merged the browser-startup follow-on as
+`3a2d7faac43ec13e785a1cb694ed175c34d45553`. It replaces the apparent
 direct-file “Verifying…” hang with HTTP guidance, adds `npm run serve`, bounds
 startup to 10 seconds and makes the existing browser suite selectable for Edge.
+Exact post-merge `main` run `33272360982` passed, retained the static build
+artefact and emitted no deprecated action-runtime warning.
 
 ## Source locks
 
@@ -67,14 +70,13 @@ No `gis-ai-go` or OKF source repository was modified.
 
 ## Remaining release evidence
 
-The complete build is merged; the browser-startup follow-on is ready for private
-review publication. A public HTTPS deployment, ChatGPT built-in-browser
-observation, signed-out acceptance, manual assistive-technology test,
-competition registration and Devpost submission have not been performed and
-must not be inferred from local tests.
+The complete build and browser-startup follow-on are merged. A public HTTPS
+deployment, ChatGPT built-in-browser observation, signed-out acceptance, manual
+assistive-technology test, competition registration and Devpost submission have
+not been performed and must not be inferred from local tests.
 
 ## Recommended next step
 
-Review and merge the browser-startup follow-on after its private workflow
-passes. After a separate public-deployment instruction, capture host-specific
-and signed-out evidence before any submission work.
+Refresh `http://127.0.0.1:4173/` in Edge to verify the corrected local journey.
+After a separate public-deployment instruction, capture host-specific and
+signed-out evidence before any submission work.
