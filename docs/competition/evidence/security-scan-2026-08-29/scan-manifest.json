@@ -1,0 +1,89 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "83636f02ed354da897c7968f01f79117e092951fd26255bfd782f948ba5fb30b"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "40bf123df442d5c9c4bdb17e3b5bd04e7f751f02b29f705e4e2942158de28ea2"
+      }
+    ],
+    "completedAt": "2026-08-29T21:12:08.696629Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "fa3ad6c0-dbdf-46a7-aadc-b35e5b73f45d",
+    "preservedSources": {
+      "checkpoints/1227068e4e1b71cd4dd96685adad52779a3128efd2d9a6d1cc0a05acb80ecf25.json": "1227068e4e1b71cd4dd96685adad52779a3128efd2d9a6d1cc0a05acb80ecf25",
+      "checkpoints/356658526d00e4677b5e68450f751092b07054c7513a75fe6d5dd04b37b135bc.json": "942bb2d9f8c6f06201ef4e67904553f1c971afa4ceeb5e678bc1364997875ef4",
+      "checkpoints/6d475199b397e566fcc32575f9c53dfa3fd0efb31ad5719006d9f2a74ae9202e.json": "0fcda42327773c08333c0fbed97225ae8a4146c287b985657562e93ef4c88c6a",
+      "checkpoints/8637a6a1c8f5dfddfdc7b556f782ebbeee8f6fc6d2b6e86cf4bd891e5fafd1ed.json": "89d86ca5f6edd2a510ef84e0965c56960d0e1b19f1e83414517e1bc87c6a5039"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "context": "Pre-publication review of commit 260d68fb1c76ed83ace8f72ff57050113c2e2a95.",
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "Runtime host behaviour and future public-host configuration were not present in the target revision."
+      ],
+      "summary": "Complete repository-wide static audit of the current target revision."
+    },
+    "sealedAt": "2026-08-29T21:12:08.696629Z",
+    "startedAt": "2026-08-29T21:00:47.267909Z",
+    "status": "completed",
+    "target": {
+      "displayName": "govuk-webmcp",
+      "kind": "git_revision",
+      "revision": "260d68fb1c76ed83ace8f72ff57050113c2e2a95",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "assets": [
+        "Frozen-source, catalogue, receipt and release-byte integrity.",
+        "Truthful access, licence, assertion, observation and limitation fields.",
+        "Bounded read-only tool identity and behaviour.",
+        "Inert source text and the absence of credentials, personal data, provider calls, analytics and storage."
+      ],
+      "assumptions": [
+        "Target is the 108 tracked files at 260d68fb1c76ed83ace8f72ff57050113c2e2a95; concurrent changes are excluded.",
+        "Checksums establish package consistency, not publisher identity, freshness or an external trust root.",
+        "sourceLocksDigest is not independently rooted in the browser.",
+        "Sequential registration has no rollback; partial visibility is a non-security availability/host-semantics uncertainty.",
+        "Public hosting was absent at the target revision and must be verified after deployment.",
+        "Current user publication authority supersedes stale tracked restrictions; registration and submission remain unauthorised."
+      ],
+      "attackerCapabilities": [
+        "A visitor or tool caller controls bounded query, filters, limit, recordId and fragment, but not origin, repository, CI or providers.",
+        "A source publisher may control frozen strings, which remain inert text and untrusted tool output.",
+        "Repository, CI or origin compromise can coherently replace code and co-located checksums and already has equivalent authority.",
+        "A WebMCP host controls caller isolation and output handling but receives no page write, storage or provider-network capability."
+      ],
+      "securityObjectives": [
+        "Fail closed before UI or tool enablement on any integrity or contract failure.",
+        "Remain static, same-origin, credential-free and read-only.",
+        "Reject unknown fields, arbitrary context, caller URLs and oversized or unsupported input.",
+        "Render source content inertly and preserve visible source, provenance, status and limitations.",
+        "Bind any public release to an exact reviewed revision and verify it signed out and in the target host."
+      ],
+      "summary": "Static TypeScript browser application built from two frozen checksum-locked sources into an 80-record catalogue and 80 receipts. The browser verifies four fixed same-origin resources before enabling the human UI and three bounded read-only WebMCP tools. Build and CI are privileged release surfaces; provider APIs, accounts, persistence and Devpost operations are absent.",
+      "trustBoundaries": [
+        "Maintainer-controlled frozen inputs enter the deterministic build after committed SHA-256 checks.",
+        "Fixed same-origin catalogue and receipt bytes enter the browser only after checksum, URL, record, bundle and receipt validation.",
+        "The validated runtime enters the WebMCP host through three closed read-only registrations; host caller authorisation and retention are external.",
+        "Locked dependencies and SHA-pinned Actions enter CI with contents:read before a revision-named artefact is produced.",
+        "Authoritative links leave the origin only after user navigation to admitted credential-free HTTPS official hosts."
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

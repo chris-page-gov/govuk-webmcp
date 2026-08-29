@@ -17,19 +17,19 @@
 13. Fail-closed validation.
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests.
 15. CSP, no storage, no external runtime request.
-16. ChatGPT/Chrome tests.
-17. Public deployment, MIT licence and notices.
+16. ChatGPT/Chrome tests. *(Chrome and Edge complete; deployed ChatGPT host evidence pending.)*
+17. Public deployment, MIT licence and notices. *(Release candidate ready; live acceptance pending.)*
 18. Demo, transcript, submission copy, final tag and hashes.
 
 ## Should
 
 1. `compare_resources` after core freeze.
 2. Filter facets for publisher/type/access.
-3. Link-health report.
+3. Link-health report. *(Complete for 161 unique admitted official URLs on 29 August 2026.)*
 4. Stale-data badge/threshold.
 5. Downloadable record and receipt.
-6. Automated SBOM/attestation.
-7. Accessibility statement and manual test log.
+6. Automated SBOM/attestation. *(CycloneDX SBOM complete; signed release attestation pending.)*
+7. Accessibility statement and manual test log. *(Statement and browser evidence complete; screen-reader observation pending.)*
 8. Baseline-to-submission visual compare.
 9. Optional small set of related-record links.
 10. Public status/known-issues page.

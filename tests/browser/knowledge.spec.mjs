@@ -204,3 +204,17 @@ test("automated accessibility smoke test finds no serious or critical violations
   expect(results.violations.filter(({ impact }) => impact === "serious" || impact === "critical"))
     .toEqual([]);
 });
+
+test("keyboard, narrow reflow and forced-colour journeys retain visible content", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce", forcedColors: "active" });
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/");
+  await page.getByLabel("Search term").focus();
+  await page.keyboard.type("flood API");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Search" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("article.result").first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Source code" })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});

@@ -26,7 +26,9 @@ WebMCP registration is progressive enhancement. Where unavailable, the page says
 
 **Visible equivalent:** manual search form and result list.
 
-**Errors:** `invalid_search_request`, `catalogue_unavailable`, empty results. No fallback to an unverified source.
+**Errors:** `invalid_search_request` and empty results. Catalogue or receipt
+startup failure prevents the runtime and every tool from registering; there is
+no callable `catalogue_unavailable` fallback.
 
 **Evidence logged:** no personal query log by default. Build and test evidence records the corpus digest and fixture invocation; live page may expose the latest call visibly in ephemeral DOM only.
 
@@ -60,7 +62,9 @@ WebMCP registration is progressive enhancement. Where unavailable, the page says
 
 **Visible equivalent:** “Evidence and provenance” view.
 
-**Errors:** missing receipt or digest returns `unverified`, not a substitute receipt.
+**Errors:** `record_not_found` for an unknown exact identifier. A missing or
+invalid receipt or digest prevents all tools from registering; the runtime does
+not manufacture an `unverified` substitute receipt.
 
 **Evidence logged:** receipt fixture, digest recomputation result, deliberate mismatch test.
 
@@ -81,7 +85,7 @@ Tool descriptions and outputs are themselves injection surfaces. The description
 - No user-supplied URL, selector, callback, origin, endpoint or credential.
 - `additionalProperties: false` plus executable exact-key validation.
 - Source strings returned as data with `untrustedContentHint: true`.
-- Link schemes restricted to HTTP(S); credentials in URLs rejected.
+- Links restricted to credential-free HTTPS URLs on admitted official hosts.
 - No HTML returned to the agent.
 - No dynamic tool registration from catalogue records.
 - No page-side storage, analytics or external runtime calls in the judging path.

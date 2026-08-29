@@ -1,7 +1,8 @@
 # Project status and hard gates
 
-**Status:** full technical build and private GitHub publication are authorised.
-Competition registration and submission remain separate explicit actions.
+**Status:** full technical build, public GitHub source and public static
+deployment are authorised. Competition registration and submission remain
+separate explicit actions and have not been performed.
 
 **Implementation:** baseline commit `4c85db7` preserves the research seed. Chris
 Page's 29 August 2026 assurance resolves the personal ownership, resource-use,
@@ -14,6 +15,23 @@ Private pull request `#5` then merged the Edge startup guidance and current
 SHA-pinned GitHub Actions as
 `3a2d7faac43ec13e785a1cb694ed175c34d45553`; its exact post-merge `main`
 workflow passed.
+
+The live 29 August 2026 rules check confirmed that a public source repository
+with an open-source licence and a working live URL are submission requirements.
+A release candidate now adds public security, privacy and accessibility
+boundaries, generated SBOM and link-health evidence, responsive/forced-colour
+acceptance and a manual exact-artefact GitHub Pages workflow. Public deployment
+must still be verified before it is described as live.
+
+The complete static security audit of pre-release `main` commit `260d68f`
+covered all 108 tracked files and produced no reportable findings. Its canonical
+report, coverage, findings and manifest are retained under
+`docs/competition/evidence/security-scan-2026-08-29/`. The release-candidate
+diff was reviewed separately. Its initial Pages workflow had one medium
+promotion-boundary finding and its raw SBOM exposed third-party person metadata;
+both are fixed and independently re-reviewed, with regression tests. The
+pre-remediation canonical scan and verification note are retained under
+`docs/competition/evidence/security-diff-scan-2026-08-29/`.
 
 ## Source-material boundaries that remain mandatory
 
@@ -36,7 +54,8 @@ workflow passed.
 
 ## Still requires a separate explicit instruction
 
-- Do not make the repository public or deploy a public site.
 - Do not register for the competition or submit to Devpost.
 - Do not claim WCAG conformance, official endorsement, comprehensive coverage,
   production readiness or guaranteed accuracy.
+- Do not change the repository, live site or submission after the 3 September
+  2026 13:00 Pacific deadline if a submission has been accepted.

@@ -4,7 +4,7 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 ## Entrant and dates
 
-- [ ] **Confirmed:** submission uses the live Official Rules deadline: 3 September 2026, 13:00 PDT / 21:00 BST.
+- [x] **Confirmed:** the 29 August 2026 live rules check gives 3 September 2026, 13:00 Pacific / 21:00 BST.
 - [ ] **Verify:** Devpost registration is complete under the same individual, team or organisation identity used in the submission.
 - [ ] **Verify:** entrant remains eligible by age, residence, supported-country status and account requirements.
 - [ ] **Approval required:** any team or organisation representative has written authority.
@@ -28,7 +28,7 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 ## Technical submission
 
-- [ ] **Confirmed by test:** public live URL exposes material WebMCP behaviour in the supported judging environments.
+- [ ] **Confirmed by test:** public live URL exposes material WebMCP behaviour in the supported judging environments; deployment and ChatGPT-host observation remain pending.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test:** exactly three declared read-only tools register; inputs and outputs validate; no runtime provider call or credential path exists.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.

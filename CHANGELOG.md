@@ -23,6 +23,14 @@ based on Keep a Changelog. The project does not yet use semantic versions.
   direct-link and automated accessibility tests.
 - MIT licence, source-specific attribution notice, Chris Page ownership
   assurance, private GitHub Actions validation and dependency update policy.
+- Public security, privacy and accessibility documents, a CycloneDX SBOM and a
+  dated link-health report covering 161 unique admitted official URLs.
+- Canonical report, findings, coverage and manifest from the complete
+  no-findings security audit of pre-release `main` commit `260d68f`.
+- A SHA-pinned, manually dispatched GitHub Pages workflow that retests and
+  publishes one exact artefact with machine-readable deployment metadata.
+- Keyboard, 320-pixel reflow, forced-colour and reduced-motion browser
+  acceptance alongside the existing axe smoke test.
 
 ### Changed
 
@@ -32,6 +40,9 @@ based on Keep a Changelog. The project does not yet use semantic versions.
   tracking in lockstep with executable behaviour.
 - Pinned the current official GitHub Actions v7 releases to immutable commit
   SHAs after the merged-main workflow reported its deprecated Node runtime.
+- Advanced the package release candidate to `0.1.0-rc.1` and documented that
+  `private: true` prevents accidental npm publication rather than repository
+  access.
 
 ### Fixed
 
@@ -39,6 +50,10 @@ based on Keep a Changelog. The project does not yet use semantic versions.
   state with instructions to run the application over HTTP.
 - Added a 10-second catalogue startup timeout, a one-command local server and
   configurable Chrome/Edge browser-test channels and ports.
+- Corrected the tool catalogue to match fail-closed startup behaviour and the
+  executable credential-free HTTPS official-host admission rule.
+- Corrected the architecture wording to distinguish separately reviewed source
+  acquisition from the offline deterministic build.
 
 ### Security
 
@@ -47,6 +62,12 @@ based on Keep a Changelog. The project does not yet use semantic versions.
   text; the judging path stores no query and contacts no runtime provider.
 - Tool registration occurs only after catalogue, receipt, source, record and
   bundle bindings validate.
+- Restricted Pages publication to a manual exact-`main` dispatch SHA; a focused
+  security review had found that the initial workflow could deploy an unmerged
+  branch.
+- Sanitised third-party author, contributor and maintainer metadata from the
+  public SBOM while retaining component, version, integrity and dependency
+  evidence.
 
 ### Governance
 
@@ -60,3 +81,10 @@ based on Keep a Changelog. The project does not yet use semantic versions.
 - Merged private pull request `#5` as
   `3a2d7faac43ec13e785a1cb694ed175c34d45553`; its exact post-merge `main`
   validation and build-artefact publication also passed.
+- Rechecked the live competition rules on 29 August 2026: a public source
+  repository with an open-source licence and a working live URL are required.
+  Chris Page authorised those release actions; registration and submission
+  remain unperformed governance gates.
+- Reconciled the ownership and outside-interest risk rows with Chris Page's
+  recorded assurance while retaining submission-time prize and publicity
+  checks.

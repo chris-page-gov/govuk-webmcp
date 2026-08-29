@@ -23,8 +23,8 @@ Must 3.
 | 12 | Complete | source, record, bundle and receipt digests and checksum sidecars |
 | 13–14 | Complete for packaged corpus | closed inputs; malformed, no-match, tamper, receipt-binding, unsafe-URL and inert-text tests |
 | 15 | Complete in controlled Chrome and Edge | CSP, no cookie/storage and same-origin-only request assertions |
-| 16 | Part complete | installed Chrome and Edge suites passed; ChatGPT built-in-browser test needs a deployed HTTPS URL |
-| 17 | Part complete | MIT and notices complete; public deployment is not authorised by the private publication request |
+| 16 | Part complete | installed Chrome and Edge suites passed; responsive, forced-colour and reduced-motion checks added; ChatGPT built-in-browser test needs the deployed HTTPS URL |
+| 17 | Release candidate | MIT, notices, public policies, SBOM, link-health evidence and manual Pages workflow complete; signed-out live acceptance remains |
 | 18 | Not started by design | demo, submission copy, tag and Devpost actions require separate instruction |
 
 ## Implemented Should items
@@ -33,10 +33,12 @@ Must 3.
 - Related-record links in exact record results.
 - Automated dependency updates and accessibility smoke testing.
 - Direct-file startup guidance, bounded startup and a one-command local server.
+- A 161-URL admitted-official-host link-health evidence report.
+- CycloneDX SBOM and public security, privacy and accessibility boundaries.
 
 ## Next safe release step
 
-Refresh the corrected local HTTP journey in Edge. If Chris Page separately
-authorises a public deployment, capture signed-out HTTPS, supported-host,
-link-health and manual accessibility evidence before preparing any competition
-submission.
+Merge the release candidate through protected review, deploy the exact tested
+`main` artefact to GitHub Pages and capture signed-out HTTPS and ChatGPT
+built-in-browser evidence. Competition registration and submission remain
+separate actions.
