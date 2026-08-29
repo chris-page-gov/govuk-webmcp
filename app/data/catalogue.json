@@ -1,0 +1,68 @@
+{
+  "schema": "trusted-govuk-discovery.catalogue.v1",
+  "generatedAt": "2026-08-29T10:42:06Z",
+  "records": [
+    {
+      "id": "govuk-discovery:govuk-content-api",
+      "title": "GOV.UK Content API",
+      "description": "Public metadata and content used to render many pages on GOV.UK.",
+      "resourceType": "api",
+      "publisher": "Government Digital Service",
+      "topics": [
+        "government publishing",
+        "content",
+        "api"
+      ],
+      "canonicalHumanUrl": "https://www.gov.uk/help/reuse-govuk-content",
+      "access": {
+        "status": "public",
+        "note": "Authentication is not required for the documented public endpoint; linked services may differ."
+      },
+      "licence": {
+        "status": "confirmed",
+        "title": "Open Government Licence v3.0 where applicable",
+        "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      },
+      "dates": {
+        "observed": "2026-08-29T10:42:06Z"
+      },
+      "assertions": [
+        {
+          "field": "title",
+          "status": "official-source",
+          "evidenceUrls": [
+            "https://www.gov.uk/help/reuse-govuk-content"
+          ]
+        },
+        {
+          "field": "topics",
+          "status": "inferred",
+          "evidenceUrls": [
+            "https://www.gov.uk/help/reuse-govuk-content"
+          ],
+          "note": "Rule-derived discovery terms."
+        }
+      ],
+      "provenance": {
+        "extractionMethod": "manual research capture and deterministic field normalisation",
+        "sources": [
+          {
+            "url": "https://www.gov.uk/help/reuse-govuk-content",
+            "title": "Reusing content from GOV.UK",
+            "publisher": "Government Digital Service",
+            "observedAt": "2026-08-29T10:42:06Z"
+          }
+        ],
+        "recordDigest": "7c1ac1b5f835b8772c424c53055982b20f19fe38a17db7719b83602579e762db",
+        "bundleDigest": "67c6784870dd92aeb2314978b2b34591c60c528b4dca18cbccbe714962049c72",
+        "evidenceReceiptId": "trusted-govuk-discovery:evidence-receipt:sha256:7c1ac1b5f835b8772c424c53055982b20f19fe38a17db7719b83602579e762db"
+      },
+      "limitations": [
+        "This tiny fixture is for local prototype testing and is not comprehensive.",
+        "The licence of linked attachments and third-party material must be checked separately.",
+        "This record does not grant access to any restricted downstream service."
+      ]
+    }
+  ],
+  "bundleDigest": "67c6784870dd92aeb2314978b2b34591c60c528b4dca18cbccbe714962049c72"
+}

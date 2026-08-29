@@ -5,10 +5,19 @@
   "description": "Independent experimental WebMCP prototype research and local implementation workspace",
   "type": "module",
   "scripts": {
-    "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py"
+    "fixture:build": "node scripts/build-fixture.mjs",
+    "build": "npm run fixture:build && tsc && node scripts/copy-static.mjs",
+    "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py",
+    "test:unit": "npm run build && node --test tests/unit/*.test.mjs",
+    "test:browser": "npm run build && playwright test",
+    "test": "npm run research:verify && npm run test:unit && npm run test:browser"
   },
   "engines": {
     "node": ">=20",
     "python": ">=3.11"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "typescript": "^7.0.2"
   }
 }

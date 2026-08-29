@@ -3,6 +3,11 @@
 **Status:** technical build may proceed locally; personal competition submission
 is on governance hold.
 
+**Local implementation:** baseline commit `4c85db7` preserves the research seed.
+The first search vertical slice is implemented and passes the complete local
+suite recorded in `CODEX_HANDOVER.md`. No publication capability or authority
+follows from this technical status.
+
 ## Hard gates before publication or submission
 
 - Written ownership/licensing decision for every reused and newly created path.

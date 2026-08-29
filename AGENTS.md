@@ -45,6 +45,20 @@ what was not run. Maintain authored/generated boundaries, source locks,
 receipts, manifests and checksums. Do not claim a successful browser or
 assistive-technology observation unless it actually occurred.
 
+## Lockstep tracking
+
+- Update `CHANGELOG.md` under `Unreleased` for every notable code, contract,
+  security, governance or documentation change. Use clear Added, Changed,
+  Deprecated, Removed, Fixed, Security or Governance headings as applicable.
+- Update `PROJECT_STATUS.md` when current capability or a hard gate changes.
+- Update `CODEX_HANDOVER.md` when a completed slice changes the next safe task.
+- Update `docs/competition/implementation-plan.md` and the affected backlog
+  mapping in the same change as implementation progress.
+- Keep ADRs, schemas, generated fixtures, tests and user-facing documentation in
+  lockstep with the executable behaviour they describe.
+- Record exact commands, skipped checks and environmental limitations in the
+  final handover; never convert an unrun check into a claim.
+
 ## Git discipline
 
 - Preserve this seed as the research baseline.

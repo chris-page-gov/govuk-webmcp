@@ -62,3 +62,23 @@ paths whose licence and ownership have been reviewed.
 - human and tool output share record ID and bundle digest;
 - no network request, cookie, analytics or persistent query storage;
 - all claims remain inside the independent experimental boundary.
+
+## Agent tracking
+
+Baseline commit `4c85db7` preserves the seed before competition-period code.
+The first vertical slice is implemented in the working tree and mapped in
+`docs/competition/implementation-plan.md`.
+
+Final local validation on 29 August 2026:
+
+- `npm test`: passed;
+- preserved research-pack checks: 4 passed, with optional `jsonschema`
+  meta-schema validation skipped because the Python package is not installed;
+- unit tests: 5 passed;
+- installed-Chrome browser tests: 4 passed;
+- initial sandboxed browser run could not bind localhost (`EPERM`); the identical
+  suite passed with permission to use a localhost-only server.
+
+Stop after validating this slice. The next recommended implementation task is a
+separate reviewed-corpus/profile slice before adding `get_resource_record`; do
+not start it without a new instruction.

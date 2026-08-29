@@ -5,10 +5,10 @@ prototype provisionally titled **Trusted GOV.UK Knowledge Discovery**.
 
 ## Current status
 
-This repository seed contains the completed 29 August 2026 Deep Research,
-competition compliance analysis, source register, implementation contracts,
-JSON Schemas, example OKF/provenance records, risk register and Codex build
-brief.
+This repository contains the preserved 29 August 2026 research baseline and a
+first local vertical slice: accessible search and one page-scoped WebMCP tool
+over a tiny checksum-verified fixture. See `CHANGELOG.md` and
+`docs/competition/implementation-plan.md` for lockstep status.
 
 It is **not yet a competition submission**, **not an official GOV.UK or UK
 Government service**, and **must not be published or connected to a public
@@ -22,10 +22,10 @@ remote until the ownership, outside-interest, prize and publicity gates in
 3. Read `AGENTS.md` before allowing Codex to change the repository.
 4. Read `research/2026-08-29/deep-research-report.md` for the decision-grade
    report.
-5. Run:
+5. Run the complete local suite:
 
    ```bash
-   python3 research/2026-08-29/competition-pack/scripts/verify_pack.py
+   npm test
    ```
 
 ## Key implementation artefacts
