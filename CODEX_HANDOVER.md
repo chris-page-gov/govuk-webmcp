@@ -7,6 +7,14 @@ The complete private verification build is implemented on
 to an 80-record, 80-receipt static catalogue with three imperative WebMCP tools
 and an accessible human journey over one deterministic execution layer.
 
+Private review publication:
+
+- repository: `chris-page-gov/govuk-webmcp`;
+- pull request: `#1`, open and mergeable;
+- implementation commit: `9dabfd26e5333aa37549b7bcf43e5401be9ed707`;
+- GitHub Actions `Validate`: passed on the implementation commit;
+- Dependabot configuration check: passed.
+
 ## Source locks
 
 - preserved research baseline commit: `4c85db7`;
@@ -49,10 +57,10 @@ No `gis-ai-go` or OKF source repository was modified.
 
 ## Remaining release evidence
 
-The private pull request and its CI result are the next checkpoint. A public
-HTTPS deployment, ChatGPT built-in-browser observation, signed-out acceptance,
-manual assistive-technology test, competition registration and Devpost
-submission have not been performed and must not be inferred from local tests.
+The private pull request is ready for review. A public HTTPS deployment, ChatGPT
+built-in-browser observation, signed-out acceptance, manual assistive-technology
+test, competition registration and Devpost submission have not been performed
+and must not be inferred from local tests.
 
 ## Recommended next step
 

@@ -44,6 +44,6 @@ based on Keep a Changelog. The project does not yet use semantic versions.
 - Recorded Chris Page's ownership and resource assurance and applied MIT to the
   original project work while retaining item-level public-sector rights,
   attribution and access boundaries.
-- Created only an authorised private GitHub repository and review branch. Public
-  deployment, competition registration and Devpost submission remain separate
-  actions.
+- Created only an authorised private GitHub repository and pull request with a
+  passing validation workflow. Public deployment, competition registration and
+  Devpost submission remain separate actions.
