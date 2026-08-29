@@ -1,7 +1,7 @@
 import { cp, mkdir } from "node:fs/promises";
 
 await mkdir("dist/data", { recursive: true });
-for (const path of ["index.html", "style.css", "favicon.svg"]) {
+for (const path of ["index.html", "style.css", "favicon.svg", "startup-watchdog.js"]) {
   await cp(`app/${path}`, `dist/${path}`);
 }
 await cp("app/data/catalogue.json", "dist/data/catalogue.json");

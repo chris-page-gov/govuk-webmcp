@@ -28,6 +28,15 @@ competition registration and Devpost submission require separate instructions.
    npm test
    ```
 
+6. Start the verified build for manual browser use:
+
+   ```bash
+   npm run serve
+   ```
+
+   Open `http://127.0.0.1:4173/`. Do not open an HTML file directly from
+   Finder; browsers restrict module and data loading from `file://` URLs.
+
 ## Key implementation artefacts
 
 - `src/webmcp-tools.ts` — implemented imperative WebMCP registrations and the

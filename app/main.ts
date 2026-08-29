@@ -4,6 +4,8 @@ import {
   type KnowledgeDiscoveryRuntime,
 } from "../src/webmcp-tools.js";
 
+document.documentElement.dataset.applicationState = "starting";
+
 const form = document.querySelector<HTMLFormElement>("#search-form")!;
 const query = document.querySelector<HTMLInputElement>("#query")!;
 const submit = document.querySelector<HTMLButtonElement>("button[type='submit']")!;
@@ -242,7 +244,9 @@ try {
     : "Catalogue and receipts verified. The human interface is ready; WebMCP is not available in this browser.";
   const match = location.hash.match(/^#record=(.+)$/u);
   if (match) await showRecord(decodeURIComponent(match[1]!), false);
+  document.documentElement.dataset.applicationState = "ready";
 } catch (error) {
+  document.documentElement.dataset.applicationState = "failed";
   status.textContent = `Search unavailable: ${error instanceof Error ? error.message : "catalogue validation failed."}`;
   document.querySelector("#record-count")!.textContent = "Unavailable";
   document.querySelector("#bundle-digest")!.textContent = "Validation failed";

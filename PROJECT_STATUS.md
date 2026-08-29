@@ -7,8 +7,9 @@ Competition registration and submission remain separate explicit actions.
 Page's 29 August 2026 assurance resolves the personal ownership, resource-use,
 outside-interest and original-code licence gates for this repository. The
 private `chris-page-gov/govuk-webmcp` repository and branch/PR workflow are
-authorised. Pull request `#1` contains the complete private verification build;
-its implementation commit passed the private `Validate` workflow.
+authorised. Pull request `#1` was merged as
+`2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; the exact post-merge `main`
+workflow passed and retained the static build artefact.
 
 ## Source-material boundaries that remain mandatory
 

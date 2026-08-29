@@ -6,6 +6,7 @@ import { expect, test } from "@playwright/test";
 const rawCatalogue = await readFile("app/data/catalogue.json", "utf8");
 const rawReceipts = await readFile("app/data/receipts.json", "utf8");
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
+const testOrigin = `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "4173"}`;
 
 function canonicalJson(value) {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
@@ -77,6 +78,7 @@ test("human search covers the verified 80-record range without WebMCP or storage
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
   await page.goto("/");
 
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.getByRole("heading", { name: "Trusted government knowledge discovery" })).toBeVisible();
   await expect(page.locator("#record-count")).toHaveText("80");
   await expect(page.getByRole("status")).toContainText("WebMCP is not available");
@@ -90,14 +92,21 @@ test("human search covers the verified 80-record range without WebMCP or storage
   await expect(result.getByRole("link", { name: "Flood-monitoring API" }))
     .toHaveAttribute("href", "https://www.api.gov.uk/ea/flood-monitoring/");
   await expect(result).toContainText("Open Government Licence v3.0");
-  await expect(page).toHaveURL("http://127.0.0.1:4173/");
+  await expect(page).toHaveURL(`${testOrigin}/`);
 
-  expect(requests.every((url) => new URL(url).origin === "http://127.0.0.1:4173")).toBe(true);
+  expect(requests.every((url) => new URL(url).origin === testOrigin)).toBe(true);
   expect(failedResponses).toEqual([]);
   expect(consoleErrors).toEqual([]);
   expect(await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length, cookie: document.cookie })))
     .toEqual({ local: 0, session: 0, cookie: "" });
   expect((await context.storageState()).cookies).toEqual([]);
+});
+
+test("direct file opening replaces the apparent verification hang with HTTP guidance", async ({ page }) => {
+  await page.goto(new URL("../../dist/index.html", import.meta.url).href);
+  await expect(page.getByRole("status")).toContainText("must be served over HTTP", { timeout: 5000 });
+  await expect(page.locator("#record-count")).toHaveText("Unavailable");
+  await expect(page.locator("#tool-status")).toHaveText("Unavailable");
 });
 
 test("registers three closed read-only tools with page parity", async ({ page }) => {
