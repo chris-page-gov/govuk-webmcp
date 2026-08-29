@@ -1,0 +1,88 @@
+{
+  "documentType": "codex-security.findings",
+  "findings": [
+    {
+      "attackPath": {
+        "dataflow": {
+          "summary": "Selected branch ref -> default checkout -> branch npm scripts -> uploaded dist -> deploy-pages."
+        },
+        "reachability": {
+          "summary": "Reachable to a repository collaborator with workflow-dispatch authority; unauthenticated users cannot trigger it."
+        }
+      },
+      "confidence": {
+        "level": "high",
+        "rationale": "Direct static trace from workflow_dispatch ref through default checkout and branch scripts to deploy-pages."
+      },
+      "findingId": "csf_1e825575295628176cdab9ec",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:3fa4622c1c9f49db87f5081d2c46fb3f33627e8c65ea996217600c40180c37c8"
+      },
+      "identity": {
+        "anchor": "manual-pages-dispatch-can-deploy-an-unmerged-branch"
+      },
+      "locations": [
+        {
+          "endLine": 4,
+          "path": ".github/workflows/pages.yml",
+          "role": "entrypoint",
+          "startLine": 3
+        },
+        {
+          "endLine": 17,
+          "path": ".github/workflows/pages.yml",
+          "role": "root_control",
+          "startLine": 17
+        },
+        {
+          "endLine": 23,
+          "path": ".github/workflows/pages.yml",
+          "role": "source",
+          "startLine": 23
+        },
+        {
+          "endLine": 20,
+          "path": "package.json",
+          "role": "concrete_implementation",
+          "startLine": 9
+        },
+        {
+          "endLine": 35,
+          "path": ".github/workflows/pages.yml",
+          "role": "sink",
+          "startLine": 32
+        }
+      ],
+      "occurrenceId": "occ_84629b317f6f823ec621f3c0",
+      "provenance": {
+        "candidateId": "candidate-e38c2362c3430a8e",
+        "source": "local_plugin"
+      },
+      "remediation": "Require the dispatch ref to be refs/heads/main, explicitly check out github.sha and restrict the GitHub Pages environment to main as defence in depth.",
+      "rootCause": {
+        "summary": "The privileged deployment job lacked a main-ref authorisation guard and relied on checkout's selected dispatch ref."
+      },
+      "ruleId": "improper-access-control.pages-branch-deployment",
+      "severity": {
+        "level": "medium",
+        "rationale": "High public-site integrity impact with medium likelihood limited to a collaborator able to dispatch Actions.",
+        "score": 6.5,
+        "scoringSystem": "CVSS:3.1"
+      },
+      "summary": "The initial manual Pages workflow accepted a non-main dispatch ref and deployed its branch-controlled build without an exact-main guard.",
+      "taxonomy": {
+        "category": "improper-access-control",
+        "cwe": [
+          "CWE-284"
+        ]
+      },
+      "title": "Manual Pages dispatch can deploy an unmerged branch",
+      "validation": {
+        "summary": "High-confidence static validation established the selected-ref source, missing guard, branch-controlled scripts and deploy sink."
+      }
+    }
+  ],
+  "scanId": "0debe090-f121-41a1-b8d0-10a2be9ced59",
+  "schemaVersion": "1.0"
+}

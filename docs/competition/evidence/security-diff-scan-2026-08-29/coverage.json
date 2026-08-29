@@ -1,0 +1,65 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "working_tree",
+  "openQuestions": [],
+  "scanId": "0debe090-f121-41a1-b8d0-10a2be9ced59",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "app/index.html",
+        "package.json",
+        "scripts/audit-catalogue-links.mjs",
+        "scripts/write-deployment-metadata.mjs"
+      ],
+      "id": "surface_changed-application-and-scripts",
+      "label": "Changed application and scripts",
+      "notes": "Official compact inventory fully reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "reported",
+      "files": [
+        ".github/workflows/pages.yml",
+        "package.json"
+      ],
+      "id": "surface_initial-pages-workflow",
+      "label": "Initial Pages workflow",
+      "notes": "Missing main-only dispatch guard allowed non-main deployment in the captured snapshot.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "SECURITY.md",
+        "PRIVACY.md",
+        "ACCESSIBILITY.md",
+        "docs/competition/evidence/sbom.cdx.json",
+        "docs/competition/evidence/link-health-2026-08-29.json"
+      ],
+      "id": "surface_public-policies-and-release-evidence",
+      "label": "Public policies and release evidence",
+      "notes": "Reviewed for credentials, private data, active content and misleading security claims. Third-party SBOM personal metadata was found separately and removed after snapshot.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "tests/browser/knowledge.spec.mjs"
+      ],
+      "id": "surface_browser-acceptance-changes",
+      "label": "Browser acceptance changes",
+      "notes": "No new attacker-controlled sink.",
+      "receiptRefs": []
+    }
+  ]
+}

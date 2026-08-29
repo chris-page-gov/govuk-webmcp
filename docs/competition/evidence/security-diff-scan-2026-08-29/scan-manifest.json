@@ -1,0 +1,83 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "28d1573f3e26aab07c8accb2364651d4b98f111977074457cc16b1fd2d2cce3c"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "60d6dab456418050bd5a24b754e92347fd7d36f2ec603fb6fc564e5446ee7365"
+      }
+    ],
+    "completedAt": "2026-08-29T21:19:13.175900Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "0debe090-f121-41a1-b8d0-10a2be9ced59",
+    "preservedSources": {
+      "checkpoints/148066cf1844f11f8fb00b5d3d261e73cf6be92d41483c31a655c8d7dbf57015.json": "01449a0e6e5b41ebe23a6a46cdf3932aaaa99207e7da0ecf09e016d53ba736aa",
+      "checkpoints/60a5282cfb4ac16591d38729b53d206775bdd10f25a71bbf32f837d805294ffe.json": "60a5282cfb4ac16591d38729b53d206775bdd10f25a71bbf32f837d805294ffe",
+      "checkpoints/88ee3c23372a7f79d6309744af38051c0c2d6002e276fb98e4ba0a17c8ae43f9.json": "de8a8f10c389c0b6c8d2f8ad868207e63de894823a3dde07e8e24ad3b577a342"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "context": "Public Pages pre-release review.",
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "Compact source inventory contained four changed source files; deployment YAML and evidence were additionally reviewed manually.",
+        "Documentation-only additions after snapshot capture were reviewed separately."
+      ],
+      "summary": "Focused working-tree release-candidate diff."
+    },
+    "sealedAt": "2026-08-29T21:19:13.175900Z",
+    "startedAt": "2026-08-29T21:13:11.306318Z",
+    "status": "completed",
+    "target": {
+      "baseRevision": "260d68fb1c76ed83ace8f72ff57050113c2e2a95",
+      "displayName": "govuk-webmcp",
+      "headRevision": "260d68fb1c76ed83ace8f72ff57050113c2e2a95",
+      "kind": "git_diff",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:772ffaba8e25f91f5c4eccd080f6d2ace930de8e8dd8e0dfa13414b8c2f96438",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "assets": [
+        "Exact-main release integrity and trusted public-site contents.",
+        "Pages deployment authority and OIDC token scope.",
+        "Catalogue/source privacy and truthful evidence."
+      ],
+      "assumptions": [
+        "GitHub authenticates workflow dispatchers.",
+        "Environment branch restrictions are external and not yet configured.",
+        "The captured snapshot precedes the main-only remediation."
+      ],
+      "attackerCapabilities": [
+        "A collaborator may control a branch and have workflow-dispatch authority without protected-main merge authority.",
+        "An unauthenticated visitor cannot trigger the workflow.",
+        "A repository administrator retains intended release authority."
+      ],
+      "securityObjectives": [
+        "Deploy only an exact tested main revision.",
+        "Do not let pull-request or unmerged branch bytes execute with deployment authority.",
+        "Keep link audit requests bounded to admitted official hosts.",
+        "Publish no credentials, private data or misleading host claims."
+      ],
+      "summary": "The release-candidate diff adds public evidence and a privileged manual GitHub Pages publication path.",
+      "trustBoundaries": [
+        "A repository collaborator selects a workflow_dispatch ref that crosses into a job with Pages write and OIDC.",
+        "Branch-controlled package scripts produce dist before SHA-pinned Pages actions deploy it.",
+        "Catalogue URLs cross into bounded HEAD requests only after official-host admission."
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

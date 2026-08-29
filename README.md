@@ -1,6 +1,6 @@
 # govuk-webmcp
 
-Private development repository for the independent experimental prototype
+Public source repository for the independent experimental prototype
 **Trusted government knowledge discovery**.
 
 ## Current status
@@ -12,8 +12,9 @@ checksum-verified catalogue. See `CHANGELOG.md` and
 `docs/competition/implementation-plan.md` for lockstep status and evidence.
 
 It is **not a competition submission** and **not an official GOV.UK or UK
-government service**. The source repository is private. Public deployment,
-competition registration and Devpost submission require separate instructions.
+government service**. Chris Page has authorised public source and deployment
+for release verification. Competition registration and Devpost submission are
+separate actions and have not been performed.
 
 ## Start here
 
@@ -49,6 +50,22 @@ competition registration and Devpost submission require separate instructions.
 - `docs/competition/codex-build-brief.md` — one-page build contract.
 - `docs/competition/backlog.md` — Must/Should/Could backlog.
 - `governance/` — ownership assurance, competition and pre-submission gates.
+- `SECURITY.md`, `PRIVACY.md` and `ACCESSIBILITY.md` — public operating
+  boundaries and known limitations.
+- `docs/competition/evidence/` — generated SBOM, dated link-health evidence and
+  the canonical security review of the pre-release `main` revision.
+
+## Public release boundary
+
+The live challenge rules require a working URL and public repository with an
+open-source licence. The repository therefore uses MIT for Chris Page's
+original work while `NOTICE.md` retains item-level source rights and access
+limits. The npm package remains marked `private` to prevent accidental package
+registry publication; that field does not restrict access to this repository.
+
+GitHub Pages deployment is manual and promotes the same artefact only after the
+complete test suite passes. The deployed `deployment.json` identifies its exact
+commit and workflow run. Do not infer a deployment from source availability.
 
 ## Controlling deadline
 

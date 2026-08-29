@@ -1,13 +1,16 @@
 {
   "name": "govuk-webmcp",
-  "version": "0.0.0",
+  "version": "0.1.0-rc.1",
   "private": true,
-  "description": "Independent experimental WebMCP prototype research and local implementation workspace",
+  "description": "Independent experimental WebMCP prototype for trusted government knowledge discovery",
   "type": "module",
   "scripts": {
     "catalogue:build": "node scripts/build-catalogue.mjs",
     "catalogue:validate": "node scripts/validate-generated.mjs",
     "build": "npm run catalogue:build && npm run catalogue:validate && tsc && node scripts/copy-static.mjs",
+    "deployment:metadata": "node scripts/write-deployment-metadata.mjs",
+    "evidence:links": "node scripts/audit-catalogue-links.mjs",
+    "evidence:sbom": "npm sbom --sbom-format cyclonedx | node scripts/sanitise-sbom.mjs",
     "serve": "npm run build && python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
     "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py",
     "test:unit": "npm run build && node --test tests/unit/*.test.mjs",

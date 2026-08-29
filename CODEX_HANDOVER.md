@@ -70,13 +70,26 @@ No `gis-ai-go` or OKF source repository was modified.
 
 ## Remaining release evidence
 
-The complete build and browser-startup follow-on are merged. A public HTTPS
-deployment, ChatGPT built-in-browser observation, signed-out acceptance, manual
-assistive-technology test, competition registration and Devpost submission have
-not been performed and must not be inferred from local tests.
+The complete build and browser-startup follow-on are merged. Public-source and
+deployment authorisation is now recorded. The release candidate includes
+public policy documents, SBOM, a 161-URL official-link HEAD audit, expanded
+responsive and forced-colour browser acceptance and a manual Pages deployment
+workflow that publishes only after the complete suite passes.
+
+The complete pre-release `main` security audit found no reportable issue. A
+focused release-diff review found and closed a branch-dispatch Pages promotion
+gap and removed third-party person metadata from the generated SBOM. Canonical
+scan evidence and remediation verification are retained in
+`docs/competition/evidence/`.
+
+A public HTTPS deployment, ChatGPT built-in-browser observation, signed-out
+acceptance, manual screen-reader test, competition registration and Devpost
+submission have not yet been performed and must not be inferred from local
+tests.
 
 ## Recommended next step
 
-Refresh `http://127.0.0.1:4173/` in Edge to verify the corrected local journey.
-After a separate public-deployment instruction, capture host-specific and
-signed-out evidence before any submission work.
+Merge the release candidate through its protected pull request, dispatch the
+exact-main Pages workflow, then capture signed-out repository/site and ChatGPT
+built-in-browser evidence. Do not register or submit to Devpost without a new
+explicit instruction.

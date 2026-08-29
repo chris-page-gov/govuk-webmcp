@@ -1,0 +1,17 @@
+3590646185b609ddfabef70798928164ebe8136000d82540e22f73aa43660a3e  app/data/catalogue.json
+841433c722d74f3b79a30486de00390fc03e960356cc80cc8abb7c3b411fdbdb  app/data/catalogue.json.sha256
+8dc4838366f69f3906dfe092ce88c7134ab8d1cf144d6e0a37aa9e03c142dfa4  app/data/receipts.json
+89e0aff121b4fcfdfbb9bd470fd09a1f28d34dfc80598b6d9c4c6f6ec0d1e8b5  app/data/receipts.json.sha256
+76666c4343bf95f3842d78b9db86e7a33619a04e2fa65b70841156ba77e425a6  app/data/sources/source-locks.json
+2480e30152569270cd44eb7b67284e0d7c1a41a7caf22233237b5dc52cfd4f0d  docs/competition/evidence/accessibility-test-2026-08-29.md
+aef39e80e4f604001e92e43f8d5d0479d3f673e0e9846605adc81a0ccf0bc54e  docs/competition/evidence/link-health-2026-08-29.json
+c3ecd6d4fe4adfcf0e28fc611cfe36c893fad17a6e95ec40b8a45eb382e73405  docs/competition/evidence/sbom.cdx.json
+40bf123df442d5c9c4bdb17e3b5bd04e7f751f02b29f705e4e2942158de28ea2  docs/competition/evidence/security-scan-2026-08-29/coverage.json
+83636f02ed354da897c7968f01f79117e092951fd26255bfd782f948ba5fb30b  docs/competition/evidence/security-scan-2026-08-29/findings.json
+a1b2f30c106493171430a70459aa3dd6a9bb4b2a30468f88d1f019a5e28e6cae  docs/competition/evidence/security-scan-2026-08-29/report.md
+0353db9ff20fa928ffb4d37d80c30e4b733a82fd5888a5261d59958c5a20bb9f  docs/competition/evidence/security-scan-2026-08-29/scan-manifest.json
+60d6dab456418050bd5a24b754e92347fd7d36f2ec603fb6fc564e5446ee7365  docs/competition/evidence/security-diff-scan-2026-08-29/coverage.json
+28d1573f3e26aab07c8accb2364651d4b98f111977074457cc16b1fd2d2cce3c  docs/competition/evidence/security-diff-scan-2026-08-29/findings.json
+c77963a0d4cd54b45a1f8087c7534aa54689382098d902717a83c895b537b867  docs/competition/evidence/security-diff-scan-2026-08-29/report.md
+bda5a71e8f46710618f5ff08f23eaa2e1cdfab4644c37247051473c70e443fed  docs/competition/evidence/security-diff-scan-2026-08-29/scan-manifest.json
+0ac568d8449c597abc8b984523d62d288ac2e37e750a6e143d02a27ece9ed6e3  docs/competition/evidence/security-diff-scan-2026-08-29/remediation-verification.md

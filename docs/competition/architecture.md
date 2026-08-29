@@ -6,7 +6,7 @@ Reviewed official public sources
   ├─ GOV.UK Content/Search metadata
   ├─ API Catalogue records
   └─ data.gov.uk records
-          │ build-time acquisition only
+          │ separately reviewed and frozen before build
           ▼
 Frozen source locks + source digests
           │ deterministic normalisation; assertion labels retained
@@ -28,6 +28,12 @@ One canonical execution layer
           ▼
 Person and agent inspect the same record and open the authoritative source
 ```
+
+The executable build makes no network acquisition. It consumes only the two
+committed frozen input files after checking their locked digests. Public release
+uses a manually dispatched GitHub Pages workflow that checks out one exact
+`main` revision, installs the lockfile, runs the complete suite, writes that
+revision to `deployment.json` and deploys the resulting `dist/` directory.
 
 The optional agent narrative is presentation only. It cannot alter the bundle,
 assertion status, access state, licence state, evidence receipt or authoritative
