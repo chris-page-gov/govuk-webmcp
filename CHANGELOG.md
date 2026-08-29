@@ -30,6 +30,15 @@ based on Keep a Changelog. The project does not yet use semantic versions.
   three-tool prototype described by the research backlog.
 - Updated project status, handover, architecture, tool catalogue and backlog
   tracking in lockstep with executable behaviour.
+- Pinned the current official GitHub Actions v7 releases to immutable commit
+  SHAs after the merged-main workflow reported its deprecated Node runtime.
+
+### Fixed
+
+- Direct `file://` opening now replaces the apparent permanent “Verifying…”
+  state with instructions to run the application over HTTP.
+- Added a 10-second catalogue startup timeout, a one-command local server and
+  configurable Chrome/Edge browser-test channels and ports.
 
 ### Security
 
@@ -44,6 +53,7 @@ based on Keep a Changelog. The project does not yet use semantic versions.
 - Recorded Chris Page's ownership and resource assurance and applied MIT to the
   original project work while retaining item-level public-sector rights,
   attribution and access boundaries.
-- Created only an authorised private GitHub repository and pull request with a
-  passing validation workflow. Public deployment, competition registration and
-  Devpost submission remain separate actions.
+- Merged private pull request `#1` as
+  `2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; its exact post-merge `main`
+  validation and build-artefact publication passed. Public deployment,
+  competition registration and Devpost submission remain separate actions.

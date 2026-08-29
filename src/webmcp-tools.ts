@@ -621,43 +621,53 @@ export async function initialiseKnowledgeDiscovery(): Promise<{
   registration: "registered" | "unavailable";
 }> {
   const controller = new AbortController();
-  const runtime = await loadRuntime(controller.signal);
-  if (!document.modelContext?.registerTool) return { runtime, registration: "unavailable" };
-  const annotations = { readOnlyHint: true, untrustedContentHint: true } as const;
-  await document.modelContext.registerTool({
-    name: "search_government_knowledge",
-    title: "Search government knowledge",
-    description: "Search this page's verified, read-only GOV.UK metadata catalogue. Returns authoritative human links, assertion labels and limitations. It does not contact providers or establish access rights.",
-    inputSchema: {
-      type: "object",
-      additionalProperties: false,
-      properties: {
-        query: { type: "string", minLength: 1, maxLength: QUERY_MAX },
-        resourceTypes: { type: "array", maxItems: 7, uniqueItems: true, items: { type: "string", enum: [...RESOURCE_TYPES] } },
-        publishers: { type: "array", maxItems: 8, uniqueItems: true, items: { type: "string", minLength: 1, maxLength: 100 } },
-        accessStatuses: { type: "array", maxItems: 5, uniqueItems: true, items: { type: "string", enum: [...ACCESS_STATUSES] } },
-        limit: { type: "integer", minimum: 1, maximum: RESULT_LIMIT_MAX, default: 8 },
+  const timeout = globalThis.setTimeout(() => controller.abort(), 10000);
+  try {
+    const runtime = await loadRuntime(controller.signal);
+    if (!document.modelContext?.registerTool) return { runtime, registration: "unavailable" };
+    const annotations = { readOnlyHint: true, untrustedContentHint: true } as const;
+    await document.modelContext.registerTool({
+      name: "search_government_knowledge",
+      title: "Search government knowledge",
+      description: "Search this page's verified, read-only GOV.UK metadata catalogue. Returns authoritative human links, assertion labels and limitations. It does not contact providers or establish access rights.",
+      inputSchema: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          query: { type: "string", minLength: 1, maxLength: QUERY_MAX },
+          resourceTypes: { type: "array", maxItems: 7, uniqueItems: true, items: { type: "string", enum: [...RESOURCE_TYPES] } },
+          publishers: { type: "array", maxItems: 8, uniqueItems: true, items: { type: "string", minLength: 1, maxLength: 100 } },
+          accessStatuses: { type: "array", maxItems: 5, uniqueItems: true, items: { type: "string", enum: [...ACCESS_STATUSES] } },
+          limit: { type: "integer", minimum: 1, maximum: RESULT_LIMIT_MAX, default: 8 },
+        },
+        required: ["query"],
       },
-      required: ["query"],
-    },
-    annotations,
-    execute: (input) => runtime.search(input),
-  }, { signal: controller.signal });
-  await document.modelContext.registerTool({
-    name: "get_resource_record",
-    title: "Get a government resource record",
-    description: "Return one exact digest-bound record, including authoritative links, access and licence status, assertions and limitations. It grants no access authority.",
-    inputSchema: recordInputSchema,
-    annotations,
-    execute: (input) => runtime.getRecord(input),
-  }, { signal: controller.signal });
-  await document.modelContext.registerTool({
-    name: "show_provenance",
-    title: "Show record provenance",
-    description: "Inspect the packaged source, assertion and digest evidence for one record. It does not refetch or independently certify the source.",
-    inputSchema: recordInputSchema,
-    annotations,
-    execute: (input) => runtime.showProvenance(input),
-  }, { signal: controller.signal });
-  return { runtime, registration: "registered" };
+      annotations,
+      execute: (input) => runtime.search(input),
+    }, { signal: controller.signal });
+    await document.modelContext.registerTool({
+      name: "get_resource_record",
+      title: "Get a government resource record",
+      description: "Return one exact digest-bound record, including authoritative links, access and licence status, assertions and limitations. It grants no access authority.",
+      inputSchema: recordInputSchema,
+      annotations,
+      execute: (input) => runtime.getRecord(input),
+    }, { signal: controller.signal });
+    await document.modelContext.registerTool({
+      name: "show_provenance",
+      title: "Show record provenance",
+      description: "Inspect the packaged source, assertion and digest evidence for one record. It does not refetch or independently certify the source.",
+      inputSchema: recordInputSchema,
+      annotations,
+      execute: (input) => runtime.showProvenance(input),
+    }, { signal: controller.signal });
+    return { runtime, registration: "registered" };
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new Error("Catalogue startup timed out after 10 seconds.");
+    }
+    throw error;
+  } finally {
+    globalThis.clearTimeout(timeout);
+  }
 }

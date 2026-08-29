@@ -8,9 +8,11 @@
     "catalogue:build": "node scripts/build-catalogue.mjs",
     "catalogue:validate": "node scripts/validate-generated.mjs",
     "build": "npm run catalogue:build && npm run catalogue:validate && tsc && node scripts/copy-static.mjs",
+    "serve": "npm run build && python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
     "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py",
     "test:unit": "npm run build && node --test tests/unit/*.test.mjs",
     "test:browser": "npm run build && playwright test",
+    "test:browser:edge": "npm run build && PLAYWRIGHT_CHANNEL=msedge playwright test",
     "test": "npm run research:verify && npm run test:unit && npm run test:browser"
   },
   "engines": {
