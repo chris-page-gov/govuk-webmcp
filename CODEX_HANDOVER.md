@@ -1,84 +1,61 @@
 # Codex handover
 
-## Objective
+## Current outcome
 
-Turn this repository seed into a locally runnable, competition-ready static
-prototype while preserving the research, governance and evidence boundaries.
+The complete private verification build is implemented on
+`feat/full-implementation`. It expands the preserved baseline and first slice
+to an 80-record, 80-receipt static catalogue with three imperative WebMCP tools
+and an accessible human journey over one deterministic execution layer.
 
-## First Codex session
+## Source locks
 
-1. Confirm the working directory is exactly `~/repos/govuk-webmcp`.
-2. Read `PROJECT_STATUS.md`, `AGENTS.md`, this file and
-   `docs/competition/codex-build-brief.md` in that order.
-3. Run the nested research-pack validator and report the result without changing
-   the preserved pack.
-4. Inspect the current repository tree and create a short implementation plan
-   mapped to the Must backlog.
-5. Create an ADR under `docs/adr/0001-static-same-origin-webmcp-boundary.md`
-   covering:
-   - independent-prototype identity;
-   - static same-origin architecture;
-   - no runtime credentials or official API dependency;
-   - three critical read-only tools;
-   - shared human/tool execution engine;
-   - assertion and fail-closed policy;
-   - pre-existing versus competition-period evidence.
-6. Scaffold the application under `app/` without deleting or relocating the
-   research baseline.
-7. Implement one end-to-end vertical slice first:
-   - load and validate a tiny same-origin fixture;
-   - visible human search;
-   - `search_government_knowledge` registration;
-   - identical structured result in page and tool paths;
-   - authoritative link, assertion status and limitation display;
-   - unit and browser tests.
-8. Stop after the vertical slice and provide a diff, test evidence and next
-   risks. Do not publish or deploy.
+- preserved research baseline commit: `4c85db7`;
+- `okf-govuk-content` commit:
+  `94f5020cb2c7512a79c2353ee48743ad733a132c`;
+- source Git blob: `e7f3b6a0d1efa6cb336b1b50a69228de26216aa5`;
+- imported 69-record SHA-256:
+  `3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc`;
+- curated 11-record SHA-256:
+  `f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794`;
+- generated bundle digest:
+  `20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c`.
 
-## Source locks to preserve
+These references are provenance, not authority to alter any source repository.
+No `gis-ai-go` or OKF source repository was modified.
 
-- `gis-ai-go` pre-WebMCP baseline:
-  `fe122579dc3aba07387c0c201ce5539b50a40108`
-- `gis-ai-go` WebMCP candidate:
-  `8c4c3e0df7b19926507b541fc11077d2912b94ee`
-- `okf-govuk-content` reviewed state:
-  `94f5020cb2c7512a79c2353ee48743ad733a132c`
-- `okf-uk-government-apis` reviewed state:
-  `55c7e67947dfd86e291ca987e354429c36b453d9`
-- `okf-explorer` reviewed boundary:
-  `c8af0b05cab49a5341e0b787e17d49a674868d3a`
+## Implemented boundary
 
-These are evidence references, not instructions to copy everything. Reuse only
-paths whose licence and ownership have been reviewed.
+- static, same-origin and read-only;
+- human interface works without WebMCP;
+- exactly three closed, bounded tools register after full integrity validation;
+- no runtime official API call, credential, analytics, cookie or query storage;
+- source-derived text is untrusted and rendered inertly;
+- authoritative links, access, licence, assertions and limitations stay visible;
+- original code is MIT licensed; source-specific rights remain explicit.
 
-## Completion definition for the first milestone
+## Final local validation on 29 August 2026
 
-- clean local build;
-- human search works with WebMCP absent;
-- one real imperative WebMCP tool is discoverable in the controlled test;
-- runtime rejects additional properties and oversized input;
-- source text remains inert and untrusted;
-- bundle tampering prevents tool registration;
-- human and tool output share record ID and bundle digest;
-- no network request, cookie, analytics or persistent query storage;
-- all claims remain inside the independent experimental boundary.
+- `npm run test:unit`: 12 passed;
+- `npm run test:browser`: 7 installed-Chrome tests passed, including an axe
+  smoke test with no serious or critical violations;
+- catalogue JSON Schema validation: 80 records and 80 receipts passed;
+- preserved research-pack validation: 4 checks passed; optional Python
+  `jsonschema` meta-schema checks were skipped because that package is not
+  installed;
+- live `npm audit` was not run because the approval boundary did not permit
+  sending the private dependency manifest to the npm advisory endpoint;
+- the first sandboxed browser attempt could not bind localhost (`EPERM`); the
+  identical suite passed with localhost-only permission.
 
-## Agent tracking
+## Remaining release evidence
 
-Baseline commit `4c85db7` preserves the seed before competition-period code.
-The first vertical slice is implemented in the working tree and mapped in
-`docs/competition/implementation-plan.md`.
+The private pull request and its CI result are the next checkpoint. A public
+HTTPS deployment, ChatGPT built-in-browser observation, signed-out acceptance,
+manual assistive-technology test, competition registration and Devpost
+submission have not been performed and must not be inferred from local tests.
 
-Final local validation on 29 August 2026:
+## Recommended next step
 
-- `npm test`: passed;
-- preserved research-pack checks: 4 passed, with optional `jsonschema`
-  meta-schema validation skipped because the Python package is not installed;
-- unit tests: 5 passed;
-- installed-Chrome browser tests: 4 passed;
-- initial sandboxed browser run could not bind localhost (`EPERM`); the identical
-  suite passed with permission to use a localhost-only server.
-
-Stop after validating this slice. The next recommended implementation task is a
-separate reviewed-corpus/profile slice before adding `get_resource_record`; do
-not start it without a new instruction.
+Review and merge the private pull request. After a separate public-deployment
+instruction, capture host-specific and signed-out evidence before any submission
+work.

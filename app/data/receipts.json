@@ -1,0 +1,2624 @@
+[
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:22b647332ff9d7721c3f7abad143bdbf96ce0a16f4dd44281aa8c08c7d443617",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://developer.service.hmrc.gov.uk/api-documentation",
+      "title": "HMRC Developer Hub",
+      "publisher": "HM Revenue & Customs",
+      "sourceDigest": "185642452e2bb89f24f35ef8c74b024c3f17841c07008d2ecda951292b5123e8"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api-documentation:hmrc",
+      "recordDigest": "22b647332ff9d7721c3f7abad143bdbf96ce0a16f4dd44281aa8c08c7d443617",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is a documentation-hub record, not one executable API contract.",
+      "Authentication and authorisation vary by API and this record grants neither.",
+      "A record-level licence was not established from the admitted sources."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "18c750043c1d3f965252ef0cb760d8639833bc0e98d41e5577eef4e4fe233308"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6eecfc8fb6e1be78f28d16775c88beac86adfd84ee457499c8cf792de704ec42",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/gds/bank-holidays/",
+      "title": "Bank Holidays — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "38a3005396d328fb4d271d51cfd529579cfac6379de2c0a3bcfbf2ea09779b0c"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:bank-holidays",
+      "recordDigest": "6eecfc8fb6e1be78f28d16775c88beac86adfd84ee457499c8cf792de704ec42",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "A record-level licence was not established from the admitted source.",
+      "Dates may change and consumers should inspect the authoritative source.",
+      "No runtime endpoint call is made by this prototype."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "0c13ce8c7ef391e8e0e01a699e6610e4e91eb0f016649c3002f0e68892cd4b68"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:8e0506f72b653ddde78a709af34ff344446f6c9d217a490c53429a1de6e52058",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/ch/companies-house/",
+      "title": "Companies House — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "ad64d2f0190aca7a43bda146d220f1e8a313ae4c8fca4b7030816578944ae606"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:companies-house",
+      "recordDigest": "8e0506f72b653ddde78a709af34ff344446f6c9d217a490c53429a1de6e52058",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "Authentication is required and this record grants no credentials or authority.",
+      "A record-level licence was not established from the admitted sources.",
+      "The prototype does not call the endpoint."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "a524ec0e132039263a8dd8286fb1383428a1329b50540f3036f8df8f47a6190b"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:a9c14b467fb9acd5b1796ebbfea205f88098c2a6839dcd39cdb0054f9e554849",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/ea/flood-monitoring/",
+      "title": "Flood-monitoring — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "58636db793a5c977bda1039b722faee903a082d83c34ae31f6806f2af8f2f380"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:flood-monitoring",
+      "recordDigest": "a9c14b467fb9acd5b1796ebbfea205f88098c2a6839dcd39cdb0054f9e554849",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "The API is beta and near real-time data may be delayed.",
+      "The stated attribution must be retained when data is reused.",
+      "This prototype does not call the endpoint."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "faa4c0c49311bbe2d1f2668f5329bf84b0c36a2c64954ff79f6ea8f765179fe2"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:7ac0ff09aca291a29af815e423458e3fbc0376a9e21e970c45be9c5d23f70672",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/gds/gov-uk-content/",
+      "title": "GOV.UK Content — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "0110ed23e4a62d31bebffd0ff2936e5cc47ca31d0f35a03304cf1ee6d08225a5"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:govuk-content",
+      "recordDigest": "7ac0ff09aca291a29af815e423458e3fbc0376a9e21e970c45be9c5d23f70672",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "inferred",
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "The API is beta and does not cover every GOV.UK page or dynamic service.",
+      "Linked attachments and third-party material may have different rights.",
+      "This catalogue record does not grant access to a restricted downstream service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "11f7b212dc2b25048c5122bfc745bcd12f2172f71ae10457c5728142943418bd"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:8aa1d0338c08be66a20f7c09b1da96aeb2d2d370f04cab6f8b1800d72c66fcd3",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/gds/gov-uk-organisations/",
+      "title": "GOV.UK Organisations — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "c7b0c82c27cb34a684b200c7f3b372f95d870f5a38c710f9826404d1fb0f7967"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:govuk-organisations",
+      "recordDigest": "8aa1d0338c08be66a20f7c09b1da96aeb2d2d370f04cab6f8b1800d72c66fcd3",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "Public access was not established by this review.",
+      "No open licence is inferred from catalogue inclusion.",
+      "No endpoint is called by this prototype."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "2421390eb27267276dbe1000dddb8b04abc6187c508174193fd5c9cd1aa01625"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:1efb5f3637bd49b8c6e62612c1346ea53928401f2d456645bb25e226e5f6c2f3",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/gds/gov-uk-search/",
+      "title": "GOV.UK Search — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "9d7b13b0cdfada27164d8b108173a5899fd4acb7296a483c758c65bcd0421c63"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:govuk-search",
+      "recordDigest": "1efb5f3637bd49b8c6e62612c1346ea53928401f2d456645bb25e226e5f6c2f3",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "Public access was not established by this review.",
+      "No open licence is inferred from catalogue inclusion.",
+      "Search results may not cover the full GOV.UK estate."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "1f3ce03e11e63dc50d39e0e0578abaabd495338ef3dc7e3b26a9e9eb7385ce46"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:89273fc6af32497ae5bb14d07890431da7145831833232fb796024e591643bac",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/tna/discovery/",
+      "title": "Discovery — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "8b5a831a938b57b85918b4c70bc2f6965787902fbc4115d90f85de7d700f292d"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:national-archives-discovery",
+      "recordDigest": "89273fc6af32497ae5bb14d07890431da7145831833232fb796024e591643bac",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "Record descriptions can originate from many archives and have varying rights.",
+      "A record-level reuse licence was not established from the admitted source.",
+      "The prototype does not call the endpoint."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "89f0c72f5d31349c5ea8762fbea8b9716957292ab06ecf51b2deb5a774c71b2e"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:7395fbb6a116e0f834a03bfed0858de516b7683a8e624d0242e23a2e97ce88b7",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/ukp/police-api/",
+      "title": "Police API — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "fc18262437fab13a2a446bb55158f7bd9259dcd6915b4b0043604c739e04ea53"
+    },
+    "output": {
+      "recordId": "govuk-discovery:api:police",
+      "recordDigest": "7395fbb6a116e0f834a03bfed0858de516b7683a8e624d0242e23a2e97ce88b7",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "A record-level licence was not established from the admitted source.",
+      "Data coverage, timeliness and disclosure controls vary.",
+      "The prototype does not call the endpoint."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "72e9f78f5525dbdeec5f753f8f2a76e63007fdb126668dce0c1129f89d9924f8"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:2982904482f5716519460f58298753f49faa4b1157b73baadb772a1156e13712",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/gds/data-gov-uk/",
+      "title": "Data.gov.uk — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "80df4a26ff2b85e3c7540c320c8957c4decb895c65551af27ed0188e663c744e"
+    },
+    "output": {
+      "recordId": "govuk-discovery:catalogue:data-gov-uk",
+      "recordDigest": "2982904482f5716519460f58298753f49faa4b1157b73baadb772a1156e13712",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "Catalogue inclusion does not establish access to or the licence of an individual dataset.",
+      "A record-level licence for this catalogue entry was not established.",
+      "Dataset metadata can be incomplete or stale."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "6bde0b3bacf98590efaaf3e16a4ebd65c5a779cd5d6824766e5048a88fe1a042"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:23c76f4ee275f501b9cfa0f7e426b47dd10c31aa8a394c467e934176eddb601e",
+    "observedAt": "2026-08-29T14:55:00Z",
+    "sourceLock": "curated-official-api-data-2026-08-29",
+    "source": {
+      "url": "https://www.api.gov.uk/ons/open-geography-portal/",
+      "title": "Open Geography portal — API Catalogue",
+      "publisher": "Data Standards Authority",
+      "sourceDigest": "b8335ad1d1e4d96c997d5d780826f23b1c3abf5d91b89f8bbd142ba6a30fcffe"
+    },
+    "output": {
+      "recordId": "govuk-discovery:dataset:ons-open-geography",
+      "recordDigest": "23c76f4ee275f501b9cfa0f7e426b47dd10c31aa8a394c467e934176eddb601e",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "official-source"
+    ],
+    "limitations": [
+      "Individual products can state exceptions to the Open Government Licence.",
+      "Definitive status and currency must be checked for each product.",
+      "The prototype does not call portal services."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "ded0c8361e1e74f6c932e1cdfd2c98f381b2c0727d8d588408e7d9d0be57f79b"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:67e943f8b75b5f433658a23b98353249202d55c77c12d75b08aa094e6e322ef4",
+    "observedAt": "2026-07-15T06:24:19.781100+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/get-extra-early-years-funding",
+      "title": "Get extra funding for your early years provider",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "a7291b595ac9324ced0e9267efa690a66770b4f405282d9936854eb3eeabc52f"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:03cad033-6800-4db2-92b4-87e9a6021272",
+      "recordDigest": "67e943f8b75b5f433658a23b98353249202d55c77c12d75b08aa094e6e322ef4",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "117d9246b3eff77871b181f3c38bbd84a6207d24fa88a86eafee5237b90b1d4f"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:966070d29b4ff7fcdb4ebcafe634e61f44bcd36f5ef0345582513fc9fc8256fd",
+    "observedAt": "2026-07-15T06:24:20.047363+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-tax-calculator",
+      "title": "Child Benefit tax calculator",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "e560aafc0a5f6806a5f4ae3287f80d444a647a750743097c615aa2cc68ccd963"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:0e1de8f1-9909-4e45-a6a3-bffe95470275",
+      "recordDigest": "966070d29b4ff7fcdb4ebcafe634e61f44bcd36f5ef0345582513fc9fc8256fd",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "bcdc5f1efecdef01a43cf2a8966f805d9218a291fced292a0678b9c410188c4a"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:ca8973215ba38e0232b46b569be72c580838e1552bd7bd1edc33e3927858f0a1",
+    "observedAt": "2026-07-15T06:24:20.297394+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/claim-child-benefit-behalf-someone-else",
+      "title": "Claim and deal with Child Benefit for someone else",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "f7433cb50bbd618c65c36d63decfd859130fd856e53601639046b66f8eb00b4d"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:0ed58e79-d9f6-4bed-bbe4-c6b5bad1a543",
+      "recordDigest": "ca8973215ba38e0232b46b569be72c580838e1552bd7bd1edc33e3927858f0a1",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "de32a277df60c9a8d55a0fdffb6c11054028ae38479938ec39d8720383c44fd7"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6aacfb6a47ff53852e4cdf8d64a85a93746b2c7e865dfe15dda6df5a67236367",
+    "observedAt": "2026-07-15T06:24:20.545416+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/report-changes-child-benefit",
+      "title": "Report changes that affect your Child Benefit",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "45c93c9618788dca0845dd9e7400959433e76fbc449bebe1600c60aee1d34d2f"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:10e436e5-26e0-4462-913f-9a497f7e793e",
+      "recordDigest": "6aacfb6a47ff53852e4cdf8d64a85a93746b2c7e865dfe15dda6df5a67236367",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "82fd9092880c424936be5592063827c37237a77e5f50734335edcfce8daee46c"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:f8170e71839838a0371fa6c7ddfcc8991b032dfdb47373ed52ccbb2d7d821769",
+    "observedAt": "2026-07-15T06:24:20.796569+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/disabled-facilities-grants",
+      "title": "Disabled Facilities Grants",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "5794c6d9b77e0285e74ff437b10216d6acdc6dce9351b1bd0f23fff39bc37a9b"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:145d29c4-cb5c-4b1c-8664-094912f8a34e",
+      "recordDigest": "f8170e71839838a0371fa6c7ddfcc8991b032dfdb47373ed52ccbb2d7d821769",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "6759c3a8d8322e7715b6f7b0ee655299d6ac12b7a4ad41f738b1ba3e6faed2b6"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:9c6c6535ad4ec0f78ccb10bf62d6e9de0c5bd56c5e2995f6f32f4e60b926091d",
+    "observedAt": "2026-07-15T06:24:21.548600+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/help-for-disabled-child",
+      "title": "Help if you have a disabled child",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "c63dd30cf2bd924e27600b72550ebcc00c172ec5cc1ac3a7cf5b84c8afb5084f"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:16c39c48-c2e5-46e8-a71f-7f1c965f9c51",
+      "recordDigest": "9c6c6535ad4ec0f78ccb10bf62d6e9de0c5bd56c5e2995f6f32f4e60b926091d",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "b053d260a6f995cfac12f3187bc9c62f882b69ade4d1f6177e8a86dedc8d9e20"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:8e105f5f06820e1d97abfcf39130c7a6836c9fef0d02bd5ac94e95a71c321b0e",
+    "observedAt": "2026-07-15T06:24:21.892548+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/help-with-childcare-costs",
+      "title": "Help paying for childcare",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "7bcf5d66a89e87316466dd8db45cf8f906f1ab93beeadea2a729b748e6ee631b"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:1a3d4b71-78dc-41b3-97c9-965405892d2e",
+      "recordDigest": "8e105f5f06820e1d97abfcf39130c7a6836c9fef0d02bd5ac94e95a71c321b0e",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "b2b21f30a8808875bee9645db5b27efa594746046776741cd57f14f43287d007"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6f1c1381481c22a422c99fe3f11a6eb1e9973e8c23073b13e8969c59cbc08f37",
+    "observedAt": "2026-07-15T06:24:22.536117+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/plan-shared-parental-leave-pay",
+      "title": "Plan your Shared Parental Leave and Pay",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "383feea61b6c57ce27865acc25ba5ec3de8aac87da433564ae29c3e9a14f3ca6"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:1de204a4-466c-4641-8b93-7c8e6b60ee39",
+      "recordDigest": "6f1c1381481c22a422c99fe3f11a6eb1e9973e8c23073b13e8969c59cbc08f37",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "f1c02db5997ce92989d8adbd7a1074b6339efae85dc8429156d218abb07f3c7a"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+    "observedAt": "2026-07-15T06:24:22.929662+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/maternity-paternity-pay-leave",
+      "title": "Check if you can get Maternity or Paternity Leave or Pay, or Maternity Allowance",
+      "publisher": "Publisher not available from admitted source",
+      "sourceDigest": "f096db04f611989955e7b98e96c4f9adce125570103f56325c640bb856f4eb72"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+      "recordDigest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "05a062584d180024ecbd4e2c0e41098e8672b70f001bf62727bcb998250e87f1"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:80f8838dece2612753df4e1db9d2e3fc9f3df2ca1eab465bb78c7fc8c9f019de",
+    "observedAt": "2026-07-15T06:24:23.034010+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/junior-individual-savings-accounts",
+      "title": "Junior Individual Savings Accounts (ISA)",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "ead8a92f95930a3e0272cbabdb8f195be47f6cf1c2b3f2501955fd53b4044cba"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:21a2bfa6-c62b-4280-9682-58c876bef012",
+      "recordDigest": "80f8838dece2612753df4e1db9d2e3fc9f3df2ca1eab465bb78c7fc8c9f019de",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "4626303145534e3a87be0ad00e30818d27539e5c48d061479f2b253d7753be05"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:5c5ea5b88ab908e122041506edf563789b90b1a8e2975255493fae23cf622bac",
+    "observedAt": "2026-07-15T06:24:23.356615+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/maternity-pay-leave",
+      "title": "Maternity pay and leave",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "3181e016cd0f4dceb2c1568a33aab16cf09bce2a6eb8eba8b2b24a23f9a2948d"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:24d6d3fc-ab41-456d-adc7-a265674b45cc",
+      "recordDigest": "5c5ea5b88ab908e122041506edf563789b90b1a8e2975255493fae23cf622bac",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "0a3f5b6027cdc3890f6724b92701724601786ce51c457e57a1b340a9a2b5724c"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:d0e940654092cd2f407df2f45340d4f10bfea310fc580e60d7321b65ab3fc485",
+    "observedAt": "2026-07-15T06:24:23.601807+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/tax-credits-overpayments",
+      "title": "Tax credits overpayments",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "bfaa3b4a4d04056bb0a5631328169f828b674b752ed27e66969a393d67d6050a"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:24f57ae2-9d84-4f39-9817-1fbc39478668",
+      "recordDigest": "d0e940654092cd2f407df2f45340d4f10bfea310fc580e60d7321b65ab3fc485",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "8ed5c857ca33dc446400f3b16c2b9764c4424e1f2f5c8ccdb5286a27a8caae14"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:844157fb5e7fe335c1e64c8db9f3e88abdd408e13795c8d5bf96fad0c9c335d8",
+    "observedAt": "2026-07-15T06:24:24.307472+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-abroad",
+      "title": "Child Benefit if you leave the UK",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "a817536a5da2888d7f1ac17ad3692833db09deaa6b630d9f20bf5f2bac61e647"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:25920434-312a-4fb7-b391-757b9c64faa2",
+      "recordDigest": "844157fb5e7fe335c1e64c8db9f3e88abdd408e13795c8d5bf96fad0c9c335d8",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "19bd30b0657926a797346c97fb24188828289bbf571ac256788c45a4c08084f1"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+    "observedAt": "2026-07-15T06:24:25.034371+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/register-birth",
+      "title": "Register a birth",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "c1d5466cef27100e43e0039e656239d2c084f89a114c499df651e310a7146948"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+      "recordDigest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "fe12326f8f866f4bb22aee8ef68bc0efbd2db831b483c9672523b3eed6462807"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:561b23de8c4d2d1f2ffc92c8ec0f6b8f2642936a062fe88f5e1b67afe9e7e624",
+    "observedAt": "2026-07-15T06:24:25.777537+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/find-registered-childminder",
+      "title": "Find a registered childminder",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "5786a898c117f5cb7deee726b93f07e4c6606e45e19e293720318701db6efdde"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:2f2ee25a-30c8-4ded-a160-88783f978206",
+      "recordDigest": "561b23de8c4d2d1f2ffc92c8ec0f6b8f2642936a062fe88f5e1b67afe9e7e624",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "c638f1676c3bc3ffc3aadca0662546faf3f4bac344a335bf87a9e21222207f27"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:f769debdcaf00b108511f39e16304addf003ff78b693bfae34736028facd316c",
+    "observedAt": "2026-07-15T06:24:26.039255+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-child-parent-dies",
+      "title": "Child Benefit if a child or parent dies",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "e4cca5d4e99158180c593a8d42c7e04cb35e80c3692bcc8ce1db84ec60bd168d"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:2f76be61-dca7-48a1-aaed-72e3bbc24be0",
+      "recordDigest": "f769debdcaf00b108511f39e16304addf003ff78b693bfae34736028facd316c",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "4b753c92b52bda15eb7c1fd291c84040b5d6b1e5214b5d8d5da1df6b244c4bbd"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6d26ee2ec9be17a24f2c7406fef8197cee4b0f0e886ac95c772be6f573318550",
+    "observedAt": "2026-07-15T06:24:26.791913+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/tax-credits-appeals-complaints",
+      "title": "Tax credits: appeals and complaints",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "150fe2f18572f33f93c2f443105ff2d53a77e27fb12a5f2f4db8516e037f4224"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:33f3c46f-1df5-465d-8013-9731468584fe",
+      "recordDigest": "6d26ee2ec9be17a24f2c7406fef8197cee4b0f0e886ac95c772be6f573318550",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "15c93501c5bc4d26b4daa4221972a679fcf9a418b0e98d446d17c7723bfa4f29"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6c6bb243a9f7d5009c1efd14cf47a4874d257988f988fadba2117cc7f0a05a10",
+    "observedAt": "2026-07-15T06:24:27.084184+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/find-free-early-education",
+      "title": "Find free early education and childcare",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "daf0c8c608acd549ca525a8e9d5154c3feb8b2a3c74d3b21095b48509ef9ed45"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:34409c2a-8c65-4910-bda8-3898403cb416",
+      "recordDigest": "6c6bb243a9f7d5009c1efd14cf47a4874d257988f988fadba2117cc7f0a05a10",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "f66fd4adcab026bfb2f7c51f269ef8381060b29518481b67a4795d477afc6666"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:152b83eb28578577de70f0b85c9dff92bde198e5e1e0def498fdb76732df5bc4",
+    "observedAt": "2026-07-15T06:24:27.792093+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/complain-about-childcare",
+      "title": "Complain about childcare",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "5e1206ee41debb7fc813d25a3c8a5c3cb1a9c56edae988c61fdbc6c0d6ad621a"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:3ae2e90e-4669-49c1-889c-409e6baebe2a",
+      "recordDigest": "152b83eb28578577de70f0b85c9dff92bde198e5e1e0def498fdb76732df5bc4",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "d4f503a6a1eb304f80d8fe7662fe285f7b1ae75c5c751a473f2f8150cecae2ce"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:b879d3a7f67875269284109b15af525178cdd9606ea4feb2426d263c5cdeea86",
+    "observedAt": "2026-07-15T06:24:28.598362+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/dealing-tax-credits-someone-else",
+      "title": "Dealing with tax credits for someone else",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "e1d0fcb3adc2c6ba81d8dfc4acaee1f3ebf2421f2fc16d643c87ea51d44b4b9c"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:3b73d6f9-da30-4166-a3ba-ef5316b00803",
+      "recordDigest": "b879d3a7f67875269284109b15af525178cdd9606ea4feb2426d263c5cdeea86",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "5452d62422c9fd3bc4fa52f9b882de4c54ece98a7bdcaf6559b9909c5ed3f528"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:fbe4ca15bd57320a3c5224cb46786ec1cfeeba1a8a195c83e290567a010f36ca",
+    "observedAt": "2026-07-15T06:24:29.287959+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/law-on-leaving-your-child-home-alone",
+      "title": "The law on leaving your child on their own",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "d852a525356703094d72772c3461cd7583ed05972a6773c34d54899d50c5f0a3"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:3db5234c-a87f-4a30-b058-adee1236329e",
+      "recordDigest": "fbe4ca15bd57320a3c5224cb46786ec1cfeeba1a8a195c83e290567a010f36ca",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "c30711680c6a69c0aae7602e551937496b6fb693389dd81b06e01082b7616d5e"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:52298fc0a54ab7c701d0967e1e21c14c741883e208b83f39983c22d044f7cfba",
+    "observedAt": "2026-07-15T06:24:30.036830+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/bereaved-partners-paternity-leave",
+      "title": "Bereaved Partner’s Paternity Leave",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "136fdfd6d635b002df05de3ec144cc0fd684b46b7da526d1da68d4d26c253286"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:3fa3c408-8d9b-4934-9eed-163b0a19d5f3",
+      "recordDigest": "52298fc0a54ab7c701d0967e1e21c14c741883e208b83f39983c22d044f7cfba",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "004db9cb8909b51723efa84d8c1e0fc78da4b6385ff50de22194ee037db7dc00"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:dd7fe736e6e27122433a831dbeb968f5ca0a1685105ad83dc2c50bbbc4aa25b9",
+    "observedAt": "2026-07-15T06:24:30.794321+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/free-childcare-if-working",
+      "title": "Free Childcare for Working Parents",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "ee52861bc50bb91c2267ee19d8d3553b0351589844200791bb21756323975cb3"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:400ab081-84bd-4fbb-8c47-e599d0863232",
+      "recordDigest": "dd7fe736e6e27122433a831dbeb968f5ca0a1685105ad83dc2c50bbbc4aa25b9",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "95af3682e37707331af8e554c98b98ba8c131c3fb1af7b0d63f2e1775f456be5"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:df8facbc0d9b4538558ea0bd5d891dfb2c316c2b2a30229c7323a48b8aa51ddb",
+    "observedAt": "2026-07-15T06:24:31.534740+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/apply-free-school-meals",
+      "title": "Apply for free school meals",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "fe5fef5fe80c58e45512ef5ac78bae75c2be504b2b321fde21f985c4e7af5b18"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:4479426d-51c1-4b51-8930-543d994e8818",
+      "recordDigest": "df8facbc0d9b4538558ea0bd5d891dfb2c316c2b2a30229c7323a48b8aa51ddb",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "b4186907e08d0be646de6b4156331e429e659d1db3928d9e1d46a5b37c634bb3"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:83675d4e848a650ee8134dba2bb32fe3d290778d0ff5dc24786f6dcfee9116ce",
+    "observedAt": "2026-07-15T06:24:32.330002+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/neonatal-care-pay-leave",
+      "title": "Neonatal Care Pay and Leave",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "cc9740ef3ae5e443178766abeb9926e64fd85642a8e83aba7b3ab4a5633a89b3"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:47d8fc48-5c90-4c7e-8d76-45302353d5e4",
+      "recordDigest": "83675d4e848a650ee8134dba2bb32fe3d290778d0ff5dc24786f6dcfee9116ce",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "b203a20ce07dc3ef9c22ba39ec91b4c8923d7e9da5cd5dfbc0ffb175087b1582"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:5e494b77ca98b0f489ad8ff7e0d9ddcd6fb191de37b943d8f0a4a5b8734bcd57",
+    "observedAt": "2026-07-15T06:24:33.035768+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/repay-child-benefit-overpayments",
+      "title": "Repay Child Benefit overpayments",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "7b91d12c5cfa1c7edd9bc4c3dae6e6976f09313542efa661ac885ad1dba908a4"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:51bc92b9-5f12-45c0-99c1-1f3bdea9e369",
+      "recordDigest": "5e494b77ca98b0f489ad8ff7e0d9ddcd6fb191de37b943d8f0a4a5b8734bcd57",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "9048f744171b84484d6a7adebefd3b2bc9df3452f5c8201b0f41721024c8e368"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6e8917cac0a34efab93130572d07de6af33d1baba7ca9f95ce278809817a7da7",
+    "observedAt": "2026-07-15T06:24:33.429121+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/register-birth-abroad",
+      "title": "Register a birth abroad",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "0c0780359ab2ba8ec8dc36399d9350cf75b617c73e02d19198d226d830112145"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:54889464-3225-4d61-9df7-402fcdce66e8",
+      "recordDigest": "6e8917cac0a34efab93130572d07de6af33d1baba7ca9f95ce278809817a7da7",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "15a254f24b6d08635e9ea5ce93612b415457c3954d8cd920ebf0b0d6689e6e3c"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:f3191d2e88734a53d59f119a69bed05d699f2f76f5433aff4790999e14637b93",
+    "observedAt": "2026-07-15T06:24:34.044659+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/sure-start-maternity-grant",
+      "title": "Sure Start Maternity Grant",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "4547abf6dc116e33be354ffd4190b18ff8ae7eefc134388c963b39ebc8f4d0f3"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:5b4fb7fa-c986-496e-be54-e6d64ea218b8",
+      "recordDigest": "f3191d2e88734a53d59f119a69bed05d699f2f76f5433aff4790999e14637b93",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "c75d347393f38db23dd523e485b3f1333c64a298e4922211ccda369fec70f6eb"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:03c69eb3fb26cb5285ae6a280896e5c0a98b6e28268c0a20329059550eb53e2d",
+    "observedAt": "2026-07-15T06:24:34.365984+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-move-to-uk",
+      "title": "Child Benefit if you move to the UK",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "28d9127a21d4cd2139a4b41e3541115c66e21adf237df75624ce4439fd586c3b"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:5b5a2321-da86-4252-9d2c-9fa3f8e9bfa8",
+      "recordDigest": "03c69eb3fb26cb5285ae6a280896e5c0a98b6e28268c0a20329059550eb53e2d",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "13fae2acdae5f45a2b71e2a07b1838d15a0bb5ce67d70807ac085ef2648af35f"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:bcb58e1db84964da8d110b4f2145cf51c2fd6b0d998d1cdf57fb1f86d36a83bc",
+    "observedAt": "2026-07-15T06:24:35.040804+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-proof",
+      "title": "Prove you qualify for Child Benefit",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "b7e49681927ebe5259931ce5b7acd71fd4b642efa4b9c30e58e0e538c8aeb7fe"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:5f8f95b8-66ef-45a6-94c2-29172ec19ab3",
+      "recordDigest": "bcb58e1db84964da8d110b4f2145cf51c2fd6b0d998d1cdf57fb1f86d36a83bc",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "8360cc0c851cdd70ca3595f47db395f834aa68d9c585117925730d8afd333a7b"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:b076291a36648ea5c74246e4b4ffa8b75a4cef2e88c895067358039011a3d3fb",
+    "observedAt": "2026-07-15T06:24:35.794180+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/au-pairs-employment-law",
+      "title": "Employing someone to work in your home",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "980866ea0dbe0c3a85c26430ff33615108276b057ee83361ce19ba75679be186"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:61289398-23be-4fad-b7c0-0da35e512148",
+      "recordDigest": "b076291a36648ea5c74246e4b4ffa8b75a4cef2e88c895067358039011a3d3fb",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "a031fe4791d7610e712f1004d71c854b76f58e518a1152ee0357166c857e2a00"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:537b57a145492c7e49501797b7487749257b056cb6dd5f4855f2f1aea3bb26db",
+    "observedAt": "2026-07-15T06:24:36.532012+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/find-nursery-school-place",
+      "title": "Find a nursery school place",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "6e50e9575c3455e3ac42b51f40b995ba2b41f1545aec64a6cbcb6d5457d954c2"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:63f0efad-5e31-4516-9a33-b12cf18e410f",
+      "recordDigest": "537b57a145492c7e49501797b7487749257b056cb6dd5f4855f2f1aea3bb26db",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "d3dc2642c3ee572221671ef602331af6c2f47aac11e2573072fb950ff35d5fda"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:48a03bbd4e0f8e09eb2228d79b315545d3554c6218f61895c285c22896fe0c52",
+    "observedAt": "2026-07-15T06:24:37.279861+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-tax-charge",
+      "title": "High Income Child Benefit Charge",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "22a7a69d5df5e8ddecfb2be1614e1f820efc0f4d374b50857a50b664436d6f99"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:65d2d5b2-22c4-4cfc-9399-9f7bcd145561",
+      "recordDigest": "48a03bbd4e0f8e09eb2228d79b315545d3554c6218f61895c285c22896fe0c52",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "7581913bbd350211c206bc8d55a0d9100b19c3cabd1984d4bc475816979267b6"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:e73ca59c347d83e2a3be6486ec0b9a950ebc81e9cf4a3cec7092d58df7b758d8",
+    "observedAt": "2026-07-15T06:24:38.090992+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/find-sure-start-childrens-centre",
+      "title": "Find a Sure Start Children's Centre",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "6b59432d3ca509689e048dcfc875a45388bda61184760c74a2ffb152c2f7c0fb"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:6c0b86c0-95a7-4cb0-8965-b6c75f42602d",
+      "recordDigest": "e73ca59c347d83e2a3be6486ec0b9a950ebc81e9cf4a3cec7092d58df7b758d8",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "0f5bfa00a3376a93f23f12eaac652889c30ae318938165161a2dd07165d31311"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:45fe726d712ec6c0dbef6021ef723b9e3ba4c805028b3e50afdf601503cfe66d",
+    "observedAt": "2026-07-15T06:24:38.792373+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/tax-free-childcare",
+      "title": "Tax-Free Childcare",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "5d409b6430294ff416522a00608df26a703882a1ecd378a6193031babd929d22"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114",
+      "recordDigest": "45fe726d712ec6c0dbef6021ef723b9e3ba4c805028b3e50afdf601503cfe66d",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "e345f1b13c94d5a36d2b416460252a2263d127991a979317049c0eacda059bd7"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:4c977da8aa6d4fb217084980700be53c67692991c74f298d108a171358c82d13",
+    "observedAt": "2026-07-15T06:24:39.608034+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/sign-in-childcare-account",
+      "title": "Sign in to your childcare account",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "0438b41aa91eab0d1f227c925dceb60f48c03a0b7b1947c40df0768b665165f7"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:7ae28e91-b918-4b9a-898c-fcdee95a83d0",
+      "recordDigest": "4c977da8aa6d4fb217084980700be53c67692991c74f298d108a171358c82d13",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "10d17d6741e0b7b1ae431270a85d3510438b5daa7a5ef96556d882dc69b73168"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:9da5298a874d09b029bd4708ba5093312304e3c1ecdba9f88444e50efbe49fc7",
+    "observedAt": "2026-07-15T06:24:40.308331+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-for-children-in-hospital-or-care",
+      "title": "Child Benefit for children in hospital, care or residential accommodation",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "831a116a97f4cb79b7ffdde70d998d062cf0c9c84e55e5f1c090c71adb7746c7"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:824913d8-94b1-497a-8ee4-fa4c3599b19c",
+      "recordDigest": "9da5298a874d09b029bd4708ba5093312304e3c1ecdba9f88444e50efbe49fc7",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "75ea26628054b03ac24deae2fb245f0f9228fb0a44a7fe4bb65692cabc57012f"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:4dbcbdf581675cabf8122ef0060dd1d95273f50ecec61ebe037b54a064d20bd3",
+    "observedAt": "2026-07-15T06:24:40.537295+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/maternity-allowance",
+      "title": "Maternity Allowance",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "0bd784fce807fbf4cf7ce4393af14daebb2c0103fd57534c2ddef7057922db75"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:837dbc66-c780-49e1-94dc-b3e9b7fa8c71",
+      "recordDigest": "4dbcbdf581675cabf8122ef0060dd1d95273f50ecec61ebe037b54a064d20bd3",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "3251d9e2d6abdc9b790a2eb72772d875fa95075cca47357f9224fa982872f6b9"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:08402d0fdccee681d2210a77553455d85a3815ed928f7e7ec8643cfcf23f8fb2",
+    "observedAt": "2026-07-15T06:24:40.836317+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/childcare-grant",
+      "title": "Childcare Grant",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "aef68df4f6f18f4d565637e4765f13343a666926171be49c93b635bc08c4c19a"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:871c1c02-7117-43b6-bec7-60ac68156d4d",
+      "recordDigest": "08402d0fdccee681d2210a77553455d85a3815ed928f7e7ec8643cfcf23f8fb2",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "a8842e27d3def5172a3e68e727aee970e91693ed67ddff139a5e3b04a8372538"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:056eb07e68e3a1251c6dac0db3669230b47f432307703524ae57c5bb3e5637cc",
+    "observedAt": "2026-07-15T06:24:41.032858+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/childcare-out-of-school-hours",
+      "title": "Childcare out of school hours",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "e479c969b2f1038443f2dc7a2eaab2d19da8774f25c6f8a7e5319dfa43806764"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:874212fa-3e94-453d-96f7-1cb2df761b2b",
+      "recordDigest": "056eb07e68e3a1251c6dac0db3669230b47f432307703524ae57c5bb3e5637cc",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "9f65f89797495b76f40aaa638d108db5e5f557cc29d51744e2c2af516f2aea87"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:d8cca01e8d6fedef06e713f22d324b4ee48636ee2336cb6f76a77cf72555d509",
+    "observedAt": "2026-07-15T06:24:41.287305+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/apply-school-transport-for-child-with-special-educational-needs-sen",
+      "title": "Apply for school transport for a child with special educational needs and disabilities",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "5ea4509b97d8be666f81a6a84cbb100582ebc82fd76ad0acb614cc37220a6702"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:8ee55b42-4f25-45fd-bba6-adb0c67ff539",
+      "recordDigest": "d8cca01e8d6fedef06e713f22d324b4ee48636ee2336cb6f76a77cf72555d509",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "b0c5decbd7d57904c097f4483c77d435d97a069fbb3725a270d4cc360e9f896f"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:897b75c78b242ce2ddb76e1cade94177ebe5ca60c9a442643552ba778c17981e",
+    "observedAt": "2026-07-15T06:24:41.544158+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/healthy-start",
+      "title": "Healthy Start",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "9d1cd7bd8a609cce68d2b353a45e60baa7cca879bcb2758504ce99d8a64291d5"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:95544523-5e1e-4754-9d87-d1c846f073c0",
+      "recordDigest": "897b75c78b242ce2ddb76e1cade94177ebe5ca60c9a442643552ba778c17981e",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "67333cd50a257203a0dbe1535e27ce87bc387e6dbd90976514dfb211930d1cd5"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:f10d86ff18c56e4200aed24337b1fb66eadb95f97fec0479e450fe191b02fa45",
+    "observedAt": "2026-07-15T06:24:41.790383+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/find-ofsted-inspection-report",
+      "title": "Find an Ofsted inspection report",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "fee2c8043f32bb85fd4abfe0587e1f6ecbe00ff4e795d7cf14d3398deaf3ae23"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:a02fa764-c088-4e3c-958b-1627782e0610",
+      "recordDigest": "f10d86ff18c56e4200aed24337b1fb66eadb95f97fec0479e450fe191b02fa45",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "e01daf7df655f3c2a151da5c91f38b8de4b349b63f617fda3cef7959f36875d8"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:6233d7a75bf0aa89a2cecd2426fec3b1f661e687b9f3d38d62fe4186576f8a4f",
+    "observedAt": "2026-07-15T06:24:42.549671+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-child-lives-with-someone-else",
+      "title": "Child Benefit if your child lives with someone else",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "909f9ab1848044a53440d750671c1b3d6933a76f1b93a6d5be03bbd082d00079"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:a1aac09a-22ee-4e8f-b698-a350a0541a86",
+      "recordDigest": "6233d7a75bf0aa89a2cecd2426fec3b1f661e687b9f3d38d62fe4186576f8a4f",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "6ad9a2626e0bded8058280a860dd11ac741553686ed05e15996970e866badf3d"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:c74675754b1c3bbabb90afde0c4cb57f24801b0f4a7754b30be10ce9d6daf8c7",
+    "observedAt": "2026-07-15T06:24:42.820399+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-complaints",
+      "title": "Child Benefit complaints",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "05c6e7238b5ea9c1eefadbaedc7f10459b49d808a90fc5e8f3ff44a205251241"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:a6c7e355-6c65-437d-a498-d1ac5c8dbcd2",
+      "recordDigest": "c74675754b1c3bbabb90afde0c4cb57f24801b0f4a7754b30be10ce9d6daf8c7",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "233d6c5a405760eca992519e24647a366a4a703aabaa30350d2f1efe82f9b4f9"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+    "observedAt": "2026-07-15T06:24:43.049674+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit",
+      "title": "Child Benefit",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "a485dd1c605736b6b0a81bcf01122442ecc95d613a272b1d6f59931b25cd6ba4"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+      "recordDigest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "73ce077f944a2501d4ce0b79549d8dadd9dce48644f63a484eb6350025a839ae"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:4da46dd1c5301ec507fec83a859b3c4b561ae72b08ba9fb2ac63b49cfe36dc8a",
+    "observedAt": "2026-07-15T06:24:43.335815+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/after-school-holiday-club",
+      "title": "Find before and after school and holiday clubs",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "95e1c7642b07c3f11e32a46337411a161187e5c37a02db3b6eee1c4e39e5fef4"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:b46636df-3d64-4693-a1a7-8fd3d7e840c9",
+      "recordDigest": "4da46dd1c5301ec507fec83a859b3c4b561ae72b08ba9fb2ac63b49cfe36dc8a",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "53f5cc6034e63d96ce62c84ff58fab4f45f4dc6b4b8652d51c9da122f1a74db1"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:626916edaaeb745783dd2ed57af766851f9279f501a5b9fff2f9e8542016eaaa",
+    "observedAt": "2026-07-15T06:24:43.544947+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/parental-leave",
+      "title": "Unpaid parental leave",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "5035ef1289ae3800cb0abde288cc4d556d7691bddc72c3271a83fae28bfa5ab2"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:bb148231-a649-4ed0-9eb6-8b40965179b7",
+      "recordDigest": "626916edaaeb745783dd2ed57af766851f9279f501a5b9fff2f9e8542016eaaa",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "5935baae7a6798228c6341e8674774e0f0122eac8a891e55c5e37bd6efa6e438"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:e585e409383c634acac8f852fe6d0a863ac5783ca1ea1ee08b92beec65b8fe58",
+    "observedAt": "2026-07-15T06:24:43.862219+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/complain-about-school",
+      "title": "Complain about a school",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "8418941fe994e22834ed00c244f579b1ef9521909351a12f727a78aaace69a53"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:bb2a44bf-d1fb-4a5e-97e0-483cabd622fc",
+      "recordDigest": "e585e409383c634acac8f852fe6d0a863ac5783ca1ea1ee08b92beec65b8fe58",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "3794dc1ec1a6df2f1f023f6d503567981f19d84c9799238eb2bf29362e0157d2"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:2629d016a55bf6a3a8f713d8c48cae83bd79b5e2944d853ecfec330c57427e8b",
+    "observedAt": "2026-07-15T06:24:44.027692+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/widowed-parents-allowance",
+      "title": "Widowed Parent's Allowance",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "b6ec23b8f595cad29e34ae0a50390103fcddbd778cbd73088cb06de246656386"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:bcbf0118-5f54-41c9-a297-09068bacbc0b",
+      "recordDigest": "2629d016a55bf6a3a8f713d8c48cae83bd79b5e2944d853ecfec330c57427e8b",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "949835b27017dce7b239bd468a1b6433460cec6051d690936977f5dd560a26b4"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:e78606a0e556d7ce0cf50a7f37dc7aaa25796a164a41b955f3dfb46fde972172",
+    "observedAt": "2026-07-15T06:24:44.852878+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/guidance/ofsted-explore-an-area",
+      "title": "Ofsted: explore an area",
+      "publisher": "Ofsted",
+      "sourceDigest": "888b3e25fa1955a55acb0a7c2ef7c4039cb5d0371163ce31f60b910c6a3494f9"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:bf9a2dbd-4bc9-4036-bd30-d75e970c490b",
+      "recordDigest": "e78606a0e556d7ce0cf50a7f37dc7aaa25796a164a41b955f3dfb46fde972172",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "8e92446e7ad6b5ccd5a2f904e4b157d21d2de846353d6be19b5facd45d1b42bc"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:f2306a227ee1691096a7117757a956c4f098fbe23ebdcb7255ed6e2f2fcb4ec3",
+    "observedAt": "2026-07-15T06:24:45.032344+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/care-to-learn",
+      "title": "Care to Learn",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "db4e1ce5a45574fe635b3ee4bb45cae713bf7d100d2116160f8a15871b3ea38d"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:c1873350-0c82-469d-9f59-4658be95fdd2",
+      "recordDigest": "f2306a227ee1691096a7117757a956c4f098fbe23ebdcb7255ed6e2f2fcb4ec3",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "818c28ce7c0da0cbe562f6045e688d78a668ff6f66f3671b78eb61c00d453f15"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:a1904e2c3d750c1432ae99203665b1cd39851da85891e09411f57e56c16ca479",
+    "observedAt": "2026-07-15T06:24:45.377088+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/changes-affect-tax-credits",
+      "title": "Report changes that affect your tax credits",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "6e934f2ff1fa70a3a41ed4bd00506f8cbf6143877aaa4dac1bafe88e31bb3ff0"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:c9259172-5432-43a6-b710-409d463c7627",
+      "recordDigest": "a1904e2c3d750c1432ae99203665b1cd39851da85891e09411f57e56c16ca479",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "85ebd61561d7089ba6ea43a7cec10453a7ef9af7e0b5ca294cedb7f91448e5c5"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:eb1609cf161d796d3160ea8ece143faac3b244580e2b5ed5323440864bfb7584",
+    "observedAt": "2026-07-15T06:24:45.537546+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-16-19",
+      "title": "Child Benefit when your child turns 16",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "b5d82803855e7814cd7cec91ca5d359041ad3bf5911067c87b9b9d11e02cb2dd"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:d1f5ed43-f482-4927-95f4-22ccbcfbc89f",
+      "recordDigest": "eb1609cf161d796d3160ea8ece143faac3b244580e2b5ed5323440864bfb7584",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "bde16362e56c4aeadb5c22b35f47b663c6b62f51a3c8f9809bc4d7624f0476c3"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:13134ded792cbfa75d54926c0c7944abf7d0669bc060f51135e6583c50ff1d6f",
+    "observedAt": "2026-07-15T06:24:45.801036+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/working-when-pregnant-your-rights",
+      "title": "Pregnant employees' rights",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "d109ef91a0364d561dab41e47f91ccbe64ab0c8c1e4435712441ed6ab7b8ad36"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:d9371e84-548c-4dd4-b5aa-503abd38215c",
+      "recordDigest": "13134ded792cbfa75d54926c0c7944abf7d0669bc060f51135e6583c50ff1d6f",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "b6630b55df91d6973bd94fa089e04604c42598260e9dee408ad0c86bc0adf96c"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:fb69a4cb7732207114ee7e429cca22b3b4e409ddb1bbf017a585eed57f6110bc",
+    "observedAt": "2026-07-15T06:24:46.043137+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/employee-rights-when-on-leave",
+      "title": "Employee rights when taking maternity and other types of parental leave",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "d6bb2feb12bbc75c9747e1997338a0cf7768dba5622de0472a133841bfe62508"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:dac7e6bf-023a-4f65-b61a-6c72be82025e",
+      "recordDigest": "fb69a4cb7732207114ee7e429cca22b3b4e409ddb1bbf017a585eed57f6110bc",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "9d0ee47e6fae2325b10bc04b99245bc42c3a90db3ac73630c86bc84bd6c71538"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:f9a29280c364951295b12d230fc167eda159bcdf54950101a54325c60f73c1ec",
+    "observedAt": "2026-07-15T06:24:46.278965+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/child-benefit-payment-dates",
+      "title": "Child Benefit payment dates",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "2b7343763a298a59c57242438a69c61180392b1e4c4a393a861d5932a4361672"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:db4795d9-0f5b-49b7-8a7b-64e626d1caf1",
+      "recordDigest": "f9a29280c364951295b12d230fc167eda159bcdf54950101a54325c60f73c1ec",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "6ce1ba631a117595f79f347d47f0ba6b972f3e4a86f379d92d25df68b13edb79"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:ec57770ebf0cc417227a81dbdaf9752d54161b5eb63accd450121c6c5e14f577",
+    "observedAt": "2026-07-15T06:24:46.526231+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/find-family-hub-local-area",
+      "title": "Find out if there's a family hub in your local area",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "25abd24052941abcb5936b00b5e2faaef962504144482f558f689a6108864e70"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:dc27599f-d80f-4279-b22e-a88969ef54c7",
+      "recordDigest": "ec57770ebf0cc417227a81dbdaf9752d54161b5eb63accd450121c6c5e14f577",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "ff4b8b4058a9766459452b8829638918487c80393bfa2ba5ea712b06b7f3bb0a"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:d2d0981a51a7c26d94ec1a2615b833d059d78f362d7e30ec3fd12cbedebe5c1b",
+    "observedAt": "2026-07-15T06:24:46.795618+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/shared-parental-leave-and-pay",
+      "title": "Shared Parental Leave and Pay",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "020705e85e5ab965fb0ed025af198f33ca05e04bb18a3a4f7e54f7833cdc41d2"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:dc68775c-3df8-4930-ad22-bde7bfbb3b61",
+      "recordDigest": "d2d0981a51a7c26d94ec1a2615b833d059d78f362d7e30ec3fd12cbedebe5c1b",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "ef21ce5b7888866bdef5ce0af4963337257f56648df1e02165801cc0cc277425"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:4c188432d16860c9e590d905287c3e8dc2e8a1838d442efe2f0708742675cf4f",
+    "observedAt": "2026-07-15T06:24:47.028284+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/guardians-allowance",
+      "title": "Guardian's Allowance",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "90fe3af08b3a781b0d2ffc3d4c71b6d001d9048f476ccc6835db3faba223ea34"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:e2644b6d-2c90-47e3-89b7-bf69be25465b",
+      "recordDigest": "4c188432d16860c9e590d905287c3e8dc2e8a1838d442efe2f0708742675cf4f",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "31e038e046c7c964acb9b06764c369e0a62b212bdfb66d289b95d6dfb6706971"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:17781cb3a41b2b041ded702e60c05f1871b9090c25a01ec4dbaac714975c28a7",
+    "observedAt": "2026-07-15T06:24:47.781387+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/help-home-school-transport",
+      "title": "Help with home to school transport ",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "db12e38555fb327554e7ebd470775bcfeb89b47972e6e3b5926e7a3082abee7d"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:e8466219-50e7-4880-aaa4-aeafde38ceeb",
+      "recordDigest": "17781cb3a41b2b041ded702e60c05f1871b9090c25a01ec4dbaac714975c28a7",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "053d8e77cab20b7eb7199d6e3b329c137bd8c88ce6683bfda88f6c4b7289485e"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:77cd1d99482d0c4989508f4f0b9754f1d4dd7194cccc3bfd5f0f380b2ee33712",
+    "observedAt": "2026-07-15T06:24:48.054149+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/register-stillbirth",
+      "title": "Register a stillbirth",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "dcd2d3da6fcbf3fece244f0f047eab1ad9c2626f8e9837858fedd88a2dd4246a"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:e8c48e4e-24f0-4d87-bf75-587e986361ac",
+      "recordDigest": "77cd1d99482d0c4989508f4f0b9754f1d4dd7194cccc3bfd5f0f380b2ee33712",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "1bcc317a06106a5714aa9cc9720520d721f619eacb703cc8121ed2b29040da04"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:8bf8154c20e0eead49d96a90b018eb41e2dedac506266dc0c193b6909e6793df",
+    "observedAt": "2026-07-15T06:24:48.290568+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/savings-for-children",
+      "title": "Interest on savings for children",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "a510d606c046dc860135614132355e562027b6b67aa2364afad38ebf57b241a3"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:ed9c17c3-e58e-4c59-a35f-871b0b669a87",
+      "recordDigest": "8bf8154c20e0eead49d96a90b018eb41e2dedac506266dc0c193b6909e6793df",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "a3e0d0c1b51c52d0ba8d12307dc8997bb590e73950e220db83ef7e2302ec8d1f"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:1718503359ccb305d94991933f0ce57a98257fdc2a084bec16ee0876f2b05d92",
+    "observedAt": "2026-07-15T06:24:48.579230+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/disability-living-allowance-children",
+      "title": "Disability Living Allowance (DLA) for children",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "92d3ae6ec1a5861151b1f8012c7311ef5441b036f2fdc8f31f4cc3a0aa72bd40"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:ee6607f1-d0ba-412b-b91c-7717286290ae",
+      "recordDigest": "1718503359ccb305d94991933f0ce57a98257fdc2a084bec16ee0876f2b05d92",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "efc18cff45023204dd748a580df18c9c27c2cc700a824118af461081ed8881de"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:8b29ac13098820de1187e038afae4c12251c628d40699ec498f1b34a22358f5b",
+    "observedAt": "2026-07-15T06:24:48.784723+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/parents-learning-allowance",
+      "title": "Parents' Learning Allowance",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "08fe2d786bc46314bd8058587bf195b406e3fa22b93c935516351a7f6a9767e4"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:f17a4a04-fea2-4e6b-8f87-84f0560c9cba",
+      "recordDigest": "8b29ac13098820de1187e038afae4c12251c628d40699ec498f1b34a22358f5b",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "d74b8a7d8c730a949fb9ed3e616eaef4f413127be61f0779bbd2dbf2f19e1166"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:e61ade4415204eecc19b15fc980f7ed5dbe3a0df6e9ea373bad38db4787d1df0",
+    "observedAt": "2026-07-15T06:24:49.620860+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/get-childcare",
+      "title": "Get childcare: step by step",
+      "publisher": "Publisher not available from admitted source",
+      "sourceDigest": "ca5abd58e9ca59941db56103cc25944e0abcd1100673d4d9e097a4fe82721525"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:f237ec8e-e82c-4ffa-8fba-2a88a739783b",
+      "recordDigest": "e61ade4415204eecc19b15fc980f7ed5dbe3a0df6e9ea373bad38db4787d1df0",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "c54ba08ac9d9bacad0344f0dd99f8e29e6ff1ce2e30eb6bbfa57fa7e145bdee6"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:e849391459309aa091e9a2e64a98491b5bc9ec8c4837ebd21f3db288a75db0c8",
+    "observedAt": "2026-07-15T06:24:50.296230+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/childcare-calculator",
+      "title": "Check what help you could get with childcare costs",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "4a390ff52e415b67a5168316fe005fdff8496580c630c8eed2b4667703a7a12b"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:f44b7afb-76e7-41c2-afd7-1a5bc32372f0",
+      "recordDigest": "e849391459309aa091e9a2e64a98491b5bc9ec8c4837ebd21f3db288a75db0c8",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "e6b9d56581cd96dff0ad6ca355bf20417cd392567a5a85f39912c2e3be06e087"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:cd193e665440fb8fb6f87778a06cde46c1532ce4f7c2f83015a1d8edfb2e3124",
+    "observedAt": "2026-07-15T06:24:50.619263+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/paternity-pay-leave",
+      "title": "Paternity pay and leave",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "4447b5440709deb90d9a81304eee9375caec28aeaf105e010116ea48aa9230d0"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:fd693386-fb6b-4069-970e-63ea5dfc2ab5",
+      "recordDigest": "cd193e665440fb8fb6f87778a06cde46c1532ce4f7c2f83015a1d8edfb2e3124",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "c395b57ab96314063efec14bcd85ab04d3173e41c0680dec6c4024ef88e649e3"
+  },
+  {
+    "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+    "id": "trusted-govuk-discovery:evidence-receipt:sha256:2b95d184f19c16b47f422c93507ba2d948810274e6e39835e33e0daa4ba9c322",
+    "observedAt": "2026-07-15T06:24:51.285380+00:00",
+    "sourceLock": "okf-govuk-content:new-child-69",
+    "source": {
+      "url": "https://www.gov.uk/free-school-transport",
+      "title": "Free school transport",
+      "publisher": "Government Digital Service",
+      "sourceDigest": "bc0c338064d6c8b24642d99d6486e8703bdc22f61ac83b389769ae6e65f3924b"
+    },
+    "output": {
+      "recordId": "govuk-discovery:govuk-content:fdd55911-6fcc-4b9e-be9f-34e93298b691",
+      "recordDigest": "2b95d184f19c16b47f422c93507ba2d948810274e6e39835e33e0daa4ba9c322",
+      "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c"
+    },
+    "assertionStatuses": [
+      "normalised",
+      "official-source"
+    ],
+    "limitations": [
+      "This is metadata captured from GOV.UK, not a copy of the complete page or service.",
+      "Linked attachments, images and third-party material may have different rights.",
+      "The record was observed on 15 July 2026 and may have changed since then.",
+      "Catalogue inclusion does not grant authority to use a linked transaction or restricted service."
+    ],
+    "boundaries": {
+      "sourceWasNotRefetchedAtRuntime": true,
+      "cryptographicSignatureVerified": false,
+      "accessAuthorityGranted": false
+    },
+    "receiptDigest": "a71dda65acfea32c3f912ca165d5acbc653c4a20e2ee00db1f662f9351a0882c"
+  }
+]

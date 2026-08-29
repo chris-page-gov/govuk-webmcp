@@ -18,7 +18,7 @@ GOV.UK Discovery OKF profile
   └─ model-derived suggestions (optional, never authoritative)
           │ record/bundle digests + evidence receipts
           ▼
-Same-origin static catalogue.json + catalogue.json.sha256
+Same-origin static catalogue and evidence receipts + SHA-256 sidecars
           │ verify before registration
           ▼
 One canonical execution layer

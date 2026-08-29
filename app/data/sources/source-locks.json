@@ -1,0 +1,25 @@
+{
+  "schema": "trusted-govuk-discovery.source-locks.v1",
+  "generatedAt": "2026-08-29T14:55:00Z",
+  "sources": [
+    {
+      "id": "okf-govuk-content:new-child-69",
+      "repository": "chris-page-gov/okf-govuk-content",
+      "commit": "94f5020cb2c7512a79c2353ee48743ad733a132c",
+      "repositoryPath": "bundle/data/records-0.json.gz",
+      "gitBlob": "e7f3b6a0d1efa6cb336b1b50a69228de26216aa5",
+      "compressedSha256": "c915290d532a88bd899fa81ee6373e148c9ebba4ab0b8078b22f8b3f6e2b7a5e",
+      "importedPath": "app/data/sources/govuk-content-69.lock.json",
+      "importedSha256": "3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc",
+      "recordCount": 69,
+      "rights": "GOV.UK metadata reused under the Open Government Licence v3.0 where applicable; linked and third-party material requires separate review."
+    },
+    {
+      "id": "curated-official-api-data-2026-08-29",
+      "importedPath": "app/data/sources/curated-api-data.json",
+      "importedSha256": "f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794",
+      "recordCount": 11,
+      "rights": "Original normalisation by Chris Page from cited public official pages; each record retains its own access and licence status."
+    }
+  ]
+}

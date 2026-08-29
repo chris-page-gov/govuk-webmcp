@@ -90,7 +90,9 @@ Tool descriptions and outputs are themselves injection surfaces. The description
 
 # 9. Tool catalogue and schemas
 
-The complete TypeScript is supplied at `src/webmcp-tools.ts`; six JSON Schema files are in `schemas/`.
+The complete TypeScript is supplied at `src/webmcp-tools.ts`; nine JSON Schema
+files covering tool inputs, tool outputs, the catalogue, profile records and
+evidence receipts are in `schemas/`.
 
 ## 9.1 Contract summary
 
@@ -202,12 +204,12 @@ Not every tool uses every field; the published output schemas define exact combi
 
 ## 9.5 Evidence captured
 
-- tool registration snapshot from Chrome DevTools or host diagnostic;
-- exact tool names/descriptions/input schemas;
-- fixture call inputs and validated outputs;
-- screenshot and DOM snapshot showing identical visible record;
-- corpus and built-artefact SHA-256;
-- negative-test report;
-- ChatGPT and Chrome host/version/date;
-- signed-out deployment test;
-- no-storage/no-external-request network trace.
+- controlled installed-Chrome registration snapshot and exact tool contracts;
+- validated tool call outputs and deep-equal human/tool structured results;
+- catalogue, receipt, record and bundle SHA-256 evidence;
+- negative input, URL and tamper tests;
+- automated accessibility smoke test;
+- no-storage and no-external-request browser assertions.
+
+ChatGPT built-in-browser acceptance and signed-out public deployment remain
+release evidence to capture only after a separately authorised deployment.

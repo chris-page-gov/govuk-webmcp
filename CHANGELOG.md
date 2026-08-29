@@ -1,39 +1,49 @@
 # Changelog
 
 All notable changes to this project are documented in this file. The format is
-based on Keep a Changelog, and the project does not yet use semantic versions
-because publication and licensing remain governance gates.
+based on Keep a Changelog. The project does not yet use semantic versions.
 
 ## [Unreleased]
 
 ### Added
 
-- First local static vertical slice with an accessible human search over a tiny
-  same-origin GOV.UK metadata fixture.
-- Imperative, read-only `search_government_knowledge` WebMCP registration using
-  the same deterministic result as the page.
-- Deterministic fixture generation with raw-file, record and bundle SHA-256
-  validation before search or tool registration.
-- Visible authoritative source, access, licence, assertion and limitation
-  evidence.
-- Unit tests for input and integrity boundaries and controlled Chromium tests
-  for accessibility, parity, inert source text, no storage and no external
-  runtime requests.
-- ADR-0001 and Must-backlog implementation tracking.
-- Independent local favicon with browser assertions for clean HTTP responses and
-  console output.
+- Complete 80-record discovery catalogue: all 69 records from the locked
+  `okf-govuk-content` source plus 11 reviewed official API, dataset and
+  catalogue records.
+- An 80-receipt provenance collection, source-lock manifest, minimal discovery
+  profile and JSON Schemas for records, bundles, receipts and all tool inputs
+  and outputs.
+- Accessible human search, filter, record, related-record and provenance views
+  with durable record hashes and downloadable structured parity output.
+- Imperative, read-only `search_government_knowledge`, `get_resource_record`
+  and `show_provenance` WebMCP registrations over the same execution layer as
+  the human interface.
+- Deterministic source, record, bundle, receipt and raw-file SHA-256 validation.
+- Input, integrity, output-contract, injection, URL, storage, network, parity,
+  direct-link and automated accessibility tests.
+- MIT licence, source-specific attribution notice, Chris Page ownership
+  assurance, private GitHub Actions validation and dependency update policy.
 
 ### Changed
 
-- Agent instructions now require documentation, changelog, status, handover,
-  backlog tracking and tests to remain in lockstep with affected code.
+- Expanded the first tiny fixture slice to the complete Must-range catalogue and
+  three-tool prototype described by the research backlog.
+- Updated project status, handover, architecture, tool catalogue and backlog
+  tracking in lockstep with executable behaviour.
 
 ### Security
 
-- Unknown or oversized input fails closed, authoritative links are constrained
-  to credential-free GOV.UK HTTPS URLs, and source strings are rendered as text.
+- Unknown, malformed or oversized input fails closed; credentials and unsafe or
+  unadmitted URLs prevent registration; source strings remain inert untrusted
+  text; the judging path stores no query and contacts no runtime provider.
+- Tool registration occurs only after catalogue, receipt, source, record and
+  bundle bindings validate.
 
 ### Governance
 
-- No remote, publication, deployment, final licence, registration or submission
-  was created. Existing governance gates remain unchanged.
+- Recorded Chris Page's ownership and resource assurance and applied MIT to the
+  original project work while retaining item-level public-sector rights,
+  attribution and access boundaries.
+- Created only an authorised private GitHub repository and review branch. Public
+  deployment, competition registration and Devpost submission remain separate
+  actions.

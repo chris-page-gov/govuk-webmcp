@@ -1,32 +1,48 @@
-# Appendix C — licence and attribution notice
+# Licence and attribution notice
 
-## New competition code
+## Original project work
 
-Unless otherwise stated, original code created for the competition should be released under the MIT License. The top-level `LICENSE` must contain the standard MIT text and identify the actual rights holder authorised to license the code.
+Original code and documentation in this repository are copyright 2026 Chris
+Page and licensed under the MIT licence in `LICENSE`.
 
-## Pre-existing project code
+The implementation is a clean project-specific build. No code was copied from
+`gis-ai-go`, `okf-explorer` or another OKF source repository.
 
-Selected code may be derived from:
+## Locked GOV.UK metadata corpus
 
-- `chris-page-gov/gis-ai-go` — MIT;
-- `chris-page-gov/okf-govuk-content` — MIT code/docs with source-specific data rights;
-- `chris-page-gov/okf-uk-government-apis` — MIT code/docs, generated-record rights vary;
-- `chris-page-gov/okf-explorer` — MIT code; some content/docs CC BY-NC 4.0.
+`app/data/sources/govuk-content-69.lock.json` contains 69 GOV.UK metadata
+records imported from:
 
-Record exact file paths, commit SHAs and modifications in `NOTICE.md`. Do not describe an upstream licence as permission from an employer unless ownership/licensing authority is confirmed.
+- repository: `chris-page-gov/okf-govuk-content`;
+- commit: `94f5020cb2c7512a79c2353ee48743ad733a132c`;
+- path: `bundle/data/records-0.json.gz`;
+- Git blob: `e7f3b6a0d1efa6cb336b1b50a69228de26216aa5`;
+- imported-byte SHA-256:
+  `3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc`.
 
-## Public-sector information
+Contains public sector information licensed under the Open Government Licence
+v3.0 where applicable. The OGL excludes, among other things, logos and crests,
+personal data, unpublished information and third-party rights. Linked pages,
+attachments, images and third-party material may have different terms.
 
-Where a source expressly makes information available under OGL v3.0, include:
+## Curated official API and dataset metadata
 
-> Contains public sector information licensed under the Open Government Licence v3.0.
+`app/data/sources/curated-api-data.json` contains 11 normalised records authored
+for this project from the official pages cited within each record. Catalogue
+inclusion never proves public access or an open licence. A missing licence stays
+`missing`; authentication and access limitations remain explicit.
 
-The OGL excludes, among other things, logos and crests, personal data, unpublished information and third-party rights, and does not permit implying official status or endorsement. [G14]
+The Environment Agency flood-monitoring record retains the required attribution:
+“This uses Environment Agency flood and river level data from the real-time data
+API (Beta).”
 
-## Standards and documentation
+The ONS Open Geography record records OGL v3.0 with the explicit caveat “except
+where otherwise stated”.
 
-Retain notices for W3C, DCMI, OKF and any other copied schema/context material. Prefer links and original profile work over copying large passages.
+## Standards and dependencies
 
-## No blanket licence inference
+The profile links to DCMI, PROV and Schema.org vocabularies. Those links do not
+copy or relicense the standards. Development dependencies and exact versions
+are recorded in `package-lock.json`; their own licences apply.
 
-A catalogue record’s presence does not prove that its linked API, dataset, documentation, marks or attachments share one licence. Every record must carry its own evidence.
+No GOV.UK crown, wordmark, GDS Transport font or employer logo is included.

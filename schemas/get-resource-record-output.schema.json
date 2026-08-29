@@ -11,6 +11,7 @@
         "ok",
         "verificationStatus",
         "record",
+        "relatedRecords",
         "boundaries"
       ],
       "properties": {
@@ -28,22 +29,14 @@
           ]
         },
         "record": {
-          "type": "object",
-          "required": [
-            "id",
-            "title",
-            "description",
-            "resourceType",
-            "publisher",
-            "licence",
-            "access",
-            "dates",
-            "sourceAuthority",
-            "assertions",
-            "provenance",
-            "limitations",
-            "relatedRecordIds"
-          ]
+          "$ref": "urn:govuk-webmcp:schema:profile-record:v1"
+        },
+        "relatedRecords": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object"
+          }
         },
         "boundaries": {
           "type": "object",
