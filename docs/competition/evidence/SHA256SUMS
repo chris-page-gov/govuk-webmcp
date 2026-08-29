@@ -5,6 +5,8 @@
 76666c4343bf95f3842d78b9db86e7a33619a04e2fa65b70841156ba77e425a6  app/data/sources/source-locks.json
 2480e30152569270cd44eb7b67284e0d7c1a41a7caf22233237b5dc52cfd4f0d  docs/competition/evidence/accessibility-test-2026-08-29.md
 aef39e80e4f604001e92e43f8d5d0479d3f673e0e9846605adc81a0ccf0bc54e  docs/competition/evidence/link-health-2026-08-29.json
+59e66b1c1bf8e0a90041fb1b4cdf142ade04dc1c927e68055a111cc7fa509ddf  docs/competition/evidence/public-live-search-2026-08-29.png
+e884b7006af20ad19caafec7a54d8a163efeb540948c7d15772eb79557697888  docs/competition/evidence/public-release-verification-2026-08-29.md
 c3ecd6d4fe4adfcf0e28fc611cfe36c893fad17a6e95ec40b8a45eb382e73405  docs/competition/evidence/sbom.cdx.json
 40bf123df442d5c9c4bdb17e3b5bd04e7f751f02b29f705e4e2942158de28ea2  docs/competition/evidence/security-scan-2026-08-29/coverage.json
 83636f02ed354da897c7968f01f79117e092951fd26255bfd782f948ba5fb30b  docs/competition/evidence/security-scan-2026-08-29/findings.json

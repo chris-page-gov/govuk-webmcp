@@ -71,6 +71,14 @@ based on Keep a Changelog. The project does not yet use semantic versions.
 
 ### Governance
 
+- Published the repository and exact-commit GitHub Pages artefact after
+  protected pull request `#7`; recorded signed-out repository, licence, HTTPS,
+  digest and controlled live-browser evidence.
+- Applied and read back strict `validate` status, pull-request, administrator,
+  linear-history, conversation-resolution, force-push and deletion controls on
+  `main`, plus protected-branch-only Pages deployment.
+- Kept ChatGPT-host WebMCP calls open because the controlled in-app browser
+  verified the human fallback but did not expose `document.modelContext`.
 - Recorded Chris Page's ownership and resource assurance and applied MIT to the
   original project work while retaining item-level public-sector rights,
   attribution and access boundaries.

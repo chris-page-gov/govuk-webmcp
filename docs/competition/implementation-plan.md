@@ -3,12 +3,12 @@
 This is the lockstep implementation map for the research backlog in
 `docs/competition/backlog.md`.
 
-## Complete private verification build
+## Complete public release candidate
 
-The prototype implements the full technical Must range that can be verified
-without a separately authorised public deployment or competition submission.
-It contains 80 records and 80 evidence receipts, the upper bound selected by
-Must 3.
+The prototype implements the full technical Must range through public
+deployment. Competition registration, video publication and Devpost submission
+remain separately controlled. It contains 80 records and 80 evidence receipts,
+the upper bound selected by Must 3.
 
 | Must item | Status | Evidence |
 | --- | --- | --- |
@@ -23,8 +23,8 @@ Must 3.
 | 12 | Complete | source, record, bundle and receipt digests and checksum sidecars |
 | 13–14 | Complete for packaged corpus | closed inputs; malformed, no-match, tamper, receipt-binding, unsafe-URL and inert-text tests |
 | 15 | Complete in controlled Chrome and Edge | CSP, no cookie/storage and same-origin-only request assertions |
-| 16 | Part complete | installed Chrome and Edge suites passed; responsive, forced-colour and reduced-motion checks added; ChatGPT built-in-browser test needs the deployed HTTPS URL |
-| 17 | Release candidate | MIT, notices, public policies, SBOM, link-health evidence and manual Pages workflow complete; signed-out live acceptance remains |
+| 16 | Part complete | installed Chrome and Edge suites and controlled live human journey passed; the available in-app browser did not expose `document.modelContext`, so ChatGPT host tool calls remain |
+| 17 | Complete | public repository, MIT, notices, policies, protected `main`, exact-commit Pages deployment, SBOM, link health and signed-out acceptance |
 | 18 | Not started by design | demo, submission copy, tag and Devpost actions require separate instruction |
 
 ## Implemented Should items
@@ -38,7 +38,7 @@ Must 3.
 
 ## Next safe release step
 
-Merge the release candidate through protected review, deploy the exact tested
-`main` artefact to GitHub Pages and capture signed-out HTTPS and ChatGPT
-built-in-browser evidence. Competition registration and submission remain
-separate actions.
+Verify the three registrations and representative calls in ChatGPT's supported
+built-in-browser host, complete the manual screen-reader observation, and
+prepare the video and Devpost form for a separate submission decision.
+Competition registration and submission remain separate actions.

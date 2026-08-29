@@ -7,8 +7,8 @@ separate explicit actions and have not been performed.
 **Implementation:** baseline commit `4c85db7` preserves the research seed. Chris
 Page's 29 August 2026 assurance resolves the personal ownership, resource-use,
 outside-interest and original-code licence gates for this repository. The
-private `chris-page-gov/govuk-webmcp` repository and branch/PR workflow are
-authorised. Pull request `#1` was merged as
+`chris-page-gov/govuk-webmcp` repository began as a private review boundary and
+is now public under the authorised branch/PR workflow. Pull request `#1` was merged as
 `2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; the exact post-merge `main`
 workflow passed and retained the static build artefact.
 Private pull request `#5` then merged the Edge startup guidance and current
@@ -18,10 +18,15 @@ workflow passed.
 
 The live 29 August 2026 rules check confirmed that a public source repository
 with an open-source licence and a working live URL are submission requirements.
-A release candidate now adds public security, privacy and accessibility
-boundaries, generated SBOM and link-health evidence, responsive/forced-colour
-acceptance and a manual exact-artefact GitHub Pages workflow. Public deployment
-must still be verified before it is described as live.
+Pull request `#7` was rebase-merged as
+`ef3b6f496924250c5dfb9cc52ea124468035a3dc`; its exact-main validation and
+manually dispatched Pages workflow passed. The repository is public, `main` is
+protected and the live prototype is available at
+<https://chris-page-gov.github.io/govuk-webmcp/>. Signed-out availability,
+deployment metadata, catalogue digest, same-origin requests and the human
+search journey were verified and retained under `docs/competition/evidence/`.
+The controlled in-app browser did not expose `document.modelContext`, so an
+actual ChatGPT WebMCP host registration and call remains unverified.
 
 The complete static security audit of pre-release `main` commit `260d68f`
 covered all 108 tracked files and produced no reportable findings. Its canonical
@@ -59,3 +64,10 @@ pre-remediation canonical scan and verification note are retained under
   production readiness or guaranteed accuracy.
 - Do not change the repository, live site or submission after the 3 September
   2026 13:00 Pacific deadline if a submission has been accepted.
+
+## Next safe task
+
+Record the three WebMCP registrations and representative calls in ChatGPT's
+supported built-in browser against the final candidate URL. Then perform the
+manual screen-reader observation and prepare the sub-three-minute public demo
+video and Devpost form for Chris Page's separate submission approval.

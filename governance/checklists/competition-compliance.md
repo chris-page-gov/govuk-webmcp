@@ -28,17 +28,17 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 ## Technical submission
 
-- [ ] **Confirmed by test:** public live URL exposes material WebMCP behaviour in the supported judging environments; deployment and ChatGPT-host observation remain pending.
+- [ ] **Confirmed by test:** public live URL exposes material WebMCP behaviour in the supported judging environments; deployment and human fallback are verified, but ChatGPT-host tool observation remains pending.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test:** exactly three declared read-only tools register; inputs and outputs validate; no runtime provider call or credential path exists.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
 - [x] **Confirmed by test and copy review:** catalogue inclusion is not described as access authority.
-- [ ] **Confirmed by test:** signed-out clone/build/deploy instructions reproduce the submission.
+- [x] **Confirmed by test:** the release candidate passed a clean-clone offline install and complete test; the exact-main deployment reproduces its bound artefact.
 
 ## Required artefacts
 
-- [ ] Public source repository with all source/assets/instructions and visible licence.
-- [ ] Public live deployment; any demo account credentials supplied if the rules require them.
+- [x] Public source repository with all source/assets/instructions and visible licence.
+- [x] Public live deployment; no demo account is required for this static prototype.
 - [ ] Public YouTube video shorter than three minutes.
 - [ ] English text description explaining WebMCP leverage, execution, impact, creativity and boundaries.
 - [ ] Immutable release/tag, hashes, provenance manifest, SBOM/notices and submission receipt retained.
