@@ -1,0 +1,92 @@
+{
+  "schema": "trusted-govuk-discovery.catalogue.v1",
+  "generatedAt": "2026-08-29T10:42:06Z",
+  "bundleDigest": "2d9dd82a16750413125a44d66cdde31fa4a4b57249dbd43f90e62e8dd72196be",
+  "records": [
+    {
+      "id": "govuk-discovery:govuk-content-api",
+      "title": "GOV.UK Content API",
+      "description": "Public metadata and content used to render many pages on GOV.UK.",
+      "resourceType": "api",
+      "publisher": "Government Digital Service",
+      "steward": "GOV.UK Publishing Platform",
+      "topics": [
+        "government publishing",
+        "content",
+        "api"
+      ],
+      "canonicalHumanUrl": "https://www.gov.uk/help/reuse-govuk-content",
+      "documentationUrl": "https://content-api.publishing.service.gov.uk/",
+      "machineEndpoint": "https://www.gov.uk/api/content",
+      "apiCatalogueUrl": "https://www.api.gov.uk/gds/gov-uk-content/",
+      "licence": {
+        "status": "confirmed",
+        "title": "Open Government Licence v3.0 where applicable",
+        "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+        "attribution": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+      },
+      "access": {
+        "status": "public",
+        "evidenceUrl": "https://content-api.publishing.service.gov.uk/",
+        "note": "Authentication is not required for the documented public endpoint; downstream linked services may differ."
+      },
+      "dates": {
+        "observed": "2026-08-29T10:42:06Z"
+      },
+      "sourceAuthority": "Government Digital Service",
+      "assertions": [
+        {
+          "field": "title",
+          "status": "official-source",
+          "evidenceUrls": [
+            "https://content-api.publishing.service.gov.uk/"
+          ]
+        },
+        {
+          "field": "access.status",
+          "status": "normalised",
+          "evidenceUrls": [
+            "https://content-api.publishing.service.gov.uk/"
+          ],
+          "note": "Normalised from official access documentation."
+        },
+        {
+          "field": "topics",
+          "status": "inferred",
+          "evidenceUrls": [
+            "https://content-api.publishing.service.gov.uk/"
+          ],
+          "note": "Rule-derived discovery terms."
+        }
+      ],
+      "provenance": {
+        "extractionMethod": "manual research capture and deterministic field normalisation",
+        "sourceDigest": "2d11117472231f7c79609e053001cdf7f53c5b910e83c917cce5cf58ed436f99",
+        "recordDigest": "5429d7458d32b32ea266c04743673218cd21959634c8077f989e7e8d864363db",
+        "bundleDigest": "2d9dd82a16750413125a44d66cdde31fa4a4b57249dbd43f90e62e8dd72196be",
+        "evidenceReceiptId": "trusted-govuk-discovery:evidence-receipt:sha256:5429d7458d32b32ea266c04743673218cd21959634c8077f989e7e8d864363db",
+        "sources": [
+          {
+            "url": "https://content-api.publishing.service.gov.uk/",
+            "title": "GOV.UK Content API",
+            "publisher": "Government Digital Service",
+            "observedAt": "2026-08-29T10:42:06Z",
+            "digest": "2d11117472231f7c79609e053001cdf7f53c5b910e83c917cce5cf58ed436f99"
+          },
+          {
+            "url": "https://www.api.gov.uk/gds/gov-uk-content/",
+            "title": "GOV.UK Content — API Catalogue record",
+            "publisher": "Data Standards Authority / Government Digital Service",
+            "observedAt": "2026-08-29T10:42:06Z"
+          }
+        ]
+      },
+      "limitations": [
+        "The API is beta and does not cover every GOV.UK page or dynamic service.",
+        "The licence of linked attachments and third-party material must be checked separately.",
+        "This record does not grant access to any restricted downstream service."
+      ],
+      "relatedRecordIds": []
+    }
+  ]
+}

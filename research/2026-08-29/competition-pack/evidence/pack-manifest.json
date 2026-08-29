@@ -1,0 +1,196 @@
+{
+  "schema": "trusted-govuk-discovery.research-pack-manifest.v1",
+  "generatedAt": "2026-08-29T10:42:00Z",
+  "researchDate": "2026-08-29",
+  "decision": "technical-go-entry-governance-hold",
+  "controllingDeadline": "2026-09-03T20:00:00Z",
+  "sourceRegisterCount": 59,
+  "validation": {
+    "typescriptStrictCompile": "passed",
+    "runtimeFixtureThreeTools": "passed",
+    "jsonSchemaDraft202012": "passed",
+    "exampleDigestRecomputation": "passed",
+    "reportSourceReferenceResolution": "passed",
+    "liveDeployment": "not-performed",
+    "chatgptAndChromeHostTests": "not-performed",
+    "employerLegalApproval": "not-obtained"
+  },
+  "files": [
+    {
+      "path": "DISCLAIMER.md",
+      "bytes": 957,
+      "sha256": "a722ddbce359e7513738ad359b221ea43f36ca60b215a20c13e213da56668372"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 1637,
+      "sha256": "981c6ef1fbb74c36b0272d6f51fb5394def1da39719a474628e8c7857f591e79"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2686,
+      "sha256": "bceb7904820a3c44b8c7147c24fcfce323f1c1fbcafe09bd09532bef0093f722"
+    },
+    {
+      "path": "VALIDATION.md",
+      "bytes": 1772,
+      "sha256": "3ac54eff81a301bcca06d8e6a99f5c61a769a4add58fe46962427e642a099b2a"
+    },
+    {
+      "path": "architecture.md",
+      "bytes": 1247,
+      "sha256": "3b3ba68d71904d09c310ec81fd291f379f8f4a4d1f135985e8772b24fbbdd8a6"
+    },
+    {
+      "path": "asset-register.csv",
+      "bytes": 3312,
+      "sha256": "08b22f7e11413fe773f27b30370caef55eb5c6c75defb59c8ed9c7018de8a9d1"
+    },
+    {
+      "path": "backlog.md",
+      "bytes": 1622,
+      "sha256": "d494f3f7bbbac3cdc480d10537525b430b3d64bf0517ec99c094d49a7725ce29"
+    },
+    {
+      "path": "checklists/competition-compliance.md",
+      "bytes": 3339,
+      "sha256": "71e6f21f44dd25dced64660975015cd8ae70e9f49d57b1b913b22d48112b4ded"
+    },
+    {
+      "path": "checklists/pre-submission.md",
+      "bytes": 2896,
+      "sha256": "391e065ee2399e4bb144f3adbe833cf1beb278211506559ed360209458f81808"
+    },
+    {
+      "path": "codex-build-brief.md",
+      "bytes": 2086,
+      "sha256": "865f4a488b7173ef7b0012c9f3461756c95ca15d67b8e9403010eaa7d91b3b51"
+    },
+    {
+      "path": "commit-release-evidence-strategy.md",
+      "bytes": 1534,
+      "sha256": "842715350da265668209a40ec10651b080b8c6940971ab22c037688c5b33d365"
+    },
+    {
+      "path": "competition-rules-matrix.csv",
+      "bytes": 6318,
+      "sha256": "4668e913034f496851cbe7298e349ff1ca98d57d9865436aaad7acc086fd54ac"
+    },
+    {
+      "path": "decision-grade-report.md",
+      "bytes": 126509,
+      "sha256": "bad33eebfab917edbe20a885f85a66622bb066452e942397dc34d71351c51355"
+    },
+    {
+      "path": "demo-storyboard.md",
+      "bytes": 2177,
+      "sha256": "652242fa4d947c41fbf7ca497d79ad3cbcb25a0e88b1ece9b74ba70fda832966"
+    },
+    {
+      "path": "devpost-submission-draft.md",
+      "bytes": 4549,
+      "sha256": "b0327f9d20118723c179d9865958b58b0ebb2d0703a062587749383d613932a2"
+    },
+    {
+      "path": "evaluation-set.csv",
+      "bytes": 3826,
+      "sha256": "99cd92e103c8a3a1c20561e4c7d41aab97fb221765081d54b6129a91688e80a7"
+    },
+    {
+      "path": "evidence/challenge-provenance.example.json",
+      "bytes": 1969,
+      "sha256": "fd16a72b11156e4bbb474a8f3ceb1a9860a4158ca796784b3a1115d40dd91a9d"
+    },
+    {
+      "path": "evidence/devpost-rules-research-capture-2026-08-29.txt",
+      "bytes": 2162,
+      "sha256": "98485a0ef8d28e96e6fd02cfc7c588b37897f44c39a51be1f71621110b2f605e"
+    },
+    {
+      "path": "examples/DIGEST-METHOD.md",
+      "bytes": 1314,
+      "sha256": "c3aaed9009975b373aea6405db8d67942a79c93bce8c098b66337d880fa170d3"
+    },
+    {
+      "path": "examples/catalogue.example.json",
+      "bytes": 3836,
+      "sha256": "4f7689d3df8ea9d50516daf3f79a313f5636de32cccb614f4da4f971cb98f95b"
+    },
+    {
+      "path": "examples/catalogue.example.json.sha256",
+      "bytes": 81,
+      "sha256": "9c1b964a1600ad84ed02b124ab3cb35e5ff54f8a8ef23cdd822cd7ebda8d6df1"
+    },
+    {
+      "path": "examples/evidence-receipt-example.json",
+      "bytes": 1842,
+      "sha256": "2f8282aa98b95de7a6759506f702bd5843663766c1deb7485d22411f5ea09140"
+    },
+    {
+      "path": "examples/govuk-discovery-okf-example.jsonld",
+      "bytes": 2926,
+      "sha256": "93ff5387754427da612d8ef4fdafe04ed01e5da8eb0cbf76bccbf7b79420ba93"
+    },
+    {
+      "path": "repository-tree.md",
+      "bytes": 3535,
+      "sha256": "6b2b499f07f5c38a5a748bd05887da065dd733fa2d0669bea6170169c50e617c"
+    },
+    {
+      "path": "risk-register.csv",
+      "bytes": 4453,
+      "sha256": "6a469625b0fda89d96e30c97b01de3e9d9dfc70ee9d41eb249f5f5a52417970c"
+    },
+    {
+      "path": "schemas/get-resource-record-input.schema.json",
+      "bytes": 457,
+      "sha256": "e550b37f55d50de5555c60fe9e58e31d80abacb4e8a1e767d44528a0b6d6373f"
+    },
+    {
+      "path": "schemas/get-resource-record-output.schema.json",
+      "bytes": 3500,
+      "sha256": "a5c7db28f463bc4dc2608f834275bd9baf309c920ea630df913c69e18ab70dd0"
+    },
+    {
+      "path": "schemas/search-government-knowledge-input.schema.json",
+      "bytes": 2596,
+      "sha256": "d47f38af6624cb69c6a42cdc83238a7c221199a0892f7ff87cb25175eb46a970"
+    },
+    {
+      "path": "schemas/search-government-knowledge-output.schema.json",
+      "bytes": 7137,
+      "sha256": "65c6a53fd3503c004360898d15df1ec666d65d63d2b1ad95d29ab0f31c29a946"
+    },
+    {
+      "path": "schemas/show-provenance-input.schema.json",
+      "bytes": 449,
+      "sha256": "4ef9f0eda0e1fea4099611970d08c5db48296b57cec86df9b5b6a0592f7edf87"
+    },
+    {
+      "path": "schemas/show-provenance-output.schema.json",
+      "bytes": 4906,
+      "sha256": "5d2e18f0da4aa1472ce91f26d35e1db743ced22026f3b917449c8e69daa0d3cc"
+    },
+    {
+      "path": "scripts/verify_pack.py",
+      "bytes": 4497,
+      "sha256": "709a1cbefee76a871dd27082f0f4eba16f699802b2d661f563771507ae3fba8d"
+    },
+    {
+      "path": "source-register.csv",
+      "bytes": 20960,
+      "sha256": "15e462bfed07f6c17e72bccb1f870be1f6fd48fa4ef0b5770f39393b9075dee8"
+    },
+    {
+      "path": "src/webmcp-tools.ts",
+      "bytes": 21217,
+      "sha256": "ad6de5231cbc91ca528cda491bf5c8effbe560ba7bff56b478e1eb1cf30e1f6c"
+    },
+    {
+      "path": "tool-catalogue.md",
+      "bytes": 9565,
+      "sha256": "ad6215dcc1b3604562083062b78d53af73c4c75e47e3de9521f1f9be0990380d"
+    }
+  ],
+  "integrityBoundary": "File hashes establish identity of this local research pack only; they are not publisher signatures or employer approvals."
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "trusted-govuk-discovery.challenge-provenance.v1",
+  "createdAt": "2026-08-29T10:42:00Z",
+  "competition": {
+    "officialRulesUrl": "https://webmcp.devpost.com/rules",
+    "periodStart": "2026-08-25T18:00:00Z",
+    "deadline": "2026-09-03T20:00:00Z"
+  },
+  "baseline": {
+    "repository": "https://github.com/chris-page-gov/gis-ai-go",
+    "commit": "fe122579dc3aba07387c0c201ce5539b50a40108",
+    "committedAt": "2026-08-25T16:47:33Z",
+    "classification": "pre-existing"
+  },
+  "postStartEvidence": [
+    {
+      "commit": "8c4c3e0df7b19926507b541fc11077d2912b94ee",
+      "committedAt": "2026-08-29T10:00:00Z",
+      "classification": "post-start WebMCP candidate",
+      "meaningfulExtensionDecision": "for judges to determine"
+    }
+  ],
+  "reusedAssets": [
+    {
+      "repository": "chris-page-gov/okf-govuk-content",
+      "commit": "94f5020cb2c7512a79c2353ee48743ad733a132c",
+      "createdBeforePeriod": true,
+      "rightsStatus": "review required; MIT project material and source-specific/OGL metadata where applicable"
+    },
+    {
+      "repository": "chris-page-gov/okf-uk-government-apis",
+      "commit": "55c7e67947dfd86e291ca987e354429c36b453d9",
+      "createdBeforePeriod": true,
+      "rightsStatus": "review required; split/custom repository notice and record-specific rights"
+    },
+    {
+      "repository": "chris-page-gov/okf-explorer",
+      "commit": "c8af0b05cab49a5341e0b787e17d49a674868d3a",
+      "createdBeforePeriod": true,
+      "rightsStatus": "reuse code only under MIT unless separately cleared; content/docs are mixed licensed"
+    }
+  ],
+  "entrantRights": {
+    "status": "unresolved",
+    "requiredEvidence": [
+      "ownership schedule",
+      "WCC decision",
+      "DSIT/BDUK decision where applicable",
+      "collaborator permissions",
+      "prize/publicity route"
+    ]
+  },
+  "disclaimer": "Chronology and public licence files do not by themselves establish entrant ownership or employer permission."
+}

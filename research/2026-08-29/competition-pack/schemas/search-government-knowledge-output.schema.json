@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/search-government-knowledge-output.schema.json",
+  "title": "search_government_knowledge output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "ok",
+        "query",
+        "catalogue",
+        "totalMatches",
+        "returned",
+        "truncated",
+        "results",
+        "boundaries"
+      ],
+      "properties": {
+        "schema": {
+          "const": "trusted-govuk-discovery.search-result.v1"
+        },
+        "ok": {
+          "const": true
+        },
+        "query": {
+          "type": "string"
+        },
+        "catalogue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "generatedAt",
+            "bundleDigest",
+            "recordCount"
+          ],
+          "properties": {
+            "generatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "bundleDigest": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "recordCount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "totalMatches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "returned": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "results": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "recordId",
+              "title",
+              "description",
+              "resourceType",
+              "publisher",
+              "accessStatus",
+              "licenceStatus",
+              "lastObserved",
+              "assertionStatuses",
+              "recordDigest",
+              "limitations"
+            ],
+            "properties": {
+              "recordId": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "resourceType": {
+                "$ref": "#/$defs/resourceType"
+              },
+              "publisher": {
+                "type": "string"
+              },
+              "accessStatus": {
+                "$ref": "#/$defs/accessStatus"
+              },
+              "licenceStatus": {
+                "type": "string",
+                "enum": [
+                  "confirmed",
+                  "missing",
+                  "conflicting",
+                  "not-applicable"
+                ]
+              },
+              "licenceTitle": {
+                "type": "string"
+              },
+              "lastObserved": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "assertionStatuses": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/assertionStatus"
+                }
+              },
+              "canonicalHumanUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "documentationUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "apiCatalogueUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "recordDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "evidenceReceiptId": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "match": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "score",
+                  "matchedFields",
+                  "explanation"
+                ],
+                "properties": {
+                  "score": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "matchedFields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "explanation": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "boundaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pageScoped",
+            "readOnly",
+            "providerCall",
+            "durableReceiptCreated",
+            "sourceDerivedContentIsUntrusted"
+          ],
+          "properties": {
+            "pageScoped": {
+              "const": true
+            },
+            "readOnly": {
+              "const": true
+            },
+            "providerCall": {
+              "const": false
+            },
+            "durableReceiptCreated": {
+              "const": false
+            },
+            "sourceDerivedContentIsUntrusted": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/error"
+    }
+  ],
+  "$defs": {
+    "accessStatus": {
+      "type": "string",
+      "enum": [
+        "public",
+        "restricted",
+        "authentication-required",
+        "access-not-established",
+        "not-applicable"
+      ]
+    },
+    "assertionStatus": {
+      "type": "string",
+      "enum": [
+        "official-source",
+        "normalised",
+        "inferred",
+        "model-derived"
+      ]
+    },
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "govuk-content",
+        "dataset",
+        "api",
+        "api-documentation",
+        "catalogue-record",
+        "organisation",
+        "guidance"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "ok",
+        "error",
+        "limitations"
+      ],
+      "properties": {
+        "schema": {
+          "const": "trusted-govuk-discovery.error.v1"
+        },
+        "ok": {
+          "const": false
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message",
+            "details"
+          ],
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object"
+            }
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

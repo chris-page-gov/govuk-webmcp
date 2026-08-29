@@ -1,0 +1,38 @@
+{
+  "schema": "trusted-govuk-discovery.evidence-receipt.v1",
+  "receiptId": "trusted-govuk-discovery:evidence-receipt:sha256:5429d7458d32b32ea266c04743673218cd21959634c8077f989e7e8d864363db",
+  "recordId": "govuk-discovery:govuk-content-api",
+  "observedAt": "2026-08-29T10:42:06Z",
+  "source": {
+    "url": "https://content-api.publishing.service.gov.uk/",
+    "publisher": "Government Digital Service",
+    "retrievalMethod": "manual research capture from public HTTPS source",
+    "sourceDigest": "2d11117472231f7c79609e053001cdf7f53c5b910e83c917cce5cf58ed436f99",
+    "digestScope": "UTF-8 JSON over the four declared source-capture fields, with object keys sorted lexicographically and no insignificant whitespace; not the publisher’s full HTTP response"
+  },
+  "transformation": {
+    "method": "deterministic field selection and normalisation",
+    "software": "trusted-govuk-discovery-build",
+    "version": "0.1.0-competition-candidate",
+    "rules": [
+      "preserve source URLs",
+      "label normalised and inferred fields",
+      "do not infer licence or access when absent"
+    ]
+  },
+  "output": {
+    "recordDigest": "5429d7458d32b32ea266c04743673218cd21959634c8077f989e7e8d864363db",
+    "bundleDigest": "2d9dd82a16750413125a44d66cdde31fa4a4b57249dbd43f90e62e8dd72196be"
+  },
+  "verification": {
+    "status": "digest-bound-example",
+    "sourceSignatureVerified": false,
+    "publisherAttestationPresent": false,
+    "humanReviewStatus": "pending",
+    "digestMethod": "project-json-c14n-v1 (sorted object keys; compact UTF-8 JSON); not RDF Dataset Canonicalization"
+  },
+  "limitations": [
+    "The receipt proves integrity of the captured transformation inputs and outputs; it does not prove that the upstream source was correct.",
+    "The receipt is not a government attestation and does not grant API access."
+  ]
+}

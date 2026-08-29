@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/get-resource-record-output.schema.json",
+  "title": "get_resource_record output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "ok",
+        "verificationStatus",
+        "record",
+        "boundaries"
+      ],
+      "properties": {
+        "schema": {
+          "const": "trusted-govuk-discovery.resource-record-result.v1"
+        },
+        "ok": {
+          "const": true
+        },
+        "verificationStatus": {
+          "type": "string",
+          "enum": [
+            "digest-bound",
+            "unverified"
+          ]
+        },
+        "record": {
+          "type": "object",
+          "required": [
+            "id",
+            "title",
+            "description",
+            "resourceType",
+            "publisher",
+            "licence",
+            "access",
+            "dates",
+            "sourceAuthority",
+            "assertions",
+            "provenance",
+            "limitations",
+            "relatedRecordIds"
+          ]
+        },
+        "boundaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pageScoped",
+            "readOnly",
+            "providerCall",
+            "accessAuthorityGranted",
+            "sourceDerivedContentIsUntrusted"
+          ],
+          "properties": {
+            "pageScoped": {
+              "const": true
+            },
+            "readOnly": {
+              "const": true
+            },
+            "providerCall": {
+              "const": false
+            },
+            "accessAuthorityGranted": {
+              "const": false
+            },
+            "sourceDerivedContentIsUntrusted": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/error"
+    }
+  ],
+  "$defs": {
+    "accessStatus": {
+      "type": "string",
+      "enum": [
+        "public",
+        "restricted",
+        "authentication-required",
+        "access-not-established",
+        "not-applicable"
+      ]
+    },
+    "assertionStatus": {
+      "type": "string",
+      "enum": [
+        "official-source",
+        "normalised",
+        "inferred",
+        "model-derived"
+      ]
+    },
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "govuk-content",
+        "dataset",
+        "api",
+        "api-documentation",
+        "catalogue-record",
+        "organisation",
+        "guidance"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "ok",
+        "error",
+        "limitations"
+      ],
+      "properties": {
+        "schema": {
+          "const": "trusted-govuk-discovery.error.v1"
+        },
+        "ok": {
+          "const": false
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message",
+            "details"
+          ],
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "details": {
+              "type": "object"
+            }
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

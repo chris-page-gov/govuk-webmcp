@@ -1,0 +1,14 @@
+{
+  "name": "govuk-webmcp",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Independent experimental WebMCP prototype research and local implementation workspace",
+  "type": "module",
+  "scripts": {
+    "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py"
+  },
+  "engines": {
+    "node": ">=20",
+    "python": ">=3.11"
+  }
+}

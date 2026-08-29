@@ -1,0 +1,38 @@
+TRUSTED GOV.UK KNOWLEDGE DISCOVERY — OFFICIAL RULES RESEARCH CAPTURE
+Research date: 29 August 2026
+Research-session checkpoint: 11:42 BST (10:42 UTC)
+
+Controlling source
+Title: OpenAI WebMCP Challenge Official Rules
+Publisher: OpenAI / Devpost
+URL: https://webmcp.devpost.com/rules
+Status used: live Official Rules, re-opened during the final evidence pass
+
+Controlling deadline
+The rules state the closing point as “September 3rd, 2026 (1:00 pm Pacific Time)”.
+On 3 September 2026 Pacific Time is PDT (UTC−07:00) and UK civil time is BST
+(UTC+01:00). Conversion: 13:00 PDT + 7 hours = 20:00 UTC; + 1 hour = 21:00 BST.
+The plan therefore uses 3 September 2026 at 21:00 BST as the controlling deadline.
+
+Other controlling findings retained
+- Pre-existing projects require work that is “meaningfully extended using WebMCP” after the start.
+- The submission ownership warranty includes the phrase “solely owned by the Entrant”.
+- The public demonstration video must be “less than three (3) minutes”.
+- Individual, team and organisation routes exist, subject to eligibility and authority requirements.
+- A public live URL, public source repository, open-source licence, English text
+  description and public YouTube demonstration are required.
+
+Discrepancies
+1. The OpenAI challenge overview gives an opening time of noon Pacific on 25 August,
+   while the Official Rules give 11:00 Pacific. This does not affect the selected
+   pre-start baseline, which predates both times.
+2. An OpenAI Developer Community post exposes a deadline timestamp corresponding to
+   4 September 2026 00:00 UTC, four hours later than the Official Rules deadline.
+3. The Official Rules are treated as controlling. Cached snippets, overview pages
+   and community timestamps are not used to extend the submission window.
+
+Integrity boundary
+This file is a normalised research record, not a verbatim copy or publisher-signed
+archive of the complete live HTML. Its SHA-256 is recorded in evidence/SHA256SUMS.
+The live rules must be re-opened immediately before submission and any change must
+be captured as a new dated evidence record, not silently edited into this one.

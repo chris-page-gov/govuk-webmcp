@@ -1,0 +1,80 @@
+{
+  "@context": {
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "okfx": "https://example.invalid/ns/okf-discovery#"
+  },
+  "@id": "https://example.invalid/record/govuk-content-api",
+  "@type": [
+    "dcat:DataService",
+    "schema:WebAPI"
+  ],
+  "dcterms:identifier": "govuk-discovery:govuk-content-api",
+  "dcterms:title": "GOV.UK Content API",
+  "dcterms:description": "A public JSON interface for metadata and published content used to render pages on www.gov.uk.",
+  "dcterms:publisher": {
+    "@id": "https://www.gov.uk/government/organisations/government-digital-service",
+    "schema:name": "Government Digital Service"
+  },
+  "dcat:landingPage": {
+    "@id": "https://content-api.publishing.service.gov.uk/"
+  },
+  "dcat:endpointURL": {
+    "@id": "https://www.gov.uk/api/content"
+  },
+  "dcterms:license": {
+    "@id": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+    "dcterms:title": "Open Government Licence v3.0 where applicable"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "https://content-api.publishing.service.gov.uk/"
+    },
+    {
+      "@id": "https://www.api.gov.uk/gds/gov-uk-content/"
+    }
+  ],
+  "prov:generatedAtTime": "2026-08-29T10:42:06Z",
+  "okfx:resourceType": "api",
+  "okfx:accessStatus": "public",
+  "okfx:assertions": [
+    {
+      "field": "title",
+      "status": "official-source",
+      "evidenceUrls": [
+        "https://content-api.publishing.service.gov.uk/"
+      ]
+    },
+    {
+      "field": "access.status",
+      "status": "normalised",
+      "evidenceUrls": [
+        "https://content-api.publishing.service.gov.uk/"
+      ],
+      "note": "Normalised from the official statements that anyone may use the API and authentication is not required."
+    },
+    {
+      "field": "topics",
+      "status": "inferred",
+      "evidenceUrls": [
+        "https://content-api.publishing.service.gov.uk/"
+      ],
+      "note": "Rule-derived discovery terms; not publisher assertions."
+    }
+  ],
+  "okfx:limitations": [
+    "Coverage is limited to pages hosted on www.gov.uk and excludes some dynamic content.",
+    "The API is beta and may change.",
+    "This record does not establish the licence of every returned field or linked attachment.",
+    "Catalogue inclusion does not confer authority to use restricted downstream services."
+  ],
+  "okfx:sourceDigest": "2d11117472231f7c79609e053001cdf7f53c5b910e83c917cce5cf58ed436f99",
+  "okfx:recordDigest": "5429d7458d32b32ea266c04743673218cd21959634c8077f989e7e8d864363db",
+  "okfx:bundleDigest": "2d9dd82a16750413125a44d66cdde31fa4a4b57249dbd43f90e62e8dd72196be",
+  "okfx:evidenceReceipt": {
+    "@id": "trusted-govuk-discovery:evidence-receipt:sha256:5429d7458d32b32ea266c04743673218cd21959634c8077f989e7e8d864363db"
+  }
+}

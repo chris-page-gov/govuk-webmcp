@@ -1,0 +1,16 @@
+# Local build outputs
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Credentials and private evidence
+private/
+secrets/
+*.pem
+*.key

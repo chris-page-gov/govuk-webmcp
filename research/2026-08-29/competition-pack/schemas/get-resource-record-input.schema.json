@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/get-resource-record-input.schema.json",
+  "title": "get_resource_record input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recordId"
+  ],
+  "properties": {
+    "recordId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128,
+      "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,127}$"
+    }
+  }
+}
