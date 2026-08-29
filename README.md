@@ -16,6 +16,10 @@ government service**. Chris Page has authorised public source and deployment
 for release verification. Competition registration and Devpost submission are
 separate actions and have not been performed.
 
+Use the [live independent prototype](https://chris-page-gov.github.io/govuk-webmcp/)
+or inspect its machine-readable
+[`deployment.json`](https://chris-page-gov.github.io/govuk-webmcp/deployment.json).
+
 ## Start here
 
 1. Read `PROJECT_STATUS.md`.
@@ -65,7 +69,8 @@ registry publication; that field does not restrict access to this repository.
 
 GitHub Pages deployment is manual and promotes the same artefact only after the
 complete test suite passes. The deployed `deployment.json` identifies its exact
-commit and workflow run. Do not infer a deployment from source availability.
+commit and workflow run. Signed-out HTTP and controlled live-browser evidence
+is recorded in `docs/competition/evidence/public-release-verification-2026-08-29.md`.
 
 ## Controlling deadline
 

@@ -17,8 +17,8 @@
 13. Fail-closed validation.
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests.
 15. CSP, no storage, no external runtime request.
-16. ChatGPT/Chrome tests. *(Chrome and Edge complete; deployed ChatGPT host evidence pending.)*
-17. Public deployment, MIT licence and notices. *(Release candidate ready; live acceptance pending.)*
+16. ChatGPT/Chrome tests. *(Chrome, Edge and the live human journey are complete; deployed ChatGPT host tool evidence remains pending.)*
+17. Public deployment, MIT licence and notices. *(Complete with protected `main`, exact-commit Pages metadata and signed-out acceptance.)*
 18. Demo, transcript, submission copy, final tag and hashes.
 
 ## Should

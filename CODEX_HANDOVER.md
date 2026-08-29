@@ -2,7 +2,7 @@
 
 ## Current outcome
 
-The complete private verification build is merged to `main`. It expands the
+The complete public release candidate is merged to `main`. It expands the
 preserved baseline and first slice to an 80-record, 80-receipt static catalogue
 with three imperative WebMCP tools and an accessible human journey over one
 deterministic execution layer.
@@ -52,9 +52,9 @@ No `gis-ai-go` or OKF source repository was modified.
 
 ## Final local validation on 29 August 2026
 
-- `npm run test:unit`: 12 passed;
-- `PLAYWRIGHT_PORT=4174 npm run test:browser`: 8 installed-Chrome tests passed;
-- `PLAYWRIGHT_PORT=4175 npm run test:browser:edge`: the same 8 tests passed in
+- `npm run test:unit`: 14 passed;
+- `PLAYWRIGHT_PORT=4178 npm run test:browser`: 9 installed-Chrome tests passed;
+- `PLAYWRIGHT_PORT=4177 npm run test:browser:edge`: the same 9 tests passed in
   Microsoft Edge 152.0.4191.53;
 - the browser suites include direct-file guidance and an axe smoke test with no
   serious or critical violations;
@@ -62,13 +62,12 @@ No `gis-ai-go` or OKF source repository was modified.
 - preserved research-pack validation: 4 checks passed; optional Python
   `jsonschema` meta-schema checks were skipped because that package is not
   installed;
-- live `npm audit` was not run because the approval boundary did not permit
-  sending the private dependency manifest to the npm advisory endpoint;
-- port 4173 was already occupied by a separate Python server, so the new
-  configurable test port was verified on isolated ports 4174 and 4175 without
-  stopping that process.
+- `npm audit --audit-level=moderate`: 0 vulnerabilities;
+- gitleaks 8.30.1 found no secret in the six-commit history or working tree; and
+- a clean clone at the release commit passed an offline `npm ci` and the
+  complete 14-unit/contract plus 9-Chrome-test suite on isolated port 4179.
 
-## Remaining release evidence
+## Public release evidence
 
 The complete build and browser-startup follow-on are merged. Public-source and
 deployment authorisation is now recorded. The release candidate includes
@@ -82,14 +81,25 @@ gap and removed third-party person metadata from the generated SBOM. Canonical
 scan evidence and remediation verification are retained in
 `docs/competition/evidence/`.
 
-A public HTTPS deployment, ChatGPT built-in-browser observation, signed-out
-acceptance, manual screen-reader test, competition registration and Devpost
-submission have not yet been performed and must not be inferred from local
-tests.
+Public pull request `#7` was rebase-merged as
+`ef3b6f496924250c5dfb9cc52ea124468035a3dc`. Exact-main validation run
+`33276000462` and Pages run `33276042312` passed. The public repository,
+licence and HTTPS site resolved without authentication; deployment metadata and
+the live catalogue digest matched the exact commit and repository artefact.
+The controlled live-browser search passed with no console errors and only
+same-origin static requests. Branch protection and protected-branch-only Pages
+deployment were read back from GitHub. Full evidence is in
+`docs/competition/evidence/public-release-verification-2026-08-29.md`.
+
+The controlled in-app browser did not expose `document.modelContext`, so it
+verified the human fallback but not WebMCP tool registration or calls in
+ChatGPT's supported built-in-browser host. Manual screen-reader testing,
+competition registration and Devpost submission also remain unperformed.
 
 ## Recommended next step
 
-Merge the release candidate through its protected pull request, dispatch the
-exact-main Pages workflow, then capture signed-out repository/site and ChatGPT
-built-in-browser evidence. Do not register or submit to Devpost without a new
-explicit instruction.
+Capture the three registrations and representative tool calls in ChatGPT's
+supported built-in browser against the exact final candidate URL. Complete the
+manual screen-reader observation, then prepare the public video and Devpost
+form for Chris Page's separate registration and submission approval. Do not
+register or submit to Devpost without that instruction.
