@@ -36,7 +36,7 @@ Must 3.
 
 ## Next safe release step
 
-Review and merge the browser-startup follow-on pull request. If Chris Page
-separately authorises a public deployment, capture signed-out HTTPS,
-supported-host, link-health and manual accessibility evidence before preparing
-any competition submission.
+Refresh the corrected local HTTP journey in Edge. If Chris Page separately
+authorises a public deployment, capture signed-out HTTPS, supported-host,
+link-health and manual accessibility evidence before preparing any competition
+submission.

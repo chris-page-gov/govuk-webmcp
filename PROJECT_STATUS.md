@@ -10,6 +10,10 @@ private `chris-page-gov/govuk-webmcp` repository and branch/PR workflow are
 authorised. Pull request `#1` was merged as
 `2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; the exact post-merge `main`
 workflow passed and retained the static build artefact.
+Private pull request `#5` then merged the Edge startup guidance and current
+SHA-pinned GitHub Actions as
+`3a2d7faac43ec13e785a1cb694ed175c34d45553`; its exact post-merge `main`
+workflow passed.
 
 ## Source-material boundaries that remain mandatory
 

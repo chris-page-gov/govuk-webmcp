@@ -57,3 +57,6 @@ based on Keep a Changelog. The project does not yet use semantic versions.
   `2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; its exact post-merge `main`
   validation and build-artefact publication passed. Public deployment,
   competition registration and Devpost submission remain separate actions.
+- Merged private pull request `#5` as
+  `3a2d7faac43ec13e785a1cb694ed175c34d45553`; its exact post-merge `main`
+  validation and build-artefact publication also passed.
