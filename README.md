@@ -9,6 +9,9 @@ The earlier product commit `9235ee5db4df637bdb2a12e87449e871614afe68`
 remains unchanged as the
 [`v0.2.0-rc.1` public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
 and historical evidence boundary.
+[`v0.2.0-rc.2`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.2)
+freezes the later corrected pre-federation repository state without changing
+the recorded Pages product identity.
 
 ## Current implementation
 
