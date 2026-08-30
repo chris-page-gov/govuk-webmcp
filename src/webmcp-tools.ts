@@ -14,6 +14,7 @@ import {
 } from "./contracts.js";
 import {
   createKnowledgeActionController,
+  type ActionOptions,
   type ActionPresentation,
   type KnowledgeActionController,
 } from "./application-actions.js";
@@ -36,7 +37,7 @@ interface ModelContextTool {
   description: string;
   inputSchema: JsonObject;
   annotations: { readOnlyHint: boolean; untrustedContentHint: true };
-  execute: (input: unknown, options: { signal: AbortSignal }) => Promise<JsonObject>;
+  execute: (input: unknown, options?: { signal?: AbortSignal }) => Promise<JsonObject>;
 }
 
 interface ModelContext {
@@ -887,6 +888,14 @@ const EXPECTED_TOOL_NAMES = [
   "compare_evidence_foundations",
 ] as const;
 
+function webMcpActionOptions(
+  present: boolean,
+  options?: { signal?: AbortSignal },
+): ActionOptions {
+  const base: ActionOptions = { origin: "webmcp", present };
+  return options?.signal ? { ...base, signal: options.signal } : base;
+}
+
 function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextTool[] {
   const untrusted = { untrustedContentHint: true } as const;
   return [
@@ -896,7 +905,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
       description: "Search this page's verified, read-only 80-record GOV.UK metadata catalogue. Returns authoritative human links, assertion labels and limitations. It does not contact providers or establish access rights.",
       inputSchema: searchInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
-      execute: (input, options) => actions.run("search_government_knowledge", input, { origin: "webmcp", present: false, signal: options.signal }),
+      execute: (input, options) => actions.run("search_government_knowledge", input, webMcpActionOptions(false, options)),
     },
     {
       name: "get_resource_record",
@@ -904,7 +913,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
       description: "Return one exact digest-bound record, including authoritative links, access and licence status, assertions and limitations. It grants no access authority.",
       inputSchema: recordInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
-      execute: (input, options) => actions.run("get_resource_record", input, { origin: "webmcp", present: false, signal: options.signal }),
+      execute: (input, options) => actions.run("get_resource_record", input, webMcpActionOptions(false, options)),
     },
     {
       name: "show_provenance",
@@ -912,7 +921,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
       description: "Inspect the packaged source, assertion and digest evidence for one record. It does not refetch or independently certify the source.",
       inputSchema: recordInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
-      execute: (input, options) => actions.run("show_provenance", input, { origin: "webmcp", present: false, signal: options.signal }),
+      execute: (input, options) => actions.run("show_provenance", input, webMcpActionOptions(false, options)),
     },
     {
       name: "explore_answer_foundations",
@@ -920,7 +929,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
       description: "Select one bounded evidence-first answer or one of its exact claims and update this page's analytical index and Evidence Trace. The only effect is reversible in-memory presentation; no source, storage or external state changes.",
       inputSchema: answerInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },
-      execute: (input, options) => actions.run("explore_answer_foundations", input, { origin: "webmcp", present: true, signal: options.signal }),
+      execute: (input, options) => actions.run("explore_answer_foundations", input, webMcpActionOptions(true, options)),
     },
     {
       name: "compare_evidence_foundations",
@@ -928,7 +937,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
       description: "Compare two to four exact claims in one evidence-first answer and update this page's accessible comparison. It does not rank sources or change catalogue, storage, network or external state.",
       inputSchema: comparisonInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },
-      execute: (input, options) => actions.run("compare_evidence_foundations", input, { origin: "webmcp", present: true, signal: options.signal }),
+      execute: (input, options) => actions.run("compare_evidence_foundations", input, webMcpActionOptions(true, options)),
     },
   ];
 }
