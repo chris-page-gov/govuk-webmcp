@@ -184,7 +184,7 @@ test("capture preflight verifies bytes and rejects hash drift, symlinks and weak
   const weak = structuredClone(valid);
   weak.frames[0].path = `${unitDirectory}/weak.png`;
   const weakResult = spawnSync("ffmpeg", [
-    "-nostdin", "-v", "error", "-f", "lavfi", "-i", "color=size=1x1:duration=1", "-frames:v", "1", weak.frames[0].path,
+    "-nostdin", "-v", "error", "-f", "lavfi", "-i", "color=size=2x2:duration=1", "-frames:v", "1", weak.frames[0].path,
   ], { encoding: "utf8" });
   assert.equal(weakResult.status, 0, weakResult.stderr || weakResult.error?.message);
   weak.frames[0].sha256 = digest(await readFile(weak.frames[0].path));
