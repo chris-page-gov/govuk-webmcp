@@ -42,6 +42,42 @@ the current page independently of this application. Its logging, history,
 telemetry, model processing and retention are governed by that host and are
 outside this notice. Page-scoped WebMCP is not a private or durable MCP gateway.
 
+## Personal-agent design
+
+The government page does not host a model, ask for an identity or profile, or
+request unrelated personal context. The intended pattern is for a
+citizen-selected agent to use only context that it is permitted to hold, choose
+a suitable page tool and send the smallest input allowed by that tool's closed
+schema. The page does not need the wider context to return its deterministic,
+source-linked result.
+
+This separation limits what the page requests; it does not govern the citizen's
+agent. A browser host can see the page and the tools it exposes. A remote model
+provider may receive relevant prompts, tool metadata, inputs and outputs, and
+may retain them under its own terms. A correctly configured local model can
+keep model inference on the citizen's device, although the browser still makes
+ordinary requests to the static host and local applications may keep logs. Do
+not treat “personal agent” as meaning “private by default”.
+
+## Test evidence and retention
+
+Native developer tools, Microsoft WebMCP Explorer, Chrome DevTools MCP and
+`webmcp-evals` are used only as development and assurance harnesses. Tests use
+the public synthetic fixture in a fresh, isolated browser profile with no
+personal browsing history, accounts, saved credentials, unrelated tabs or
+personal extensions. Prompts and tool inputs must not contain personal,
+sensitive or unpublished information.
+
+Harness configuration can contain model-provider credentials, and generated
+reports can contain prompts, tool descriptions, arguments, results, console
+messages and page URLs. Credentials, cookies, browser profiles and unredacted
+network headers must never be committed or included in demonstration evidence.
+Raw reports remain excluded from version control until a human has reviewed and
+sanitised them. Any evidence retained in the repository records the provider
+class and model identifier, not its credential, and is checksummed against the
+tested revision. Provider-side logging and retention remain subject to the
+selected provider's privacy terms.
+
 ## Hosting and external links
 
 A static host may process ordinary request data under its own privacy terms.

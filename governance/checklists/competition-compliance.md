@@ -39,6 +39,16 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
   2026. The observation is specific to that host and time.
 - [ ] **Verify in a supported judging environment:** record actual ChatGPT
   desktop in-app-browser discovery and a representative tool call.
+- [ ] **Correct and redeploy before claiming native Chrome compatibility:**
+  Chrome DevTools MCP 1.8.0 discovered the public release's five tools but its
+  calls exposed an omitted-execution-options defect. The local correction passes
+  all five calls in isolated Chrome 152 but is not public.
+- [x] **Confirmed locally without a model provider:** `webmcp-evals` 0.0.4
+  completed six of six authored smoke calls across all five tools. This does not
+  prove agent selection.
+- [ ] **Verify independent agent selection:** run the pinned Microsoft WebMCP
+  Explorer and one fixed-model browser evaluation in an isolated profile,
+  recording local-versus-remote processing, no-call behaviour and variance.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test:** five fixed tools register after all four artefact families validate. The three catalogue query tools are read-only; the two evidence tools declare their reversible in-memory page-presentation effect with `readOnlyHint: false`. No tool has a runtime provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
@@ -60,14 +70,15 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
   branding review passed.
 - [ ] Chris Page completes the human publication review of every retained clip
   and the final edit.
-- [ ] Genuine manual VoiceOver journey record and scene media exist with exact
-  path, SHA-256, capture-time and journey-step binding.
-- [ ] If continuous capture is unavailable, the nine actual Safari and
-  VoiceOver frames are human-reviewed and the resulting scene stays visibly
-  labelled as a screenshot sequence, not a continuous recording; manifest
-  declarations alone do not satisfy this gate.
-- [ ] Guarded video preflight passes and the local build receipt binds the final
-  MP4, captions, transcript, script and evidence inputs.
+- [x] Genuine manual VoiceOver journey record and scene media exist with exact
+  path, SHA-256, capture-time and journey-step binding, with two retained
+  limitations and no WCAG conformance claim.
+- [x] The nine actual Safari and VoiceOver frames were reviewed and the
+  resulting scene stays visibly labelled as a screenshot sequence, not a
+  continuous recording; manifest declarations alone do not satisfy this gate.
+- [x] Guarded video preflight passes and the local build receipt binds the
+  142.920-second MP4, captions, transcript, script and evidence inputs. This is
+  not public-player evidence.
 - [ ] Chris Page approves the synthetic-voice publication basis and verifies the
   final audible playback, captions, transcript, privacy and branding.
 - [ ] Publicly visible YouTube video shorter than three minutes, with audio that
@@ -77,7 +88,9 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 - [x] The annotated `v0.2.0-rc.1` tag, public pre-release, product and Pages
   hashes, challenge provenance, local macOS ARM64 SBOM and notices are retained.
 - [ ] Produce a release-platform SBOM or signed attestation.
-- [ ] Final Devpost compliance review checks every current required field and
+- [x] Final read-only Devpost compliance review checks every current required field and
   records the named-host, local-video/public-YouTube and human-attestation
   boundaries without submitting.
+- [ ] Refresh the compliance review after the corrected exact commit is deployed
+  and the independent-host reports have been privacy-reviewed.
 - [ ] Retain the final submission receipt after an authorised submission.

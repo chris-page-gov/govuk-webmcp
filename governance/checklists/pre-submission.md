@@ -25,28 +25,31 @@
 - [ ] Produce a release-platform SBOM or attestation. The retained CycloneDX
   file is explicitly a local macOS ARM64 dependency view.
 - [x] Tool names, descriptions, schemas and executable validation agree.
+- [x] The current working tree pins `jsonschema` 4.26.0, Chrome DevTools MCP
+  1.8.0 and `webmcp-evals` 0.0.4; unnecessary transitive install scripts are
+  explicitly denied.
 - [x] Explicit missing licence or access states remain visible. A structurally
   absent required provenance, licence, access or human-URL field fails artefact
   admission rather than being silently inferred.
 - [x] Demonstration inputs fail closed on preview-path substitution, receipt or
   media hash drift, unrelated VoiceOver media and incomplete manual journeys.
-- [ ] `npm run demo:preflight` passes with the genuine VoiceOver clip and manual
-  journey record; the current expected failure is limited to those missing
-  inputs and their binding.
-- [ ] The final local video build receipt binds the sub-three-minute MP4,
-  captions, transcript, script and every evidence input.
+- [x] `npm run demo:preflight -- --overwrite` passes with the genuine VoiceOver
+  clip, manual journey record and exact media/evidence binding.
+- [x] The local video build receipt binds the 142.920-second MP4, captions,
+  transcript, script and every evidence input. It is a local review receipt,
+  not public-player evidence.
 
 ## Human and agent acceptance
 
 - [x] Search, exact record and provenance work in the tested human keyboard and pointer journey; touch remains an observational gap.
 - [ ] Screen-reader names, headings, live regions, focus order, status/error messages and link purpose have been checked.
-- [ ] The VoiceOver record covers every exact journey checkpoint, records any
-  issue or limitation, and binds the actual Safari scene by path, SHA-256 and
+- [x] The VoiceOver record covers every exact journey checkpoint, records two
+  retained limitations, and binds the actual Safari scene by path, SHA-256 and
   capture interval without claiming WCAG conformance.
-- [ ] If the screenshot-sequence fallback is used, all nine source frames have
-  been human-reviewed as genuine Safari and VoiceOver observations, the
-  non-continuous label remains visible throughout, and the builder's declared
-  metadata is not treated as independent proof of assistive-technology use.
+- [x] All nine screenshot-sequence frames were reviewed against the manual
+  Safari and VoiceOver observation, the non-continuous label remains visible
+  throughout, and the builder's declared metadata is not treated as independent
+  proof of assistive-technology use.
 - [x] Narrow-screen reflow, forced-colours, reduced-motion and automated contrast rules pass; manual zoom remains an observational gap.
 - [x] `Codex In-app Browser` discovered and successfully called all five tools
   against the exact published URL on 30 August 2026. The final comparison's
@@ -54,9 +57,20 @@
   support in another host.
 - [ ] ChatGPT desktop built-in browser tool registration and calls are recorded
   against the exact published URL.
-- [ ] Native Chrome 149+ WebMCP registration/call behaviour is recorded against
-  the exact published URL. Instrumented Chromium contract tests have passed,
-  but they are not a supported-host observation.
+- [ ] Native Chrome 150+ or Edge WebMCP panel registration/call behaviour is
+  recorded against the exact corrected published URL. Chrome DevTools MCP 1.8.0
+  discovered the current public tools but exposed an execution-options defect;
+  the corrected working tree passes all five calls locally in Chrome 152 and is
+  not yet deployed.
+- [x] The pinned model-free `webmcp-evals` smoke suite completed six of six
+  authored calls across all five tools in isolated Chrome 152 without provider
+  credentials. This is execution evidence, not model-selection evidence.
+- [ ] Microsoft WebMCP Explorer is run from its pinned source revision in a
+  fresh profile, first in Tools/Agent Step mode, with the exact provider class,
+  model and extension digest recorded and no credential retained in evidence.
+- [ ] The browser-selection fixture is repeated with one fixed explicitly local
+  or remote model; no-call, context-minimisation, variance and valid alternate
+  trajectories are reported rather than hidden.
 - [x] The unsupported-host manual fallback was recorded against the deployed
   `v0.2.0-rc.1` site in a signed-out Chromium session where
   `document.modelContext` was absent.
@@ -69,6 +83,9 @@
 - [ ] Human publication review confirms the retained clips, receipt
   visualisation, VoiceOver scene and final cut are truthful, private and free of
   misleading branding.
+- [ ] Independent-host reports and screenshots have been reviewed for prompts,
+  personal context, credentials, cookies, profile data and unredacted headers
+  before any evidence is admitted or published.
 
 ## Public evidence
 
@@ -85,7 +102,7 @@
 - [ ] Chris Page approves the installed `Daniel` synthetic voice for public use
   and verifies final playback, embedded captions and public-player captions.
 - [ ] Devpost text contains no production-readiness, official-endorsement, comprehensive-coverage or guaranteed-accuracy claim.
-- [ ] Final compliance review reconciles the live form requirements, project
+- [x] Final read-only compliance review reconciles the live form requirements, project
   `1406973`, named judging environments, public-YouTube boundary and all human
   attestations without treating the local cut as submission evidence.
 - [ ] All submitted URLs are copied back from the final Devpost form and tested.
@@ -98,6 +115,8 @@
   deployed product commit without rebuilding different product bytes.
 - [x] SHA-256 hashes are retained for the Pages artefact, all deployed site
   files, corpus files, package lock, schemas and dated evidence.
-- [ ] Retain SHA-256 freeze evidence for the final video transcript and submitted
-  text when those artefacts exist.
+- [x] Retain SHA-256 freeze evidence for the local final video, captions,
+  transcript and build receipt.
+- [ ] Retain SHA-256 freeze evidence for the final submitted text when it
+  exists.
 - [ ] Avoid last-minute feature changes after acceptance; only evidence-preserving fixes may cross the freeze gate.

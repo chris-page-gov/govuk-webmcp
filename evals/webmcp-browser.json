@@ -1,0 +1,95 @@
+[
+  {
+    "name": "Trace a catalogue record from discovery to provenance",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "Search the page catalogue for the flood-monitoring API, inspect its exact resource record, then show the packaged provenance for that record."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "flood monitoring",
+          "resourceTypes": [
+            "api"
+          ],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:api:flood-monitoring"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:api:flood-monitoring"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Explore and compare evidence for the new-child answer",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "Show the evidence foundations for the registering-a-birth claim in the new-child starting-points answer, then compare that claim with the Child Benefit claim."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "explore_answer_foundations",
+        "arguments": {
+          "answerId": "answer:new-child-starting-points",
+          "claimId": "claim:register-a-birth"
+        }
+      },
+      {
+        "functionName": "compare_evidence_foundations",
+        "arguments": {
+          "answerId": "answer:new-child-starting-points",
+          "claimIds": [
+            "claim:register-a-birth",
+            "claim:check-child-benefit"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Minimise context sent to a catalogue search",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "My personal circumstances are private and irrelevant to this page. Search only for flooding, return at most 3 records, and do not put any other context into the tool call."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "flooding",
+          "limit": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "Do not call a catalogue tool for an unrelated calculation",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "What is 2 plus 2? Do not use the government catalogue."
+      }
+    ],
+    "expectedCall": null
+  }
+]
