@@ -6,6 +6,8 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0-rc.2] - 2026-08-30
+
 ### Added
 
 - A machine-readable `challenge-provenance.json` that distinguishes the
@@ -408,6 +410,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Preserved competition registration and Devpost submission as separate,
   unperformed actions.
 
-[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.2.0-rc.1...HEAD
+[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.2.0-rc.2...HEAD
+[0.2.0-rc.2]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.2
 [0.2.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1
 [0.1.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.1.0-rc.1

@@ -31,6 +31,11 @@ The optional-execution-options correction and pinned assurance harness are now
 integrated and deployed. They remain later work than `v0.2.0-rc.1` and must not
 be retroactively described as part of that tag.
 
+Version `0.2.0-rc.2` freezes the complete corrected pre-federation repository
+state, including the later evidence integrations. It is a repository checkpoint
+and does not imply that the Pages product bytes changed after the corrected
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` deployment.
+
 The corrected public deployment now has reviewed Chrome DevTools MCP and
 native Chrome-panel evidence. The unchanged 142.920-second video candidate has
 also passed technical decode, frame-count and caption-parity review, but not

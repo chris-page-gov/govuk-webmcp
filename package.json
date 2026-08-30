@@ -1,6 +1,6 @@
 {
   "name": "govuk-webmcp",
-  "version": "0.2.0-rc.1",
+  "version": "0.2.0-rc.2",
   "private": true,
   "description": "Independent experimental WebMCP prototype for trusted government knowledge discovery",
   "type": "module",

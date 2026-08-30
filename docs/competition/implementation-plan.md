@@ -19,6 +19,10 @@ lockstep documentation as repository commit
 `33327860583` passed. It did not dispatch Pages or change the deployed product
 bytes.
 
+Version `0.2.0-rc.2` is the protected-main repository checkpoint immediately
+before the wider OKF federation implementation. It preserves the deployed
+product and historical `v0.2.0-rc.1` boundaries rather than replacing either.
+
 ## Sequenced 1–10 plan
 
 | Step | Scope | Backlog mapping | Status |

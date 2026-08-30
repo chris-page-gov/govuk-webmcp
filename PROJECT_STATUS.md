@@ -20,6 +20,12 @@ The tagged `v0.2.0-rc.1` release at
 `9235ee5db4df637bdb2a12e87449e871614afe68` and its earlier verification remain
 historical evidence; the tag has not been moved to the corrected deployment.
 
+Version `0.2.0-rc.2` is the repository checkpoint that freezes the corrected
+host-compatibility implementation and subsequently integrated evidence before
+the multi-corpus OKF federation work. It does not rewrite `v0.2.0-rc.1` or
+claim a new Pages product deployment; the deployed application identity remains
+the separately recorded `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+
 ## Current release boundary
 
 The public repository is
@@ -27,6 +33,10 @@ The public repository is
 `main` is protected. The retained public pre-release is
 [`v0.2.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1),
 at product commit `9235ee5db4df637bdb2a12e87449e871614afe68`.
+The later
+[`v0.2.0-rc.2`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.2)
+repository checkpoint preserves the complete pre-federation main state without
+changing that historical product tag.
 <https://chris-page-gov.github.io/govuk-webmcp/> now serves corrected main
 commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`; its `deployment.json` binds
 that commit to Pages run `33323152751`. All 20 public files matched Pages
