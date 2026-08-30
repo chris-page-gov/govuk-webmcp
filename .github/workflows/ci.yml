@@ -29,11 +29,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends ffmpeg
-      - run: npm ci --no-audit
+      - name: Install Python verification dependencies
+        run: python -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --requirement requirements-dev.txt
+      - run: npm ci --ignore-scripts --no-audit
       - run: npm test
+      - name: Run model-free WebMCP evaluator smoke
+        run: npm run webmcp:eval:smoke
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ always() && hashFiles('.evals/webmcp-smoke-receipt.json') != '' }}
         with:
           name: govuk-webmcp-dist-${{ github.sha }}
-          path: dist/
+          path: |
+            dist/
+            .evals/webmcp-smoke-receipt.json
           if-no-files-found: error
           retention-days: 14

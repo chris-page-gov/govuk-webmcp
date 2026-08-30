@@ -1,4 +1,7 @@
 # Local build outputs
+.venv/
+.evals/
+.tools/
 node_modules/
 dist/
 coverage/

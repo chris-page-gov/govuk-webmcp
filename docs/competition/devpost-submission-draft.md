@@ -4,8 +4,13 @@
 is an unpublished `submission_pre_draft` with no submission timestamp.
 Submission remains a separate action requiring Chris Page's approval. The
 `v0.2.0-rc.1` product release is public and supported-host calls are observed in
-`Codex In-app Browser`; manual screen-reader observation and the final video are
-still pending.
+`Codex In-app Browser`. The manual Safari and VoiceOver journey and a local
+review video are complete with retained limitations; the video has not been
+approved for publication, uploaded or submitted.
+
+Do not use this draft as final submission copy until the unreleased
+execution-options correction has passed protected integration, public deployment
+and repeat host capture.
 
 ## Project title
 
@@ -69,6 +74,16 @@ markup. Human controls and tool callbacks pass through one shared action
 controller, so the structured result and visible result use the same
 deterministic operation.
 
+The broader pattern is deliberately not a government-hosted general-purpose
+assistant. A public body can publish small, inspectable tools over authoritative
+evidence; a citizen-selected agent can use context it already holds to decide
+which tool to call and send only the bounded fields that action needs. This can
+reduce duplicated public-sector AI infrastructure and unnecessary context
+collection, but no cost saving or accuracy improvement has yet been measured.
+If the citizen selects a remote model provider, prompts, tool metadata,
+arguments and results may still leave the device. The page does not control that
+provider boundary.
+
 ## Trust and safety design
 
 WebMCP does not make a source trustworthy. The prototype contributes an
@@ -120,10 +135,18 @@ Trace, separate facets, comparison and bounded evidence estate on the exact
 public release. Their required actions, durations and SHA-256 values are bound
 in one consolidated receipt and passed agent privacy and branding review; human
 publication review remains pending. The supported-host video scene is a labelled
-receipt visualisation, not a host recording. The local video preflight still
-blocks on the missing genuine VoiceOver clip, manual journey record and their
-media/time binding, so no final MP4, captions, transcript or build receipt is
-claimed.
+receipt visualisation, not a host recording. A manual Safari 26.5.2 and
+VoiceOver 10 journey completed without WebMCP and is retained as a visibly
+labelled, hash-bound non-continuous Caption Panel sequence. A heading-rotor
+selection was not retained, the automatic spoken wording of the live search
+status was not proven, and no VoiceOver speech audio or WCAG conformance is
+claimed. The Caption Panel and VoiceOver were turned off afterwards.
+
+The guarded pipeline produced a 142.920-second local review MP4 with H.264
+video, AAC synthetic narration, embedded English captions, separate en-GB
+captions, a transcript and a machine build receipt. The local synthetic
+`Daniel` voice publication basis, privacy, branding and final playback still
+require owner review. No video has been uploaded or submitted.
 
 The checks cover the five fixed contracts, shared presentation parity,
 cancellation and rollback, all four artefact failure paths, source-lock
@@ -133,16 +156,34 @@ On 30 August 2026, `Codex In-app Browser` discovered and successfully called all
 five tools on the exact public release. Its final comparison call produced the
 same canonical and displayed result SHA-256. This observation is specific to
 that host and time; it does not establish support in ChatGPT desktop, Chrome or
-another host. Manual screen-reader observation, a release-platform SBOM or
-attestation, the final video, completion of the Devpost form and authorised
+another host. A release-platform SBOM or attestation, owner approval of the
+local video, public upload, completion of the Devpost form and authorised
 submission remain pending.
+
+A later Chrome DevTools MCP 1.8.0 run discovered all five tools on those public
+bytes but exposed a callback defect when the host omitted execution options.
+The corrected local candidate subsequently passed all five Chrome DevTools MCP
+calls, six of six model-free `webmcp-evals` calls with `ok: true` in their
+expected result-schema envelopes, 95 unit tests and 20 tests in each of Chrome
+and Edge. The final hardened DevTools run used Chrome 152.0.7977.64, rejected
+synthetic `personalContext` and recorded zero console errors. It has not been
+committed, deployed or admitted as public submission evidence. Microsoft WebMCP
+Explorer was built twice idempotently in an isolated
+directory from its exact pinned commit, with a clean source checkout and
+verified output allow-list, but was not loaded. Static triage dated 30 August
+2026 found its npm advisory paths were not reachable in that exact production
+build path; the privileged-extension operating risks remain. Explorer browser
+execution and fixed-model selection evaluation remain unrun.
 
 ## Potential impact
 
 The pattern is useful wherever public knowledge must be examined without making
 an AI answer the authority. It can help developers, analysts, researchers and
 the public find relevant official sources and understand evidence limits before
-they rely on a claim.
+they rely on a claim. It also offers a testable alternative to every public body
+hosting its own general-purpose assistant: publish bounded evidence tools, let a
+citizen-selected agent personalise the journey, and measure what data and public
+infrastructure that avoids before claiming a saving.
 
 ## Creativity and ambition
 

@@ -40,15 +40,94 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   mistaken for continuous footage. The builder does not independently prove
   assistive-technology use: the manual evidence record and human frame review
   remain separate hard gates.
+- A manual Safari 26.5.2 and VoiceOver 10 journey using the Caption Panel,
+  retained as nine hash-bound frames and a completed-with-limitations evidence
+  record. The automatic spoken live-status wording and a retained heading-rotor
+  selection remain unproven; no VoiceOver audio or WCAG conformance is claimed.
+  The Caption Panel and VoiceOver were turned off after capture.
+- A 142.920-second local review video with H.264 video, AAC synthetic narration,
+  embedded English captions, separate en-GB captions, a transcript and a
+  machine build receipt. The cut remains unpublished pending owner review and
+  has SHA-256
+  `efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`.
 - A read-only Devpost status record confirming completed competition
   registration while distinguishing the exact unpublished pre-submission draft
   from Devpost's broader account-level relationship label.
-- A requirement-by-requirement Devpost compliance working review that keeps the
-  missing VoiceOver, final video, named judging-host, human-attestation, public
-  YouTube and submission gates explicitly open until stronger evidence exists.
+- A final read-only, requirement-by-requirement Devpost compliance review that
+  distinguishes the completed local evidence from the still-open named
+  judging-host, owner-review, public YouTube and submission gates.
+- A Python development environment version-pinned to `jsonschema` 4.26.0 and
+  each mandatory or Python-version-conditional runtime dependency, with a
+  local/CI wrapper that installs binary distributions without dependency
+  resolution, runs `pip check` and makes the research pack's JSON Schema checks
+  mandatory instead of optional. The pins do not include distribution hashes,
+  and a reused `.venv` can retain unrelated packages, so this is not a clean or
+  fully reproducible Python supply-chain environment.
+- A personal-agent WebMCP test strategy that separates page registration,
+  browser execution, agent selection and submission evidence. It incorporates
+  the supplied ChatGPT research as a secondary input and corrects it against
+  primary Chrome, Microsoft and Google Chrome Labs sources.
+- ADR-0003 records the citizen-selected-agent boundary, optional callback
+  compatibility and four-layer independent assurance decision without claiming
+  measured savings, default privacy or general host support.
+- Pinned `chrome-devtools-mcp` 1.8.0 and `webmcp-evals` 0.0.4 development
+  harnesses. The deterministic evaluator requires six calls across all five
+  tools to return `ok: true` in their expected result-schema envelopes, while
+  the browser fixture adds context minimisation and a no-call case for a later
+  fixed-model selection run.
+- A fail-closed model-backed browser-evaluation wrapper with explicit model and
+  remote-provider acknowledgement, bounded repeated runs, loopback-only local
+  model preflight, exact context-minimisation checking, private reports and
+  sanitised receipts. It validates and rejects any upstream console error or
+  `pageerror`; accepted receipts record `browserConsoleErrorCount: 0` and
+  `browserConsoleErrorsAccepted: false`. No model-backed run has yet been
+  performed.
+- A repeatable local setup for Microsoft WebMCP Explorer 0.1.0 pinned to commit
+  `f7091c12420e713b11361630dc1649d5678f62ab`. It built twice idempotently in
+  isolated ignored `.tools/webmcp-explorer-build/` and left the source checkout
+  clean, while the clean-output allow-list passed. The recorded source-tree,
+  package-lock and unpacked-extension file-manifest SHA-256 values are
+  `b7d7bf5657c4ae119da98b94914eefd9ed6dfbff38b59ddf7f5be3800d0da39f`,
+  `76e6d32e1aa0ba30db72b4c39b47a424f0804625f76ce513c9e2f3565be8ca6e`
+  and `c7070199bc0ef28baeee716c437b4603d576b10b4c4b3f7ca98dac9123b0e9e1`.
+  The script does not load the extension, change browser flags or configure a
+  provider.
+- The model-free evaluator smoke and its machine receipt are now part of pull-
+  request and `main` CI, using the runner-installed stable Chrome rather than a
+  downloaded browser.
+- A separate Chrome DevTools MCP public-target mode that accepts only the exact
+  project Pages URL, validates and hashes its deployment metadata, optionally
+  requires the protected-main commit, skips the loopback server and writes an
+  ignored review-before-publication receipt. It is prepared for the
+  post-deployment rerun and is not itself public-host evidence.
+
+### Changed
+
+- Raised the development Node.js floor to 22.12.0 to match the pinned WebMCP
+  evaluator and made three unnecessary transitive dependency install scripts
+  explicitly denied.
+- Expanded the current unit suite to 95 tests. Configured the unreleased CI and
+  Pages workflows to install Node dependencies with
+  `npm ci --ignore-scripts --no-audit`; Pages also installs the version-pinned
+  Python requirements before mandatory research validation and semantic WebMCP
+  smoke before deployment. These workflow edits have not yet run.
+- Changed the smoke receipt to retain semantic counts and a results digest after
+  deleting the raw evaluator rows. Only the ignored DevTools receipt retains
+  full tool outputs.
+- Documented the intended division of responsibility: the static page publishes
+  bounded, source-linked tools, while a citizen-selected agent may use personal
+  context to choose them. A remote model provider may still receive prompt and
+  tool data; only a correctly configured local model keeps inference local.
 
 ### Fixed
 
+- Capped the rendered VoiceOver screenshot sequence at its validated manifest
+  duration so ffmpeg cannot turn the repeated final still into an additional
+  hold; the post-encode probe still rejects output that is short or otherwise
+  differs from the declared duration.
+- Corrected the authoritative-link frame label to claim its visually supported
+  accessible name, not a displayed URL, and extended the narration so the final
+  accessible-name and focus-restoration frames are present in the review cut.
 - Made the weak-image media fixture use an even-sized frame so Ubuntu and
   macOS `ffmpeg` both exercise the same fail-closed screenshot validation.
 - Installed `ffmpeg` explicitly in validation and Pages jobs so the guarded
@@ -56,7 +135,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   runner image contents.
 - Tightened the British-English demonstration narration after exact macOS
   synthesis measured the first draft at 185.842 seconds. The revised seven-scene
-  track measures 138.105 seconds, leaving a 41.895-second rules margin before
+  track measures 142.826 seconds, leaving a 37.174-second rules margin before
   final encoding.
 - Stabilised the narrow-screen keyboard acceptance check by sending Enter to
   the already focused trace and search controls while retaining explicit focus
@@ -68,6 +147,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Isolated the Trace and search keyboard checks from the preceding skip-link
   hash navigation, retaining real keyboard activation and focus assertions
   without allowing its asynchronous route render to replace the focused node.
+- Made every WebMCP callback accept a host that omits the optional execution
+  options object. Chrome DevTools MCP 1.8.0 exposed the defect in the public
+  release; the corrected local candidate retained cancellation when a signal is
+  supplied. The final hardened local run at 15:53 BST on 30 August 2026 used
+  Chrome 152.0.7977.64, completed all five real calls, checked closed schemas and
+  annotations, rejected synthetic `personalContext` and recorded zero console
+  errors.
 
 ### Security
 
@@ -80,20 +166,52 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   package lock and schemas; and verify every retained digest.
 - Added semantic agreement checks across the 20-file deployed-site manifest,
   structured live observations, deployment metadata and challenge provenance.
+- Isolated the new DevTools and evaluator browser runs to loopback-only clean
+  profiles. Model-free third-party child processes receive a small environment,
+  an isolated `HOME` and no forwarded provider credential environment
+  variables; they still retain the operating-system filesystem access of the
+  invoking user. Receipts have private permissions under ignored paths, with
+  explicit retention and remote-provider boundaries.
+- Set `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1` in the hardened DevTools runner.
+  An earlier pre-hardening run wrote
+  `~/.cache/chrome-devtools-mcp/latest.json` at 14:37 BST; the final 15:53 BST
+  rerun left that modification time unchanged. The ignored receipt remains the
+  only evaluator receipt with full tool outputs.
+- Statically triaged the Microsoft WebMCP Explorer npm advisories on 30 August
+  2026 as not reachable in the exact production build path. Operational risks
+  remain: `<all_urls>` access, persistent credentials in
+  `chrome.storage.local`, `dangerouslyAllowBrowser`, no prompt-injection
+  mitigation and autoexecution in Agent Run/Chat. The extension was not loaded
+  and received no credential.
 
 ### Governance
 
 - Advanced the status, handover, implementation plan, backlog, build brief,
   source/asset/evaluation registers, demonstration draft and compliance
   checklists in lockstep with the protected release and public evidence.
+- Advanced the machine provenance and active submission checklists for the
+  completed manual observation, guarded preflight, local video build and final
+  read-only review while retaining the named-host, owner-review, public-video
+  and submission gates as open.
 - Recorded that GitHub published the pre-release before the annotated tag
   reference was replaced to correct its tagger identity; the product commit and
   deployed bytes did not change.
 - Kept the post-tag verification record separate from the immutable
   `v0.2.0-rc.1` product commit. Supported-host WebMCP is now observed only for
   the named Codex in-app browser and recorded time. Registration is observed as
-  complete; manual screen-reader, release-platform SBOM or attestation, video
-  publication and Devpost submission remain explicitly unperformed.
+  complete; the bounded manual screen-reader journey and local video build are
+  complete. Named judging-host evidence, release-platform SBOM or attestation,
+  owner publication review, public video upload and Devpost submission remain
+  explicitly unperformed.
+- Kept the corrected local host-compatibility result separate from the unchanged
+  public `v0.2.0-rc.1` bytes. Microsoft WebMCP Explorer browser loading and any
+  model-backed evaluator run remain pending. The documented Explorer route uses
+  a disposable profile, Tools inspection without credentials, then a local
+  loopback model and Agent Step, followed by profile deletion; a necessary
+  remote run must use a revocable low-limit key and no personal context.
+- Added a Should 12 measurement task for the E-34 public-service cost-boundary
+  hypothesis. No saving is claimed without a comparable server-side baseline,
+  page-tool measurements and declared whole-system assumptions.
 
 ## [0.2.0-rc.1] - 2026-08-30
 

@@ -97,6 +97,54 @@ WebMCP and the bounded evidence estate.
 - On 30 August 2026, `Codex In-app Browser` discovered and successfully called
   all five tools on the exact public release. The final comparison's canonical
   and displayed result digests matched. No other host support is inferred.
+- On the same date, a manual Safari 26.5.2 and VoiceOver 10 journey completed
+  without WebMCP. Its separate evidence record retains two limitations: a
+  heading-rotor selection was not retained and the automatic spoken wording of
+  the live search status was not proven. VoiceOver speech audio was not
+  captured, and no WCAG conformance is inferred.
+- The guarded pipeline produced a 142.920-second local review MP4, separate
+  en-GB captions, a transcript and a machine build receipt. It has not been
+  approved for publication, uploaded or submitted.
+
+## Unreleased validation follow-up
+
+- The research verifier now uses a version-pinned `jsonschema` 4.26.0
+  environment and passes all four checks locally. Setup installs binary
+  distributions without dependency resolution and runs `pip check`; the pins
+  have no distribution hashes and a reused `.venv` can retain unrelated
+  packages, so the environment is not clean or fully reproducible.
+- Chrome DevTools MCP 1.8.0 discovered all five tools on the public release but
+  exposed a callback defect when it omitted the execution-options object.
+- The working-tree correction accepts omitted options, preserves cancellation
+  when a signal is supplied, and passes 95 unit, 20 Chrome and 20 Edge tests.
+- The corrected local build also passes six model-free `webmcp-evals` 0.0.4
+  calls, each with `ok: true` and the expected result-schema envelope, and all
+  five Chrome DevTools MCP calls in isolated Chrome 152.0.7977.64. The final
+  hardened DevTools run at 15:53 BST checked closed schemas and annotations,
+  rejected synthetic `personalContext`, recorded zero console errors and
+  disabled update checks. Raw smoke rows were deleted after semantic
+  validation; the smoke receipt retains counts and a results digest, while only
+  the DevTools receipt retains full outputs.
+- The prepared model-backed browser runner rejects typed upstream console errors
+  and `pageerror` events; an accepted receipt records a zero count and
+  `browserConsoleErrorsAccepted: false`. No model-backed run has occurred.
+- The unreleased CI and Pages definitions are configured to install Node
+  dependencies with `--ignore-scripts`; Pages also installs the version-pinned
+  Python requirements and runs semantic WebMCP smoke before deployment. These
+  workflow edits have not yet run.
+- These results are not part of the published release. Microsoft WebMCP
+  Explorer 0.1.0 was built twice idempotently in isolated
+  `.tools/webmcp-explorer-build/` from its exact pinned commit, leaving the
+  source checkout clean and passing the clean-output allow-list. The source-
+  tree, package-lock and unpacked-extension file-manifest SHA-256 values (the
+  latter over sorted per-file hashes and paths) are respectively
+  `b7d7bf5657c4ae119da98b94914eefd9ed6dfbff38b59ddf7f5be3800d0da39f`,
+  `76e6d32e1aa0ba30db72b4c39b47a424f0804625f76ce513c9e2f3565be8ca6e`
+  and `c7070199bc0ef28baeee716c437b4603d576b10b4c4b3f7ca98dac9123b0e9e1`.
+  Static triage dated 30 August 2026 found the npm advisory paths were not
+  reachable in that exact production build path, but the privileged extension
+  risks documented in `SECURITY.md` remain. Explorer browser execution and
+  fixed-model tool-selection evaluation have not been run.
 
 ## Published definition of done
 
@@ -110,13 +158,10 @@ pointer; GitHub does not enforce immutable releases or signed tags here.
 
 ## Open evidence and submission gates
 
-- Complete the genuine manual VoiceOver observation and bind its Safari media,
-  journey results, capture interval and SHA-256.
 - Produce a release-platform SBOM or signed release attestation; the existing
   dated SBOM remains a local macOS ARM64 dependency view.
-- Assemble and review the sub-three-minute demonstration, captions, transcript
-  and build receipt from the five completed genuine page-interaction clips, the
-  labelled supported-host receipt visualisation and the missing VoiceOver clip;
-  publish only after Chris Page's human and synthetic-voice review.
+- Complete Chris Page's synthetic-voice publication, privacy, branding,
+  caption, transcript and full audible playback review of the sub-three-minute
+  local demonstration; publish only after that review and separate authority.
 - Complete the compliance checklist and obtain separate approval before
   completing or submitting the existing Devpost pre-draft.

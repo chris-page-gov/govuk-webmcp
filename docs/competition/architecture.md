@@ -82,3 +82,59 @@ a durable receipt. This prototype does not implement or claim a durable MCP
 gateway, provider execution, authentication, service operations or an access
 decision. Authoritative human URLs and limitations remain the route for
 checking source information.
+
+## Personal-agent boundary
+
+The intended division of responsibility is that the public body publishes a
+small, inspectable set of page tools while the citizen selects the browser host
+and any model that uses them:
+
+```text
+citizen and permitted personal context
+                |
+                v
+citizen-selected host and model
+  |             |
+  |             +---- optional remote model provider
+  |                   (may receive prompts, tool metadata, inputs and outputs)
+  v
+browser calls a bounded page tool
+                |
+                v
+same-origin validated bundle -> deterministic, source-linked result
+```
+
+The static government page does not host a model and its schemas do not request
+an identity, profile, location history, unrelated conversation or other
+general personal context. A citizen's agent may use context it is permitted to
+hold to choose a tool and formulate the smallest valid input. Only that bounded
+input reaches the page tool; the wider context is neither required nor accepted
+by the page contract.
+
+That page boundary is not a claim that every agent arrangement is local or
+private. The citizen-selected host can observe the page, tool definitions,
+inputs and results. If it uses a remote model provider, those items and relevant
+prompt context may be sent to that provider under its own terms. A correctly
+configured local model can keep model inference on the citizen's device, but
+ordinary requests for the static page still reach its host and local software
+may retain logs. The proposed reduction in government-hosted AI cost and data
+collection is a hypothesis for measurement, not a demonstrated saving.
+
+## Independent assurance boundary
+
+Native browser developer tools, Microsoft WebMCP Explorer, Chrome DevTools MCP
+and `webmcp-evals` provide complementary development evidence. They are not
+part of the deployed static application and none is, by itself, proof of the
+whole architecture. Manual inspection tests discovery and invocation;
+Chrome DevTools MCP tests an independent automation path; model-free
+`webmcp-evals` smoke tests check deterministic browser execution; and a
+separately identified model-backed run can test tool selection.
+
+These harnesses operate only against the public synthetic fixture in an
+isolated browser profile with no unrelated tabs, saved credentials or personal
+extensions. Exact tool and harness versions, browser build, page revision and
+model location belong in each receipt. Credentials, cookies, personal prompts
+and unredacted headers do not. Raw reports remain local until reviewed because
+they can contain prompts, tool metadata, arguments, results, console output and
+page URLs; retained submission evidence is sanitised, checksummed and bound to
+the exact tested revision.

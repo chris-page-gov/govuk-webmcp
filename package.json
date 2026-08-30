@@ -24,7 +24,12 @@
     "evidence:links": "node scripts/audit-catalogue-links.mjs",
     "evidence:sbom": "npm sbom --sbom-format cyclonedx | node scripts/sanitise-sbom.mjs",
     "serve": "npm run build && python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
-    "research:verify": "python3 research/2026-08-29/competition-pack/scripts/verify_pack.py",
+    "python:setup": "python3 -m venv .venv && .venv/bin/python -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --requirement requirements-dev.txt && .venv/bin/python -m pip check",
+    "research:verify": "bash scripts/verify-research-pack.sh",
+    "webmcp:devtools:capture": "npm run build && node scripts/capture-chrome-devtools-webmcp.mjs",
+    "webmcp:explorer:setup": "bash scripts/setup-webmcp-explorer.sh",
+    "webmcp:eval:smoke": "node scripts/run-webmcp-evals-smoke.mjs",
+    "webmcp:eval:browser": "node scripts/run-webmcp-evals-browser.mjs",
     "test:unit:prepared": "node --test tests/unit/*.test.mjs",
     "test:unit": "npm run build && npm run test:unit:prepared",
     "test:browser:prepared": "playwright test",
@@ -34,7 +39,7 @@
     "test": "npm run research:verify && npm run build && npm run test:unit:prepared && npm run test:browser:prepared"
   },
   "engines": {
-    "node": ">=20",
+    "node": ">=22.12.0",
     "python": ">=3.11"
   },
   "devDependencies": {
@@ -42,6 +47,13 @@
     "@playwright/test": "^1.62.1",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
-    "typescript": "^7.0.2"
+    "chrome-devtools-mcp": "1.8.0",
+    "typescript": "^7.0.2",
+    "webmcp-evals": "0.0.4"
+  },
+  "allowScripts": {
+    "@google/genai": false,
+    "fsevents": false,
+    "protobufjs": false
   }
 }

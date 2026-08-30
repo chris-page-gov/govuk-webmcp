@@ -158,6 +158,16 @@ validation, honours cancellation, hashes only admitted diagnostic input and
 commits a presentation result only when the action allows it. This keeps the
 structured tool result and the visible deterministic result aligned.
 
+The execution-options argument is optional at the page-host boundary. Some
+hosts, including the pinned Chrome DevTools MCP and `webmcp-evals` paths, invoke
+a callback as `execute(input)` without a second object. The working candidate
+therefore forwards an `AbortSignal` only when the host supplies one; the
+ordinary cancellation path is unchanged. A browser regression invokes all five
+tools with the execution-options argument omitted; the separate ignored Chrome
+DevTools MCP receipt provides independent real-host evidence for all five. The
+public `v0.2.0-rc.1` deployment predates this fix, so the working-tree result
+must not be presented as public-release evidence.
+
 The current `ModelContextTool` shape uses `name`, `title`, `description`,
 `inputSchema`, annotations and an execute callback. The repository publishes
 closed output schemas for validation, but it does not register a non-standard
@@ -215,9 +225,128 @@ reduced-motion and axe smoke checks. On 30 August 2026, `Codex In-app Browser`
 discovered and successfully called all five tools on the exact public release;
 the final comparison's canonical and displayed result digests matched. This is
 a time- and host-specific observation, not a general support claim. Manual
-screen-reader observation remains pending.
+Safari and VoiceOver observation is separately recorded as completed with
+limitations; it does not establish WCAG conformance or support in another
+WebMCP host.
 
-## 8.7 Explicitly excluded claims
+## 8.7 Pinned local interoperability harnesses
+
+The local toolchain separates deterministic execution evidence from model
+selection evidence:
+
+```bash
+npm run python:setup
+npm run research:verify
+npm run webmcp:devtools:capture
+npm run webmcp:eval:smoke
+```
+
+`requirements-dev.txt` pins `jsonschema` 4.26.0 and its resolved runtime
+dependencies. `python:setup` creates or reuses repository-local `.venv`,
+installs binary distributions without dependency resolution and runs
+`pip check`. `research:verify` prefers that environment, rejects a different
+`jsonschema` version and runs the preserved research-pack verifier. The exact
+versions do not include distribution hashes, and a reused `.venv` can retain
+unrelated packages, so this is not a clean or fully reproducible Python supply-
+chain environment. The unreleased CI and
+Pages definitions install Node dependencies with
+`npm ci --ignore-scripts --no-audit`; Pages also installs the version-pinned
+Python requirements and runs semantic WebMCP smoke before deployment. These
+workflow edits have not yet run.
+
+`webmcp:devtools:capture` uses the exactly pinned `chrome-devtools-mcp` 1.8.0
+with Chrome 150 or later. It builds and serves the candidate on loopback, starts
+an isolated Chrome profile with an exact origin allow-list, calls
+`list_webmcp_tools` with the selected `pageId`, then calls
+`execute_webmcp_tool` with a JSON input for all five tools. The fail-closed
+wrapper checks each completion status and output schema and writes the complete
+local result to ignored `.evals/chrome-devtools-mcp.json`. It also submits one
+synthetic unrelated personal-context field and requires a closed error result.
+It does not use a
+model, contact a model provider or establish that the same fix is deployed. The
+final hardened run at 15:53 BST on 30 August 2026 used Chrome 152.0.7977.64,
+checked the closed schemas and annotations, completed all five calls, rejected
+`personalContext` and recorded zero console errors. The runner sets
+`CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`; an earlier pre-hardening run wrote
+`~/.cache/chrome-devtools-mcp/latest.json`, while the final run left its
+modification time unchanged.
+
+The runner also has a separate post-deployment mode. Set
+`WEBMCP_DEVTOOLS_TARGET_URL` to exactly
+`https://chris-page-gov.github.io/govuk-webmcp/` and
+`WEBMCP_EXPECTED_COMMIT` to the lowercase 40-character protected-main commit.
+It refuses any other URL, validates the exact `deployment.json` schema,
+repository, commit and Pages run, records the metadata bytes' SHA-256, skips the
+loopback server and writes the full result to ignored
+`.evals/chrome-devtools-mcp-public.json`. This prepared mode is not public-host
+evidence until it is run after deployment and its private receipt is reviewed.
+
+`webmcp:eval:smoke` uses the exactly pinned `webmcp-evals` 0.0.4 and
+`evals/webmcp-smoke.json`. Three synthetic cases make six concrete calls that
+cover all five tools. The wrapper builds the application, serves only the
+same-origin candidate, selects installed stable Chrome, gives the third-party
+child process a small operating environment with an isolated `HOME` and no
+forwarded provider credential environment variables. The child nevertheless
+retains the operating-system filesystem access of the invoking user. Every call
+must return `ok: true` with its expected result-schema envelope. Raw evaluator
+rows are deleted after validation; ignored
+`.evals/webmcp-smoke-receipt.json` retains only semantic counts and a results
+digest. Smoke mode does not establish complete payload equivalence or measure
+agent tool selection. Only the DevTools receipt above retains full tool outputs.
+
+`evals/webmcp-browser.json` retains the same positive journeys and adds an
+unrelated no-call case. It is prepared input for a later model-backed browser
+evaluation through `npm run webmcp:eval:browser`, not evidence of one. The
+wrapper requires an explicit provider-prefixed model and
+`WEBMCP_EVAL_PRESENTATION_APPROVED=1`, bounds runs and agent steps, and checks
+that the context-minimisation call contains exactly `query` and `limit`. Only
+the `ollama:` route is preflighted on loopback without downloading a model. A
+remote route additionally requires `WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1` and
+the provider credential. Both local and remote commands must include the
+presentation approval, for example:
+
+```bash
+WEBMCP_EVAL_PRESENTATION_APPROVED=1 \
+WEBMCP_EVAL_MODEL='ollama:<exact-installed-model>' \
+npm run webmcp:eval:browser
+
+WEBMCP_EVAL_PRESENTATION_APPROVED=1 \
+WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1 \
+WEBMCP_EVAL_MODEL='openai:<exact-model>' \
+npm run webmcp:eval:browser
+```
+
+The wrapper writes private, ignored reports and a sanitised receipt. No model-
+backed evaluation has been run, and no model or remote provider has been
+selected for it. Any later run must record the exact model, provider boundary,
+fixture digest, run count and variance and must keep its credentials and
+unreviewed reports out of the repository. It validates and fails closed on any
+upstream console error or `pageerror`; acceptance records
+`browserConsoleErrorCount: 0` and `browserConsoleErrorsAccepted: false`.
+
+`npm run webmcp:explorer:setup` separately checks out and builds Microsoft
+WebMCP Explorer 0.1.0 at commit
+`f7091c12420e713b11361630dc1649d5678f62ab` in isolated ignored
+`.tools/webmcp-explorer-build/`, using `--ignore-scripts`. Two consecutive
+builds were byte-identical, left the source checkout clean and passed the clean-
+output allow-list. The source-tree, package-lock and unpacked-extension file-
+manifest SHA-256 values (the latter over sorted per-file hashes and paths) are
+`b7d7bf5657c4ae119da98b94914eefd9ed6dfbff38b59ddf7f5be3800d0da39f`,
+`76e6d32e1aa0ba30db72b4c39b47a424f0804625f76ce513c9e2f3565be8ca6e`
+and `c7070199bc0ef28baeee716c437b4603d576b10b4c4b3f7ca98dac9123b0e9e1`.
+Static triage dated 30 August 2026 found the reported npm advisory paths were
+not reachable in that exact production extension path. Operational risks still
+include `<all_urls>`, persistent `chrome.storage.local` credentials,
+`dangerouslyAllowBrowser`, no prompt-injection mitigation and autoexecution in
+Agent Run/Chat.
+
+Explorer acceptance must use a disposable profile. Inspect Tools first without
+a credential, prefer an exact local loopback model with Agent Step and delete
+the profile afterwards. If a remote run is necessary, use a revocable low-limit
+key and no personal context. The setup stops before browser loading or provider
+configuration; no Explorer browser execution or model selection is claimed.
+
+## 8.8 Explicitly excluded claims
 
 This page-scoped prototype is not a durable MCP gateway. It does not call a
 provider, operate a government service, authenticate a user, grant access,

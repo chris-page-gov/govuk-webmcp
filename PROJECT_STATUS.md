@@ -8,6 +8,10 @@ branch boundary and was merged to `main`; exact-main validation run
 complete. Devpost project `1406973` remains an unpublished pre-submission draft
 with no submission timestamp.
 
+An unreleased local follow-up now adds independent-host and evaluator assurance.
+It is working-tree evidence only: it has not been committed, reviewed, deployed
+or included in the public pre-release described below.
+
 ## Current release boundary
 
 The public repository is
@@ -79,15 +83,104 @@ the analytical index, Evidence Trace, separate facets, comparison and evidence
 estate. A consolidated receipt binds every clip to its release URL, required
 actions, duration and SHA-256; agent privacy and branding review passed, while
 human publication review remains pending. The supported-host scene is explicitly
-a receipt visualisation, not a host recording. Continuous macOS window capture
-is unavailable in the current environment, so a guarded fallback can render
-nine operator-reviewed, hash-bound Safari and VoiceOver frames as a visibly
-labelled screenshot sequence. It verifies immutable bytes and declared capture
-metadata but does not independently prove assistive-technology use; the manual
-journey record and human frame review remain hard gates. The video preflight
-still fails closed because the genuine VoiceOver clip, manual journey record and
-their media/time binding do not yet exist. No final MP4, captions, transcript or
-build receipt has been produced or published.
+a receipt visualisation, not a host recording.
+
+A manual Safari 26.5.2 and VoiceOver 10 journey was completed on 30 August 2026
+without WebMCP. The retained nine-frame, hash-bound Caption Panel sequence is
+visibly labelled as not a continuous recording and is bound to the manual
+evidence record and generated VoiceOver scene. The observation completed seven
+checks and retained two limitations: a heading-rotor selection was not retained,
+and the automatic spoken wording of the live search status was not proven.
+VoiceOver speech audio was not captured. The Caption Panel and VoiceOver were
+turned off after the journey. This one environment does not establish WCAG
+conformance.
+
+The guarded local review video was then built at
+`output/govuk-webmcp-demo-2026-08-30.mp4`. It is 142.920 seconds long and has
+SHA-256 `efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`,
+H.264 video, AAC narration and an embedded English caption track. The separate
+en-GB captions, transcript and build receipt are retained. Its synthetic local
+`Daniel` narration is non-silent, with measured input integrated loudness
+-16.11 LUFS and true peak -1.38 dBTP. This is a local review build only: owner
+review of the synthetic voice, privacy, branding and final playback remains
+pending, and no video has been uploaded or submitted.
+
+## Unreleased host-compatibility and evaluator follow-up
+
+A direct `chrome-devtools-mcp` 1.8.0 run against the public release discovered
+all five tools, but every attempted execution failed because the host called the
+tool callback without an execution-options object and the page dereferenced
+`options.signal`. The page's tools remained callable in the separately observed
+Codex in-app host, so this is a host-interoperability defect rather than a data
+or registration failure.
+
+The local candidate makes execution options and their abort signal optional,
+while preserving cancellation whenever the host supplies a signal. The current
+working tree has passed:
+
+- all four research-pack checks, including JSON Schema validation through the
+  version-pinned `jsonschema` 4.26.0 environment. Setup uses binary-only,
+  no-dependency installation plus `pip check`; the unhashed pins and reused
+  `.venv` mean this is not a clean or fully reproducible environment;
+- 95 unit tests;
+- 20 installed-Chrome and 20 installed-Microsoft-Edge browser tests, including
+  the omitted-options regression;
+- six model-free `webmcp-evals` 0.0.4 smoke calls across three cases and all five
+  tools, each returning `ok: true` in the expected result-schema envelope;
+- discovery and successful execution of all five tools through
+  `chrome-devtools-mcp` 1.8.0 in an isolated Chrome 152.0.7977.64 loopback run
+  at 15:53 BST on 30 August 2026, with closed schemas and annotations checked,
+  fail-closed rejection of a synthetic `personalContext` field and zero console
+  errors;
+- an application audit reporting zero known vulnerabilities across 162
+  dependencies; and
+- two idempotent locked builds of Microsoft WebMCP Explorer 0.1.0 from commit
+  `f7091c12420e713b11361630dc1649d5678f62ab` in isolated ignored
+  `.tools/webmcp-explorer-build/`. The source checkout remained clean; the
+  source-tree, package-lock and unpacked-extension file-manifest SHA-256 values
+  (the latter over sorted per-file hashes and paths) were
+  respectively
+  `b7d7bf5657c4ae119da98b94914eefd9ed6dfbff38b59ddf7f5be3800d0da39f`,
+  `76e6d32e1aa0ba30db72b4c39b47a424f0804625f76ce513c9e2f3565be8ca6e`
+  and `c7070199bc0ef28baeee716c437b4603d576b10b4c4b3f7ca98dac9123b0e9e1`.
+  The clean-output allow-list passed.
+
+The unreleased CI and Pages workflow definitions are configured to use
+`npm ci --ignore-scripts --no-audit`. Pages is also configured to install the
+version-pinned Python requirements and run semantic WebMCP smoke before
+deployment. These workflow edits have not yet run in CI or Pages.
+
+The detailed DevTools receipt is stored under ignored `.evals/` because it
+contains full tool outputs and describes a local working tree, not a deployed
+commit. Raw evaluator smoke rows are deleted after semantic validation. The
+ignored smoke receipt retains the six-of-six counts and a digest of the
+validated results, not full outputs. Its child process received an isolated
+`HOME`; no provider credential environment variables were forwarded, although
+it retained
+the operating-system filesystem access of the invoking user. The tracked
+fixtures also include a no-call case and context-minimisation case for later
+model-selection evaluation. The model-backed runner is fail closed until an
+exact provider-prefixed model and explicit presentation approval are supplied.
+Only the `ollama:` route is preflighted without downloading a model. No remote
+provider was called, no model-backed `webmcp-evals` run was performed and the
+Explorer extension was not loaded. The prepared browser runner now fails closed
+on any typed upstream console error or `pageerror`; only an accepted zero count
+can enter a receipt, which records `browserConsoleErrorsAccepted: false`.
+
+The hardened DevTools runner sets
+`CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`. An earlier pre-hardening run wrote
+`~/.cache/chrome-devtools-mcp/latest.json` at 14:37 BST; the final hardened run
+left that modification time unchanged. This is an observed cache boundary, not
+an operating-system sandbox claim.
+
+Static triage dated 30 August 2026 found the Explorer npm advisory paths were
+not reachable in the exact production build path. Operational risks remain:
+`<all_urls>` access, persistent `chrome.storage.local` credentials,
+`dangerouslyAllowBrowser`, no prompt-injection mitigation and autoexecution in
+Agent Run/Chat. Any later Explorer run must use a disposable profile, inspect
+the Tools pane first without a credential, then prefer a local loopback model
+and Agent Step, and delete the profile afterwards. A remote run is exceptional
+and must use a revocable low-limit key and no personal context.
 
 ## Mandatory source and claim boundaries
 
@@ -119,18 +212,26 @@ Pages deployment are complete for `v0.2.0-rc.1`. The following remain gated:
 - do not claim WCAG conformance, official endorsement, comprehensive coverage,
   production readiness or guaranteed accuracy;
 - do not describe page-scoped WebMCP as a durable MCP gateway or as provider or
-  service-operation integration; and
+  service-operation integration;
+- do not publish the local review video until the owner has approved the
+  synthetic-voice publication basis, privacy, branding and final playback; and
 - do not change an accepted submission after the competition deadline.
 
 ## Next safe task
 
-The post-tag evidence is maintained separately from the unchanged product
-bytes. Supported-host discovery and calls are now recorded for the exact public
-release in `Codex In-app Browser`. The next task is to perform and record a
-manual VoiceOver journey in Safari and create the missing
-`output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov` and
-`docs/competition/evidence/manual-voiceover-journey-2026-08-30.json` with their
-exact binding. Then complete the demonstration video, captions, transcript,
-build receipt and final Devpost compliance review. A release-platform SBOM or
-signed attestation remains unavailable. Completion and submission of the
+Review and integrate the optional-execution-options compatibility fix and its
+pinned test harness through the protected pull-request path, then deploy and
+repeat native DevTools plus exact `list_webmcp_tools` and
+`execute_webmcp_tool` capture against that deployed commit. After that, use a
+disposable Microsoft WebMCP Explorer profile: inspect Tools first without a
+credential, prefer an exact local loopback model and Agent Step, then delete the
+profile. Use a revocable low-limit key and no personal context only if a remote
+run is necessary. Run the fixed-model `webmcp-evals` fixture with
+`WEBMCP_EVAL_PRESENTATION_APPROVED=1`; only `ollama:` is preflighted without a
+download. Record whether processing is local or remote. These steps are needed
+before the new host claims enter the demonstration or Devpost text.
+
+The existing owner privacy, branding, synthetic-voice and complete-playback
+review remains open. Public video upload and completion or submission of the
 Devpost pre-draft remain separate actions requiring explicit owner instruction.
+A release-platform SBOM or signed attestation remains unavailable.

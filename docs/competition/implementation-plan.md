@@ -3,8 +3,14 @@
 This is the lockstep implementation map for
 `docs/competition/backlog.md`. It records the published `v0.2.0-rc.1`
 implementation and records the later supported-host observation separately
-from the remaining accessibility, attestation, video and competition-submission
-evidence.
+from the completed-with-limitations manual accessibility observation and local
+review video. Release-platform attestation, owner publication review and the
+competition submission remain separate gates.
+
+An unreleased compatibility and evaluator follow-up is mapped to Must 9,
+13–16 and Should 11 below. Planned evaluation E-34 maps to the new Should 12
+public-service cost-boundary measurement task. Neither is part of the published
+release or its exact-commit assurance.
 
 ## Sequenced 1–10 plan
 
@@ -49,6 +55,10 @@ evidence.
   all five tools against the exact public release. The final comparison's
   canonical and displayed result digests matched. This does not establish
   support in another host.
+- A later Chrome DevTools MCP 1.8.0 public-page run discovered the same five
+  tools but exposed a callback compatibility defect when the host omitted the
+  execution-options object. The corrected local candidate completes all five
+  calls while still honouring a supplied abort signal; it is not deployed.
 
 ### Assurance checkpoint
 
@@ -67,6 +77,35 @@ evidence.
   decisions and Evidence Trace relationships.
 - The link audit recorded 161 of 161 unique admitted official URLs reachable by
   its bounded method; the dependency audit reported zero known vulnerabilities.
+- A manual Safari 26.5.2 and VoiceOver 10 journey completed without WebMCP. Its
+  retained Caption Panel sequence and manual record preserve two limitations:
+  the heading-rotor selection was not retained and the automatic spoken wording
+  of the live search status was not proven. No VoiceOver audio or WCAG
+  conformance is claimed.
+- The guarded video pipeline produced a 142.920-second local review MP4 with
+  H.264 video, AAC synthetic narration, an embedded English caption track,
+  separate en-GB captions, a transcript and a machine build receipt. It has not
+  been published or submitted.
+- The unreleased follow-up passed four research-pack checks with version-pinned
+  `jsonschema` 4.26.0, 95 unit tests, 20 Chrome tests, 20 Edge tests, six of six
+  model-free `webmcp-evals` calls with `ok: true` in their expected result-schema
+  envelopes, and five of five real Chrome DevTools MCP calls in an isolated
+  Chrome 152.0.7977.64 profile. The final hardened DevTools run at 15:53 BST
+  checked closed schemas and annotations, rejected synthetic `personalContext`,
+  recorded zero console errors and disabled update checks. Python setup installs
+  binary distributions without
+  dependency resolution and runs `pip check`; the unhashed pins and reuse of
+  `.venv` mean the environment is not clean or fully reproducible. Raw smoke
+  rows were deleted after semantic validation; the ignored smoke receipt
+  retains counts and a results digest, while only the ignored DevTools receipt
+  retains full outputs. No model-backed selection test has been run.
+- The prepared model-backed browser runner fails closed on typed upstream
+  console errors and `pageerror` events; an accepted receipt records a zero
+  count and `browserConsoleErrorsAccepted: false`.
+- The unreleased CI and Pages definitions use
+  `npm ci --ignore-scripts --no-audit`; Pages also installs the version-pinned
+  Python requirements and runs semantic WebMCP smoke before deployment. These
+  workflow edits have not yet run.
 
 PR #9 integrated the candidate into protected `main` at
 `9235ee5db4df637bdb2a12e87449e871614afe68`. Exact-main validation run
@@ -81,7 +120,7 @@ The exact commit is tagged `v0.2.0-rc.1`.
 | Must 1–2 | Complete for this repository: recorded ownership assurance, preserved baseline, item-level rights and four source locks. |
 | Must 3 | Complete: 69 locked GOV.UK records plus 11 reviewed companion records. |
 | Must 4 | Complete: minimal profile, 20 schemas, authored/generated validators and deterministic builders. |
-| Must 5 | Complete in automated Chrome and Edge: search, record, provenance, analytical index, Trace and comparison. Manual screen-reader observation remains. |
+| Must 5 | Complete for the bounded tested journeys: automated Chrome and Edge cover search, record, provenance, analytical index, Trace and comparison; a manual Safari and VoiceOver journey completed with two retained limitations and no WCAG claim. |
 | Must 6–8 | Complete in the published release: five tools include the original three query tools and two evidence-presentation tools. |
 | Must 9 | Complete: one action controller, deterministic page/tool output and display-digest parity. |
 | Must 10–11 | Complete: authoritative human links and visible access, rights, assertion, observation and limitation fields. |
@@ -89,9 +128,9 @@ The exact commit is tagged `v0.2.0-rc.1`.
 | Must 13 | Complete: all four artefact families, four exact source locks and the 80-record release boundary fail closed. |
 | Must 14 | Part complete: tamper, input, URL, inert-text, missing-licence and no-match tests pass; dedicated stale and conflicting-assertion fixtures remain. |
 | Must 15 | Complete: CSP, no storage and no external runtime provider request are enforced and tested. |
-| Must 16 | Complete for the bounded supported-host gate: instrumented lifecycle tests and installed Chrome and Edge passed, then `Codex In-app Browser` discovered and successfully called all five tools on the exact public release. This does not establish native support in ChatGPT desktop, Chrome or another host. |
+| Must 16 | Part complete: instrumented lifecycle tests and installed Chrome and Edge contract checks passed, then `Codex In-app Browser` discovered and successfully called all five tools on the exact public release. Chrome DevTools MCP 1.8.0 subsequently exposed an omitted-options execution defect in those public bytes; the corrected working tree now passes all five local Chrome 152 calls and six model-free calls with exact successful result-schema envelopes. The fix is not deployed, and native Chrome 150+/Edge panel, Microsoft Explorer browser execution and fixed-model selection evidence remain open. |
 | Must 17 | Complete for `v0.2.0-rc.1`: MIT licence and notices are published; PR #9, exact-main validation and exact-commit Pages deployment are recorded. |
-| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips with a consolidated release/action/duration/hash receipt, the labelled supported-host receipt visualisation, a fail-closed and visibly labelled VoiceOver screenshot-sequence fallback, release hashes, competition registration and the `v0.2.0-rc.1` tag are complete. Human clip review, genuine VoiceOver media/evidence, final video/captions/transcript, final compliance review and authorised submission remain open; Devpost project `1406973` is still an unpublished pre-submission draft. |
+| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips and their consolidated receipt, the labelled supported-host receipt visualisation, manual VoiceOver evidence and its non-continuous screenshot sequence, release hashes, competition registration, tag `v0.2.0-rc.1`, a captioned 142.920-second local review video with transcript and build receipt, and the final read-only compliance review are complete. Owner synthetic-voice, privacy, branding and final-playback review, public upload and authorised submission remain open; Devpost project `1406973` is still an unpublished pre-submission draft. |
 
 ## Implemented Should and Could work
 
@@ -99,12 +138,27 @@ The exact commit is tagged `v0.2.0-rc.1`.
 - Should 3: a dated 161-URL official-link health report.
 - Should 6: local macOS ARM64 sanitised CycloneDX SBOM; release-platform SBOM
   evidence and a signed release attestation remain future work.
-- Should 7: accessibility statement plus automated/manual-browser evidence; a
-  screen-reader observation remains.
+- Should 7: accessibility statement, automated/manual-browser evidence and a
+  completed-with-limitations Safari and VoiceOver observation. This does not
+  establish WCAG conformance.
 - Should 8: part complete through retained separate `v0.1.0-rc.1` and
   `v0.2.0-rc.1` public search captures; a bound side-by-side comparison
   artefact remains.
 - Should 9: bounded related-record links.
+- Should 11: part complete through pinned Chrome DevTools MCP and
+  `webmcp-evals` harnesses, isolated loopback execution, context-minimisation and
+  no-call fixtures. Deployed-commit, native-panel, Microsoft Explorer and
+  fixed-model evidence remain. The exact Explorer 0.1.0 source was built twice
+  idempotently in isolated `.tools/webmcp-explorer-build/`, leaving its source
+  checkout clean and passing the clean-output allow-list. Static triage dated
+  30 August 2026 found the npm advisory paths were not reachable in that exact
+  production build path, but the
+  privileged-extension operating risks in `SECURITY.md` remain. The extension
+  has not been loaded.
+- Should 12: planned through E-34. Define a comparable server-side AI baseline,
+  hold source quality and user outcomes comparable, and measure government-
+  origin requests, bytes, compute and support effort alongside citizen-provider
+  whole-system costs. No public saving is claimed from the static prototype.
 - Could 1: an accessible Evidence Trace graph and relationship table.
 - Could 8: a bounded 10-entry estate descriptor. Only two collections are
   searchable; this is not payload federation.
@@ -125,20 +179,25 @@ Supported-host discovery and calls are now observed for the exact public release
 in `Codex In-app Browser`. Five genuine public-page interaction clips and their
 release/action/duration/hash receipt are complete, and the guarded pipeline
 rejects preview substitutions, unrelated VoiceOver media and receipt drift. The
-current `npm run demo:preflight` stops only for the missing genuine VoiceOver
-clip, manual journey JSON and media/time binding. No final MP4, captions,
-transcript or build receipt exists. The following evidence or owner-governed
-actions remain open:
+manual Safari and VoiceOver journey, Caption Panel frame sequence and exact
+media/time binding are complete. The guarded build produced the captioned,
+142.920-second local review MP4, transcript and build receipt. The following
+evidence or owner-governed actions remain open:
 
-1. Complete a manual screen-reader observation. Because continuous macOS
-   capture is unavailable, preserve and review the nine actual Safari and
-   VoiceOver frames, then use the guarded screenshot-sequence builder; its
-   declared metadata is not a substitute for the manual observation.
-2. Produce a release-platform SBOM or signed release attestation.
-3. Complete the prepared guarded video build with the genuine manual
-   VoiceOver clip, then review the captions, transcript and local cut before
-   any public upload.
-4. Complete the final compliance review, then complete and submit the existing
-   Devpost pre-draft only with separate owner approval. A read-only working
-   review now maps every requirement and contradiction; it must remain non-final
-   until the genuine VoiceOver evidence and local video build exist.
+1. Integrate and deploy the omitted-execution-options compatibility correction,
+   then rerun native DevTools, Chrome DevTools MCP and the model-free evaluator
+   against the exact public commit.
+2. Use Microsoft WebMCP Explorer only in a disposable profile: inspect Tools
+   first without a credential, prefer an exact local loopback model and Agent
+   Step, then delete the profile. Use a revocable low-limit key and no personal
+   context only if a remote model is necessary. Run the browser-selection
+   fixture with `WEBMCP_EVAL_PRESENTATION_APPROVED=1`; only the `ollama:` route
+   is preflighted without downloading a model.
+3. Execute E-34 against an agreed server-side baseline before making any public-
+   service cost-saving claim.
+4. Produce a release-platform SBOM or signed release attestation.
+5. Complete the owner's synthetic-voice publication, privacy, branding and
+   final-playback review before any public upload.
+6. Upload the approved public video, then complete or submit the existing
+   Devpost pre-draft only with separate
+   owner approval.

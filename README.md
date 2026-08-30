@@ -39,13 +39,42 @@ been made.
 3. Read `CODEX_HANDOVER.md`.
 4. Read `research/2026-08-29/deep-research-report.md` for the decision-grade
    report.
-5. Run the complete local suite:
+5. Install the locked Node dependencies and the version-pinned Python research
+   verifier in a repository-local virtual environment:
+
+   ```bash
+   npm ci --ignore-scripts --no-audit
+   npm run python:setup
+   ```
+
+   `requirements-dev.txt` pins `jsonschema` 4.26.0 and each mandatory or
+   Python-version-conditional runtime dependency. `python:setup` creates or
+   reuses `.venv`, installs those exact pins with `--only-binary=:all:` and
+   `--no-deps`, then runs `pip check`. `npm run research:verify` uses `.venv`
+   first, checks the exact `jsonschema` version and then runs the preserved
+   research-pack verifier. The pins do not include distribution hashes, and a
+   reused virtual environment can retain unrelated packages, so this is not a
+   clean or fully reproducible Python supply-chain environment.
+
+6. Run the core local suite:
 
    ```bash
    npm test
    ```
 
-6. Start the verified build for manual browser use:
+   The installed-Edge matrix and model-free evaluator smoke are separate:
+
+   ```bash
+   npm run test:browser:edge
+   npm run webmcp:eval:smoke
+   ```
+
+   The unreleased CI and Pages workflow definitions also use
+   `npm ci --ignore-scripts --no-audit`; Pages is configured to install the
+   pinned Python requirements and run semantic WebMCP smoke before deployment.
+   These workflow edits have not yet run.
+
+7. Start the verified build for manual browser use:
 
    ```bash
    npm run serve
@@ -110,6 +139,125 @@ tools against the exact public release; the final comparison's canonical and
 displayed result digests matched. This is evidence for that host and time only,
 not a general browser-support claim.
 
+## Local WebMCP interoperability checks
+
+Node 22.12 or later is required by the pinned test toolchain. These local
+tooling commands complement, but do not replace, the normal unit and Playwright
+suites:
+
+```bash
+npm run webmcp:devtools:capture
+npm run webmcp:eval:smoke
+npm run webmcp:explorer:setup
+```
+
+`webmcp:devtools:capture` uses `chrome-devtools-mcp` 1.8.0 and Chrome 150 or
+later. It builds the application, starts an isolated Chrome profile restricted
+to the loopback origin, calls `list_webmcp_tools` with the selected `pageId`,
+then calls `execute_webmcp_tool` for each of the five fixed tools. Its full local
+receipt also records a synthetic unrelated-context field failing closed. It is
+written to the ignored `.evals/chrome-devtools-mcp.json` path and may
+contain source-derived tool output, so review it before copying any part into
+release evidence. The final hardened local run at 15:53 BST on 30 August 2026
+used Chrome 152.0.7977.64, discovered and executed all five tools, verified the
+closed schemas and annotations, rejected `personalContext` and recorded no
+console error. The runner sets `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`. An
+earlier pre-hardening run wrote
+`~/.cache/chrome-devtools-mcp/latest.json`; the final run left that file's
+modification time unchanged. This remains local-candidate evidence.
+
+After an exact candidate has been integrated and Pages reports that commit in
+`deployment.json`, the same runner has a separate fail-closed public mode:
+
+```bash
+WEBMCP_DEVTOOLS_TARGET_URL='https://chris-page-gov.github.io/govuk-webmcp/' \
+WEBMCP_EXPECTED_COMMIT='<40-character-main-commit>' \
+npm run webmcp:devtools:capture
+```
+
+Only that exact public URL is accepted. The runner validates the deployment
+schema, repository, commit and Pages run before capture, binds the raw metadata
+digest into `.evals/chrome-devtools-mcp-public.json`, and does not start the
+loopback server. The ignored receipt still requires human review before any
+part is admitted to public evidence.
+
+`webmcp:eval:smoke` uses `webmcp-evals` 0.0.4, the concrete calls in
+`evals/webmcp-smoke.json`, installed stable Chrome and a same-origin loopback
+build. The wrapper gives the third-party child process a small operating
+environment with an isolated `HOME`; no provider credential environment
+variables are forwarded. This limits inherited configuration, but the child
+still has the operating-system filesystem access of the invoking user. The six
+authored calls must each return `ok: true` with the expected result-schema
+envelope. Raw evaluator rows are deleted after validation; the ignored
+`.evals/webmcp-smoke-receipt.json` retains only semantic counts and a digest of
+the validated results. Smoke mode does not prove model selection or complete
+payload equivalence.
+
+`evals/webmcp-browser.json` adds a no-call case for a later model-backed browser
+evaluation. The fail-closed wrapper is available after an exact installed local
+model has been selected:
+
+```bash
+WEBMCP_EVAL_PRESENTATION_APPROVED=1 \
+WEBMCP_EVAL_MODEL='ollama:<exact-installed-model>' \
+npm run webmcp:eval:browser
+```
+
+Only the `ollama:` route is preflighted without downloading a model. It uses
+three runs by default, serves only the loopback build, enforces an exact
+context-minimisation call and writes private JSON, HTML and receipt files
+beneath ignored `.evals/webmcp-browser/`. It fails closed on any upstream
+console error or `pageerror`; an accepted receipt can report only
+`browserConsoleErrorCount: 0` and states
+`browserConsoleErrorsAccepted: false`. A remote `anthropic:`, `openai:` or
+`google:` run must additionally name the exact model, acknowledge both the
+reversible presentation effects and changed data boundary, and use the
+provider's API credential, for example:
+
+```bash
+WEBMCP_EVAL_PRESENTATION_APPROVED=1 \
+WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1 \
+WEBMCP_EVAL_MODEL='openai:<exact-model>' \
+npm run webmcp:eval:browser
+```
+
+A consumer chat subscription does not itself supply a CLI API credential. No
+model-backed evaluation has yet been run, so do not supply a remote credential
+merely to make this optional check pass.
+
+`webmcp:explorer:setup` checks out Microsoft WebMCP Explorer 0.1.0 at exact
+commit `f7091c12420e713b11361630dc1649d5678f62ab`, installs its lock with
+`--ignore-scripts` and builds the unpacked extension in isolated ignored
+`.tools/webmcp-explorer-build/`. Two consecutive builds were byte-identical and
+left the source checkout clean. The recorded SHA-256 values are
+`b7d7bf5657c4ae119da98b94914eefd9ed6dfbff38b59ddf7f5be3800d0da39f`
+for the source tree,
+`76e6d32e1aa0ba30db72b4c39b47a424f0804625f76ce513c9e2f3565be8ca6e`
+for the package lock and
+`c7070199bc0ef28baeee716c437b4603d576b10b4c4b3f7ca98dac9123b0e9e1`
+for the unpacked-extension file manifest (a digest over sorted per-file hashes
+and paths). The clean-output allow-list also passed. Static triage dated 30
+August 2026 found
+the reported npm advisory paths were not reachable in this exact production
+build path. That is not a general security clearance: the extension still has
+`<all_urls>` access, can retain credentials in `chrome.storage.local`, enables
+`dangerouslyAllowBrowser`, has no prompt-injection mitigation and can
+autoexecute Agent Run/Chat.
+
+If Explorer evidence is required, use a disposable browser profile. Inspect the
+Tools pane first without a credential; then prefer an exact local loopback model
+and Agent Step. Delete the profile afterwards. Only if a remote run is
+necessary, use a revocable low-limit key and synthetic prompts without personal
+context. The setup command itself does not load the extension, alter browser
+flags or configure a provider, and no Explorer browser execution or model
+selection is claimed here.
+
+The current working-tree candidate also accepts hosts that invoke a tool as
+`execute(input)` without a second execution-options object, while still
+forwarding cancellation when a host supplies an `AbortSignal`. The public
+`v0.2.0-rc.1` deployment predates that compatibility fix. A local capture from
+this candidate is therefore not evidence that the public deployment is fixed.
+
 ## Privacy and operating boundary
 
 The page loads only its packaged same-origin artefacts. It makes no runtime call
@@ -148,6 +296,15 @@ access or permission to reuse linked material.
   receipt visualisation rather than a host recording. Raw media under `output/`
   is deliberately Git-ignored local review material and must be preserved until
   the final build and human publication review are complete.
+  The
+  [manual Safari and VoiceOver record](docs/competition/evidence/manual-voiceover-journey-2026-08-30.json)
+  is completed with two retained limitations and makes no WCAG conformance
+  claim. The
+  [local video build receipt](docs/competition/evidence/demo-video-build-2026-08-30.json)
+  binds a captioned 142.920-second review cut, transcript and source evidence;
+  it is not proof of public YouTube publication or a named judging host. The
+  [final read-only compliance review](docs/competition/final-devpost-compliance-review-2026-08-30.md)
+  records the remaining owner, named-host, public-video and submission gates.
   A separate
   [read-only Devpost status record](docs/competition/evidence/devpost-read-only-status-2026-08-30.json)
   distinguishes completed registration from the unsubmitted project draft.
