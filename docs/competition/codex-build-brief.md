@@ -94,6 +94,9 @@ WebMCP and the bounded evidence estate.
 - Pages run `33286771963` rebuilt, retested and deployed that exact commit;
   deployment metadata and live artefact bytes matched it.
 - The exact release commit is tagged `v0.2.0-rc.1`.
+- On 30 August 2026, `Codex In-app Browser` discovered and successfully called
+  all five tools on the exact public release. The final comparison's canonical
+  and displayed result digests matched. No other host support is inferred.
 
 ## Published definition of done
 
@@ -107,11 +110,13 @@ pointer; GitHub does not enforce immutable releases or signed tags here.
 
 ## Open evidence and submission gates
 
-- Observe all five tools and representative calls natively in a supported
-  WebMCP host.
-- Complete the manual screen-reader observation.
+- Complete the genuine manual VoiceOver observation and bind its Safari media,
+  journey results, capture interval and SHA-256.
 - Produce a release-platform SBOM or signed release attestation; the existing
   dated SBOM remains a local macOS ARM64 dependency view.
-- Record the sub-three-minute demonstration and transcript.
-- Complete the compliance checklist and obtain separate approval before any
-  competition registration or Devpost submission.
+- Assemble and review the sub-three-minute demonstration, captions, transcript
+  and build receipt from the five completed genuine page-interaction clips, the
+  labelled supported-host receipt visualisation and the missing VoiceOver clip;
+  publish only after Chris Page's human and synthetic-voice review.
+- Complete the compliance checklist and obtain separate approval before
+  completing or submitting the existing Devpost pre-draft.

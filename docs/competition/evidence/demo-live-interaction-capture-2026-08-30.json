@@ -1,0 +1,83 @@
+{
+  "schema": "trusted-govuk-discovery.demo-live-interaction-capture.v1",
+  "capturedAt": "2026-08-30T10:15:43.788Z",
+  "product": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.2.0-rc.1",
+    "commit": "9235ee5db4df637bdb2a12e87449e871614afe68"
+  },
+  "captureMethod": "playwright-public-site-interaction",
+  "browser": {
+    "name": "Playwright Chromium",
+    "version": "151.0.7922.34"
+  },
+  "reviews": {
+    "privacy": "agent-reviewed-pass",
+    "branding": "agent-reviewed-pass",
+    "humanPublicationReview": "pending"
+  },
+  "noBrowserChrome": true,
+  "audioCaptured": false,
+  "clips": [
+    {
+      "sceneId": "overview",
+      "path": "output/demo-clips/demo-scene-01-overview-2026-08-30.mov",
+      "sha256": "e9fed84defb1852681773acff06e6ab63bab6ef2747b7d696faebd0cb0395091",
+      "durationSeconds": 37.066667,
+      "capturedAt": "2026-08-30T10:12:13.780Z",
+      "actions": [
+        "load-public-release",
+        "open-analytical-index"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points"
+    },
+    {
+      "sceneId": "trace",
+      "path": "output/demo-clips/demo-scene-02-evidence-trace-2026-08-30.mov",
+      "sha256": "f4702576cf9a4bcffc78a7f1026ea89ac241295c5c8db2ab54088fafeadf6c43",
+      "durationSeconds": 35.966667,
+      "capturedAt": "2026-08-30T10:12:55.793Z",
+      "actions": [
+        "select-answer",
+        "open-evidence-trace"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points"
+    },
+    {
+      "sceneId": "facets",
+      "path": "output/demo-clips/demo-scene-03-foundation-facets-2026-08-30.mov",
+      "sha256": "977ab6ddf729043b8b074f53dc5d528b4a5f6a30ebe919a60f6d579c9d8803bf",
+      "durationSeconds": 37.266667,
+      "capturedAt": "2026-08-30T10:13:37.730Z",
+      "actions": [
+        "select-foundation",
+        "inspect-eight-trust-facets"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points"
+    },
+    {
+      "sceneId": "comparison",
+      "path": "output/demo-clips/demo-scene-04-comparison-2026-08-30.mov",
+      "sha256": "86a437a869e5371ea5f195e35527833360228854324b010e8396a541e7c84619",
+      "durationSeconds": 35.966016,
+      "capturedAt": "2026-08-30T10:14:20.029Z",
+      "actions": [
+        "select-claim-register-a-birth",
+        "select-claim-check-child-benefit",
+        "open-comparison"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points"
+    },
+    {
+      "sceneId": "estate",
+      "path": "output/demo-clips/demo-scene-07-evidence-estate-2026-08-30.mov",
+      "sha256": "399edc7601737e842c2632c2199596d7024de9b86d52811e47babce441f51b0b",
+      "durationSeconds": 35.966667,
+      "capturedAt": "2026-08-30T10:15:02.248Z",
+      "actions": [
+        "open-evidence-estate"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points"
+    }
+  ]
+}

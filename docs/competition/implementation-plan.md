@@ -2,8 +2,9 @@
 
 This is the lockstep implementation map for
 `docs/competition/backlog.md`. It records the published `v0.2.0-rc.1`
-implementation and separates that release from the remaining supported-host,
-accessibility, attestation, video and competition-submission evidence.
+implementation and records the later supported-host observation separately
+from the remaining accessibility, attestation, video and competition-submission
+evidence.
 
 ## Sequenced 1–10 plan
 
@@ -44,6 +45,10 @@ accessibility, attestation, video and competition-submission evidence.
   `readOnlyHint: false`.
 - Every result retains authoritative links, assertion labels and limitations.
   The Trace exposes eight facets and no combined trust score.
+- On 30 August 2026, `Codex In-app Browser` discovered and successfully called
+  all five tools against the exact public release. The final comparison's
+  canonical and displayed result digests matched. This does not establish
+  support in another host.
 
 ### Assurance checkpoint
 
@@ -84,9 +89,9 @@ The exact commit is tagged `v0.2.0-rc.1`.
 | Must 13 | Complete: all four artefact families, four exact source locks and the 80-record release boundary fail closed. |
 | Must 14 | Part complete: tamper, input, URL, inert-text, missing-licence and no-match tests pass; dedicated stale and conflicting-assertion fixtures remain. |
 | Must 15 | Complete: CSP, no storage and no external runtime provider request are enforced and tested. |
-| Must 16 | Part complete: instrumented host lifecycle plus installed Chrome and Edge passed; native discovery and representative calls in a supported WebMCP host remain unverified. |
+| Must 16 | Complete for the bounded supported-host gate: instrumented lifecycle tests and installed Chrome and Edge passed, then `Codex In-app Browser` discovered and successfully called all five tools on the exact public release. This does not establish native support in ChatGPT desktop, Chrome or another host. |
 | Must 17 | Complete for `v0.2.0-rc.1`: MIT licence and notices are published; PR #9, exact-main validation and exact-commit Pages deployment are recorded. |
-| Must 18 | Part complete: submission copy, storyboard, release hashes and the `v0.2.0-rc.1` tag are complete; the video and transcript, competition registration and Devpost submission remain open. |
+| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips with a consolidated release/action/duration/hash receipt, the labelled supported-host receipt visualisation, release hashes, competition registration and the `v0.2.0-rc.1` tag are complete. Human clip review, genuine VoiceOver media/evidence, final video/captions/transcript, final compliance review and authorised submission remain open; Devpost project `1406973` is still an unpublished pre-submission draft. |
 
 ## Implemented Should and Could work
 
@@ -116,12 +121,21 @@ protected `main`, exact-main run `33286750188` passed, Pages run `33286771963`
 deployed commit `9235ee5db4df637bdb2a12e87449e871614afe68`, live metadata and artefact bytes
 matched that release, and the commit is tagged `v0.2.0-rc.1`.
 
-The following evidence or owner-governed actions remain open:
+Supported-host discovery and calls are now observed for the exact public release
+in `Codex In-app Browser`. Five genuine public-page interaction clips and their
+release/action/duration/hash receipt are complete, and the guarded pipeline
+rejects preview substitutions, unrelated VoiceOver media and receipt drift. The
+current `npm run demo:preflight` stops only for the missing genuine VoiceOver
+clip, manual journey JSON and media/time binding. No final MP4, captions,
+transcript or build receipt exists. The following evidence or owner-governed
+actions remain open:
 
-1. Observe native discovery and representative calls in a supported WebMCP
-   host.
-2. Complete a manual screen-reader observation.
-3. Produce a release-platform SBOM or signed release attestation.
-4. Record the demonstration video and transcript.
-5. Complete competition registration and Devpost submission only with separate
-   owner approval.
+1. Complete a manual screen-reader observation.
+2. Produce a release-platform SBOM or signed release attestation.
+3. Complete the prepared guarded video build with the genuine manual
+   VoiceOver clip, then review the captions, transcript and local cut before
+   any public upload.
+4. Complete the final compliance review, then complete and submit the existing
+   Devpost pre-draft only with separate owner approval. A read-only working
+   review now maps every requirement and contradiction; it must remain non-final
+   until the genuine VoiceOver evidence and local video build exist.

@@ -48,6 +48,113 @@ function parseSha256Manifest(text, label) {
   });
 }
 
+function canonicalJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) =>
+    `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+}
+
+test("supported-host WebMCP capture binds five native calls to the public release", async () => {
+  const evidence = JSON.parse(await readFile(
+    "docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json",
+    "utf8",
+  ));
+  const expectedNames = [
+    "search_government_knowledge",
+    "get_resource_record",
+    "show_provenance",
+    "explore_answer_foundations",
+    "compare_evidence_foundations",
+  ];
+  const expectedSchemas = [
+    "trusted-govuk-discovery.search-result.v1",
+    "trusted-govuk-discovery.resource-record-result.v1",
+    "trusted-govuk-discovery.provenance-result.v1",
+    "trusted-govuk-discovery.evidence-exploration-result.v1",
+    "trusted-govuk-discovery.evidence-comparison-result.v1",
+  ];
+
+  assert.equal(evidence.schema, "trusted-govuk-discovery.supported-host-webmcp-capture.v1");
+  assert.equal(evidence.page.origin, "https://chris-page-gov.github.io");
+  assert.equal(evidence.page.release, "v0.2.0-rc.1");
+  assert.equal(evidence.page.productCommit, EXPECTED_PRODUCT_COMMIT);
+  assert.equal(evidence.page.url.startsWith("https://chris-page-gov.github.io/govuk-webmcp/"), true);
+  assert.equal(evidence.host.name, "Codex In-app Browser");
+  assert.equal(evidence.host.type, "iab");
+  assert.equal(evidence.host.capabilities.includes("webmcp"), true);
+  assert.equal(evidence.capture.pageAuthenticationRequired, false);
+  assert.equal(evidence.capture.hostVersion, null);
+  assert.match(evidence.capture.hostVersionLimitation, /did not expose/u);
+
+  assert.equal(evidence.discovery.toolCount, 5);
+  assert.deepEqual(evidence.discovery.tools.map((tool) => tool.name), expectedNames);
+  assert.equal(new Set(expectedNames).size, expectedNames.length);
+  assert.ok(evidence.discovery.tools.every((tool) => tool.inputSchema.additionalProperties === false));
+  assert.deepEqual(
+    evidence.discovery.tools.map((tool) => tool.annotations.readOnlyHint),
+    [true, true, true, false, false],
+  );
+  assert.ok(evidence.discovery.tools.every((tool) => tool.annotations.untrustedContentHint === true));
+
+  assert.deepEqual(evidence.calls.map((call) => call.name), expectedNames);
+  assert.deepEqual(evidence.calls.map((call) => call.callSequence), [1, 2, 3, 4, 5]);
+  assert.deepEqual(evidence.calls.map((call) => call.result.schema), expectedSchemas);
+  assert.ok(evidence.calls.every((call) => call.result.ok === true));
+  for (const call of evidence.calls) {
+    const digest = createHash("sha256").update(canonicalJson(call.result)).digest("hex");
+    assert.equal(digest, call.canonicalResultDigest, `${call.name} canonical result digest drifted`);
+  }
+
+  const [search, record, provenance, explore, compare] = evidence.calls;
+  assert.equal(search.result.returned, 3);
+  assert.equal(search.result.totalMatches, 69);
+  assert.ok(search.result.results.every((result) => result.canonicalHumanUrl.startsWith("https://www.gov.uk/")));
+  assert.ok(search.result.results.every((result) => result.limitations.length > 0));
+  assert.equal(record.result.record.id, provenance.result.recordId);
+  assert.equal(record.result.record.canonicalHumanUrl, "https://www.gov.uk/child-benefit");
+  assert.ok(provenance.result.sources.some((source) => source.url === "https://www.gov.uk/child-benefit"));
+
+  assert.equal(explore.pageObservation.resultDigest, explore.canonicalResultDigest);
+  assert.equal(compare.pageObservation.resultDigest, compare.canonicalResultDigest);
+  assert.equal(evidence.finalPageObservation.displayResultDigest, compare.canonicalResultDigest);
+  assert.equal(evidence.finalPageObservation.canonicalCallResultDigest, compare.canonicalResultDigest);
+  assert.equal(evidence.finalPageObservation.digestParity, true);
+  assert.deepEqual(evidence.finalPageObservation.selectedClaims, compare.input.claimIds);
+  assert.deepEqual(evidence.finalPageObservation.comparisonSourceUrls, [
+    "https://www.gov.uk/register-birth",
+    "https://www.gov.uk/child-benefit",
+  ]);
+  for (const presentation of [explore.result, compare.result]) {
+    assert.equal(presentation.boundaries.providerCall, false);
+    assert.equal(presentation.boundaries.storageWrite, false);
+    assert.equal(presentation.boundaries.catalogueMutation, false);
+    assert.equal(presentation.boundaries.externalStateChange, false);
+  }
+
+  for (const artefact of evidence.artefacts) {
+    const digest = createHash("sha256").update(await readFile(artefact.path)).digest("hex");
+    assert.equal(digest, artefact.sha256, `${artefact.path} drifted from its capture receipt`);
+  }
+
+  const challenge = JSON.parse(await readFile(
+    "docs/competition/evidence/challenge-provenance.json",
+    "utf8",
+  ));
+  const hostEvidence = challenge.postReleaseEvidence.supportedHostWebmcp;
+  assert.equal(hostEvidence.evidencePath, "docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json");
+  assert.equal(hostEvidence.productCommit, EXPECTED_PRODUCT_COMMIT);
+  assert.equal(hostEvidence.discoveredToolCount, 5);
+  assert.equal(hostEvidence.successfulCallCount, 5);
+  assert.equal(hostEvidence.comparisonResultDigest, compare.canonicalResultDigest);
+  assert.equal(challenge.gates.nativeSupportedHostToolDiscoveryObserved, true);
+  assert.equal(challenge.gates.nativeSupportedHostToolCallObserved, true);
+  assert.equal(challenge.gates.manualScreenReaderObservationPerformed, false);
+  assert.equal(challenge.gates.videoPublished, false);
+  assert.equal(challenge.gates.devpostRegistrationPerformedByThisWorkflow, false);
+  assert.equal(challenge.gates.devpostSubmissionPerformed, false);
+});
+
 test("release evidence manifest is safe, complete, ordered and digest-bound", async () => {
   const manifest = await readFile("docs/competition/evidence/SHA256SUMS", "utf8");
   const entries = parseSha256Manifest(manifest, "SHA256SUMS");

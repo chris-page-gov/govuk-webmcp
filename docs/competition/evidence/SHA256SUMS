@@ -14,7 +14,14 @@ f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794  app/data/sourc
 2480e30152569270cd44eb7b67284e0d7c1a41a7caf22233237b5dc52cfd4f0d  docs/competition/evidence/accessibility-test-2026-08-29.md
 de1d920fe3284def4b3a9833c7fa2979fd3e1fe7c1bc56067cdd755970578dce  docs/competition/evidence/accessibility-test-2026-08-30.md
 e2c0342d40c08ad7f8784176781af4a8f479b907704b6127d3f2f951f5655fe0  docs/competition/evidence/candidate-verification-2026-08-30.md
-5d6d98ba693f6378e4c1cbae65ca3c6bf059eed4146666007626de7bba67112f  docs/competition/evidence/challenge-provenance.json
+9fa165a7137e68c11de4ce1d18bb9f2a78b051dfae2cf350c5db3c6538c65041  docs/competition/evidence/challenge-provenance.json
+c15ff7ab52d628ad29cde79664acb6b37cfb68d6d91f94313cf07e8835fd960a  docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json
+357fd49f400ee9a2924521aa1aa16f3d5cce5e57136deaea03937cc9fc20dc93  docs/competition/evidence/demo-scene-01-overview-2026-08-30.jpg
+68b4f2887d19fb0d07fb30623ba3efb8213e5f45a470acce71d176b61deca9f1  docs/competition/evidence/demo-scene-02-evidence-trace-2026-08-30.jpg
+4dc52d45e97eb1099c5aacec315f3b3c6d7a532063d762a733009283cd089fa6  docs/competition/evidence/demo-scene-03-foundation-facets-2026-08-30.jpg
+29c17adab0c42de2a35d220ada184844b6244a0ea39efa07d4c332172a719166  docs/competition/evidence/demo-scene-04-comparison-2026-08-30.jpg
+791193772608f591db303cf8a20db0c2e40f9028c3ae0d8720acb4efd1069008  docs/competition/evidence/demo-scene-07-evidence-estate-2026-08-30.jpg
+9c8f07d8c6e346602a6c64440e734ea194a821c4c22b68f7a4a67c671cca3c81  docs/competition/evidence/devpost-read-only-status-2026-08-30.json
 4be32f70aa28913460ce3012db64fe04f91a725b9ed4bd146417076408a7e3a7  docs/competition/evidence/evidence-first-overview-2026-08-30.png
 b378dba916f6ace764ad71ee9a590c9756809a0161478a23cd97bfb8134838c7  docs/competition/evidence/evidence-foundation-comparison-2026-08-30.png
 aef39e80e4f604001e92e43f8d5d0479d3f673e0e9846605adc81a0ccf0bc54e  docs/competition/evidence/link-health-2026-08-29.json
@@ -48,6 +55,9 @@ bb7f22b0c38a5dc9be522437f69a297806e65cbba29f757d63f7294402baa702  docs/competiti
 e62c4ec4a481dd7b44ef87404a7f2a12a9fa4f43d2c954fcb60ac477395c49e1  docs/competition/evidence/security-scan-2026-08-30/scan-manifest.json
 ce93fa1982e4de4a857134a2faa50d03ab60bb295bf9cf10ef2036fc6547ad80  docs/competition/evidence/security-scan-and-remediation-2026-08-30.md
 3e0c010aca1e4fed3145bda72f0a6262b5e06ee78ef7716d0591fb8b0b18cabf  docs/competition/evidence/site-SHA256SUMS-2026-08-30
+53f3c116606ad8cb0145ce23cab8cb0c3278764e2bdd263ae94e9cc5b96e9136  docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json
+4c21b6978a5def2860282c0949d63007beb44089acc6e42aef39ad01fb99a910  docs/competition/evidence/supported-host-webmcp-full-page-2026-08-30.jpg
+1305edff867f4f65fb8c4bf9158eaf86fd47a33d017447ad47447185269a23b4  docs/competition/evidence/supported-host-webmcp-runtime-summary-2026-08-30.jpg
 f9ffa0d568c99fd3c8da26db4370cf93289b23484238a7fe69cc4f261cb97193  package-lock.json
 fac7237607dd6babbd0a723a82f9db0750cff5442cb3da06502ce9cd75a7b4b3  schemas/answer-pack-source.schema.json
 55c249ee7a98b7bec5d8c32da813569aff21ac4af8a538a047e93a121d0d882c  schemas/catalogue.schema.json

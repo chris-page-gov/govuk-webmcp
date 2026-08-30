@@ -5,7 +5,10 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 ## Entrant and dates
 
 - [x] **Confirmed:** the 29 August 2026 live rules check gives 3 September 2026, 13:00 Pacific / 21:00 BST.
-- [ ] **Verify:** Devpost registration is complete under the same individual, team or organisation identity used in the submission.
+- [x] **Confirmed by authenticated read-only Devpost check:** competition
+  registration is complete.
+- [ ] **Verify before submission:** the individual, team or organisation route
+  and identity in the final form match the registered entrant.
 - [ ] **Verify:** entrant remains eligible by age, residence, supported-country status and account requirements.
 - [ ] **Approval required:** any team or organisation representative has written authority.
 - [x] **Confirmed by entrant assurance for the declared repository scope:** no
@@ -31,8 +34,11 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 - [x] **Confirmed on the public site:** exact `v0.2.0-rc.1` deployment and its
   signed-out human fallback are verified.
-- [ ] **Verify in a supported judging environment:** record actual ChatGPT-host
-  discovery and a representative tool call.
+- [x] **Confirmed in one supported host:** `Codex In-app Browser` discovered and
+  successfully called all five tools on the exact public release on 30 August
+  2026. The observation is specific to that host and time.
+- [ ] **Verify in a supported judging environment:** record actual ChatGPT
+  desktop in-app-browser discovery and a representative tool call.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test:** five fixed tools register after all four artefact families validate. The three catalogue query tools are read-only; the two evidence tools declare their reversible in-memory page-presentation effect with `readOnlyHint: false`. No tool has a runtime provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
@@ -49,10 +55,25 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 - [x] Public live deployment of exact product commit
   `9235ee5db4df637bdb2a12e87449e871614afe68` at
   <https://chris-page-gov.github.io/govuk-webmcp/>; no demo account is required.
-- [ ] Public YouTube video shorter than three minutes.
+- [x] Five genuine page-only interaction clips are bound to the exact public
+  release, required actions, durations and SHA-256 values; agent privacy and
+  branding review passed.
+- [ ] Chris Page completes the human publication review of every retained clip
+  and the final edit.
+- [ ] Genuine manual VoiceOver journey record and scene media exist with exact
+  path, SHA-256, capture-time and journey-step binding.
+- [ ] Guarded video preflight passes and the local build receipt binds the final
+  MP4, captions, transcript, script and evidence inputs.
+- [ ] Chris Page approves the synthetic-voice publication basis and verifies the
+  final audible playback, captions, transcript, privacy and branding.
+- [ ] Publicly visible YouTube video shorter than three minutes, with audio that
+  shows the working project and explains its WebMCP use.
 - [x] English draft text explains WebMCP leverage, execution, impact, creativity
   and boundaries; final entry and submission remain separate gates.
 - [x] The annotated `v0.2.0-rc.1` tag, public pre-release, product and Pages
   hashes, challenge provenance, local macOS ARM64 SBOM and notices are retained.
 - [ ] Produce a release-platform SBOM or signed attestation.
+- [ ] Final Devpost compliance review checks every current required field and
+  records the named-host, local-video/public-YouTube and human-attestation
+  boundaries without submitting.
 - [ ] Retain the final submission receipt after an authorised submission.

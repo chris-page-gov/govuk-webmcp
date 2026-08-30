@@ -90,6 +90,13 @@ provider integration or service-operation layer.
 | Public artefact comparison | all 20 Pages artefact files returned HTTP 200 and matched the live bytes |
 | Signed-out live-browser journey | passed with successful same-origin data requests and no console warning or error |
 | Public repository hardening | protected `main`, secret scanning and push protection enabled |
+| Current evidence-branch unit suite | 65 of 65 passed, including negative demonstration-media and VoiceOver gates |
+| Current evidence-branch Chrome suite | 19 of 19 passed after an authorised local-loopback exception |
+| Current evidence-branch Edge suite | 19 of 19 passed after an authorised local-loopback exception |
+| Genuine live interaction capture | five silent page-only clips; exact release, action, duration and SHA-256 receipt; agent privacy/branding review passed |
+| Exact local synthetic narration timing | seven scenes total 138.105 seconds; every cue 1–8.5 seconds; 41.895-second margin below three minutes before encoding |
+| Demonstration preflight | fails closed only on the missing VoiceOver clip, manual journey JSON and media/time binding |
+| Safari capture readiness | Safari target window and bounds resolved, but `screencapture` could not capture it and Computer Use then confirmed the Mac was locked and could not unlock automatically; no lock-screen image was retained |
 
 Post-tag evidence-branch closure used these exact checks:
 
@@ -149,6 +156,12 @@ live-browser evidence is recorded separately in
 `challenge-provenance.json`. Those post-tag records verify the immutable product
 commit; they do not claim to be contained in it.
 
+The current evidence branch also contains the fail-closed demonstration
+pipeline, five genuine public-page interaction clips in ignored local output,
+their consolidated receipt, and a clearly labelled supported-host receipt
+visualisation. The visualisation is not host-owned video or a Site tools
+capture. No final MP4, caption file, transcript or build receipt exists yet.
+
 ## Residual limitations
 
 - The GOV.UK imported bytes and Git blob are verified, but the historical
@@ -163,19 +176,26 @@ commit; they do not claim to be contained in it.
   external attestation.
 - No manual screen-reader observation has been performed and no WCAG
   conformance claim is made.
-- The available controlled in-app browser previously lacked
-  `document.modelContext`; an actual supported-host WebMCP call remains
-  unverified.
-- The public demo video, competition registration and Devpost submission remain
-  unperformed.
+- On 30 August 2026, `Codex In-app Browser` discovered all five tools on the
+  exact public release and returned successful results from all five. The final
+  comparison call had matching canonical and displayed result digests. This is
+  a time- and host-specific observation, not evidence for ChatGPT desktop,
+  native Chrome or any other host; no before-and-after focus comparison was
+  recorded.
+- Competition registration is complete. The public demo video and Devpost
+  submission remain unperformed; project `1406973` is still an unpublished
+  pre-submission draft.
 
 ## Recommended next step
 
 This post-tag evidence is maintained separately from the unchanged product
-bytes. The next product-facing task is to use the exact public release for
-native discovery and representative calls in a supported WebMCP host, then
-perform and record a manual screen-reader journey. Do not claim a
-release-platform SBOM or signed attestation from the retained local macOS ARM64
-dependency view. The public video, competition registration and Devpost
-submission remain unperformed; do not register or submit without a separate
-instruction and final compliance check.
+bytes. Supported-host discovery and five representative calls are now recorded
+for the exact public release in `Codex In-app Browser`. Next, perform and record
+the manual VoiceOver journey in Safari and create the missing
+`output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov` and
+`docs/competition/evidence/manual-voiceover-journey-2026-08-30.json` with exact
+media/time binding. Then complete the demonstration video, captions, transcript,
+build receipt and final compliance review. Do not claim a release-platform SBOM
+or signed attestation from the retained local macOS ARM64 dependency view. The
+public video and Devpost submission remain unperformed; do not submit without a
+separate instruction and final compliance check.

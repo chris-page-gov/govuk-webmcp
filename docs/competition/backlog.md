@@ -17,9 +17,9 @@
 13. Fail-closed validation. *(Complete for all four artefact families and four exact source locks.)*
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests. *(Part complete: injection, unsafe URL, missing licence, no-match, deep-input and bounded-fragment cases pass; dedicated stale and conflicting-assertion fixtures remain.)*
 15. CSP, no storage, no external runtime request. *(Complete.)*
-16. ChatGPT/Chrome tests. *(Instrumented WebMCP, Chrome and Edge are complete; native discovery and representative calls in a supported WebMCP host remain pending.)*
+16. ChatGPT/Chrome tests. *(Complete for the bounded supported-host gate: instrumented WebMCP, Chrome and Edge passed, and `Codex In-app Browser` discovered and successfully called all five tools on the exact public release. Native support in ChatGPT desktop, Chrome or another host is not established.)*
 17. Public deployment, MIT licence and notices. *(Complete for `v0.2.0-rc.1`: PR #9 integrated commit `9235ee5db4df637bdb2a12e87449e871614afe68`; exact-main run `33286750188` and Pages run `33286771963` passed.)*
-18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: storyboard, submission copy, release hashes and tag `v0.2.0-rc.1` are complete; video and transcript, competition registration and Devpost submission remain open.)*
+18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: storyboard, guarded local build tooling, five genuine live interaction clips with exact release/action/duration/hash binding and agent review, supported-host receipt visualisation, submission copy, competition registration, read-only compliance working review, release hashes and tag `v0.2.0-rc.1` are complete. Human clip-publication review, the genuine VoiceOver clip, final local video/caption/transcript review, promotion of the working review to a final Devpost compliance review, public upload and Devpost submission remain open.)*
 
 ## Should
 
@@ -45,5 +45,6 @@
 6. Persistent MCP hand-off demo.
 7. User study dashboard.
 8. Additional publishers/corpora. *(Complete as a bounded 10-entry descriptor only: two are searchable and eight contribute no payload.)*
-9. Declarative WebMCP experiment when host support is verified.
+9. Declarative WebMCP experiment in a future release; the current imperative
+   path is observed only in the named Codex in-app browser.
 10. Signed publisher attestations in a future profile.

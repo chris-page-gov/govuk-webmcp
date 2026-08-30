@@ -1,0 +1,68 @@
+{
+  "schema": "trusted-govuk-discovery.devpost-read-only-status.v1",
+  "observedAt": "2026-08-30T10:23:52Z",
+  "method": "authenticated read-only Devpost Hackathons connector calls",
+  "hackathon": {
+    "id": 31011,
+    "slug": "webmcp",
+    "title": "The WebMCP Challenge",
+    "status": "submissions_open",
+    "submissionsStartAt": "2026-08-25T19:00:00Z",
+    "submissionsEndAt": "2026-09-03T20:00:00Z",
+    "timeZone": "Pacific Time (US & Canada)",
+    "rulesUrl": "https://webmcp.devpost.com/rules"
+  },
+  "registration": {
+    "alreadyRegistered": true,
+    "canRegister": false,
+    "reason": "User is already registered for this hackathon"
+  },
+  "project": {
+    "id": 1406973,
+    "name": "Untitled",
+    "state": "submission_pre_draft",
+    "slug": null,
+    "publishedAt": null,
+    "submittedAt": null,
+    "taglinePresent": false,
+    "descriptionPresent": false,
+    "videoUrlPresent": false
+  },
+  "accountRelationship": {
+    "values": [
+      "registered",
+      "submitted"
+    ],
+    "resolution": "The account-level submitted relationship is not treated as proof of submission because the exact project is submission_pre_draft with submittedAt null."
+  },
+  "submissionRequirements": {
+    "workingLiveUrl": true,
+    "publicRepository": true,
+    "detectableOpenSourceLicence": true,
+    "textDescription": true,
+    "publicYouTubeVideo": true,
+    "videoMaximumSeconds": 180,
+    "videoAudioRequired": true
+  },
+  "latestAnnouncement": {
+    "id": 46116,
+    "sentAt": "2026-08-28T16:31:50Z",
+    "deadlineChanged": false,
+    "summary": "The announcement reiterates the deadline, named WebMCP judging environments, public YouTube video under three minutes with audio, public source repository and post-start evidence requirements."
+  },
+  "actionsPerformed": {
+    "devpostReadOnlyCalls": true,
+    "registrationChanged": false,
+    "projectChanged": false,
+    "submissionPerformed": false
+  },
+  "privacy": {
+    "accountEmailRetained": false,
+    "profilePersonalDataRetained": false
+  },
+  "limitations": [
+    "This is a time-bounded read-only observation of editable Devpost state, not a frozen submission receipt.",
+    "Only an authorised final submission and its returned receipt can establish that the project was submitted.",
+    "Entrant eligibility, residence, rights, publicity, prize and tax attestations remain human decisions at submission time."
+  ]
+}

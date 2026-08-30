@@ -19,9 +19,31 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - A signed-out live-browser screenshot and journey record showing the public
   search, authoritative GOV.UK result, successful same-origin requests and clean
   console.
+- A structured machine receipt records that `Codex In-app Browser` discovered
+  and successfully called all five page tools against the exact public release;
+  the final comparison's canonical SHA-256 matched the displayed result digest.
+  Two associated page-owned visual records show the post-call public-page state.
+  Neither those records nor the receipt-derived animation is a host recording or
+  Site tools capture.
+- A guarded local demonstration-video pipeline with British-English script,
+  transcript and WebVTT generation, exact release/evidence validation,
+  H.264/AAC/caption checks, input hashes, five genuine live-page interaction
+  captures and a privacy-safe receipt visualisation generated from the
+  supported-host record. Raw clips and review cuts remain ignored local output;
+  human publication review remains pending and no public video is claimed.
+- A read-only Devpost status record confirming completed competition
+  registration while distinguishing the exact unpublished pre-submission draft
+  from Devpost's broader account-level relationship label.
+- A requirement-by-requirement Devpost compliance working review that keeps the
+  missing VoiceOver, final video, named judging-host, human-attestation, public
+  YouTube and submission gates explicitly open until stronger evidence exists.
 
 ### Fixed
 
+- Tightened the British-English demonstration narration after exact macOS
+  synthesis measured the first draft at 185.842 seconds. The revised seven-scene
+  track measures 138.105 seconds, leaving a 41.895-second rules margin before
+  final encoding.
 - Stabilised the narrow-screen keyboard acceptance check by sending Enter to
   the already focused trace and search controls while retaining explicit focus
   assertions.
@@ -54,9 +76,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   reference was replaced to correct its tagger identity; the product commit and
   deployed bytes did not change.
 - Kept the post-tag verification record separate from the immutable
-  `v0.2.0-rc.1` product commit. Supported-host native WebMCP, manual
-  screen-reader, release-platform SBOM or attestation, video and Devpost actions
-  remain explicitly unperformed.
+  `v0.2.0-rc.1` product commit. Supported-host WebMCP is now observed only for
+  the named Codex in-app browser and recorded time. Registration is observed as
+  complete; manual screen-reader, release-platform SBOM or attestation, video
+  publication and Devpost submission remain explicitly unperformed.
 
 ## [0.2.0-rc.1] - 2026-08-30
 
