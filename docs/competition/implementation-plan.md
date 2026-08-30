@@ -91,7 +91,7 @@ The exact commit is tagged `v0.2.0-rc.1`.
 | Must 15 | Complete: CSP, no storage and no external runtime provider request are enforced and tested. |
 | Must 16 | Complete for the bounded supported-host gate: instrumented lifecycle tests and installed Chrome and Edge passed, then `Codex In-app Browser` discovered and successfully called all five tools on the exact public release. This does not establish native support in ChatGPT desktop, Chrome or another host. |
 | Must 17 | Complete for `v0.2.0-rc.1`: MIT licence and notices are published; PR #9, exact-main validation and exact-commit Pages deployment are recorded. |
-| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips with a consolidated release/action/duration/hash receipt, the labelled supported-host receipt visualisation, release hashes, competition registration and the `v0.2.0-rc.1` tag are complete. Human clip review, genuine VoiceOver media/evidence, final video/captions/transcript, final compliance review and authorised submission remain open; Devpost project `1406973` is still an unpublished pre-submission draft. |
+| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips with a consolidated release/action/duration/hash receipt, the labelled supported-host receipt visualisation, a fail-closed and visibly labelled VoiceOver screenshot-sequence fallback, release hashes, competition registration and the `v0.2.0-rc.1` tag are complete. Human clip review, genuine VoiceOver media/evidence, final video/captions/transcript, final compliance review and authorised submission remain open; Devpost project `1406973` is still an unpublished pre-submission draft. |
 
 ## Implemented Should and Could work
 
@@ -130,7 +130,10 @@ clip, manual journey JSON and media/time binding. No final MP4, captions,
 transcript or build receipt exists. The following evidence or owner-governed
 actions remain open:
 
-1. Complete a manual screen-reader observation.
+1. Complete a manual screen-reader observation. Because continuous macOS
+   capture is unavailable, preserve and review the nine actual Safari and
+   VoiceOver frames, then use the guarded screenshot-sequence builder; its
+   declared metadata is not a substitute for the manual observation.
 2. Produce a release-platform SBOM or signed release attestation.
 3. Complete the prepared guarded video build with the genuine manual
    VoiceOver clip, then review the captions, transcript and local cut before

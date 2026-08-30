@@ -43,6 +43,10 @@
 - [ ] The VoiceOver record covers every exact journey checkpoint, records any
   issue or limitation, and binds the actual Safari scene by path, SHA-256 and
   capture interval without claiming WCAG conformance.
+- [ ] If the screenshot-sequence fallback is used, all nine source frames have
+  been human-reviewed as genuine Safari and VoiceOver observations, the
+  non-continuous label remains visible throughout, and the builder's declared
+  metadata is not treated as independent proof of assistive-technology use.
 - [x] Narrow-screen reflow, forced-colours, reduced-motion and automated contrast rules pass; manual zoom remains an observational gap.
 - [x] `Codex In-app Browser` discovered and successfully called all five tools
   against the exact published URL on 30 August 2026. The final comparison's

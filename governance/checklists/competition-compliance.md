@@ -62,6 +62,10 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
   and the final edit.
 - [ ] Genuine manual VoiceOver journey record and scene media exist with exact
   path, SHA-256, capture-time and journey-step binding.
+- [ ] If continuous capture is unavailable, the nine actual Safari and
+  VoiceOver frames are human-reviewed and the resulting scene stays visibly
+  labelled as a screenshot sequence, not a continuous recording; manifest
+  declarations alone do not satisfy this gate.
 - [ ] Guarded video preflight passes and the local build receipt binds the final
   MP4, captions, transcript, script and evidence inputs.
 - [ ] Chris Page approves the synthetic-voice publication basis and verifies the

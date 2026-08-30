@@ -90,6 +90,7 @@ govuk-webmcp/
 │   ├── write-deployment-metadata.mjs
 │   ├── build-demo-video.mjs        # guarded local review cut, captions and transcript
 │   ├── build-host-evidence-clip.mjs # labelled receipt visualisation, not host video
+│   ├── build-voiceover-screenshot-clip.mjs # guarded and visibly labelled screenshot sequence
 │   ├── build-preview-scene-clips.mjs # explicitly non-live editorial previews
 │   ├── capture-live-demo-clips.mjs # exact-release genuine interaction capture
 │   ├── write-evidence-manifest.mjs # fail-closed allowlisted digest manifest
@@ -102,6 +103,7 @@ govuk-webmcp/
 │   │   ├── evidence-federation.test.mjs
 │   │   ├── source-locks.test.mjs
 │   │   ├── demo-video.test.mjs
+│   │   ├── voiceover-screenshot-clip.test.mjs
 │   │   └── release-evidence.test.mjs
 │   └── browser/
 │       └── knowledge.spec.mjs
@@ -199,8 +201,14 @@ discovered and successfully called all five tools on the exact public release;
 the final comparison's canonical and displayed result digests matched. Five
 genuine public-page interaction clips and their consolidated receipt are also
 complete. The supported-host motion scene is a labelled receipt visualisation,
-not host-owned video. Manual screen-reader observation, release-platform SBOM or
-attestation, final local video and public video remain pending; competition
+not host-owned video. A separate fail-closed builder can turn nine operator-
+declared, hash-bound Safari and VoiceOver frames under ignored
+`output/voiceover-capture/` into the existing VoiceOver scene path; it labels
+the result as a screenshot sequence, not a continuous recording, and renders
+only immutable verified bytes without network access. It does not independently
+prove assistive-technology use, so the manual evidence record and human frame
+review remain mandatory. Manual screen-reader observation, release-platform
+SBOM or attestation, final local video and public video remain pending; competition
 registration is complete and Devpost submission has not occurred.
 
 ## 20.5 Release evidence set
