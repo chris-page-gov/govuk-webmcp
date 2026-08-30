@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:explore-answer-foundations-input:v1",
+  "title": "explore_answer_foundations input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answerId"],
+  "properties": {
+    "answerId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 96,
+      "pattern": "^answer:[a-z0-9][a-z0-9-]{2,88}$"
+    },
+    "claimId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 96,
+      "pattern": "^claim:[a-z0-9][a-z0-9-]{2,89}$"
+    }
+  }
+}

@@ -1,28 +1,14 @@
-import { createHash } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import {
+  canonicalJson,
+  sha256,
+  writeJsonWithChecksum,
+} from "./lib/deterministic-json.mjs";
+import { SOURCE_LOCK_IDS, validateSourceLocks } from "./lib/source-locks.mjs";
 
-function canonicalJson(value) {
-  if (value === null || typeof value !== "object") return JSON.stringify(value);
-  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
-  return `{${Object.keys(value).sort().map((key) =>
-    `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
-}
-
-const sha256 = (value) => createHash("sha256").update(value).digest("hex");
-const readJson = async (path) => JSON.parse(await readFile(path, "utf8"));
-const locks = await readJson("app/data/sources/source-locks.json");
-
-for (const source of locks.sources) {
-  if (!source.importedSha256) throw new Error(`Source ${source.id} has no imported SHA-256.`);
-  const bytes = await readFile(source.importedPath);
-  const observed = sha256(bytes);
-  if (observed !== source.importedSha256) {
-    throw new Error(`Source lock mismatch for ${source.id}: ${observed}`);
-  }
-}
-
-const sourceRecords = await readJson("app/data/sources/govuk-content-69.lock.json");
-const curatedRecords = await readJson("app/data/sources/curated-api-data.json");
+const validatedSources = await validateSourceLocks();
+const locks = validatedSources.registry;
+const sourceRecords = validatedSources.sourcesById.get(SOURCE_LOCK_IDS.GOVUK_CONTENT).value;
+const curatedRecords = validatedSources.sourcesById.get(SOURCE_LOCK_IDS.CURATED_API_DATA).value;
 if (sourceRecords.length !== 69 || curatedRecords.length !== 11) {
   throw new Error("The complete catalogue must contain 69 locked GOV.UK records and 11 curated records.");
 }
@@ -178,12 +164,6 @@ const receipts = records.map((record) => {
   receipt.receiptDigest = sha256(canonicalJson(receipt));
   return receipt;
 });
-
-async function writeJsonWithChecksum(path, value) {
-  const output = `${JSON.stringify(value, null, 2)}\n`;
-  await writeFile(path, output);
-  await writeFile(`${path}.sha256`, `${sha256(output)}  ${path.split("/").at(-1)}\n`);
-}
 
 await writeJsonWithChecksum("app/data/catalogue.json", catalogue);
 await writeJsonWithChecksum("app/data/receipts.json", receipts);

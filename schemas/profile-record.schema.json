@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["id", "title", "description", "resourceType", "publisher", "topics", "canonicalHumanUrl", "licence", "access", "dates", "sourceAuthority", "assertions", "provenance", "limitations", "relatedRecordIds"],
   "properties": {
-    "id": { "type": "string", "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "id": { "type": "string", "maxLength": 128, "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$" },
     "title": { "type": "string", "minLength": 1, "maxLength": 300 },
     "description": { "type": "string", "minLength": 1, "maxLength": 2000 },
     "resourceType": { "$ref": "#/$defs/resourceType" },
@@ -94,7 +94,7 @@
       }
     },
     "limitations": { "type": "array", "minItems": 1, "maxItems": 12, "items": { "type": "string", "minLength": 1 } },
-    "relatedRecordIds": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "pattern": "^govuk-discovery:" } }
+    "relatedRecordIds": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "maxLength": 128, "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$" } }
   },
   "$defs": {
     "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },

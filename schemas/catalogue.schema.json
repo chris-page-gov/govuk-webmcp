@@ -11,6 +11,6 @@
     "profile": { "const": "trusted-govuk-discovery.profile.v1" },
     "bundleDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "sourceLocksDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-    "records": { "type": "array", "minItems": 30, "maxItems": 80, "items": { "$ref": "urn:govuk-webmcp:schema:profile-record:v1" } }
+    "records": { "type": "array", "minItems": 80, "maxItems": 80, "items": { "$ref": "urn:govuk-webmcp:schema:profile-record:v1" } }
   }
 }

@@ -9,17 +9,67 @@
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header>
       <p class="phase">Independent experimental prototype</p>
       <h1>Trusted government knowledge discovery</h1>
       <p class="lede">Search a checksum-verified catalogue of GOV.UK content, public-sector data and APIs. Every result keeps its source, status and limitations visible.</p>
-      <dl class="catalogue-summary" aria-label="Verified catalogue summary">
+      <dl class="catalogue-summary" aria-label="Verified knowledge summary">
         <div><dt>Records</dt><dd id="record-count">Verifying…</dd></div>
         <div><dt>Bundle</dt><dd><code id="bundle-digest">Verifying…</code></dd></div>
+        <div><dt>Collections</dt><dd id="collection-count">Verifying…</dd></div>
         <div><dt>Runtime</dt><dd id="tool-status">Verifying…</dd></div>
       </dl>
     </header>
-    <main>
+    <main id="main-content" tabindex="-1">
+      <p id="route-warning" class="warning" hidden></p>
+      <section id="answer-panel" aria-labelledby="answer-heading">
+        <p class="eyebrow">Worked evidence-first answer</p>
+        <h2 id="answer-heading">Check an answer before relying on it</h2>
+        <p class="hint">The analytical index is the primary view. The Evidence Trace below is a progressive visual explanation of the same deterministic data.</p>
+        <p id="answer-question" class="question">Verifying the worked answer…</p>
+        <div id="answer-summary"></div>
+        <h3>What this is based on</h3>
+        <dl id="answer-basis" class="summary-list"></dl>
+        <div class="section-heading">
+          <h3 id="analytical-index-heading">Analytical index of the answer</h3>
+          <button id="compare-claims" class="secondary" type="button" disabled>Compare selected claims</button>
+        </div>
+        <p id="compare-hint" class="hint">Select two to four claims to compare their authority, integrity, freshness, access, rights and coverage.</p>
+        <ol id="analytical-index" class="analytical-index" aria-describedby="compare-hint"></ol>
+
+        <h3 id="trace-heading">Evidence Trace</h3>
+        <p class="hint">Read each path from the answer to a claim and then to its source, transformation, check and limitation. Text labels—not colour—state every relationship.</p>
+        <div id="trace-diagram" class="trace-diagram" role="group" aria-labelledby="trace-heading"></div>
+
+        <section id="foundation-panel" class="foundation-panel" aria-labelledby="foundation-heading" tabindex="-1">
+          <h3 id="foundation-heading">Selected foundation</h3>
+          <div id="foundation-detail"><p>Select a node to inspect its separate trust facets.</p></div>
+        </section>
+
+        <section id="comparison-panel" aria-labelledby="comparison-heading" tabindex="-1" hidden>
+          <div class="section-heading">
+            <h3 id="comparison-heading">Evidence comparison</h3>
+            <button id="close-comparison" class="secondary" type="button">Close comparison</button>
+          </div>
+          <div id="comparison-content"></div>
+        </section>
+        <div id="evidence-structured"></div>
+      </section>
+
+      <section aria-labelledby="estate-heading">
+        <h2 id="estate-heading">What is in the evidence estate</h2>
+        <p>Collections are shown separately because their populations, review states and rights differ. Only two reviewed collections, together accounting for the 80-record deep-evidence catalogue, are searchable in this release.</p>
+        <div class="table-scroll" role="region" aria-labelledby="estate-heading" tabindex="0">
+          <table class="estate-table">
+            <caption>Digest-bound corpus admission decisions</caption>
+            <thead><tr><th scope="col">Collection</th><th scope="col">Admission</th><th scope="col">Declared scope</th><th scope="col">Meaning in this release</th></tr></thead>
+            <tbody id="estate-body"></tbody>
+          </table>
+        </div>
+        <p class="hint">Federation manifest <code id="federation-digest">Verifying…</code></p>
+      </section>
+
       <section aria-labelledby="search-heading">
         <h2 id="search-heading">Search government knowledge</h2>
         <form id="search-form" action="./" method="post" autocomplete="off">
@@ -52,7 +102,7 @@
           <h2 id="results-heading">Results</h2>
           <button id="clear-search" class="secondary" type="button" hidden>Clear search</button>
         </div>
-        <div id="results" aria-live="polite"><p>No search has been run.</p></div>
+        <div id="results"><p>No search has been run.</p></div>
       </section>
       <section id="record-panel" class="record-panel" aria-labelledby="record-heading" tabindex="-1" hidden>
         <div class="section-heading">
@@ -71,6 +121,20 @@
           <li>Digest-bound means the packaged metadata passed integrity checks, not that government certified its accuracy.</li>
           <li>No provider API is called while you use this page.</li>
         </ul>
+      </section>
+      <section class="boundary" aria-labelledby="webmcp-heading">
+        <h2 id="webmcp-heading">WebMCP diagnostics</h2>
+        <p>Registration is progressive enhancement. Instrumented page registration does not by itself prove that a particular agent host discovered or called these tools.</p>
+        <dl id="webmcp-diagnostics" class="summary-list">
+          <div><dt>Secure context</dt><dd id="diagnostic-secure-context">Checking…</dd></div>
+          <div><dt>Knowledge artefacts</dt><dd id="diagnostic-artefacts">Verifying…</dd></div>
+          <div><dt>Registration</dt><dd id="diagnostic-registration">Checking…</dd></div>
+          <div><dt>Expected tools</dt><dd id="diagnostic-tools">5 fixed tools</dd></div>
+          <div><dt>Presentation effect</dt><dd>Two exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.</dd></div>
+          <div><dt>Last presentation action</dt><dd id="diagnostic-last-action">None</dd></div>
+          <div><dt>Input digest</dt><dd><code id="diagnostic-input-digest">Not available</code></dd></div>
+          <div><dt>Result/display parity</dt><dd id="diagnostic-parity">Not tested yet</dd></div>
+        </dl>
       </section>
     </main>
     <footer>

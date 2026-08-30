@@ -29,7 +29,12 @@ Stop and report a conflict rather than silently choosing a weaker instruction.
 - Revalidate tool inputs in executable code; JSON Schema alone is insufficient.
 - Use closed schemas with `additionalProperties: false`, bounded strings, small
   result sets and no unrelated personal/context inputs.
-- Mark tools read-only and source-derived output untrusted.
+- Keep published schemas and executable validators in parity. Executable
+  validation must never admit a value rejected by the published contract;
+  document and test any deliberately stricter boundary.
+- Mark tool effects truthfully: query tools are read-only; a tool with a
+  reversible page-presentation effect is not marked read-only. Mark all
+  source-derived output untrusted.
 - Register tools only after bundle/schema/digest validation succeeds.
 - Do not make runtime calls to official APIs for the MVP.
 - Preserve authoritative human URLs and visible limitations in every result.
@@ -44,6 +49,10 @@ commit, run the smallest complete deterministic validation available and report
 what was not run. Maintain authored/generated boundaries, source locks,
 receipts, manifests and checksums. Do not claim a successful browser or
 assistive-technology observation unless it actually occurred.
+
+For digest-bound artefacts, test co-digested semantic mutations as well as raw
+checksum failures. A valid self-digest does not replace field, relationship or
+cross-artefact validation.
 
 ## Lockstep tracking
 

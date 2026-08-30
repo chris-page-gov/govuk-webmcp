@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:compare-evidence-foundations-input:v1",
+  "title": "compare_evidence_foundations input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answerId", "claimIds"],
+  "properties": {
+    "answerId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 96,
+      "pattern": "^answer:[a-z0-9][a-z0-9-]{2,88}$"
+    },
+    "claimIds": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 96,
+        "pattern": "^claim:[a-z0-9][a-z0-9-]{2,89}$"
+      }
+    }
+  }
+}

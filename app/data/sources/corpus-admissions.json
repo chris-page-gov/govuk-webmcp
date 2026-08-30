@@ -1,0 +1,560 @@
+{
+  "schema": "govuk-webmcp.corpus-admission-source.v1",
+  "authoredAt": "2026-08-30T00:00:00Z",
+  "collections": [
+    {
+      "id": "corpus:govuk-new-child",
+      "title": "GOV.UK new-child discovery collection",
+      "domain": "GOV.UK content",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-govuk-content",
+      "source": {
+        "refType": "locked-import",
+        "tag": null,
+        "revision": "94f5020cb2c7512a79c2353ee48743ad733a132c",
+        "snapshotId": "NEW-CHILD-20260715",
+        "importedSha256": "3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc"
+      },
+      "producerState": "checkpoint",
+      "admissionState": "searchable",
+      "payloadState": "deep-evidence",
+      "freshness": {
+        "status": "observed",
+        "observedAt": "2026-07-15T06:25:17Z",
+        "staleAfter": null
+      },
+      "population": {
+        "definition": "The declared 69-record new-child seed and bounded one-hop closure, not all GOV.UK publishing.",
+        "denominator": 69,
+        "unit": "records",
+        "completenessClaim": "Complete only against the declared 69-record seed."
+      },
+      "counts": [
+        { "metric": "records", "count": 69 },
+        { "metric": "relationships", "count": 392 }
+      ],
+      "rights": {
+        "repositoryLicence": "MIT for original repository code where stated",
+        "upstreamPolicy": "GOV.UK metadata under the Open Government Licence v3.0 where applicable; linked and third-party material needs separate review.",
+        "redistribution": "Bounded metadata projection with item-level links and notices.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.2",
+        "targetOkfCore": "0.2",
+        "profile": "GOV.UK content profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "local-profile-crosswalk-required"
+      },
+      "delivery": {
+        "mode": "same-origin-bundle",
+        "sameOriginPaths": ["data/catalogue.json", "data/receipts.json"],
+        "lazy": false,
+        "maximumInitialBytes": 1048576
+      },
+      "decision": {
+        "allowedClaims": [
+          "The 69 locked records are searchable in this build.",
+          "Each searchable record retains its authoritative human link and packaged evidence receipt."
+        ],
+        "forbiddenClaims": [
+          "The build contains all GOV.UK content.",
+          "Catalogue inclusion proves current accuracy, access or permission."
+        ],
+        "limitations": [
+          "The wider 836,998-publication census is a denominator, not admitted detailed content.",
+          "The producer revision recorded by the original source lock is not reproducible from the current local clone; the existing imported byte digest is therefore preserved rather than replaced."
+        ]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:curated-government-data-apis",
+      "title": "Curated official data and API records",
+      "domain": "Government data and APIs",
+      "repositoryUrl": "https://github.com/chris-page-gov/govuk-webmcp",
+      "source": {
+        "refType": "locked-import",
+        "tag": "v0.1.0-rc.1",
+        "revision": "fd2b7ae3176532e96b78fa31320e7fe27ec6cf51",
+        "snapshotId": "CURATED-OFFICIAL-DATA-APIS-20260829",
+        "importedSha256": "f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794"
+      },
+      "producerState": "checkpoint",
+      "admissionState": "searchable",
+      "payloadState": "deep-evidence",
+      "freshness": {
+        "status": "observed",
+        "observedAt": "2026-08-29T14:55:00Z",
+        "staleAfter": null
+      },
+      "population": {
+        "definition": "Eleven manually reviewed official API, API documentation, catalogue and dataset records selected for the competition demonstrator.",
+        "denominator": 11,
+        "unit": "records",
+        "completenessClaim": "Complete against the declared 11-record curated source file only."
+      },
+      "counts": [
+        { "metric": "records", "count": 11 },
+        { "metric": "API records", "count": 8 },
+        { "metric": "other data and documentation records", "count": 3 }
+      ],
+      "rights": {
+        "repositoryLicence": "Original normalisation retained under this repository's current notice",
+        "upstreamPolicy": "Each official record keeps explicit item-level licence and access evidence; missing evidence fails closed.",
+        "redistribution": "Bounded metadata projection with authoritative human links and evidence receipts.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": null,
+        "targetOkfCore": "0.2",
+        "profile": "Trusted government discovery profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "native-project-profile"
+      },
+      "delivery": {
+        "mode": "same-origin-bundle",
+        "sameOriginPaths": ["data/catalogue.json", "data/receipts.json"],
+        "lazy": false,
+        "maximumInitialBytes": 1048576
+      },
+      "decision": {
+        "allowedClaims": [
+          "The 11 locked records are searchable in this build.",
+          "Every record retains its authoritative human URL, assertion status, limitations and evidence receipt."
+        ],
+        "forbiddenClaims": [
+          "The records represent every UK government API or dataset.",
+          "An endpoint is callable, authorised or openly licensed unless its record explicitly establishes that status."
+        ],
+        "limitations": [
+          "This is a deliberately small reviewed selection, not a population-complete API or data catalogue."
+        ]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:uk-life-course",
+      "title": "UK life-course service families",
+      "domain": "Public service journeys",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-living",
+      "source": {
+        "refType": "commit",
+        "tag": null,
+        "revision": "c38f927944dedc56b6454dba4d4463d419f85ee8",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "candidate",
+      "admissionState": "described-only",
+      "payloadState": "lazy-candidate",
+      "freshness": { "status": "not-established", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "The producer's declared life-course service-family denominator, not every service or local variation.",
+        "denominator": 293,
+        "unit": "service families",
+        "completenessClaim": "Population-complete against the declared 293-family denominator only."
+      },
+      "counts": [
+        { "metric": "concepts", "count": 9757 },
+        { "metric": "service families", "count": 293 },
+        { "metric": "relationships", "count": 15810 },
+        { "metric": "source assertions", "count": 879 }
+      ],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Original summaries and authoritative links; linked content is not republished.",
+        "redistribution": "Descriptor only in this build.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.2",
+        "targetOkfCore": "0.2",
+        "profile": "UK living profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "mapping-required"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": true,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["The producer describes 293 service families and their possible source routes."],
+        "forbiddenClaims": ["The collection determines eligibility or provides sufficient legal, medical or financial evidence."],
+        "limitations": ["291 of 293 families still require specialist review and none has named specialist acceptance."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:ons-metadata",
+      "title": "ONS metadata discovery",
+      "domain": "Official statistics metadata",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-ons",
+      "source": {
+        "refType": "tag",
+        "tag": "v0.2.0",
+        "revision": "9e2c46d7167d626910be5016ed94786e7b9e4e5c",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "released",
+      "admissionState": "conditional",
+      "payloadState": "lazy-candidate",
+      "freshness": { "status": "not-established", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "Metadata from four registered producer adapters, not statistical observations.",
+        "denominator": 5097,
+        "unit": "metadata records",
+        "completenessClaim": "Complete only for the four declared adapter snapshots."
+      },
+      "counts": [
+        { "metric": "records", "count": 5097 },
+        { "metric": "relationships", "count": 19735 }
+      ],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Rights remain source-specific; ELS record rights are not established.",
+        "redistribution": "Descriptor only pending release-asset verification.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": null,
+        "targetOkfCore": "0.2",
+        "profile": "ONS metadata profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "mapping-required"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": true,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["The producer release describes metadata from four registered adapters."],
+        "forbiddenClaims": ["The collection contains current statistical observations or grants endpoint access."],
+        "limitations": ["The release archive checksum must be verified before any payload is packaged; ELS rights remain not established."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:land-registry-metadata",
+      "title": "HM Land Registry metadata",
+      "domain": "Land and property metadata",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-LandRegistry",
+      "source": {
+        "refType": "tag",
+        "tag": "v0.3.0",
+        "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "released",
+      "admissionState": "described-only",
+      "payloadState": "descriptor-only",
+      "freshness": { "status": "observed", "observedAt": "2026-07-29T18:00:00Z", "staleAfter": null },
+      "population": {
+        "definition": "Metadata records in the producer's v0.3.0 release; no property or personal records.",
+        "denominator": 2203,
+        "unit": "metadata records",
+        "completenessClaim": "Bounded to the producer release manifest."
+      },
+      "counts": [
+        { "metric": "records", "count": 2203 },
+        { "metric": "relationships", "count": 22267 }
+      ],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Per-record rights and access evidence retained by the producer.",
+        "redistribution": "Descriptor only in this build.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.2",
+        "targetOkfCore": "0.2",
+        "profile": "Land Registry semantic contract",
+        "schemaDigest": null,
+        "crosswalkStatus": "mapping-required"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": true,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["The producer release describes land and property metadata routes."],
+        "forbiddenClaims": ["The build contains title, property or personal records, or has completed an independent legal audit."],
+        "limitations": ["A separate domain, legal, licence and accessibility acceptance is required before payload admission."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:uk-government-apis",
+      "title": "UK government API and data catalogue",
+      "domain": "Government APIs and data access",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-government-apis",
+      "source": {
+        "refType": "tag",
+        "tag": "v0.4.0",
+        "revision": "99e310a3c3b8d38d63163df626da5905b3f1de1f",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "released",
+      "admissionState": "quarantined",
+      "payloadState": "lazy-candidate",
+      "freshness": { "status": "not-established", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "The producer's v0.4.0 API, product, endpoint and operation catalogue.",
+        "denominator": 41520,
+        "unit": "records",
+        "completenessClaim": "Bounded to the producer release manifest; not a claim about every UK public API."
+      },
+      "counts": [
+        { "metric": "records", "count": 41520 },
+        { "metric": "relationships", "count": 276996 }
+      ],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Licence and access evidence are record-specific; missing evidence fails closed.",
+        "redistribution": "Descriptor only pending item-level admission.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": null,
+        "targetOkfCore": "0.2",
+        "profile": "UK government API profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "mapping-required"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": true,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["The producer release describes 41,520 records with explicit provenance-bearing relationships."],
+        "forbiddenClaims": ["Every endpoint is live, public, openly licensed or safe to call."],
+        "limitations": ["11,120 records lack a licence, 202 have unknown access and 25,383 licences were inferred from provider terms; a bounded candidate pool still needs item-level review."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:uk-legislation",
+      "title": "UK legislation knowledge collection",
+      "domain": "Legislation metadata",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-legislation",
+      "source": {
+        "refType": "tag",
+        "tag": "v0.3.0",
+        "revision": "3fd2700f275fff53d8605f38eb3257780ea591fa",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "validated",
+      "admissionState": "quarantined",
+      "payloadState": "lazy-candidate",
+      "freshness": { "status": "not-established", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "Legislation works and typed relationships in the producer tag.",
+        "denominator": 365786,
+        "unit": "legislation works",
+        "completenessClaim": "Bounded to the producer tag; official effect coverage is partial."
+      },
+      "counts": [
+        { "metric": "works", "count": 365786 },
+        { "metric": "relationships", "count": 906754 },
+        { "metric": "official effect assertions", "count": 14712 },
+        { "metric": "model-assisted discovery assertions", "count": 56479 }
+      ],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Legal-source rights and model-assisted assertions must remain distinct.",
+        "redistribution": "Descriptor only pending release-evidence reconciliation.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "access-not-established"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.2",
+        "targetOkfCore": "0.2",
+        "profile": "UK legislation profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "mapping-required"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": true,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["The producer tag describes legislation works and distinguishes official from model-assisted relationship assertions."],
+        "forbiddenClaims": ["The collection gives legal advice or provides complete official-effects coverage."],
+        "limitations": ["The tagged tree still records seven external finalisation gates; immutable release assets and receipts must reconcile before payload admission."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:ai-infrastructure",
+      "title": "AI infrastructure terminology",
+      "domain": "Standards and infrastructure concepts",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-ai-infrastructure",
+      "source": {
+        "refType": "tag",
+        "tag": "v0.4.0",
+        "revision": "14265d910ec5e5a57573b785febf800e6d7418f1",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "released",
+      "admissionState": "described-only",
+      "payloadState": "descriptor-only",
+      "freshness": { "status": "not-established", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "AI infrastructure concepts in the producer release.",
+        "denominator": 155,
+        "unit": "concepts",
+        "completenessClaim": "A bounded explanatory vocabulary, not GOV.UK content coverage."
+      },
+      "counts": [
+        { "metric": "concepts", "count": 155 },
+        { "metric": "relationships", "count": 579 }
+      ],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Concept evidence, authority, freshness and rights remain explicit.",
+        "redistribution": "Descriptor only in this build.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "not-applicable"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.1",
+        "targetOkfCore": "0.2",
+        "profile": "AI infrastructure profile",
+        "schemaDigest": null,
+        "crosswalkStatus": "explanatory-only"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": true,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["The collection can explain terminology used by the demonstrator."],
+        "forbiddenClaims": ["Its concepts add to the GOV.UK publication coverage denominator."],
+        "limitations": ["Use as explanatory terminology only, not as government evidence for an answer."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:okf-explorer-contract",
+      "title": "OKF Explorer contract dependency",
+      "domain": "Semantic consumer contract",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-explorer",
+      "source": {
+        "refType": "tag",
+        "tag": "v0.7.0",
+        "revision": "bc40b05fe3ab350ce6cf764c9e37f63187509d86",
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "released",
+      "admissionState": "contract-only",
+      "payloadState": "descriptor-only",
+      "freshness": { "status": "not-applicable", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "Consumer and profile tooling; not a knowledge corpus.",
+        "denominator": null,
+        "unit": "not applicable",
+        "completenessClaim": "No corpus coverage claim."
+      },
+      "counts": [],
+      "rights": {
+        "repositoryLicence": "Repository-specific notice applies",
+        "upstreamPolicy": "Pin exact contract bytes before reuse.",
+        "redistribution": "No contract bytes copied in this build.",
+        "perRecordReviewRequired": false,
+        "accessDefault": "not-applicable"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.2",
+        "targetOkfCore": "0.2",
+        "profile": "Bundle Wiki additive profile",
+        "schemaDigest": "f69480328db4b64d678d9c50b6534d808000f7fb50a30e8cc9e3bf2facbcb8bc",
+        "crosswalkStatus": "canonical-contract-reference"
+      },
+      "delivery": {
+        "mode": "descriptor-only",
+        "sameOriginPaths": ["data/federation.json"],
+        "lazy": false,
+        "maximumInitialBytes": 524288
+      },
+      "decision": {
+        "allowedClaims": ["Explorer v0.7.0 is the pinned semantic contract reference for future crosswalk work."],
+        "forbiddenClaims": ["Schema-name similarity alone establishes conformance."],
+        "limitations": ["No Explorer contract bytes are copied into this build; producer-specific crosswalks remain required."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    },
+    {
+      "id": "corpus:okf-testing-quarantine",
+      "title": "OKF conformance fixtures",
+      "domain": "Conformance testing",
+      "repositoryUrl": null,
+      "source": {
+        "refType": "unversioned-local",
+        "tag": null,
+        "revision": null,
+        "snapshotId": null,
+        "importedSha256": null
+      },
+      "producerState": "unversioned",
+      "admissionState": "quarantined",
+      "payloadState": "quarantined",
+      "freshness": { "status": "not-applicable", "observedAt": null, "staleAfter": null },
+      "population": {
+        "definition": "Eleven local positive and negative conformance fixtures.",
+        "denominator": 11,
+        "unit": "fixtures",
+        "completenessClaim": "Fixture count only; no release or conformance claim."
+      },
+      "counts": [{ "metric": "fixtures", "count": 11 }],
+      "rights": {
+        "repositoryLicence": "not established",
+        "upstreamPolicy": "Do not copy until version, licence and canonical schema alignment are established.",
+        "redistribution": "Not redistributed.",
+        "perRecordReviewRequired": true,
+        "accessDefault": "not-applicable"
+      },
+      "semantics": {
+        "sourceOkfCore": "0.2",
+        "targetOkfCore": "0.2",
+        "profile": "Unversioned local test profile",
+        "schemaDigest": "307e59c5a3b1f502d50c7d82233a330e6919634b7b57fbdaed96a6a6a290af52",
+        "crosswalkStatus": "schema-drift-quarantined"
+      },
+      "delivery": {
+        "mode": "quarantined",
+        "sameOriginPaths": [],
+        "lazy": false,
+        "maximumInitialBytes": 0
+      },
+      "decision": {
+        "allowedClaims": ["Negative-case ideas may be independently re-authored in this repository."],
+        "forbiddenClaims": ["The local fixtures are the exact Explorer v0.7.0 contract or are safe to vendor."],
+        "limitations": ["The schema digest is a 30 August 2026 observation of an unversioned local file. The directory has no Git identity or established licence and its IRI pattern differs from the pinned Explorer schema."]
+      },
+      "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
+    }
+  ]
+}
