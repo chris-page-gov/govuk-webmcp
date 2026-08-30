@@ -1,7 +1,9 @@
 # 18. Demonstration storyboard — 2 minutes 45 seconds
 
-This is the recording plan for the uncommitted candidate. It is not evidence
-that the final release or a live WebMCP host has been observed.
+This is the recording plan for the published `v0.2.0-rc.1` product release at
+<https://chris-page-gov.github.io/govuk-webmcp/>. It is not evidence that a
+demonstration video or a native call from a supported live WebMCP host has been
+observed.
 
 | Time | Visual and action | Narration purpose |
 |---:|---|---|
@@ -15,19 +17,23 @@ that the final release or a live WebMCP host has been observed.
 
 ## Evidence gates before recording
 
-Observed on the current candidate:
+Observed for the published release:
 
-- 58 unit checks passed;
-- 19 installed-Chrome browser checks passed; and
-- the same 19 browser checks passed in Microsoft Edge.
+- [pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9)
+  integrated product commit `9235ee5db4df637bdb2a12e87449e871614afe68`;
+- exact-main validation run `33286750188` passed 58 unit checks and 19 Chromium
+  browser checks;
+- Pages run `33286771963` deployed that commit and all 20 live files matched the
+  Pages artefact byte for byte; and
+- the same source tree passed 19 installed-Microsoft-Edge checks before
+  publication.
 
 Still required before the storyboard can be presented as a final demonstration:
 
-- release and deploy the exact candidate, then verify the final public URL and
-  revision;
 - record genuine discovery and a representative call from a supported live
   WebMCP host; and
-- complete and record the manual screen-reader observation.
+- complete and record the manual screen-reader observation; and
+- record, caption and publish the video and transcript.
 
 Instrumented browser registration is useful contract evidence, but it is not a
 substitute for the live-host step.

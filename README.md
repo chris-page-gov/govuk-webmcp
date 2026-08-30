@@ -3,6 +3,12 @@
 Public source repository for **Trusted government knowledge discovery**, an
 independent experimental prototype.
 
+The `v0.2.0-rc.1` product release is available at
+<https://chris-page-gov.github.io/govuk-webmcp/>. It was integrated through
+[pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9), is
+bound to product commit `9235ee5db4df637bdb2a12e87449e871614afe68`, and is
+retained as a [public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
+
 ## Current implementation
 
 The current working implementation is a static TypeScript application with:
@@ -20,15 +26,16 @@ The current working implementation is a static TypeScript application with:
 
 This is not an official GOV.UK or UK government service. It is not a durable MCP
 gateway, a production service or a comprehensive index of government
-information. This document makes no claim that the current working change has
-been merged or deployed, or that the prototype has been registered for or
-submitted to Devpost.
+information. The published release passed exact-main validation in run
+`33286750188` and was deployed from the same product commit in Pages run
+`33286771963`. Competition registration and Devpost submission have not been
+performed.
 
 ## Start here
 
 1. Read `PROJECT_STATUS.md`.
-2. Read `CODEX_HANDOVER.md`.
-3. Read `AGENTS.md` before allowing Codex to change the repository.
+2. Read `AGENTS.md` before allowing Codex to change the repository.
+3. Read `CODEX_HANDOVER.md`.
 4. Read `research/2026-08-29/deep-research-report.md` for the decision-grade
    report.
 5. Run the complete local suite:
@@ -96,7 +103,8 @@ These tools are registered imperatively on the current page when a compatible
 secure browser host exposes `document.modelContext`. They are available only in
 that page context. They do not provide an independently callable, durable MCP
 gateway, provider authentication, persistent sessions or durable call
-receipts.
+receipts. Instrumented browser tests cover registration and calls, but native
+discovery and invocation by a supported live WebMCP host remain unobserved.
 
 ## Privacy and operating boundary
 
@@ -122,5 +130,8 @@ access or permission to reuse linked material.
 - `schemas/` — closed input, output and generated-artefact schemas.
 - `SECURITY.md`, `PRIVACY.md` and `ACCESSIBILITY.md` — public operating
   boundaries and known limitations.
-- `docs/competition/evidence/` — retained review evidence; it must not be read
-  as proof that the current working change is published.
+- `docs/competition/evidence/` — dated candidate and release evidence, including
+  exact deployment metadata, live-byte verification and explicit remaining
+  gates. Start with the
+  [30 August 2026 public release verification](docs/competition/evidence/public-release-verification-2026-08-30.md).
+  Each record applies only to the revision and observation it names.

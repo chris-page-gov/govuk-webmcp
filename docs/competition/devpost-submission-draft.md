@@ -1,9 +1,9 @@
 # 19. Draft Devpost submission text
 
 **Status: draft only — not submitted.** Competition registration and submission
-remain separate actions requiring Chris Page's approval. The final candidate
-release, live-host observation and manual screen-reader observation are still
-pending.
+remain separate actions requiring Chris Page's approval. The `v0.2.0-rc.1`
+product release is public; supported live-host observation, manual screen-reader
+observation and the final video are still pending.
 
 ## Project title
 
@@ -102,17 +102,24 @@ approval.
 
 ## Current evidence and remaining work
 
-The uncommitted candidate has passed 58 unit checks, 19 installed-Chrome browser
-checks and the same 19 checks in Microsoft Edge. Those checks cover the five
-fixed contracts, shared presentation parity, cancellation and rollback, all
-four artefact failure paths, source-lock enforcement, bounded hostile input,
-direct routes, inert source text, keyboard use, reflow, forced colours, reduced
-motion and an automated axe smoke scan.
+The `v0.2.0-rc.1` product release is public at
+<https://chris-page-gov.github.io/govuk-webmcp/> and retained as a
+[GitHub pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
+[Pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9)
+integrated product commit `9235ee5db4df637bdb2a12e87449e871614afe68`.
+Exact-main run `33286750188` passed 58 unit checks and 19 Chromium browser
+checks; Pages run `33286771963` rebuilt and deployed the same commit. All 20
+public files matched the Pages artefact byte for byte, and a signed-out human
+journey completed without a console error or warning. The same source tree also
+passed 19 installed-Microsoft-Edge checks before publication.
 
-Before submission, the exact candidate must still be committed, released and
-verified at its final public URL. Genuine discovery and calls from a supported
-live WebMCP host, manual screen-reader observation, the final video and the
-Devpost form also remain pending.
+The checks cover the five fixed contracts, shared presentation parity,
+cancellation and rollback, all four artefact failure paths, source-lock
+enforcement, bounded hostile input, direct routes, inert source text, keyboard
+use, reflow, forced colours, reduced motion and an automated axe smoke scan.
+Genuine discovery and calls from a supported live WebMCP host, manual
+screen-reader observation, a release-platform SBOM or attestation, the final
+video, competition registration and the Devpost form remain pending.
 
 ## Potential impact
 

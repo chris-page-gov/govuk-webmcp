@@ -8,6 +8,53 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A machine-readable `challenge-provenance.json` that distinguishes the
+  research baseline from the prior public release and records pull request 9,
+  the product commit, annotated pre-release, exact-main validation, Pages
+  artefact and explicit remaining gates.
+- Complete 30 August Pages and live-byte evidence: public release verification,
+  preserved deployment metadata, a 20-file site manifest and structured proof
+  that every cache-busted public response returned HTTP 200 and matched the
+  deployed artefact byte for byte.
+- A signed-out live-browser screenshot and journey record showing the public
+  search, authoritative GOV.UK result, successful same-origin requests and clean
+  console.
+
+### Fixed
+
+- Stabilised the narrow-screen keyboard acceptance check by sending Enter to
+  the already focused trace and search controls while retaining explicit focus
+  assertions.
+
+### Security
+
+- Enabled GitHub secret scanning and push protection after the repository
+  became public, while retaining strict protected-branch validation.
+- Hardened the SHA-256 evidence test to require bytewise ordered, unique,
+  canonical repository-relative paths; reject POSIX and Windows absolute paths,
+  backslashes, traversal, symbolic links, non-regular files and paths resolving
+  outside the repository; cover exactly all release data, retained evidence, the
+  package lock and schemas; and verify every retained digest.
+- Added semantic agreement checks across the 20-file deployed-site manifest,
+  structured live observations, deployment metadata and challenge provenance.
+
+### Governance
+
+- Advanced the status, handover, implementation plan, backlog, build brief,
+  source/asset/evaluation registers, demonstration draft and compliance
+  checklists in lockstep with the protected release and public evidence.
+- Recorded that GitHub published the pre-release before the annotated tag
+  reference was replaced to correct its tagger identity; the product commit and
+  deployed bytes did not change.
+- Kept the post-tag verification record separate from the immutable
+  `v0.2.0-rc.1` product commit. Supported-host native WebMCP, manual
+  screen-reader, release-platform SBOM or attestation, video and Devpost actions
+  remain explicitly unperformed.
+
+## [0.2.0-rc.1] - 2026-08-30
+
+### Added
+
 - A digest-bound Evidence Trace for the worked question “Which GOV.UK sources
   should I check after a baby is born?”, generated from one locked answer pack
   and three existing catalogue records.
@@ -165,5 +212,6 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Preserved competition registration and Devpost submission as separate,
   unperformed actions.
 
-[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.1.0-rc.1...HEAD
+[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.2.0-rc.1...HEAD
+[0.2.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1
 [0.1.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.1.0-rc.1

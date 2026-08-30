@@ -1,14 +1,14 @@
-# Appendix A — current candidate brief for Codex
+# Appendix A — published `v0.2.0-rc.1` brief for Codex
 
 ## Objective
 
-Complete and verify an accessible, static and independent WebMCP application
-that lets people and agents see the evidence before an answer. The primary
-journey starts with an analytical index, then exposes one Evidence Trace,
-separate trust facets, score-free comparison, the same result through WebMCP
-and the bounded evidence estate.
+Maintain and verify the published, accessible, static and independent WebMCP
+application that lets people and agents see the evidence before an answer. The
+primary journey starts with an analytical index, then exposes one Evidence
+Trace, separate trust facets, score-free comparison, the same result through
+WebMCP and the bounded evidence estate.
 
-## Candidate facts to preserve
+## Release facts to preserve
 
 - 80 reviewed records and 80 packaged evidence receipts.
 - Four exact authored source locks: 69 GOV.UK records, 11 curated government
@@ -87,16 +87,31 @@ and the bounded evidence estate.
 - The browser suite includes keyboard, 320-pixel reflow, forced colours,
   reduced motion and an axe smoke scan. These do not constitute a manual
   screen-reader observation or a WCAG conformance claim.
+- PR #9 integrated the release into protected `main` at
+  `9235ee5db4df637bdb2a12e87449e871614afe68`.
+- Exact-main validation run `33286750188` passed 58 unit and 19 Chromium
+  browser checks.
+- Pages run `33286771963` rebuilt, retested and deployed that exact commit;
+  deployment metadata and live artefact bytes matched it.
+- The exact release commit is tagged `v0.2.0-rc.1`.
 
-## Remaining definition of done
+## Published definition of done
 
-- commit and release the exact candidate without losing source or evidence
-  chronology;
-- run deterministic final-release validation and verify the exact public URL,
-  revision, same-origin requests and signed-out journey;
-- observe all five tools and representative calls in a supported live WebMCP
-  host;
-- complete the manual screen-reader observation;
-- record the sub-three-minute demonstration and transcript; and
-- complete the compliance checklist and obtain separate approval before any
+The sequenced product build, protected-branch integration and public deployment
+are complete. Preserve PR #9, exact-main run `33286750188`, Pages run
+`33286771963`, release commit
+`9235ee5db4df637bdb2a12e87449e871614afe68` as the immutable product
+identity. Preserve exact annotated tag object
+`0a41f7a6f0123c3aba9742bbf6167b8a8ceb2b82` as the recorded unsigned release
+pointer; GitHub does not enforce immutable releases or signed tags here.
+
+## Open evidence and submission gates
+
+- Observe all five tools and representative calls natively in a supported
+  WebMCP host.
+- Complete the manual screen-reader observation.
+- Produce a release-platform SBOM or signed release attestation; the existing
+  dated SBOM remains a local macOS ARM64 dependency view.
+- Record the sub-three-minute demonstration and transcript.
+- Complete the compliance checklist and obtain separate approval before any
   competition registration or Devpost submission.

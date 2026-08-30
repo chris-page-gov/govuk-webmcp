@@ -2,7 +2,8 @@
 
 ## 8.1 Human-agent shared page
 
-The competition candidate is an 80-record, 80-receipt static application. Its
+The published `v0.2.0-rc.1` release is an 80-record, 80-receipt static
+application. Its
 primary view is a worked evidence-first answer, not a search box or a generated
 narrative. The page presents:
 
@@ -201,13 +202,17 @@ evidence selections, comparisons and missing exact identifiers. A checksum,
 digest, graph, URL, source-lock or admission failure blocks registration rather
 than manufacturing an unverified substitute.
 
-The current candidate has observed automated evidence from 58 unit checks, 19
-installed-Chrome browser checks and the same 19 checks in Microsoft Edge. The
-browser suites include instrumented five-tool registration, parity, cancellation,
-rollback, integrity failure, bounded hash routes, inert source text, keyboard,
-reflow, forced-colour, reduced-motion and axe smoke checks. Final release
-verification, a call from a supported live WebMCP host and manual screen-reader
-observation remain pending.
+Exact-main validation run `33286750188` passed 58 unit checks and 19 Chromium
+browser checks for product commit
+`9235ee5db4df637bdb2a12e87449e871614afe68`. Pages run `33286771963`
+rebuilt and deployed that same commit at
+<https://chris-page-gov.github.io/govuk-webmcp/>; all 20 live files matched the
+Pages artefact byte for byte. The same source tree passed 19 installed Microsoft
+Edge checks before publication. The browser suites include instrumented
+five-tool registration, parity, cancellation, rollback, integrity failure,
+bounded hash routes, inert source text, keyboard, reflow, forced-colour,
+reduced-motion and axe smoke checks. A native call from a supported live WebMCP
+host and manual screen-reader observation remain pending.
 
 ## 8.7 Explicitly excluded claims
 
