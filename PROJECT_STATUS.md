@@ -9,6 +9,13 @@ remains `Untitled`, blank and `submission_pre_draft`, with no video URL,
 publication timestamp or submission timestamp at the read-only
 `2026-08-30T17:57:48Z` observation.
 
+Pull request 13 subsequently admitted the corrected public-host, video-review
+and read-only Devpost evidence plus its tests and lockstep documentation as
+repository commit `5f2295f5f55dfb4f6c089019c53c32c22c3ae86a`. Exact-main
+validation run `33327860583` passed. That evidence-only integration did not
+dispatch Pages or change the public application bytes, so the deployment
+identity above remains `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+
 The tagged `v0.2.0-rc.1` release at
 `9235ee5db4df637bdb2a12e87449e871614afe68` and its earlier verification remain
 historical evidence; the tag has not been moved to the corrected deployment.
