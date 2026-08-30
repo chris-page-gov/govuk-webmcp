@@ -49,6 +49,9 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Installed `ffmpeg` explicitly in validation and Pages jobs so the guarded
+  VoiceOver media-integrity tests run in GitHub Actions rather than depending on
+  runner image contents.
 - Tightened the British-English demonstration narration after exact macOS
   synthesis measured the first draft at 185.842 seconds. The revised seven-scene
   track measures 138.105 seconds, leaving a 41.895-second rules margin before
