@@ -157,7 +157,9 @@ async function installModelContext(page, configuration = {}) {
         if (options.signal?.aborted) relayAbort();
         else options.signal?.addEventListener("abort", relayAbort, { once: true });
         try {
-          const result = await tool.execute(input, { signal: controller.signal });
+          const result = state.config.omitExecutionOptions
+            ? await tool.execute(input)
+            : await tool.execute(input, { signal: controller.signal });
           return JSON.stringify(result);
         } finally {
           options.signal?.removeEventListener("abort", relayAbort);
@@ -308,6 +310,55 @@ test("WebMCP exploration and comparison update only the matching visible determi
   await expect(page.locator("#diagnostic-last-action")).toHaveText("WebMCP: compare_evidence_foundations");
   await page.getByRole("button", { name: "Close comparison" }).click();
   await expect(page.getByRole("button", { name: "Compare 2 selected claims" })).toBeFocused();
+});
+
+test("WebMCP callbacks tolerate hosts that omit execution options", async ({ page }) => {
+  await installModelContext(page, { omitExecutionOptions: true });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+
+  const recordId = "govuk-discovery:api:companies-house";
+  const calls = [
+    {
+      name: "search_government_knowledge",
+      input: { query: "register a birth", limit: 3 },
+      schema: "trusted-govuk-discovery.search-result.v1",
+    },
+    {
+      name: "get_resource_record",
+      input: { recordId },
+      schema: "trusted-govuk-discovery.resource-record-result.v1",
+    },
+    {
+      name: "show_provenance",
+      input: { recordId },
+      schema: "trusted-govuk-discovery.provenance-result.v1",
+    },
+    {
+      name: "explore_answer_foundations",
+      input: { answerId, claimId: claimIds[0] },
+      schema: "trusted-govuk-discovery.evidence-exploration-result.v1",
+    },
+    {
+      name: "compare_evidence_foundations",
+      input: { answerId, claimIds: claimIds.slice(0, 2) },
+      schema: "trusted-govuk-discovery.evidence-comparison-result.v1",
+    },
+  ];
+
+  for (const call of calls) {
+    const result = await executeTool(page, call.name, call.input);
+    expect(result, call.name).toMatchObject({ ok: true, schema: call.schema });
+    expect(result, call.name).not.toHaveProperty("error");
+  }
+
+  const searchResult = await executeTool(page, "search_government_knowledge", {
+    query: "register a birth",
+    limit: 3,
+  });
+  expect(searchResult.returned).toBe(3);
+  expect(searchResult.results[0].canonicalHumanUrl).toMatch(/^https:\/\/www\.gov\.uk\//u);
 });
 
 test("a deeply nested rejected WebMCP input remains a bounded displayed error", async ({ page }) => {
