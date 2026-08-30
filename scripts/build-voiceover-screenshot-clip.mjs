@@ -427,6 +427,21 @@ async function placeOutput(source, overwrite) {
   }
 }
 
+export function buildVoiceOverFfmpegArguments(listPath, moviePath, expectedDuration) {
+  invariant(
+    Number.isFinite(expectedDuration) && expectedDuration > 0,
+    "Expected VoiceOver sequence duration must be a positive finite number",
+  );
+  return [
+    "-nostdin", "-y", "-f", "concat", "-safe", "0", "-i", listPath,
+    "-vf", "fps=30,scale=1920:1080:flags=lanczos,setsar=1,format=yuv420p",
+    "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+    "-pix_fmt", "yuv420p", "-r", "30",
+    "-t", expectedDuration.toFixed(3),
+    "-movflags", "+faststart", moviePath,
+  ];
+}
+
 async function build(preflight, overwrite) {
   const work = await mkdtemp(join(tmpdir(), "govuk-webmcp-voiceover-sequence-"));
   try {
@@ -434,12 +449,11 @@ async function build(preflight, overwrite) {
     const listPath = join(work, "frames.txt");
     const moviePath = join(work, "voiceover-screenshot-sequence.mov");
     await writeFile(listPath, concatManifest(frames), "utf8");
-    run("ffmpeg", [
-      "-nostdin", "-y", "-f", "concat", "-safe", "0", "-i", listPath,
-      "-vf", "fps=30,scale=1920:1080:flags=lanczos,setsar=1,format=yuv420p",
-      "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "18",
-      "-pix_fmt", "yuv420p", "-r", "30", "-movflags", "+faststart", moviePath,
-    ]);
+    run("ffmpeg", buildVoiceOverFfmpegArguments(
+      listPath,
+      moviePath,
+      preflight.summary.totalDurationSeconds,
+    ));
     const media = validateRenderedClip(probe(moviePath), preflight.summary.totalDurationSeconds);
     await placeOutput(moviePath, overwrite);
     return {

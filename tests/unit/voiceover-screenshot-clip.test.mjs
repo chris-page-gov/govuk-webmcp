@@ -6,6 +6,7 @@ import test, { after, before } from "node:test";
 
 import { validateConfig } from "../../scripts/build-demo-video.mjs";
 import {
+  buildVoiceOverFfmpegArguments,
   preflightCapture,
   validateCaptureManifest,
   validateRenderedClip,
@@ -146,6 +147,18 @@ test("rendered screenshot sequence validator rejects weak output media", () => {
   assert.equal(validateRenderedClip(validProbe, 21).codec, "h264");
   assert.throws(() => validateRenderedClip({ ...validProbe, format: { ...validProbe.format, size: "1000" } }, 21), /too small/u);
   assert.throws(() => validateRenderedClip({ ...validProbe, streams: [{ ...validProbe.streams[0], width: 1280 }] }, 21), /1920x1080/u);
+});
+
+test("screenshot sequence encode is capped at the validated manifest duration", () => {
+  const arguments_ = buildVoiceOverFfmpegArguments("/tmp/frames.txt", "/tmp/sequence.mov", 27);
+  const durationIndex = arguments_.indexOf("-t");
+  assert.notEqual(durationIndex, -1);
+  assert.equal(arguments_[durationIndex + 1], "27.000");
+  assert.equal(arguments_.at(-1), "/tmp/sequence.mov");
+  assert.throws(
+    () => buildVoiceOverFfmpegArguments("/tmp/frames.txt", "/tmp/sequence.mov", Number.NaN),
+    /positive finite number/u,
+  );
 });
 
 test("capture preflight verifies bytes and rejects hash drift, symlinks and weak frames", async () => {

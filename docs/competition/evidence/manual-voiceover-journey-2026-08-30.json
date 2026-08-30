@@ -1,0 +1,89 @@
+{
+  "schema": "trusted-govuk-discovery.manual-voiceover-journey.v1",
+  "observedAt": "2026-08-30T12:45:18Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.2.0-rc.1",
+    "productCommit": "9235ee5db4df637bdb2a12e87449e871614afe68"
+  },
+  "method": "manual-operator-driven",
+  "manual": true,
+  "assistiveTechnologyActuallyUsed": true,
+  "withoutWebMCP": true,
+  "noWcagConformanceClaim": true,
+  "screenReaderAudioCaptured": false,
+  "environment": {
+    "operatingSystem": "macOS",
+    "operatingSystemVersion": "26.5.2",
+    "operatingSystemBuild": "25F84",
+    "browser": "Safari",
+    "browserVersion": "26.5.2 (21624.2.5.11.8)",
+    "screenReader": "VoiceOver",
+    "screenReaderVersion": "10 (993)"
+  },
+  "overallStatus": "completed-with-limitations",
+  "journey": [
+    {
+      "id": "page-title-and-headings",
+      "result": "limitation",
+      "observation": "With VoiceOver running and its Caption Panel enabled, Safari exposed the page title and level-one heading as ‘Trusted government knowledge discovery’, followed by the worked-answer, analytical-index, Evidence Trace and selected-foundation headings. The retained frame shows the level-one heading and VoiceOver cursor on the skip link.",
+      "limitation": "The page heading hierarchy was verified through Safari accessibility data; a heading-rotor selection was not retained in the nine-frame sequence."
+    },
+    {
+      "id": "skip-link-and-main-focus",
+      "result": "pass",
+      "observation": "Safari and VoiceOver identified ‘Skip to main content’ as a link. Activating it moved accessibility focus to the main content container before the worked answer."
+    },
+    {
+      "id": "analytical-index-controls",
+      "result": "pass",
+      "observation": "VoiceOver exposed the separately named claim 1 and claim 2 comparison tickboxes. After both were selected, each reported value 1 and the enabled trigger was exposed as ‘Compare 2 selected claims’."
+    },
+    {
+      "id": "selected-foundation",
+      "result": "pass",
+      "observation": "Activating ‘Show foundations for claim 1’ moved accessibility focus to ‘Selected foundation’. Safari exposed the Authority, Assertion, Verification, Freshness, Integrity, Access, Rights and Coverage facets, the source record and the authoritative-source link."
+    },
+    {
+      "id": "comparison-table",
+      "result": "pass",
+      "observation": "Activating ‘Compare 2 selected claims’ moved accessibility focus to ‘Evidence comparison’. Safari exposed the named comparison region, its caption, Claim 1 and Claim 2 columns and the facet rows through Limitations without presenting a combined trust score."
+    },
+    {
+      "id": "live-status",
+      "result": "limitation",
+      "observation": "After the operator entered ‘flood API’ and activated Search, the live status element changed to the exact text ‘9 matching records; 8 shown.’ while focus remained on Search.",
+      "limitation": "The Caption Panel showed the Search button instruction after activation rather than the live-region result count, so the automatic spoken-status wording was not proven."
+    },
+    {
+      "id": "search-and-record",
+      "result": "pass",
+      "observation": "Activating the first result’s ‘View record and provenance’ button moved accessibility focus to the ‘Flood-monitoring API’ record container. The record exposed its description, limitations, structured record and ‘Provenance and receipt’ section."
+    },
+    {
+      "id": "authoritative-links",
+      "result": "pass",
+      "observation": "Within the opened record, VoiceOver focused the descriptively named ‘Open authoritative source’ link and the Safari accessibility value was ‘https://www.api.gov.uk/ea/flood-monitoring/’. The link was not opened."
+    },
+    {
+      "id": "focus-restoration",
+      "result": "pass",
+      "observation": "Closing the record restored focus to its originating ‘View record and provenance’ button. Opening and closing the evidence comparison then restored focus to ‘Compare 2 selected claims’; both selected tickboxes remained selected and the Caption Panel retained the trigger’s accessible name."
+    }
+  ],
+  "limitations": [
+    "The page heading hierarchy was verified through Safari accessibility data; a heading-rotor selection was not retained in the nine-frame sequence.",
+    "The Caption Panel showed the Search button instruction after activation rather than the live-region result count, so the automatic spoken-status wording was not proven.",
+    "VoiceOver speech audio was not captured; the retained sequence uses the Caption Panel and Safari accessibility observations.",
+    "This screenshot sequence is not a continuous recording.",
+    "This observation covers one manual environment and does not establish WCAG conformance."
+  ],
+  "media": {
+    "path": "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
+    "sha256": "5b5b19c914fabd0062fb5ec3813a452ab567a614c94b505ffd8edc7259a9ffdf",
+    "startSeconds": 0,
+    "endSeconds": 27,
+    "captureStartedAt": "2026-08-30T12:42:41Z",
+    "captureEndedAt": "2026-08-30T12:54:48Z"
+  }
+}
