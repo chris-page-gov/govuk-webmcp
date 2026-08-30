@@ -98,11 +98,17 @@ Post-tag evidence-branch closure used these exact checks:
   passed after the keyboard-flake correction;
 - `PLAYWRIGHT_PORT=4216 npm run test:browser:edge:prepared`: the same 19 tests
   passed in installed Microsoft Edge;
-- the already-cancelled WebMCP acceptance now takes its no-mutation baseline
-  only after the application `ready` state, preventing an initial route
-  presentation from being mistaken for a cancelled-call side effect; the
-  corrected case passed 30 of 30 repeated runs and both full 19-test Chrome and
-  Edge suites passed again;
+- pull request 10 validation run `33289132374` passed before its evidence and
+  test-only commits were rebase-merged at
+  `52111598a63db8012670fa94636860c2ae7a403b`; the first exact-main run
+  `33289173022` then exposed a second unsettled test baseline in deeply nested
+  rejected-input recovery after all 59 unit tests had passed;
+- the follow-up systematically settles the application `ready` state before
+  acceptance cases inspect initial evidence or issue a tool action, and starts
+  the independent Trace/search keyboard checks from a fresh base route after
+  the skip-link hash check; the two readiness-sensitive cases passed 100 of 100
+  repeated Chrome runs, the keyboard case passed 50 of 50 repeated Edge runs,
+  and both complete 19-test suites passed 95 of 95 runs;
 - `python3 research/2026-08-29/competition-pack/scripts/verify_pack.py`:
   passed, with optional Python `jsonschema` meta-schema checks skipped because
   that package is not installed;
@@ -113,10 +119,12 @@ Post-tag evidence-branch closure used these exact checks:
   found across 14 commits; `gitleaks dir . --no-banner --redact --exit-code 1`
   also found no leak in the 3.16 MB working tree.
 
-The one-command `npm test` browser phase could not bind a loopback socket in the
-restricted sandbox. Its research, build, unit and browser stages were therefore
-run separately; only the browser stage used the authorised local loopback
-exception.
+The first one-command `npm test` browser phase could not bind a loopback socket
+in the restricted sandbox, so its research, build, unit and browser stages were
+also run separately. During the readiness follow-up,
+`PLAYWRIGHT_PORT=4227 npm test` ran with the authorised local loopback exception
+and passed the research verifier, deterministic build, 59 unit tests and all 19
+Chrome tests. Only browser serving used that exception.
 
 The formal candidate diff scan has ID
 `0735e481-5df9-43fe-8f3a-04bc3d9b797c`. It reported two low-severity

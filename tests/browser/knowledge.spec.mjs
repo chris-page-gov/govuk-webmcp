@@ -231,6 +231,7 @@ test("direct file opening replaces the apparent verification hang with HTTP guid
 test("registers five closed tools with truthful effects and deterministic page parity", async ({ page }) => {
   await installModelContext(page);
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
   const registrations = await registeredTools(page);
   expect(registrations.map(({ name }) => name)).toEqual(expectedToolNames);
@@ -281,6 +282,8 @@ test("registers five closed tools with truthful effects and deterministic page p
 test("WebMCP exploration and comparison update only the matching visible deterministic result", async ({ page }) => {
   await installModelContext(page);
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
   await page.getByLabel("Search term").focus();
 
   const explore = await executeTool(page, "explore_answer_foundations", { answerId, claimId: claimIds[0] });
@@ -312,6 +315,8 @@ test("a deeply nested rejected WebMCP input remains a bounded displayed error", 
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
   const originalSummary = await page.locator("#answer-summary").textContent();
   const result = await page.evaluate(async () => {
     let nested = { leaf: true };
@@ -346,6 +351,7 @@ test("a deeply nested rejected WebMCP input remains a bounded displayed error", 
 
 test("human Evidence Trace controls support comparison, direct links and focus restoration", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   const exploreClaim = page.getByRole("button", { name: "Show foundations for claim 2" });
   await exploreClaim.click();
   await expect(page.locator(`.trace-node[data-node-id="${claimIds[1]}"]`).first()).toHaveAttribute("aria-pressed", "true");
@@ -381,6 +387,7 @@ test("an already-cancelled WebMCP call rejects without changing the display", as
   await installModelContext(page);
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
   const diagnostic = page.locator("#diagnostic-last-action");
   await expect(diagnostic).toHaveText("Human: explore_answer_foundations");
   const before = await diagnostic.textContent();
@@ -476,6 +483,7 @@ test("source-derived markup remains inert text in search and record views", asyn
     return route.fulfill({ body: routes[filename], contentType: filename.endsWith(".json") ? "application/json" : "text/plain" });
   });
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await page.getByLabel("Search term").fill("bank holidays");
   await page.getByRole("button", { name: "Search" }).click();
   await expect(page.locator("article.result").first()).toContainText("<img src=");
@@ -488,11 +496,13 @@ test("source-derived markup remains inert text in search and record views", asyn
 
 test("direct record and evidence hashes restore deterministic human views", async ({ page }) => {
   await page.goto("/#record=govuk-discovery%3Adataset%3Aons-open-geography");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.locator("#record-panel")).toBeVisible();
   await expect(page.getByRole("heading", { name: "ONS Open Geography portal" })).toBeVisible();
   await expect(page.locator("#provenance-content")).toContainText("digest-bound");
 
   await page.goto(`/#answer=${encodeURIComponent(answerId)}&claim=${encodeURIComponent(claimIds[2])}`);
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.locator(`.trace-node[data-node-id="${claimIds[2]}"]`).first()).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#foundation-detail")).toContainText("maternity or paternity leave or pay");
 });
@@ -512,6 +522,7 @@ test("oversized and malformed hash comparisons fail closed without disabling the
   await expect(page.locator("#comparison-panel .error")).toContainText("two to four exact claim identifiers");
 
   await page.goto(`/#answer=${encodeURIComponent(answerId)}&compare=${encodeURIComponent(claimIds.join(","))}`);
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.locator("#comparison-content .comparison-table")).toBeVisible();
   await expect(page.locator("#comparison-content .comparison-table thead th")).toHaveCount(4);
   expect(pageErrors).toEqual([]);
@@ -519,6 +530,7 @@ test("oversized and malformed hash comparisons fail closed without disabling the
 
 test("axe WCAG 2.2 scan finds no serious or critical violations in the expanded journey", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await page.getByRole("button", { name: "Show foundations for claim 1" }).click();
   const selectors = page.locator("#analytical-index input[type='checkbox']");
   await selectors.nth(0).check();
@@ -548,6 +560,13 @@ test("keyboard, 320px reflow, forced colours and reduced motion retain evidence 
   await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
+  await expect(page).toHaveURL(`${testOrigin}/#main-content`);
+
+  // The skip link intentionally starts a hash navigation. Settle a fresh base
+  // route before the separate Trace and search keyboard checks so its route
+  // render cannot replace the focused node under test.
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
 
   const traceNode = page.locator(".trace-node").first();
   await traceNode.focus();
