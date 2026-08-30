@@ -1,9 +1,10 @@
-# 18. Demonstration storyboard — about 2 minutes 19 seconds
+# 18. Demonstration storyboard — 2 minutes 22.920 seconds
 
 This is the recording plan for the published `v0.2.0-rc.1` product release at
-<https://chris-page-gov.github.io/govuk-webmcp/>. It is not evidence that a
-demonstration video has been completed. Supported-host discovery and calls are
-recorded separately for `Codex In-app Browser` only.
+<https://chris-page-gov.github.io/govuk-webmcp/>. A 142.920-second local review
+video now implements this plan, but it has not been published or submitted.
+Supported-host discovery and calls are recorded separately for
+`Codex In-app Browser` only.
 
 | Time | Visual and action | Narration purpose |
 |---:|---|---|
@@ -12,8 +13,8 @@ recorded separately for `Codex In-app Browser` only.
 | 0:42–0:59 | Use the retained genuine live-page clip to select one foundation. Read the separate authority, assertion status, verification, freshness, integrity, access, rights and coverage fields. | Make the eight dimensions inspectable without collapsing uncertainty into a score. |
 | 0:59–1:09 | Use the retained genuine live-page clip to select two claims and open the accessible comparison table. Point to a material difference and the explicit limitations. | Show a field-by-field comparison “without a combined trust score”; do not declare a winning source. |
 | 1:09–1:33 | Show the clearly labelled **supported-host receipt visualisation** reconstructed from the retained machine receipt: five discovered tools, five successful calls, the exact comparison input and full matching result/display digest. Pair it with the captured public-page comparison and status. State explicitly that this is not a host recording, Site tools screenshot or evidence for another host. | Prove the same shared action-controller result rather than selector guessing. Explain that `readOnlyHint: false` describes a reversible in-memory presentation effect only. |
-| 1:33–1:54 | After it has genuinely been observed, show the manual VoiceOver journey in Safari, including headings, controls, selected foundations, the comparison table, live status and authoritative links. If continuous window recording remains unavailable, use only the guarded nine-frame fallback and keep its visible **screenshot sequence — not a continuous recording** label on screen. The builder verifies bytes and declared capture metadata; the separate manual observation and human frame review establish what was actually used. | Demonstrate the human fallback without WebMCP while retaining the bounded observation and no-WCAG-conformance boundary. |
-| 1:54–2:19 | Use the retained genuine live-page clip to open **What is in the evidence estate**. Show 10 admissions: 2 searchable and 8 not searchable, then close on the independent-prototype boundary. | Make the population and federation boundary visible: descriptors do not admit payload, every result retains an authoritative link and no official endorsement is implied. |
+| 1:33–1:59 | Show the completed-with-limitations manual VoiceOver journey in Safari, including headings, controls, selected foundations, the comparison table, live status and authoritative links. Use the guarded nine-frame Caption Panel sequence and keep its visible **screenshot sequence — not a continuous recording** label on screen. The separate manual record states that the heading-rotor selection was not retained and the automatic spoken wording of the live search status was not proven. | Demonstrate the human fallback without WebMCP while retaining the bounded observation, no-audio and no-WCAG-conformance boundaries. |
+| 1:59–2:23 | Use the retained genuine live-page clip to open **What is in the evidence estate**. Show 10 admissions: 2 searchable and 8 not searchable, then close on the independent-prototype boundary. | Make the population and federation boundary visible: descriptors do not admit payload, every result retains an authoritative link and no official endorsement is implied. |
 
 ## Evidence gates before final assembly
 
@@ -33,16 +34,23 @@ Observed for the published release:
 - five agent privacy- and branding-reviewed genuine public-page interaction clips are
   bound to their exact actions, release URL, duration and SHA-256 in
   `demo-live-interaction-capture-2026-08-30.json`; human publication review is
-  still pending.
+  still pending; and
+- the manual Safari 26.5.2 and VoiceOver 10 journey completed without WebMCP.
+  Its nine-frame Caption Panel sequence, manual evidence JSON and generated
+  scene are hash- and time-bound. VoiceOver speech audio was not captured, and
+  the Caption Panel and VoiceOver were turned off afterwards; and
+- the guarded local build produced a 142.920-second H.264/AAC MP4 with embedded
+  English captions, separate en-GB captions, a transcript and a machine build
+  receipt. Its SHA-256 is
+  `efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`.
 
-Still required before the storyboard can be presented as a final demonstration:
+Still required before the local cut can be published as a final demonstration:
 
-- complete and record the manual screen-reader observation;
-- if continuous capture remains unavailable, preserve and human-review the exact
-  nine genuine Safari and VoiceOver frames, create their ignored hash-bound
-  capture manifest, then run `npm run demo:voiceover-screenshot-clip`; and
-- assemble and review the captioned local video and transcript, then publish the
-  approved final cut separately.
+- Chris Page's approval of the synthetic `Daniel` voice publication basis;
+- human privacy, branding, caption, transcript and complete audible playback
+  review; and
+- a separately authorised public upload. The local build is not evidence of a
+  public player or signed-out playback.
 
 Instrumented browser registration is useful contract evidence, but it is not a
 substitute for the separately recorded supported-host observation. The Codex
@@ -51,8 +59,8 @@ host.
 
 ## Recording constraints
 
-- Keep under 3 minutes. Exact local `Daniel` narration timing is 138.105
-  seconds before final encoding, leaving a 41.895-second rules margin. [R01]
+- Keep under 3 minutes. The final local encoding is 142.920 seconds, leaving a
+  37.080-second rules margin. [R01]
 - Use original narration and interface only; do not add background music.
 - Avoid GOV.UK, employer and sponsor logos except incidental browser content
   needed to show the linked authoritative source. Do not use them as branding.
@@ -65,3 +73,7 @@ host.
   credentials or notifications.
 - Do not describe the page tools as a persistent gateway, provider integration
   or government service operation.
+- Treat the synthetic `Daniel` narration as local review material until Chris
+  Page approves its publication basis. The local soundtrack measured -16.11
+  LUFS input integrated loudness and -1.38 dBTP input true peak; those readings
+  do not replace complete human playback review.

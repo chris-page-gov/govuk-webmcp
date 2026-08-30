@@ -30,10 +30,32 @@ The browser acceptance suite includes:
 Automated testing covers only the tested pages, states and rules. It cannot
 establish WCAG 2.2 conformance.
 
+## Manual Safari and VoiceOver observation
+
+On 30 August 2026, a manual operator completed the nine-step human journey in
+Safari 26.5.2 with VoiceOver 10 on macOS 26.5.2. WebMCP was not used. VoiceOver's
+Caption Panel was enabled for the observation; both the Caption Panel and
+VoiceOver were turned off afterwards.
+
+The observation covered the page title and headings, skip link, analytical
+index controls, selected foundation, comparison table, live search status,
+record and provenance view, authoritative source link and focus restoration.
+The authoritative source link and record/comparison focus restoration checks
+passed. Seven checks passed without a retained limitation; two completed with
+the limitations below. The retained media is a hash-bound nine-frame screenshot
+sequence labelled as not a continuous recording. VoiceOver speech audio was not
+captured.
+
 ## Known limitations
 
-A manual screen reader observation has not been completed. The prototype does
-not claim WCAG conformance or production-service accessibility.
+- The page heading hierarchy was verified through Safari accessibility data,
+  but a heading-rotor selection was not retained in the nine-frame sequence.
+- The live status text changed to `9 matching records; 8 shown.` while focus
+  remained on Search, but the Caption Panel showed the Search button instruction
+  rather than the live-region result count. The automatic spoken-status wording
+  was therefore not proven.
+- The manual observation covers one assistive-technology environment and does
+  not claim WCAG conformance or production-service accessibility.
 
 If you find an accessibility problem, open a GitHub issue without personal or
 sensitive information. State the browser, assistive technology and affected

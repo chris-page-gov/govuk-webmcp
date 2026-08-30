@@ -14,13 +14,14 @@ f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794  app/data/sourc
 2480e30152569270cd44eb7b67284e0d7c1a41a7caf22233237b5dc52cfd4f0d  docs/competition/evidence/accessibility-test-2026-08-29.md
 de1d920fe3284def4b3a9833c7fa2979fd3e1fe7c1bc56067cdd755970578dce  docs/competition/evidence/accessibility-test-2026-08-30.md
 e2c0342d40c08ad7f8784176781af4a8f479b907704b6127d3f2f951f5655fe0  docs/competition/evidence/candidate-verification-2026-08-30.md
-9fa165a7137e68c11de4ce1d18bb9f2a78b051dfae2cf350c5db3c6538c65041  docs/competition/evidence/challenge-provenance.json
+9a2af45711f5eb7fa1905194381ed799c5a056b2b9fd188d8ca0bfbb8a1314a9  docs/competition/evidence/challenge-provenance.json
 c15ff7ab52d628ad29cde79664acb6b37cfb68d6d91f94313cf07e8835fd960a  docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json
 357fd49f400ee9a2924521aa1aa16f3d5cce5e57136deaea03937cc9fc20dc93  docs/competition/evidence/demo-scene-01-overview-2026-08-30.jpg
 68b4f2887d19fb0d07fb30623ba3efb8213e5f45a470acce71d176b61deca9f1  docs/competition/evidence/demo-scene-02-evidence-trace-2026-08-30.jpg
 4dc52d45e97eb1099c5aacec315f3b3c6d7a532063d762a733009283cd089fa6  docs/competition/evidence/demo-scene-03-foundation-facets-2026-08-30.jpg
 29c17adab0c42de2a35d220ada184844b6244a0ea39efa07d4c332172a719166  docs/competition/evidence/demo-scene-04-comparison-2026-08-30.jpg
 791193772608f591db303cf8a20db0c2e40f9028c3ae0d8720acb4efd1069008  docs/competition/evidence/demo-scene-07-evidence-estate-2026-08-30.jpg
+3b10b09080fb9840c2033e2efdadff94925198d64a0ec093706bcc4e74144987  docs/competition/evidence/demo-video-build-2026-08-30.json
 9c8f07d8c6e346602a6c64440e734ea194a821c4c22b68f7a4a67c671cca3c81  docs/competition/evidence/devpost-read-only-status-2026-08-30.json
 4be32f70aa28913460ce3012db64fe04f91a725b9ed4bd146417076408a7e3a7  docs/competition/evidence/evidence-first-overview-2026-08-30.png
 b378dba916f6ace764ad71ee9a590c9756809a0161478a23cd97bfb8134838c7  docs/competition/evidence/evidence-foundation-comparison-2026-08-30.png
@@ -28,6 +29,7 @@ aef39e80e4f604001e92e43f8d5d0479d3f673e0e9846605adc81a0ccf0bc54e  docs/competiti
 c930bfc6e0dc66c7e453b2ffb367ada1e7a137a2e65e2b83ac0ea9c74a42a55c  docs/competition/evidence/link-health-2026-08-30.json
 16a4e87051a72d7621ab670fd14ac5bdb69477ed34811812a4a3a6a2f476070d  docs/competition/evidence/live-artifact-verification-2026-08-30.json
 f7b072e77f3cccd5d0596a64c5921eecf5475bed4b36889fe19886356df6a1a6  docs/competition/evidence/live-deployment-metadata-2026-08-30.json
+31671dc81be25e1d6067f6dfa0a9fde8d53e7e1fed0a96391ccda5e8ec4a7261  docs/competition/evidence/manual-voiceover-journey-2026-08-30.json
 59e66b1c1bf8e0a90041fb1b4cdf142ade04dc1c927e68055a111cc7fa509ddf  docs/competition/evidence/public-live-search-2026-08-29.png
 bff90ef375478a6d3662ba8306d08985e83b06e1843502533e7940349ac61830  docs/competition/evidence/public-live-search-2026-08-30.png
 e884b7006af20ad19caafec7a54d8a163efeb540948c7d15772eb79557697888  docs/competition/evidence/public-release-verification-2026-08-29.md
@@ -58,7 +60,7 @@ ce93fa1982e4de4a857134a2faa50d03ab60bb295bf9cf10ef2036fc6547ad80  docs/competiti
 53f3c116606ad8cb0145ce23cab8cb0c3278764e2bdd263ae94e9cc5b96e9136  docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json
 4c21b6978a5def2860282c0949d63007beb44089acc6e42aef39ad01fb99a910  docs/competition/evidence/supported-host-webmcp-full-page-2026-08-30.jpg
 1305edff867f4f65fb8c4bf9158eaf86fd47a33d017447ad47447185269a23b4  docs/competition/evidence/supported-host-webmcp-runtime-summary-2026-08-30.jpg
-f9ffa0d568c99fd3c8da26db4370cf93289b23484238a7fe69cc4f261cb97193  package-lock.json
+587218e86c20d2ab2d06e2be7c34981211201186f62ab22742ed71c0df48e5e2  package-lock.json
 fac7237607dd6babbd0a723a82f9db0750cff5442cb3da06502ce9cd75a7b4b3  schemas/answer-pack-source.schema.json
 55c249ee7a98b7bec5d8c32da813569aff21ac4af8a538a047e93a121d0d882c  schemas/catalogue.schema.json
 ad4585ecba1ba4c1473afac2330d5e9d6684598689c6250a9ae366e7f974dc77  schemas/compare-evidence-foundations-input.schema.json

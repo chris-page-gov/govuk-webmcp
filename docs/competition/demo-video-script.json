@@ -157,7 +157,8 @@
         "It covers headings, controls and selected foundations.",
         "It also covers comparison, live status and source links.",
         "Results and limitations are recorded.",
-        "This is not a Web Content Accessibility Guidelines conformance claim."
+        "This is not a Web Content Accessibility Guidelines conformance claim.",
+        "Final frames show the link’s accessible name and restored comparison focus."
       ]
     },
     {

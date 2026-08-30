@@ -4,7 +4,7 @@
     "startedAt": "2026-08-30T01:53:35Z",
     "completedAt": "2026-08-30T02:23:29Z"
   },
-  "latestEvidenceAt": "2026-08-30T10:46:52Z",
+  "latestEvidenceAt": "2026-08-30T13:18:13Z",
   "challenge": {
     "start": "2026-08-25T18:00:00Z",
     "deadline": "2026-09-03T20:00:00Z",
@@ -163,17 +163,52 @@
       "humanPublicationReview": "pending",
       "scope": "Genuine public-page interaction only. The separate supported-host scene is a clearly labelled receipt visualisation, not host-owned video."
     },
+    "manualVoiceOver": {
+      "observedAt": "2026-08-30T12:45:18Z",
+      "evidencePath": "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json",
+      "status": "completed-with-limitations",
+      "browser": "Safari 26.5.2 (21624.2.5.11.8)",
+      "screenReader": "VoiceOver 10 (993)",
+      "captionPanelUsed": true,
+      "captionPanelAndVoiceOverTurnedOffAfterwards": true,
+      "journeyCheckpointCount": 9,
+      "passedCheckpointCount": 7,
+      "limitedCheckpointCount": 2,
+      "screenReaderAudioCaptured": false,
+      "media": {
+        "path": "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
+        "sha256": "5b5b19c914fabd0062fb5ec3813a452ab567a614c94b505ffd8edc7259a9ffdf",
+        "durationSeconds": 27,
+        "continuousRecording": false
+      },
+      "scope": "One bounded manual environment. The heading-rotor selection was not retained, automatic spoken live-status wording was not proven, and no WCAG conformance is claimed."
+    },
     "demoPipeline": {
       "configSchema": "trusted-govuk-discovery.demo-video-script.v2",
-      "preflightPassed": false,
-      "expectedMissingInputs": [
-        "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
-        "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json",
-        "VoiceOver media/evidence binding"
-      ],
-      "localFinalVideoBuilt": false,
+      "verifiedAt": "2026-08-30T13:18:13Z",
+      "preflightPassed": true,
+      "expectedMissingInputs": [],
+      "buildReceiptPath": "docs/competition/evidence/demo-video-build-2026-08-30.json",
+      "localFinalVideoBuilt": true,
+      "localFinalVideo": {
+        "path": "output/govuk-webmcp-demo-2026-08-30.mp4",
+        "sha256": "efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a",
+        "durationSeconds": 142.92,
+        "videoCodec": "h264",
+        "audioCodec": "aac",
+        "embeddedEnglishCaptionTrack": true
+      },
+      "captionsPath": "docs/competition/demo-captions.en-GB.vtt",
+      "transcriptPath": "docs/competition/demo-transcript.md",
+      "humanPublicationReview": "pending",
       "publicVideoPublished": false,
-      "scope": "The fail-closed pipeline and negative tests are present. No final MP4, captions, transcript or build receipt exists."
+      "scope": "The fail-closed local build passed and is not published. Owner privacy, branding, synthetic-voice and complete-playback review, public YouTube upload and signed-out public-player checks remain open."
+    },
+    "finalDevpostComplianceReview": {
+      "reviewedAt": "2026-08-30T13:00:36Z",
+      "evidencePath": "docs/competition/final-devpost-compliance-review-2026-08-30.md",
+      "status": "submission-blocked",
+      "scope": "Read-only review only. Named judging-host evidence, owner video review, public YouTube publication, final human attestations and authorised submission remain open."
     }
   },
   "evidenceBoundary": {
@@ -189,16 +224,16 @@
     "demoInteractionClipsAgentReviewed": true,
     "demoInteractionClipsHumanPublicationReviewed": false,
     "supportedHostReceiptVisualisationBuilt": true,
-    "manualScreenReaderObservationPerformed": false,
+    "manualScreenReaderObservationPerformed": true,
     "releasePlatformSbomProduced": false,
-    "demoVideoPreflightPassed": false,
-    "localDemoVideoBuilt": false,
+    "demoVideoPreflightPassed": true,
+    "localDemoVideoBuilt": true,
     "demoVideoHumanReviewComplete": false,
     "videoPublished": false,
     "devpostRegistrationPerformedByThisWorkflow": false,
     "devpostRegistrationObserved": true,
     "devpostProjectSubmissionObserved": false,
-    "finalDevpostComplianceReviewCompleted": false,
+    "finalDevpostComplianceReviewCompleted": true,
     "devpostSubmissionPerformed": false
   }
 }

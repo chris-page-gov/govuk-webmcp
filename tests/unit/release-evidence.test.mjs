@@ -149,10 +149,35 @@ test("supported-host WebMCP capture binds five native calls to the public releas
   assert.equal(hostEvidence.comparisonResultDigest, compare.canonicalResultDigest);
   assert.equal(challenge.gates.nativeSupportedHostToolDiscoveryObserved, true);
   assert.equal(challenge.gates.nativeSupportedHostToolCallObserved, true);
-  assert.equal(challenge.gates.manualScreenReaderObservationPerformed, false);
+  assert.equal(challenge.gates.manualScreenReaderObservationPerformed, true);
+  assert.equal(challenge.gates.demoVideoPreflightPassed, true);
+  assert.equal(challenge.gates.localDemoVideoBuilt, true);
+  assert.equal(challenge.gates.finalDevpostComplianceReviewCompleted, true);
+  assert.equal(challenge.gates.demoVideoHumanReviewComplete, false);
   assert.equal(challenge.gates.videoPublished, false);
   assert.equal(challenge.gates.devpostRegistrationPerformedByThisWorkflow, false);
   assert.equal(challenge.gates.devpostSubmissionPerformed, false);
+
+  const manualVoiceOver = challenge.postReleaseEvidence.manualVoiceOver;
+  assert.equal(manualVoiceOver.evidencePath, "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json");
+  assert.equal(manualVoiceOver.status, "completed-with-limitations");
+  assert.equal(manualVoiceOver.journeyCheckpointCount, 9);
+  assert.equal(manualVoiceOver.passedCheckpointCount, 7);
+  assert.equal(manualVoiceOver.limitedCheckpointCount, 2);
+  assert.equal(manualVoiceOver.screenReaderAudioCaptured, false);
+  assert.equal(manualVoiceOver.media.sha256, "5b5b19c914fabd0062fb5ec3813a452ab567a614c94b505ffd8edc7259a9ffdf");
+
+  const demoPipeline = challenge.postReleaseEvidence.demoPipeline;
+  assert.equal(demoPipeline.preflightPassed, true);
+  assert.deepEqual(demoPipeline.expectedMissingInputs, []);
+  assert.equal(demoPipeline.localFinalVideoBuilt, true);
+  assert.equal(demoPipeline.localFinalVideo.durationSeconds, 142.92);
+  assert.equal(demoPipeline.localFinalVideo.sha256, "efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a");
+  assert.equal(demoPipeline.publicVideoPublished, false);
+  assert.equal(
+    challenge.postReleaseEvidence.finalDevpostComplianceReview.evidencePath,
+    "docs/competition/final-devpost-compliance-review-2026-08-30.md",
+  );
 });
 
 test("release evidence manifest is safe, complete, ordered and digest-bound", async () => {
