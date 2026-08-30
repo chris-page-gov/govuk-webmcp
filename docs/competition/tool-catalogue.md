@@ -211,8 +211,11 @@ Pages artefact byte for byte. The same source tree passed 19 installed Microsoft
 Edge checks before publication. The browser suites include instrumented
 five-tool registration, parity, cancellation, rollback, integrity failure,
 bounded hash routes, inert source text, keyboard, reflow, forced-colour,
-reduced-motion and axe smoke checks. A native call from a supported live WebMCP
-host and manual screen-reader observation remain pending.
+reduced-motion and axe smoke checks. On 30 August 2026, `Codex In-app Browser`
+discovered and successfully called all five tools on the exact public release;
+the final comparison's canonical and displayed result digests matched. This is
+a time- and host-specific observation, not a general support claim. Manual
+screen-reader observation remains pending.
 
 ## 8.7 Explicitly excluded claims
 

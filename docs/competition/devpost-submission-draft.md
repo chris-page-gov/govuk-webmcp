@@ -1,9 +1,11 @@
 # 19. Draft Devpost submission text
 
-**Status: draft only — not submitted.** Competition registration and submission
-remain separate actions requiring Chris Page's approval. The `v0.2.0-rc.1`
-product release is public; supported live-host observation, manual screen-reader
-observation and the final video are still pending.
+**Status: registered; draft only — not submitted.** Devpost project `1406973`
+is an unpublished `submission_pre_draft` with no submission timestamp.
+Submission remains a separate action requiring Chris Page's approval. The
+`v0.2.0-rc.1` product release is public and supported-host calls are observed in
+`Codex In-app Browser`; manual screen-reader observation and the final video are
+still pending.
 
 ## Project title
 
@@ -113,13 +115,27 @@ public files matched the Pages artefact byte for byte, and a signed-out human
 journey completed without a console error or warning. The same source tree also
 passed 19 installed-Microsoft-Edge checks before publication.
 
+Five silent page-only interaction clips now show the analytical index, Evidence
+Trace, separate facets, comparison and bounded evidence estate on the exact
+public release. Their required actions, durations and SHA-256 values are bound
+in one consolidated receipt and passed agent privacy and branding review; human
+publication review remains pending. The supported-host video scene is a labelled
+receipt visualisation, not a host recording. The local video preflight still
+blocks on the missing genuine VoiceOver clip, manual journey record and their
+media/time binding, so no final MP4, captions, transcript or build receipt is
+claimed.
+
 The checks cover the five fixed contracts, shared presentation parity,
 cancellation and rollback, all four artefact failure paths, source-lock
 enforcement, bounded hostile input, direct routes, inert source text, keyboard
 use, reflow, forced colours, reduced motion and an automated axe smoke scan.
-Genuine discovery and calls from a supported live WebMCP host, manual
-screen-reader observation, a release-platform SBOM or attestation, the final
-video, competition registration and the Devpost form remain pending.
+On 30 August 2026, `Codex In-app Browser` discovered and successfully called all
+five tools on the exact public release. Its final comparison call produced the
+same canonical and displayed result SHA-256. This observation is specific to
+that host and time; it does not establish support in ChatGPT desktop, Chrome or
+another host. Manual screen-reader observation, a release-platform SBOM or
+attestation, the final video, completion of the Devpost form and authorised
+submission remain pending.
 
 ## Potential impact
 

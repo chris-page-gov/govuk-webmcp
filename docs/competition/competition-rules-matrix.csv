@@ -1,5 +1,5 @@
 #,Clause/topic,Evidence-based position,Status,Required action
-1,Registration and submission dates,25 Aug 2026 11:00 PT to 3 Sep 2026 13:00 PT. [R01],Confirmed by the rules,Register and submit before 21:00 BST; internal target 15:00 BST
+1,Registration and submission dates,25 Aug 2026 11:00 PT to 3 Sep 2026 13:00 PT. [R01],Registration confirmed by live read-only check; deadline confirmed by the rules,Submit by 2026-09-03T20:00:00Z / 21:00 BST; internal target 15:00 BST
 2,Age and country eligibility,Entrant must be of majority age and resident in an API-supported country. [R01; R04],Confirmed by the rules,Preserve evidence that UK is listed at submission
 3,UK-resident individual,UK appears on the current supported-country list. [R04],Confirmed by the rules,Verify again on 3 Sep
 4,"Individual, team and organisation routes",All three routes are permitted subject to eligibility. [R01],Confirmed by the rules,Use the individual route for the declared personal-resource scope; re-check eligibility at submission
@@ -20,7 +20,7 @@
 19,Employer gifts/outside interests,Rules do not resolve employer policy; Civil Service frameworks require declaration/management of conflicts and benefits. [C01–C04],Submission-time and prize-acceptance check remains,Chris Page assurance clears current build/publication scope; revisit only for submission publicity or prize acceptance
 20,Export controls/sanctions/territories,Rules exclude unsupported or sanctioned places and local-law prohibitions. [R01],Confirmed by the rules,UK currently appears eligible; avoid restricted collaborators/assets
 21,Privacy and personal data,Devpost/OpenAI process account and entry data; entrant must avoid privacy-right infringement. [R01],Confirmed by the rules,Use only necessary account data; publish no official/personal data
-22,Platform accounts,"Devpost registration, repository and YouTube are required in practice; hosting and OpenAI/Chrome access are needed for testing. [R01]",Confirmed by the rules,Verify account ownership and public visibility
+22,Platform accounts,"Devpost registration, repository and YouTube are required in practice; hosting and OpenAI/Chrome access are needed for testing. [R01]",Devpost registration complete; other requirements confirmed by the rules,Verify final entrant identity public YouTube visibility and a named judging environment
 23,Live deployment/credentials,A working live URL must remain free and accessible through judging; private sites need credentials. [R01],Confirmed by the rules,Prefer public no-auth static site; monitor through 21 Sep
 24,"Repository, video and description","Full runnable source, visible licence, English description and public YouTube demo under 3 minutes are required. [R01]",Confirmed by the rules,Complete evidence by 2 Sep
 25,Copyrighted media/logos/trade marks,"Video cannot contain unlicensed trade marks, music or material. [R01]",Confirmed by the rules,Record only own UI; no music; avoid third-party logos

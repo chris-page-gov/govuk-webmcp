@@ -28,8 +28,9 @@ This is not an official GOV.UK or UK government service. It is not a durable MCP
 gateway, a production service or a comprehensive index of government
 information. The published release passed exact-main validation in run
 `33286750188` and was deployed from the same product commit in Pages run
-`33286771963`. Competition registration and Devpost submission have not been
-performed.
+`33286771963`. Competition registration is complete. The only Devpost project,
+`1406973`, remains an unpublished pre-submission draft and no submission has
+been made.
 
 ## Start here
 
@@ -103,8 +104,11 @@ These tools are registered imperatively on the current page when a compatible
 secure browser host exposes `document.modelContext`. They are available only in
 that page context. They do not provide an independently callable, durable MCP
 gateway, provider authentication, persistent sessions or durable call
-receipts. Instrumented browser tests cover registration and calls, but native
-discovery and invocation by a supported live WebMCP host remain unobserved.
+receipts. Instrumented browser tests cover registration and calls. On 30 August
+2026, `Codex In-app Browser` also discovered and successfully called all five
+tools against the exact public release; the final comparison's canonical and
+displayed result digests matched. This is evidence for that host and time only,
+not a general browser-support claim.
 
 ## Privacy and operating boundary
 
@@ -134,4 +138,17 @@ access or permission to reuse linked material.
   exact deployment metadata, live-byte verification and explicit remaining
   gates. Start with the
   [30 August 2026 public release verification](docs/competition/evidence/public-release-verification-2026-08-30.md).
+  The later
+  [supported-host capture](docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json)
+  records five successful calls in `Codex In-app Browser`.
+  The
+  [live-interaction capture receipt](docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json)
+  binds five genuine page-only demonstration clips to the exact release,
+  required actions, durations and SHA-256 values. The WebMCP scene is a labelled
+  receipt visualisation rather than a host recording. Raw media under `output/`
+  is deliberately Git-ignored local review material and must be preserved until
+  the final build and human publication review are complete.
+  A separate
+  [read-only Devpost status record](docs/competition/evidence/devpost-read-only-status-2026-08-30.json)
+  distinguishes completed registration from the unsubmitted project draft.
   Each record applies only to the revision and observation it names.

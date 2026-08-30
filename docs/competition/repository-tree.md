@@ -14,7 +14,8 @@ run `33286750188` passed, Pages run `33286771963` deployed the same commit, and
 the annotated `v0.2.0-rc.1` tag has a
 [public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
 The live site is <https://chris-page-gov.github.io/govuk-webmcp/>. Competition
-registration and Devpost submission have not been performed.
+registration is complete. Devpost project `1406973` remains an unpublished
+pre-submission draft and has not been submitted.
 
 ## 20.2 Implemented tree
 
@@ -87,6 +88,11 @@ govuk-webmcp/
 │   ├── audit-catalogue-links.mjs
 │   ├── sanitise-sbom.mjs
 │   ├── write-deployment-metadata.mjs
+│   ├── build-demo-video.mjs        # guarded local review cut, captions and transcript
+│   ├── build-host-evidence-clip.mjs # labelled receipt visualisation, not host video
+│   ├── build-preview-scene-clips.mjs # explicitly non-live editorial previews
+│   ├── capture-live-demo-clips.mjs # exact-release genuine interaction capture
+│   ├── write-evidence-manifest.mjs # fail-closed allowlisted digest manifest
 │   └── lib/
 │       ├── deterministic-json.mjs
 │       └── source-locks.mjs       # exact path and regular-file checks
@@ -95,6 +101,7 @@ govuk-webmcp/
 │   │   ├── knowledge-runtime.test.mjs
 │   │   ├── evidence-federation.test.mjs
 │   │   ├── source-locks.test.mjs
+│   │   ├── demo-video.test.mjs
 │   │   └── release-evidence.test.mjs
 │   └── browser/
 │       └── knowledge.spec.mjs
@@ -110,7 +117,10 @@ govuk-webmcp/
 │       ├── architecture.md
 │       ├── tool-catalogue.md
 │       ├── demo-storyboard.md
+│       ├── demo-video-script.json
+│       ├── evidence-manifest-registry.json
 │       ├── devpost-submission-draft.md
+│       ├── devpost-compliance-working-review-2026-08-30.md
 │       ├── evaluation-set.csv
 │       ├── implementation-plan.md
 │       ├── backlog.md
@@ -125,6 +135,16 @@ govuk-webmcp/
 │           ├── evidence-first-overview-2026-08-30.png
 │           ├── evidence-foundation-comparison-2026-08-30.png
 │           ├── challenge-provenance.json
+│           ├── supported-host-webmcp-capture-2026-08-30.json
+│           ├── supported-host-webmcp-runtime-summary-2026-08-30.jpg
+│           ├── supported-host-webmcp-full-page-2026-08-30.jpg
+│           ├── demo-live-interaction-capture-2026-08-30.json
+│           ├── devpost-read-only-status-2026-08-30.json
+│           ├── demo-scene-01-overview-2026-08-30.jpg
+│           ├── demo-scene-02-evidence-trace-2026-08-30.jpg
+│           ├── demo-scene-03-foundation-facets-2026-08-30.jpg
+│           ├── demo-scene-04-comparison-2026-08-30.jpg
+│           ├── demo-scene-07-evidence-estate-2026-08-30.jpg
 │           ├── live-artifact-verification-2026-08-30.json
 │           ├── live-deployment-metadata-2026-08-30.json
 │           ├── public-live-search-2026-08-30.png
@@ -174,9 +194,14 @@ The exact product commit has the following published evidence:
 
 The same source tree also passed 19 installed-Microsoft-Edge checks before
 publication. That result remains candidate evidence rather than an Edge run in
-the canonical Linux workflow. A supported live WebMCP host observation, manual
-screen-reader observation, release-platform SBOM or attestation, video,
-competition registration and Devpost submission remain pending.
+the canonical Linux workflow. On 30 August 2026, `Codex In-app Browser`
+discovered and successfully called all five tools on the exact public release;
+the final comparison's canonical and displayed result digests matched. Five
+genuine public-page interaction clips and their consolidated receipt are also
+complete. The supported-host motion scene is a labelled receipt visualisation,
+not host-owned video. Manual screen-reader observation, release-platform SBOM or
+attestation, final local video and public video remain pending; competition
+registration is complete and Devpost submission has not occurred.
 
 ## 20.5 Release evidence set
 
@@ -190,10 +215,17 @@ The release evidence binds, without rewriting earlier evidence:
 - the link audit and sanitised local macOS ARM64 SBOM;
 - the Pages artefact, 20-file site manifest, live deployment metadata and
   signed-out live-page and same-origin observations; and
-- machine-readable challenge provenance.
+- machine-readable challenge provenance; and
+- the later supported-host capture containing five successful calls in
+  `Codex In-app Browser` and explicit host-specific limitations;
+- five genuine page-only interaction clips bound by source URL, required action,
+  duration and SHA-256, with agent privacy/branding review and human publication
+  review still pending; and
+- the fail-closed video pipeline and explicit receipt-visualisation boundary.
 
-Supported-host WebMCP, manual screen-reader, release-platform SBOM or
-attestation, demonstration video and transcript, and the exact approved Devpost
-text and receipt remain future evidence. Do not rewrite the baseline or evidence
-chronology, and do not register for or submit to Devpost without separate
+Manual screen-reader, release-platform SBOM or attestation, final demonstration
+video, captions and transcript, and the exact approved Devpost text and receipt
+remain future evidence. Current video preflight fails only for the missing
+VoiceOver clip, manual journey JSON and their binding. Do not rewrite the
+baseline or evidence chronology, and do not submit to Devpost without separate
 instruction.

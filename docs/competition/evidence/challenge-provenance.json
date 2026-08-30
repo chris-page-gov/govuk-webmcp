@@ -4,10 +4,14 @@
     "startedAt": "2026-08-30T01:53:35Z",
     "completedAt": "2026-08-30T02:23:29Z"
   },
+  "latestEvidenceAt": "2026-08-30T10:46:52Z",
   "challenge": {
     "start": "2026-08-25T18:00:00Z",
     "deadline": "2026-09-03T20:00:00Z",
-    "rulesUrl": "https://webmcp.devpost.com/rules"
+    "rulesUrl": "https://webmcp.devpost.com/rules",
+    "officialRulesObservedAt": "2026-08-30T10:46:52Z",
+    "devpostConnectorSubmissionsStartAt": "2026-08-25T19:00:00Z",
+    "timingResolution": "The live official rules state 11:00 Pacific Time, equivalent to 18:00 UTC on 25 August 2026, and control over the inconsistent connector start timestamp. The repository's first commit was on 29 August, so the discrepancy does not affect its chronology classification."
   },
   "preservedCompetitionChronology": {
     "basis": "Chronology template preserved in prior public-release commit fd2b7ae3176532e96b78fa31320e7fe27ec6cf51; not independently refreshed by this release observation",
@@ -126,6 +130,52 @@
       "pushProtectionEnabled": true
     }
   },
+  "postReleaseEvidence": {
+    "supportedHostWebmcp": {
+      "observedAt": "2026-08-30T07:28:58.469Z",
+      "host": "Codex In-app Browser",
+      "hostType": "iab",
+      "productCommit": "9235ee5db4df637bdb2a12e87449e871614afe68",
+      "evidencePath": "docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json",
+      "discoveredToolCount": 5,
+      "successfulCallCount": 5,
+      "comparisonDigestParity": true,
+      "comparisonResultDigest": "3baa3281849855b86e929fd5fad8984580066ac4e275063341c1d9102dc903b1",
+      "scope": "Observed only in the named host and retained session; this is not evidence for ChatGPT desktop, Chrome or any other host."
+    },
+    "devpostReadOnlyStatus": {
+      "observedAt": "2026-08-30T10:23:52Z",
+      "evidencePath": "docs/competition/evidence/devpost-read-only-status-2026-08-30.json",
+      "registered": true,
+      "projectId": 1406973,
+      "projectState": "submission_pre_draft",
+      "submittedAt": null,
+      "scope": "Authenticated read-only observation only; no registration, project or submission mutation was performed."
+    },
+    "demoLiveInteractionCapture": {
+      "capturedAt": "2026-08-30T10:15:43.788Z",
+      "evidencePath": "docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json",
+      "clipCount": 5,
+      "browserChromeCaptured": false,
+      "sourceAudioCaptured": false,
+      "agentPrivacyReview": "pass",
+      "agentBrandingReview": "pass",
+      "humanPublicationReview": "pending",
+      "scope": "Genuine public-page interaction only. The separate supported-host scene is a clearly labelled receipt visualisation, not host-owned video."
+    },
+    "demoPipeline": {
+      "configSchema": "trusted-govuk-discovery.demo-video-script.v2",
+      "preflightPassed": false,
+      "expectedMissingInputs": [
+        "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
+        "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json",
+        "VoiceOver media/evidence binding"
+      ],
+      "localFinalVideoBuilt": false,
+      "publicVideoPublished": false,
+      "scope": "The fail-closed pipeline and negative tests are present. No final MP4, captions, transcript or build receipt exists."
+    }
+  },
   "evidenceBoundary": {
     "subjectPredatesThisRecord": true,
     "recordClaimsToBeContainedInSubjectCommit": false,
@@ -133,12 +183,22 @@
     "bindingCompleteAtObservation": false
   },
   "gates": {
-    "nativeSupportedHostToolDiscoveryObserved": false,
-    "nativeSupportedHostToolCallObserved": false,
+    "nativeSupportedHostToolDiscoveryObserved": true,
+    "nativeSupportedHostToolCallObserved": true,
+    "demoInteractionClipsCaptured": true,
+    "demoInteractionClipsAgentReviewed": true,
+    "demoInteractionClipsHumanPublicationReviewed": false,
+    "supportedHostReceiptVisualisationBuilt": true,
     "manualScreenReaderObservationPerformed": false,
     "releasePlatformSbomProduced": false,
+    "demoVideoPreflightPassed": false,
+    "localDemoVideoBuilt": false,
+    "demoVideoHumanReviewComplete": false,
     "videoPublished": false,
     "devpostRegistrationPerformedByThisWorkflow": false,
+    "devpostRegistrationObserved": true,
+    "devpostProjectSubmissionObserved": false,
+    "finalDevpostComplianceReviewCompleted": false,
     "devpostSubmissionPerformed": false
   }
 }

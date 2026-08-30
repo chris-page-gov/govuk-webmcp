@@ -1,0 +1,188 @@
+{
+  "schema": "trusted-govuk-discovery.demo-video-script.v2",
+  "title": "Evidence Trace: show your GOV.UK working",
+  "language": "en-GB",
+  "productUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+  "productCommit": "9235ee5db4df637bdb2a12e87449e871614afe68",
+  "release": "v0.2.0-rc.1",
+  "narration": {
+    "type": "synthetic-local-review",
+    "engine": "macOS Speech Synthesis",
+    "voice": "Daniel",
+    "locale": "en-GB",
+    "speechRate": 170,
+    "publicationBasis": "pending-owner-review"
+  },
+  "reviews": {
+    "privacy": "pending-human-review",
+    "branding": "pending-human-review",
+    "voicePublicationBasis": "pending-owner-review"
+  },
+  "webmcpComparison": {
+    "answerId": "answer:new-child-starting-points",
+    "claimIds": [
+      "claim:register-a-birth",
+      "claim:check-child-benefit"
+    ]
+  },
+  "interactionCaptureReceipt": "docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json",
+  "scenes": [
+    {
+      "id": "overview",
+      "number": "01",
+      "kind": "interaction",
+      "eyebrow": "Evidence before answers",
+      "title": "Start with an inspectable analytical index",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/demo-scene-01-overview-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "load-public-release",
+        "open-analytical-index"
+      ],
+      "cues": [
+        "See the evidence before the answer.",
+        "This independent prototype opens on an analytical index.",
+        "It packages eighty digest-bound records.",
+        "They cover GOV.UK content, public data and APIs.",
+        "The worked answer identifies three official starting points.",
+        "They cover what to check after a baby is born.",
+        "Observation times, scope and the main limitation stay visible."
+      ]
+    },
+    {
+      "id": "trace",
+      "number": "02",
+      "kind": "interaction",
+      "eyebrow": "Evidence Trace",
+      "title": "Follow every labelled relationship",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/demo-scene-02-evidence-trace-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "select-answer",
+        "open-evidence-trace"
+      ],
+      "cues": [
+        "The Evidence Trace visualises the same deterministic material.",
+        "Follow a labelled path from answer to claim, source and transformation.",
+        "Then inspect its packaged SHA-two-five-six check and limitation.",
+        "Every relationship is text-labelled; colour never carries meaning alone."
+      ]
+    },
+    {
+      "id": "facets",
+      "number": "03",
+      "kind": "interaction",
+      "eyebrow": "Inspect one foundation",
+      "title": "Keep eight trust facets separate",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/demo-scene-03-foundation-facets-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "select-foundation",
+        "inspect-eight-trust-facets"
+      ],
+      "cues": [
+        "Select one foundation to inspect authority and assertion.",
+        "Verification and freshness stay separate.",
+        "Integrity, access, rights and coverage stay separate too.",
+        "Nothing is collapsed into a trust score.",
+        "The authoritative page and limitations remain visible."
+      ]
+    },
+    {
+      "id": "comparison",
+      "number": "04",
+      "kind": "interaction",
+      "eyebrow": "Compare foundations",
+      "title": "Compare claims without declaring a winner",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/demo-scene-04-comparison-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "select-claim-register-a-birth",
+        "select-claim-check-child-benefit",
+        "open-comparison"
+      ],
+      "cues": [
+        "Compare two claims field by field.",
+        "Each keeps its official source, observation time and limitation.",
+        "The table declares no winner and makes no personal decision."
+      ]
+    },
+    {
+      "id": "webmcp",
+      "number": "05",
+      "kind": "receipt-visualisation",
+      "eyebrow": "Supported-host receipt visualisation",
+      "title": "Five WebMCP tools, one deterministic receipt",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/supported-host-webmcp-call-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "evidence": "docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json",
+      "cues": [
+        "A supported Codex in-app browser receipt records five native page tools.",
+        "Three inspect verified data; two reversibly update the page.",
+        "All five were called against this exact public release.",
+        "The comparison used the same answer and claims as the human view.",
+        "Its canonical and displayed result digests match.",
+        "No provider, storage, catalogue or external state changed."
+      ]
+    },
+    {
+      "id": "voiceover",
+      "number": "06",
+      "kind": "voiceover",
+      "eyebrow": "Manual accessibility observation",
+      "title": "Follow the same evidence with VoiceOver",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "evidence": "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json",
+      "cues": [
+        "A manual Safari VoiceOver journey uses the same public release without WebMCP.",
+        "It covers headings, controls and selected foundations.",
+        "It also covers comparison, live status and source links.",
+        "Results and limitations are recorded.",
+        "This is not a Web Content Accessibility Guidelines conformance claim."
+      ]
+    },
+    {
+      "id": "estate",
+      "number": "07",
+      "kind": "interaction",
+      "eyebrow": "Scope and boundary",
+      "title": "Show what is admitted — and what is not",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/demo-scene-07-evidence-estate-2026-08-30.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "open-evidence-estate"
+      ],
+      "cues": [
+        "The evidence estate makes scope explicit.",
+        "Two reviewed collections supply all eighty searchable records.",
+        "Eight others are described but not searchable.",
+        "A descriptor never admits a producer payload by itself.",
+        "Every result keeps an authoritative human link and limitations visible.",
+        "This is an independent prototype, not an official service.",
+        "It grants no access and is not a durable gateway."
+      ]
+    }
+  ]
+}
