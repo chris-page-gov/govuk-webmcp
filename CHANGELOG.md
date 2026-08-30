@@ -25,6 +25,9 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Stabilised the narrow-screen keyboard acceptance check by sending Enter to
   the already focused trace and search controls while retaining explicit focus
   assertions.
+- Made the already-cancelled WebMCP acceptance wait for the application’s
+  settled `ready` state before taking its display baseline, removing a Linux CI
+  race while preserving the assertion that cancellation causes no mutation.
 
 ### Security
 
