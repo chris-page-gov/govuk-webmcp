@@ -380,7 +380,10 @@ test("human Evidence Trace controls support comparison, direct links and focus r
 test("an already-cancelled WebMCP call rejects without changing the display", async ({ page }) => {
   await installModelContext(page);
   await page.goto("/");
-  const before = await page.locator("#diagnostic-last-action").textContent();
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  const diagnostic = page.locator("#diagnostic-last-action");
+  await expect(diagnostic).toHaveText("Human: explore_answer_foundations");
+  const before = await diagnostic.textContent();
   const cancellation = await page.evaluate(async ({ selectedAnswer, selectedClaim }) => {
     const registered = (await document.modelContext.getTools())
       .find(({ name }) => name === "explore_answer_foundations");
@@ -398,7 +401,7 @@ test("an already-cancelled WebMCP call rejects without changing the display", as
     }
   }, { selectedAnswer: answerId, selectedClaim: claimIds[2] });
   expect(cancellation).toEqual({ name: "AbortError", message: "Cancelled by the test host." });
-  await expect(page.locator("#diagnostic-last-action")).toHaveText(before);
+  await expect(diagnostic).toHaveText(before);
 });
 
 test("a registration exception rolls back earlier registrations and leaves human search ready", async ({ page }) => {

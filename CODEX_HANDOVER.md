@@ -98,6 +98,11 @@ Post-tag evidence-branch closure used these exact checks:
   passed after the keyboard-flake correction;
 - `PLAYWRIGHT_PORT=4216 npm run test:browser:edge:prepared`: the same 19 tests
   passed in installed Microsoft Edge;
+- the already-cancelled WebMCP acceptance now takes its no-mutation baseline
+  only after the application `ready` state, preventing an initial route
+  presentation from being mistaken for a cancelled-call side effect; the
+  corrected case passed 30 of 30 repeated runs and both full 19-test Chrome and
+  Edge suites passed again;
 - `python3 research/2026-08-29/competition-pack/scripts/verify_pack.py`:
   passed, with optional Python `jsonschema` meta-schema checks skipped because
   that package is not installed;
