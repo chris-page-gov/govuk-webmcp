@@ -1,0 +1,144 @@
+{
+  "schema": "trusted-govuk-discovery.challenge-provenance.v1",
+  "observationWindow": {
+    "startedAt": "2026-08-30T01:53:35Z",
+    "completedAt": "2026-08-30T02:23:29Z"
+  },
+  "challenge": {
+    "start": "2026-08-25T18:00:00Z",
+    "deadline": "2026-09-03T20:00:00Z",
+    "rulesUrl": "https://webmcp.devpost.com/rules"
+  },
+  "preservedCompetitionChronology": {
+    "basis": "Chronology template preserved in prior public-release commit fd2b7ae3176532e96b78fa31320e7fe27ec6cf51; not independently refreshed by this release observation",
+    "preExisting": [
+      {
+        "repository": "chris-page-gov/gis-ai-go",
+        "commit": "fe122579dc3aba07387c0c201ce5539b50a40108",
+        "timestamp": "2026-08-25T16:47:33Z"
+      },
+      {
+        "repository": "chris-page-gov/okf-govuk-content",
+        "commit": "94f5020cb2c7512a79c2353ee48743ad733a132c"
+      },
+      {
+        "repository": "chris-page-gov/okf-uk-government-apis",
+        "commit": "55c7e67947dfd86e291ca987e354429c36b453d9"
+      }
+    ],
+    "postStartEvidence": [
+      {
+        "repository": "chris-page-gov/gis-ai-go",
+        "commit": "8c4c3e0df7b19926507b541fc11077d2912b94ee",
+        "timestamp": "2026-08-29T10:00:00Z",
+        "purpose": "static WebMCP explorer candidate"
+      }
+    ]
+  },
+  "ownershipAssurance": {
+    "assertedBy": "Chris Page",
+    "resourcesProducedUsing": [
+      "personally owned MacBook M4 Max",
+      "personal ChatGPT subscription",
+      "personal Claude subscription",
+      "personal Gemini subscription"
+    ],
+    "noOutsideInterestsAsserted": true,
+    "independentlyVerified": false
+  },
+  "researchBaseline": {
+    "repository": "chris-page-gov/govuk-webmcp",
+    "commit": "4c85db75f6c46da79f97fcfef2762cb483e6068d"
+  },
+  "priorPublicRelease": {
+    "repository": "chris-page-gov/govuk-webmcp",
+    "tag": "v0.1.0-rc.1",
+    "commit": "fd2b7ae3176532e96b78fa31320e7fe27ec6cf51"
+  },
+  "candidate": {
+    "repository": "chris-page-gov/govuk-webmcp",
+    "commit": "9235ee5db4df637bdb2a12e87449e871614afe68",
+    "packageVersion": "0.2.0-rc.1",
+    "pullRequest": {
+      "number": 9,
+      "url": "https://github.com/chris-page-gov/govuk-webmcp/pull/9",
+      "headCommit": "ce15b099b00b38308f34ac74efe60924b72f7540",
+      "mergedAt": "2026-08-30T01:54:49Z",
+      "integrationMethod": "rebase-style linear integration"
+    },
+    "validation": {
+      "pullRequestRunId": 33286703184,
+      "exactMainRunId": 33286750188,
+      "exactMainConclusion": "success",
+      "unitTests": {
+        "passed": 58,
+        "failed": 0
+      },
+      "chromiumTests": {
+        "passed": 19,
+        "failed": 0
+      }
+    },
+    "deployment": {
+      "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "runId": 33286771963,
+      "artifactId": 9724680702,
+      "artifactApiDigest": "sha256:30c449112aff09872f4a3a0a0213fc0508c279ec434788245902bbf64696a80a",
+      "artifactApiSizeBytes": 87370,
+      "artifactTarSha256": "1276135cdbe707ef7fd0dc96db80d078f5fa7c772ae87b83ee49f8ee694c35f5",
+      "artifactTarSizeBytes": 675840,
+      "artifactExpiresAt": "2026-08-31T01:56:22Z",
+      "deploymentMetadataSha256": "f7b072e77f3cccd5d0596a64c5921eecf5475bed4b36889fe19886356df6a1a6"
+    },
+    "release": {
+      "tag": "v0.2.0-rc.1",
+      "tagObject": "0a41f7a6f0123c3aba9742bbf6167b8a8ceb2b82",
+      "targetCommit": "9235ee5db4df637bdb2a12e87449e871614afe68",
+      "annotated": true,
+      "cryptographicallySigned": false,
+      "taggerIdentity": "Chris Page <121984645+chris-page-gov@users.noreply.github.com>",
+      "publishedAt": "2026-08-30T02:06:00Z",
+      "finalAnnotatedTagObjectCreatedAt": "2026-08-30T02:08:40Z",
+      "tagReferenceReplacedAfterReleasePublication": true,
+      "releaseId": 379156679,
+      "url": "https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1",
+      "prerelease": true
+    },
+    "digests": {
+      "catalogueBundle": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+      "evidenceTraceCollection": "a6c38dcc1cc8defbb38a1541e5964159a1e724aa989cb362187111a801dc0a3b",
+      "federationManifest": "3b1301d55ebd232e6d4b89226ddb9cc92ee4ae0878fc5b6ac48a88594ed06d71",
+      "liveCatalogueFile": "969d703663887c7d50a3ee36287988a748441c33bd50ab3c625e7d2525a555e1",
+      "liveReceiptsFile": "8dc4838366f69f3906dfe092ce88c7134ab8d1cf144d6e0a37aa9e03c142dfa4",
+      "liveEvidenceTraceFile": "f54af026d72c3e902039cae04e5e58067c39b33cf86d93f70a8075f9c4c1d8c0",
+      "liveFederationFile": "0b56592fb95b29512c73485aac0ce06f0644cc78c07a68504a0f63b597259adc"
+    },
+    "repositoryControls": {
+      "visibility": "public",
+      "protectedMain": true,
+      "requiredStatusCheck": "validate",
+      "strictStatusChecks": true,
+      "administratorEnforcement": true,
+      "linearHistoryRequired": true,
+      "forcePushAllowed": false,
+      "branchDeletionAllowed": false,
+      "secretScanningEnabled": true,
+      "pushProtectionEnabled": true
+    }
+  },
+  "evidenceBoundary": {
+    "subjectPredatesThisRecord": true,
+    "recordClaimsToBeContainedInSubjectCommit": false,
+    "bindingMechanism": "The protected commit that eventually contains this record supplies its repository binding externally; this record does not name or attest to its own future commit",
+    "bindingCompleteAtObservation": false
+  },
+  "gates": {
+    "nativeSupportedHostToolDiscoveryObserved": false,
+    "nativeSupportedHostToolCallObserved": false,
+    "manualScreenReaderObservationPerformed": false,
+    "releasePlatformSbomProduced": false,
+    "videoPublished": false,
+    "devpostRegistrationPerformedByThisWorkflow": false,
+    "devpostSubmissionPerformed": false
+  }
+}

@@ -8,7 +8,8 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 - [ ] **Verify:** Devpost registration is complete under the same individual, team or organisation identity used in the submission.
 - [ ] **Verify:** entrant remains eligible by age, residence, supported-country status and account requirements.
 - [ ] **Approval required:** any team or organisation representative has written authority.
-- [ ] **Blocker:** no actual or apparent conflict falls within the rules' exclusions.
+- [x] **Confirmed by entrant assurance for the declared repository scope:** no
+  actual or apparent outside-interest conflict blocks build or publication.
 
 ## Ownership and rights
 
@@ -28,20 +29,30 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 ## Technical submission
 
-- [ ] **Verify after deployment:** the public live URL exposes material WebMCP
-  behaviour in a supported judging environment. Human fallback is locally
-  verified; candidate deployment and an actual ChatGPT-host tool observation
-  remain pending.
+- [x] **Confirmed on the public site:** exact `v0.2.0-rc.1` deployment and its
+  signed-out human fallback are verified.
+- [ ] **Verify in a supported judging environment:** record actual ChatGPT-host
+  discovery and a representative tool call.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test:** five fixed tools register after all four artefact families validate. The three catalogue query tools are read-only; the two evidence tools declare their reversible in-memory page-presentation effect with `readOnlyHint: false`. No tool has a runtime provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
 - [x] **Confirmed by test and copy review:** catalogue inclusion is not described as access authority.
-- [ ] **Verify for `0.2.0-rc.1`:** the candidate passes protected pull-request CI and a clean-clone test; then prove the exact merged `main` commit and its bound artefacts at the live URL. The corresponding evidence is complete only for the prior `0.1.0-rc.1` release.
+- [x] **Confirmed for `0.2.0-rc.1`:** pull request 9 passed its check and
+  integrated through protected `main`; exact-main run `33286750188` and Pages
+  run `33286771963` rebuilt and tested product commit
+  `9235ee5db4df637bdb2a12e87449e871614afe68`, and all 20 live files matched
+  the Pages artefact.
 
 ## Required artefacts
 
 - [x] Public source repository with all source/assets/instructions and visible licence.
-- [ ] Public live deployment of the exact `0.2.0-rc.1` candidate; no demo account is required for this static prototype. The live site currently serves the prior release.
+- [x] Public live deployment of exact product commit
+  `9235ee5db4df637bdb2a12e87449e871614afe68` at
+  <https://chris-page-gov.github.io/govuk-webmcp/>; no demo account is required.
 - [ ] Public YouTube video shorter than three minutes.
-- [ ] English text description explaining WebMCP leverage, execution, impact, creativity and boundaries.
-- [ ] Immutable release/tag, hashes, provenance manifest, SBOM/notices and submission receipt retained.
+- [x] English draft text explains WebMCP leverage, execution, impact, creativity
+  and boundaries; final entry and submission remain separate gates.
+- [x] The annotated `v0.2.0-rc.1` tag, public pre-release, product and Pages
+  hashes, challenge provenance, local macOS ARM64 SBOM and notices are retained.
+- [ ] Produce a release-platform SBOM or signed attestation.
+- [ ] Retain the final submission receipt after an authorised submission.

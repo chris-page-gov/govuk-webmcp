@@ -1,0 +1,175 @@
+{
+  "schema": "trusted-govuk-discovery.live-artifact-verification.v1",
+  "observedAt": "2026-08-30T02:07:04.602Z",
+  "site": "https://chris-page-gov.github.io/govuk-webmcp/",
+  "productCommit": "9235ee5db4df637bdb2a12e87449e871614afe68",
+  "pagesRunId": 33286771963,
+  "artifactId": 9724680702,
+  "requestMethod": "GET with a cache-busting query parameter",
+  "commonResponseHeaders": {
+    "cacheControl": "max-age=600",
+    "lastModified": "Sun, 30 Aug 2026 01:56:25 GMT"
+  },
+  "results": [
+    {
+      "path": "app/main.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 38470,
+      "sha256": "0371686770fb676d8c3c5c9e92219a2cc8832cfcca8344b2b5292d509245255b",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/catalogue.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "byteCount": 320163,
+      "sha256": "969d703663887c7d50a3ee36287988a748441c33bd50ab3c625e7d2525a555e1",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/catalogue.json.sha256",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "byteCount": 81,
+      "sha256": "0804092dbe29bf03ade88b46cd3147ed7309612ba497e4871c3d8d23383ef2e1",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/evidence-traces.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "byteCount": 32744,
+      "sha256": "f54af026d72c3e902039cae04e5e58067c39b33cf86d93f70a8075f9c4c1d8c0",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/evidence-traces.json.sha256",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "byteCount": 87,
+      "sha256": "099544a309f198f5a94c339b149d1403143c2de94de0c446b06d77bc747c984a",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/federation.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "byteCount": 28888,
+      "sha256": "0b56592fb95b29512c73485aac0ce06f0644cc78c07a68504a0f63b597259adc",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/federation.json.sha256",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "byteCount": 82,
+      "sha256": "32ce6240b51682e597c6852253beafa10c677f2d2ff773c4231fbac100af9352",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/receipts.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "byteCount": 124529,
+      "sha256": "8dc4838366f69f3906dfe092ce88c7134ab8d1cf144d6e0a37aa9e03c142dfa4",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "data/receipts.json.sha256",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "byteCount": 80,
+      "sha256": "89e0aff121b4fcfdfbb9bd470fd09a1f28d34dfc80598b6d9c4c6f6ec0d1e8b5",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "deployment.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "byteCount": 185,
+      "sha256": "f7b072e77f3cccd5d0596a64c5921eecf5475bed4b36889fe19886356df6a1a6",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "favicon.svg",
+      "status": 200,
+      "contentType": "image/svg+xml",
+      "byteCount": 345,
+      "sha256": "9e9f4c9c786c0209a73fe1b11db57033db768d7eec236a1e54616c78a4276a48",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "byteCount": 9416,
+      "sha256": "a35115b9359cb055d204bc2cefbdae16d8ba2de1b92f12663ea253f1fb24ab88",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "src/application-actions.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 5730,
+      "sha256": "866c6efeb2494979d15843d9a8908ac29cd4e68745e081386187e22d143da0c8",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "src/contracts.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "src/evidence-runtime.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 24172,
+      "sha256": "e2a592a3d89054a2f26caf8a527f4796c61f4a1321c21f8faa018ad2d11a467d",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "src/federation-runtime.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 16859,
+      "sha256": "99d5de5991ee37eb40dfbfb359b37a86b3cfc7095c4304c06bc8b053d6d180b0",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "src/integrity.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 2721,
+      "sha256": "a0b5286ae5c82874fa88cd08b1c3af2764bdc45b7d066bd257a9f9b4f06e6aab",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "src/webmcp-tools.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 42876,
+      "sha256": "50910cd47e3f1a977ebd8014b711c0964fe4c2c61049f8173f763786da684327",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "startup-watchdog.js",
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "byteCount": 956,
+      "sha256": "aa5bb5b7d59ca13fa51eee0d6879c2cd097a2c1bc633b3e0219122f2c3594d89",
+      "equalsPagesArtifact": true
+    },
+    {
+      "path": "style.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "byteCount": 7928,
+      "sha256": "662690b8e95e43fe4c7ef3fa80ddf1b5eac9d534540988a4b30dd36f630d8044",
+      "equalsPagesArtifact": true
+    }
+  ]
+}

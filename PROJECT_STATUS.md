@@ -1,21 +1,23 @@
 # Project status and hard gates
 
-**Status:** the `0.2.0-rc.1` Evidence Trace and bounded-federation candidate is
-implemented and locally assured on branch `feat/evidence-trace-federation`.
-It is not yet committed, merged or deployed. Public source and deployment are
-authorised; competition registration and Devpost submission remain separate,
-explicit and unperformed actions.
+**Status:** the `0.2.0-rc.1` Evidence Trace and bounded-federation release is
+public from product commit
+`9235ee5db4df637bdb2a12e87449e871614afe68`. Pull request 9 passed the protected
+branch boundary and was merged to `main`; exact-main validation run
+`33286750188` and Pages run `33286771963` passed. Competition registration and
+Devpost submission remain separate, explicit and unperformed actions.
 
 ## Current release boundary
 
 The public repository is
 [`chris-page-gov/govuk-webmcp`](https://github.com/chris-page-gov/govuk-webmcp).
-`main` is protected. The currently deployed site at
-<https://chris-page-gov.github.io/govuk-webmcp/> still represents commit
-`fd2b7ae` and tag `v0.1.0-rc.1` until this candidate passes pull-request,
-exact-main and deployment verification.
+`main` is protected. The public pre-release is
+[`v0.2.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1),
+and <https://chris-page-gov.github.io/govuk-webmcp/> serves the exact tagged
+product commit. The deployed `deployment.json` binds that commit to Pages run
+`33286771963`. GitHub secret scanning and push protection are enabled.
 
-The candidate contains:
+The release contains:
 
 - 80 searchable records and 80 evidence receipts;
 - four exact authored source locks;
@@ -33,7 +35,7 @@ truthfully declared reversible in-memory page-presentation effect and therefore
 use `readOnlyHint: false`. Neither class writes storage, changes canonical
 metadata, calls a provider or changes external state.
 
-## Assurance observed for the working-tree candidate
+## Assurance observed for the release
 
 - `npm run test:unit`: 58 passed;
 - installed Google Chrome Playwright suite: 19 passed;
@@ -55,8 +57,13 @@ metadata, calls a provider or changes external state.
 - the 30 August link-health audit recorded 161 of 161 unique admitted official
   URLs as reachable by its bounded HEAD method.
 
-These are pre-commit observations. They do not replace pull-request CI,
-exact-commit deployment or signed-out live verification.
+Pull request 9, exact-main validation run `33286750188` and Pages run
+`33286771963` all passed for the product commit. The complete 20-file Pages
+artefact was fetched from the public site and every live response returned HTTP
+200 with byte-for-byte agreement. A signed-out browser journey passed with no
+console warning or error and only successful same-origin data requests. The
+post-tag evidence records these observations separately from the immutable
+product commit.
 
 ## Mandatory source and claim boundaries
 
@@ -81,8 +88,8 @@ No `gis-ai-go` or OKF source repository has been modified.
 
 Chris Page's recorded assurance resolves personal ownership, resource-use,
 outside-interest and original-code licence questions for this repository.
-Public branch/PR publication and Pages deployment are authorised. The following
-remain gated:
+Public branch/PR publication, branch protection, the annotated pre-release and
+Pages deployment are complete for `v0.2.0-rc.1`. The following remain gated:
 
 - do not register for the competition or submit to Devpost without a separate
   instruction;
@@ -94,8 +101,10 @@ remain gated:
 
 ## Next safe task
 
-Commit this lockstep candidate in small reviewable commits, open a pull request,
-wait for protected-branch checks, merge only when green, and publish the exact
-merged `main` commit. Then record signed-out live data/digest/browser evidence.
-An actual supported-host WebMCP call, a manual screen-reader observation, the
-public demo video and Devpost registration/submission remain subsequent tasks.
+The post-tag evidence is maintained separately from the unchanged product
+bytes. The next product-facing task is to observe native discovery and
+representative calls against the exact public release in a supported WebMCP
+host, then perform and record a manual screen-reader journey.
+A release-platform SBOM or signed attestation remains unavailable. The public
+demo video and Devpost registration/submission remain separate subsequent tasks
+and require their own evidence and governance checks.

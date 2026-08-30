@@ -4,13 +4,17 @@
 
 The implementation is in the dedicated public repository
 `chris-page-gov/govuk-webmcp`. The preserved research pack and baseline commit
-remain in this repository, so the current candidate adds evidence without
+remain in this repository, so the release adds evidence without
 erasing its ancestry.
 
-The evidence-first extension described here is currently an uncommitted local
-candidate. The existing public deployment predates it and must not be cited as
-proof that this exact candidate is live. No final candidate tag or Devpost
-submission exists yet.
+The evidence-first extension was integrated through
+[pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9) at
+product commit `9235ee5db4df637bdb2a12e87449e871614afe68`. Exact-main validation
+run `33286750188` passed, Pages run `33286771963` deployed the same commit, and
+the annotated `v0.2.0-rc.1` tag has a
+[public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
+The live site is <https://chris-page-gov.github.io/govuk-webmcp/>. Competition
+registration and Devpost submission have not been performed.
 
 ## 20.2 Implemented tree
 
@@ -120,6 +124,12 @@ govuk-webmcp/
 │           ├── accessibility-test-2026-08-30.md
 │           ├── evidence-first-overview-2026-08-30.png
 │           ├── evidence-foundation-comparison-2026-08-30.png
+│           ├── challenge-provenance.json
+│           ├── live-artifact-verification-2026-08-30.json
+│           ├── live-deployment-metadata-2026-08-30.json
+│           ├── public-live-search-2026-08-30.png
+│           ├── public-release-verification-2026-08-30.md
+│           ├── site-SHA256SUMS-2026-08-30
 │           ├── link-health-2026-08-30.json
 │           └── sbom-2026-08-30.cdx.json  # local macOS ARM64 dependency view
 ├── research/2026-08-29/        # preserved research seed and pack
@@ -142,7 +152,7 @@ payload.
 ## 20.3 Semantic and service boundaries
 
 Each corpus admission stores the producer's `sourceOkfCore` separately from the
-candidate's `targetOkfCore` 0.2. `sourceOkfCore` may be 0.1, 0.2 or undeclared;
+release's `targetOkfCore` 0.2. `sourceOkfCore` may be 0.1, 0.2 or undeclared;
 the target field records the intended crosswalk and does not rewrite producer
 history.
 
@@ -151,33 +161,39 @@ contain a durable MCP gateway, provider credentials, provider execution or
 government service operations. The 80 packaged receipts are build artefacts,
 not receipts created by tool calls.
 
-## 20.4 Current evidence and release gap
+## 20.4 Published evidence and remaining gaps
 
-Observed on the uncommitted candidate:
+The exact product commit has the following published evidence:
 
-- 58 unit checks passed;
-- 19 installed-Chrome browser checks passed; and
-- the same 19 browser checks passed in Microsoft Edge.
+- exact-main run `33286750188` passed 58 unit checks and 19 Chromium browser
+  checks;
+- Pages run `33286771963` rebuilt and retested the same commit;
+- every one of the 20 deployed files returned HTTP 200 and matched the Pages
+  artefact byte for byte; and
+- a signed-out live human journey completed without a console error or warning.
 
-The candidate still needs an exact commit and release, final public deployment
-verification, a supported live WebMCP host observation and manual screen-reader
-observation. Existing screenshots and automated browser results must remain
-labelled as candidate evidence until those gates pass.
+The same source tree also passed 19 installed-Microsoft-Edge checks before
+publication. That result remains candidate evidence rather than an Edge run in
+the canonical Linux workflow. A supported live WebMCP host observation, manual
+screen-reader observation, release-platform SBOM or attestation, video,
+competition registration and Devpost submission remain pending.
 
-## 20.5 Final evidence set
+## 20.5 Release evidence set
 
-The final release should bind, without rewriting earlier evidence:
+The release evidence binds, without rewriting earlier evidence:
 
 - the exact source commit, release tag and deployed revision;
 - the four authored source locks and generated artefact checksums;
 - the 80-record, 80-receipt, one-trace and 10-admission validation summary;
-- the 58-unit, 19-Chrome and 19-Edge results rerun at the exact release;
-- the final link audit and sanitised SBOM;
-- signed-out live-page, same-origin request and supported-host WebMCP evidence;
-- the manual screen-reader observation and accessibility limitations;
-- the demonstration video and transcript; and
-- the exact approved Devpost text and rules checklist.
+- the 58-unit and 19-Chromium exact-main results, plus the separately bounded
+  Edge result;
+- the link audit and sanitised local macOS ARM64 SBOM;
+- the Pages artefact, 20-file site manifest, live deployment metadata and
+  signed-out live-page and same-origin observations; and
+- machine-readable challenge provenance.
 
-Do not tag, deploy, register or submit from this documentation change. Do not
-squash away the baseline or evidence chronology when the final candidate is
-approved.
+Supported-host WebMCP, manual screen-reader, release-platform SBOM or
+attestation, demonstration video and transcript, and the exact approved Devpost
+text and receipt remain future evidence. Do not rewrite the baseline or evidence
+chronology, and do not register for or submit to Devpost without separate
+instruction.

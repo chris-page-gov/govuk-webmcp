@@ -2,13 +2,16 @@
 
 ## Current outcome
 
-The `0.2.0-rc.1` Evidence Trace and bounded-federation candidate is implemented
-on `feat/evidence-trace-federation`. It is not yet committed, merged or
-deployed. The public site still serves the prior `fd2b7ae`
-`v0.1.0-rc.1` release until the candidate completes protected pull-request,
-exact-main and Pages verification.
+The `0.2.0-rc.1` Evidence Trace and bounded-federation release is public from
+product commit `9235ee5db4df637bdb2a12e87449e871614afe68`. Pull request 9
+passed the protected branch boundary and was merged to `main`; exact-main
+validation run `33286750188` and Pages run `33286771963` passed. The annotated
+pre-release and exact public site are available at:
 
-The candidate expands the 80-record, 80-receipt static catalogue with:
+- <https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1>
+- <https://chris-page-gov.github.io/govuk-webmcp/>
+
+The release expands the 80-record, 80-receipt static catalogue with:
 
 - four exact authored source locks;
 - one worked Evidence Trace over three selected new-child GOV.UK records;
@@ -68,7 +71,7 @@ JSON and checksum sidecars are deterministic.
 This is page-scoped WebMCP progressive enhancement, not a durable MCP gateway,
 provider integration or service-operation layer.
 
-## Local assurance observed on 30 August 2026
+## Release assurance observed on 30 August 2026
 
 | Command or observation | Result |
 | --- | --- |
@@ -81,6 +84,34 @@ provider integration or service-operation layer.
 | `npm audit --json` | zero known vulnerabilities across 33 dependencies |
 | Bounded official-link HEAD audit | 161 unique URLs reachable; 0 attention |
 | Local macOS ARM64 CycloneDX SBOM | 14 components; personal author/contributor metadata absent; release-platform evidence remains pending |
+| Protected pull-request integration | pull request 9 merged to `main` after its required check passed |
+| Exact-main validation | run `33286750188` passed for `9235ee5db4df637bdb2a12e87449e871614afe68` |
+| Exact Pages deployment | run `33286771963` rebuilt, retested and deployed the same product commit |
+| Public artefact comparison | all 20 Pages artefact files returned HTTP 200 and matched the live bytes |
+| Signed-out live-browser journey | passed with successful same-origin data requests and no console warning or error |
+| Public repository hardening | protected `main`, secret scanning and push protection enabled |
+
+Post-tag evidence-branch closure used these exact checks:
+
+- `npm run test:unit`: the deterministic build and 59 unit tests passed;
+- `PLAYWRIGHT_PORT=4215 npm run test:browser:prepared`: all 19 Chromium tests
+  passed after the keyboard-flake correction;
+- `PLAYWRIGHT_PORT=4216 npm run test:browser:edge:prepared`: the same 19 tests
+  passed in installed Microsoft Edge;
+- `python3 research/2026-08-29/competition-pack/scripts/verify_pack.py`:
+  passed, with optional Python `jsonschema` meta-schema checks skipped because
+  that package is not installed;
+- all four edited CSV registers parsed successfully with consistent row widths;
+- both repository and 20-file site SHA-256 manifests verified;
+- `git diff --check`: passed; and
+- `gitleaks detect --source . --no-banner --redact --exit-code 1`: no leak
+  found across 14 commits; `gitleaks dir . --no-banner --redact --exit-code 1`
+  also found no leak in the 3.16 MB working tree.
+
+The one-command `npm test` browser phase could not bind a loopback socket in the
+restricted sandbox. Its research, build, unit and browser stages were therefore
+run separately; only the browser stage used the authorised local loopback
+exception.
 
 The formal candidate diff scan has ID
 `0735e481-5df9-43fe-8f3a-04bc3d9b797c`. It reported two low-severity
@@ -97,8 +128,13 @@ snapshot scan (`8dda47c2-46d1-4a1f-9e00-15bbaa684cdb`) completed with no
 reportable finding. Its preserved warning records that the final stricter
 count, identifier, workflow, test and documentation delta followed the
 snapshot; that delta and the final test matrix are recorded separately in
-`candidate-verification-2026-08-30.md`. Final pull-request CI, exact-main and
-live verification have not yet run for this candidate.
+`candidate-verification-2026-08-30.md`.
+
+The protected pull-request, exact-main, release, Pages artefact and signed-out
+live-browser evidence is recorded separately in
+`public-release-verification-2026-08-30.md` and the machine-readable
+`challenge-provenance.json`. Those post-tag records verify the immutable product
+commit; they do not claim to be contained in it.
 
 ## Residual limitations
 
@@ -122,9 +158,11 @@ live verification have not yet run for this candidate.
 
 ## Recommended next step
 
-Create small signed commits, open a pull request and require the protected
-`validate` check. Merge only when green, deploy the exact merged `main`
-commit and record signed-out live repository, digest, same-origin, console and
-human-journey evidence. Follow with actual supported-host WebMCP and manual
-screen-reader observations where the necessary environments are available.
-Do not register for or submit to Devpost without a separate instruction.
+This post-tag evidence is maintained separately from the unchanged product
+bytes. The next product-facing task is to use the exact public release for
+native discovery and representative calls in a supported WebMCP host, then
+perform and record a manual screen-reader journey. Do not claim a
+release-platform SBOM or signed attestation from the retained local macOS ARM64
+dependency view. The public video, competition registration and Devpost
+submission remain unperformed; do not register or submit without a separate
+instruction and final compliance check.

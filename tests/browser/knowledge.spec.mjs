@@ -549,15 +549,16 @@ test("keyboard, 320px reflow, forced colours and reduced motion retain evidence 
   const traceNode = page.locator(".trace-node").first();
   await traceNode.focus();
   await expect(traceNode).toBeFocused();
-  await page.keyboard.press("Enter");
+  await traceNode.press("Enter");
   await expect(traceNode).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#foundation-detail")).not.toBeEmpty();
 
   await page.getByLabel("Search term").focus();
   await page.keyboard.type("flood API");
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("button", { name: "Search" })).toBeFocused();
-  await page.keyboard.press("Enter");
+  const searchButton = page.getByRole("button", { name: "Search" });
+  await expect(searchButton).toBeFocused();
+  await searchButton.press("Enter");
   await expect(page.locator("article.result").first()).toBeVisible();
   await expect(page.getByRole("link", { name: "Source code" })).toBeVisible();
   const reflow = await page.evaluate(() => {
