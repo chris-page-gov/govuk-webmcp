@@ -1,0 +1,150 @@
+{
+  "documentType": "codex-security.findings",
+  "findings": [
+    {
+      "attackPath": {
+        "dataflow": {
+          "summary": "Tool input -> validator error -> raw input normalisation -> recursive canonical JSON -> page-context resource exhaustion."
+        },
+        "reachability": {
+          "summary": "Reachable to a compatible WebMCP caller if host schema enforcement is absent or bypassed; impact is one visiting page context."
+        }
+      },
+      "confidence": {
+        "level": "high",
+        "rationale": "The real generated catalogue runtime and shared controller reproduced a RangeError with a 20,000-level rejected object; static source establishes the complete path."
+      },
+      "findingId": "csf_41bd1a86df6723af9809e17f",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:43b6bf6ab4fde6b78940d80b7db7c9e65a701fb81606b0b264ab6c55b982f523"
+      },
+      "identity": {
+        "anchor": "rejected-tool-input-can-exhaust-the-page-during-diagnostic-hashing"
+      },
+      "locations": [
+        {
+          "endLine": 647,
+          "path": "src/webmcp-tools.ts",
+          "role": "entrypoint",
+          "startLine": 605
+        },
+        {
+          "endLine": 45,
+          "path": "src/application-actions.ts",
+          "role": "sink",
+          "startLine": 43
+        },
+        {
+          "endLine": 75,
+          "path": "src/application-actions.ts",
+          "role": "concrete_implementation",
+          "startLine": 53
+        },
+        {
+          "endLine": 8,
+          "path": "src/integrity.ts",
+          "role": "concrete_implementation",
+          "startLine": 3
+        }
+      ],
+      "occurrenceId": "occ_70ede6735479fcb9230fbb5c",
+      "provenance": {
+        "candidateId": "candidate-92e01591cc82f052",
+        "source": "local_plugin"
+      },
+      "remediation": "Apply a small structural and serialised-byte budget before dispatch, hash only accepted bounded input or a bounded rejection marker, and bound reflected unknown-field diagnostics.",
+      "rootCause": {
+        "summary": "Diagnostic parity hashing trusted the raw caller object after the supported contract rejected it."
+      },
+      "ruleId": "resource-exhaustion.rejected-input-diagnostic-hash",
+      "severity": {
+        "level": "low",
+        "rationale": "Reproducible at the untrusted tool boundary but limited to one page/tool context, with no persistence, disclosure, credential access or external mutation."
+      },
+      "summary": "After executable validation rejects tool input, the shared controller still serialises, parses and recursively canonicalises the original raw object for a diagnostic digest. A sufficiently deep or broad object can overflow the stack or stall the browser main thread.",
+      "taxonomy": {
+        "category": "resource-exhaustion",
+        "cwe": [
+          "CWE-20",
+          "CWE-400",
+          "CWE-674"
+        ]
+      },
+      "title": "Rejected tool input can exhaust the page during diagnostic hashing",
+      "validation": {
+        "summary": "Actual package-interface reproduction returned RangeError: Maximum call stack size exceeded for a 20,000-level input."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "summary": "Public hash -> URLSearchParams -> unbounded split/filter -> rejected compare action -> diagnostic hashing."
+        },
+        "reachability": {
+          "summary": "Reachable through a public crafted link; browser URL limits and single-tab scope constrain impact."
+        }
+      },
+      "confidence": {
+        "level": "medium",
+        "rationale": "Static tracing proves the missing pre-allocation bound. Chrome accepted a 1,000,054-character, 50,000-token fragment in about 1.23 seconds without crashing, confirming reachability but not severe impact at that size."
+      },
+      "findingId": "csf_f203d8431e5137ec989af24d",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:b96ac44137afc9212c8cd4b8ea7b4fdf7c9619b28b39cc3d3ed503724ddb74c9"
+      },
+      "identity": {
+        "anchor": "comparison-route-splits-an-unbounded-public-hash-fragment"
+      },
+      "locations": [
+        {
+          "endLine": 682,
+          "path": "app/main.ts",
+          "role": "entrypoint",
+          "startLine": 654
+        },
+        {
+          "endLine": 401,
+          "path": "src/evidence-runtime.ts",
+          "role": "root_control",
+          "startLine": 386
+        },
+        {
+          "endLine": 74,
+          "path": "src/application-actions.ts",
+          "role": "sink",
+          "startLine": 73
+        }
+      ],
+      "occurrenceId": "occ_13b5db0f2cc8cc6d12b17773",
+      "provenance": {
+        "candidateId": "candidate-ead531ff9704b45b",
+        "source": "local_plugin"
+      },
+      "remediation": "Reject overlong fragments before URLSearchParams processing and parse at most four bounded comparison identifiers before invoking the action controller.",
+      "rootCause": {
+        "summary": "Semantic claim-count validation ran only after unbounded string parsing and allocation."
+      },
+      "ruleId": "resource-exhaustion.unbounded-comparison-fragment",
+      "severity": {
+        "level": "low",
+        "rationale": "Public crafted-link reachability is real, but only transient one-tab availability is affected and exploitation requires an unusually long fragment."
+      },
+      "summary": "Hash routing materialises every comma-separated comparison token before enforcing the two-to-four-claim limit, then passes the rejected array through diagnostic hashing. An unusually long crafted link can consume main-thread time and memory.",
+      "taxonomy": {
+        "category": "resource-exhaustion",
+        "cwe": [
+          "CWE-20",
+          "CWE-400"
+        ]
+      },
+      "title": "Comparison route splits an unbounded public hash fragment",
+      "validation": {
+        "summary": "Chrome accepted a 1,000,054-character fragment with 50,000 claim tokens; no page error occurred in the bounded proof."
+      }
+    }
+  ],
+  "scanId": "0735e481-5df9-43fe-8f3a-04bc3d9b797c",
+  "schemaVersion": "1.0"
+}

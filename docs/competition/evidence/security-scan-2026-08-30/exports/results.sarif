@@ -1,0 +1,210 @@
+{
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "automationDetails": {
+        "id": "0735e481-5df9-43fe-8f3a-04bc3d9b797c"
+      },
+      "properties": {
+        "codexSecuritySchemaVersion": "1.0",
+        "codexSecurityTargetKind": "git_diff"
+      },
+      "results": [
+        {
+          "level": "note",
+          "locations": [
+            {
+              "message": {
+                "text": "root_control"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/evidence-runtime.ts"
+                },
+                "region": {
+                  "endLine": 401,
+                  "startLine": 386
+                }
+              }
+            },
+            {
+              "message": {
+                "text": "entrypoint"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/main.ts"
+                },
+                "region": {
+                  "endLine": 682,
+                  "startLine": 654
+                }
+              }
+            },
+            {
+              "message": {
+                "text": "sink"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/application-actions.ts"
+                },
+                "region": {
+                  "endLine": 74,
+                  "startLine": 73
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Comparison route splits an unbounded public hash fragment\n\nHash routing materialises every comma-separated comparison token before enforcing the two-to-four-claim limit, then passes the rejected array through diagnostic hashing. An unusually long crafted link can consume main-thread time and memory.\n\nSeverity: low\n\nCategory: Resource exhaustion\n\nWeaknesses: CWE-20, CWE-400\n\nRemediation:\nReject overlong fragments before URLSearchParams processing and parse at most four bounded comparison identifiers before invoking the action controller."
+          },
+          "partialFingerprints": {
+            "codexSecurity/v1": "codex-security/v1:sha256:b96ac44137afc9212c8cd4b8ea7b4fdf7c9619b28b39cc3d3ed503724ddb74c9"
+          },
+          "properties": {
+            "category": "resource-exhaustion",
+            "confidence": "medium",
+            "findingId": "csf_f203d8431e5137ec989af24d",
+            "occurrenceId": "occ_13b5db0f2cc8cc6d12b17773",
+            "severity": "low"
+          },
+          "ruleId": "resource-exhaustion.unbounded-comparison-fragment",
+          "ruleIndex": 1
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "message": {
+                "text": "entrypoint"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/webmcp-tools.ts"
+                },
+                "region": {
+                  "endLine": 647,
+                  "startLine": 605
+                }
+              }
+            },
+            {
+              "message": {
+                "text": "sink"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/application-actions.ts"
+                },
+                "region": {
+                  "endLine": 45,
+                  "startLine": 43
+                }
+              }
+            },
+            {
+              "message": {
+                "text": "concrete_implementation"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/application-actions.ts"
+                },
+                "region": {
+                  "endLine": 75,
+                  "startLine": 53
+                }
+              }
+            },
+            {
+              "message": {
+                "text": "concrete_implementation"
+              },
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/integrity.ts"
+                },
+                "region": {
+                  "endLine": 8,
+                  "startLine": 3
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Rejected tool input can exhaust the page during diagnostic hashing\n\nAfter executable validation rejects tool input, the shared controller still serialises, parses and recursively canonicalises the original raw object for a diagnostic digest. A sufficiently deep or broad object can overflow the stack or stall the browser main thread.\n\nSeverity: low\n\nCategory: Resource exhaustion\n\nWeaknesses: CWE-20, CWE-400, CWE-674\n\nRemediation:\nApply a small structural and serialised-byte budget before dispatch, hash only accepted bounded input or a bounded rejection marker, and bound reflected unknown-field diagnostics."
+          },
+          "partialFingerprints": {
+            "codexSecurity/v1": "codex-security/v1:sha256:43b6bf6ab4fde6b78940d80b7db7c9e65a701fb81606b0b264ab6c55b982f523"
+          },
+          "properties": {
+            "category": "resource-exhaustion",
+            "confidence": "high",
+            "findingId": "csf_41bd1a86df6723af9809e17f",
+            "occurrenceId": "occ_70ede6735479fcb9230fbb5c",
+            "severity": "low"
+          },
+          "ruleId": "resource-exhaustion.rejected-input-diagnostic-hash",
+          "ruleIndex": 0
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "Codex Security",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "Resource exhaustion: Rejected input diagnostic hash. Categories: Resource exhaustion. Weaknesses: CWE-20, CWE-400, CWE-674."
+              },
+              "help": {
+                "markdown": "Resource exhaustion: Rejected input diagnostic hash. Categories: Resource exhaustion. Weaknesses: CWE-20, CWE-400, CWE-674.\n\n## Remediation\n\nApply a small structural and serialised-byte budget before dispatch, hash only accepted bounded input or a bounded rejection marker, and bound reflected unknown-field diagnostics.",
+                "text": "Resource exhaustion: Rejected input diagnostic hash. Categories: Resource exhaustion. Weaknesses: CWE-20, CWE-400, CWE-674.\n\nRemediation:\n\nApply a small structural and serialised-byte budget before dispatch, hash only accepted bounded input or a bounded rejection marker, and bound reflected unknown-field diagnostics."
+              },
+              "id": "resource-exhaustion.rejected-input-diagnostic-hash",
+              "name": "Resource exhaustion: Rejected input diagnostic hash",
+              "properties": {
+                "security-severity": "2.0",
+                "tags": [
+                  "external/cwe/cwe-020",
+                  "external/cwe/cwe-400",
+                  "external/cwe/cwe-674",
+                  "resource-exhaustion",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Resource exhaustion: Rejected input diagnostic hash"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Resource exhaustion: Unbounded comparison fragment. Categories: Resource exhaustion. Weaknesses: CWE-20, CWE-400."
+              },
+              "help": {
+                "markdown": "Resource exhaustion: Unbounded comparison fragment. Categories: Resource exhaustion. Weaknesses: CWE-20, CWE-400.\n\n## Remediation\n\nReject overlong fragments before URLSearchParams processing and parse at most four bounded comparison identifiers before invoking the action controller.",
+                "text": "Resource exhaustion: Unbounded comparison fragment. Categories: Resource exhaustion. Weaknesses: CWE-20, CWE-400.\n\nRemediation:\n\nReject overlong fragments before URLSearchParams processing and parse at most four bounded comparison identifiers before invoking the action controller."
+              },
+              "id": "resource-exhaustion.unbounded-comparison-fragment",
+              "name": "Resource exhaustion: Unbounded comparison fragment",
+              "properties": {
+                "security-severity": "2.0",
+                "tags": [
+                  "external/cwe/cwe-020",
+                  "external/cwe/cwe-400",
+                  "resource-exhaustion",
+                  "security"
+                ]
+              },
+              "shortDescription": {
+                "text": "Resource exhaustion: Unbounded comparison fragment"
+              }
+            }
+          ],
+          "version": "0.1.22"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

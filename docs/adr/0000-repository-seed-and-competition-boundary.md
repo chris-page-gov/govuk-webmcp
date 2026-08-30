@@ -1,6 +1,6 @@
 # ADR-0000: Repository seed and competition boundary
 
-- **Status:** accepted for local planning; publication blocked
+- **Status:** superseded for publication and licence; baseline boundary retained
 - **Date:** 29 August 2026
 
 ## Decision
@@ -17,3 +17,12 @@ open-source licence until ownership authority is established.
 - Pre-existing assets and new competition work can be separated in history.
 - Public deployment, licence selection and competition submission remain hard
   gates rather than implicit next steps.
+
+## Supersession note
+
+Chris Page's recorded ownership assurance and explicit public repository and
+deployment instructions later resolved the publication and original-code
+licence gates. The repository was published under MIT through protected pull
+requests. The preserved research baseline, item-level source rights and the
+separate competition registration/submission gates remain in force. See
+ADR-0002.

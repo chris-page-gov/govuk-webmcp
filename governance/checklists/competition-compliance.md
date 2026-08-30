@@ -28,17 +28,20 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 ## Technical submission
 
-- [ ] **Confirmed by test:** public live URL exposes material WebMCP behaviour in the supported judging environments; deployment and human fallback are verified, but ChatGPT-host tool observation remains pending.
+- [ ] **Verify after deployment:** the public live URL exposes material WebMCP
+  behaviour in a supported judging environment. Human fallback is locally
+  verified; candidate deployment and an actual ChatGPT-host tool observation
+  remain pending.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
-- [x] **Confirmed by test:** exactly three declared read-only tools register; inputs and outputs validate; no runtime provider call or credential path exists.
+- [x] **Confirmed by test:** five fixed tools register after all four artefact families validate. The three catalogue query tools are read-only; the two evidence tools declare their reversible in-memory page-presentation effect with `readOnlyHint: false`. No tool has a runtime provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
 - [x] **Confirmed by test and copy review:** catalogue inclusion is not described as access authority.
-- [x] **Confirmed by test:** the release candidate passed a clean-clone offline install and complete test; the exact-main deployment reproduces its bound artefact.
+- [ ] **Verify for `0.2.0-rc.1`:** the candidate passes protected pull-request CI and a clean-clone test; then prove the exact merged `main` commit and its bound artefacts at the live URL. The corresponding evidence is complete only for the prior `0.1.0-rc.1` release.
 
 ## Required artefacts
 
 - [x] Public source repository with all source/assets/instructions and visible licence.
-- [x] Public live deployment; no demo account is required for this static prototype.
+- [ ] Public live deployment of the exact `0.2.0-rc.1` candidate; no demo account is required for this static prototype. The live site currently serves the prior release.
 - [ ] Public YouTube video shorter than three minutes.
 - [ ] English text description explaining WebMCP leverage, execution, impact, creativity and boundaries.
 - [ ] Immutable release/tag, hashes, provenance manifest, SBOM/notices and submission receipt retained.

@@ -1,73 +1,101 @@
 # Project status and hard gates
 
-**Status:** full technical build, public GitHub source and public static
-deployment are authorised. Competition registration and submission remain
-separate explicit actions and have not been performed.
+**Status:** the `0.2.0-rc.1` Evidence Trace and bounded-federation candidate is
+implemented and locally assured on branch `feat/evidence-trace-federation`.
+It is not yet committed, merged or deployed. Public source and deployment are
+authorised; competition registration and Devpost submission remain separate,
+explicit and unperformed actions.
 
-**Implementation:** baseline commit `4c85db7` preserves the research seed. Chris
-Page's 29 August 2026 assurance resolves the personal ownership, resource-use,
-outside-interest and original-code licence gates for this repository. The
-`chris-page-gov/govuk-webmcp` repository began as a private review boundary and
-is now public under the authorised branch/PR workflow. Pull request `#1` was merged as
-`2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; the exact post-merge `main`
-workflow passed and retained the static build artefact.
-Private pull request `#5` then merged the Edge startup guidance and current
-SHA-pinned GitHub Actions as
-`3a2d7faac43ec13e785a1cb694ed175c34d45553`; its exact post-merge `main`
-workflow passed.
+## Current release boundary
 
-The live 29 August 2026 rules check confirmed that a public source repository
-with an open-source licence and a working live URL are submission requirements.
-Pull request `#7` was rebase-merged as
-`ef3b6f496924250c5dfb9cc52ea124468035a3dc`; its exact-main validation and
-manually dispatched Pages workflow passed. The repository is public, `main` is
-protected and the live prototype is available at
-<https://chris-page-gov.github.io/govuk-webmcp/>. Signed-out availability,
-deployment metadata, catalogue digest, same-origin requests and the human
-search journey were verified and retained under `docs/competition/evidence/`.
-The controlled in-app browser did not expose `document.modelContext`, so an
-actual ChatGPT WebMCP host registration and call remains unverified.
+The public repository is
+[`chris-page-gov/govuk-webmcp`](https://github.com/chris-page-gov/govuk-webmcp).
+`main` is protected. The currently deployed site at
+<https://chris-page-gov.github.io/govuk-webmcp/> still represents commit
+`fd2b7ae` and tag `v0.1.0-rc.1` until this candidate passes pull-request,
+exact-main and deployment verification.
 
-The complete static security audit of pre-release `main` commit `260d68f`
-covered all 108 tracked files and produced no reportable findings. Its canonical
-report, coverage, findings and manifest are retained under
-`docs/competition/evidence/security-scan-2026-08-29/`. The release-candidate
-diff was reviewed separately. Its initial Pages workflow had one medium
-promotion-boundary finding and its raw SBOM exposed third-party person metadata;
-both are fixed and independently re-reviewed, with regression tests. The
-pre-remediation canonical scan and verification note are retained under
-`docs/competition/evidence/security-diff-scan-2026-08-29/`.
+The candidate contains:
 
-## Source-material boundaries that remain mandatory
+- 80 searchable records and 80 evidence receipts;
+- four exact authored source locks;
+- one digest-bound Evidence Trace over three selected GOV.UK records;
+- a 10-entry corpus admission manifest, with two searchable and eight
+  non-searchable entries;
+- an analytical-index-first human interface with a text-labelled Evidence
+  Trace, separate foundation facets and claim comparison without a trust score;
+- five imperative WebMCP tools over one deterministic action controller; and
+- 20 closed JSON Schemas plus catalogue, receipt, Trace and federation raw-byte
+  checksums.
 
-- Retain the item-level rights and access review for all public-sector and
-  third-party source material.
-- Do not turn catalogue inclusion into a blanket access or licence claim.
-- Confirmation that no official credentials, restricted information, personal
-  data or unpublished material enter the repository or deployed build.
+The three catalogue query tools are read-only. The two exploration tools have a
+truthfully declared reversible in-memory page-presentation effect and therefore
+use `readOnlyHint: false`. Neither class writes storage, changes canonical
+metadata, calls a provider or changes external state.
 
-## Technical direction already agreed
+## Assurance observed for the working-tree candidate
 
-- Static, same-origin, read-only application.
-- Curated, rights-reviewed GOV.UK/API/data corpus rather than the full estate.
-- Three critical WebMCP tools: search, get record and show provenance.
-- Human interface and tools call the same deterministic engine.
-- Missing access or licence evidence remains “not established”.
-- No GOV.UK crown, wordmark, GDS Transport, GOV.UK brand colours or employer
-  logos.
-- Independent-prototype disclaimer on the application, repository and video.
+- `npm run test:unit`: 58 passed;
+- installed Google Chrome Playwright suite: 19 passed;
+- installed Microsoft Edge Playwright suite: 19 passed;
+- the expanded axe WCAG 2.2 smoke test reported no serious or critical
+  violations;
+- the 320 CSS-pixel, keyboard, focus/history, forced-colour and reduced-motion
+  checks passed;
+- the formal diff scan found two low-severity robustness issues; both were
+  reproduced, fixed and independently re-reviewed with no bypass found;
+- a later immutable 44-item candidate snapshot scan completed with no
+  reportable finding; its working-tree-change warning and the reviewed
+  post-snapshot fail-closed delta are retained in candidate evidence;
+- the shared validator rejected every required-lock omission or redirection and
+  every standalone builder failed before source consumption;
+- executable validators and closed schemas now agree on canonical IDs, URLs,
+  timestamps, filter uniqueness, complete records, receipts and Trace relations;
+- `npm audit --json`: zero known vulnerabilities; and
+- the 30 August link-health audit recorded 161 of 161 unique admitted official
+  URLs as reachable by its bounded HEAD method.
 
-## Still requires a separate explicit instruction
+These are pre-commit observations. They do not replace pull-request CI,
+exact-commit deployment or signed-out live verification.
 
-- Do not register for the competition or submit to Devpost.
-- Do not claim WCAG conformance, official endorsement, comprehensive coverage,
-  production readiness or guaranteed accuracy.
-- Do not change the repository, live site or submission after the 3 September
-  2026 13:00 Pacific deadline if a submission has been accepted.
+## Mandatory source and claim boundaries
+
+- Only the 69-record GOV.UK collection and 11-record curated companion
+  collection are searchable. The other eight estate entries are descriptors or
+  gated candidates; no producer payload was copied or silently admitted.
+- `sourceOkfCore` records the producer's native declaration when established.
+  `targetOkfCore: "0.2"` records this project's descriptive mapping target. It
+  is not a claim that every producer is natively OKF 0.2.
+- The GOV.UK imported bytes and Git blob are verified, but the historical
+  upstream revision was not available in the local checkout.
+- The cached ONS release ZIP has a locally observed SHA-256 but no independently
+  retrieved official checksum sidecar.
+- `okf-testing` remains quarantined because the local directory is unversioned
+  and has no established licence.
+- Catalogue or descriptor inclusion never establishes official endorsement,
+  current accuracy, access authority or an open licence.
+
+No `gis-ai-go` or OKF source repository has been modified.
+
+## Governance gates
+
+Chris Page's recorded assurance resolves personal ownership, resource-use,
+outside-interest and original-code licence questions for this repository.
+Public branch/PR publication and Pages deployment are authorised. The following
+remain gated:
+
+- do not register for the competition or submit to Devpost without a separate
+  instruction;
+- do not claim WCAG conformance, official endorsement, comprehensive coverage,
+  production readiness or guaranteed accuracy;
+- do not describe page-scoped WebMCP as a durable MCP gateway or as provider or
+  service-operation integration; and
+- do not change an accepted submission after the competition deadline.
 
 ## Next safe task
 
-Record the three WebMCP registrations and representative calls in ChatGPT's
-supported built-in browser against the final candidate URL. Then perform the
-manual screen-reader observation and prepare the sub-three-minute public demo
-video and Devpost form for Chris Page's separate submission approval.
+Commit this lockstep candidate in small reviewable commits, open a pull request,
+wait for protected-branch checks, merge only when green, and publish the exact
+merged `main` commit. Then record signed-out live data/digest/browser evidence.
+An actual supported-host WebMCP call, a manual screen-reader observation, the
+public demo video and Devpost registration/submission remain subsequent tasks.

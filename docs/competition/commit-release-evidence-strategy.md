@@ -1,6 +1,12 @@
 # Appendix E — commit and release evidence strategy
 
-## Machine-readable `challenge-provenance.json`
+This appendix preserves the 29 August 2026 research-baseline proposal. The JSON
+below is a template, not current release evidence, and its `TO_BE_SET` values
+must not be cited as completed. The exact-release workflow will publish a dated
+machine-readable provenance record under `docs/competition/evidence/` only
+after the protected merge supplies the commit, tag, site and artefact digests.
+
+## Preserved machine-readable `challenge-provenance.json` template
 
 ```json
 {

@@ -1,219 +1,219 @@
-# 8. Proposed WebMCP experience
+# 8. Implemented WebMCP experience
 
 ## 8.1 Human-agent shared page
 
-The page contains four visible regions:
+The competition candidate is an 80-record, 80-receipt static application. Its
+primary view is a worked evidence-first answer, not a search box or a generated
+narrative. The page presents:
 
-1. **Independent-prototype banner** — status, corpus date, disclaimer and accessibility link.
-2. **Search** — query and bounded filters; keyboard-operable and submitted through the same function as the WebMCP tool.
-3. **Results** — ranked cards with source, access, licence, assertion labels, limitations and authoritative links.
-4. **Record/evidence drawer or page** — complete record, source chain, digest verification and raw JSON.
+1. an independent-prototype banner and verified artefact summary;
+2. a text-first analytical index for the one packaged Evidence Trace;
+3. a progressive visual Evidence Trace over the same deterministic data;
+4. a selected-foundation view with eight separate facets;
+5. a score-free comparison of two to four exact claims;
+6. an evidence-estate table for 10 corpus admissions; and
+7. the 80-record catalogue search, record and provenance journey.
 
-WebMCP registration is progressive enhancement. Where unavailable, the page says so and the complete manual journey remains usable. OpenAI’s current Site Tools documentation says tools are available only while the page remains open, depend on the selected account/model and are currently discovered in the ChatGPT desktop built-in browser rather than through Chrome’s ChatGPT surface. [W04] The competition rules separately permit judges to test through that built-in browser or Chrome 149+ with WebMCP enabled. [R01]
+The eight facets are authority, assertion status, verification, freshness,
+integrity, access, rights and coverage. They remain separate in the index,
+trace, selected-foundation view and comparison. The application does not
+calculate or imply a combined trust score.
 
-## 8.2 Recommended tool set
+WebMCP is progressive enhancement. The human interface remains usable when
+`document.modelContext` is absent, registration is blocked or registration
+fails. Instrumented browser tests prove the page contract and human-tool parity;
+they do not prove discovery or execution by a live agent host.
+
+## 8.2 Five fixed tools
+
+| Tool | Purpose | Input bound | Page effect | `readOnlyHint` |
+|---|---|---|---|---:|
+| `search_government_knowledge` | Search 80 validated records | Query up to 160 characters; filters bounded; 1 to 20 results | None | `true` |
+| `get_resource_record` | Return one exact record | One identifier up to 128 characters | None | `true` |
+| `show_provenance` | Inspect one packaged receipt and source chain | One identifier up to 128 characters | None | `true` |
+| `explore_answer_foundations` | Select the worked answer or one exact claim | One answer ID; optional claim ID, each up to 96 characters | Reversible in-memory selection | `false` |
+| `compare_evidence_foundations` | Compare two to four claims from the worked answer | One answer ID and 2 to 4 unique claim IDs | Reversible in-memory comparison | `false` |
+
+All five tools have `untrustedContentHint: true`, closed input schemas and fixed
+names, titles and descriptions. Source-derived strings never become tool names
+or instructions.
 
 ### Tool 1 — `search_government_knowledge`
 
-**Title:** Search government knowledge  
-**Description:** Search the page’s validated metadata bundle for GOV.UK content, public-sector datasets and APIs; return source-derived metadata, deterministic match reasons, authoritative human links and limitations. Do not contact providers or infer access.
+**Title:** Search government knowledge
 
-**Input:** query, optional resource types, publishers, access statuses and limit. Query maximum 160 characters; arrays are bounded; unknown fields rejected.
+**Description:** Search the page's verified, read-only 80-record GOV.UK
+metadata catalogue. Return authoritative human links, assertion labels and
+limitations without contacting providers or establishing access rights.
 
-**Output:** catalogue identity/digest, total/returned/truncated counts, compact records, match score and matched fields, access/licence/assertion status, observation date, authoritative links, record digest and limitations.
+**Input:** `query`; optional `resourceTypes`, `publishers`, `accessStatuses`
+and `limit`. The query is limited to 160 characters, publisher arrays to 8
+values and output to 20 records. Unknown fields are rejected.
 
-**Annotations:** `readOnlyHint: true`; `untrustedContentHint: true`.
+**Output:** catalogue date, bundle digest and record count; deterministic match
+counts and fields; compact record summaries; access, licence and assertion
+states; authoritative links; record and bundle digests; packaged receipt IDs;
+and limitations.
 
-**Visible equivalent:** manual search form and result list.
-
-**Errors:** `invalid_search_request` and empty results. Catalogue or receipt
-startup failure prevents the runtime and every tool from registering; there is
-no callable `catalogue_unavailable` fallback.
-
-**Evidence logged:** no personal query log by default. Build and test evidence records the corpus digest and fixture invocation; live page may expose the latest call visibly in ephemeral DOM only.
+**Human equivalent:** the search form and result list. Both call the shared
+action controller, although a read-only WebMCP query does not change the page
+selection.
 
 ### Tool 2 — `get_resource_record`
 
-**Title:** Get a government resource record  
-**Description:** Return one exact record including source links, access/licence state, assertion labels, provenance and limitations; do not dereference endpoints or grant access.
+**Title:** Get a government resource record
 
-**Input:** exact `recordId`, maximum 128 characters, closed identifier pattern.
+**Description:** Return one exact digest-bound record, including authoritative
+links, access and licence status, assertions and limitations. It grants no
+access authority.
 
-**Output:** complete record, digest-binding status and page/tool boundary flags.
+**Input:** exact `recordId` matching the closed catalogue identifier pattern.
+There is no fuzzy identifier resolution.
 
-**Annotations:** read-only and untrusted.
+**Output:** the complete record, related record summaries, digest-bound status
+and explicit page, provider and access boundaries.
 
-**Visible equivalent:** “View record” action.
-
-**Errors:** exact `record_not_found`; never fuzzy-resolve an identifier.
-
-**Evidence logged:** fixture record ID, expected digest, UI/tool equality result.
+**Human equivalent:** **View record and provenance** on a result.
 
 ### Tool 3 — `show_provenance`
 
-**Title:** Show record provenance  
-**Description:** Inspect the packaged source and digest chain for one record; do not refetch or independently certify the publisher.
+**Title:** Show record provenance
+
+**Description:** Inspect the packaged source, assertion and digest evidence for
+one record. It does not refetch or independently certify the source.
 
 **Input:** exact `recordId`.
 
-**Output:** source URLs, observation date, extraction method, source/record/bundle digests, assertion statuses, evidence receipt ID, limitations and explicit verification boundaries.
+**Output:** observation date, extraction method, source lock where applicable,
+source, record and bundle digests, the packaged evidence receipt, source links,
+field assertions and limitations.
 
-**Annotations:** read-only and untrusted.
+**Human equivalent:** the provenance and receipt section of the exact record
+view.
 
-**Visible equivalent:** “Evidence and provenance” view.
+### Tool 4 — `explore_answer_foundations`
 
-**Errors:** `record_not_found` for an unknown exact identifier. A missing or
-invalid receipt or digest prevents all tools from registering; the runtime does
-not manufacture an `unverified` substitute receipt.
+**Title:** Explore answer foundations
 
-**Evidence logged:** receipt fixture, digest recomputation result, deliberate mismatch test.
+**Description:** Select one bounded evidence-first answer or one of its exact
+claims and update the page's analytical index and Evidence Trace. The only
+effect is reversible in-memory presentation.
 
-## 8.3 Deferred tools
+**Input:** required `answerId` and optional `claimId`. Both use closed patterns
+and a 96-character maximum.
 
-`compare_resources` is a **Should** only after all hard gates pass. It would accept two to four exact record IDs and return field-by-field differences without declaring a “best” resource. `list_related_resources` remains a **Could** because related IDs can be included in the record. A separate `explain_match` is unnecessary: deterministic match fields belong in search output.
+**Output:** exact selection, the complete digest-bound Evidence Trace and
+boundaries stating that there was no catalogue mutation, storage write,
+provider call, external state change or single trust score.
 
-## 8.4 Tool specification notes
+**Why `readOnlyHint` is false:** the call may change which trace path and
+foundation are visibly selected. It does not change source data or persistent
+state.
 
-The current WebMCP draft’s `ModelContextTool` contains name, title, description, `inputSchema`, execute callback and annotations; it does not define an `outputSchema` member. [W01] The repository should still publish JSON Schemas for outputs and validate returned values in tests/runtime, but it should not present a non-standard `outputSchema` registration property as part of the current specification.
+**Human equivalent:** **Show foundations for claim** and the trace node
+controls.
 
-Tool descriptions and outputs are themselves injection surfaces. The descriptions must therefore be short, fixed in source, non-promotional and truthful. Source-derived text must never be concatenated into tool names or descriptions. [W01; W03]
+### Tool 5 — `compare_evidence_foundations`
 
-## 8.5 Data minimisation and injection controls
+**Title:** Compare evidence foundations
 
-- No input for name, age, email, location, employer, browsing history, cookies, prior purchases, personal preferences or arbitrary “instructions”.
-- Query text capped at 160 characters and normalised.
-- No user-supplied URL, selector, callback, origin, endpoint or credential.
-- `additionalProperties: false` plus executable exact-key validation.
-- Source strings returned as data with `untrustedContentHint: true`.
-- Links restricted to credential-free HTTPS URLs on admitted official hosts.
-- No HTML returned to the agent.
-- No dynamic tool registration from catalogue records.
-- No page-side storage, analytics or external runtime calls in the judging path.
-- Same function produces tool result and visible card/detail view.
+**Description:** Compare two to four exact claims in one evidence-first answer
+and update the page's accessible comparison. It does not rank sources or change
+catalogue, storage, network or external state.
 
+**Input:** required `answerId` and 2 to 4 unique `claimIds`. Unknown, duplicate,
+malformed or out-of-answer identifiers fail closed.
 
-# 9. Tool catalogue and schemas
+**Output:** one row per claim, its authoritative source, all eight separate
+facets, linked limitations, the complete trace and explicit effect boundaries.
 
-The complete TypeScript is supplied at `src/webmcp-tools.ts`; nine JSON Schema
-files covering tool inputs, tool outputs, the catalogue, profile records and
-evidence receipts are in `schemas/`.
+**Why `readOnlyHint` is false:** the call opens a reversible in-memory
+comparison and selects the matching trace paths.
 
-## 9.1 Contract summary
+**Human equivalent:** select claim checkboxes, then **Compare selected claims**.
 
-| Tool | Required input | Maximums | Read only | Untrusted output | Provider call | Durable receipt |
-|---|---|---|---:|---:|---:|---:|
-| `search_government_knowledge` | `query` | 160 chars; 20 results; 8 publishers | Yes | Yes | No | No |
-| `get_resource_record` | `recordId` | 128 chars | Yes | Yes | No | No |
-| `show_provenance` | `recordId` | 128 chars | Yes | Yes | No | Inspects packaged receipt only |
+## 8.3 Registration and shared execution
 
-## 9.2 Input schemas
+The page registers tools imperatively with `document.modelContext.registerTool`
+only after four same-origin artefact families have validated:
 
-### Search
+1. the catalogue and its checksum, including 80 record digests, safe official
+   URLs and the bundle root;
+2. the 80 receipts and their checksum, including one-to-one record, source and
+   bundle bindings;
+3. the one-trace Evidence Trace collection and its checksum, including graph,
+   facet, source-record and digest bindings; and
+4. the 10-entry federation manifest and its checksum, including admission,
+   payload, semantic and catalogue bindings.
 
-```json
-{
-  "type": "object",
-  "additionalProperties": false,
-  "properties": {
-    "query": {"type": "string", "minLength": 1, "maxLength": 160},
-    "resourceTypes": {
-      "type": "array",
-      "maxItems": 7,
-      "uniqueItems": true,
-      "items": {
-        "enum": [
-          "govuk-content", "dataset", "api", "api-documentation",
-          "catalogue-record", "organisation", "guidance"
-        ]
-      }
-    },
-    "publishers": {
-      "type": "array",
-      "maxItems": 8,
-      "uniqueItems": true,
-      "items": {"type": "string", "minLength": 1, "maxLength": 100}
-    },
-    "accessStatuses": {
-      "type": "array",
-      "maxItems": 5,
-      "uniqueItems": true,
-      "items": {
-        "enum": [
-          "public", "restricted", "authentication-required",
-          "access-not-established", "not-applicable"
-        ]
-      }
-    },
-    "limit": {"type": "integer", "minimum": 1, "maximum": 20, "default": 8}
-  },
-  "required": ["query"]
-}
-```
+The application registers all five fixed definitions or none. Local definition
+checks reject duplicate names or an open schema. Registration has a three-second
+timeout and a failed or blocked attempt withdraws the partial registration
+lifetime while leaving the verified human interface available.
 
-### Exact record and provenance
+Human controls and tool callbacks call the same `KnowledgeActionController`.
+The controller applies a cheap root-input budget before action-specific
+validation, honours cancellation, hashes only admitted diagnostic input and
+commits a presentation result only when the action allows it. This keeps the
+structured tool result and the visible deterministic result aligned.
 
-```json
-{
-  "type": "object",
-  "additionalProperties": false,
-  "properties": {
-    "recordId": {
-      "type": "string",
-      "minLength": 3,
-      "maxLength": 128,
-      "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,127}$"
-    }
-  },
-  "required": ["recordId"]
-}
-```
+The current `ModelContextTool` shape uses `name`, `title`, `description`,
+`inputSchema`, annotations and an execute callback. The repository publishes
+closed output schemas for validation, but it does not register a non-standard
+`outputSchema` property.
 
-## 9.3 Output design
+## 8.4 Source and federation boundary
 
-Every success response includes a versioned schema name and explicit boundary object. Every failure response has a stable application code, human-readable message, details and limitations. The agent should never have to infer whether a provider call occurred.
+Generation starts only after four exact authored source locks validate: 69
+GOV.UK content records, 11 curated government data and API records, 1 answer
+pack and 10 corpus-admission decisions. Lock validation binds exact IDs, paths,
+item counts and SHA-256 values and rejects symbolic links, non-regular files,
+path swaps and changed file identity.
 
-Minimum boundary fields:
+The federation manifest contains 10 admissions: 2 searchable deep-evidence
+collections and 8 that are described-only, conditional, quarantined or
+contract-only. `sourceOkfCore` records the producer declaration separately from
+the `targetOkfCore` 0.2 mapping. A descriptor or crosswalk does not admit,
+redistribute or make a producer payload searchable.
 
-```json
-{
-  "pageScoped": true,
-  "readOnly": true,
-  "providerCall": false,
-  "accessAuthorityGranted": false,
-  "durableReceiptCreated": false,
-  "sourceDerivedContentIsUntrusted": true
-}
-```
+## 8.5 Input, route and injection controls
 
-Not every tool uses every field; the published output schemas define exact combinations.
+- Inputs must be plain JSON objects with closed action-specific keys.
+- A common pre-validation budget rejects more than 16 root keys, root keys over
+  128 characters, accessors and complex diagnostic values before dispatch.
+- Query, identifier, array and result bounds are repeated in executable code;
+  JSON Schema is not the only control.
+- Hash routes are limited before decoding; malformed or oversized record,
+  answer, claim and comparison routes fall back safely.
+- No input accepts a user URL, selector, callback, origin, endpoint,
+  credential, personal detail, browsing history or arbitrary instruction.
+- Authoritative links must be credential-free HTTPS URLs on admitted official
+  hosts.
+- Source text is rendered as inert text and returned as untrusted data; no HTML
+  is returned to an agent.
+- There is no page-side query storage, analytics, provider call or external
+  runtime request.
 
-## 9.4 Tool test cases
+## 8.6 Errors and assurance state
 
-| Test | Input | Expected |
-|---|---|---|
-| Normal search | `{"query":"flood data API"}` | Ranked records, match fields, human URLs |
-| Empty query | whitespace | `invalid_search_request` |
-| Oversize query | 161 chars | rejected |
-| Unknown input | `{"query":"tax","email":"…"}` | rejected |
-| Personalisation attempt | extra demographic fields | rejected |
-| Prompt-like query | “ignore rules…” | treated only as bounded search text |
-| Restricted API | exact record | access remains `restricted` or `access-not-established` |
-| Missing licence | exact record | licence status `missing`, no OGL inference |
-| Unknown ID | valid-pattern absent ID | `record_not_found` |
-| Unsafe URL in corpus | `javascript:` source | catalogue validation fails; tools not registered |
-| Digest mismatch | altered record | provenance `unverified` or registration failure |
-| Manual parity | same input through form/tool | deep-equal substantive output |
-| Cancellation | aborted fetch | operation ends without partial substitution |
-| No WebMCP | unsupported browser | manual UI remains fully usable |
+Stable errors distinguish invalid searches, records, provenance requests,
+evidence selections, comparisons and missing exact identifiers. A checksum,
+digest, graph, URL, source-lock or admission failure blocks registration rather
+than manufacturing an unverified substitute.
 
-## 9.5 Evidence captured
+The current candidate has observed automated evidence from 58 unit checks, 19
+installed-Chrome browser checks and the same 19 checks in Microsoft Edge. The
+browser suites include instrumented five-tool registration, parity, cancellation,
+rollback, integrity failure, bounded hash routes, inert source text, keyboard,
+reflow, forced-colour, reduced-motion and axe smoke checks. Final release
+verification, a call from a supported live WebMCP host and manual screen-reader
+observation remain pending.
 
-- controlled installed-Chrome registration snapshot and exact tool contracts;
-- validated tool call outputs and deep-equal human/tool structured results;
-- catalogue, receipt, record and bundle SHA-256 evidence;
-- negative input, URL and tamper tests;
-- automated accessibility smoke test;
-- no-storage and no-external-request browser assertions.
+## 8.7 Explicitly excluded claims
 
-ChatGPT built-in-browser acceptance and signed-out public deployment remain
-release evidence to capture only after a separately authorised deployment.
+This page-scoped prototype is not a durable MCP gateway. It does not call a
+provider, operate a government service, authenticate a user, grant access,
+create a durable per-call receipt or make an official decision. The packaged
+receipts are static build evidence. Any future gateway, provider or service-
+operation capability would require a separate architecture, authority and
+assurance case.

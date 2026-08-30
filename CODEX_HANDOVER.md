@@ -2,104 +2,129 @@
 
 ## Current outcome
 
-The complete public release candidate is merged to `main`. It expands the
-preserved baseline and first slice to an 80-record, 80-receipt static catalogue
-with three imperative WebMCP tools and an accessible human journey over one
-deterministic execution layer.
+The `0.2.0-rc.1` Evidence Trace and bounded-federation candidate is implemented
+on `feat/evidence-trace-federation`. It is not yet committed, merged or
+deployed. The public site still serves the prior `fd2b7ae`
+`v0.1.0-rc.1` release until the candidate completes protected pull-request,
+exact-main and Pages verification.
 
-Private review publication:
+The candidate expands the 80-record, 80-receipt static catalogue with:
 
-- repository: `chris-page-gov/govuk-webmcp`;
-- pull request: `#1`, merged;
-- merge commit: `2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`;
-- implementation commit: `9dabfd26e5333aa37549b7bcf43e5401be9ed707`;
-- exact post-merge `main` GitHub Actions run `33272094321`: passed, including
-  the static build artefact;
-- Dependabot configuration check: passed.
+- four exact authored source locks;
+- one worked Evidence Trace over three selected new-child GOV.UK records;
+- an analytical index, interactive text-labelled Trace, foundation detail and a
+  score-free two-to-four-claim comparison;
+- eight separate evidence facets: authority, assertion, verification,
+  freshness, integrity, access, rights and coverage;
+- five imperative WebMCP tools over the same deterministic action controller as
+  the human interface; and
+- a 10-entry corpus admission manifest: two collections are searchable and
+  eight remain non-searchable.
 
-Private pull request `#5` merged the browser-startup follow-on as
-`3a2d7faac43ec13e785a1cb694ed175c34d45553`. It replaces the apparent
-direct-file “Verifying…” hang with HTTP guidance, adds `npm run serve`, bounds
-startup to 10 seconds and makes the existing browser suite selectable for Edge.
-Exact post-merge `main` run `33272360982` passed, retained the static build
-artefact and emitted no deprecated action-runtime warning.
+No `gis-ai-go` or OKF source repository was changed.
 
-## Source locks
+## Source and generated bindings
 
-- preserved research baseline commit: `4c85db7`;
-- `okf-govuk-content` commit:
-  `94f5020cb2c7512a79c2353ee48743ad733a132c`;
-- source Git blob: `e7f3b6a0d1efa6cb336b1b50a69228de26216aa5`;
-- imported 69-record SHA-256:
-  `3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc`;
-- curated 11-record SHA-256:
-  `f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794`;
-- generated bundle digest:
-  `20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c`.
+| Binding | SHA-256 or immutable reference |
+| --- | --- |
+| Preserved research baseline | `4c85db7` |
+| `okf-govuk-content` producer commit | `94f5020cb2c7512a79c2353ee48743ad733a132c` |
+| Producer Git blob | `e7f3b6a0d1efa6cb336b1b50a69228de26216aa5` |
+| Imported 69-record GOV.UK source | `3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc` |
+| Curated 11-record source | `f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794` |
+| Authored answer pack | `ea00549f465ef4d7fc65c9e5853ee2b78ab6d9823d25e9268516d7b955d70f1f` |
+| Authored corpus admissions | `dc798de2d33fc9434e1dce730bb945c8fd7b6c01466cea02728c9aadf292edd0` |
+| Generated catalogue bundle | `20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c` |
+| Evidence Trace collection | `a6c38dcc1cc8defbb38a1541e5964159a1e724aa989cb362187111a801dc0a3b` |
+| Federation manifest | `3b1301d55ebd232e6d4b89226ddb9cc92ee4ae0878fc5b6ac48a88594ed06d71` |
 
-These references are provenance, not authority to alter any source repository.
-No `gis-ai-go` or OKF source repository was modified.
+Every standalone builder validates the exact four source-lock ID/path/count
+pairs and consumes the regular-file bytes returned by that validator. Generated
+JSON and checksum sidecars are deterministic.
 
-## Implemented boundary
+## Implemented runtime boundary
 
-- static, same-origin and read-only;
-- human interface works without WebMCP;
-- exactly three closed, bounded tools register after full integrity validation;
-- no runtime official API call, credential, analytics, cookie or query storage;
-- source-derived text is untrusted and rendered inertly;
-- authoritative links, access, licence, assertions and limitations stay visible;
-- original code is MIT licensed; source-specific rights remain explicit.
+- The static same-origin application calls no official API at runtime.
+- The human interface becomes usable after catalogue, receipts, Evidence Trace
+  and federation validation and does not wait for WebMCP registration.
+- `search_government_knowledge`, `get_resource_record` and
+  `show_provenance` are read-only.
+- `explore_answer_foundations` and `compare_evidence_foundations` change only
+  reversible in-memory page presentation and truthfully use
+  `readOnlyHint: false`.
+- All five tools use closed schemas and executable validation. Unknown,
+  oversized, malformed, broad, accessor-bearing and deeply nested rejected
+  inputs fail closed.
+- Rejected input is not serialised or hashed. Successful diagnostic input is a
+  shallow admitted-data copy; the displayed result has a deterministic digest.
+- Public fragment routes are bounded before parsing and comparison values are
+  bounded before splitting.
+- Source-derived text remains untrusted and is rendered as inert text.
+- Authoritative links, assertion labels, observation dates, access, rights and
+  limitations remain visible. No combined trust score is generated.
+- No query, account, cookie, analytics, persistent app storage, provider call,
+  canonical-data mutation or external state change is introduced.
 
-## Final local validation on 29 August 2026
+This is page-scoped WebMCP progressive enhancement, not a durable MCP gateway,
+provider integration or service-operation layer.
 
-- `npm run test:unit`: 14 passed;
-- `PLAYWRIGHT_PORT=4178 npm run test:browser`: 9 installed-Chrome tests passed;
-- `PLAYWRIGHT_PORT=4177 npm run test:browser:edge`: the same 9 tests passed in
-  Microsoft Edge 152.0.4191.53;
-- the browser suites include direct-file guidance and an axe smoke test with no
-  serious or critical violations;
-- catalogue JSON Schema validation: 80 records and 80 receipts passed;
-- preserved research-pack validation: 4 checks passed; optional Python
-  `jsonschema` meta-schema checks were skipped because that package is not
-  installed;
-- `npm audit --audit-level=moderate`: 0 vulnerabilities;
-- gitleaks 8.30.1 found no secret in the six-commit history or working tree; and
-- a clean clone at the release commit passed an offline `npm ci` and the
-  complete 14-unit/contract plus 9-Chrome-test suite on isolated port 4179.
+## Local assurance observed on 30 August 2026
 
-## Public release evidence
+| Command or observation | Result |
+| --- | --- |
+| `npm run test:unit` | 58 of 58 passed |
+| `PLAYWRIGHT_PORT=4210 npm run test:browser:prepared` | 19 of 19 passed in installed Chrome |
+| `PLAYWRIGHT_PORT=4211 npm run test:browser:edge:prepared` | 19 of 19 passed in installed Microsoft Edge |
+| Expanded axe WCAG 2.2 smoke | no serious or critical violations |
+| Keyboard, focus/history, 320px, forced colours, reduced motion | passed |
+| Manual headed Playwright index/comparison journey | completed and screenshots visually inspected |
+| `npm audit --json` | zero known vulnerabilities across 33 dependencies |
+| Bounded official-link HEAD audit | 161 unique URLs reachable; 0 attention |
+| Local macOS ARM64 CycloneDX SBOM | 14 components; personal author/contributor metadata absent; release-platform evidence remains pending |
 
-The complete build and browser-startup follow-on are merged. Public-source and
-deployment authorisation is now recorded. The release candidate includes
-public policy documents, SBOM, a 161-URL official-link HEAD audit, expanded
-responsive and forced-colour browser acceptance and a manual Pages deployment
-workflow that publishes only after the complete suite passes.
+The formal candidate diff scan has ID
+`0735e481-5df9-43fe-8f3a-04bc3d9b797c`. It reported two low-severity
+robustness findings: rejected-input diagnostic stack exhaustion
+(`csf_41bd1a86df6723af9809e17f`) and an unbounded comparison fragment
+(`csf_f203d8431e5137ec989af24d`). Both were reproduced, fixed and verified as
+`fixed`; one fresh independent reviewer found no bypass. A separately
+security-suppressed source-lock admission gap was resolved as a provenance
+assurance defect.
 
-The complete pre-release `main` security audit found no reportable issue. A
-focused release-diff review found and closed a branch-dispatch Pages promotion
-gap and removed third-party person metadata from the generated SBOM. Canonical
-scan evidence and remediation verification are retained in
-`docs/competition/evidence/`.
+Canonical pre-remediation scan output and the remediation record are retained
+under `docs/competition/evidence/`. A later immutable 44-item candidate
+snapshot scan (`8dda47c2-46d1-4a1f-9e00-15bbaa684cdb`) completed with no
+reportable finding. Its preserved warning records that the final stricter
+count, identifier, workflow, test and documentation delta followed the
+snapshot; that delta and the final test matrix are recorded separately in
+`candidate-verification-2026-08-30.md`. Final pull-request CI, exact-main and
+live verification have not yet run for this candidate.
 
-Public pull request `#7` was rebase-merged as
-`ef3b6f496924250c5dfb9cc52ea124468035a3dc`. Exact-main validation run
-`33276000462` and Pages run `33276042312` passed. The public repository,
-licence and HTTPS site resolved without authentication; deployment metadata and
-the live catalogue digest matched the exact commit and repository artefact.
-The controlled live-browser search passed with no console errors and only
-same-origin static requests. Branch protection and protected-branch-only Pages
-deployment were read back from GitHub. Full evidence is in
-`docs/competition/evidence/public-release-verification-2026-08-29.md`.
+## Residual limitations
 
-The controlled in-app browser did not expose `document.modelContext`, so it
-verified the human fallback but not WebMCP tool registration or calls in
-ChatGPT's supported built-in-browser host. Manual screen-reader testing,
-competition registration and Devpost submission also remain unperformed.
+- The GOV.UK imported bytes and Git blob are verified, but the historical
+  producer revision was not available in the local checkout.
+- The cached ONS release ZIP has a local SHA-256 but no independently retrieved
+  official checksum sidecar.
+- The local `okf-testing` directory is unversioned and has no established
+  licence; it remains quarantined.
+- `targetOkfCore: "0.2"` is a descriptive target mapping. It does not replace
+  the separately recorded `sourceOkfCore` state or admit producer payload.
+- Source locks prove reproducible local admission, not publisher signatures or
+  external attestation.
+- No manual screen-reader observation has been performed and no WCAG
+  conformance claim is made.
+- The available controlled in-app browser previously lacked
+  `document.modelContext`; an actual supported-host WebMCP call remains
+  unverified.
+- The public demo video, competition registration and Devpost submission remain
+  unperformed.
 
 ## Recommended next step
 
-Capture the three registrations and representative tool calls in ChatGPT's
-supported built-in browser against the exact final candidate URL. Complete the
-manual screen-reader observation, then prepare the public video and Devpost
-form for Chris Page's separate registration and submission approval. Do not
-register or submit to Devpost without that instruction.
+Create small signed commits, open a pull request and require the protected
+`validate` check. Merge only when green, deploy the exact merged `main`
+commit and record signed-out live repository, digest, same-origin, console and
+human-journey evidence. Follow with actual supported-host WebMCP and manual
+screen-reader observations where the necessary environments are available.
+Do not register for or submit to Devpost without a separate instruction.

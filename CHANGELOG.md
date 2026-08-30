@@ -1,98 +1,169 @@
 # Changelog
 
 All notable changes to this project are documented in this file. The format is
-based on Keep a Changelog. The project does not yet use semantic versions.
+based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
+project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Added
 
-- Complete 80-record discovery catalogue: all 69 records from the locked
-  `okf-govuk-content` source plus 11 reviewed official API, dataset and
-  catalogue records.
-- An 80-receipt provenance collection, source-lock manifest, minimal discovery
-  profile and JSON Schemas for records, bundles, receipts and all tool inputs
-  and outputs.
-- Accessible human search, filter, record, related-record and provenance views
-  with durable record hashes and downloadable structured parity output.
-- Imperative, read-only `search_government_knowledge`, `get_resource_record`
-  and `show_provenance` WebMCP registrations over the same execution layer as
-  the human interface.
-- Deterministic source, record, bundle, receipt and raw-file SHA-256 validation.
-- Input, integrity, output-contract, injection, URL, storage, network, parity,
-  direct-link and automated accessibility tests.
-- MIT licence, source-specific attribution notice, Chris Page ownership
-  assurance, private GitHub Actions validation and dependency update policy.
-- Public security, privacy and accessibility documents, a CycloneDX SBOM and a
-  dated link-health report covering 161 unique admitted official URLs.
-- Canonical report, findings, coverage and manifest from the complete
-  no-findings security audit of pre-release `main` commit `260d68f`.
-- A SHA-pinned, manually dispatched GitHub Pages workflow that retests and
-  publishes one exact artefact with machine-readable deployment metadata.
-- Keyboard, 320-pixel reflow, forced-colour and reduced-motion browser
-  acceptance alongside the existing axe smoke test.
+- A digest-bound Evidence Trace for the worked question “Which GOV.UK sources
+  should I check after a baby is born?”, generated from one locked answer pack
+  and three existing catalogue records.
+- An analytical-index-first human view, a text-labelled interactive Evidence
+  Trace, an accessible relationship table, separate foundation details and a
+  two-to-four-claim comparison without a combined trust score.
+- Eight independently visible evidence facets: authority, assertion,
+  verification, freshness, integrity, access, rights and coverage.
+- `explore_answer_foundations` and `compare_evidence_foundations` WebMCP tools
+  over the same deterministic action controller as the human interface.
+- A digest-bound 10-entry corpus admission manifest. Two reviewed collections
+  provide all 80 searchable records; eight entries remain described-only,
+  conditional, contract-only or quarantined and contribute no searchable
+  payload.
+- Exact locks for the authored answer pack and corpus admissions, bringing the
+  source-lock registry to four required ID/path/count bindings.
+- Deterministic Evidence Trace and federation builders, checksum sidecars and
+  closed JSON Schemas, bringing the published contract set to 20 schemas.
+- Browser coverage for history and focus restoration, rejected deeply nested
+  tool input, oversized and malformed fragment routes, Evidence Trace and
+  federation tampering, and the expanded WCAG 2.2 journey.
+- Dated Chrome, Edge, accessibility, link-health, SBOM, visual and security
+  evidence for the candidate.
+- An executable release-evidence check that verifies every path and digest in
+  `docs/competition/evidence/SHA256SUMS`.
+- A regression check that preserves the 29 August research-seed examples as
+  byte-bound historical illustrations and prevents them being mistaken for
+  current 0.2 contracts.
 
 ### Changed
 
-- Expanded the first tiny fixture slice to the complete Must-range catalogue and
-  three-tool prototype described by the research backlog.
-- Updated project status, handover, architecture, tool catalogue and backlog
-  tracking in lockstep with executable behaviour.
-- Pinned the current official GitHub Actions v7 releases to immutable commit
-  SHAs after the merged-main workflow reported its deprecated Node runtime.
-- Advanced the package release candidate to `0.1.0-rc.1` and documented that
-  `private: true` prevents accidental npm publication rather than repository
-  access.
+- The complete validation command now builds once, then runs prepared unit and
+  browser stages against that same artefact; standalone unit and browser
+  commands retain their own build prerequisite.
+- Advanced the package candidate from `0.1.0-rc.1` to `0.2.0-rc.1`.
+- Split tool effects truthfully: search, exact record and provenance remain
+  read-only; the two exploration tools declare their reversible in-memory page
+  presentation effect with `readOnlyHint: false`.
+- Enabled the accessible human interface immediately after all four artefact
+  families validate, without waiting for WebMCP registration to settle.
+- Replaced separate human/tool execution paths with one cancellable action
+  controller and deterministic result/display digest diagnostics.
+- Made `npm run data:build` validate all four source locks before rebuilding the
+  catalogue, receipts, Evidence Trace and federation manifest.
+- Recorded source-native `sourceOkfCore` separately from the descriptive
+  `targetOkfCore: "0.2"` mapping; target mapping does not claim native OKF 0.2
+  conformance or admit producer payload.
+- Updated project, handover, architecture, tool, backlog, accessibility,
+  security, privacy, demo and submission-draft documentation in lockstep.
+- Pinned Python 3.14.6 and the exact `actions/setup-python` revision in both CI
+  and Pages workflows so the research verifier does not depend on runner drift.
+- Labelled the dated CycloneDX SBOM as the local macOS ARM64 dependency view;
+  release-platform SBOM evidence remains a separate release task.
+
+### Fixed
+
+- Made executable record admission match the closed profile schemas, including
+  nested source, licence, assertion, limitation, boundary and relation fields;
+  co-digested schema-invalid records now fail before runtime use.
+- Bound every receipt field to its catalogue record and derived identifier, and
+  reject duplicate normalised filters instead of accepting inputs forbidden by
+  `uniqueItems`.
+- Aligned canonical record-ID, GOV.UK/GitHub URL, RFC 3339 timestamp and
+  federation decision bounds across JSON Schema and all executable validators.
+- Restricted Evidence Trace relationships to their admitted endpoint domains,
+  rejected unused contradiction nodes and kept comparison limitations sourced
+  only from limitation nodes.
+- A rejected evidence-presentation request no longer leaves the worked answer
+  summary stuck in an error state; the next valid request redraws the complete
+  trace, and rejected WebMCP actions now report that no display update occurred.
+- Closing a comparison opened by WebMCP now restores focus to the human compare
+  control even though there was no human trigger element to remember.
+- Regenerated the dated candidate SBOM so its component identity is
+  `0.2.0-rc.1`, and added an executable release-evidence assertion for that
+  version.
+- Rejected tool input is no longer serialised or recursively canonicalised for
+  diagnostics. A shallow admitted-data projection is hashed only for successful
+  requests; rejected input is displayed as “Not retained for rejected input”.
+- Public fragment routes are bounded before parsing and comparison values are
+  bounded before splitting. Oversized routes reset to the default evidence view
+  with a visible explanation instead of exhausting or disabling the page.
+- Every standalone builder now consumes the exact regular-file bytes returned
+  by a shared, closed source-lock validator, so missing, extra, redirected,
+  swapped, symlinked or changed source entries fail before generation.
+- Added a path-scoped `cr-at-eol` Git attribute for the preserved competition
+  CSVs, allowing ordinary `git diff --check` without rewriting seeded line
+  endings.
+- Corrected documentation so expandable structured output is not called a
+  download.
+- Clarified the separate exact federation-repository allowlist instead of
+  implying that GitHub repository links use the official-source host policy.
+- Bound the candidate catalogue to exactly 80 records in both schema and
+  executable validation, and made federation admission cross-check that same
+  validated count so a coherently re-digested smaller bundle fails closed.
+- Rejected whitespace-padded record identifiers in executable lookup so exact
+  record and provenance behaviour matches the published anchored schemas.
+
+### Security
+
+- Completed a formal diff scan of the Evidence Trace/federation candidate. Two
+  low-severity robustness findings were reproduced, fixed and independently
+  re-reviewed with no bypass found.
+- Completed and retained a later immutable 44-item candidate snapshot scan
+  with no reportable finding, together with an explicit reviewed-delta record
+  for the stricter changes made after that snapshot.
+- Added common root-input budgets, bounded diagnostic values, truncated unknown
+  field names and fail-closed tests for deeply nested, cyclic, `BigInt`, broad
+  and accessor-bearing input.
+- Retained the static same-origin boundary, credential-free admitted HTTPS
+  hosts, inert source-derived text, closed schemas, CSP, no query storage and no
+  runtime provider request.
+- Refreshed the dependency audit with zero known vulnerabilities and the link
+  audit with 161 of 161 admitted official URLs responding to the bounded check.
+
+### Governance
+
+- Preserved the page-scoped experiment boundary: this is not a durable MCP
+  gateway, provider integration, service-operation layer, official GOV.UK
+  service or eligibility decision system.
+- Kept rights, access and population claims item- or collection-specific. A
+  descriptor in the estate table does not grant permission to copy or search a
+  producer payload.
+- Retained the recorded GOV.UK historical-revision, ONS checksum-sidecar and
+  unversioned/unlicensed `okf-testing` limitations.
+- Kept competition registration and Devpost submission as explicit unperformed
+  gates. Updating the submission draft is not a submission.
+
+## [0.1.0-rc.1] - 2026-08-29
+
+### Added
+
+- An 80-record, 80-receipt catalogue comprising 69 locked GOV.UK records and
+  11 reviewed official API, dataset and catalogue records.
+- Accessible human search, filters, exact record and provenance views over the
+  same deterministic runtime as three imperative WebMCP tools.
+- Source, record, bundle, receipt and raw-file SHA-256 validation; nine closed
+  input/output contracts; unit, Chrome, Edge and accessibility checks.
+- Public security, privacy and accessibility documents, a sanitised CycloneDX
+  SBOM, 161-URL link-health evidence and an exact-commit Pages workflow.
 
 ### Fixed
 
 - Direct `file://` opening now replaces the apparent permanent “Verifying…”
-  state with instructions to run the application over HTTP.
-- Added a 10-second catalogue startup timeout, a one-command local server and
-  configurable Chrome/Edge browser-test channels and ports.
-- Corrected the tool catalogue to match fail-closed startup behaviour and the
-  executable credential-free HTTPS official-host admission rule.
-- Corrected the architecture wording to distinguish separately reviewed source
-  acquisition from the offline deterministic build.
-
-### Security
-
-- Unknown, malformed or oversized input fails closed; credentials and unsafe or
-  unadmitted URLs prevent registration; source strings remain inert untrusted
-  text; the judging path stores no query and contacts no runtime provider.
-- Tool registration occurs only after catalogue, receipt, source, record and
-  bundle bindings validate.
-- Restricted Pages publication to a manual exact-`main` dispatch SHA; a focused
-  security review had found that the initial workflow could deploy an unmerged
-  branch.
-- Sanitised third-party author, contributor and maintainer metadata from the
-  public SBOM while retaining component, version, integrity and dependency
-  evidence.
+  state with instructions to serve the application over HTTP.
+- WebMCP registration has a three-second rollback timeout and cannot hold the
+  verified human interface unavailable.
+- The Pages workflow can publish only a manually selected exact `main` commit.
 
 ### Governance
 
-- Published the repository and exact-commit GitHub Pages artefact after
-  protected pull request `#7`; recorded signed-out repository, licence, HTTPS,
-  digest and controlled live-browser evidence.
-- Applied and read back strict `validate` status, pull-request, administrator,
-  linear-history, conversation-resolution, force-push and deletion controls on
-  `main`, plus protected-branch-only Pages deployment.
-- Kept ChatGPT-host WebMCP calls open because the controlled in-app browser
-  verified the human fallback but did not expose `document.modelContext`.
-- Recorded Chris Page's ownership and resource assurance and applied MIT to the
-  original project work while retaining item-level public-sector rights,
-  attribution and access boundaries.
-- Merged private pull request `#1` as
-  `2f4b0761e80f3abc8c7bff9d5f1ee2db90afa677`; its exact post-merge `main`
-  validation and build-artefact publication passed. Public deployment,
-  competition registration and Devpost submission remain separate actions.
-- Merged private pull request `#5` as
-  `3a2d7faac43ec13e785a1cb694ed175c34d45553`; its exact post-merge `main`
-  validation and build-artefact publication also passed.
-- Rechecked the live competition rules on 29 August 2026: a public source
-  repository with an open-source licence and a working live URL are required.
-  Chris Page authorised those release actions; registration and submission
-  remain unperformed governance gates.
-- Reconciled the ownership and outside-interest risk rows with Chris Page's
-  recorded assurance while retaining submission-time prize and publicity
-  checks.
+- Published the repository and exact-commit Pages artefact through protected
+  pull requests and recorded signed-out live-browser verification.
+- Applied MIT to original project code while retaining source-specific rights,
+  attribution, access and endorsement boundaries.
+- Preserved competition registration and Devpost submission as separate,
+  unperformed actions.
+
+[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.1.0-rc.1...HEAD
+[0.1.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.1.0-rc.1
