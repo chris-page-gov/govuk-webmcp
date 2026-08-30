@@ -108,7 +108,11 @@ test("wires the pinned environment into local and CI verification", async () => 
 
   for (const path of [".github/workflows/ci.yml", ".github/workflows/pages.yml"]) {
     const workflow = await readFile(path, "utf8");
-    assert.match(workflow, /python -m pip install .*--requirement requirements-dev\.txt/u);
+    assert.match(
+      workflow,
+      /run: >-\n\s+python -m pip install\n\s+--disable-pip-version-check\n\s+--only-binary=:all:\n\s+--no-deps\n\s+--requirement requirements-dev\.txt/u,
+    );
+    assert.doesNotMatch(workflow, /run: python -m pip install .*--only-binary=:all:/u);
     assert.match(workflow, /npm ci --ignore-scripts --no-audit/u);
     assert.ok(
       workflow.indexOf("--requirement requirements-dev.txt") < workflow.indexOf("npm test"),

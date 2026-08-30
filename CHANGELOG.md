@@ -121,6 +121,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Encoded the CI and Pages Python install command as a folded YAML scalar. The
+  original unquoted `--only-binary=:all:` token ended with a colon before
+  whitespace, so GitHub rejected both workflow files before creating a job.
+  A unit regression now protects the parse-safe form.
 - Capped the rendered VoiceOver screenshot sequence at its validated manifest
   duration so ffmpeg cannot turn the repeated final still into an additional
   hold; the post-encode probe still rejects output that is short or otherwise
