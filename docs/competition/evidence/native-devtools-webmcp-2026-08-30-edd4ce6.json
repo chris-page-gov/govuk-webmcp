@@ -1,0 +1,267 @@
+{
+  "schema": "trusted-govuk-discovery.native-devtools-webmcp-evidence.v1",
+  "capturedAt": {
+    "validCalls": "2026-08-30T17:41:34.615Z",
+    "invalidCall": "2026-08-30T17:43:00.770Z"
+  },
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "title": "Trusted government knowledge discovery",
+    "authenticationRequired": false,
+    "personalDataUsed": false
+  },
+  "deploymentBinding": {
+    "schema": "trusted-govuk-discovery.deployment.v1",
+    "repository": "chris-page-gov/govuk-webmcp",
+    "productCommit": "edd4ce6b60c38c3c9fbac86408d6b58d1495671f",
+    "pagesRunId": 33323152751,
+    "pagesArtifactId": 9735478602,
+    "artifactApiDigest": "sha256:98b0641c6cdbfa444d7aee455976823a53b9d7ece97321ea0c01fa7ab4f942d0",
+    "deploymentMetadataSha256": "4a4778dea35bb9e0ad0884291d6f1246fe0b26d0a94cdf472c3fff449469546e",
+    "artifactTarSha256": "bc7f2b34b376d425aaace8949eb5de4d8233fec232a02f8de1dd987813f6482f",
+    "evidencePath": "docs/competition/evidence/live-artifact-verification-2026-08-30-edd4ce6.json",
+    "bindingLimitation": "The native raw receipts retained the public page URL. The commit, run and byte identity are bound through the separately retained deployment metadata and live artefact verification, not through a duplicate native-panel network capture."
+  },
+  "sourceReceipts": [
+    {
+      "path": ".evals/native-devtools-valid-raw.json",
+      "sha256": "79ffcccdf6f396509a06feb6dfbb3dd70421deccf957277c0b11e58acb86ced6",
+      "tracking": "ignored local source",
+      "purpose": "Native panel discovery, five valid calls, visible presentation state and console observation."
+    },
+    {
+      "path": ".evals/native-devtools-invalid-raw.json",
+      "sha256": "994899d50cc56ffa713fa1a12f84dac36d0b37d961aade8755d126f8be259367",
+      "tracking": "ignored local source",
+      "purpose": "Native panel invalid limit call and structured error summary."
+    }
+  ],
+  "host": {
+    "name": "Google Chrome native DevTools",
+    "browserVersion": "152.0.7977.64",
+    "surface": "Application → WebMCP",
+    "featureState": [
+      "WebMCP",
+      "DevToolsWebMCPSupport",
+      "WebMCPTesting"
+    ],
+    "profile": "disposable",
+    "securePublicTarget": true
+  },
+  "capture": {
+    "method": "Playwright drove the native DevTools frontend through a loopback-only Chrome DevTools Protocol attachment, using the native panel Paste and Run tool controls.",
+    "reasonForAutomation": "The macOS accessibility bridge exposed keyboard focus but did not provide a working pointer action for the tool cards.",
+    "browserUiWasNative": true,
+    "modelBacked": false,
+    "modelSelected": false,
+    "modelProviderCalled": false,
+    "redactions": {
+      "localProfilePath": "not retained",
+      "devtoolsFrontendUrl": "not retained",
+      "networkHeaders": "not retained",
+      "cookies": "not inspected or retained"
+    }
+  },
+  "discovery": {
+    "toolCount": 5,
+    "toolNames": [
+      "compare_evidence_foundations",
+      "explore_answer_foundations",
+      "get_resource_record",
+      "search_government_knowledge",
+      "show_provenance"
+    ]
+  },
+  "validCalls": [
+    {
+      "toolName": "search_government_knowledge",
+      "input": {
+        "query": "register a birth",
+        "limit": 3
+      },
+      "status": "Completed",
+      "panelResultSummary": "{schema: \"trusted-govuk-discovery.search-result.v1\", ok: true, query: \"register a birth\",…}",
+      "observedResultSchema": "trusted-govuk-discovery.search-result.v1",
+      "observedOk": true,
+      "corroboratingExactOutput": {
+        "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
+        "samePublicTargetAndInput": true,
+        "canonicalOutputSha256": "6d4309f8dd859fde382a052e29fbc0f48ec1b33c6938e78e9d95ce5a728e53c2"
+      },
+      "pageObservation": {
+        "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+        "hash": "",
+        "selectedFoundation": "Register a birth\n\nGOV.UK has guidance on registering a birth and obtaining birth certificates.\n\nType\nclaim\nAuthority\nCurated deterministic normalisation of cited official metadata\nAssertion\nDeterministically restated from cited source metadata\nVerification\nLinked to a digest-bound source record\nFreshness\nobserved — 15 July 2026\nIntegrity\nsha256 bound\nAccess\nPublic human page recorded — The captured official metadata declares anonymous access to the human page.\nRights\nLicence evidence recorded — Contains public sector information licensed under the Open Government Licence v3.0 where applicable.\nCoverage\none record — One selected statement within a bounded directory answer.",
+        "comparisonVisible": false,
+        "comparisonRows": 0,
+        "comparisonText": "",
+        "diagnostics": "Secure context\nYes\nKnowledge artefacts\nCatalogue, receipts, Evidence Trace and federation manifest validated\nRegistration\nregistered — All five fixed tools registered after catalogue, evidence and federation validation.\nExpected tools\n5 registered of 5 expected: search_government_knowledge, get_resource_record, show_provenance, explore_answer_foundations, compare_evidence_foundations\nPresentation effect\nTwo exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.\nLast presentation action\nHuman: explore_answer_foundations\nInput digest\nd150d901f7e6e9c206d084365f086b4395e29f07007a1a4882c0afb2a7e357cb\nResult/display parity\nDisplayed deterministic result ce6dbee8c195…"
+      }
+    },
+    {
+      "toolName": "get_resource_record",
+      "input": {
+        "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363"
+      },
+      "status": "Completed",
+      "panelResultSummary": "{schema: \"trusted-govuk-discovery.resource-record-result.v1\", ok: true,…}",
+      "observedResultSchema": "trusted-govuk-discovery.resource-record-result.v1",
+      "observedOk": true,
+      "corroboratingExactOutput": {
+        "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
+        "samePublicTargetAndInput": true,
+        "canonicalOutputSha256": "7a6b9a14afa8a21eadb082f8ad62b71ab1cf69c5ce1a6048665068ff12ebb869"
+      },
+      "pageObservation": {
+        "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+        "hash": "",
+        "selectedFoundation": "Register a birth\n\nGOV.UK has guidance on registering a birth and obtaining birth certificates.\n\nType\nclaim\nAuthority\nCurated deterministic normalisation of cited official metadata\nAssertion\nDeterministically restated from cited source metadata\nVerification\nLinked to a digest-bound source record\nFreshness\nobserved — 15 July 2026\nIntegrity\nsha256 bound\nAccess\nPublic human page recorded — The captured official metadata declares anonymous access to the human page.\nRights\nLicence evidence recorded — Contains public sector information licensed under the Open Government Licence v3.0 where applicable.\nCoverage\none record — One selected statement within a bounded directory answer.",
+        "comparisonVisible": false,
+        "comparisonRows": 0,
+        "comparisonText": "",
+        "diagnostics": "Secure context\nYes\nKnowledge artefacts\nCatalogue, receipts, Evidence Trace and federation manifest validated\nRegistration\nregistered — All five fixed tools registered after catalogue, evidence and federation validation.\nExpected tools\n5 registered of 5 expected: search_government_knowledge, get_resource_record, show_provenance, explore_answer_foundations, compare_evidence_foundations\nPresentation effect\nTwo exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.\nLast presentation action\nHuman: explore_answer_foundations\nInput digest\nd150d901f7e6e9c206d084365f086b4395e29f07007a1a4882c0afb2a7e357cb\nResult/display parity\nDisplayed deterministic result ce6dbee8c195…"
+      }
+    },
+    {
+      "toolName": "show_provenance",
+      "input": {
+        "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363"
+      },
+      "status": "Completed",
+      "panelResultSummary": "{schema: \"trusted-govuk-discovery.provenance-result.v1\", ok: true,…}",
+      "observedResultSchema": "trusted-govuk-discovery.provenance-result.v1",
+      "observedOk": true,
+      "corroboratingExactOutput": {
+        "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
+        "samePublicTargetAndInput": true,
+        "canonicalOutputSha256": "db5d93d8eb48ac7f18effdbb967a836a87cf40cb0d515957b5b0cc78f3f59838"
+      },
+      "pageObservation": {
+        "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+        "hash": "",
+        "selectedFoundation": "Register a birth\n\nGOV.UK has guidance on registering a birth and obtaining birth certificates.\n\nType\nclaim\nAuthority\nCurated deterministic normalisation of cited official metadata\nAssertion\nDeterministically restated from cited source metadata\nVerification\nLinked to a digest-bound source record\nFreshness\nobserved — 15 July 2026\nIntegrity\nsha256 bound\nAccess\nPublic human page recorded — The captured official metadata declares anonymous access to the human page.\nRights\nLicence evidence recorded — Contains public sector information licensed under the Open Government Licence v3.0 where applicable.\nCoverage\none record — One selected statement within a bounded directory answer.",
+        "comparisonVisible": false,
+        "comparisonRows": 0,
+        "comparisonText": "",
+        "diagnostics": "Secure context\nYes\nKnowledge artefacts\nCatalogue, receipts, Evidence Trace and federation manifest validated\nRegistration\nregistered — All five fixed tools registered after catalogue, evidence and federation validation.\nExpected tools\n5 registered of 5 expected: search_government_knowledge, get_resource_record, show_provenance, explore_answer_foundations, compare_evidence_foundations\nPresentation effect\nTwo exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.\nLast presentation action\nHuman: explore_answer_foundations\nInput digest\nd150d901f7e6e9c206d084365f086b4395e29f07007a1a4882c0afb2a7e357cb\nResult/display parity\nDisplayed deterministic result ce6dbee8c195…"
+      }
+    },
+    {
+      "toolName": "explore_answer_foundations",
+      "input": {
+        "answerId": "answer:new-child-starting-points",
+        "claimId": "claim:register-a-birth"
+      },
+      "status": "Completed",
+      "panelResultSummary": "{schema: \"trusted-govuk-discovery.evidence-exploration-result.v1\", ok: true,…}",
+      "observedResultSchema": "trusted-govuk-discovery.evidence-exploration-result.v1",
+      "observedOk": true,
+      "corroboratingExactOutput": {
+        "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
+        "samePublicTargetAndInput": true,
+        "canonicalOutputSha256": "598e35479aa1336855e306483e249bb05696194f6d39eb0b26d7f369f143b717"
+      },
+      "pageObservation": {
+        "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+        "hash": "",
+        "selectedFoundation": "Register a birth\n\nGOV.UK has guidance on registering a birth and obtaining birth certificates.\n\nType\nclaim\nAuthority\nCurated deterministic normalisation of cited official metadata\nAssertion\nDeterministically restated from cited source metadata\nVerification\nLinked to a digest-bound source record\nFreshness\nobserved — 15 July 2026\nIntegrity\nsha256 bound\nAccess\nPublic human page recorded — The captured official metadata declares anonymous access to the human page.\nRights\nLicence evidence recorded — Contains public sector information licensed under the Open Government Licence v3.0 where applicable.\nCoverage\none record — One selected statement within a bounded directory answer.",
+        "comparisonVisible": false,
+        "comparisonRows": 0,
+        "comparisonText": "",
+        "diagnostics": "Secure context\nYes\nKnowledge artefacts\nCatalogue, receipts, Evidence Trace and federation manifest validated\nRegistration\nregistered — All five fixed tools registered after catalogue, evidence and federation validation.\nExpected tools\n5 registered of 5 expected: search_government_knowledge, get_resource_record, show_provenance, explore_answer_foundations, compare_evidence_foundations\nPresentation effect\nTwo exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.\nLast presentation action\nWebMCP: explore_answer_foundations\nInput digest\n237cec7c65e0bf6458206ef74a2bfa1e87c60ed2abd79a07b934742f7704ddfe\nResult/display parity\nDisplayed deterministic result 598e35479aa1…"
+      }
+    },
+    {
+      "toolName": "compare_evidence_foundations",
+      "input": {
+        "answerId": "answer:new-child-starting-points",
+        "claimIds": [
+          "claim:register-a-birth",
+          "claim:check-child-benefit"
+        ]
+      },
+      "status": "Completed",
+      "panelResultSummary": "{schema: \"trusted-govuk-discovery.evidence-comparison-result.v1\", ok: true,…}",
+      "observedResultSchema": "trusted-govuk-discovery.evidence-comparison-result.v1",
+      "observedOk": true,
+      "corroboratingExactOutput": {
+        "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
+        "samePublicTargetAndInput": true,
+        "canonicalOutputSha256": "3baa3281849855b86e929fd5fad8984580066ac4e275063341c1d9102dc903b1"
+      },
+      "pageObservation": {
+        "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+        "hash": "",
+        "selectedFoundation": "Register a birth\n\nGOV.UK has guidance on registering a birth and obtaining birth certificates.\n\nType\nclaim\nAuthority\nCurated deterministic normalisation of cited official metadata\nAssertion\nDeterministically restated from cited source metadata\nVerification\nLinked to a digest-bound source record\nFreshness\nobserved — 15 July 2026\nIntegrity\nsha256 bound\nAccess\nPublic human page recorded — The captured official metadata declares anonymous access to the human page.\nRights\nLicence evidence recorded — Contains public sector information licensed under the Open Government Licence v3.0 where applicable.\nCoverage\none record — One selected statement within a bounded directory answer.",
+        "comparisonVisible": true,
+        "comparisonRows": 11,
+        "comparisonText": "Claim foundations compared without a combined trust score\nFacet\tClaim 1\tClaim 2\nClaim\tGOV.UK has guidance on registering a birth and obtaining birth certificates.\tGOV.UK has Child Benefit guidance covering rates, eligibility and how to claim.\nSource\tRegister a birth\tChild Benefit\nAuthority\tCurated deterministic normalisation of cited official metadata\tCurated deterministic normalisation of cited official metadata\nAssertion\tDeterministically restated from cited source metadata\tDeterministically restated from cited source metadata\nVerification\tLinked to a digest-bound source record\tLinked to a digest-bound source record\nFreshness\tobserved — 15 July 2026\tobserved — 15 July 2026\nIntegrity\tsha256 bound\tsha256 bound\nAccess\tPublic human page recorded\tPublic human page recorded\nRights\tLicence evidence recorded\tLicence evidence recorded\nCoverage\tOne selected statement within a bounded directory answer.\tOne selected statement within a bounded directory answer.\nLimitations\tThese are selected starting points from a bounded catalogue, not an exhaustive checklist for every family or UK nation. The underlying metadata was observed on 15 July 2026 and is not refetched while this page is used. Eligibility and the action to take depend on current rules and personal circumstances; this evidence pack does not assess either.\tThese are selected starting points from a bounded catalogue, not an exhaustive checklist for every family or UK nation. The underlying metadata was observed on 15 July 2026 and is not refetched while this page is used. Eligibility and the action to take depend on current rules and personal circumstances; this evidence pack does not assess either.\nStructured comparison used by the page and tool",
+        "diagnostics": "Secure context\nYes\nKnowledge artefacts\nCatalogue, receipts, Evidence Trace and federation manifest validated\nRegistration\nregistered — All five fixed tools registered after catalogue, evidence and federation validation.\nExpected tools\n5 registered of 5 expected: search_government_knowledge, get_resource_record, show_provenance, explore_answer_foundations, compare_evidence_foundations\nPresentation effect\nTwo exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.\nLast presentation action\nWebMCP: compare_evidence_foundations\nInput digest\n05019c0cb06b268809db58f631232f40b574b7102c94390207dab13075018e45\nResult/display parity\nDisplayed deterministic result 3baa32818498…"
+      }
+    }
+  ],
+  "invalidCall": {
+    "toolName": "search_government_knowledge",
+    "input": {
+      "query": "register a birth",
+      "limit": 21
+    },
+    "beforeCount": 5,
+    "afterCount": 6,
+    "dispatchAttempted": true,
+    "status": "Completed",
+    "panelResultSummary": "{schema: \"trusted-govuk-discovery.error.v1\", ok: false,…}",
+    "observedResultSchema": "trusted-govuk-discovery.error.v1",
+    "observedOk": false,
+    "observedErrorCode": "invalid_search_request",
+    "exactResultLimitation": "The native panel retained a collapsed schema, error code and ok:false summary rather than every result byte; this record does not reconstruct the omitted fields.",
+    "diagnostics": "Secure context\nYes\nKnowledge artefacts\nCatalogue, receipts, Evidence Trace and federation manifest validated\nRegistration\nregistered — All five fixed tools registered after catalogue, evidence and federation validation.\nExpected tools\n5 registered of 5 expected: search_government_knowledge, get_resource_record, show_provenance, explore_answer_foundations, compare_evidence_foundations\nPresentation effect\nTwo exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.\nLast presentation action\nWebMCP: compare_evidence_foundations\nInput digest\n05019c0cb06b268809db58f631232f40b574b7102c94390207dab13075018e45\nResult/display parity\nDisplayed deterministic result 3baa32818498…"
+  },
+  "consoleErrors": [],
+  "artefacts": [
+    {
+      "path": "docs/competition/evidence/native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg",
+      "sha256": "fdaf5b5a04b718cd4300d9b4e1dc23e7ae66e808426d818c9969ebfd88327e06",
+      "mediaType": "image/jpeg",
+      "pixelWidth": 1019,
+      "pixelHeight": 768,
+      "purpose": "Native Application → WebMCP panel after five completed valid calls.",
+      "privacyReview": {
+        "personalDataObserved": false,
+        "identityGpsOrAuthorExifObserved": false,
+        "boundary": "Public project and disposable unconnected browser only; generic display-profile metadata is retained."
+      }
+    },
+    {
+      "path": "docs/competition/evidence/native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg",
+      "sha256": "19e3774b641814ad917eaa0d812ae42888bf83661e441eb2138874e725fb4cb2",
+      "mediaType": "image/jpeg",
+      "pixelWidth": 1019,
+      "pixelHeight": 768,
+      "purpose": "Native panel output for the out-of-contract limit: 21 call.",
+      "privacyReview": {
+        "personalDataObserved": false,
+        "identityGpsOrAuthorExifObserved": false,
+        "boundary": "Public project and disposable unconnected browser only; generic display-profile metadata is retained."
+      }
+    }
+  ],
+  "boundaries": {
+    "nativeDevtoolsPanelObserved": true,
+    "fiveValidCallsCompleted": true,
+    "invalidCallCompletedWithErrorEnvelope": true,
+    "browserUiAutomated": true,
+    "modelBacked": false,
+    "modelSelectionEvaluated": false,
+    "durableGovernmentService": false,
+    "sourceRefetched": false,
+    "generalBrowserCompatibilityEstablished": false
+  },
+  "limitations": [
+    "This is a time-bound observation of experimental Chrome 152 behaviour with three explicit feature states, not a general Chrome, Edge or WebMCP compatibility claim.",
+    "Playwright automated the native DevTools frontend over loopback; the calls were not initiated by an AI agent and no model selected a tool.",
+    "The native panel raw receipt retained collapsed result summaries. Exact deterministic outputs for the same public target and inputs are retained separately in the reviewed Chrome DevTools MCP evidence.",
+    "The static tools are page-scoped progressive enhancement, not a durable government MCP service.",
+    "Source-derived content remains untrusted and the capture did not independently certify the cited official sources."
+  ]
+}

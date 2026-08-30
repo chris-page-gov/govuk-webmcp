@@ -2,11 +2,12 @@
 
 ## Current outcome
 
-The `0.2.0-rc.1` Evidence Trace and bounded-federation release is public from
-product commit `9235ee5db4df637bdb2a12e87449e871614afe68`. Pull request 9
-passed the protected branch boundary and was merged to `main`; exact-main
-validation run `33286750188` and Pages run `33286771963` passed. The annotated
-pre-release and exact public site are available at:
+Corrected main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is public
+through Pages run `33323152751` after pull request 12 passed the protected
+branch path. The earlier `v0.2.0-rc.1` Evidence Trace and bounded-federation
+release remains retained at product commit
+`9235ee5db4df637bdb2a12e87449e871614afe68`; its tag and evidence were not
+rewritten. The annotated pre-release and current public site are available at:
 
 - <https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1>
 - <https://chris-page-gov.github.io/govuk-webmcp/>
@@ -26,9 +27,16 @@ The release expands the 80-record, 80-receipt static catalogue with:
 
 No `gis-ai-go` or OKF source repository was changed.
 
-The current working tree contains an unreleased host-compatibility and evaluator
-follow-up. It is not part of `v0.2.0-rc.1`, has not been committed or deployed,
-and must not be described as public evidence.
+The optional-execution-options correction and pinned assurance harness are now
+integrated and deployed. They remain later work than `v0.2.0-rc.1` and must not
+be retroactively described as part of that tag.
+
+The corrected public deployment now has reviewed Chrome DevTools MCP and
+native Chrome-panel evidence. The unchanged 142.920-second video candidate has
+also passed technical decode, frame-count and caption-parity review, but not
+continuous owner playback or publication approval. Authenticated read-only
+Devpost state at `2026-08-30T17:57:48Z` still shows project `1406973` as
+`Untitled`, blank and `submission_pre_draft`; nothing was submitted.
 
 ## Source and generated bindings
 
@@ -96,22 +104,29 @@ provider integration or service-operation layer.
 | Public artefact comparison | all 20 Pages artefact files returned HTTP 200 and matched the live bytes |
 | Signed-out live-browser journey | passed with successful same-origin data requests and no console warning or error |
 | Public repository hardening | protected `main`, secret scanning and push protection enabled |
-| Current evidence-branch unit suite | 70 of 70 passed, including negative demonstration-media, VoiceOver and screenshot-sequence gates |
-| Current evidence-branch Chrome suite | 19 of 19 passed after an authorised local-loopback exception |
-| Current evidence-branch Edge suite | 19 of 19 passed after an authorised local-loopback exception |
+| Corrected protected-main integration | pull request 12 integrated commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` |
+| Corrected Pages deployment | run `33323152751` deployed that exact main commit; all 20 public files matched Pages artefact `9735478602` byte for byte |
+| Current evidence-branch unit suite | 100 of 100 passed, including post-deployment provenance, negative demonstration-media, VoiceOver and screenshot-sequence gates |
+| Current evidence-branch Chrome suite | 20 of 20 passed after an authorised local-loopback exception |
+| Current evidence-branch Edge suite | 20 of 20 passed after an authorised local-loopback exception |
+| Current dependency audit | `npm audit --json` reported zero known vulnerabilities across 162 resolved dependencies |
 | Genuine live interaction capture | five silent page-only clips; exact release, action, duration and SHA-256 receipt; agent privacy/branding review passed |
 | Exact local synthetic narration timing | seven scenes total 142.826 seconds; every cue 1–8.5 seconds; 37.174-second margin below three minutes before encoding |
 | Manual Safari and VoiceOver journey | completed with limitations in Safari 26.5.2 and VoiceOver 10, without WebMCP; the Caption Panel and VoiceOver were turned off afterwards |
 | VoiceOver evidence binding | nine hash-bound frames, manual evidence JSON and the 27-second visibly labelled non-continuous screenshot sequence agree; no VoiceOver speech audio was captured |
 | Demonstration preflight and build | passed; a 142.920-second local review MP4, en-GB captions, transcript and machine build receipt were produced |
 | Local video inspection | H.264/AAC/embedded English `mov_text`; SHA-256 `efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`; narration input measured -16.11 LUFS and -1.38 dBTP |
-| Current unreleased research verification | four of four passed, including JSON Schema through version-pinned `jsonschema` 4.26.0; setup uses binary-only, no-dependency installation and `pip check`, while unhashed pins and reuse of `.venv` mean the environment is not clean or fully reproducible |
-| Current unreleased unit suite | 95 of 95 passed |
-| Current unreleased Chrome suite | 20 of 20 passed, including a host that omits execution options |
-| Current unreleased Edge suite | 20 of 20 passed |
+| Integrated research verification | four of four passed, including JSON Schema through version-pinned `jsonschema` 4.26.0; setup uses binary-only, no-dependency installation and `pip check`, while unhashed pins and reuse of `.venv` mean the environment is not clean or fully reproducible |
+| Integrated unit suite | 95 of 95 passed |
+| Integrated Chrome suite | 20 of 20 passed, including a host that omits execution options |
+| Integrated Edge suite | 20 of 20 passed |
 | `webmcp-evals` 0.0.4 smoke | six of six required calls passed across three model-free cases in Chrome 152; each returned `ok: true` in the expected result-schema envelope |
 | Chrome DevTools MCP 1.8.0 | final hardened run at 15:53 BST on 30 August 2026 in isolated Chrome 152.0.7977.64 discovered and executed all five tools, checked closed schemas and annotations, rejected synthetic `personalContext` and recorded zero console errors |
-| Current dependency reinstall and audit | local `npm ci --ignore-scripts --no-audit` passed and `npm audit --json` reported zero vulnerabilities across 162 application dependencies; the unreleased CI and Pages definitions now use the same install boundary, while Pages also installs the Python pins and runs semantic smoke, but those workflow edits have not run |
+| Public Chrome DevTools MCP 1.8.0 | exact corrected deployment discovered and completed all five calls with zero console errors |
+| Native Chrome WebMCP panel | five valid calls recorded `Completed`; `limit: 21` returned the expected structured rejection; both presentation tools updated the visible page, and the comparison's 11 facet rows and digest prefix agreed with the canonical result |
+| Video technical review | complete video/audio decode, 4,284 decoded frames and 38 caption cues passed; one non-fatal subtitle metadata warning retained; no audible content-parity or owner approval claimed |
+| Refreshed Devpost state | project `1406973` remained `Untitled`, blank and `submission_pre_draft` at `2026-08-30T17:57:48Z`; no form or submission mutation |
+| Current dependency reinstall and audit | local `npm ci --ignore-scripts --no-audit` passed and `npm audit --json` reported zero vulnerabilities across 162 application dependencies; the integrated CI and Pages definitions use the same install boundary, and Pages installs the Python pins and runs semantic smoke before deployment |
 | Microsoft WebMCP Explorer build | exact commit built twice idempotently in isolated `.tools/webmcp-explorer-build/`; source checkout remained clean and the clean-output allow-list passed; source, lock and unpacked-extension file-manifest SHA-256 values recorded below |
 
 Post-tag evidence-branch closure used these exact checks:
@@ -192,9 +207,12 @@ audio and an embedded English caption track. Its SHA-256 is
 `efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`.
 Synthetic `Daniel` narration was used only for this local review build; owner
 approval of its publication basis, privacy, branding and final playback remains
-pending. The file has not been uploaded or submitted.
+pending. A technical review completed the full video/audio decode, counted
+4,284 frames and matched all 38 caption cues, while retaining one non-fatal
+subtitle metadata warning and explicitly excluding audible content-parity. The
+file has not been uploaded or submitted.
 
-## Current unreleased independent-host follow-up
+## Corrected public independent-host follow-up
 
 The user-supplied ChatGPT research is captured as a secondary input in
 `docs/competition/personal-agent-webmcp-test-strategy.md`; primary Chrome,
@@ -206,11 +224,11 @@ remote personal-agent provider may nevertheless receive prompts, tool metadata,
 arguments and results; only a correctly configured local model keeps inference
 local.
 
-The first real Chrome DevTools MCP 1.8.0 execution against the public release
-failed after successful five-tool discovery. The console reported that
+The first real Chrome DevTools MCP 1.8.0 execution against the historical tagged
+release failed after successful five-tool discovery. The console reported that
 `options.signal` was read from an undefined execution-options argument. The
-working-tree fix makes that argument optional and retains cancellation when a
-signal exists. The following exact commands then passed:
+integrated fix makes that argument optional and retains cancellation when a
+signal exists. The following exact pre-integration commands passed:
 
 - `npm run research:verify` — four of four checks;
 - `.venv/bin/python -m pip check` — no broken requirements;
@@ -235,15 +253,18 @@ signal exists. The following exact commands then passed:
   lifecycle scripts in isolated `.tools/webmcp-explorer-build/`, while the
   pinned source checkout remained clean.
 
-Only the ignored DevTools receipt contains full local tool outputs. Raw smoke
-rows were deleted after semantic validation; the ignored smoke receipt retains
-the six-of-six counts and results digest. The smoke child received an isolated
-`HOME`; no provider credential environment variables were forwarded, but it
-retained the
-operating-system filesystem access of the invoking user. Neither receipt is
-bound to a deployed commit. The tracked browser evaluation fixture adds a
-context-minimisation and an unrelated no-call case, but no local or remote model
-has yet been selected or run. Browser evaluation also requires
+Only the ignored local DevTools receipt contains full local tool outputs. Raw
+smoke rows were deleted after semantic validation; the ignored smoke receipt
+retains the six-of-six counts and results digest. The smoke child received an
+isolated `HOME`; no provider credential environment variables were forwarded,
+but it retained the operating-system filesystem access of the invoking user. A
+separate public-
+target capture is bound to corrected deployed main and records five completed
+Chrome DevTools MCP calls with zero console errors. Chrome's native WebMCP panel
+also recorded five `Completed` calls, the expected structured rejection for
+`limit: 21`, and presentation parity with the visible page. The tracked browser
+evaluation fixture adds a context-minimisation and an unrelated no-call case,
+but no local or remote model has yet been selected or run. Browser evaluation also requires
 `WEBMCP_EVAL_PRESENTATION_APPROVED=1`; only `ollama:` is preflighted without a
 download. The prepared wrapper rejects any typed upstream console error or
 `pageerror`; an accepted receipt reports `browserConsoleErrorCount: 0` and
@@ -253,7 +274,9 @@ The hardened DevTools runner sets
 `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`. An earlier pre-hardening run wrote
 `~/.cache/chrome-devtools-mcp/latest.json` at 14:37 BST; the final hardened run
 left that modification time unchanged. The private receipt records the final
-local candidate, while public `v0.2.0-rc.1` remains unfixed.
+local candidate. The historical public `v0.2.0-rc.1` bytes remain unchanged;
+corrected main is deployed separately from
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
 
 The Explorer source-tree SHA-256 is
 `b7d7bf5657c4ae119da98b94914eefd9ed6dfbff38b59ddf7f5be3800d0da39f`,
@@ -287,14 +310,16 @@ was configured, and no Explorer browser execution is claimed.
   VoiceOver audio was not captured. The one tested environment does not
   establish WCAG conformance.
 - On 30 August 2026, `Codex In-app Browser` discovered all five tools on the
-  exact public release and returned successful results from all five. The final
-  comparison call had matching canonical and displayed result digests. This is
+  historical tagged deployment and returned successful results from all five.
+  The final comparison call had matching canonical and displayed result
+  digests. This is
   a time- and host-specific observation, not evidence for ChatGPT desktop,
   native Chrome or any other host; no before-and-after focus comparison was
   recorded.
-- The current public release has a confirmed Chrome DevTools MCP 1.8.0 execution
-  compatibility defect after successful discovery. The working-tree correction
-  passes locally but is not yet committed, reviewed or deployed.
+- The historical tagged release has the confirmed Chrome DevTools MCP 1.8.0
+  execution compatibility defect. Corrected main is deployed and passed the
+  bounded public DevTools MCP and native Chrome-panel observations; neither is
+  a general compatibility guarantee.
 - The model-free evaluator proves six exact successful result-schema envelopes,
   not complete payload equivalence or that an agent selects the right tool.
   Explorer and fixed-model selection evidence remain unrun; a remote provider
@@ -302,24 +327,19 @@ was configured, and no Explorer browser execution is claimed.
 - Competition registration is complete. The demonstration exists only as a
   local review build; synthetic-voice publication, privacy, branding and final
   playback reviews remain pending. No public video upload or Devpost submission
-  has occurred; project `1406973` is still an unpublished pre-submission draft.
+  has occurred; the refreshed project `1406973` is still `Untitled`, blank and
+  `submission_pre_draft` with no submission timestamp.
 
 ## Recommended next step
 
-Review, commit and integrate the optional-execution-options correction and the
-pinned evaluator environment through the protected pull-request path. Deploy
-that exact commit, then repeat native Chrome or Edge DevTools and the five exact
-Chrome DevTools MCP calls against the public URL. Next, use Microsoft WebMCP
-Explorer only in a disposable profile: inspect the Tools pane first without a
-credential, prefer an exact local loopback model with Agent Step and delete the
-profile afterwards. If a remote run is necessary, use a revocable low-limit key
-and synthetic prompts without personal context. Run the tracked browser-
-selection fixture with `WEBMCP_EVAL_PRESENTATION_APPROVED=1`, recording local-
-versus-remote processing and variance. Only then revise the demonstration's
-host evidence.
+Chris Page reviews the unchanged 142.920-second candidate continuously with
+audio and captions, then records the privacy, branding, caption-sync and
+synthetic-voice publication decisions. If approved, publish that exact digest
+to public YouTube, verify it signed out and complete the prepared Devpost fields
+and owner attestations. Do not submit without a separate instruction and final
+read-only freeze.
 
-Owner review of privacy, branding, synthetic-voice publication and the complete
-local playback remains open. Do not claim a release-platform SBOM or signed
-attestation from the retained local macOS ARM64 dependency view. Public upload
-and Devpost submission remain unperformed; do not submit without a separate
-instruction and final compliance check.
+Microsoft WebMCP Explorer, fixed-model selection evaluation and a release-
+platform SBOM or signed attestation remain optional assurance work, not current
+official submission blockers. If undertaken, retain the documented disposable-
+profile, provider-boundary and no-personal-context controls.

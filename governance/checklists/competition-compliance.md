@@ -32,38 +32,45 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
 ## Technical submission
 
-- [x] **Confirmed on the public site:** exact `v0.2.0-rc.1` deployment and its
-  signed-out human fallback are verified.
+- [x] **Confirmed on the public site:** the unchanged, checksum-bound
+  `v0.2.0-rc.1` evidence is
+  retained and corrected protected-main commit
+  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is deployed with its signed-out
+  human fallback verified.
 - [x] **Confirmed in one supported host:** `Codex In-app Browser` discovered and
-  successfully called all five tools on the exact public release on 30 August
-  2026. The observation is specific to that host and time.
-- [ ] **Verify in a supported judging environment:** record actual ChatGPT
-  desktop in-app-browser discovery and a representative tool call.
-- [ ] **Correct and redeploy before claiming native Chrome compatibility:**
-  Chrome DevTools MCP 1.8.0 discovered the public release's five tools but its
-  calls exposed an omitted-execution-options defect. The local correction passes
-  all five calls in isolated Chrome 152 but is not public.
+  successfully called all five tools on the historical `v0.2.0-rc.1` public
+  deployment on 30 August 2026. The observation is specific to that host,
+  revision and time.
+- [x] **Confirmed in a named judging environment:** a disposable Chrome
+  152.0.7977.64 profile with WebMCP testing enabled loaded the corrected public
+  URL. Its native Application → WebMCP panel listed all five tools, completed
+  all five valid calls and displayed the structured rejection for invalid
+  `limit: 21`.
+- [x] **Confirmed independently on the same public revision:** Chrome DevTools
+  MCP 1.8.0 completed all five calls, rejected synthetic `personalContext` and
+  recorded zero console errors. This is deterministic host execution, not
+  model-selection evidence.
 - [x] **Confirmed locally without a model provider:** `webmcp-evals` 0.0.4
   completed six of six authored smoke calls across all five tools. This does not
   prove agent selection.
-- [ ] **Verify independent agent selection:** run the pinned Microsoft WebMCP
+- [ ] **Optional assurance, not a submission blocker:** run the pinned Microsoft WebMCP
   Explorer and one fixed-model browser evaluation in an isolated profile,
   recording local-versus-remote processing, no-call behaviour and variance.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test:** five fixed tools register after all four artefact families validate. The three catalogue query tools are read-only; the two evidence tools declare their reversible in-memory page-presentation effect with `readOnlyHint: false`. No tool has a runtime provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
 - [x] **Confirmed by test and copy review:** catalogue inclusion is not described as access authority.
-- [x] **Confirmed for `0.2.0-rc.1`:** pull request 9 passed its check and
-  integrated through protected `main`; exact-main run `33286750188` and Pages
-  run `33286771963` rebuilt and tested product commit
-  `9235ee5db4df637bdb2a12e87449e871614afe68`, and all 20 live files matched
-  the Pages artefact.
+- [x] **Confirmed for the corrected protected-main deployment:** pull request
+  12 passed and integrated through protected `main`; exact-main run
+  `33323068982` and Pages run `33323152751` rebuilt and tested product commit
+  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`, and all 20 live files matched
+  artefact `9735478602`. The earlier `v0.2.0-rc.1` evidence remains historical.
 
 ## Required artefacts
 
 - [x] Public source repository with all source/assets/instructions and visible licence.
-- [x] Public live deployment of exact product commit
-  `9235ee5db4df637bdb2a12e87449e871614afe68` at
+- [x] Public live deployment of exact corrected product commit
+  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` at
   <https://chris-page-gov.github.io/govuk-webmcp/>; no demo account is required.
 - [x] Five genuine page-only interaction clips are bound to the exact public
   release, required actions, durations and SHA-256 values; agent privacy and
@@ -87,10 +94,21 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
   and boundaries; final entry and submission remain separate gates.
 - [x] The annotated `v0.2.0-rc.1` tag, public pre-release, product and Pages
   hashes, challenge provenance, local macOS ARM64 SBOM and notices are retained.
-- [ ] Produce a release-platform SBOM or signed attestation.
+- [ ] **Optional release assurance:** produce a release-platform SBOM or signed
+  attestation; this is not a current official submission requirement.
 - [x] Final read-only Devpost compliance review checks every current required field and
   records the named-host, local-video/public-YouTube and human-attestation
   boundaries without submitting.
-- [ ] Refresh the compliance review after the corrected exact commit is deployed
-  and the independent-host reports have been privacy-reviewed.
+- [x] Post-deployment compliance review refreshed after the corrected exact
+  commit was deployed and the Chrome native-panel and DevTools MCP reports were
+  privacy-reviewed.
+- [ ] Enter and verify the final project title, tagline (one-line description)
+  and full project description in Devpost.
+- [ ] Enter and verify the public live URL and public repository URL in the
+  Devpost form.
+- [ ] Complete the nine required custom answers: submitter type, country, app
+  status, live URL, repository, tested agents or clients, AI tools used,
+  learning level and career value. Complete any conditional organisation or
+  existing-project fields truthfully.
+- [ ] Add the approved public YouTube URL to Devpost and verify it signed out.
 - [ ] Retain the final submission receipt after an authorised submission.

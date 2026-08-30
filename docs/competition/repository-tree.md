@@ -7,15 +7,16 @@ The implementation is in the dedicated public repository
 remain in this repository, so the release adds evidence without
 erasing its ancestry.
 
-The evidence-first extension was integrated through
-[pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9) at
-product commit `9235ee5db4df637bdb2a12e87449e871614afe68`. Exact-main validation
-run `33286750188` passed, Pages run `33286771963` deployed the same commit, and
-the annotated `v0.2.0-rc.1` tag has a
-[public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
-The live site is <https://chris-page-gov.github.io/govuk-webmcp/>. Competition
-registration is complete. Devpost project `1406973` remains an unpublished
-pre-submission draft and has not been submitted.
+The evidence-first extension was first retained as the annotated
+[`v0.2.0-rc.1` pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
+at commit `9235ee5db4df637bdb2a12e87449e871614afe68`. The corrected public
+product was integrated through [pull request
+12](https://github.com/chris-page-gov/govuk-webmcp/pull/12) at protected-main
+commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Exact-main validation run
+`33323068982` and Pages run `33323152751` passed. The live site is
+<https://chris-page-gov.github.io/govuk-webmcp/>. Competition registration is
+complete. Devpost project `1406973` remains an unpublished pre-submission draft
+and has not been submitted.
 
 ## 20.2 Implemented tree
 
@@ -116,6 +117,7 @@ govuk-webmcp/
 │   │   ├── voiceover-screenshot-clip.test.mjs
 │   │   ├── python-test-environment.test.mjs
 │   │   ├── webmcp-evals-harness.test.mjs
+│   │   ├── post-deployment-evidence.test.mjs
 │   │   └── release-evidence.test.mjs
 │   └── browser/
 │       └── knowledge.spec.mjs
@@ -138,6 +140,7 @@ govuk-webmcp/
 │       ├── evidence-manifest-registry.json
 │       ├── devpost-submission-draft.md
 │       ├── final-devpost-compliance-review-2026-08-30.md
+│       ├── post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md
 │       ├── personal-agent-webmcp-test-strategy.md
 │       ├── evaluation-set.csv
 │       ├── implementation-plan.md
@@ -156,20 +159,30 @@ govuk-webmcp/
 │           ├── supported-host-webmcp-capture-2026-08-30.json
 │           ├── supported-host-webmcp-runtime-summary-2026-08-30.jpg
 │           ├── supported-host-webmcp-full-page-2026-08-30.jpg
+│           ├── chrome-devtools-mcp-2026-08-30-edd4ce6.json
+│           ├── native-devtools-webmcp-2026-08-30-edd4ce6.json
+│           ├── native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg
+│           ├── native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg
+│           ├── public-deployment-verification-2026-08-30-edd4ce6.md
 │           ├── demo-live-interaction-capture-2026-08-30.json
 │           ├── manual-voiceover-journey-2026-08-30.json
 │           ├── demo-video-build-2026-08-30.json
+│           ├── demo-video-technical-review-2026-08-30.json
 │           ├── devpost-read-only-status-2026-08-30.json
+│           ├── devpost-read-only-status-2026-08-30-edd4ce6.json
 │           ├── demo-scene-01-overview-2026-08-30.jpg
 │           ├── demo-scene-02-evidence-trace-2026-08-30.jpg
 │           ├── demo-scene-03-foundation-facets-2026-08-30.jpg
 │           ├── demo-scene-04-comparison-2026-08-30.jpg
 │           ├── demo-scene-07-evidence-estate-2026-08-30.jpg
 │           ├── live-artifact-verification-2026-08-30.json
+│           ├── live-artifact-verification-2026-08-30-edd4ce6.json
 │           ├── live-deployment-metadata-2026-08-30.json
+│           ├── live-deployment-metadata-2026-08-30-edd4ce6.json
 │           ├── public-live-search-2026-08-30.png
 │           ├── public-release-verification-2026-08-30.md
 │           ├── site-SHA256SUMS-2026-08-30
+│           ├── site-SHA256SUMS-2026-08-30-edd4ce6
 │           ├── link-health-2026-08-30.json
 │           └── sbom-2026-08-30.cdx.json  # local macOS ARM64 dependency view
 ├── research/2026-08-29/        # preserved research seed and pack
@@ -196,10 +209,10 @@ binary distributions with no dependency resolution and runs `pip check`.
 `npm run research:verify` checks the exact version before running the preserved
 pack verifier. The version pins do not include distribution hashes, and a
 reused `.venv` can retain unrelated packages, so the environment is not clean
-or fully reproducible. The unreleased CI and Pages definitions use
+or fully reproducible. The CI and Pages definitions use
 `npm ci --ignore-scripts --no-audit`; Pages also installs these Python
 requirements and runs semantic WebMCP smoke before deployment. These workflow
-edits have not yet run.
+paths passed for the protected integration and corrected Pages deployment.
 
 `chrome-devtools-mcp` 1.8.0 and `webmcp-evals` 0.0.4 are exact development
 dependencies. `npm run webmcp:devtools:capture` and
@@ -211,16 +224,17 @@ provider credential environment variables and gives the child an isolated
 `HOME`, but the child retains the operating-system filesystem access of the
 invoking user. The tracked fixtures live under `evals/`; the browser fixture is
 prepared for a later model-backed run and has not yet been executed. These
-harnesses exercise the local working candidate, whose tool callbacks now
-tolerate an omitted execution-options argument. The public `v0.2.0-rc.1`
-deployment predates that fix, so local receipts are not public-deployment
-evidence.
+harnesses exercise the corrected candidate, whose tool callbacks now
+tolerate an omitted execution-options argument. The unchanged, checksum-bound `v0.2.0-rc.1`
+tag predates that fix; the corrected protected-main deployment contains it.
 
 The DevTools runner also has a strictly allowlisted post-deployment mode for
 the exact project Pages URL. It validates `deployment.json` and an optionally
 required protected-main commit before capture, skips the local server and
-writes `.evals/chrome-devtools-mcp-public.json`. The mode is prepared but has
-not yet been run against the unreleased fix.
+writes `.evals/chrome-devtools-mcp-public.json`. The mode completed against
+commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and Pages run
+`33323152751`; the reviewed receipt records the exact five tools, five completed
+calls, closed-input rejection and zero console errors.
 
 `npm run webmcp:explorer:setup` built Microsoft WebMCP Explorer 0.1.0 at commit
 `f7091c12420e713b11361630dc1649d5678f62ab` twice idempotently in isolated
@@ -249,20 +263,23 @@ not receipts created by tool calls.
 
 ## 20.4 Published evidence and remaining gaps
 
-The exact product commit has the following published evidence:
+The corrected public product has the following evidence:
 
-- exact-main run `33286750188` passed 58 unit checks and 19 Chromium browser
-  checks;
-- Pages run `33286771963` rebuilt and retested the same commit;
+- pull request 12 passed 95 unit, 20 Chrome and 20 installed-Microsoft-Edge
+  checks before integration;
+- exact-main run `33323068982` passed its complete validation workflow;
+- Pages run `33323152751` rebuilt and retested the same commit;
 - every one of the 20 deployed files returned HTTP 200 and matched the Pages
-  artefact byte for byte; and
-- a signed-out live human journey completed without a console error or warning.
+  artefact byte for byte.
 
-The same source tree also passed 19 installed-Microsoft-Edge checks before
-publication. That result remains candidate evidence rather than an Edge run in
-the canonical Linux workflow. On 30 August 2026, `Codex In-app Browser`
-discovered and successfully called all five tools on the exact public release;
-the final comparison's canonical and displayed result digests matched. Five
+The earlier `v0.2.0-rc.1` evidence separately records 58 unit, 19 Chromium and
+19 installed-Microsoft-Edge checks plus a signed-out live human journey. On
+30 August 2026, `Codex In-app Browser` discovered and successfully called all
+five tools on that historical public deployment; the final comparison's
+canonical and displayed result digests matched. Chrome 152's native WebMCP
+panel later listed and completed all five tools on the corrected public
+deployment and retained a structured invalid-input result; Chrome DevTools MCP
+1.8.0 independently completed all five calls with zero console errors. Five
 genuine public-page interaction clips and their consolidated receipt are also
 complete. The supported-host motion scene is a labelled receipt visualisation,
 not host-owned video. A separate fail-closed builder can turn nine operator-
@@ -281,9 +298,14 @@ separate en-GB captions, a transcript and a machine build receipt. The video has
 H.264 video, AAC synthetic narration and an embedded English caption track; its
 SHA-256 is
 `efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`.
-Synthetic-voice publication, privacy, branding and final-playback review,
-release-platform SBOM or attestation, public video upload and Devpost submission
-remain pending. Competition registration is complete.
+A later technical review completed the video/audio decode, counted 4,284 video
+frames and matched all 38 caption cues, while retaining one non-fatal subtitle
+metadata warning and explicitly excluding audible content-parity or owner
+approval. Synthetic-voice publication, privacy, branding, final playback,
+public video upload and Devpost submission remain pending. Microsoft Explorer,
+fixed-model evaluation and a release-platform SBOM or attestation remain
+optional assurance work. Competition registration is complete; the refreshed
+Devpost project remains `Untitled`, blank and `submission_pre_draft`.
 
 ## 20.5 Release evidence set
 
@@ -292,14 +314,16 @@ The release evidence binds, without rewriting earlier evidence:
 - the exact source commit, release tag and deployed revision;
 - the four authored source locks and generated artefact checksums;
 - the 80-record, 80-receipt, one-trace and 10-admission validation summary;
-- the 58-unit and 19-Chromium exact-main results, plus the separately bounded
-  Edge result;
+- the historical 58-unit, 19-Chromium and 19-Edge release results and the
+  corrected-branch 95-unit, 20-Chrome and 20-Edge results;
 - the link audit and sanitised local macOS ARM64 SBOM;
 - the Pages artefact, 20-file site manifest, live deployment metadata and
   signed-out live-page and same-origin observations; and
 - machine-readable challenge provenance; and
 - the later supported-host capture containing five successful calls in
   `Codex In-app Browser` and explicit host-specific limitations;
+- the corrected public deployment byte receipt, native Chrome WebMCP panel
+  receipt and screenshots, and separate Chrome DevTools MCP 1.8.0 receipt;
 - five genuine page-only interaction clips bound by source URL, required action,
   duration and SHA-256, with agent privacy/branding review and human publication
   review still pending; and

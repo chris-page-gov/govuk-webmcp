@@ -3,14 +3,15 @@
 **Status: registered; draft only — not submitted.** Devpost project `1406973`
 is an unpublished `submission_pre_draft` with no submission timestamp.
 Submission remains a separate action requiring Chris Page's approval. The
-`v0.2.0-rc.1` product release is public and supported-host calls are observed in
-`Codex In-app Browser`. The manual Safari and VoiceOver journey and a local
-review video are complete with retained limitations; the video has not been
-approved for publication, uploaded or submitted.
+corrected protected-main product is public and five-tool execution is observed
+both in Chrome's native WebMCP panel and through Chrome DevTools MCP. The manual
+Safari and VoiceOver journey and a local review video are complete with retained
+limitations; the video has not been approved for publication, uploaded or
+submitted.
 
-Do not use this draft as final submission copy until the unreleased
-execution-options correction has passed protected integration, public deployment
-and repeat host capture.
+Do not use this draft as final submission copy until Chris Page has completed
+the video publication review, the approved cut has passed public-player checks
+and every live Devpost field and human attestation has been refreshed.
 
 ## Project title
 
@@ -23,6 +24,33 @@ and repeat host capture.
 See the evidence before the answer: an accessible WebMCP prototype tracing GOV.UK claims to authoritative sources, checks and limitations, without hiding uncertainty behind a score.
 
 181 characters; Devpost limit: 200.
+
+## Live Devpost form mapping
+
+Authenticated read-only Devpost calls at `2026-08-30T17:57:48Z` confirmed
+that project `1406973` is still `Untitled` and `submission_pre_draft`, with no
+tagline, description, video URL, publication timestamp or submission timestamp.
+The following is preparation copy only; no field has been changed.
+
+| Live field | Prepared value or owner action |
+| --- | --- |
+| Submitter Type (`28249`) | **Owner decision required:** Chris Page must select the truthful individual, team or organisation route. |
+| Country of residence (`28250`) | **Owner attestation required:** select the truthful country value in the live form. |
+| Organisation name (`28251`, conditional) | Complete only if the organisation route is selected. |
+| App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing ideas, data and related repositories. |
+| Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement and extend the five-tool WebMCP product, evidence interface, tests and deployment. |
+| Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` |
+| Testing instructions (`28255`, optional) | Open the live URL in Chrome 149 or later with WebMCP testing enabled. In Application → WebMCP, confirm five tools, run `search_government_knowledge` with `{"query":"register a birth","limit":3}`, then run the evidence exploration and comparison tools. No account or credential is required. |
+| Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
+| Tested agents or clients (`28257`) | Chrome 152's native WebMCP panel completed all five tools plus one bounded invalid-input check on the corrected public deployment. Chrome DevTools MCP 1.8.0 independently completed the same five deterministic calls. Codex In-app Browser also completed five calls on the earlier release. No model-backed selection result, ChatGPT desktop result or Microsoft WebMCP Explorer run is claimed. |
+| AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
+| Learning level (`28259`) | **Owner assessment required:** select `None`, `Moderate` or `Significant`. |
+| Career value (`28260`) | **Owner assessment required:** select `Yes` or `No`. |
+| Public video URL | **Blocking:** add only after Chris approves the cut and signed-out public YouTube playback passes. |
+
+The project title and one-line description above are candidates for Chris to
+select and edit, not final form values. The latest organiser guidance asks the
+entrant to take personal responsibility for the project name and final copy.
 
 ## The problem
 
@@ -119,20 +147,21 @@ approval.
 
 ## Current evidence and remaining work
 
-The `v0.2.0-rc.1` product release is public at
-<https://chris-page-gov.github.io/govuk-webmcp/> and retained as a
-[GitHub pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
-[Pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9)
-integrated product commit `9235ee5db4df637bdb2a12e87449e871614afe68`.
-Exact-main run `33286750188` passed 58 unit checks and 19 Chromium browser
-checks; Pages run `33286771963` rebuilt and deployed the same commit. All 20
-public files matched the Pages artefact byte for byte, and a signed-out human
-journey completed without a console error or warning. The same source tree also
-passed 19 installed-Microsoft-Edge checks before publication.
+The corrected product is public at
+<https://chris-page-gov.github.io/govuk-webmcp/>. [Pull request
+12](https://github.com/chris-page-gov/govuk-webmcp/pull/12) integrated product
+commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Exact-main run
+`33323068982` and Pages run `33323152751` passed and all 20 public files matched
+Pages artefact `9735478602` byte for byte. The earlier
+[v0.2.0-rc.1 pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
+remains unchanged and checksum-bound at commit
+`9235ee5db4df637bdb2a12e87449e871614afe68`
+as historical release and demonstration-video evidence.
 
 Five silent page-only interaction clips now show the analytical index, Evidence
-Trace, separate facets, comparison and bounded evidence estate on the exact
-public release. Their required actions, durations and SHA-256 values are bound
+Trace, separate facets, comparison and bounded evidence estate on the
+historical `v0.2.0-rc.1` public deployment. Their required actions, durations
+and SHA-256 values are bound
 in one consolidated receipt and passed agent privacy and branding review; human
 publication review remains pending. The supported-host video scene is a labelled
 receipt visualisation, not a host recording. A manual Safari 26.5.2 and
@@ -146,34 +175,38 @@ The guarded pipeline produced a 142.920-second local review MP4 with H.264
 video, AAC synthetic narration, embedded English captions, separate en-GB
 captions, a transcript and a machine build receipt. The local synthetic
 `Daniel` voice publication basis, privacy, branding and final playback still
-require owner review. No video has been uploaded or submitted.
+require owner review. A complete technical decode counted all 4,284 video
+frames and matched all 38 embedded caption cues to the tracked captions; one
+non-fatal subtitle metadata warning is retained. This technical result is not
+owner publication approval. No video has been uploaded or submitted.
 
 The checks cover the five fixed contracts, shared presentation parity,
 cancellation and rollback, all four artefact failure paths, source-lock
 enforcement, bounded hostile input, direct routes, inert source text, keyboard
 use, reflow, forced colours, reduced motion and an automated axe smoke scan.
 On 30 August 2026, `Codex In-app Browser` discovered and successfully called all
-five tools on the exact public release. Its final comparison call produced the
-same canonical and displayed result SHA-256. This observation is specific to
-that host and time; it does not establish support in ChatGPT desktop, Chrome or
-another host. A release-platform SBOM or attestation, owner approval of the
-local video, public upload, completion of the Devpost form and authorised
-submission remain pending.
+five tools on the earlier exact public release. Its final comparison call
+produced the same canonical and displayed result SHA-256. The corrected public
+deployment was then tested in a rules-named environment: Chrome 152.0.7977.64's
+native Application → WebMCP panel listed all five tools, completed all five
+valid calls and displayed the structured `invalid_search_request` result for
+`limit: 21`. The two presentation tools updated the visible deterministic page,
+including an 11-row facet comparison with canonical/display digest parity.
 
-A later Chrome DevTools MCP 1.8.0 run discovered all five tools on those public
-bytes but exposed a callback defect when the host omitted execution options.
-The corrected local candidate subsequently passed all five Chrome DevTools MCP
-calls, six of six model-free `webmcp-evals` calls with `ok: true` in their
-expected result-schema envelopes, 95 unit tests and 20 tests in each of Chrome
-and Edge. The final hardened DevTools run used Chrome 152.0.7977.64, rejected
-synthetic `personalContext` and recorded zero console errors. It has not been
-committed, deployed or admitted as public submission evidence. Microsoft WebMCP
-Explorer was built twice idempotently in an isolated
+Chrome DevTools MCP 1.8.0 separately discovered and completed all five tools on
+the corrected public bytes, rejected synthetic `personalContext`, bound the
+public deployment metadata and recorded zero console errors. Neither
+native-panel execution nor Chrome DevTools MCP selected or contacted a model.
+Microsoft WebMCP Explorer was built twice idempotently in an isolated
 directory from its exact pinned commit, with a clean source checkout and
 verified output allow-list, but was not loaded. Static triage dated 30 August
 2026 found its npm advisory paths were not reachable in that exact production
 build path; the privileged-extension operating risks remain. Explorer browser
-execution and fixed-model selection evaluation remain unrun.
+execution and fixed-model selection evaluation remain unrun. A release-platform
+SBOM or attestation and Explorer/model-selection evidence are optional assurance
+work, not current official submission requirements. Owner approval of the local
+video, public upload, completion of the Devpost form and authorised submission
+remain the submission-critical work.
 
 ## Potential impact
 

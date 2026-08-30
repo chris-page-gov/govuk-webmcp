@@ -126,6 +126,15 @@ The prepared model-backed browser-evaluation wrapper also rejects any upstream
 console error or `pageerror`, validates the diagnostic shape and records
 `browserConsoleErrorsAccepted: false`; no model-backed run has occurred.
 
+The native Chrome-panel capture used a separately named temporary Chrome app
+clone, a disposable profile, no extensions or sign-in, loopback-only remote
+debugging and the exact public origin. Playwright attached only to that
+DevTools frontend. To exercise the panel's native Paste control without reading
+or replacing the Mac clipboard, the capture temporarily replaced
+`navigator.clipboard.readText` inside the disposable DevTools page and restored
+it before each Run action. The exact temporary browser process and profile must
+be stopped and removed after capture; neither is submission evidence.
+
 The model-free evaluator wrapper forwards no provider credential environment
 variables and gives the child an isolated `HOME`. This reduces inherited
 provider configuration; it is not an operating-system sandbox. The child still

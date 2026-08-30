@@ -62,15 +62,18 @@ or host-compatibility failures are found before a model-backed demonstration.
 ### 1. Native Chrome or Edge DevTools
 
 Use the browser's WebMCP panel to inspect the live page, its schemas and its
-invocation history, then invoke representative tools manually. Chrome documents
-the Available Tools and Invoked Tools views, schema errors and manual execution
-in its [WebMCP DevTools guidance](https://developer.chrome.com/docs/devtools/application/webmcp).
+invocation history, then invoke representative tools through the panel controls.
+Chrome documents the Available Tools and Invoked Tools views, schema errors and
+manual execution in its
+[WebMCP DevTools guidance](https://developer.chrome.com/docs/devtools/application/webmcp).
+The retained corrected-main capture used Playwright to operate those native
+panel controls; it is native-panel evidence, not a claim of manual operation.
 [Microsoft Edge 149 release notes](https://learn.microsoft.com/en-us/microsoft-edge/devtools/whats-new/149)
 list WebMCP debugging as an inherited Chromium feature; record the exact Edge
 build rather than infer compatibility from Chromium alone.
 
 The research referred to “both tools”, but this release exposes five. Capture
-all five names and schemas, then manually execute at least:
+all five names and schemas, then execute through the panel controls at least:
 
 - `search_government_knowledge`, proving a read-only result with an authoritative
   link, assertion status and limitation; and
@@ -80,8 +83,24 @@ all five names and schemas, then manually execute at least:
 Also submit one invalid input and retain the rejection. A screenshot alone is
 insufficient: save the exact input, output or error, invocation status, browser
 version, feature state, page URL and deployed commit in
-`docs/competition/evidence/native-devtools-webmcp-2026-08-30.json`. Add the
+`docs/competition/evidence/native-devtools-webmcp-2026-08-30-edd4ce6.json`. Add the
 screenshots by path and SHA-256, without cookies, headers or personal data.
+
+This route was completed against the corrected public deployment on 30 August
+2026 in a disposable Chrome 152.0.7977.64 profile. The launch enabled
+`WebMCP`, `DevToolsWebMCPSupport` and `WebMCPTesting`; Chrome's release guidance
+describes the corresponding `#devtools-webmcp-support` and
+`#enable-webmcp-testing` flags. The native Application → WebMCP panel listed
+the exact five tools and recorded five completed valid calls. The two
+presentation calls produced the same displayed-result digest prefixes as the
+canonical results, with the comparison rendering 11 separate facet rows.
+`limit: 21` was accepted by the panel form but the executable tool validation
+returned the structured `invalid_search_request` result with `ok: false`. The
+panel was driven through its own Paste and Run controls over a loopback-only
+Playwright attachment to the disposable DevTools frontend because the macOS
+accessibility bridge exposed keyboard focus but not a working pointer action
+for the tool cards. This is deterministic native-panel execution evidence, not
+an AI-agent or model-selection run.
 
 ### 2. Microsoft WebMCP Explorer
 
@@ -145,7 +164,7 @@ Capture the unabridged tool-list response, followed by exact calls for the same
 read-only and presentation cases used in the native panel. Record server version,
 Chrome version, launch flags, selected page URL, deployed commit, MCP request and
 response, page console output, resulting URL and visible state in
-`docs/competition/evidence/chrome-devtools-mcp-2026-08-30.json`.
+`docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json`.
 
 A real 1.8.0 public-page run found a compatibility defect before this strategy
 was written. `execute_webmcp_tool` returned
@@ -165,16 +184,25 @@ schemas and annotations, rejected synthetic `personalContext` and recorded zero
 console errors. The runner set `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`. An
 earlier pre-hardening run wrote
 `~/.cache/chrome-devtools-mcp/latest.json` at 14:37 BST; the final rerun left
-that modification time unchanged. Its receipt remains private under `.evals/`,
-and public `v0.2.0-rc.1` remains unfixed.
+that modification time unchanged. Its receipt remains private under `.evals/`.
+The unchanged, checksum-bound `v0.2.0-rc.1` evidence remains at the earlier affected commit; the
+later protected-main deployment contains the correction.
 
 The repository now prepares the exact post-deployment rerun without broadening
 the capture boundary. `WEBMCP_DEVTOOLS_TARGET_URL` accepts only the project
 Pages URL, and `WEBMCP_EXPECTED_COMMIT` can require the protected-main commit.
 Before Chrome starts, the runner validates the public `deployment.json`
 schema, repository, commit and Pages run and binds the metadata digest into a
-separate ignored public-target receipt. This is prepared tooling, not evidence
-that the unreleased fix is already public.
+separate ignored public-target receipt.
+
+The post-deployment capture completed against protected-main commit
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and Pages run `33323152751`.
+Chrome DevTools MCP 1.8.0 in isolated Chrome 152.0.7977.64 discovered the exact
+five tools, completed all five calls, rejected synthetic `personalContext` and
+recorded no console errors. The capture bound the validated public
+`deployment.json` digest and the five deterministic result digests. The
+reviewed receipt is retained alongside the raw ignored capture; no model was
+selected or contacted.
 
 ### 4. `webmcp-evals` 0.0.4
 

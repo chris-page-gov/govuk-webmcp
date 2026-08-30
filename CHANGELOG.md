@@ -20,8 +20,9 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   search, authoritative GOV.UK result, successful same-origin requests and clean
   console.
 - A structured machine receipt records that `Codex In-app Browser` discovered
-  and successfully called all five page tools against the exact public release;
-  the final comparison's canonical SHA-256 matched the displayed result digest.
+  and successfully called all five page tools against the historical tagged
+  deployment; the final comparison's canonical SHA-256 matched the displayed
+  result digest.
   Two associated page-owned visual records show the post-call public-page state.
   Neither those records nor the receipt-derived animation is a host recording or
   Site tools capture.
@@ -98,19 +99,40 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - A separate Chrome DevTools MCP public-target mode that accepts only the exact
   project Pages URL, validates and hashes its deployment metadata, optionally
   requires the protected-main commit, skips the loopback server and writes an
-  ignored review-before-publication receipt. It is prepared for the
-  post-deployment rerun and is not itself public-host evidence.
+  ignored review-before-publication receipt.
+- Post-deployment evidence for corrected main commit
+  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`, published by Pages run
+  `33323152751`. Chrome DevTools MCP 1.8.0 discovered and successfully called
+  all five tools against that public deployment with zero console errors.
+- Native Chrome WebMCP-panel evidence in which all five valid calls completed. A
+  search using the out-of-range `limit: 21` returned the expected structured
+  rejection. Both presentation tools updated the visible page; the comparison
+  showed 11 facet rows and its displayed digest prefix matched the canonical
+  result.
+- A technical review receipt for the unchanged 142.920-second video candidate:
+  the complete video/audio decode, 4,284-frame count and all 38 caption cues
+  passed, with one non-fatal subtitle metadata warning retained. The receipt
+  explicitly excludes audible content-parity, owner playback and publication
+  approval.
+- A refreshed authenticated read-only Devpost receipt at
+  `2026-08-30T17:57:48Z`. Project `1406973` remains `Untitled`, blank and
+  `submission_pre_draft`, with no video URL, publication timestamp, submission
+  timestamp or completed human attestations. No Devpost state was changed.
+- A post-deployment evidence unit gate covering corrected Pages bindings,
+  public Chrome and native-panel execution, screenshot privacy review, the
+  technical-video boundary and the live unsubmitted Devpost state.
 
 ### Changed
 
 - Raised the development Node.js floor to 22.12.0 to match the pinned WebMCP
   evaluator and made three unnecessary transitive dependency install scripts
   explicitly denied.
-- Expanded the current unit suite to 95 tests. Configured the unreleased CI and
+- Expanded the current unit suite to 100 tests. Configured the CI and
   Pages workflows to install Node dependencies with
   `npm ci --ignore-scripts --no-audit`; Pages also installs the version-pinned
   Python requirements before mandatory research validation and semantic WebMCP
-  smoke before deployment. These workflow edits have not yet run.
+  smoke before deployment. The protected integration and Pages path ran these
+  definitions before deploying corrected main in run `33323152751`.
 - Changed the smoke receipt to retain semantic counts and a results digest after
   deleting the raw evaluator rows. Only the ignored DevTools receipt retains
   full tool outputs.
@@ -153,11 +175,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   without allowing its asynchronous route render to replace the focused node.
 - Made every WebMCP callback accept a host that omits the optional execution
   options object. Chrome DevTools MCP 1.8.0 exposed the defect in the public
-  release; the corrected local candidate retained cancellation when a signal is
-  supplied. The final hardened local run at 15:53 BST on 30 August 2026 used
-  Chrome 152.0.7977.64, completed all five real calls, checked closed schemas and
-  annotations, rejected synthetic `personalContext` and recorded zero console
-  errors.
+  tagged release; corrected main retains cancellation when a signal is supplied.
+  The correction is deployed from
+  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and passed five public Chrome
+  DevTools MCP calls with zero console errors.
 
 ### Security
 
@@ -195,24 +216,28 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   checklists in lockstep with the protected release and public evidence.
 - Advanced the machine provenance and active submission checklists for the
   completed manual observation, guarded preflight, local video build and final
-  read-only review while retaining the named-host, owner-review, public-video
-  and submission gates as open.
+  read-only review. At that checkpoint the named-host, owner-review, public-
+  video and submission gates remained open.
 - Recorded that GitHub published the pre-release before the annotated tag
   reference was replaced to correct its tagger identity; the product commit and
   deployed bytes did not change.
 - Kept the post-tag verification record separate from the immutable
-  `v0.2.0-rc.1` product commit. Supported-host WebMCP is now observed only for
-  the named Codex in-app browser and recorded time. Registration is observed as
-  complete; the bounded manual screen-reader journey and local video build are
-  complete. Named judging-host evidence, release-platform SBOM or attestation,
-  owner publication review, public video upload and Devpost submission remain
-  explicitly unperformed.
+  `v0.2.0-rc.1` product commit. At that checkpoint, supported-host WebMCP was
+  observed only for the named Codex in-app browser and recorded time.
+  Registration, the bounded manual screen-reader journey and local video build
+  were complete; later corrected-main host evidence is recorded separately.
 - Kept the corrected local host-compatibility result separate from the unchanged
   public `v0.2.0-rc.1` bytes. Microsoft WebMCP Explorer browser loading and any
   model-backed evaluator run remain pending. The documented Explorer route uses
   a disposable profile, Tools inspection without credentials, then a local
   loopback model and Agent Step, followed by profile deletion; a necessary
   remote run must use a revocable low-limit key and no personal context.
+- Preserved `v0.2.0-rc.1` at
+  `9235ee5db4df637bdb2a12e87449e871614afe68` as historical evidence while
+  recording corrected main and Pages run `33323152751` separately. The existing
+  142.920-second local video candidate and its digest remain unchanged; owner
+  playback and publication approval, public upload, final Devpost submission
+  and release-platform SBOM or attestation remain open.
 - Added a Should 12 measurement task for the E-34 public-service cost-boundary
   hypothesis. No saving is claimed without a comparable server-side baseline,
   page-tool measurements and declared whole-system assumptions.

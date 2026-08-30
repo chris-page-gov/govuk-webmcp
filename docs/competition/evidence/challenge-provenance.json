@@ -2,14 +2,14 @@
   "schema": "trusted-govuk-discovery.challenge-provenance.v1",
   "observationWindow": {
     "startedAt": "2026-08-30T01:53:35Z",
-    "completedAt": "2026-08-30T02:23:29Z"
+    "completedAt": "2026-08-30T17:57:48Z"
   },
-  "latestEvidenceAt": "2026-08-30T13:18:13Z",
+  "latestEvidenceAt": "2026-08-30T17:57:48Z",
   "challenge": {
     "start": "2026-08-25T18:00:00Z",
     "deadline": "2026-09-03T20:00:00Z",
     "rulesUrl": "https://webmcp.devpost.com/rules",
-    "officialRulesObservedAt": "2026-08-30T10:46:52Z",
+    "officialRulesObservedAt": "2026-08-30T17:57:47Z",
     "devpostConnectorSubmissionsStartAt": "2026-08-25T19:00:00Z",
     "timingResolution": "The live official rules state 11:00 Pacific Time, equivalent to 18:00 UTC on 25 August 2026, and control over the inconsistent connector start timestamp. The repository's first commit was on 29 August, so the discrepancy does not affect its chronology classification."
   },
@@ -131,6 +131,21 @@
     }
   },
   "postReleaseEvidence": {
+    "correctedPublicDeployment": {
+      "observedAt": "2026-08-30T16:44:23.237Z",
+      "repository": "chris-page-gov/govuk-webmcp",
+      "productCommit": "edd4ce6b60c38c3c9fbac86408d6b58d1495671f",
+      "pullRequest": 12,
+      "exactMainRunId": 33323068982,
+      "pagesRunId": 33323152751,
+      "artifactId": 9735478602,
+      "artifactApiDigest": "sha256:98b0641c6cdbfa444d7aee455976823a53b9d7ece97321ea0c01fa7ab4f942d0",
+      "artifactTarSha256": "bc7f2b34b376d425aaace8949eb5de4d8233fec232a02f8de1dd987813f6482f",
+      "deploymentMetadataSha256": "4a4778dea35bb9e0ad0884291d6f1246fe0b26d0a94cdf472c3fff449469546e",
+      "publicFileCount": 20,
+      "publicFilesMatchedArtifact": true,
+      "scope": "Corrected protected-main deployment. The unchanged, checksum-bound v0.2.0-rc.1 tag and its demonstration evidence remain bound to the earlier commit."
+    },
     "supportedHostWebmcp": {
       "observedAt": "2026-08-30T07:28:58.469Z",
       "host": "Codex In-app Browser",
@@ -143,12 +158,53 @@
       "comparisonResultDigest": "3baa3281849855b86e929fd5fad8984580066ac4e275063341c1d9102dc903b1",
       "scope": "Observed only in the named host and retained session; this is not evidence for ChatGPT desktop, Chrome or any other host."
     },
+    "chromeDevtoolsMcpPublic": {
+      "observedAt": "2026-08-30T16:44:53.227Z",
+      "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
+      "productCommit": "edd4ce6b60c38c3c9fbac86408d6b58d1495671f",
+      "pagesRunId": 33323152751,
+      "browser": "Chrome 152.0.7977.64",
+      "server": "chrome-devtools-mcp 1.8.0",
+      "discoveredToolCount": 5,
+      "completedValidCallCount": 5,
+      "invalidPersonalContextRejected": true,
+      "consoleErrorCount": 0,
+      "modelUsed": false,
+      "scope": "Isolated deterministic public-page execution. It does not establish model selection or another host."
+    },
+    "nativeChromeWebmcpPanel": {
+      "validCallsObservedAt": "2026-08-30T17:41:34.615Z",
+      "invalidCallObservedAt": "2026-08-30T17:43:00.770Z",
+      "evidencePath": "docs/competition/evidence/native-devtools-webmcp-2026-08-30-edd4ce6.json",
+      "productCommit": "edd4ce6b60c38c3c9fbac86408d6b58d1495671f",
+      "pagesRunId": 33323152751,
+      "browser": "Chrome 152.0.7977.64",
+      "enabledFeatures": [
+        "WebMCP",
+        "DevToolsWebMCPSupport",
+        "WebMCPTesting"
+      ],
+      "discoveredToolCount": 5,
+      "completedValidCallCount": 5,
+      "invalidLimitRejected": true,
+      "comparisonRowCount": 11,
+      "comparisonDigestParity": true,
+      "consoleErrorCount": 0,
+      "modelUsed": false,
+      "scope": "Chrome's native Application to WebMCP panel was driven in a disposable profile through its own Paste and Run controls. Loopback Playwright controlled the DevTools frontend because the macOS accessibility bridge did not dispatch the tool-card pointer action."
+    },
     "devpostReadOnlyStatus": {
-      "observedAt": "2026-08-30T10:23:52Z",
-      "evidencePath": "docs/competition/evidence/devpost-read-only-status-2026-08-30.json",
+      "observedAt": "2026-08-30T17:57:48Z",
+      "evidencePath": "docs/competition/evidence/devpost-read-only-status-2026-08-30-edd4ce6.json",
       "registered": true,
+      "registrationObservedAt": "2026-08-30T10:23:52Z",
+      "registrationEvidencePath": "docs/competition/evidence/devpost-read-only-status-2026-08-30.json",
       "projectId": 1406973,
+      "projectName": "Untitled",
       "projectState": "submission_pre_draft",
+      "taglinePresent": false,
+      "descriptionPresent": false,
+      "videoUrlPresent": false,
       "submittedAt": null,
       "scope": "Authenticated read-only observation only; no registration, project or submission mutation was performed."
     },
@@ -204,11 +260,28 @@
       "publicVideoPublished": false,
       "scope": "The fail-closed local build passed and is not published. Owner privacy, branding, synthetic-voice and complete-playback review, public YouTube upload and signed-out public-player checks remain open."
     },
+    "demoVideoTechnicalReview": {
+      "reviewedAt": "2026-08-30T17:49:05Z",
+      "evidencePath": "docs/competition/evidence/demo-video-technical-review-2026-08-30.json",
+      "status": "technical-review-complete-with-non-fatal-observation",
+      "videoSha256": "efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a",
+      "durationSeconds": 142.92,
+      "decodedVideoFrames": 4284,
+      "captionCueCount": 38,
+      "humanPublicationReview": "pending",
+      "scope": "Technical agent review only. Complete owner playback, privacy, branding, caption synchronisation, synthetic-voice and publication approval remain open."
+    },
     "finalDevpostComplianceReview": {
       "reviewedAt": "2026-08-30T13:00:36Z",
       "evidencePath": "docs/competition/final-devpost-compliance-review-2026-08-30.md",
       "status": "submission-blocked",
       "scope": "Read-only review only. Named judging-host evidence, owner video review, public YouTube publication, final human attestations and authorised submission remain open."
+    },
+    "postDeploymentDevpostComplianceReview": {
+      "reviewedAt": "2026-08-30T17:57:48Z",
+      "evidencePath": "docs/competition/post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md",
+      "status": "named-chrome-host-pass-submission-blocked",
+      "scope": "The named Chrome host gate is closed. Owner video review, public YouTube publication, final human attestations and authorised submission remain open."
     }
   },
   "evidenceBoundary": {
@@ -220,6 +293,10 @@
   "gates": {
     "nativeSupportedHostToolDiscoveryObserved": true,
     "nativeSupportedHostToolCallObserved": true,
+    "rulesNamedChromeToolDiscoveryObserved": true,
+    "rulesNamedChromeToolCallObserved": true,
+    "chromeDevtoolsMcpPublicCaptureCompleted": true,
+    "independentModelSelectionObserved": false,
     "demoInteractionClipsCaptured": true,
     "demoInteractionClipsAgentReviewed": true,
     "demoInteractionClipsHumanPublicationReviewed": false,
@@ -228,6 +305,7 @@
     "releasePlatformSbomProduced": false,
     "demoVideoPreflightPassed": true,
     "localDemoVideoBuilt": true,
+    "demoVideoTechnicalReviewComplete": true,
     "demoVideoHumanReviewComplete": false,
     "videoPublished": false,
     "devpostRegistrationPerformedByThisWorkflow": false,
