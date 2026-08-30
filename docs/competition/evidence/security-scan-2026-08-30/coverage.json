@@ -1,0 +1,116 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "working_tree",
+  "openQuestions": [
+    {
+      "question": "A native ChatGPT/WebMCP host was unavailable; instrumented browser tests prove the page contract, not host discovery."
+    },
+    {
+      "question": "The 10-second startup signal is not a complete byte/CPU budget; oversized same-origin artefacts require origin or protected source authority."
+    }
+  ],
+  "scanId": "0735e481-5df9-43fe-8f3a-04bc3d9b797c",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "reported",
+      "files": [
+        "app/index.html",
+        "app/main.ts",
+        "app/style.css",
+        "src/application-actions.ts",
+        "src/contracts.ts",
+        "src/integrity.ts",
+        "src/webmcp-tools.ts"
+      ],
+      "id": "surface_browser_and_webmcp",
+      "label": "Browser UI, route state and WebMCP actions",
+      "notes": "DOM, CSP, links, five tools, annotations, validation, cancellation, registration and routing reviewed. Two low availability findings survived.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "src/evidence-runtime.ts",
+        "src/federation-runtime.ts"
+      ],
+      "id": "surface_evidence_and_federation_runtime",
+      "label": "Evidence Trace and federation runtimes",
+      "notes": "Closed nested validation, graphs, cross-bindings, URLs, corpus states and computation bounds reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "app/data/catalogue.json",
+        "app/data/evidence-traces.json",
+        "app/data/federation.json",
+        "app/data/sources/answer-packs.json",
+        "app/data/sources/corpus-admissions.json",
+        "app/data/sources/source-locks.json"
+      ],
+      "id": "surface_authored_and_generated_data",
+      "label": "Authored and generated knowledge artefacts",
+      "notes": "Inspected as untrusted data; current sidecars and locks match; no active content, credential or unsafe URL survived controls.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "schemas/answer-pack-source.schema.json",
+        "schemas/compare-evidence-foundations-input.schema.json",
+        "schemas/compare-evidence-foundations-output.schema.json",
+        "schemas/corpus-admission-source.schema.json",
+        "schemas/error-result.schema.json",
+        "schemas/evidence-trace-collection.schema.json",
+        "schemas/evidence-trace.schema.json",
+        "schemas/explore-answer-foundations-input.schema.json",
+        "schemas/explore-answer-foundations-output.schema.json",
+        "schemas/federation-manifest.schema.json",
+        "schemas/get-resource-record-output.schema.json",
+        "schemas/public-record-summary.schema.json",
+        "schemas/search-government-knowledge-input.schema.json",
+        "schemas/search-government-knowledge-output.schema.json",
+        "schemas/show-provenance-output.schema.json"
+      ],
+      "id": "surface_schemas",
+      "label": "Published knowledge and tool schemas",
+      "notes": "All changed schemas compiled; registered input copies are lockstep-tested; host schemas do not substitute for executable bounds.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "rejected",
+      "files": [
+        "scripts/build-catalogue.mjs",
+        "scripts/build-evidence.mjs",
+        "scripts/build-federation.mjs",
+        "scripts/copy-static.mjs",
+        "scripts/lib/deterministic-json.mjs",
+        "scripts/validate-authored-sources.mjs",
+        "scripts/validate-generated.mjs"
+      ],
+      "id": "surface_build_and_admission",
+      "label": "Deterministic builders and source admission",
+      "notes": "Required-lock omission reproduced but rejected as a security finding because exploitation requires protected source-write/merge authority with equivalent application authority. It remains an assurance defect for remediation.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "not_applicable",
+      "files": [
+        ".playwright-cli/page-2026-08-29T23-44-19-508Z.yml"
+      ],
+      "id": "surface_developer_artifact",
+      "label": "Untracked Playwright snapshot",
+      "notes": "Developer artefact; not copied, compiled or shipped.",
+      "receiptRefs": []
+    }
+  ]
+}

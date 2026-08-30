@@ -1,0 +1,106 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "fd8b605ff4bb91586c71cc19fa6f89994468160e6468ef339dbcf7bee75c6cd4"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "6561685a67487f704c44fb11ff68f88cd87b02dc05cb2d618fed57c9656c7082"
+      }
+    ],
+    "completedAt": "2026-08-30T00:14:00.470753Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "0735e481-5df9-43fe-8f3a-04bc3d9b797c",
+    "preservedSources": {
+      "checkpoints/4f28f4c9beeb218cedcaa465005a045953c41722265f82d33224b7ed66c45fba.json": "ea7ada4868521ef1c84b986dcd3189c3e26cf98f0f71d0ec526ca74d1eef0876",
+      "checkpoints/fb2d4989d9a1adbb1337f3fc8cf4a64fbbb282f9d6599b34d19ed4208d73d824.json": "fb2d4989d9a1adbb1337f3fc8cf4a64fbbb282f9d6599b34d19ed4208d73d824"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "39 review items",
+        "24 deterministic unit/contract tests",
+        "17 Chromium browser tests",
+        "three targeted validation proofs"
+      ],
+      "context": "Evidence-first GOV.UK WebMCP implementation before remediation.",
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "TAC advisory status was unknown and did not gate the scan.",
+        "No native ChatGPT/WebMCP host call was available.",
+        "One untracked Playwright snapshot is not shipped."
+      ],
+      "runtimeStatus": "Local build, unit, installed-Chromium browser and targeted validation interfaces executed.",
+      "summary": "Complete security review of the 39-file working-tree implementation diff against fd2b7ae3176532e96b78fa31320e7fe27ec6cf51.",
+      "validationMode": "Static source tracing plus focused real-interface reproduction."
+    },
+    "sealedAt": "2026-08-30T00:14:00.470753Z",
+    "startedAt": "2026-08-29T23:56:47.049133Z",
+    "status": "completed",
+    "target": {
+      "baseRevision": "fd2b7ae3176532e96b78fa31320e7fe27ec6cf51",
+      "displayName": "govuk-webmcp",
+      "headRevision": "fd2b7ae3176532e96b78fa31320e7fe27ec6cf51",
+      "kind": "git_diff",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:ec790806b470beee90957b039d8c4ad1b3269d4d168b4b77fde7c747d4c480a7",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "assets": [
+        "Integrity and provenance of catalogue, receipts, Evidence Traces and corpus admissions (src/webmcp-tools.ts:174-288; src/evidence-runtime.ts:181-356; src/federation-runtime.ts:116-291).",
+        "Truthful authoritative URLs and separate access, rights, assertion, freshness and limitation facets (app/index.html:115-122).",
+        "Fixed five-tool capability and truthful three-read-only/two-presentation distinction (src/webmcp-tools.ts:597-647).",
+        "Human availability without WebMCP and fail-closed tool registration (app/main.ts:747-781; src/webmcp-tools.ts:651-729).",
+        "Protected exact-main build and Pages publication authority (.github/workflows/ci.yml:3-31; .github/workflows/pages.yml:3-40)."
+      ],
+      "assumptions": [
+        "Snapshot governance files still describe three tools while source defines five; lockstep documentation is pending.",
+        "The source-lock validator does not yet require an exact four-ID-to-path mapping; exploitation requires protected source-write/merge authority.",
+        "The 10-second startup timer is not a hard end-to-end byte/CPU budget; ordinary tool callers cannot control same-origin artefacts.",
+        "The whole UI intentionally fails closed if any mandatory evidence or federation artefact fails.",
+        "SHA-256 sidecars prove consistency, not independent publisher authenticity.",
+        "Abort-driven registration rollback depends on the browser host contract.",
+        "No native ChatGPT/WebMCP host call was available in this offline scan."
+      ],
+      "attackerCapabilities": [
+        "A WebMCP caller can choose JSON input but not URLs, credentials, callbacks or arbitrary context through the advertised contract.",
+        "A navigator controls the URL fragment used for record, answer, claim and comparison routing (app/main.ts:654-695).",
+        "Source producers control source-derived strings but not fixed tool definitions; text remains untrusted and inert.",
+        "An ordinary runtime caller cannot modify authored sources, deployment bytes or the static origin.",
+        "Repository or origin compromise already grants equivalent authority to replace executable JavaScript."
+      ],
+      "securityObjectives": [
+        "Fail closed before UI enablement or registration when a mandatory artefact is invalid.",
+        "Keep the runtime credential-free, provider-call-free and storage-free.",
+        "Bound supported and rejected tool inputs before diagnostic work.",
+        "Bound route parsing and all catalogue/evidence computation.",
+        "Admit only credential-free official HTTPS links and exact corpus repository links.",
+        "Prevent cancelled actions from committing stale presentation.",
+        "Keep trust facets separate and score-free."
+      ],
+      "summary": "Static same-origin browser app loading four digest-bound JSON/checksum pairs before creating one shared human/WebMCP action controller and registering five fixed tools. Three tools return read-only catalogue data; two may update only transient evidence presentation (src/webmcp-tools.ts:491-524,597-721; src/application-actions.ts:48-81).",
+      "trustBoundaries": [
+        "Four authored sources cross into deterministic generation through the source-lock registry (app/data/sources/source-locks.json:4-37; scripts/validate-authored-sources.mjs:11-40).",
+        "Eight relative same-origin resources cross into the browser with credentials omitted and one fetch abort signal (src/webmcp-tools.ts:491-517); CSP restricts active resources and connections to self (app/index.html:3-9).",
+        "Raw checksums, nested digests, graph constraints, URL admission and catalogue cross-bindings gate runtime use (src/webmcp-tools.ts:174-288; src/evidence-runtime.ts:181-356; src/federation-runtime.ts:116-291).",
+        "Untrusted source text crosses into inert DOM text and separately admitted HTTPS href values (app/main.ts:46-55,121-240,262-299,343-575).",
+        "Untrusted page-host tool input crosses through closed schemas and executable validation into one shared action controller (src/webmcp-tools.ts:99-153,527-705).",
+        "Only explicitly presenting actions cross from deterministic results into transient page state, after cancellation checks (src/application-actions.ts:37-79).",
+        "Validated source crosses into public deployment only through exact-main rebuild/test and dist-only Pages publication (.github/workflows/pages.yml:15-40)."
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

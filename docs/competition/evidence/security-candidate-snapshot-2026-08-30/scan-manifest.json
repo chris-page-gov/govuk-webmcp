@@ -1,0 +1,104 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "1528a2b913fdb4ef5c67a8682db2bc70700f63337efffb251b1a95a3ab23e682"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "aa8fa97f907a8199ddbbdde8a29ac42ad34d711e124b12436c1b3d274222ea0a"
+      }
+    ],
+    "completedAt": "2026-08-30T01:47:10.286799Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "8dda47c2-46d1-4a1f-9e00-15bbaa684cdb",
+    "preservedSources": {
+      "checkpoints/04e21caa5f5015365678eac6921440d7cb5edeba268eb247ee7bf34d65ac9a98.json": "6c1caf2c1638ab058254f5d89a37877571a26ed7214bb2320cb3d74c7035ec8e",
+      "checkpoints/f0cb9ebf1708ebf257145464807000db2b766946b5ed551d4c2be5efde332607.json": "f0cb9ebf1708ebf257145464807000db2b766946b5ed551d4c2be5efde332607"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "44 compact diff review items",
+        "20 strict-compiled JSON Schemas",
+        "493 admitted URL values",
+        "53 focused security and assurance regressions"
+      ],
+      "context": "Final pre-PR Evidence Trace and bounded-federation candidate snapshot.",
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "TAC advisory status was unknown and did not gate the scan.",
+        "No native ChatGPT/WebMCP host call was available.",
+        "The immutable scan snapshot predates final stricter exact-count, record-ID parity, workflow and documentation deltas."
+      ],
+      "runtimeStatus": "Local static tracing, strict schema compilation, data validation and focused security regressions executed.",
+      "summary": "Complete security discovery review of all 44 source-like files in the immutable working-tree snapshot against fd2b7ae3176532e96b78fa31320e7fe27ec6cf51.",
+      "validationMode": "Compact diff discovery with two independent non-overlapping source reviews."
+    },
+    "sealedAt": "2026-08-30T01:47:10.286799Z",
+    "startedAt": "2026-08-30T01:16:42.302708Z",
+    "status": "completed",
+    "target": {
+      "baseRevision": "fd2b7ae3176532e96b78fa31320e7fe27ec6cf51",
+      "displayName": "govuk-webmcp",
+      "headRevision": "fd2b7ae3176532e96b78fa31320e7fe27ec6cf51",
+      "kind": "git_diff",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:2a7a423b127342ffd154628d1288132a8ef967978ce53b7f8b1b71129ba9be9d",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "assets": [
+        "Integrity and provenance of four authored source locks, 80 catalogue records, 80 receipts, one Evidence Trace and ten corpus admissions.",
+        "Truthful separation of authority, assertion, freshness, integrity, access, rights, coverage and limitations without a combined trust score.",
+        "Fixed five-tool capability, executable/schema input parity and truthful three-query/two-presentation effect annotations.",
+        "Human-interface availability without WebMCP and fail-closed all-or-nothing tool registration.",
+        "Protected exact-main build and GitHub Pages publication authority."
+      ],
+      "assumptions": [
+        "The supported origin serves the complete built artefact without injection; package hashes prove consistency, not independent origin or publisher authenticity.",
+        "A native ChatGPT/WebMCP host invocation was unavailable; instrumented Chrome and Edge exercise the page contract but not host discovery.",
+        "Host-side rollback of registered tools ultimately depends on the host honouring AbortSignal.",
+        "Source locks do not independently prove upstream signatures, rights or current publisher accuracy.",
+        "The snapshot captured the full substantive candidate before final stricter exact-count, record-ID parity, workflow and documentation deltas; those later changes require a separately recorded post-snapshot review."
+      ],
+      "attackerCapabilities": [
+        "An unauthenticated visitor controls bounded search/filter values and URL fragments but not repository files, same-origin code or deployment authority.",
+        "A WebMCP caller or compatible host can supply arbitrary attempted tool input, cancel calls and observe public tool/page data; no URL, credential, selector, callback or conversation-context input is accepted.",
+        "A repository contributor may propose changes but is not assumed to hold merge, Pages environment or deployment authority.",
+        "An upstream site controls content only after user navigation or the separately invoked link audit; the application makes no runtime provider request.",
+        "A party controlling the static origin can co-modify code, data and sidecars and therefore already has page-content authority."
+      ],
+      "securityObjectives": [
+        "Preserve static, same-origin, credential-free and no-runtime-provider operation.",
+        "Admit only the exact four authored regular files and fail on ID, path, count, identity or digest mismatch.",
+        "Validate every artefact family and relationship before WebMCP registration.",
+        "Keep source-derived strings inert and URLs allowlisted by purpose.",
+        "Keep schemas and executable validation in parity, reject unknown or oversized input, cap result sets and do not hash rejected complex input.",
+        "Keep query and presentation effects truthful and page-scoped.",
+        "Bind Pages publication to an exact tested main commit."
+      ],
+      "summary": "Static same-origin TypeScript browser application that verifies four checksum-bound artefact families before creating one shared human/WebMCP action controller and registering five fixed page-scoped tools. Three tools query packaged data; two make only reversible in-memory presentation changes.",
+      "trustBoundaries": [
+        "Four fixed authored files cross into deterministic generation through regular-file, exact ID/path/count and SHA-256 source-lock admission.",
+        "Eight relative same-origin resources cross into the browser with credentials omitted, then raw checksums, closed validation, nested digests and cross-bindings gate use.",
+        "Human fragment and WebMCP JSON input cross through bounded executable validation into one shared action controller.",
+        "Source-derived untrusted text crosses only into inert DOM text; links cross purpose-specific credential-free HTTPS allowlists.",
+        "Five fixed tool definitions cross into a compatible secure document.modelContext after validation; the host owns discovery, invocation, retention and AbortSignal enforcement.",
+        "Only successful explicitly presenting actions cross into transient page state after cancellation checks.",
+        "The exact tested main commit crosses into Pages only through a manually dispatched, scoped-permission workflow."
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

@@ -1,46 +1,102 @@
-# Appendix A — one-page build brief for Codex
+# Appendix A — current candidate brief for Codex
 
 ## Objective
 
-Build and deploy a static, accessible, independent WebMCP application that lets people and agents search a checksum-verified bundle of reviewed GOV.UK content, dataset and API metadata and inspect authoritative links, access/licence status, assertion labels, provenance and limitations.
+Complete and verify an accessible, static and independent WebMCP application
+that lets people and agents see the evidence before an answer. The primary
+journey starts with an analytical index, then exposes one Evidence Trace,
+separate trust facets, score-free comparison, the same result through WebMCP
+and the bounded evidence estate.
+
+## Candidate facts to preserve
+
+- 80 reviewed records and 80 packaged evidence receipts.
+- Four exact authored source locks: 69 GOV.UK records, 11 curated government
+  data and API records, 1 answer pack and 10 corpus-admission decisions.
+- One digest-bound Evidence Trace.
+- Ten corpus admissions: 2 searchable and 8 not searchable.
+- Eight separate facets: authority, assertion status, verification, freshness,
+  integrity, access, rights and coverage. Never add a combined trust score.
+- Five fixed imperative tools: 3 read-only query tools and 2 reversible
+  in-memory presentation tools with `readOnlyHint: false`.
+- One shared action controller for human controls and WebMCP callbacks.
+- Catalogue, receipts, Evidence Trace and federation manifest all validate
+  before any tool registers.
 
 ## Non-negotiable boundaries
 
-- Read-only; no transactions, authentication, credentials, telemetry or personalisation.
-- No runtime calls to GOV.UK or providers in the judging path.
-- Same-origin static data only.
-- Three tools only: search, exact record, provenance.
-- Human-visible equivalent for every tool.
-- Independent branding; no GOV.UK/employer logos, fonts or colours.
-- Catalogue inclusion never means access authority.
-- Missing licence/access/provenance fails closed.
-- Model-generated text never becomes authoritative metadata.
-- Preserve pre/post-challenge evidence and third-party notices.
+- The human interface must remain complete when WebMCP is unavailable.
+- No runtime call to GOV.UK, a data provider or a model provider.
+- No transaction, authentication, credential, telemetry, personalisation or
+  browser-storage write.
+- The two presentation tools may change only reversible in-memory selection and
+  comparison state.
+- Catalogue inclusion never grants access or permission to reuse.
+- Missing, stale or conflicting access, rights and provenance stay explicit.
+- `sourceOkfCore` records the producer declaration separately from the target
+  OKF core 0.2 mapping.
+- A corpus descriptor or crosswalk does not admit, copy or make its payload
+  searchable.
+- Model-generated text never becomes canonical metadata.
+- Independent branding only; do not use GOV.UK, employer or sponsor branding.
+- Do not claim a persistent or durable MCP gateway, provider execution,
+  government service operation, access decision or per-call durable receipt.
 
-## Implementation
+## Implemented shape
 
-1. Start from the post-start WebMCP candidate only after rights approval, or clean-room reimplement the supplied contracts.
-2. Create the profile and schema.
-3. Select 30–80 reviewed records.
-4. Build immutable source envelopes, record digests, bundle digest and receipts.
-5. Render search/results/detail/evidence through shared functions.
-6. Register tools only after data validates.
-7. Publish output schemas as repository contracts; do not register a non-standard `outputSchema`.
-8. Add CSP, no-storage test, network allowlist and unsafe-URL validation.
-9. Add unit, browser, accessibility, injection, parity and evaluation tests.
-10. Deploy exact commit and generate release evidence.
+1. Validate the four authored locks before generation. Bind each expected ID to
+   its exact path, item count, SHA-256 and regular non-symlink file.
+2. Deterministically build the 80-record catalogue, 80 receipts, one Evidence
+   Trace and 10-entry federation manifest.
+3. Validate JSON Schema, raw checksums, internal digests and cross-artefact
+   bindings.
+4. Load four same-origin artefact families and fail closed before registration
+   if any family is missing or invalid.
+5. Present the analytical index first; keep the visual trace a progressive
+   explanation of the same data.
+6. Render each facet separately and compare two to four claims without ranking
+   or scoring them.
+7. Route human and WebMCP actions through `KnowledgeActionController`.
+8. Register `search_government_knowledge`, `get_resource_record` and
+   `show_provenance` as read-only query tools.
+9. Register `explore_answer_foundations` and
+   `compare_evidence_foundations` with `readOnlyHint: false` and explicit
+   transient-presentation boundaries.
+10. Publish output schemas as repository contracts; do not register a
+    non-standard `outputSchema` property.
 
-## Definition of done
+## Security checks to retain
 
-- clean install/build/test;
-- public URL;
-- tools work in ChatGPT built-in browser and Chrome 149+;
-- manual UI works without WebMCP;
-- every result displays source/access/licence/date/assertion/limitation;
-- source links open;
-- digests verify;
-- negative cases fail closed;
-- repository licence detected;
-- signed-out validation passes;
-- 2:45 demo recorded;
-- compliance checklist complete.
+- closed schemas plus executable input validation;
+- a cheap common root-input budget before action dispatch or diagnostic
+  hashing;
+- bounded queries, identifiers, arrays, result counts and hash routes;
+- credential-free HTTPS links on admitted official hosts only;
+- inert rendering and `untrustedContentHint: true` for source-derived text;
+- exact source-lock ID/path/count/digest checks with no symbolic links or file
+  identity changes;
+- all-or-none registration, cancellation and registration timeout behaviour;
+  and
+- no storage and no unexpected external request in browser checks.
+
+## Observed evidence
+
+- `npm run test:unit`: 58 checks passed.
+- Installed Chrome: 19 browser checks passed.
+- Microsoft Edge: the same 19 browser checks passed.
+- The browser suite includes keyboard, 320-pixel reflow, forced colours,
+  reduced motion and an axe smoke scan. These do not constitute a manual
+  screen-reader observation or a WCAG conformance claim.
+
+## Remaining definition of done
+
+- commit and release the exact candidate without losing source or evidence
+  chronology;
+- run deterministic final-release validation and verify the exact public URL,
+  revision, same-origin requests and signed-out journey;
+- observe all five tools and representative calls in a supported live WebMCP
+  host;
+- complete the manual screen-reader observation;
+- record the sub-three-minute demonstration and transcript; and
+- complete the compliance checklist and obtain separate approval before any
+  competition registration or Devpost submission.

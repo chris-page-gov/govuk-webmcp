@@ -39,6 +39,23 @@ API (Beta).”
 The ONS Open Geography record records OGL v3.0 with the explicit caveat “except
 where otherwise stated”.
 
+## Evidence Trace and corpus admission descriptors
+
+`app/data/sources/answer-packs.json` is original project-authored metadata. Its
+generated Evidence Trace cites only records already admitted to the catalogue;
+it does not copy the linked page content or turn a normalised statement into an
+official assertion.
+
+`app/data/sources/corpus-admissions.json` records bounded descriptions and
+admission decisions for 10 project collections. Only the locked 69-record
+GOV.UK collection and 11 project-authored companion records contribute
+searchable payload. The other eight entries contribute descriptors only and do
+not copy, relicense or silently admit content from the named repositories.
+
+Repository licence labels are recorded as source metadata, not as a blanket
+licence for linked records or upstream material. Rights, access and
+redistribution boundaries remain source-specific.
+
 ## Standards and dependencies
 
 The profile links to DCMI, PROV and Schema.org vocabularies. Those links do not

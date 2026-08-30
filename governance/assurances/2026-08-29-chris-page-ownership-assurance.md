@@ -24,3 +24,12 @@ This assurance does not change the rights of third-party or public-sector source
 material. GOV.UK metadata remains attributed under the Open Government Licence
 v3.0 where applicable, and every API or dataset record retains its own access
 and licence status. It does not itself register for or submit to Devpost.
+
+## Later publication authority
+
+On 29 August 2026, Chris Page subsequently authorised publication to a public
+repository in his personal `chris-page-gov` account, public deployment and
+branch protection after the repository became public. That authority covers
+the rights-reviewed project work and bounded metadata described above. It does
+not broaden third-party rights and does not authorise Codex to register for or
+submit the project to Devpost without a separate instruction.

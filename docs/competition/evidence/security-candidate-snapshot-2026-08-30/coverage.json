@@ -1,0 +1,107 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "working_tree",
+  "openQuestions": [
+    {
+      "question": "A native ChatGPT/WebMCP host was unavailable; instrumented browser tests prove the page contract, not host discovery."
+    },
+    {
+      "question": "Registration rollback depends on the host honouring AbortSignal."
+    },
+    {
+      "question": "Post-snapshot stricter exact-count, record-ID parity, workflow and documentation deltas are outside this immutable snapshot and need a separate bounded review."
+    }
+  ],
+  "scanId": "8dda47c2-46d1-4a1f-9e00-15bbaa684cdb",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "app/index.html",
+        "app/main.ts",
+        "app/style.css",
+        "src/application-actions.ts",
+        "src/contracts.ts",
+        "src/evidence-runtime.ts",
+        "src/federation-runtime.ts",
+        "src/integrity.ts",
+        "src/webmcp-tools.ts"
+      ],
+      "id": "surface_browser_runtime",
+      "label": "Browser UI, routes, action controller and WebMCP runtime",
+      "notes": "Reviewed DOM sinks, CSP, links, fragment routing, closed inputs, cancellation, five fixed tools, truthful effects, registration lifecycle, checksums, nested digests, graph/binding validation and same-origin loading. No attacker-controlled value reaches an executable, credential, storage, arbitrary-network or deployment sink.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "app/data/catalogue.json",
+        "app/data/evidence-traces.json",
+        "app/data/federation.json",
+        "app/data/sources/answer-packs.json",
+        "app/data/sources/corpus-admissions.json",
+        "app/data/sources/source-locks.json"
+      ],
+      "id": "surface_authored_generated_data",
+      "label": "Authored and generated knowledge artefacts",
+      "notes": "Inspected as untrusted data. Sidecars and locks matched; 493 URLs were canonical credential-free HTTPS values within their purpose-specific allowlists; no active-content, prototype-sensitive or traversal-shaped value survived controls.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "schemas/answer-pack-source.schema.json",
+        "schemas/catalogue.schema.json",
+        "schemas/compare-evidence-foundations-input.schema.json",
+        "schemas/compare-evidence-foundations-output.schema.json",
+        "schemas/corpus-admission-source.schema.json",
+        "schemas/error-result.schema.json",
+        "schemas/evidence-receipt.schema.json",
+        "schemas/evidence-trace-collection.schema.json",
+        "schemas/evidence-trace.schema.json",
+        "schemas/explore-answer-foundations-input.schema.json",
+        "schemas/explore-answer-foundations-output.schema.json",
+        "schemas/federation-manifest.schema.json",
+        "schemas/get-resource-record-input.schema.json",
+        "schemas/get-resource-record-output.schema.json",
+        "schemas/profile-record.schema.json",
+        "schemas/public-record-summary.schema.json",
+        "schemas/search-government-knowledge-input.schema.json",
+        "schemas/search-government-knowledge-output.schema.json",
+        "schemas/show-provenance-input.schema.json",
+        "schemas/show-provenance-output.schema.json"
+      ],
+      "id": "surface_schemas",
+      "label": "Twenty published authored, generated and tool schemas",
+      "notes": "All schemas compiled under strict AJV 2020 with resolved references. Registered input copies are lockstep-tested; browser startup independently enforces executable validation.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "package.json",
+        "scripts/build-catalogue.mjs",
+        "scripts/build-evidence.mjs",
+        "scripts/build-federation.mjs",
+        "scripts/copy-static.mjs",
+        "scripts/lib/deterministic-json.mjs",
+        "scripts/lib/source-locks.mjs",
+        "scripts/validate-authored-sources.mjs",
+        "scripts/validate-generated.mjs"
+      ],
+      "id": "surface_build_admission",
+      "label": "Deterministic builders, source admission, copying and validation",
+      "notes": "All read/write targets are fixed. Source admission requires exact release paths, regular non-symlink identity, O_NOFOLLOW where available, inode continuity, counts and SHA-256. No dynamic command, import, network destination or attacker-selected path sink exists.",
+      "receiptRefs": []
+    }
+  ]
+}

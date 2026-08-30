@@ -1,6 +1,6 @@
 # ADR-0001: Static same-origin WebMCP boundary
 
-- **Status:** accepted and implemented for the complete private verification build
+- **Status:** accepted for the static boundary; partially superseded by ADR-0002
 - **Date:** 29 August 2026
 
 ## Context
@@ -34,3 +34,7 @@ collection are required before search is enabled or any tool is registered. The
 prototype cannot claim comprehensive coverage, provider access, official
 endorsement or production readiness. Its evidence receipts prove only the
 integrity bindings of the packaged metadata; they are not publisher signatures.
+
+ADR-0002 retains the static same-origin and no-provider-call decision while
+extending validation to the Evidence Trace and federation manifest and adding
+two truthfully annotated transient presentation tools.
