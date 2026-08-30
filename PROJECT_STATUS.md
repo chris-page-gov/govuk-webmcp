@@ -79,8 +79,13 @@ the analytical index, Evidence Trace, separate facets, comparison and evidence
 estate. A consolidated receipt binds every clip to its release URL, required
 actions, duration and SHA-256; agent privacy and branding review passed, while
 human publication review remains pending. The supported-host scene is explicitly
-a receipt visualisation, not a host recording. The guarded video preflight still
-fails closed only because the genuine VoiceOver clip, manual journey record and
+a receipt visualisation, not a host recording. Continuous macOS window capture
+is unavailable in the current environment, so a guarded fallback can render
+nine operator-reviewed, hash-bound Safari and VoiceOver frames as a visibly
+labelled screenshot sequence. It verifies immutable bytes and declared capture
+metadata but does not independently prove assistive-technology use; the manual
+journey record and human frame review remain hard gates. The video preflight
+still fails closed because the genuine VoiceOver clip, manual journey record and
 their media/time binding do not yet exist. No final MP4, captions, transcript or
 build receipt has been produced or published.
 

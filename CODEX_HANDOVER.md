@@ -90,13 +90,13 @@ provider integration or service-operation layer.
 | Public artefact comparison | all 20 Pages artefact files returned HTTP 200 and matched the live bytes |
 | Signed-out live-browser journey | passed with successful same-origin data requests and no console warning or error |
 | Public repository hardening | protected `main`, secret scanning and push protection enabled |
-| Current evidence-branch unit suite | 65 of 65 passed, including negative demonstration-media and VoiceOver gates |
+| Current evidence-branch unit suite | 69 of 69 passed, including negative demonstration-media, VoiceOver and screenshot-sequence gates |
 | Current evidence-branch Chrome suite | 19 of 19 passed after an authorised local-loopback exception |
 | Current evidence-branch Edge suite | 19 of 19 passed after an authorised local-loopback exception |
 | Genuine live interaction capture | five silent page-only clips; exact release, action, duration and SHA-256 receipt; agent privacy/branding review passed |
 | Exact local synthetic narration timing | seven scenes total 138.105 seconds; every cue 1–8.5 seconds; 41.895-second margin below three minutes before encoding |
 | Demonstration preflight | fails closed only on the missing VoiceOver clip, manual journey JSON and media/time binding |
-| Safari capture readiness | Safari target window and bounds resolved, but `screencapture` could not capture it and Computer Use then confirmed the Mac was locked and could not unlock automatically; no lock-screen image was retained |
+| Safari capture readiness | Mac unlocked; canonical public route verified ready in Safari 26.5.2. Continuous `screencapture` remains unavailable, so the guarded visibly labelled screenshot-sequence fallback is ready; VoiceOver has not been enabled and no manual observation is claimed |
 
 Post-tag evidence-branch closure used these exact checks:
 
@@ -160,7 +160,11 @@ The current evidence branch also contains the fail-closed demonstration
 pipeline, five genuine public-page interaction clips in ignored local output,
 their consolidated receipt, and a clearly labelled supported-host receipt
 visualisation. The visualisation is not host-owned video or a Site tools
-capture. No final MP4, caption file, transcript or build receipt exists yet.
+capture. A guarded fallback can render nine manually reviewed Safari and
+VoiceOver frames from immutable verified bytes as an explicitly non-continuous
+screenshot sequence. The builder validates the declared capture metadata but
+does not prove VoiceOver use; the separate manual observation remains required.
+No final MP4, caption file, transcript or build receipt exists yet.
 
 ## Residual limitations
 

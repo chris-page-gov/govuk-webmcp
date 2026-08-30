@@ -31,6 +31,15 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   captures and a privacy-safe receipt visualisation generated from the
   supported-host record. Raw clips and review cuts remain ignored local output;
   human publication review remains pending and no public video is claimed.
+- A fail-closed manual-VoiceOver screenshot-sequence fallback for environments
+  where continuous macOS window capture is unavailable. It requires nine
+  ordered, operator-declared Safari and VoiceOver frames beneath ignored local
+  output; verifies the declared release identity, hashes, paths, timestamps and
+  media strength from immutable in-memory bytes; blocks network access while
+  rendering; and produces a visibly labelled H.264 review scene that cannot be
+  mistaken for continuous footage. The builder does not independently prove
+  assistive-technology use: the manual evidence record and human frame review
+  remain separate hard gates.
 - A read-only Devpost status record confirming completed competition
   registration while distinguishing the exact unpublished pre-submission draft
   from Devpost's broader account-level relationship label.

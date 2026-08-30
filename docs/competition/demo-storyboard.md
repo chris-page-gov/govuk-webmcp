@@ -12,7 +12,7 @@ recorded separately for `Codex In-app Browser` only.
 | 0:42–0:59 | Use the retained genuine live-page clip to select one foundation. Read the separate authority, assertion status, verification, freshness, integrity, access, rights and coverage fields. | Make the eight dimensions inspectable without collapsing uncertainty into a score. |
 | 0:59–1:09 | Use the retained genuine live-page clip to select two claims and open the accessible comparison table. Point to a material difference and the explicit limitations. | Show a field-by-field comparison “without a combined trust score”; do not declare a winning source. |
 | 1:09–1:33 | Show the clearly labelled **supported-host receipt visualisation** reconstructed from the retained machine receipt: five discovered tools, five successful calls, the exact comparison input and full matching result/display digest. Pair it with the captured public-page comparison and status. State explicitly that this is not a host recording, Site tools screenshot or evidence for another host. | Prove the same shared action-controller result rather than selector guessing. Explain that `readOnlyHint: false` describes a reversible in-memory presentation effect only. |
-| 1:33–1:54 | After it has genuinely been recorded, show the manual VoiceOver journey in Safari, including headings, controls, selected foundations, the comparison table, live status and authoritative links. | Demonstrate the human fallback without WebMCP while retaining the bounded observation and no-WCAG-conformance boundary. |
+| 1:33–1:54 | After it has genuinely been observed, show the manual VoiceOver journey in Safari, including headings, controls, selected foundations, the comparison table, live status and authoritative links. If continuous window recording remains unavailable, use only the guarded nine-frame fallback and keep its visible **screenshot sequence — not a continuous recording** label on screen. The builder verifies bytes and declared capture metadata; the separate manual observation and human frame review establish what was actually used. | Demonstrate the human fallback without WebMCP while retaining the bounded observation and no-WCAG-conformance boundary. |
 | 1:54–2:19 | Use the retained genuine live-page clip to open **What is in the evidence estate**. Show 10 admissions: 2 searchable and 8 not searchable, then close on the independent-prototype boundary. | Make the population and federation boundary visible: descriptors do not admit payload, every result retains an authoritative link and no official endorsement is implied. |
 
 ## Evidence gates before final assembly
@@ -37,7 +37,10 @@ Observed for the published release:
 
 Still required before the storyboard can be presented as a final demonstration:
 
-- complete and record the manual screen-reader observation; and
+- complete and record the manual screen-reader observation;
+- if continuous capture remains unavailable, preserve and human-review the exact
+  nine genuine Safari and VoiceOver frames, create their ignored hash-bound
+  capture manifest, then run `npm run demo:voiceover-screenshot-clip`; and
 - assemble and review the captioned local video and transcript, then publish the
   approved final cut separately.
 
