@@ -307,6 +307,12 @@ fixed-model evaluation and a release-platform SBOM or attestation remain
 optional assurance work. Competition registration is complete; the refreshed
 Devpost project remains `Untitled`, blank and `submission_pre_draft`.
 
+Protected pull request 13 admitted the post-deployment evidence, evidence tests
+and lockstep documentation as repository commit
+`5f2295f5f55dfb4f6c089019c53c32c22c3ae86a`. Exact-main validation run
+`33327860583` passed. This evidence-only integration did not dispatch Pages or
+change the deployed application bytes.
+
 ## 20.5 Release evidence set
 
 The release evidence binds, without rewriting earlier evidence:

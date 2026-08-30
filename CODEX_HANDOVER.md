@@ -38,6 +38,13 @@ continuous owner playback or publication approval. Authenticated read-only
 Devpost state at `2026-08-30T17:57:48Z` still shows project `1406973` as
 `Untitled`, blank and `submission_pre_draft`; nothing was submitted.
 
+Pull request 13 admitted this post-deployment evidence, its deterministic tests
+and the lockstep documentation as repository commit
+`5f2295f5f55dfb4f6c089019c53c32c22c3ae86a`. Exact-main validation run
+`33327860583` passed. The change contained no application or deployed-site byte
+change and did not dispatch Pages; the public product remains bound to
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+
 ## Source and generated bindings
 
 | Binding | SHA-256 or immutable reference |
@@ -106,9 +113,10 @@ provider integration or service-operation layer.
 | Public repository hardening | protected `main`, secret scanning and push protection enabled |
 | Corrected protected-main integration | pull request 12 integrated commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` |
 | Corrected Pages deployment | run `33323152751` deployed that exact main commit; all 20 public files matched Pages artefact `9735478602` byte for byte |
-| Current evidence-branch unit suite | 100 of 100 passed, including post-deployment provenance, negative demonstration-media, VoiceOver and screenshot-sequence gates |
-| Current evidence-branch Chrome suite | 20 of 20 passed after an authorised local-loopback exception |
-| Current evidence-branch Edge suite | 20 of 20 passed after an authorised local-loopback exception |
+| Post-deployment evidence unit suite | 100 of 100 passed, including post-deployment provenance, negative demonstration-media, VoiceOver and screenshot-sequence gates |
+| Post-deployment evidence Chrome suite | 20 of 20 passed after an authorised local-loopback exception |
+| Post-deployment evidence Edge suite | 20 of 20 passed after an authorised local-loopback exception |
+| Evidence integration | pull request 13 merged as `5f2295f5f55dfb4f6c089019c53c32c22c3ae86a`; exact-main validation run `33327860583` passed |
 | Current dependency audit | `npm audit --json` reported zero known vulnerabilities across 162 resolved dependencies |
 | Genuine live interaction capture | five silent page-only clips; exact release, action, duration and SHA-256 receipt; agent privacy/branding review passed |
 | Exact local synthetic narration timing | seven scenes total 142.826 seconds; every cue 1–8.5 seconds; 37.174-second margin below three minutes before encoding |
@@ -129,7 +137,7 @@ provider integration or service-operation layer.
 | Current dependency reinstall and audit | local `npm ci --ignore-scripts --no-audit` passed and `npm audit --json` reported zero vulnerabilities across 162 application dependencies; the integrated CI and Pages definitions use the same install boundary, and Pages installs the Python pins and runs semantic smoke before deployment |
 | Microsoft WebMCP Explorer build | exact commit built twice idempotently in isolated `.tools/webmcp-explorer-build/`; source checkout remained clean and the clean-output allow-list passed; source, lock and unpacked-extension file-manifest SHA-256 values recorded below |
 
-Post-tag evidence-branch closure used these exact checks:
+Post-tag evidence closure used these exact checks:
 
 - `npm run test:unit`: the deterministic build and 59 unit tests passed;
 - `PLAYWRIGHT_PORT=4215 npm run test:browser:prepared`: all 19 Chromium tests
@@ -189,7 +197,7 @@ live-browser evidence is recorded separately in
 `challenge-provenance.json`. Those post-tag records verify the immutable product
 commit; they do not claim to be contained in it.
 
-The current evidence branch also contains the fail-closed demonstration
+The protected repository also contains the fail-closed demonstration
 pipeline, five genuine public-page interaction clips in ignored local output,
 their consolidated receipt, and a clearly labelled supported-host receipt
 visualisation. The visualisation is not host-owned video or a Site tools

@@ -13,6 +13,12 @@ The integrated compatibility and evaluator follow-up is mapped to Must 9,
 `v0.2.0-rc.1` boundary. Planned evaluation E-34 maps to the new Should 12
 public-service cost-boundary measurement task.
 
+Pull request 13 integrated the post-deployment evidence, evidence tests and
+lockstep documentation as repository commit
+`5f2295f5f55dfb4f6c089019c53c32c22c3ae86a`; exact-main validation run
+`33327860583` passed. It did not dispatch Pages or change the deployed product
+bytes.
+
 ## Sequenced 1–10 plan
 
 | Step | Scope | Backlog mapping | Status |
