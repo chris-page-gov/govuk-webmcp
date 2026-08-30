@@ -49,6 +49,8 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Made the weak-image media fixture use an even-sized frame so Ubuntu and
+  macOS `ffmpeg` both exercise the same fail-closed screenshot validation.
 - Installed `ffmpeg` explicitly in validation and Pages jobs so the guarded
   VoiceOver media-integrity tests run in GitHub Actions rather than depending on
   runner image contents.
