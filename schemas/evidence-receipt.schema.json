@@ -24,7 +24,7 @@
       "type": "object", "additionalProperties": false,
       "required": ["recordId", "recordDigest", "bundleDigest"],
       "properties": {
-        "recordId": { "type": "string", "pattern": "^govuk-discovery:" },
+        "recordId": { "type": "string", "maxLength": 128, "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$" },
         "recordDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "bundleDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       }

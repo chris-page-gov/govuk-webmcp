@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:corpus-admission-source:v1",
+  "title": "Corpus admission source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "authoredAt", "collections"],
+  "properties": {
+    "schema": { "const": "govuk-webmcp.corpus-admission-source.v1" },
+    "authoredAt": { "type": "string", "format": "date-time" },
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/collection" }
+    }
+  },
+  "$defs": {
+    "nullableString": { "type": ["string", "null"] },
+    "collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "domain", "repositoryUrl", "source", "producerState", "admissionState", "payloadState", "freshness", "population", "counts", "rights", "semantics", "delivery", "decision", "boundaries"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^corpus:[a-z0-9][a-z0-9-]{2,80}$" },
+        "title": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "domain": { "type": "string", "minLength": 3, "maxLength": 120 },
+        "repositoryUrl": { "type": ["string", "null"], "format": "uri", "pattern": "^https://github.com/chris-page-gov/" },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["refType", "tag", "revision", "snapshotId", "importedSha256"],
+          "properties": {
+            "refType": { "enum": ["locked-import", "commit", "tag", "unversioned-local"] },
+            "tag": { "$ref": "#/$defs/nullableString" },
+            "revision": { "type": ["string", "null"], "pattern": "^[a-f0-9]{40}$" },
+            "snapshotId": { "$ref": "#/$defs/nullableString" },
+            "importedSha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" }
+          }
+        },
+        "producerState": { "enum": ["checkpoint", "candidate", "released", "validated", "unversioned"] },
+        "admissionState": { "enum": ["searchable", "described-only", "conditional", "quarantined", "contract-only"] },
+        "payloadState": { "enum": ["deep-evidence", "lazy-candidate", "descriptor-only", "quarantined"] },
+        "freshness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "observedAt", "staleAfter"],
+          "properties": {
+            "status": { "enum": ["observed", "not-established", "not-applicable"] },
+            "observedAt": { "type": ["string", "null"], "format": "date-time" },
+            "staleAfter": { "type": ["string", "null"], "format": "date-time" }
+          }
+        },
+        "population": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["definition", "denominator", "unit", "completenessClaim"],
+          "properties": {
+            "definition": { "type": "string", "minLength": 10, "maxLength": 500 },
+            "denominator": { "type": ["integer", "null"], "minimum": 0 },
+            "unit": { "type": "string", "minLength": 1, "maxLength": 80 },
+            "completenessClaim": { "type": "string", "minLength": 5, "maxLength": 400 }
+          }
+        },
+        "counts": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["metric", "count"],
+            "properties": {
+              "metric": { "type": "string", "minLength": 1, "maxLength": 80 },
+              "count": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "rights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repositoryLicence", "upstreamPolicy", "redistribution", "perRecordReviewRequired", "accessDefault"],
+          "properties": {
+            "repositoryLicence": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "upstreamPolicy": { "type": "string", "minLength": 5, "maxLength": 500 },
+            "redistribution": { "type": "string", "minLength": 5, "maxLength": 300 },
+            "perRecordReviewRequired": { "type": "boolean" },
+            "accessDefault": { "enum": ["public", "restricted", "authentication-required", "access-not-established", "not-applicable"] }
+          }
+        },
+        "semantics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceOkfCore", "targetOkfCore", "profile", "schemaDigest", "crosswalkStatus"],
+          "properties": {
+            "sourceOkfCore": { "enum": ["0.1", "0.2", null] },
+            "targetOkfCore": { "const": "0.2" },
+            "profile": { "type": "string", "minLength": 3, "maxLength": 160 },
+            "schemaDigest": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+            "crosswalkStatus": { "type": "string", "minLength": 3, "maxLength": 100 }
+          }
+        },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "sameOriginPaths", "lazy", "maximumInitialBytes"],
+          "properties": {
+            "mode": { "enum": ["same-origin-bundle", "descriptor-only", "quarantined"] },
+            "sameOriginPaths": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9/.-]+$" } },
+            "lazy": { "type": "boolean" },
+            "maximumInitialBytes": { "type": "integer", "minimum": 0, "maximum": 1048576 }
+          }
+        },
+        "decision": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowedClaims", "forbiddenClaims", "limitations"],
+          "properties": {
+            "allowedClaims": { "type": "array", "minItems": 1, "maxItems": 8, "items": { "type": "string", "minLength": 5, "maxLength": 500 } },
+            "forbiddenClaims": { "type": "array", "minItems": 1, "maxItems": 8, "items": { "type": "string", "minLength": 5, "maxLength": 500 } },
+            "limitations": { "type": "array", "minItems": 1, "maxItems": 12, "items": { "type": "string", "minLength": 5, "maxLength": 700 } }
+          }
+        },
+        "boundaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["officialEndorsement", "runtimeOfficialApiCalls"],
+          "properties": {
+            "officialEndorsement": { "const": false },
+            "runtimeOfficialApiCalls": { "const": false }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
   "schema": "trusted-govuk-discovery.catalogue.v1",
-  "generatedAt": "2026-08-29T14:55:00Z",
+  "generatedAt": "2026-08-30T00:00:00Z",
   "profile": "trusted-govuk-discovery.profile.v1",
   "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
-  "sourceLocksDigest": "6c9c01c181979f2789f63ce3632993c767318b8b7bf4d0cc02b6060326ae9f89",
+  "sourceLocksDigest": "fc49ba6c0087db2893e7d378decb269e80daa225b4b19aca2b1e8bd4a6a7ea57",
   "records": [
     {
       "id": "govuk-discovery:api-documentation:hmrc",

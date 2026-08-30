@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:evidence-trace-collection:v1",
+  "title": "Evidence Trace collection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "generatedAt", "catalogueBundleDigest", "answerPackSourceDigest", "traces", "collectionDigest"],
+  "properties": {
+    "schema": { "const": "trusted-govuk-discovery.evidence-trace-collection.v1" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "catalogueBundleDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "answerPackSourceDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "traces": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": { "$ref": "urn:govuk-webmcp:schema:evidence-trace:v1" }
+    },
+    "collectionDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

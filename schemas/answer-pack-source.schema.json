@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:answer-pack-source:v1",
+  "title": "Authored answer-pack source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "authoredAt", "packs"],
+  "properties": {
+    "schema": { "const": "trusted-govuk-discovery.answer-pack-source.v1" },
+    "authoredAt": { "type": "string", "format": "date-time" },
+    "packs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/answerPack" }
+    }
+  },
+  "$defs": {
+    "answerId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 96,
+      "pattern": "^answer:[a-z0-9][a-z0-9-]{2,88}$"
+    },
+    "claimId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 96,
+      "pattern": "^claim:[a-z0-9][a-z0-9-]{2,89}$"
+    },
+    "limitationId": {
+      "type": "string",
+      "minLength": 13,
+      "maxLength": 96,
+      "pattern": "^limitation:[a-z0-9][a-z0-9-]{2,84}$"
+    },
+    "answerPack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "question", "answerSummary", "scope", "claims", "limitations"],
+      "properties": {
+        "id": { "$ref": "#/$defs/answerId" },
+        "question": { "type": "string", "minLength": 10, "maxLength": 200 },
+        "answerSummary": { "type": "string", "minLength": 20, "maxLength": 500 },
+        "scope": { "type": "string", "minLength": 20, "maxLength": 500 },
+        "claims": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 6,
+          "items": { "$ref": "#/$defs/claim" }
+        },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": { "$ref": "#/$defs/limitation" }
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "recordId", "evidenceField", "assertionStatus", "transformationNote"],
+      "properties": {
+        "id": { "$ref": "#/$defs/claimId" },
+        "statement": { "type": "string", "minLength": 10, "maxLength": 300 },
+        "recordId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 128,
+          "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$"
+        },
+        "evidenceField": { "enum": ["title", "description"] },
+        "assertionStatus": { "const": "normalised" },
+        "transformationNote": { "type": "string", "minLength": 20, "maxLength": 400 }
+      }
+    },
+    "limitation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "statement", "appliesTo"],
+      "properties": {
+        "id": { "$ref": "#/$defs/limitationId" },
+        "kind": { "enum": ["access", "coverage", "eligibility", "freshness", "rights", "verification"] },
+        "statement": { "type": "string", "minLength": 10, "maxLength": 400 },
+        "appliesTo": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(answer|claim):[a-z0-9][a-z0-9-]{2,89}$"
+          }
+        }
+      }
+    }
+  }
+}

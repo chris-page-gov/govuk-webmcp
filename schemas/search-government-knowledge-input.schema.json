@@ -57,15 +57,6 @@
         "not-applicable"
       ]
     },
-    "assertionStatus": {
-      "type": "string",
-      "enum": [
-        "official-source",
-        "normalised",
-        "inferred",
-        "model-derived"
-      ]
-    },
     "resourceType": {
       "type": "string",
       "enum": [
@@ -77,50 +68,6 @@
         "organisation",
         "guidance"
       ]
-    },
-    "error": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "schema",
-        "ok",
-        "error",
-        "limitations"
-      ],
-      "properties": {
-        "schema": {
-          "const": "trusted-govuk-discovery.error.v1"
-        },
-        "ok": {
-          "const": false
-        },
-        "error": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "code",
-            "message",
-            "details"
-          ],
-          "properties": {
-            "code": {
-              "type": "string"
-            },
-            "message": {
-              "type": "string"
-            },
-            "details": {
-              "type": "object"
-            }
-          }
-        },
-        "limitations": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
     }
   }
 }

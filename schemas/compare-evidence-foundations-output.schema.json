@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:compare-evidence-foundations-output:v1",
+  "title": "compare_evidence_foundations output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "ok", "answerId", "claimIds", "comparedFacets", "rows", "trace", "boundaries"],
+      "properties": {
+        "schema": { "const": "trusted-govuk-discovery.evidence-comparison-result.v1" },
+        "ok": { "const": true },
+        "answerId": { "type": "string", "pattern": "^answer:" },
+        "claimIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^claim:" }
+        },
+        "comparedFacets": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "enum": ["authority", "assertionStatus", "verification", "freshness", "integrity", "access", "rights", "coverage"] }
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["claimId", "statement", "source", "facets", "limitations"],
+            "properties": {
+              "claimId": { "type": "string", "pattern": "^claim:" },
+              "statement": { "type": "string", "minLength": 1, "maxLength": 600 },
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["nodeId", "recordId", "title", "url"],
+                "properties": {
+                  "nodeId": { "type": "string", "pattern": "^source:" },
+                  "recordId": { "type": "string", "maxLength": 128, "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$" },
+                  "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+                  "url": { "type": "string", "format": "uri", "pattern": "^https://" }
+                }
+              },
+              "facets": { "$ref": "urn:govuk-webmcp:schema:evidence-trace:v1#/$defs/facets" },
+              "limitations": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 8,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["nodeId", "statement"],
+                  "properties": {
+                    "nodeId": { "type": "string", "pattern": "^limitation:" },
+                    "statement": { "type": "string", "minLength": 1, "maxLength": 600 }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "trace": { "$ref": "urn:govuk-webmcp:schema:evidence-trace:v1" },
+        "boundaries": { "$ref": "urn:govuk-webmcp:schema:explore-answer-foundations-output:v1#/$defs/boundaries" }
+      }
+    },
+    { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
+  ]
+}

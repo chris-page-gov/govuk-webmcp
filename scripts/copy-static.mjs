@@ -8,3 +8,7 @@ await cp("app/data/catalogue.json", "dist/data/catalogue.json");
 await cp("app/data/catalogue.json.sha256", "dist/data/catalogue.json.sha256");
 await cp("app/data/receipts.json", "dist/data/receipts.json");
 await cp("app/data/receipts.json.sha256", "dist/data/receipts.json.sha256");
+await cp("app/data/evidence-traces.json", "dist/data/evidence-traces.json");
+await cp("app/data/evidence-traces.json.sha256", "dist/data/evidence-traces.json.sha256");
+await cp("app/data/federation.json", "dist/data/federation.json");
+await cp("app/data/federation.json.sha256", "dist/data/federation.json.sha256");

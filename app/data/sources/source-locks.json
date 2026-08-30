@@ -1,6 +1,6 @@
 {
   "schema": "trusted-govuk-discovery.source-locks.v1",
-  "generatedAt": "2026-08-29T14:55:00Z",
+  "generatedAt": "2026-08-30T00:00:00Z",
   "sources": [
     {
       "id": "okf-govuk-content:new-child-69",
@@ -20,6 +20,20 @@
       "importedSha256": "f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794",
       "recordCount": 11,
       "rights": "Original normalisation by Chris Page from cited public official pages; each record retains its own access and licence status."
+    },
+    {
+      "id": "answer-packs:curated-2026-08-30",
+      "importedPath": "app/data/sources/answer-packs.json",
+      "importedSha256": "ea00549f465ef4d7fc65c9e5853ee2b78ab6d9823d25e9268516d7b955d70f1f",
+      "recordCount": 1,
+      "rights": "Original evidence-first question, answer summary, claim selection and limitations by Chris Page; linked source metadata retains its item-level rights boundary."
+    },
+    {
+      "id": "corpus-admissions:reviewed-2026-08-30",
+      "importedPath": "app/data/sources/corpus-admissions.json",
+      "importedSha256": "dc798de2d33fc9434e1dce730bb945c8fd7b6c01466cea02728c9aadf292edd0",
+      "recordCount": 10,
+      "rights": "Original admission analysis by Chris Page over cited public repository evidence; descriptor inclusion grants no right to copy a producer payload."
     }
   ]
 }

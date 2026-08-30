@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:explore-answer-foundations-output:v1",
+  "title": "explore_answer_foundations output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "ok", "selection", "trace", "boundaries"],
+      "properties": {
+        "schema": { "const": "trusted-govuk-discovery.evidence-exploration-result.v1" },
+        "ok": { "const": true },
+        "selection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "answerId", "claimIds"],
+          "properties": {
+            "mode": { "enum": ["overview", "claim"] },
+            "answerId": { "type": "string", "pattern": "^answer:" },
+            "claimIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 6,
+              "uniqueItems": true,
+              "items": { "type": "string", "pattern": "^claim:" }
+            }
+          }
+        },
+        "trace": { "$ref": "urn:govuk-webmcp:schema:evidence-trace:v1" },
+        "boundaries": { "$ref": "#/$defs/boundaries" }
+      }
+    },
+    { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
+  ],
+  "$defs": {
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["presentationEffect", "catalogueMutation", "storageWrite", "providerCall", "externalStateChange", "sourceDerivedContentIsUntrusted", "singleTrustScore"],
+      "properties": {
+        "presentationEffect": { "const": "transient-local-selection" },
+        "catalogueMutation": { "const": false },
+        "storageWrite": { "const": false },
+        "providerCall": { "const": false },
+        "externalStateChange": { "const": false },
+        "sourceDerivedContentIsUntrusted": { "const": true },
+        "singleTrustScore": { "const": false }
+      }
+    }
+  }
+}
