@@ -1,6 +1,7 @@
 # ADR-0003: Citizen-selected agent and independent assurance
 
-- **Status:** accepted for the unreleased host-compatibility follow-up
+- **Status:** accepted; deterministic page-tool execution verified on the
+  corrected public deployment
 - **Date:** 30 August 2026
 
 ## Context
@@ -51,7 +52,8 @@ but the user's chosen host and provider remain separate data-processing and
 cost boundaries.
 
 The submission can claim a testable architectural pattern, not a demonstrated
-public-sector saving, guaranteed privacy or improved accuracy. Native-panel,
-Explorer and fixed-model evidence remain required before broad cross-host or
-agent-selection claims. The compatibility correction must be integrated,
-deployed and recaptured before it becomes public-release evidence.
+public-sector saving, guaranteed privacy or improved accuracy. The compatibility
+correction is integrated and recaptured on the corrected protected-main public
+deployment. Chrome's native WebMCP panel and Chrome DevTools MCP now provide
+separate deterministic execution evidence. Explorer and fixed-model evidence
+remain required before broad cross-host or agent-selection claims.

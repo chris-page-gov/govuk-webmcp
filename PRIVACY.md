@@ -78,6 +78,13 @@ class and model identifier, not its credential, and is checksummed against the
 tested revision. Provider-side logging and retention remain subject to the
 selected provider's privacy terms.
 
+The admitted native-panel screenshots were captured from a disposable,
+unconnected Chrome profile containing only the public project. They were
+visually reviewed before admission and contain no personal tab, account,
+credential, prompt, cookie or request header. The raw DevTools and panel
+receipts, ephemeral debugging target identifiers and temporary profile paths
+remain ignored; only sanitised, checksum-bound observations are retained.
+
 ## Hosting and external links
 
 A static host may process ordinary request data under its own privacy terms.

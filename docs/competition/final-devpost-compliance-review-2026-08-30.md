@@ -1,5 +1,12 @@
 # Final Devpost compliance review — 30 August 2026
 
+> **Superseded snapshot:** this records the position at
+> `2026-08-30T13:00:36Z`. The current decision is the
+> [post-deployment review](post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md),
+> which closes the named-Chrome-host gap and retains the later Devpost and
+> owner-publication blockers. Preserve this file as chronology; do not use it as
+> the current completion sequence.
+
 **Status: final read-only review; engineering evidence substantially complete,
 submission blocked and nothing submitted.** This review records the position at
 `2026-08-30T13:00:36Z`. It does not authorise a Devpost change, public video
@@ -46,7 +53,7 @@ must be refreshed immediately before any authorised submission.
 | Meaningful post-start WebMCP work | **Pass for the documented implementation** | Dated commits and receipts distinguish the research baseline from the five-tool implementation, Evidence Trace, federation, deployment and final evidence work. Judges retain the final materiality decision. |
 | Working public live URL | **Pass, dated observation** | <https://chris-page-gov.github.io/govuk-webmcp/> served the exact released product commit without authentication; all 20 deployed files returned HTTP 200 and matched the Pages artefact. Recheck immediately before submission. |
 | Public source repository and detectable licence | **Pass** | <https://github.com/chris-page-gov/govuk-webmcp> is public and the dated live check detected the MIT licence. |
-| Complete source, assets and instructions | **Pass for the immutable release; integration open** | The released source, data, tests and instructions are public at `v0.2.0-rc.1`. Current final-evidence work must still be integrated through the repository's review and protected-branch checks. Raw local media output is not itself the public source record. |
+| Complete source, assets and instructions | **Pass for the historical release; integration open at this observation** | The released source, data, tests and instructions are public at checksum-bound `v0.2.0-rc.1`. Current final-evidence work must still be integrated through the repository's review and protected-branch checks. Raw local media output is not itself the public source record. |
 | Named WebMCP judging environment | **Blocking** | Five tools were genuinely discovered and called in `Codex In-app Browser`. The challenge names ChatGPT's desktop in-app browser or Chrome 149+ with WebMCP enabled. The retained receipt proves neither named environment and must not be relabelled. |
 | Required text description | **Draft ready; form blocking** | The repository submission draft addresses the WebMCP fit and user experience. The retained Devpost project description and tagline are absent. |
 | Genuine demonstration media | **Local engineering pass** | Five page-interaction clips, a labelled supported-host receipt visualisation and the manual VoiceOver sequence are bound to the exact release. The supported-host scene is not a native host recording or Site tools screenshot. |

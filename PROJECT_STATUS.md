@@ -1,26 +1,30 @@
 # Project status and hard gates
 
-**Status:** the `0.2.0-rc.1` Evidence Trace and bounded-federation release is
-public from product commit
-`9235ee5db4df637bdb2a12e87449e871614afe68`. Pull request 9 passed the protected
-branch boundary and was merged to `main`; exact-main validation run
-`33286750188` and Pages run `33286771963` passed. Competition registration is
-complete. Devpost project `1406973` remains an unpublished pre-submission draft
-with no submission timestamp.
+**Status:** corrected main commit
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is the current public Pages
+deployment from run `33323152751`. Pull request 12 integrated the optional-
+execution-options correction and pinned assurance harness through protected
+`main`. Competition registration is complete. Devpost project `1406973`
+remains `Untitled`, blank and `submission_pre_draft`, with no video URL,
+publication timestamp or submission timestamp at the read-only
+`2026-08-30T17:57:48Z` observation.
 
-An unreleased local follow-up now adds independent-host and evaluator assurance.
-It is working-tree evidence only: it has not been committed, reviewed, deployed
-or included in the public pre-release described below.
+The tagged `v0.2.0-rc.1` release at
+`9235ee5db4df637bdb2a12e87449e871614afe68` and its earlier verification remain
+historical evidence; the tag has not been moved to the corrected deployment.
 
 ## Current release boundary
 
 The public repository is
 [`chris-page-gov/govuk-webmcp`](https://github.com/chris-page-gov/govuk-webmcp).
-`main` is protected. The public pre-release is
+`main` is protected. The retained public pre-release is
 [`v0.2.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1),
-and <https://chris-page-gov.github.io/govuk-webmcp/> serves the exact tagged
-product commit. The deployed `deployment.json` binds that commit to Pages run
-`33286771963`. GitHub secret scanning and push protection are enabled.
+at product commit `9235ee5db4df637bdb2a12e87449e871614afe68`.
+<https://chris-page-gov.github.io/govuk-webmcp/> now serves corrected main
+commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`; its `deployment.json` binds
+that commit to Pages run `33323152751`. All 20 public files matched Pages
+artefact `9735478602` byte for byte. GitHub secret scanning and push protection
+are enabled.
 
 The release contains:
 
@@ -71,8 +75,8 @@ post-tag evidence records these observations separately from the immutable
 product commit.
 
 On 30 August 2026, the supported `Codex In-app Browser` host discovered all
-five tools on that exact public release and returned successful results from all
-five. The final `compare_evidence_foundations` call updated the visible
+five tools on the historical tagged deployment and returned successful results
+from all five. The final `compare_evidence_foundations` call updated the visible
 comparison and its canonical result SHA-256 matched the displayed result digest
 `3baa3281849855b86e929fd5fad8984580066ac4e275063341c1d9102dc903b1`.
 This observation is specific to the named host and time; it does not establish
@@ -103,20 +107,25 @@ en-GB captions, transcript and build receipt are retained. Its synthetic local
 `Daniel` narration is non-silent, with measured input integrated loudness
 -16.11 LUFS and true peak -1.38 dBTP. This is a local review build only: owner
 review of the synthetic voice, privacy, branding and final playback remains
-pending, and no video has been uploaded or submitted.
+pending, and no video has been uploaded or submitted. A later technical review
+completed the full video/audio decode, counted 4,284 video frames and matched
+all 38 embedded caption cues; it retained one non-fatal subtitle metadata
+warning and did not perform audible content-parity or owner publication review.
 
-## Unreleased host-compatibility and evaluator follow-up
+## Corrected main and independent-host assurance
 
-A direct `chrome-devtools-mcp` 1.8.0 run against the public release discovered
-all five tools, but every attempted execution failed because the host called the
-tool callback without an execution-options object and the page dereferenced
-`options.signal`. The page's tools remained callable in the separately observed
-Codex in-app host, so this is a host-interoperability defect rather than a data
-or registration failure.
+A direct `chrome-devtools-mcp` 1.8.0 run against the historical tagged release
+discovered all five tools, but every attempted execution failed because the host
+called the tool callback without an execution-options object and the page
+dereferenced `options.signal`. The page's tools remained callable in the
+separately observed Codex in-app host, so this is a host-interoperability defect
+rather than a data or registration failure.
 
-The local candidate makes execution options and their abort signal optional,
-while preserving cancellation whenever the host supplies a signal. The current
-working tree has passed:
+The corrected implementation makes execution options and their abort signal
+optional while preserving cancellation whenever the host supplies a signal.
+It is integrated and deployed from
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Before integration, the candidate
+passed:
 
 - all four research-pack checks, including JSON Schema validation through the
   version-pinned `jsonschema` 4.26.0 environment. Setup uses binary-only,
@@ -145,26 +154,33 @@ working tree has passed:
   and `c7070199bc0ef28baeee716c437b4603d576b10b4c4b3f7ca98dac9123b0e9e1`.
   The clean-output allow-list passed.
 
-The unreleased CI and Pages workflow definitions are configured to use
+The integrated CI and Pages workflow definitions use
 `npm ci --ignore-scripts --no-audit`. Pages is also configured to install the
 version-pinned Python requirements and run semantic WebMCP smoke before
-deployment. These workflow edits have not yet run in CI or Pages.
+deployment. Those checks ran in the protected integration and Pages path that
+produced run `33323152751`.
 
-The detailed DevTools receipt is stored under ignored `.evals/` because it
-contains full tool outputs and describes a local working tree, not a deployed
-commit. Raw evaluator smoke rows are deleted after semantic validation. The
-ignored smoke receipt retains the six-of-six counts and a digest of the
-validated results, not full outputs. Its child process received an isolated
-`HOME`; no provider credential environment variables were forwarded, although
-it retained
+The public-target Chrome DevTools MCP 1.8.0 capture validated that corrected
+deployment, discovered all five tools and completed all five calls with zero
+console errors. Separately, Chrome's native WebMCP panel recorded all five
+calls as `Completed`; a search with `limit: 21` returned the expected structured
+validation rejection. Both presentation tools updated the visible page; the
+comparison showed 11 facet rows and its displayed digest prefix matched the
+canonical result. These are time-, browser- and host-specific observations,
+not general WebMCP compatibility claims.
+
+Raw evaluator smoke rows are deleted after semantic validation. The ignored
+smoke receipt retains the six-of-six counts and a digest of the validated
+results, not full outputs. Its child process received an isolated `HOME`; no
+provider credential environment variables were forwarded, although it retained
 the operating-system filesystem access of the invoking user. The tracked
 fixtures also include a no-call case and context-minimisation case for later
 model-selection evaluation. The model-backed runner is fail closed until an
 exact provider-prefixed model and explicit presentation approval are supplied.
 Only the `ollama:` route is preflighted without downloading a model. No remote
 provider was called, no model-backed `webmcp-evals` run was performed and the
-Explorer extension was not loaded. The prepared browser runner now fails closed
-on any typed upstream console error or `pageerror`; only an accepted zero count
+Explorer extension was not loaded. The prepared browser runner fails closed on
+any typed upstream console error or `pageerror`; only an accepted zero count
 can enter a receipt, which records `browserConsoleErrorsAccepted: false`.
 
 The hardened DevTools runner sets
@@ -205,8 +221,9 @@ No `gis-ai-go` or OKF source repository has been modified.
 
 Chris Page's recorded assurance resolves personal ownership, resource-use,
 outside-interest and original-code licence questions for this repository.
-Public branch/PR publication, branch protection, the annotated pre-release and
-Pages deployment are complete for `v0.2.0-rc.1`. The following remain gated:
+Public branch/PR publication, branch protection, the historical annotated pre-
+release and corrected Pages deployment are complete. The following remain
+gated:
 
 - do not submit to Devpost without a separate instruction;
 - do not claim WCAG conformance, official endorsement, comprehensive coverage,
@@ -219,19 +236,16 @@ Pages deployment are complete for `v0.2.0-rc.1`. The following remain gated:
 
 ## Next safe task
 
-Review and integrate the optional-execution-options compatibility fix and its
-pinned test harness through the protected pull-request path, then deploy and
-repeat native DevTools plus exact `list_webmcp_tools` and
-`execute_webmcp_tool` capture against that deployed commit. After that, use a
-disposable Microsoft WebMCP Explorer profile: inspect Tools first without a
-credential, prefer an exact local loopback model and Agent Step, then delete the
-profile. Use a revocable low-limit key and no personal context only if a remote
-run is necessary. Run the fixed-model `webmcp-evals` fixture with
-`WEBMCP_EVAL_PRESENTATION_APPROVED=1`; only `ollama:` is preflighted without a
-download. Record whether processing is local or remote. These steps are needed
-before the new host claims enter the demonstration or Devpost text.
+Chris Page reviews the unchanged 142.920-second candidate from start to finish
+with audio and captions, then records the privacy, branding, caption-sync and
+synthetic-voice publication decisions. If it passes, publish that exact digest
+to public YouTube, verify the player signed out, and complete the prepared
+Devpost fields and owner attestations. Submission remains a separate action
+requiring explicit authority.
 
-The existing owner privacy, branding, synthetic-voice and complete-playback
-review remains open. Public video upload and completion or submission of the
-Devpost pre-draft remain separate actions requiring explicit owner instruction.
-A release-platform SBOM or signed attestation remains unavailable.
+Microsoft WebMCP Explorer, fixed-model selection evaluation and a
+release-platform SBOM or signed attestation remain useful optional assurance
+work. They are not current official submission prerequisites and should not
+delay the public-video and form-completion sequence. If undertaken, use a
+disposable Explorer profile, prefer a local loopback model, record the exact
+provider boundary and retain no credential or personal context.

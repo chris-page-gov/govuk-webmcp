@@ -160,13 +160,13 @@ structured tool result and the visible deterministic result aligned.
 
 The execution-options argument is optional at the page-host boundary. Some
 hosts, including the pinned Chrome DevTools MCP and `webmcp-evals` paths, invoke
-a callback as `execute(input)` without a second object. The working candidate
+a callback as `execute(input)` without a second object. The corrected product
 therefore forwards an `AbortSignal` only when the host supplies one; the
 ordinary cancellation path is unchanged. A browser regression invokes all five
 tools with the execution-options argument omitted; the separate ignored Chrome
 DevTools MCP receipt provides independent real-host evidence for all five. The
-public `v0.2.0-rc.1` deployment predates this fix, so the working-tree result
-must not be presented as public-release evidence.
+unchanged, checksum-bound `v0.2.0-rc.1` evidence predates this fix. The later protected-main
+deployment includes it and has separate public-host receipts.
 
 The current `ModelContextTool` shape uses `name`, `title`, `description`,
 `inputSchema`, annotations and an execute callback. The repository publishes
@@ -212,22 +212,30 @@ evidence selections, comparisons and missing exact identifiers. A checksum,
 digest, graph, URL, source-lock or admission failure blocks registration rather
 than manufacturing an unverified substitute.
 
-Exact-main validation run `33286750188` passed 58 unit checks and 19 Chromium
-browser checks for product commit
-`9235ee5db4df637bdb2a12e87449e871614afe68`. Pages run `33286771963`
-rebuilt and deployed that same commit at
-<https://chris-page-gov.github.io/govuk-webmcp/>; all 20 live files matched the
-Pages artefact byte for byte. The same source tree passed 19 installed Microsoft
-Edge checks before publication. The browser suites include instrumented
+The unchanged, checksum-bound `v0.2.0-rc.1` evidence remains bound to commit
+`9235ee5db4df637bdb2a12e87449e871614afe68`. The corrected public deployment is
+protected-main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`: exact-main
+validation run `33323068982` and Pages run `33323152751` passed, and all 20 live
+files matched the downloaded Pages artefact byte for byte. The release tree
+also passed the installed Microsoft Edge suite before integration. The browser
+suites include instrumented
 five-tool registration, parity, cancellation, rollback, integrity failure,
 bounded hash routes, inert source text, keyboard, reflow, forced-colour,
 reduced-motion and axe smoke checks. On 30 August 2026, `Codex In-app Browser`
-discovered and successfully called all five tools on the exact public release;
-the final comparison's canonical and displayed result digests matched. This is
-a time- and host-specific observation, not a general support claim. Manual
+discovered and successfully called all five tools on the historical
+`v0.2.0-rc.1` public deployment; the final comparison's canonical and displayed
+result digests matched. This is a time-, revision- and host-specific
+observation, not a general support claim. Manual
 Safari and VoiceOver observation is separately recorded as completed with
 limitations; it does not establish WCAG conformance or support in another
-WebMCP host.
+WebMCP host. On the corrected public deployment, Chrome 152's native Application
+→ WebMCP panel separately listed all five tools, recorded five completed valid
+calls and showed the structured `invalid_search_request` result for `limit: 21`.
+The exploration and comparison calls updated the visible deterministic state;
+the comparison rendered 11 facet rows and the displayed result digest matched
+the canonical digest prefix. Chrome DevTools MCP 1.8.0 also completed all five
+public-page calls and recorded zero console errors. Neither path selected or
+contacted a model.
 
 ## 8.7 Pinned local interoperability harnesses
 
@@ -248,11 +256,10 @@ installs binary distributions without dependency resolution and runs
 `jsonschema` version and runs the preserved research-pack verifier. The exact
 versions do not include distribution hashes, and a reused `.venv` can retain
 unrelated packages, so this is not a clean or fully reproducible Python supply-
-chain environment. The unreleased CI and
-Pages definitions install Node dependencies with
+chain environment. The CI and Pages definitions install Node dependencies with
 `npm ci --ignore-scripts --no-audit`; Pages also installs the version-pinned
 Python requirements and runs semantic WebMCP smoke before deployment. These
-workflow edits have not yet run.
+paths passed for the protected integration and corrected Pages deployment.
 
 `webmcp:devtools:capture` uses the exactly pinned `chrome-devtools-mcp` 1.8.0
 with Chrome 150 or later. It builds and serves the candidate on loopback, starts
@@ -278,8 +285,11 @@ The runner also has a separate post-deployment mode. Set
 It refuses any other URL, validates the exact `deployment.json` schema,
 repository, commit and Pages run, records the metadata bytes' SHA-256, skips the
 loopback server and writes the full result to ignored
-`.evals/chrome-devtools-mcp-public.json`. This prepared mode is not public-host
-evidence until it is run after deployment and its private receipt is reviewed.
+`.evals/chrome-devtools-mcp-public.json`. That post-deployment mode ran against
+commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and Pages run
+`33323152751`. The reviewed receipt records five discovered tools, five
+completed calls, a closed-input rejection and zero console errors; the complete
+raw response remains ignored and private.
 
 `webmcp:eval:smoke` uses the exactly pinned `webmcp-evals` 0.0.4 and
 `evals/webmcp-smoke.json`. Three synthetic cases make six concrete calls that

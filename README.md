@@ -3,11 +3,12 @@
 Public source repository for **Trusted government knowledge discovery**, an
 independent experimental prototype.
 
-The `v0.2.0-rc.1` product release is available at
-<https://chris-page-gov.github.io/govuk-webmcp/>. It was integrated through
-[pull request 9](https://github.com/chris-page-gov/govuk-webmcp/pull/9), is
-bound to product commit `9235ee5db4df637bdb2a12e87449e871614afe68`, and is
-retained as a [public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1).
+<https://chris-page-gov.github.io/govuk-webmcp/> serves corrected main commit
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` from Pages run `33323152751`.
+The earlier product commit `9235ee5db4df637bdb2a12e87449e871614afe68`
+remains unchanged as the
+[`v0.2.0-rc.1` public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
+and historical evidence boundary.
 
 ## Current implementation
 
@@ -26,11 +27,13 @@ The current working implementation is a static TypeScript application with:
 
 This is not an official GOV.UK or UK government service. It is not a durable MCP
 gateway, a production service or a comprehensive index of government
-information. The published release passed exact-main validation in run
-`33286750188` and was deployed from the same product commit in Pages run
-`33286771963`. Competition registration is complete. The only Devpost project,
-`1406973`, remains an unpublished pre-submission draft and no submission has
-been made.
+information. Pull request 12 integrated the optional-execution-options
+correction and assurance harness through protected `main`; Pages run
+`33323152751` deployed that exact corrected commit. Competition registration is
+complete. The only Devpost project, `1406973`, remains an unpublished pre-
+submission draft: the read-only `2026-08-30T17:57:48Z` observation still shows
+it as `Untitled`, blank and `submission_pre_draft`. No submission has been
+made.
 
 ## Start here
 
@@ -69,10 +72,11 @@ been made.
    npm run webmcp:eval:smoke
    ```
 
-   The unreleased CI and Pages workflow definitions also use
+   The integrated CI and Pages workflow definitions also use
    `npm ci --ignore-scripts --no-audit`; Pages is configured to install the
    pinned Python requirements and run semantic WebMCP smoke before deployment.
-   These workflow edits have not yet run.
+   Those definitions ran in the protected integration and corrected Pages
+   deployment path.
 
 7. Start the verified build for manual browser use:
 
@@ -135,9 +139,9 @@ that page context. They do not provide an independently callable, durable MCP
 gateway, provider authentication, persistent sessions or durable call
 receipts. Instrumented browser tests cover registration and calls. On 30 August
 2026, `Codex In-app Browser` also discovered and successfully called all five
-tools against the exact public release; the final comparison's canonical and
-displayed result digests matched. This is evidence for that host and time only,
-not a general browser-support claim.
+tools against the historical tagged deployment; the final comparison's
+canonical and displayed result digests matched. This is evidence for that host
+and time only, not a general browser-support claim.
 
 ## Local WebMCP interoperability checks
 
@@ -178,8 +182,13 @@ npm run webmcp:devtools:capture
 Only that exact public URL is accepted. The runner validates the deployment
 schema, repository, commit and Pages run before capture, binds the raw metadata
 digest into `.evals/chrome-devtools-mcp-public.json`, and does not start the
-loopback server. The ignored receipt still requires human review before any
-part is admitted to public evidence.
+loopback server. Against corrected deployed main, it discovered and completed
+all five tools with zero console errors. Chrome's native WebMCP panel separately
+recorded five valid calls as `Completed`; `limit: 21` returned the expected
+structured rejection. Both presentation tools updated the visible page; the
+comparison showed 11 facet rows and its displayed digest prefix matched the
+canonical result. These bounded observations do not establish general browser
+or host support.
 
 `webmcp:eval:smoke` uses `webmcp-evals` 0.0.4, the concrete calls in
 `evals/webmcp-smoke.json`, installed stable Chrome and a same-origin loopback
@@ -252,11 +261,19 @@ context. The setup command itself does not load the extension, alter browser
 flags or configure a provider, and no Explorer browser execution or model
 selection is claimed here.
 
-The current working-tree candidate also accepts hosts that invoke a tool as
+The corrected public implementation also accepts hosts that invoke a tool as
 `execute(input)` without a second execution-options object, while still
-forwarding cancellation when a host supplies an `AbortSignal`. The public
-`v0.2.0-rc.1` deployment predates that compatibility fix. A local capture from
-this candidate is therefore not evidence that the public deployment is fixed.
+forwarding cancellation when a host supplies an `AbortSignal`. Historical
+`v0.2.0-rc.1` bytes predate that compatibility fix; corrected main is deployed
+separately from `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+
+Microsoft WebMCP Explorer browser execution and a fixed-model backed evaluation
+remain optional assurance work. The existing 142.920-second local review video
+is unchanged and passed technical decode, frame-count and caption-parity checks,
+but still requires owner playback, privacy, branding and synthetic-voice
+approval before public upload. Final Devpost completion and submission remain
+open. A release-platform SBOM or attestation is optional additional assurance,
+not a current official submission prerequisite.
 
 ## Privacy and operating boundary
 
@@ -286,6 +303,12 @@ access or permission to reuse linked material.
   exact deployment metadata, live-byte verification and explicit remaining
   gates. Start with the
   [30 August 2026 public release verification](docs/competition/evidence/public-release-verification-2026-08-30.md).
+  The later corrected-main evidence comprises the
+  [20-file public-byte verification](docs/competition/evidence/live-artifact-verification-2026-08-30-edd4ce6.json),
+  [public Chrome DevTools MCP receipt](docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json),
+  [native Chrome WebMCP-panel receipt](docs/competition/evidence/native-devtools-webmcp-2026-08-30-edd4ce6.json)
+  and
+  [post-deployment compliance review](docs/competition/post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md).
   The later
   [supported-host capture](docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json)
   records five successful calls in `Codex In-app Browser`.
@@ -302,10 +325,16 @@ access or permission to reuse linked material.
   claim. The
   [local video build receipt](docs/competition/evidence/demo-video-build-2026-08-30.json)
   binds a captioned 142.920-second review cut, transcript and source evidence;
-  it is not proof of public YouTube publication or a named judging host. The
+  the separate
+  [technical review](docs/competition/evidence/demo-video-technical-review-2026-08-30.json)
+  records the full decode, 4,284-frame and 38-caption-cue checks without claiming
+  owner approval. Neither is proof of public YouTube publication. The
   [final read-only compliance review](docs/competition/final-devpost-compliance-review-2026-08-30.md)
-  records the remaining owner, named-host, public-video and submission gates.
+  is the retained checkpoint before the corrected-main Chrome observations;
+  owner review, public-video and submission gates remain open.
   A separate
   [read-only Devpost status record](docs/competition/evidence/devpost-read-only-status-2026-08-30.json)
-  distinguishes completed registration from the unsubmitted project draft.
+  distinguishes completed registration from the unsubmitted project draft; the
+  [refreshed form-state receipt](docs/competition/evidence/devpost-read-only-status-2026-08-30-edd4ce6.json)
+  records the later blank `submission_pre_draft` state without changing it.
   Each record applies only to the revision and observation it names.

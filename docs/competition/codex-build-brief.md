@@ -95,8 +95,9 @@ WebMCP and the bounded evidence estate.
   deployment metadata and live artefact bytes matched it.
 - The exact release commit is tagged `v0.2.0-rc.1`.
 - On 30 August 2026, `Codex In-app Browser` discovered and successfully called
-  all five tools on the exact public release. The final comparison's canonical
-  and displayed result digests matched. No other host support is inferred.
+  all five tools on the historical `v0.2.0-rc.1` public deployment. The final
+  comparison's canonical and displayed result digests matched. No other host or
+  revision support is inferred.
 - On the same date, a manual Safari 26.5.2 and VoiceOver 10 journey completed
   without WebMCP. Its separate evidence record retains two limitations: a
   heading-rotor selection was not retained and the automatic spoken wording of
@@ -105,19 +106,30 @@ WebMCP and the bounded evidence estate.
 - The guarded pipeline produced a 142.920-second local review MP4, separate
   en-GB captions, a transcript and a machine build receipt. It has not been
   approved for publication, uploaded or submitted.
+- PR #12 integrated the execution-options correction and assurance stack at
+  protected-main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+  Exact-main run `33323068982` and Pages run `33323152751` passed; all 20 live
+  files matched Pages artefact `9735478602` byte for byte.
+- In disposable Chrome 152.0.7977.64, the corrected public page's native WebMCP
+  panel listed the exact five tools, completed all five valid calls and showed
+  a structured `invalid_search_request` result for `limit: 21`. Chrome DevTools
+  MCP 1.8.0 independently completed all five public calls, rejected synthetic
+  `personalContext` and recorded zero console errors. Neither path used a model.
 
-## Unreleased validation follow-up
+## Host-compatibility and independent-assurance follow-up
 
 - The research verifier now uses a version-pinned `jsonschema` 4.26.0
   environment and passes all four checks locally. Setup installs binary
   distributions without dependency resolution and runs `pip check`; the pins
   have no distribution hashes and a reused `.venv` can retain unrelated
   packages, so the environment is not clean or fully reproducible.
-- Chrome DevTools MCP 1.8.0 discovered all five tools on the public release but
-  exposed a callback defect when it omitted the execution-options object.
-- The working-tree correction accepts omitted options, preserves cancellation
-  when a signal is supplied, and passes 95 unit, 20 Chrome and 20 Edge tests.
-- The corrected local build also passes six model-free `webmcp-evals` 0.0.4
+- An earlier Chrome DevTools MCP 1.8.0 run discovered all five tools on
+  `v0.2.0-rc.1` but exposed a callback defect when it omitted the
+  execution-options object.
+- The integrated correction accepts omitted options, preserves cancellation
+  when a signal is supplied, and passed 95 unit, 20 Chrome and 20 Edge tests on
+  the protected change.
+- The corrected build also passes six model-free `webmcp-evals` 0.0.4
   calls, each with `ok: true` and the expected result-schema envelope, and all
   five Chrome DevTools MCP calls in isolated Chrome 152.0.7977.64. The final
   hardened DevTools run at 15:53 BST checked closed schemas and annotations,
@@ -128,12 +140,11 @@ WebMCP and the bounded evidence estate.
 - The prepared model-backed browser runner rejects typed upstream console errors
   and `pageerror` events; an accepted receipt records a zero count and
   `browserConsoleErrorsAccepted: false`. No model-backed run has occurred.
-- The unreleased CI and Pages definitions are configured to install Node
+- The CI and Pages definitions install Node
   dependencies with `--ignore-scripts`; Pages also installs the version-pinned
   Python requirements and runs semantic WebMCP smoke before deployment. These
-  workflow edits have not yet run.
-- These results are not part of the published release. Microsoft WebMCP
-  Explorer 0.1.0 was built twice idempotently in isolated
+  definitions ran successfully for the protected integration and deployment.
+- Microsoft WebMCP Explorer 0.1.0 was built twice idempotently in isolated
   `.tools/webmcp-explorer-build/` from its exact pinned commit, leaving the
   source checkout clean and passing the clean-output allow-list. The source-
   tree, package-lock and unpacked-extension file-manifest SHA-256 values (the
@@ -148,20 +159,24 @@ WebMCP and the bounded evidence estate.
 
 ## Published definition of done
 
-The sequenced product build, protected-branch integration and public deployment
-are complete. Preserve PR #9, exact-main run `33286750188`, Pages run
-`33286771963`, release commit
-`9235ee5db4df637bdb2a12e87449e871614afe68` as the immutable product
-identity. Preserve exact annotated tag object
-`0a41f7a6f0123c3aba9742bbf6167b8a8ceb2b82` as the recorded unsigned release
-pointer; GitHub does not enforce immutable releases or signed tags here.
+The sequenced product build, protected-branch integration and corrected public
+deployment are complete. Preserve PR #12, exact-main run `33323068982`, Pages
+run `33323152751` and corrected product commit
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` as the current deployment
+identity. Preserve the earlier `v0.2.0-rc.1` chronology and exact annotated tag
+object `0a41f7a6f0123c3aba9742bbf6167b8a8ceb2b82` as the recorded unsigned
+release pointer; GitHub does not enforce immutable releases or signed tags here.
 
-## Open evidence and submission gates
+## Open submission gates
 
-- Produce a release-platform SBOM or signed release attestation; the existing
-  dated SBOM remains a local macOS ARM64 dependency view.
 - Complete Chris Page's synthetic-voice publication, privacy, branding,
   caption, transcript and full audible playback review of the sub-three-minute
   local demonstration; publish only after that review and separate authority.
 - Complete the compliance checklist and obtain separate approval before
   completing or submitting the existing Devpost pre-draft.
+
+## Optional assurance
+
+- Produce a release-platform SBOM or signed release attestation; the existing
+  dated SBOM remains a local macOS ARM64 dependency view. This is not a current
+  official submission prerequisite.

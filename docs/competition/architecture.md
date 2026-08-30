@@ -130,6 +130,14 @@ Chrome DevTools MCP tests an independent automation path; model-free
 `webmcp-evals` smoke tests check deterministic browser execution; and a
 separately identified model-backed run can test tool selection.
 
+For the corrected public deployment, the first and third layers are now
+observed separately: Chrome 152's native WebMCP panel completed all five valid
+calls and displayed a structured invalid-input result, while Chrome DevTools
+MCP 1.8.0 completed the same five-tool public journey with zero console errors.
+Both are deterministic host-execution evidence. Microsoft Explorer and a fixed
+model-selection run remain deliberately open rather than being inferred from
+those results.
+
 These harnesses operate only against the public synthetic fixture in an
 isolated browser profile with no unrelated tabs, saved credentials or personal
 extensions. Exact tool and harness versions, browser build, page revision and
