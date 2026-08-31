@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:federated-public-record-summary:v1",
+  "title": "Public federated source-snapshot record summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recordId", "evidenceTier", "collectionId", "collectionTitle", "sourceNativeId", "sourceNativeIdSha256",
+    "title", "description", "resourceType", "publisher", "accessStatus", "accessNote", "licenceStatus",
+    "lastObserved", "assertionStatuses", "snapshot", "revision", "deploymentId", "integrityBasis", "linkRole",
+    "recordDigest", "limitations", "match"
+  ],
+  "properties": {
+    "recordId": {
+      "type": "string",
+      "maxLength": 160,
+      "pattern": "^govuk-discovery:federated:(?:uk-living|ons|government-apis|land-registry):(0|[1-9][0-9]{0,5})$"
+    },
+    "evidenceTier": { "const": "federated-source-snapshot" },
+    "collectionId": { "$ref": "#/$defs/collectionId" },
+    "collectionTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "sourceNativeId": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "sourceNativeIdSha256": { "$ref": "#/$defs/sha256" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 1200 },
+    "resourceType": { "$ref": "#/$defs/resourceType" },
+    "publisher": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "accessStatus": { "$ref": "#/$defs/accessStatus" },
+    "accessNote": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "licenceStatus": { "enum": ["confirmed", "missing", "conflicting", "not-applicable"] },
+    "licenceTitle": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "lastObserved": { "type": "string", "format": "date-time" },
+    "assertionStatuses": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/assertionStatus" }
+    },
+    "canonicalHumanUrl": { "$ref": "#/$defs/httpsUrl" },
+    "documentationUrl": { "$ref": "#/$defs/httpsUrl" },
+    "snapshot": {
+      "oneOf": [
+        { "type": "string", "minLength": 1, "maxLength": 200 },
+        { "type": "null" }
+      ]
+    },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "deploymentId": { "type": "string", "minLength": 3, "maxLength": 160 },
+    "integrityBasis": { "const": "snapshot-file-integrity" },
+    "linkRole": { "$ref": "#/$defs/linkRole" },
+    "recordDigest": { "$ref": "#/$defs/sha256" },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 24,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+    },
+    "match": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["localRank", "score", "matchedFields", "explanation"],
+      "properties": {
+        "localRank": { "type": "integer", "minimum": 1, "maximum": 58652 },
+        "score": { "type": "integer", "minimum": 1, "maximum": 12000 },
+        "matchedFields": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "enum": ["title", "description", "publisher", "topics", "resourceType", "sourceNativeId"] }
+        },
+        "explanation": { "const": "Source-local lexical relevance; this is not a trust score." }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "type": "object", "properties": { "linkRole": { "const": "no-direct-authority-link" } }, "required": ["linkRole"] },
+      "then": {
+        "type": "object",
+        "not": { "type": "object", "properties": { "canonicalHumanUrl": true }, "required": ["canonicalHumanUrl"] }
+      },
+      "else": { "type": "object", "properties": { "canonicalHumanUrl": true }, "required": ["canonicalHumanUrl"] }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "httpsUrl": { "type": "string", "format": "uri", "pattern": "^https://[^/@:]+(?:/|$)" },
+    "collectionId": { "enum": ["uk-living", "ons", "government-apis", "land-registry"] },
+    "resourceType": { "enum": ["govuk-content", "dataset", "api", "api-documentation", "catalogue-record", "organisation", "guidance"] },
+    "accessStatus": { "enum": ["public", "restricted", "authentication-required", "access-not-established", "not-applicable"] },
+    "assertionStatus": { "enum": ["producer-declared", "normalised", "inferred", "model-derived", "unclassified"] },
+    "linkRole": { "enum": ["producer-declared-source", "producer-record", "no-direct-authority-link"] }
+  }
+}

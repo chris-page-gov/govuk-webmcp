@@ -11,6 +11,7 @@ const validatedSources = await validateSourceLocks();
 for (const [label, sourceId, schemaPath] of [
   ["answer-pack source", SOURCE_LOCK_IDS.ANSWER_PACKS, "schemas/answer-pack-source.schema.json"],
   ["corpus-admission source", SOURCE_LOCK_IDS.CORPUS_ADMISSIONS, "schemas/corpus-admission-source.schema.json"],
+  ["OKF federation source lock", SOURCE_LOCK_IDS.OKF_FEDERATION, "schemas/okf-federation-lock.schema.json"],
 ]) {
   const validate = ajv.compile(await readJson(schemaPath));
   const source = validatedSources.sourcesById.get(sourceId).value;

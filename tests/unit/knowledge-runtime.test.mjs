@@ -5,7 +5,12 @@ import test from "node:test";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 
-import { createKnowledgeDiscoveryRuntime, TOOL_INPUT_SCHEMAS } from "../../dist/src/webmcp-tools.js";
+import {
+  createKnowledgeDiscoveryRuntime,
+  readBoundedResponseBytes,
+  TOOL_DESCRIPTIONS,
+  TOOL_INPUT_SCHEMAS,
+} from "../../dist/src/webmcp-tools.js";
 import { canonicalJson } from "../../dist/src/integrity.js";
 
 const read = (path) => readFile(new URL(`../../app/data/${path}`, import.meta.url), "utf8");
@@ -38,6 +43,37 @@ function rebindCatalogue(catalogue) {
       `trusted-govuk-discovery:evidence-receipt:sha256:${record.provenance.recordDigest}`;
   });
 }
+
+test("same-origin response reads enforce declared and streamed byte limits", async () => {
+  const signal = new AbortController().signal;
+  const accepted = await readBoundedResponseBytes(
+    new Response(new Uint8Array([1, 2, 3, 4]), { headers: { "content-length": "4" } }),
+    signal,
+    4,
+  );
+  assert.deepEqual([...accepted], [1, 2, 3, 4]);
+
+  await assert.rejects(
+    readBoundedResponseBytes(
+      new Response(new Uint8Array([1]), { headers: { "content-length": "5" } }),
+      signal,
+      4,
+    ),
+    /fixed byte budget/u,
+  );
+
+  const streamed = new ReadableStream({
+    start(controller) {
+      controller.enqueue(new Uint8Array([1, 2, 3]));
+      controller.enqueue(new Uint8Array([4, 5, 6]));
+      controller.close();
+    },
+  });
+  await assert.rejects(
+    readBoundedResponseBytes(new Response(streamed), signal, 5),
+    /fixed byte budget/u,
+  );
+});
 
 function rebindReceipt(receipt) {
   const digestInput = structuredClone(receipt);
@@ -118,6 +154,23 @@ test("all five registered input contracts stay in lockstep with the published sc
     delete published.title;
     assert.deepEqual(TOOL_INPUT_SCHEMAS[name], published, `${name} drifted from ${filename}`);
   }
+});
+
+test("search schema and tool descriptions teach exact machine identifiers without widening contracts", () => {
+  const search = TOOL_INPUT_SCHEMAS.search_government_knowledge;
+  assert.match(search.description, /personal context outside/u);
+  for (const property of ["resourceTypes", "publishers", "accessStatuses", "collections"]) {
+    assert.match(search.properties[property].description, /omit/iu, `${property} must explain omission`);
+  }
+  for (const collection of ["deep-evidence", "uk-living", "ons", "government-apis", "land-registry"]) {
+    assert.match(search.properties.collections.description, new RegExp(`\\b${collection}\\b`, "u"));
+    assert.match(TOOL_DESCRIPTIONS.search_government_knowledge, new RegExp(`\\b${collection}\\b`, "u"));
+  }
+  assert.match(TOOL_DESCRIPTIONS.get_resource_record, /canonical govuk-discovery: record ID exactly/u);
+  assert.match(TOOL_DESCRIPTIONS.show_provenance, /canonical govuk-discovery: record ID exactly/u);
+  assert.match(TOOL_DESCRIPTIONS.explore_answer_foundations, /canonical answer:.*claim: IDs exactly/u);
+  assert.match(TOOL_DESCRIPTIONS.compare_evidence_foundations, /canonical answer:.*claim: IDs exactly/u);
+  assert.ok(Object.values(TOOL_DESCRIPTIONS).every((description) => /not (?:a )?display label|rather than.*display labels/u.test(description)));
 });
 
 test("search is deterministic and supports closed filters", async () => {
@@ -338,20 +391,51 @@ test("fails closed when self-digested receipt metadata is substituted", async ()
   }
 });
 
-test("all three tool result families validate against the published output contracts", async () => {
+test("all three tool result families retain reviewed v1 and federated v2/v1 contract branches", async () => {
   const schemaNames = [
     "search-government-knowledge-output.schema.json",
     "get-resource-record-output.schema.json",
     "show-provenance-output.schema.json",
   ];
   const loadSchema = async (name) => JSON.parse(await readFile(new URL(`../../schemas/${name}`, import.meta.url), "utf8"));
+  const expectedBranches = [
+    [
+      "trusted-govuk-discovery.search-result.v1",
+      "urn:govuk-webmcp:schema:combined-search-result:v2",
+      "urn:govuk-webmcp:schema:error-result:v1",
+    ],
+    [
+      "trusted-govuk-discovery.resource-record-result.v1",
+      "urn:govuk-webmcp:schema:federated-resource-record-result:v1",
+      "urn:govuk-webmcp:schema:error-result:v1",
+    ],
+    [
+      "trusted-govuk-discovery.provenance-result.v1",
+      "urn:govuk-webmcp:schema:federated-provenance-result:v1",
+      "urn:govuk-webmcp:schema:error-result:v1",
+    ],
+  ];
+  const outputSchemas = await Promise.all(schemaNames.map(loadSchema));
+  outputSchemas.forEach((schema, index) => {
+    assert.deepEqual(
+      schema.oneOf.map((branch) => branch.properties?.schema?.const ?? branch.$ref),
+      expectedBranches[index],
+      `${schemaNames[index]} exposes an unexpected success or error version`,
+    );
+  });
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   addFormats(ajv);
   ajv.addSchema(await loadSchema("profile-record.schema.json"));
   ajv.addSchema(await loadSchema("evidence-receipt.schema.json"));
   ajv.addSchema(await loadSchema("error-result.schema.json"));
   ajv.addSchema(await loadSchema("public-record-summary.schema.json"));
-  const validators = await Promise.all(schemaNames.map(async (name) => ajv.compile(await loadSchema(name))));
+  ajv.addSchema(await loadSchema("federated-record-shard.schema.json"));
+  ajv.addSchema(await loadSchema("combined-reviewed-record-summary.schema.json"));
+  ajv.addSchema(await loadSchema("federated-public-record-summary.schema.json"));
+  ajv.addSchema(await loadSchema("combined-search-result.schema.json"));
+  ajv.addSchema(await loadSchema("federated-resource-record-result.schema.json"));
+  ajv.addSchema(await loadSchema("federated-provenance-result.schema.json"));
+  const validators = outputSchemas.map((schema) => ajv.compile(schema));
   const discovery = await runtime();
   const results = [
     await discovery.search({ query: "flood API" }),

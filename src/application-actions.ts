@@ -24,9 +24,9 @@ export interface ActionOptions {
 }
 
 interface PureKnowledgeRuntime {
-  search(input: unknown): Promise<JsonObject>;
-  getRecord(input: unknown): Promise<JsonObject>;
-  showProvenance(input: unknown): Promise<JsonObject>;
+  search(input: unknown, options?: { readonly signal?: AbortSignal }): Promise<JsonObject>;
+  getRecord(input: unknown, options?: { readonly signal?: AbortSignal }): Promise<JsonObject>;
+  showProvenance(input: unknown, options?: { readonly signal?: AbortSignal }): Promise<JsonObject>;
   evidence: EvidenceRuntime;
 }
 
@@ -136,15 +136,16 @@ export function createKnowledgeActionController(
       if (exceedsRootInputBudget(input)) {
         result = inputBudgetError();
       } else {
+        const runtimeOptions = options.signal ? { signal: options.signal } : {};
         switch (action) {
           case "search_government_knowledge":
-            result = await runtime.search(input);
+            result = await runtime.search(input, runtimeOptions);
             break;
           case "get_resource_record":
-            result = await runtime.getRecord(input);
+            result = await runtime.getRecord(input, runtimeOptions);
             break;
           case "show_provenance":
-            result = await runtime.showProvenance(input);
+            result = await runtime.showProvenance(input, runtimeOptions);
             break;
           case "explore_answer_foundations":
             result = await runtime.evidence.explore(input);

@@ -2,6 +2,64 @@
 
 Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
+## `v0.3.0-rc.1` federated candidate compliance gate
+
+Existing confirmations below preserve historical observations for the earlier
+80-record release. They do not establish compliance of the federated candidate.
+Complete this section against one exact public commit before using the candidate
+in a submission. The last complete pre-remediation checkpoint passed 144 of 144
+unit tests and 29 of 29 installed-Microsoft-Edge acceptance tests. Seven initial Low
+security findings were remediated afterwards. A sealed scan suppressed those
+seven and found an eighth High-confidence Low URL-boundary bypass, which was
+fixed post-snapshot. The current research, build/data, lexical-quality, Chrome,
+Microsoft Edge and authorised model-free smoke gates pass where recorded; the
+immutable post-fix security rescan remains open, as do the
+deployment, host and media gates below.
+
+- [x] **Re-verified locally after remediation:** the current full unit command
+  passed 173 of 173 in `17128.154916 ms`; Chrome and installed Microsoft Edge
+  each passed 29 of 29 on the current tree.
+- [x] **Current partial rerun recorded:** research passed 4 of 4, production
+  build/data validation passed, the frozen lexical gate reported mean nDCG@10
+  `0.984698009`, Recall@20 `1`, cold/warm parity and legislation absent or
+  rejected, and installed Chrome and Microsoft Edge each passed 29 of 29. The
+  full unit result is recorded above.
+- [ ] **Re-scan the exact tree:** all eight Low findings are verified
+  fixed against one immutable candidate; retain their IDs, dispositions,
+  commands and failures. Sealed scan
+  `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven and found
+  `csf_a2d9e030fda789ecd1cb0e41`, but has mechanically partial and stale-pending
+  coverage and predates the eighth fix.
+- [ ] **Verify in CI:** protected-main checks pass for the exact candidate,
+  including deterministic source import and generation, semantic and checksum
+  failure cases, schemas, tests, the frozen nDCG@10/Recall@20 quality gate and
+  publication boundaries.
+- [ ] **Verify on Pages:** the exact candidate commit, five-tool contracts, 80
+  reviewed records, 58,655 locked raw source rows, 3 quarantined rows and 58,652
+  searchable federated records are served with matching hashes; there is no
+  standalone legislation collection or request and no `legislation.gov.uk`
+  result link.
+- [ ] **Verify in a current supported host:** list and complete all five WebMCP
+  calls on the deployed candidate, record exact host details, and do not claim
+  model selection unless separately observed.
+- [ ] **Verify parity and privacy boundary:** the fixed human and tool journeys
+  return the same canonical fields; no tool accepts a personal profile or
+  `personalContext`; the federated tier does not claim an item receipt or
+  official status; links and assertions remain producer-declared; exact-record
+  source authority is “Not independently
+  established”; and the human view shows each recorded destination hostname.
+- [ ] **Produce refreshed evidence:** record a federated demonstration shorter
+  than three minutes from the exact deployment, with all four sources, accurate
+  narration, captions, transcript and retained build evidence.
+- [ ] **Owner approval required:** Chris Page approves the final candidate,
+  synthetic-voice basis, media, privacy, branding, rights, statements about
+  WebMCP impact and the explicit hypothesis boundaries.
+- [ ] **Verify public video:** the approved URL plays signed out with audio and
+  captions and identifies the exact candidate shown.
+- [ ] **Final review required:** repeat the live Devpost and rules review,
+  reconcile every field and URL with current evidence, and retain the result
+  without submitting.
+
 ## Entrant and dates
 
 - [x] **Confirmed:** the 29 August 2026 live rules check gives 3 September 2026, 13:00 Pacific / 21:00 BST.
@@ -51,13 +109,29 @@ Status values: **confirmed**, **verify**, **approval required**, **blocker**.
   recorded zero console errors. This is deterministic host execution, not
   model-selection evidence.
 - [x] **Confirmed locally without a model provider:** `webmcp-evals` 0.0.4
-  completed six of six authored smoke calls across all five tools. This does not
-  prove agent selection.
+  completed six of six authored smoke calls across all five tools on the
+  authorised rerun outside the socket sandbox. The first in-sandbox attempt
+  failed with the expected loopback `EPERM`. This does not prove agent
+  selection.
+- [x] **Failed local-model attempts retained:** three Chrome 152 attempts used
+  eight cases, three runs per case and exact loopback-only
+  `ollama:gpt-oss:20b`, inventory digest
+  `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+  without remote credentials. Results were 8 of 102 retry-expanded rows, 32 of
+  33 strict rows despite 33 of 33 upstream, and 30 of 35 upstream. All failed;
+  improved model legibility is not a passing model-selection claim.
 - [ ] **Optional assurance, not a submission blocker:** run the pinned Microsoft WebMCP
-  Explorer and one fixed-model browser evaluation in an isolated profile,
-  recording local-versus-remote processing, no-call behaviour and variance.
+  Explorer and obtain a passing fixed-model browser evaluation in an isolated
+  profile, recording local-versus-remote processing, no-call behaviour and
+  variance without discarding the three failed attempts.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
-- [x] **Confirmed by test:** five fixed tools register after all four artefact families validate. The three catalogue query tools are read-only; the two evidence tools declare their reversible in-memory page-presentation effect with `readOnlyHint: false`. No tool has a runtime provider-call, storage or credential path.
+- [x] **Confirmed by test for the historical release:** five fixed tools
+  register after its four artefact families validate. The federated candidate
+  adds the lazy search manifest as a fifth logical root family and still
+  registers no tool until all five validate. The three catalogue query tools
+  are read-only; the two evidence tools declare their reversible in-memory
+  page-presentation effect with `readOnlyHint: false`. No tool has a runtime
+  provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
 - [x] **Confirmed by test and copy review:** catalogue inclusion is not described as access authority.
 - [x] **Confirmed for the corrected protected-main deployment:** pull request

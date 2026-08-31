@@ -25,6 +25,7 @@
         }
       }
     },
+    { "$ref": "urn:govuk-webmcp:schema:federated-resource-record-result:v1" },
     { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
   ]
 }

@@ -1,89 +1,98 @@
 # 19. Draft Devpost submission text
 
 **Status: registered; draft only — not submitted.** Devpost project `1406973`
-is an unpublished `submission_pre_draft` with no submission timestamp.
-Submission remains a separate action requiring Chris Page's approval. The
-corrected protected-main product is public and five-tool execution is observed
-both in Chrome's native WebMCP panel and through Chrome DevTools MCP. The manual
-Safari and VoiceOver journey and a local review video are complete with retained
-limitations; the video has not been approved for publication, uploaded or
-submitted.
+remains an unpublished `submission_pre_draft` in the last authenticated
+read-only observation. No submission action is authorised by this document.
 
-Do not use this draft as final submission copy until Chris Page has completed
-the video publication review, the approved cut has passed public-player checks
-and every live Devpost field and human attestation has been refreshed.
+This draft describes the `v0.3.0-rc.1` federated candidate. Do not enter it as
+final submission copy until the candidate is on the public deployment, its
+current host and accessibility evidence is complete, Chris Page has approved
+the refreshed video, and every live Devpost field and human attestation has
+been reviewed again.
 
 ## Project title
 
-**Evidence Trace: show your GOV.UK working**
+**Evidence Trace: ask AI, inspect the proof**
 
-40 characters; Devpost limit: 60.
+41 characters; Devpost limit: 60.
 
 ## One-line description
 
-See the evidence before the answer: an accessible WebMCP prototype tracing GOV.UK claims to authoritative sources, checks and limitations, without hiding uncertainty behind a score.
+Evidence before answers: WebMCP lets your chosen AI search governed UK public evidence, while every result keeps its source, integrity and limitations open for you to inspect.
 
-181 characters; Devpost limit: 200.
+175 characters; Devpost limit: 200.
 
 ## Live Devpost form mapping
 
 Authenticated read-only Devpost calls at `2026-08-30T17:57:48Z` confirmed
-that project `1406973` is still `Untitled` and `submission_pre_draft`, with no
+that project `1406973` was `Untitled` and `submission_pre_draft`, with no
 tagline, description, video URL, publication timestamp or submission timestamp.
-The following is preparation copy only; no field has been changed.
+This is a historical observation, not evidence of the present form state. The
+following remains preparation copy only.
 
 | Live field | Prepared value or owner action |
 | --- | --- |
 | Submitter Type (`28249`) | **Owner decision required:** Chris Page must select the truthful individual, team or organisation route. |
 | Country of residence (`28250`) | **Owner attestation required:** select the truthful country value in the live form. |
 | Organisation name (`28251`, conditional) | Complete only if the organisation route is selected. |
-| App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing ideas, data and related repositories. |
-| Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement and extend the five-tool WebMCP product, evidence interface, tests and deployment. |
-| Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` |
-| Testing instructions (`28255`, optional) | Open the live URL in Chrome 149 or later with WebMCP testing enabled. In Application → WebMCP, confirm five tools, run `search_government_knowledge` with `{"query":"register a birth","limit":3}`, then run the evidence exploration and comparison tools. No account or credential is required. |
+| App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing OKF design lineage and this repository's separately evidenced competition-period WebMCP implementation. |
+| Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement the five-tool WebMCP product, evidence interface, tests and deployment. |
+| Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — verify that the exact federated candidate is deployed before entry. |
+| Testing instructions (`28255`, optional) | After deployment, open the live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["okf-uk-living","okf-ons","okf-uk-government-apis","okf-land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Tested agents or clients (`28257`) | Chrome 152's native WebMCP panel completed all five tools plus one bounded invalid-input check on the corrected public deployment. Chrome DevTools MCP 1.8.0 independently completed the same five deterministic calls. Codex In-app Browser also completed five calls on the earlier release. No model-backed selection result, ChatGPT desktop result or Microsoft WebMCP Explorer run is claimed. |
+| Tested agents or clients (`28257`) | Historical release evidence includes Chrome's native WebMCP panel, Chrome DevTools MCP and Codex In-app Browser observations described below. Replace this text only after all five tools have been called on the exact public `v0.3.0-rc.1` candidate; do not imply that a model selected a tool unless that was separately observed. |
 | AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
 | Learning level (`28259`) | **Owner assessment required:** select `None`, `Moderate` or `Significant`. |
 | Career value (`28260`) | **Owner assessment required:** select `Yes` or `No`. |
-| Public video URL | **Blocking:** add only after Chris approves the cut and signed-out public YouTube playback passes. |
+| Public video URL | **Blocking:** add only after the refreshed federated cut is approved and signed-out public playback passes. |
 
-The project title and one-line description above are candidates for Chris to
-select and edit, not final form values. The latest organiser guidance asks the
-entrant to take personal responsibility for the project name and final copy.
+The project title and one-line description are candidates for Chris to select
+and edit, not final form values. The entrant remains responsible for the
+project name, claims, form answers and final submission.
 
 ## The problem
 
-Government information is widely published but fragmented across GOV.UK pages,
-dataset catalogues, API catalogues and publisher documentation. A plausible
-answer can hide important differences: who made a claim, how it was transformed,
-when its source was observed, whether its bytes still match, whether access and
-reuse are established, and what the selected evidence does not cover.
+Government information is widely published but fragmented across web pages,
+dataset catalogues, API catalogues and publisher documentation. A plausible AI
+answer can hide who made each claim, how the evidence was transformed, when it
+was observed, whether its bytes still match, whether access and reuse are
+established, and what the selected material does not cover.
+
+Putting a general-purpose chatbot on every government website would also make
+each public body responsible for operating AI infrastructure and collecting
+enough citizen context to personalise an answer. That is not the only design
+available.
 
 ## What we built
 
-The prototype packages 80 reviewed GOV.UK content, public data and API metadata
-records with 80 digest-bound evidence receipts. Four exact authored source locks
-feed deterministic generators: the 69-record GOV.UK collection, 11 curated
-government data and API records, 1 answer pack and 10 corpus-admission
-decisions.
+Evidence Trace is an independent static TypeScript prototype for **evidence
+before answers**. It demonstrates an OKF publication pattern in which a
+publisher makes governed evidence progressively retrievable: a small manifest
+supports discovery, bounded shards support search, an exact record supports
+inspection, and provenance metadata explains its source and limits.
 
-The page opens on an analytical index for one worked Evidence Trace. A person
-can follow the same evidence as a labelled graph, inspect one foundation and
-compare claims. Eight trust facets remain separate: authority, assertion status,
-verification, freshness, integrity, access, rights and coverage. The prototype
-does not turn them into a combined score.
+The candidate exposes two deliberately different evidence tiers:
 
-The evidence-estate view describes 10 corpus admissions. Only 2 reviewed
-deep-evidence collections, together accounting for all 80 records, are
-searchable. The other 8 remain described-only, conditional, quarantined or
-contract-only. Producer `sourceOkfCore` declarations remain separate from the
-target OKF core 0.2 mapping. A descriptor does not admit or redistribute a
-producer payload.
+- **80 receipt-bound reviewed records** from the original curated GOV.UK
+  evidence plane, with deep claim, relationship and integrity evidence; and
+- **58,655 locked raw source rows, producing 58,652 searchable source-snapshot
+  records** across UK Living, the Office for National Statistics, the UK
+  Government API catalogue and metadata-only HM Land Registry discovery.
 
-## Why WebMCP is a strong fit
+The federated tier preserves source identity, snapshot integrity, a producer-
+declared human link where supplied, its destination hostname, and visible
+access, rights, currentness and coverage limitations. It does not call that
+link official or invent an item-level receipt. HM Land Registry contributes
+metadata discovery only: no title, property, ownership, address, polygon or
+personal rows are included. Exactly three standalone Land Registry legislation
+rows are quarantined, leaving 2,200 searchable Land Registry records. There is
+no standalone `legislation.gov.uk` collection, payload, search index or runtime
+request, and the searchable projection contains zero `legislation.gov.uk`
+result links.
 
-A compatible agent discovers five explicit tools on the same inspectable page:
+## Why WebMCP changes the design
+
+A compatible agent discovers five bounded tools on the same inspectable page:
 
 - `search_government_knowledge`;
 - `get_resource_record`;
@@ -91,140 +100,169 @@ A compatible agent discovers five explicit tools on the same inspectable page:
 - `explore_answer_foundations`; and
 - `compare_evidence_foundations`.
 
-The first three are read-only query tools. The last two have
-`readOnlyHint: false` because they can update the visible trace selection or
-comparison. That effect is reversible and held only in memory: it does not
-change the catalogue, browser storage, network or external state.
+The first three are read-only query tools. The final two truthfully declare a
+reversible in-memory page-presentation effect. All five use closed schemas and
+executable input validation. None accepts a personal profile, broad
+`personalContext`, account credential or arbitrary prompt.
 
-WebMCP is material because the agent receives exact record, claim, relationship,
-facet and limitation fields instead of reconstructing them from presentation
-markup. Human controls and tool callbacks pass through one shared action
-controller, so the structured result and visible result use the same
-deterministic operation.
+The important WebMCP step is separation of responsibilities. The static public
+page publishes deterministic evidence tools but hosts no model. A
+citizen-selected AI can use preferences or circumstances it already knows to
+decide which bounded call is useful, without sending that private context to
+this page. Only the explicit tool arguments and result cross the page boundary.
+If the citizen selects a remote AI provider, that provider can still receive
+prompts, tool metadata, arguments and results; the page cannot control or hide
+that separate boundary.
 
-The broader pattern is deliberately not a government-hosted general-purpose
-assistant. A public body can publish small, inspectable tools over authoritative
-evidence; a citizen-selected agent can use context it already holds to decide
-which tool to call and send only the bounded fields that action needs. This can
-reduce duplicated public-sector AI infrastructure and unnecessary context
-collection, but no cost saving or accuracy improvement has yet been measured.
-If the citizen selects a remote model provider, prompts, tool metadata,
-arguments and results may still leave the device. The page does not control that
-provider boundary.
+This differs from an embedded government chatbot. Evidence Trace does not ask a
+public body to run a conversational model, maintain a user profile or make the
+AI answer authoritative. It lets the citizen's chosen agent query publisher
+evidence and then keeps the foundations available for human inspection.
+
+## The complete human equivalent
+
+WebMCP is an enhancement, not the only route. A person can use the same page to:
+
+1. select one or more reviewed or federated collections;
+2. search the catalogue with the same bounded query;
+3. inspect each result's evidence tier, collection and publisher;
+4. open the maintained human source link;
+5. read integrity, snapshot, access, rights, currentness and coverage limits;
+6. inspect an exact record or packaged provenance; and
+7. explore and compare the deeper foundations available for reviewed claims.
+
+Human controls and WebMCP callbacks share the same application actions and
+deterministic runtime. The demonstration must therefore show human/tool parity
+for the same query rather than merely show that tool names exist.
 
 ## Trust and safety design
 
-WebMCP does not make a source trustworthy. The prototype contributes an
-inspectable evidence chain:
+WebMCP does not make a source trustworthy, and catalogue inclusion is not
+permission, public access or official approval. The prototype contributes an
+inspectable chain:
 
-- authoritative human links and explicit limitations;
-- closed, bounded schemas repeated in executable validation;
-- four checksummed runtime artefact validations before any tool registers;
-- fail-closed record, receipt, graph, digest and corpus-admission bindings;
-- bounded root inputs and direct-link hashes;
-- exact regular-file source locks that reject path swaps and symbolic links;
-- inert rendering and `untrustedContentHint: true` for source-derived text; and
-- a complete manual journey when WebMCP is unavailable.
+- exact source locks, checksums and deterministic generated projections;
+- fail-closed validation before the five tools register;
+- closed, bounded contracts repeated in executable validation;
+- source-specific failure isolation and lazy same-origin retrieval;
+- a frozen deterministic nDCG@10/Recall@20 retrieval-quality gate required by
+  CI and Pages, without presenting lexical fixture metrics as model quality;
+- inert rendering and `untrustedContentHint: true` for source-derived text;
+- visible evidence tier, link role, assertion state and limitations;
+- conservative `producer-declared` trust labels, “Not independently
+  established” source authority and visible link destination hostnames;
+- fail-closed rejection of explicit URL ports and any apex, trailing-dot,
+  subdomain or secondary `legislation.gov.uk` result link;
+- no runtime call to an official API or model provider;
+- no browser storage of queries, profiles, accounts or credentials; and
+- a fully usable accessible human route when WebMCP is absent.
 
-The application is a static TypeScript site. It makes no runtime call to GOV.UK,
-a data provider or a model provider and stores no query, account or credential.
-Packaged receipts are static build evidence; a tool call does not create a
-durable receipt.
+The reviewed tier has digest-bound item receipts. The wider source-snapshot tier
+does not. Producer text cannot promote a federated link or assertion to official
+status. The interface and tool result state those differences rather than turn
+mixed evidence into a single trust score.
 
 ## What people and agents can do together
 
-A person can start with the answer's analytical index, inspect a claim's
-Evidence Trace, compare its separate facets and open the authoritative source.
-An agent can select the same exact answer and claims through WebMCP and return
-the same structured evidence. Both see missing or conflicting rights, uncertain
-access, observation dates, coverage limits and the absence of a combined trust
-score.
+A citizen can ask their own AI a contextual question while the AI sends only a
+small, declared query to the evidence page. The agent can search across the four
+federated sources, inspect an exact record and follow its provenance. The person
+can reproduce that journey visibly, open the source and challenge access,
+rights, currentness or coverage. For the 80 reviewed records, both can also
+inspect and compare deeper claim foundations.
 
-The separate catalogue route also lets a person or agent search the 80 admitted
-records, inspect an exact record and show its packaged provenance. Catalogue
-inclusion is never presented as current access, permission to reuse or official
-approval.
+This is a testable continuation of the purpose of OKF bundles: make evidence
+portable and machine-actionable without making an AI answer canonical.
 
-## Current evidence and remaining work
+## What is demonstrated and what remains a hypothesis
 
-The corrected product is public at
-<https://chris-page-gov.github.io/govuk-webmcp/>. [Pull request
-12](https://github.com/chris-page-gov/govuk-webmcp/pull/12) integrated product
-commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Exact-main run
-`33323068982` and Pages run `33323152751` passed and all 20 public files matched
-Pages artefact `9735478602` byte for byte. The earlier
-[v0.2.0-rc.1 pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
-remains unchanged and checksum-bound at commit
-`9235ee5db4df637bdb2a12e87449e871614afe68`
-as historical release and demonstration-video evidence.
+The implementation can demonstrate deterministic discovery, bounded execution,
+human/tool parity, source integrity and the absence of a personal-context input.
+It does **not** yet demonstrate that a personal AI asks better questions, that
+citizens disclose less information overall, that government operating costs
+fall, or that answers become more accurate. Those are research hypotheses.
 
-Five silent page-only interaction clips now show the analytical index, Evidence
-Trace, separate facets, comparison and bounded evidence estate on the
-historical `v0.2.0-rc.1` public deployment. Their required actions, durations
-and SHA-256 values are bound
-in one consolidated receipt and passed agent privacy and branding review; human
-publication review remains pending. The supported-host video scene is a labelled
-receipt visualisation, not a host recording. A manual Safari 26.5.2 and
-VoiceOver 10 journey completed without WebMCP and is retained as a visibly
-labelled, hash-bound non-continuous Caption Panel sequence. A heading-rotor
-selection was not retained, the automatic spoken wording of the live search
-status was not proven, and no VoiceOver speech audio or WCAG conformance is
-claimed. The Caption Panel and VoiceOver were turned off afterwards.
+The next evaluation should compare an embedded-assistant baseline with the
+publisher-tool pattern using fixed tasks and explicit measures: task success,
+source-following, unsupported claims, personal data disclosed to each party,
+tool-call variance, latency, bytes transferred and estimated operating cost.
+Remote-provider and local-model runs must be reported separately, including
+valid no-call and alternate-call outcomes.
 
-The guarded pipeline produced a 142.920-second local review MP4 with H.264
-video, AAC synthetic narration, embedded English captions, separate en-GB
-captions, a transcript and a machine build receipt. The local synthetic
-`Daniel` voice publication basis, privacy, branding and final playback still
-require owner review. A complete technical decode counted all 4,284 video
-frames and matched all 38 embedded caption cues to the tracked captions; one
-non-fatal subtitle metadata warning is retained. This technical result is not
-owner publication approval. No video has been uploaded or submitted.
+Three local Chrome 152 attempts used `webmcp-evals` 0.0.4, eight cases, three
+runs per case and exact loopback-only `ollama:gpt-oss:20b` inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+without remote credentials. They failed overall: 8 of 102 retry-expanded rows;
+then 33 of 33 upstream but 32 of 33 under the strict verifier; then 30 of 35
+upstream. The legibility improvement and variance are useful evidence, but the
+submission must not claim a model-backed pass.
 
-The checks cover the five fixed contracts, shared presentation parity,
-cancellation and rollback, all four artefact failure paths, source-lock
-enforcement, bounded hostile input, direct routes, inert source text, keyboard
-use, reflow, forced colours, reduced motion and an automated axe smoke scan.
-On 30 August 2026, `Codex In-app Browser` discovered and successfully called all
-five tools on the earlier exact public release. Its final comparison call
-produced the same canonical and displayed result SHA-256. The corrected public
-deployment was then tested in a rules-named environment: Chrome 152.0.7977.64's
-native Application → WebMCP panel listed all five tools, completed all five
-valid calls and displayed the structured `invalid_search_request` result for
-`limit: 21`. The two presentation tools updated the visible deterministic page,
-including an 11-row facet comparison with canonical/display digest parity.
+## Historical release and submission observations
 
-Chrome DevTools MCP 1.8.0 separately discovered and completed all five tools on
-the corrected public bytes, rejected synthetic `personalContext`, bound the
-public deployment metadata and recorded zero console errors. Neither
-native-panel execution nor Chrome DevTools MCP selected or contacted a model.
-Microsoft WebMCP Explorer was built twice idempotently in an isolated
-directory from its exact pinned commit, with a clean source checkout and
-verified output allow-list, but was not loaded. Static triage dated 30 August
-2026 found its npm advisory paths were not reachable in that exact production
-build path; the privileged-extension operating risks remain. Explorer browser
-execution and fixed-model selection evaluation remain unrun. A release-platform
-SBOM or attestation and Explorer/model-selection evidence are optional assurance
-work, not current official submission requirements. Owner approval of the local
-video, public upload, completion of the Devpost form and authorised submission
-remain the submission-critical work.
+The existing public evidence relates to the earlier 80-record product, not the
+federated candidate. Protected-main commit
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` passed exact-main run
+`33323068982` and Pages run `33323152751`; 20 public files matched Pages
+artefact `9735478602`. The checksum-bound
+[`v0.2.0-rc.1` pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
+remains historical evidence.
+
+On 30 August 2026, Chrome 152's native WebMCP panel and Chrome DevTools MCP
+1.8.0 each completed the five earlier tools on the corrected public release.
+Codex In-app Browser completed five calls on the earlier tagged release. These
+observations do not prove execution against `v0.3.0-rc.1`, model-led tool
+selection, ChatGPT desktop support or universal browser support.
+
+The previous 142.920-second local review MP4, captions, transcript, receipts and
+manual Safari and VoiceOver evidence remain evidence for the pre-federation
+journey. That video was not approved for publication, uploaded or submitted and
+must not be presented as the federated demonstration. A refreshed video must be
+recorded from the exact deployed candidate and pass owner and signed-out public
+player review.
+
+## `v0.3.0-rc.1` submission evidence gate
+
+The current candidate passed research 4 of 4, production build/data validation,
+the frozen lexical gate at mean nDCG@10 `0.984698009` and Recall@20 `1` with
+cold/warm parity and legislation absent or rejected, and 29 of 29 tests in both
+installed Chrome and Microsoft Edge. The authorised model-free smoke rerun
+passed 6 of 6 after the first in-sandbox attempt hit the expected loopback
+`EPERM`. `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`;
+the earlier 144-of-144 result is only a pre-remediation checkpoint.
+
+- [ ] Protected-main CI passes for the exact candidate commit.
+- [ ] GitHub Pages serves that exact commit and its federated artefacts.
+- [x] The installed Microsoft Edge acceptance suite passes 29 of 29 tests for
+  the candidate.
+- [x] The installed Chrome acceptance suite passes 29 of 29 tests for the
+  candidate.
+- [x] The full current unit suite passes 173 of 173; the historical 144-of-144
+  checkpoint remains separately labelled.
+- [ ] A current supported host lists and completes all five WebMCP tools.
+- [ ] Human and tool routes return the same canonical fields for a fixed query.
+- [ ] The refreshed under-three-minute federated video is recorded from the
+  deployed candidate and includes accurate captions and a transcript.
+- [ ] Chris Page approves the cut, synthetic-voice basis, privacy, branding and
+  submission claims.
+- [ ] A public video URL works signed out.
+- [ ] The final live Devpost fields, rules, attestations and URLs are reviewed
+  without submitting.
 
 ## Potential impact
 
 The pattern is useful wherever public knowledge must be examined without making
-an AI answer the authority. It can help developers, analysts, researchers and
-the public find relevant official sources and understand evidence limits before
-they rely on a claim. It also offers a testable alternative to every public body
-hosting its own general-purpose assistant: publish bounded evidence tools, let a
-citizen-selected agent personalise the journey, and measure what data and public
-infrastructure that avoids before claiming a saving.
+an AI answer the authority. It could let many public publishers expose small,
+inspectable evidence tools while citizens choose the agent that contextualises
+their journey. The intended benefits — less duplicated public AI
+infrastructure, better questions and less context disclosed to a government
+site — remain measurable propositions, not claimed outcomes.
 
 ## Creativity and ambition
 
 The prototype treats the webpage as a shared evidence plane for people and
-agents. It puts an analytical index before the visual trace, makes claim-level
-checks and limitations interactive, and lets WebMCP reproduce the same bounded
-selection. The result is evidence before answer, with uncertainty kept visible
-instead of compressed into a confidence badge.
+agents. It combines a human analytical index with progressively retrievable OKF
+evidence and five bounded WebMCP tools. Separate facets, evidence tiers and
+limitations remain visible instead of being compressed into a confidence badge.
 
 ## Boundary
 
@@ -232,5 +270,5 @@ This is an independent experimental prototype. It is not a GOV.UK or UK
 government service and is not endorsed by any public body. It does not provide
 access to restricted APIs, call providers, authenticate users, operate public
 services or make official decisions. It is not a durable MCP gateway and makes
-no claim of comprehensive or current coverage. Follow the linked publisher page
-for authoritative information.
+no claim of comprehensive or current coverage. Follow each maintained
+publisher link for authoritative information.

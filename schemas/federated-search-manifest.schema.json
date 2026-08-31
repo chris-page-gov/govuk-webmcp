@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:federated-search-manifest:v1",
+  "title": "Locked four-source federated search manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "projectionProfile", "generatedAt", "evidenceTier", "sourceLockSha256", "sourceLockDigest",
+    "sourceRecordCount", "quarantinedRecordCount", "recordCount", "collectionCount", "recordShardSize",
+    "tokenisation", "weights", "collections", "manifestDigest"
+  ],
+  "properties": {
+    "schema": { "const": "govuk-webmcp.federated-search.v1" },
+    "projectionProfile": { "const": "govuk-webmcp.federated-record-inheritance.v1" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "evidenceTier": { "const": "federated-source-snapshot" },
+    "sourceLockSha256": { "$ref": "#/$defs/sha256" },
+    "sourceLockDigest": { "$ref": "#/$defs/sha256" },
+    "sourceRecordCount": { "const": 58655 },
+    "quarantinedRecordCount": { "const": 3 },
+    "recordCount": { "const": 58652 },
+    "collectionCount": { "const": 4 },
+    "recordShardSize": { "const": 500 },
+    "tokenisation": { "const": "nfkd-lowercase-ascii-alphanumeric-v1" },
+    "weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "description", "publisher", "topics", "resourceType", "sourceNativeId"],
+      "properties": {
+        "title": { "const": 16 },
+        "description": { "const": 5 },
+        "publisher": { "const": 8 },
+        "topics": { "const": 4 },
+        "resourceType": { "const": 3 },
+        "sourceNativeId": { "const": 2 }
+      }
+    },
+    "collections": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        {
+          "allOf": [
+            { "$ref": "#/$defs/collection" },
+            {
+              "type": "object",
+              "required": ["serviceFamilies"],
+              "properties": {
+                "id": { "const": "uk-living" },
+                "title": { "const": "A Life in the UK — life-course discovery corpus" },
+                "sourceRecordCount": { "const": 9757 },
+                "quarantinedRecordCount": { "const": 0 },
+                "recordCount": { "const": 9757 },
+                "firstOrdinal": { "const": 0 },
+                "lastOrdinal": { "const": 9756 },
+                "serviceFamilies": { "const": 293 },
+                "snapshot": { "const": "life-course-authority-infrastructure-2026-08-08" },
+                "revision": { "const": "4bc010eab3c9c072f68960393c1458a772aa700b" },
+                "descriptorUrl": { "const": "https://chris-page-gov.github.io/okf-uk-living/okf-explorer.json" },
+                "recordShards": { "type": "array", "minItems": 20, "maxItems": 20 }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/collection" },
+            {
+              "type": "object",
+              "not": { "type": "object", "properties": { "serviceFamilies": true }, "required": ["serviceFamilies"] },
+              "properties": {
+                "id": { "const": "ons" },
+                "title": { "const": "ONS data discovery OKF" },
+                "sourceRecordCount": { "const": 5097 },
+                "quarantinedRecordCount": { "const": 0 },
+                "recordCount": { "const": 5097 },
+                "firstOrdinal": { "const": 9757 },
+                "lastOrdinal": { "const": 14853 },
+                "snapshot": { "const": "monday-2026-07-17-r2" },
+                "revision": { "const": "b0283b0d0dd2bbd06a8311dd5d1342eea0c36fdf" },
+                "descriptorUrl": { "const": "https://chris-page-gov.github.io/okf-ons/okf-explorer.json" },
+                "recordShards": { "type": "array", "minItems": 11, "maxItems": 11 }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/collection" },
+            {
+              "type": "object",
+              "not": { "type": "object", "properties": { "serviceFamilies": true }, "required": ["serviceFamilies"] },
+              "properties": {
+                "id": { "const": "government-apis" },
+                "title": { "const": "UK Government APIs OKF" },
+                "sourceRecordCount": { "const": 41598 },
+                "quarantinedRecordCount": { "const": 0 },
+                "recordCount": { "const": 41598 },
+                "firstOrdinal": { "const": 14854 },
+                "lastOrdinal": { "const": 56451 },
+                "snapshot": { "type": "null" },
+                "revision": { "const": "55c7e67947dfd86e291ca987e354429c36b453d9" },
+                "descriptorUrl": { "const": "https://chris-page-gov.github.io/okf-uk-government-apis/okf-explorer.json" },
+                "recordShards": { "type": "array", "minItems": 84, "maxItems": 84 }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/collection" },
+            {
+              "type": "object",
+              "not": { "type": "object", "properties": { "serviceFamilies": true }, "required": ["serviceFamilies"] },
+              "properties": {
+                "id": { "const": "land-registry" },
+                "title": { "const": "HM Land Registry public-estate OKF" },
+                "sourceRecordCount": { "const": 2203 },
+                "quarantinedRecordCount": { "const": 3 },
+                "recordCount": { "const": 2200 },
+                "firstOrdinal": { "const": 56452 },
+                "lastOrdinal": { "const": 58651 },
+                "snapshot": { "const": "hmlr-public-metadata-v0.2.0" },
+                "revision": { "const": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc" },
+                "descriptorUrl": { "const": "https://chris-page-gov.github.io/okf-LandRegistry/okf-explorer.json" },
+                "recordShards": { "type": "array", "minItems": 5, "maxItems": 5 }
+              }
+            }
+          ]
+        }
+      ],
+      "items": false
+    },
+    "manifestDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "collectionId": { "enum": ["uk-living", "ons", "government-apis", "land-registry"] },
+    "collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "title", "sourceRecordCount", "quarantinedRecordCount", "recordCount", "firstOrdinal", "lastOrdinal", "snapshot", "revision", "deploymentId",
+        "descriptorUrl", "extractionMethod", "limitations", "recordShards", "postings", "collectionDigest"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/collectionId" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "sourceRecordCount": { "type": "integer", "minimum": 1, "maximum": 58655 },
+        "quarantinedRecordCount": { "type": "integer", "minimum": 0, "maximum": 58655 },
+        "recordCount": { "type": "integer", "minimum": 1, "maximum": 58652 },
+        "firstOrdinal": { "type": "integer", "minimum": 0, "maximum": 58651 },
+        "lastOrdinal": { "type": "integer", "minimum": 0, "maximum": 58651 },
+        "serviceFamilies": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "snapshot": {
+          "oneOf": [
+            { "type": "string", "minLength": 1, "maxLength": 200 },
+            { "type": "null" }
+          ]
+        },
+        "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "deploymentId": { "type": "string", "minLength": 3, "maxLength": 160, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+        "descriptorUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "extractionMethod": { "const": "deterministic projection from a checksum-bound published OKF source snapshot" },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+        },
+        "recordShards": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 118,
+          "items": { "$ref": "#/$defs/recordReference" }
+        },
+        "postings": {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 1333,
+          "propertyNames": { "pattern": "^(?:_|[a-z0-9]{1,2})$" },
+          "patternProperties": {
+            "^(?:_|[a-z0-9]{1,2})$": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "items": { "$ref": "#/$defs/postingsReference" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "collectionDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "recordReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collectionId", "path", "bytes", "sha256", "firstOrdinal", "lastOrdinal", "recordCount"],
+      "properties": {
+        "collectionId": { "$ref": "#/$defs/collectionId" },
+        "path": {
+          "type": "string",
+          "maxLength": 240,
+          "pattern": "^data/federated-search/records/(?:uk-living|ons|government-apis|land-registry)/records-[0-9]{3,6}\\.json$"
+        },
+        "bytes": { "type": "integer", "minimum": 2, "maximum": 2097152 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "firstOrdinal": { "type": "integer", "minimum": 0, "maximum": 58651 },
+        "lastOrdinal": { "type": "integer", "minimum": 0, "maximum": 58651 },
+        "recordCount": { "type": "integer", "minimum": 1, "maximum": 500 }
+      }
+    },
+    "postingsReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collectionId", "path", "bytes", "sha256", "tokenCount", "postingCount"],
+      "properties": {
+        "collectionId": { "$ref": "#/$defs/collectionId" },
+        "path": {
+          "type": "string",
+          "maxLength": 240,
+          "pattern": "^data/federated-search/postings/(?:uk-living|ons|government-apis|land-registry)/(?:_|[a-z0-9]{1,2})-[0-9]{3,6}\\.json$"
+        },
+        "bytes": { "type": "integer", "minimum": 2, "maximum": 1048576 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "tokenCount": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "postingCount": { "type": "integer", "minimum": 1, "maximum": 5000000 }
+      }
+    }
+  }
+}

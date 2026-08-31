@@ -18,7 +18,16 @@ import {
   type ActionPresentation,
   type KnowledgeActionController,
 } from "./application-actions.js";
+import {
+  createCombinedKnowledgeRuntime,
+  type CombinedKnowledgeRuntime,
+} from "./combined-knowledge-runtime.js";
 import { createEvidenceRuntime, type EvidenceRuntime } from "./evidence-runtime.js";
+import {
+  createFederatedSearchRuntime,
+  type FederatedSearchLoader,
+  type FederatedSearchRuntime,
+} from "./federated-search-runtime.js";
 import { createFederationRuntime, type FederationRuntime } from "./federation-runtime.js";
 import { canonicalJson, isRfc3339DateTime, parseChecksum, sha256Hex } from "./integrity.js";
 
@@ -59,6 +68,7 @@ const RESULT_LIMIT_MAX = 20;
 const RELEASE_CATALOGUE_RECORD_COUNT = 80;
 const REGISTRATION_TIMEOUT_MS = 3000;
 const RECORD_ID = /^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$/u;
+const FEDERATED_RECORD_ID = /^govuk-discovery:federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5})$/u;
 const RECEIPT_ID = /^trusted-govuk-discovery:evidence-receipt:sha256:[a-f0-9]{64}$/u;
 const SHA256 = /^[a-f0-9]{64}$/u;
 const CURATED_SOURCE_LOCK = "curated-official-api-data-2026-08-29";
@@ -85,6 +95,7 @@ const ASSERTION_STATUSES = new Set<AssertionStatus>([
   "model-derived",
 ]);
 const LICENCE_STATUSES = new Set(["confirmed", "missing", "conflicting", "not-applicable"]);
+const KNOWLEDGE_COLLECTIONS = new Set(["deep-evidence", "uk-living", "ons", "government-apis", "land-registry"]);
 const SEARCH_KEYS = new Set(["query", "resourceTypes", "publishers", "accessStatuses", "limit"]);
 const RECORD_KEYS = new Set(["recordId"]);
 const CATALOGUE_KEYS = new Set(["schema", "generatedAt", "profile", "bundleDigest", "sourceLocksDigest", "records"]);
@@ -626,14 +637,15 @@ export interface KnowledgeDiscoveryRuntime {
     publishers: string[];
     accessStatuses: AccessStatus[];
   };
-  search(input: unknown): Promise<JsonObject>;
-  getRecord(input: unknown): Promise<JsonObject>;
-  showProvenance(input: unknown): Promise<JsonObject>;
+  search(input: unknown, options?: { readonly signal?: AbortSignal }): Promise<JsonObject>;
+  getRecord(input: unknown, options?: { readonly signal?: AbortSignal }): Promise<JsonObject>;
+  showProvenance(input: unknown, options?: { readonly signal?: AbortSignal }): Promise<JsonObject>;
 }
 
-export interface TrustedKnowledgeRuntime extends KnowledgeDiscoveryRuntime {
+export interface TrustedKnowledgeRuntime extends CombinedKnowledgeRuntime {
   evidence: EvidenceRuntime;
   federation: FederationRuntime;
+  federatedSearch: FederatedSearchRuntime;
 }
 
 export async function createKnowledgeDiscoveryRuntime(
@@ -769,6 +781,103 @@ export async function createKnowledgeDiscoveryRuntime(
   };
 }
 
+function exactSameOriginUrl(path: string, prefix: string): URL {
+  if (!path.startsWith(prefix) || path.includes("\\") || path.includes("%") || path.includes("..")) {
+    throw new Error("A knowledge artefact path is outside its fixed same-origin namespace.");
+  }
+  const url = new URL(`./${path}`, document.baseURI);
+  const scope = new URL(`./${prefix}`, document.baseURI);
+  if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname) || url.username || url.password) {
+    throw new Error("A knowledge artefact URL is outside its fixed same-origin namespace.");
+  }
+  return url;
+}
+
+export async function readBoundedResponseBytes(
+  response: Response,
+  signal: AbortSignal,
+  maximumBytes: number,
+): Promise<Uint8Array> {
+  if (!Number.isSafeInteger(maximumBytes) || maximumBytes < 1) {
+    throw new Error("The same-origin response byte budget is invalid.");
+  }
+  const declared = response.headers.get("content-length");
+  if (
+    declared !== null &&
+    (!/^(?:0|[1-9][0-9]*)$/u.test(declared) || !Number.isSafeInteger(Number(declared)) || Number(declared) > maximumBytes)
+  ) {
+    throw new Error("A checksum-bound same-origin knowledge artefact exceeds its fixed byte budget.");
+  }
+  if (!response.body) {
+    throw new Error("A checksum-bound same-origin knowledge artefact has no readable response body.");
+  }
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  try {
+    while (true) {
+      signal.throwIfAborted();
+      const { done, value } = await reader.read();
+      if (done) break;
+      total += value.byteLength;
+      if (total > maximumBytes) {
+        await reader.cancel("The fixed same-origin response byte budget was exceeded.");
+        throw new Error("A checksum-bound same-origin knowledge artefact exceeds its fixed byte budget.");
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  if (total < 1) {
+    throw new Error("A checksum-bound same-origin knowledge artefact exceeds its fixed byte budget.");
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
+}
+
+async function fetchSameOriginBytes(
+  path: string,
+  prefix: string,
+  signal: AbortSignal,
+  maximumBytes: number,
+): Promise<Uint8Array> {
+  const url = exactSameOriginUrl(path, prefix);
+  const response = await fetch(url, {
+    cache: "no-store",
+    credentials: "omit",
+    redirect: "error",
+    signal,
+  });
+  if (!response.ok || response.url !== url.toString()) {
+    throw new Error("A checksum-bound same-origin knowledge artefact could not be loaded from its exact URL.");
+  }
+  return readBoundedResponseBytes(response, signal, maximumBytes);
+}
+
+async function fetchSameOriginText(path: string, signal: AbortSignal): Promise<string> {
+  const bytes = await fetchSameOriginBytes(`data/${path}`, "data/", signal, 4 * 1024 * 1024);
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new Error("A checksum-bound same-origin knowledge artefact is not valid UTF-8.");
+  }
+}
+
+function federatedLoader(): FederatedSearchLoader {
+  return async (path, options) => fetchSameOriginBytes(
+    path,
+    "data/federated-search/",
+    options.signal,
+    2 * 1024 * 1024,
+  );
+}
+
 async function loadRuntime(signal: AbortSignal): Promise<TrustedKnowledgeRuntime> {
   const paths = [
     "catalogue.json",
@@ -779,12 +888,9 @@ async function loadRuntime(signal: AbortSignal): Promise<TrustedKnowledgeRuntime
     "evidence-traces.json.sha256",
     "federation.json",
     "federation.json.sha256",
+    "federated-search/manifest.json",
+    "federated-search/manifest.json.sha256",
   ];
-  const responses = await Promise.all(paths.map((path) =>
-    fetch(`./data/${path}`, { cache: "no-store", credentials: "omit", signal })));
-  if (responses.some((response) => !response.ok)) {
-    throw new Error("The same-origin catalogue or receipt collection could not be loaded.");
-  }
   const [
     rawCatalogue,
     rawCatalogueChecksum,
@@ -794,8 +900,10 @@ async function loadRuntime(signal: AbortSignal): Promise<TrustedKnowledgeRuntime
     rawEvidenceChecksum,
     rawFederation,
     rawFederationChecksum,
+    rawFederatedSearch,
+    rawFederatedSearchChecksum,
   ] =
-    await Promise.all(responses.map((response) => response.text()));
+    await Promise.all(paths.map((path) => fetchSameOriginText(path, signal)));
   const discovery = await createKnowledgeDiscoveryRuntime(rawCatalogue!, rawCatalogueChecksum!, rawReceipts!, rawReceiptsChecksum!);
   const decodedCatalogue = JSON.parse(rawCatalogue!) as Catalogue;
   const [evidence, federation] = await Promise.all([
@@ -807,23 +915,58 @@ async function loadRuntime(signal: AbortSignal): Promise<TrustedKnowledgeRuntime
       discovery.recordCount,
     ),
   ]);
-  return Object.assign(discovery, { evidence, federation });
+  const federatedSearch = await createFederatedSearchRuntime(
+    rawFederatedSearch!,
+    rawFederatedSearchChecksum!,
+    federatedLoader(),
+    federation.federatedSearch,
+  );
+  if (
+    federatedSearch.sourceRecordCount !== federation.federatedSourceRecordCount ||
+    federatedSearch.quarantinedRecordCount !== federation.federatedQuarantinedRecordCount ||
+    federatedSearch.recordCount !== federation.federatedRecordCount
+  ) {
+    throw new Error("The lazy federated-search source, quarantine or searchable count does not match the admitted corpus manifest.");
+  }
+  const combined = createCombinedKnowledgeRuntime(discovery, federatedSearch);
+  return Object.assign(combined, { evidence, federation, federatedSearch });
 }
 
 const searchInputSchema: JsonObject = {
   type: "object",
   additionalProperties: false,
+  description: "Search terms and optional exact filters only. Keep personal context outside this page-scoped tool call.",
   properties: {
-    query: { type: "string", minLength: 1, maxLength: QUERY_MAX },
-    resourceTypes: { type: "array", maxItems: 7, uniqueItems: true, items: { $ref: "#/$defs/resourceType" } },
-    publishers: { type: "array", maxItems: 8, uniqueItems: true, items: { type: "string", minLength: 1, maxLength: 100 } },
-    accessStatuses: { type: "array", maxItems: 5, uniqueItems: true, items: { $ref: "#/$defs/accessStatus" } },
-    limit: { type: "integer", minimum: 1, maximum: RESULT_LIMIT_MAX, default: 8 },
+    query: {
+      type: "string", minLength: 1, maxLength: QUERY_MAX,
+      description: "The exact search terms. Do not add personal context or rewrite an explicitly supplied query.",
+    },
+    resourceTypes: {
+      type: "array", maxItems: 7, uniqueItems: true, items: { $ref: "#/$defs/resourceType" },
+      description: "Optional exact machine tokens: govuk-content, dataset, api, api-documentation, catalogue-record, organisation and guidance. Omit this property when unused; do not send an empty array or display labels.",
+    },
+    publishers: {
+      type: "array", maxItems: 8, uniqueItems: true, items: { type: "string", minLength: 1, maxLength: 100 },
+      description: "Optional exact publisher names. Omit this property when unused; do not send an empty array.",
+    },
+    accessStatuses: {
+      type: "array", maxItems: 5, uniqueItems: true, items: { $ref: "#/$defs/accessStatus" },
+      description: "Optional exact access-status machine tokens. Omit this property when unused; do not send an empty array or display labels.",
+    },
+    collections: {
+      type: "array", minItems: 1, maxItems: 5, uniqueItems: true, items: { $ref: "#/$defs/knowledgeCollection" },
+      description: "Optional exact machine tokens: deep-evidence, uk-living, ons, government-apis and land-registry. Omit this property to search all collections; never send an empty array or a display label.",
+    },
+    limit: {
+      type: "integer", minimum: 1, maximum: RESULT_LIMIT_MAX, default: 8,
+      description: "Maximum results from 1 to 20. Use an explicitly requested value exactly; omit it only to accept the default of 8.",
+    },
   },
   required: ["query"],
   $defs: {
     resourceType: { type: "string", enum: [...RESOURCE_TYPES] },
     accessStatus: { type: "string", enum: [...ACCESS_STATUSES] },
+    knowledgeCollection: { type: "string", enum: [...KNOWLEDGE_COLLECTIONS] },
   },
 };
 
@@ -831,7 +974,7 @@ const recordInputSchema: JsonObject = {
   type: "object",
   additionalProperties: false,
   properties: {
-    recordId: { type: "string", minLength: 3, maxLength: 128, pattern: "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$" },
+    recordId: { type: "string", minLength: 3, maxLength: 160, pattern: "^govuk-discovery:(?:[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$" },
   },
   required: ["recordId"],
 };
@@ -888,6 +1031,14 @@ const EXPECTED_TOOL_NAMES = [
   "compare_evidence_foundations",
 ] as const;
 
+export const TOOL_DESCRIPTIONS: Readonly<Record<(typeof EXPECTED_TOOL_NAMES)[number], string>> = Object.freeze({
+  search_government_knowledge: "Search 80 reviewed records and 58,652 searchable records from four checksum-bound OKF source snapshots. Use exact collection IDs deep-evidence, uk-living, ons, government-apis or land-registry; omit unused optional filters rather than sending empty arrays or display labels. Three source records are quarantined. It accepts no personal profile and calls no official or model-provider API.",
+  get_resource_record: "Return one exact reviewed or federated record using its canonical govuk-discovery: record ID exactly, not a display label. Includes its assurance tier, source link, access, licence, assertions and limitations. A federated result is snapshot-bound, not item-reviewed, and grants no access authority.",
+  show_provenance: "Inspect provenance using the canonical govuk-discovery: record ID exactly, not a display label. Returns either an item-level reviewed receipt or the file, snapshot and manifest bindings for a federated record. It does not refetch or independently certify an official source.",
+  explore_answer_foundations: "Use canonical answer: and optional claim: IDs exactly, not display labels, to select one bounded evidence-first answer or claim and update this page's analytical index and Evidence Trace. The only effect is reversible in-memory presentation; no source, storage or external state changes.",
+  compare_evidence_foundations: "Use one canonical answer: ID and two to four canonical claim: IDs exactly, not display labels, to update this page's accessible comparison. It does not rank sources or change catalogue, storage, network or external state.",
+});
+
 function webMcpActionOptions(
   present: boolean,
   options?: { signal?: AbortSignal },
@@ -902,7 +1053,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     {
       name: "search_government_knowledge",
       title: "Search government knowledge",
-      description: "Search this page's verified, read-only 80-record GOV.UK metadata catalogue. Returns authoritative human links, assertion labels and limitations. It does not contact providers or establish access rights.",
+      description: TOOL_DESCRIPTIONS.search_government_knowledge,
       inputSchema: searchInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
       execute: (input, options) => actions.run("search_government_knowledge", input, webMcpActionOptions(false, options)),
@@ -910,7 +1061,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     {
       name: "get_resource_record",
       title: "Get a government resource record",
-      description: "Return one exact digest-bound record, including authoritative links, access and licence status, assertions and limitations. It grants no access authority.",
+      description: TOOL_DESCRIPTIONS.get_resource_record,
       inputSchema: recordInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
       execute: (input, options) => actions.run("get_resource_record", input, webMcpActionOptions(false, options)),
@@ -918,7 +1069,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     {
       name: "show_provenance",
       title: "Show record provenance",
-      description: "Inspect the packaged source, assertion and digest evidence for one record. It does not refetch or independently certify the source.",
+      description: TOOL_DESCRIPTIONS.show_provenance,
       inputSchema: recordInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
       execute: (input, options) => actions.run("show_provenance", input, webMcpActionOptions(false, options)),
@@ -926,7 +1077,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     {
       name: "explore_answer_foundations",
       title: "Explore answer foundations",
-      description: "Select one bounded evidence-first answer or one of its exact claims and update this page's analytical index and Evidence Trace. The only effect is reversible in-memory presentation; no source, storage or external state changes.",
+      description: TOOL_DESCRIPTIONS.explore_answer_foundations,
       inputSchema: answerInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },
       execute: (input, options) => actions.run("explore_answer_foundations", input, webMcpActionOptions(true, options)),
@@ -934,7 +1085,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     {
       name: "compare_evidence_foundations",
       title: "Compare evidence foundations",
-      description: "Compare two to four exact claims in one evidence-first answer and update this page's accessible comparison. It does not rank sources or change catalogue, storage, network or external state.",
+      description: TOOL_DESCRIPTIONS.compare_evidence_foundations,
       inputSchema: comparisonInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },
       execute: (input, options) => actions.run("compare_evidence_foundations", input, webMcpActionOptions(true, options)),
@@ -979,7 +1130,7 @@ async function registerTools(actions: KnowledgeActionController): Promise<Regist
       state: "registered",
       expectedNames,
       registeredNames,
-      reason: "All five fixed tools registered after catalogue, evidence and federation validation.",
+      reason: "All five fixed tools registered after reviewed evidence, admissions and the lazy federated-search manifest validated.",
       dispose: () => lifetime.abort(),
     };
   } catch (error) {

@@ -1,17 +1,28 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
-import { lstat, readdir, readFile, realpath } from "node:fs/promises";
-import { posix, relative, sep, win32 } from "node:path";
+import { readFile } from "node:fs/promises";
+import { posix, win32 } from "node:path";
 import test from "node:test";
+import { promisify } from "node:util";
 
 const EXPECTED_PRODUCT_COMMIT = "9235ee5db4df637bdb2a12e87449e871614afe68";
 const EXPECTED_PAGES_RUN_ID = 33286771963;
+const RETAINED_BASELINE_TAG = "v0.2.0-rc.2";
+const RETAINED_BASELINE_COMMIT = "35fcedd39ed955278d3975a6dd80692fc6e32935";
+const execFileAsync = promisify(execFile);
 
 test("Pages deployment is restricted to the exact main dispatch SHA", async () => {
   const workflow = await readFile(".github/workflows/pages.yml", "utf8");
   assert.match(workflow, /if: github\.ref == 'refs\/heads\/main'/u);
   assert.match(workflow, /ref: \$\{\{ github\.sha \}\}/u);
+  assert.match(workflow, /fetch-depth: 0/u);
   assert.doesNotMatch(workflow, /pull_request:/u);
+});
+
+test("CI retains Git history so the frozen evidence tag can be verified", async () => {
+  const workflow = await readFile(".github/workflows/ci.yml", "utf8");
+  assert.match(workflow, /fetch-depth: 0/u);
 });
 
 test("current public SBOM matches the published release and omits third-party personal metadata", async () => {
@@ -26,17 +37,40 @@ test("current public SBOM matches the published release and omits third-party pe
   assert.ok(sbom.components.every((component) => component.name && component.version && component.purl));
 });
 
-async function listFilesRecursively(directory) {
-  const files = [];
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const entryPath = `${directory}/${entry.name}`;
-    if (entry.isDirectory()) {
-      files.push(...(await listFilesRecursively(entryPath)));
-    } else {
-      files.push(entryPath);
-    }
+async function retainedGitOutput(arguments_, encoding = "utf8") {
+  try {
+    const { stdout } = await execFileAsync("git", arguments_, {
+      cwd: process.cwd(),
+      encoding,
+      maxBuffer: 64 * 1024 * 1024,
+    });
+    return stdout;
+  } catch (error) {
+    throw new Error(
+      `The retained ${RETAINED_BASELINE_TAG} Git object is unavailable; historical evidence cannot be checked against working-tree bytes.`,
+      { cause: error },
+    );
   }
-  return files;
+}
+
+async function retainedTree() {
+  const peeled = String(await retainedGitOutput([
+    "rev-parse",
+    `${RETAINED_BASELINE_TAG}^{commit}`,
+  ])).trim();
+  assert.equal(peeled, RETAINED_BASELINE_COMMIT, `${RETAINED_BASELINE_TAG} peeled to an unexpected commit`);
+  const output = String(await retainedGitOutput(["ls-tree", "-r", RETAINED_BASELINE_COMMIT]));
+  const entries = new Map();
+  for (const line of output.trimEnd().split("\n")) {
+    const match = line.match(/^(\d{6}) (\w+) ([a-f0-9]{40})\t(.+)$/u);
+    assert.ok(match, `Malformed retained-tree entry: ${line}`);
+    entries.set(match[4], { mode: match[1], type: match[2], object: match[3] });
+  }
+  return entries;
+}
+
+async function retainedBytes(path) {
+  return retainedGitOutput(["show", `${RETAINED_BASELINE_COMMIT}:${path}`], null);
 }
 
 function parseSha256Manifest(text, label) {
@@ -180,8 +214,9 @@ test("supported-host WebMCP capture binds five native calls to the public releas
   );
 });
 
-test("release evidence manifest is safe, complete, ordered and digest-bound", async () => {
-  const manifest = await readFile("docs/competition/evidence/SHA256SUMS", "utf8");
+test("retained release evidence is safe, complete, ordered and bound to the frozen v0.2.0-rc.2 tree", async () => {
+  const tree = await retainedTree();
+  const manifest = (await retainedBytes("docs/competition/evidence/SHA256SUMS")).toString("utf8");
   const entries = parseSha256Manifest(manifest, "SHA256SUMS");
   assert.ok(entries.length >= 35);
 
@@ -189,7 +224,6 @@ test("release evidence manifest is safe, complete, ordered and digest-bound", as
   assert.deepEqual(paths, [...paths].sort(), "SHA256SUMS paths must remain bytewise ordered");
   assert.equal(new Set(paths).size, paths.length, "SHA256SUMS paths must be unique");
 
-  const repositoryRoot = await realpath(".");
   for (const entryPath of paths) {
     assert.equal(posix.isAbsolute(entryPath), false, `POSIX absolute evidence path is not allowed: ${entryPath}`);
     assert.equal(win32.isAbsolute(entryPath), false, `Windows absolute evidence path is not allowed: ${entryPath}`);
@@ -202,20 +236,15 @@ test("release evidence manifest is safe, complete, ordered and digest-bound", as
     );
     assert.equal(entryPath.endsWith("/.DS_Store"), false, `Local macOS metadata is not release evidence: ${entryPath}`);
 
-    const fileStatus = await lstat(entryPath);
-    assert.equal(fileStatus.isSymbolicLink(), false, `Symbolic links are not release evidence: ${entryPath}`);
-    assert.equal(fileStatus.isFile(), true, `Release evidence must be a regular file: ${entryPath}`);
-
-    const resolvedPath = await realpath(entryPath);
-    const pathFromRoot = relative(repositoryRoot, resolvedPath);
-    assert.equal(
-      pathFromRoot === ".." || pathFromRoot.startsWith(`..${sep}`) || posix.isAbsolute(pathFromRoot) || win32.isAbsolute(pathFromRoot),
-      false,
-      `Release evidence resolves outside the repository: ${entryPath}`,
-    );
+    const frozenEntry = tree.get(entryPath);
+    assert.ok(frozenEntry, `Release evidence is absent from ${RETAINED_BASELINE_COMMIT}: ${entryPath}`);
+    assert.equal(frozenEntry.type, "blob", `Release evidence is not a retained blob: ${entryPath}`);
+    assert.ok(["100644", "100755"].includes(frozenEntry.mode), `Release evidence is not a retained regular file: ${entryPath}`);
   }
 
-  const evidenceFiles = (await listFilesRecursively("docs/competition/evidence"))
+  const retainedPaths = [...tree.keys()];
+  const evidenceFiles = retainedPaths
+    .filter((path) => path.startsWith("docs/competition/evidence/"))
     .filter((path) => path !== "docs/competition/evidence/SHA256SUMS")
     .sort();
   const manifestedEvidenceFiles = paths
@@ -227,16 +256,21 @@ test("release evidence manifest is safe, complete, ordered and digest-bound", as
     "SHA256SUMS must bind every evidence file except itself",
   );
 
-  const releaseDataFiles = (await listFilesRecursively("app/data"))
+  const releaseDataFiles = retainedPaths
+    .filter((path) => path.startsWith("app/data/"))
     .filter((path) => !path.endsWith("/.DS_Store"))
     .sort();
-  const contractFiles = (await listFilesRecursively("schemas")).sort();
+  const contractFiles = retainedPaths.filter((path) => path.startsWith("schemas/")).sort();
   const expectedPaths = [...releaseDataFiles, ...evidenceFiles, "package-lock.json", ...contractFiles].sort();
-  assert.deepEqual(paths, expectedPaths, "SHA256SUMS must contain exactly the release data, evidence, package lock and schemas");
+  assert.deepEqual(
+    paths,
+    expectedPaths,
+    "SHA256SUMS must contain exactly the retained release data, evidence, package lock and schemas",
+  );
 
   for (const entry of entries) {
-    const observed = createHash("sha256").update(await readFile(entry.path)).digest("hex");
-    assert.equal(observed, entry.expected, `Evidence digest mismatch for ${entry.path}`);
+    const observed = createHash("sha256").update(await retainedBytes(entry.path)).digest("hex");
+    assert.equal(observed, entry.expected, `Retained evidence digest mismatch for ${entry.path}`);
   }
 });
 

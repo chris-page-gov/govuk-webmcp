@@ -11,8 +11,8 @@
     "recordId": {
       "type": "string",
       "minLength": 3,
-      "maxLength": 128,
-      "pattern": "^govuk-discovery:[a-z0-9][a-z0-9._:-]{2,111}$"
+      "maxLength": 160,
+      "pattern": "^govuk-discovery:(?:[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$"
     }
   }
 }

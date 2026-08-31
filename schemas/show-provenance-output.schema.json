@@ -39,6 +39,7 @@
         }
       }
     },
+    { "$ref": "urn:govuk-webmcp:schema:federated-provenance-result:v1" },
     { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
   ],
   "$defs": { "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" } }

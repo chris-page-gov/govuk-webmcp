@@ -46,8 +46,35 @@ the limitations below. The retained media is a hash-bound nine-frame screenshot
 sequence labelled as not a continuous recording. VoiceOver speech audio was not
 captured.
 
+## In-progress federated-discovery candidate
+
+Version `0.3.0-rc.1` is extending the same human journey to distinguish 80
+reviewed deep-evidence records from 58,652 searchable records in exactly four
+federated OKF source snapshots containing 58,655 locked raw rows. Exactly three
+standalone Land Registry legislation rows are quarantined. The collection
+selector, source and searchable counts, quarantine status, source availability,
+evidence tier, snapshot, producer-declared link role, destination hostname and
+limitations must be available in text and must remain operable without WebMCP.
+There is no standalone UK Legislation collection or `legislation.gov.uk` result
+link; source-authored cross-reference strings do not become a selectable source
+or result tier.
+
+Acceptance gate K requires keyboard operation, 320 CSS-pixel reflow, forced
+colours, reduced motion, automated axe checks and a focused manual screen-
+reader journey through collection status, search, record, provenance, source
+link and a partial-source failure. This section records the intended boundary,
+not a completed test. The earlier Safari and VoiceOver observation applies only
+to the pre-federation page and cannot be reused as proof of the expanded
+candidate or of WCAG conformance.
+
 ## Known limitations
 
+- The federated interface and its partial-source status have not yet completed
+  gate K against the exact `0.3.0-rc.1` release candidate.
+- Eight Low security remediations have focused test evidence where recorded.
+  The current Chrome and Microsoft Edge suites each pass 29 of 29, and the full
+  unit command passes 173 of 173. The immutable post-fix security rescan remains
+  pending.
 - The page heading hierarchy was verified through Safari accessibility data,
   but a heading-rotor selection was not retained in the nine-frame sequence.
 - The live status text changed to `9 matching records; 8 shown.` while focus

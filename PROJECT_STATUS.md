@@ -1,6 +1,25 @@
 # Project status and hard gates
 
-**Status:** corrected main commit
+**Status:** version `0.3.0-rc.1` is an in-progress federated-discovery
+candidate. A pre-remediation checkpoint passed the local production build,
+complete 144-test unit suite and 29-test Chrome and Microsoft Edge acceptance
+suites. Seven initial Low security findings were remediated, then sealed scan
+`9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed those seven and found one
+further High-confidence Low URL-boundary bypass. That eighth issue was fixed
+after the scanned snapshot. The exact research, build/data, lexical-quality,
+Chrome, Microsoft Edge and authorised model-free smoke gates now pass where
+recorded. `npm run test:unit:prepared` also passed 173 of 173 in
+`17128.154916 ms`; the immutable post-fix security rescan remains pending. This
+is not
+yet a protected-main integration, CI result, Pages deployment, release or
+submission. The frozen
+pre-federation baseline is annotated tag
+`v0.2.0-rc.2` at product commit
+`35fcedd39ed955278d3975a6dd80692fc6e32935`; its public pre-release is retained
+and must not be moved or rewritten. GitHub's release API does not currently
+mark that pre-release platform-immutable.
+
+Corrected main commit
 `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is the current public Pages
 deployment from run `33323152751`. Pull request 12 integrated the optional-
 execution-options correction and pinned assurance harness through protected
@@ -25,6 +44,132 @@ host-compatibility implementation and subsequently integrated evidence before
 the multi-corpus OKF federation work. It does not rewrite `v0.2.0-rc.1` or
 claim a new Pages product deployment; the deployed application identity remains
 the separately recorded `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+
+## In-progress `0.3.0-rc.1` federated boundary
+
+The current working slice extends discovery without weakening the assurance of
+the existing reviewed catalogue:
+
+| Evidence tier | Declared population | Boundary |
+| --- | ---: | --- |
+| Reviewed deep evidence | 80 records | Existing same-origin records with 80 packaged item-level receipts |
+| Federated source snapshot | 58,655 locked raw rows | Four locked, independently republished OKF snapshots with source, snapshot, file-integrity and limitation evidence, but no local item-level receipt; 58,652 rows are searchable and 3 are quarantined |
+
+The raw federated total is exactly 9,757 A Life in the UK rows, including 293
+service families; 5,097 ONS metadata rows; 41,598 UK Government APIs rows; and
+2,203 HM Land Registry public-estate metadata rows. Exactly three standalone
+Land Registry legislation records are quarantined, leaving 2,200 searchable
+Land Registry records and 58,652 searchable federated records overall. The raw
+sum is before cross-source deduplication and is not a count of unique services,
+datasets, APIs, properties or official records. There is no standalone UK
+Legislation collection, payload, index or runtime request, and the searchable
+projection contains zero `legislation.gov.uk` result links. The locked source
+files retain 28 source-authored cross-reference strings as inert, untrusted
+metadata—6 in A Life in the UK, 3 in ONS, 2 in UK Government APIs and 17 in
+Land Registry—so literal source-byte absence is not claimed.
+
+The candidate keeps five fixed, page-scoped tools and the complete accessible
+human equivalent over one common deterministic result. OKF supplies governed,
+progressively retrievable evidence; WebMCP lets a citizen-selected AI invoke
+bounded page actions over it. The page hosts no model and its closed schemas
+accept no identity, profile or general personal-context object. This does not
+establish end-to-end privacy: a remote model provider may receive prompts, tool
+metadata, arguments and results, and the static host may observe ordinary or
+query-derived asset requests.
+
+The current generated files record 6 searchable and 4 non-searchable corpus
+admissions, 5 source-lock registry entries and 31 closed JSON Schemas. These
+working-tree totals must be recomputed after the exact-tree remediation rescan;
+they are not release-bound counts. The stable reproducibility boundary is 73
+versioned gzip source artefacts totalling 13,021,675 bytes. The deterministic
+builder expands those inputs to 1,853 shard files — 120 record shards and 1,733
+postings shards — plus the manifest and checksum sidecar: 1,855 ignored
+generated files and 127,747,020 bytes in total. The production build copies
+that same-origin plane into `dist`. The federation lock and generated-manifest
+digests are cross-bound, but their final candidate values must be recorded
+after the exact-tree rescan and deterministic rebuild.
+UK Government APIs records use their source-authored, collection-unique
+`concept_id`; shared endpoint URLs are not used as record identity.
+
+Federated source labels are deliberately conservative. Producer text cannot
+promote a link or assertion to official status: links retain a
+producer-declared role, and assertions use `producer-declared` unless the
+application independently performs a narrowly defined normalisation. Exact-
+record output reports source authority as “Not independently established”, and
+human search and record views display the recorded destination hostname.
+
+The A–M acceptance matrix in
+[`docs/competition/okf-federated-personal-agent-evaluation-plan.md`](docs/competition/okf-federated-personal-agent-evaluation-plan.md)
+controls any later claim about source admission, integrity, progressive
+delivery, ranking, producer coverage, evidence parity, partial failure,
+context minimisation, safety, model choice, accessibility, cost or release
+binding. Cost reduction, privacy improvement, better questions and answer
+quality remain testable hypotheses. Only the focused checks recorded below are
+observed; their results do not complete the A–M matrix.
+
+The frozen lexical retrieval-quality gate is implemented and required by CI
+and Pages after `npm test`. It measures bounded nDCG@10 and Recall@20 cases,
+cold/warm determinism and prohibited-legislation behaviour. The exact post-fix
+tree passed locally at mean nDCG@10 `0.984698009` and Recall@20 `1`, with
+identical cold/warm results and legislation absent or rejected. This bounded
+lexical result does not establish model quality or corpus-wide recall; CI and
+Pages release binding remain pending.
+
+## Candidate assurance observed locally
+
+The following is the last complete pre-remediation checkpoint, not a result for
+the exact current tree:
+
+- production build: passed;
+- deterministic data double-build: 9 of 9 passed;
+- focused runtime and public-schema tests: 21 of 21 passed;
+- focused federation tests: 15 of 15 passed after fixing the
+  extra-searchable-collection fail-closed gap;
+- installed Google Chrome Playwright suite: 29 of 29 passed, including one
+  explicit unavailable-source case for each of the four federated collections;
+- model-free WebMCP smoke: 6 of 6 calls passed;
+- complete unit rerun: 144 of 144 passed in 174.5 seconds; and
+- installed Microsoft Edge Playwright suite: 29 of 29 passed in a
+  loopback-only run after the expected sandbox socket restriction.
+
+The working tree now contains remediations for eight Low findings: the seven
+initial issues covering postings complexity, Land Registry row admission,
+mutable-source revision claims, partial-source isolation, producer trust self-
+promotion, prototype-key tokens and concurrent shard work, plus the later
+trailing-dot and secondary legislation-URL bypass
+(`csf_a2d9e030fda789ecd1cb0e41`). The sealed scan suppressed the first seven and
+reported no other open reportable candidate, but its mechanically recorded
+coverage is partial and has stale-pending rows, and the eighth fix postdates its
+snapshot. A focused security batch passed 119 of 119; the affected post-fix
+subset then passed 23 of 23. Executable validation rejects explicit URL ports
+and legislation result-link hosts, including trailing-dot forms and secondary
+URLs; response bodies are streamed under the fixed byte cap; and generated-
+plane cleanup and copying prevent Finder metadata entering the release
+artefact. On the current post-fix tree, the research pack passed 4 of 4, the
+production build and generated-data validation passed, and the frozen lexical
+gate reported mean nDCG@10 `0.984698009`, Recall@20 `1`, identical cold/warm
+results and no admitted legislation result or request. Installed Chrome and
+Microsoft Edge each passed 29 of 29 browser tests. The first model-free smoke
+attempt hit the expected sandbox `EPERM` loopback restriction; the authorised
+outside-socket-sandbox rerun passed 6 of 6. `npm run test:unit:prepared` passed
+173 of 173 in `17128.154916 ms`. The immutable post-fix security rescan remains
+open.
+
+Three model-backed attempts are preserved as local variance evidence. They used
+Chrome 152, `webmcp-evals` 0.0.4, eight cases, three runs per case and the exact
+loopback-only model `ollama:gpt-oss:20b`, whose local inventory digest was
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`;
+no remote credential was configured. The initial pre-legibility fixture passed
+8 of 102 retry-expanded rows. After schema, tool-description and fixture
+legibility changes, attempt 2 passed 33 of 33 upstream rows but only 32 of 33
+under the strict project verifier because one call added empty optional arrays.
+Attempt 3, on the security-fixed tree, passed 30 of 35 upstream rows after two
+malformed-then-corrected provenance IDs and one omitted comparison. All three
+attempts failed overall. The improvement is observable, but gate J and a model-
+backed pass remain open.
+
+No protected-main CI, federated Pages deployment, exact live-host binding or
+`0.3.0-rc.1` tag is claimed.
 
 ## Current release boundary
 
@@ -191,14 +336,21 @@ smoke receipt retains the six-of-six counts and a digest of the validated
 results, not full outputs. Its child process received an isolated `HOME`; no
 provider credential environment variables were forwarded, although it retained
 the operating-system filesystem access of the invoking user. The tracked
-fixtures also include a no-call case and context-minimisation case for later
-model-selection evaluation. The model-backed runner is fail closed until an
-exact provider-prefixed model and explicit presentation approval are supplied.
-Only the `ollama:` route is preflighted without downloading a model. No remote
-provider was called, no model-backed `webmcp-evals` run was performed and the
-Explorer extension was not loaded. The prepared browser runner fails closed on
-any typed upstream console error or `pageerror`; only an accepted zero count
-can enter a receipt, which records `browserConsoleErrorsAccepted: false`.
+fixtures include a no-call case and context-minimisation case. The fail-closed
+browser runner was exercised three times with the exact locally installed
+`ollama:gpt-oss:20b` model, inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+eight cases and three runs per case. It used Chrome 152, `webmcp-evals` 0.0.4
+and loopback-only inference with no remote credential. The three attempts
+failed overall: 8 of 102 retry-expanded upstream rows passed before the
+legibility changes; attempt 2 passed 33 of 33 upstream but 32 of 33 under the
+strict verifier because one call added empty optional arrays; and attempt 3 on
+the security-fixed tree passed 30 of 35 upstream after two malformed-then-
+corrected provenance IDs and one omitted comparison. The failures and variance
+are retained, so no model-backed pass is claimed. The Explorer extension was
+not loaded. The runner still fails closed on any typed upstream console error
+or `pageerror`; only an accepted zero count can enter a passing receipt, which
+records `browserConsoleErrorsAccepted: false`.
 
 The hardened DevTools runner sets
 `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`. An earlier pre-hardening run wrote
@@ -217,9 +369,24 @@ and must use a revocable low-limit key and no personal context.
 
 ## Mandatory source and claim boundaries
 
-- Only the 69-record GOV.UK collection and 11-record curated companion
-  collection are searchable. The other eight estate entries are descriptors or
-  gated candidates; no producer payload was copied or silently admitted.
+- The frozen `v0.2.0-rc.2` baseline searches only the 69-record GOV.UK
+  collection and 11-record curated companion collection. The in-progress
+  `0.3.0-rc.1` candidate adds exactly four locked federated source snapshots
+  totalling 58,655 raw rows, of which 58,652 are searchable and 3 standalone
+  Land Registry legislation rows are quarantined, separately from those 80
+  reviewed records. No other
+  corpus is admitted and there is no standalone UK Legislation source,
+  payload, index or runtime request. Source-authored cross-reference strings do
+  not constitute a fifth collection.
+- A federated result is a source-snapshot discovery record, not a reviewed
+  item-level receipt, official endorsement, current-source certification or
+  count of unique government entities.
+- The searchable projection exposes no `legislation.gov.uk` result link.
+  Federated roles and assertions are producer-declared rather than official;
+  digest validation does not change that status.
+- UK Government APIs `concept_id` is the source-native record identity because
+  it is present and unique across all 41,598 admitted records. Endpoint URLs
+  can be shared, so they remain evidence links rather than surrogate IDs.
 - `sourceOkfCore` records the producer's native declaration when established.
   `targetOkfCore: "0.2"` records this project's descriptive mapping target. It
   is not a claim that every producer is natively OKF 0.2.
@@ -253,16 +420,16 @@ gated:
 
 ## Next safe task
 
-Chris Page reviews the unchanged 142.920-second candidate from start to finish
-with audio and captions, then records the privacy, branding, caption-sync and
-synthetic-voice publication decisions. If it passes, publish that exact digest
-to public YouTube, verify the player signed out, and complete the prepared
-Devpost fields and owner attestations. Submission remains a separate action
-requiring explicit authority.
+Complete the exact-tree security rescan and full post-remediation verification,
+then finish the remaining A–M candidate matrix without weakening the four-source
+allowlist, evidence-tier distinction or fail-closed budgets. If the exact
+candidate passes, publish it through a protected pull request and verify required
+CI, merge without bypassing branch protection, deploy the exact main commit and
+bind the live artefact back to that commit before tagging or refreshing
+submission evidence.
 
-Microsoft WebMCP Explorer, fixed-model selection evaluation and a
-release-platform SBOM or signed attestation remain useful optional assurance
-work. They are not current official submission prerequisites and should not
-delay the public-video and form-completion sequence. If undertaken, use a
-disposable Explorer profile, prefer a local loopback model, record the exact
-provider boundary and retain no credential or personal context.
+Until that work is complete, do not describe federated behaviour as released,
+deployed, CI-validated or observed in a live WebMCP host. The existing video,
+public-upload and Devpost gates remain open and must be reassessed against the
+exact federated release candidate rather than inherited from the frozen
+pre-federation baseline.

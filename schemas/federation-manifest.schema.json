@@ -4,12 +4,24 @@
   "title": "Federated corpus admission manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "generatedAt", "catalogueBundleDigest", "admissionSourceDigest", "collections", "manifestDigest"],
+  "required": ["schema", "generatedAt", "catalogueBundleDigest", "admissionSourceDigest", "federatedSearch", "collections", "manifestDigest"],
   "properties": {
     "schema": { "const": "govuk-webmcp.corpus-admission.v1" },
     "generatedAt": { "type": "string", "format": "date-time" },
     "catalogueBundleDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "admissionSourceDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "federatedSearch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount"],
+      "properties": {
+        "sourceLockSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "sourceLockDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "sourceRecordCount": { "const": 58655 },
+        "quarantinedRecordCount": { "const": 3 },
+        "recordCount": { "const": 58652 }
+      }
+    },
     "collections": {
       "type": "array",
       "minItems": 1,

@@ -23,16 +23,35 @@ export interface CorpusAdmission extends JsonObject {
 export interface FederationRuntime {
   manifestDigest: string;
   collections: CorpusAdmission[];
+  federatedSearch: FederatedSearchBinding;
   searchableCollections: number;
+  deepEvidenceCollections: number;
+  federatedCollections: number;
+  federatedSourceRecordCount: number;
+  federatedQuarantinedRecordCount: number;
+  federatedRecordCount: number;
   notSearchableCollections: number;
   stateCounts: Record<CorpusAdmission["admissionState"], number>;
+}
+
+export interface FederatedSearchBinding extends JsonObject {
+  sourceLockSha256: string;
+  sourceLockDigest: string;
+  sourceRecordCount: number;
+  quarantinedRecordCount: number;
+  recordCount: number;
 }
 
 const SHA256 = /^[a-f0-9]{64}$/u;
 const COMMIT = /^[a-f0-9]{40}$/u;
 const RELEASE_CATALOGUE_RECORD_COUNT = 80;
 const CORPUS_ID = /^corpus:[a-z0-9][a-z0-9-]{2,80}$/u;
-const ROOT_KEYS = new Set(["schema", "generatedAt", "catalogueBundleDigest", "admissionSourceDigest", "collections", "manifestDigest"]);
+const ROOT_KEYS = new Set([
+  "schema", "generatedAt", "catalogueBundleDigest", "admissionSourceDigest", "federatedSearch", "collections", "manifestDigest",
+]);
+const FEDERATED_SEARCH_KEYS = new Set([
+  "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount",
+]);
 const ENTRY_KEYS = new Set(["admission", "entryDigest"]);
 const ADMISSION_KEYS = new Set(["id", "title", "domain", "repositoryUrl", "source", "producerState", "admissionState", "payloadState", "freshness", "population", "counts", "rights", "semantics", "delivery", "decision", "boundaries"]);
 const SOURCE_KEYS = new Set(["refType", "tag", "revision", "snapshotId", "importedSha256"]);
@@ -47,10 +66,10 @@ const BOUNDARY_KEYS = new Set(["officialEndorsement", "runtimeOfficialApiCalls"]
 const REF_TYPES = new Set(["locked-import", "commit", "tag", "unversioned-local"]);
 const PRODUCER_STATES = new Set(["checkpoint", "candidate", "released", "validated", "unversioned"]);
 const ADMISSION_STATES = new Set(["searchable", "described-only", "conditional", "quarantined", "contract-only"]);
-const PAYLOAD_STATES = new Set(["deep-evidence", "lazy-candidate", "descriptor-only", "quarantined"]);
+const PAYLOAD_STATES = new Set(["deep-evidence", "federated-source-snapshot", "lazy-candidate", "descriptor-only", "quarantined"]);
 const FRESHNESS_STATES = new Set(["observed", "not-established", "not-applicable"]);
 const ACCESS_STATES = new Set(["public", "restricted", "authentication-required", "access-not-established", "not-applicable"]);
-const DELIVERY_MODES = new Set(["same-origin-bundle", "descriptor-only", "quarantined"]);
+const DELIVERY_MODES = new Set(["same-origin-bundle", "same-origin-lazy-index", "descriptor-only", "quarantined"]);
 
 function exactObject(value: unknown, keys: ReadonlySet<string>, label: string): JsonObject {
   if (value === null || typeof value !== "object" || Array.isArray(value) || Object.getPrototypeOf(value) !== Object.prototype) {
@@ -153,6 +172,28 @@ export async function createFederationRuntime(
   if (root.generatedAt === null) throw new Error("Federation generatedAt must not be null.");
   const observedManifestDigest = await sha256Hex(canonicalJson(withoutField(root, "manifestDigest")));
   if (observedManifestDigest !== root.manifestDigest) throw new Error("The federation manifest digest is invalid.");
+  const federatedSearchObject = exactObject(root.federatedSearch, FEDERATED_SEARCH_KEYS, "Federated-search binding");
+  for (const key of FEDERATED_SEARCH_KEYS) {
+    if (!(key in federatedSearchObject)) throw new Error(`The federated-search binding is missing ${key}.`);
+  }
+  if (
+    typeof federatedSearchObject.sourceLockSha256 !== "string" || !SHA256.test(federatedSearchObject.sourceLockSha256) ||
+    typeof federatedSearchObject.sourceLockDigest !== "string" || !SHA256.test(federatedSearchObject.sourceLockDigest) ||
+    federatedSearchObject.sourceRecordCount !== 58_655 ||
+    federatedSearchObject.quarantinedRecordCount !== 3 ||
+    federatedSearchObject.recordCount !== 58_652 ||
+    Number(federatedSearchObject.sourceRecordCount) !==
+      Number(federatedSearchObject.recordCount) + Number(federatedSearchObject.quarantinedRecordCount)
+  ) {
+    throw new Error("The federated-search source-lock and population binding is invalid.");
+  }
+  const federatedSearch = Object.freeze({
+    sourceLockSha256: federatedSearchObject.sourceLockSha256,
+    sourceLockDigest: federatedSearchObject.sourceLockDigest,
+    sourceRecordCount: Number(federatedSearchObject.sourceRecordCount),
+    quarantinedRecordCount: Number(federatedSearchObject.quarantinedRecordCount),
+    recordCount: Number(federatedSearchObject.recordCount),
+  }) as FederatedSearchBinding;
 
   const identifiers = new Set<string>();
   const collections: CorpusAdmission[] = [];
@@ -272,24 +313,55 @@ export async function createFederationRuntime(
   }
 
   const searchable = collections.filter(({ admissionState }) => admissionState === "searchable");
-  const searchableIds = new Set(searchable.map(({ id }) => id));
-  if (
-    searchable.length !== 2 || !searchableIds.has("corpus:govuk-new-child") ||
-    !searchableIds.has("corpus:curated-government-data-apis")
-  ) {
-    throw new Error("The federation must expose exactly the two reviewed deep-evidence collections as searchable.");
+  const deepEvidence = searchable.filter(({ payloadState }) => payloadState === "deep-evidence");
+  const federatedSnapshots = searchable.filter(({ payloadState }) => payloadState === "federated-source-snapshot");
+  const deepEvidenceIds = new Set(deepEvidence.map(({ id }) => id));
+  const federatedIds = new Set(federatedSnapshots.map(({ id }) => id));
+  if (searchable.length !== 6 || deepEvidence.length + federatedSnapshots.length !== searchable.length) {
+    throw new Error("The federation must expose exactly six searchable collections: two reviewed and four federated.");
   }
-  const searchableRecords = searchable.reduce((total, admission) => {
+  if (
+    deepEvidence.length !== 2 || !deepEvidenceIds.has("corpus:govuk-new-child") ||
+    !deepEvidenceIds.has("corpus:curated-government-data-apis")
+  ) {
+    throw new Error("The federation must preserve exactly the two reviewed deep-evidence collections.");
+  }
+  const deepEvidenceRecords = deepEvidence.reduce((total, admission) => {
     const recordCount = admission.counts.find(({ metric }) => metric === "records")?.count;
     if (admission.payloadState !== "deep-evidence" || recordCount !== admission.population.denominator) {
-      throw new Error(`Searchable corpus ${admission.id} no longer matches its reviewed deep-evidence boundary.`);
+      throw new Error(`Deep-evidence corpus ${admission.id} no longer matches its reviewed boundary.`);
     }
     return total + Number(recordCount);
   }, 0);
-  if (searchableRecords !== catalogueRecordCount) {
+  if (deepEvidenceRecords !== catalogueRecordCount) {
     throw new Error(
-      `The searchable corpus admissions account for ${searchableRecords} records but the catalogue contains ${catalogueRecordCount}.`,
+      `The deep-evidence corpus admissions account for ${deepEvidenceRecords} records but the catalogue contains ${catalogueRecordCount}.`,
     );
+  }
+  if (
+    federatedSnapshots.length !== 4 ||
+    !["corpus:uk-life-course", "corpus:ons-metadata", "corpus:uk-government-apis", "corpus:land-registry-metadata"]
+      .every((id) => federatedIds.has(id))
+  ) {
+    throw new Error("The federation must expose exactly the four admitted OKF source snapshots.");
+  }
+  const federatedSourceRecordCount = federatedSnapshots.reduce((total, admission) => {
+    if (!Number.isInteger(admission.population.denominator) || Number(admission.population.denominator) < 1) {
+      throw new Error(`Federated corpus ${admission.id} has no valid source-snapshot denominator.`);
+    }
+    return total + Number(admission.population.denominator);
+  }, 0);
+  if (federatedSourceRecordCount !== federatedSearch.sourceRecordCount) {
+    throw new Error(
+      `The federated source snapshots account for ${federatedSourceRecordCount} rather than ${federatedSearch.sourceRecordCount} source records.`,
+    );
+  }
+  const legislation = collections.find(({ id }) => id === "corpus:uk-legislation");
+  if (
+    legislation?.admissionState !== "quarantined" || legislation.payloadState !== "quarantined" ||
+    legislation.delivery.mode !== "descriptor-only"
+  ) {
+    throw new Error("The UK legislation collection must remain explicitly excluded.");
   }
   if (catalogueRecordCount !== RELEASE_CATALOGUE_RECORD_COUNT) {
     throw new Error(`The federation requires the exact ${RELEASE_CATALOGUE_RECORD_COUNT}-record release catalogue.`);
@@ -301,7 +373,13 @@ export async function createFederationRuntime(
   return {
     manifestDigest: root.manifestDigest,
     collections,
+    federatedSearch,
     searchableCollections: searchable.length,
+    deepEvidenceCollections: deepEvidence.length,
+    federatedCollections: federatedSnapshots.length,
+    federatedSourceRecordCount,
+    federatedQuarantinedRecordCount: federatedSearch.quarantinedRecordCount,
+    federatedRecordCount: federatedSearch.recordCount,
     notSearchableCollections: collections.length - searchable.length,
     stateCounts,
   };

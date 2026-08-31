@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:okf-federation-lock:v1",
+  "title": "Checksum-bound OKF federation source lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "profile", "evidenceTier", "authoredAt", "aggregate", "sources", "lockDigest"],
+  "properties": {
+    "schema": { "const": "govuk-webmcp.okf-federation-lock.v1" },
+    "profile": { "const": "govuk-webmcp.okf-federated-search.v1" },
+    "evidenceTier": { "const": "federated-source-snapshot" },
+    "authoredAt": { "type": "string", "format": "date-time" },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceCount", "recordCount", "artifactCount", "decodedArtifactBytes", "storedArtifactBytes", "sourceIdentityDigest", "aggregateDigest"],
+      "properties": {
+        "sourceCount": { "const": 4 },
+        "recordCount": { "const": 58655 },
+        "artifactCount": { "const": 73 },
+        "decodedArtifactBytes": { "type": "integer", "minimum": 1, "maximum": 471859200 },
+        "storedArtifactBytes": { "type": "integer", "minimum": 1, "maximum": 33554432 },
+        "sourceIdentityDigest": { "$ref": "#/$defs/sha256" },
+        "aggregateDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        { "$ref": "#/$defs/ukLiving" },
+        { "$ref": "#/$defs/ons" },
+        { "$ref": "#/$defs/governmentApis" },
+        { "$ref": "#/$defs/landRegistry" }
+      ],
+      "items": false
+    },
+    "lockDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "safePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^(?!/)(?!.*//)(?!.*[%?#\\\\])(?!.*/(?:\\.\\.?)(?:/|$))[A-Za-z0-9][A-Za-z0-9._/-]*$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": { "$ref": "#/$defs/safePath" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 16777216 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "searchReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256", "schema"],
+      "properties": {
+        "path": { "$ref": "#/$defs/safePath" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 16777216 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "schema": { "enum": ["okf-static-search.v1", "okf-static-search.v2"] }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "sourcePath", "storedPath", "sourceBytes", "sourceSha256", "storedBytes", "storedSha256", "compression", "itemCount"],
+      "properties": {
+        "role": { "enum": ["records", "resources", "supporting"] },
+        "sourcePath": { "$ref": "#/$defs/safePath" },
+        "storedPath": {
+          "allOf": [
+            { "$ref": "#/$defs/safePath" },
+            { "type": "string", "pattern": "^app/data/sources/okf-federation/(?:uk-living|ons|government-apis|land-registry)/(?:records|resources|supporting)-[0-9]{3}\\.json\\.gz$" }
+          ]
+        },
+        "sourceBytes": { "type": "integer", "minimum": 2, "maximum": 16777216 },
+        "sourceSha256": { "$ref": "#/$defs/sha256" },
+        "storedBytes": { "type": "integer", "minimum": 2, "maximum": 16777216 },
+        "storedSha256": { "$ref": "#/$defs/sha256" },
+        "compression": { "const": "gzip" },
+        "itemCount": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+      }
+    },
+    "population": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["records", "unit"],
+      "properties": {
+        "records": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "unit": { "const": "search documents" },
+        "serviceFamilies": { "type": "integer", "minimum": 0 },
+        "resources": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "repositoryUrl", "baseUrl", "deploymentId", "revision", "revisionReproducibility", "snapshot", "descriptor", "dataManifest", "searchManifest", "population", "recordArtifacts", "supportingArtifacts", "requestPolicy", "budgets", "rights", "access", "limitations", "boundaries", "entryDigest"],
+      "properties": {
+        "id": { "enum": ["uk-living", "ons", "government-apis", "land-registry"] },
+        "title": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "repositoryUrl": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/chris-page-gov/" },
+        "baseUrl": { "type": "string", "format": "uri", "pattern": "^https://chris-page-gov\\.github\\.io/" },
+        "deploymentId": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "revision": { "$ref": "#/$defs/revision" },
+        "revisionReproducibility": { "enum": ["exact-repository-revision", "deployed-bytes-observed-separately"] },
+        "snapshot": { "type": ["string", "null"], "maxLength": 200 },
+        "descriptor": { "$ref": "#/$defs/reference" },
+        "dataManifest": { "$ref": "#/$defs/reference" },
+        "searchManifest": { "$ref": "#/$defs/searchReference" },
+        "population": { "$ref": "#/$defs/population" },
+        "recordArtifacts": { "type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/artifact" } },
+        "supportingArtifacts": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/artifact" } },
+        "requestPolicy": {
+          "const": { "credentials": "omit", "redirect": "error", "sameOriginOnly": true }
+        },
+        "budgets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maximumResourceBytes", "maximumDecodedBytes", "maximumStoredBytes", "maximumArtifacts"],
+          "properties": {
+            "maximumResourceBytes": { "const": 16777216 },
+            "maximumDecodedBytes": { "type": "integer", "minimum": 1, "maximum": 471859200 },
+            "maximumStoredBytes": { "type": "integer", "minimum": 1, "maximum": 33554432 },
+            "maximumArtifacts": { "type": "integer", "minimum": 1, "maximum": 64 }
+          }
+        },
+        "rights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "statement"],
+          "properties": {
+            "status": { "enum": ["source-specific", "not-established"] },
+            "statement": { "type": "string", "minLength": 10, "maxLength": 700 }
+          }
+        },
+        "access": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "statement"],
+          "properties": {
+            "status": { "const": "public-static-metadata" },
+            "statement": { "type": "string", "minLength": 10, "maxLength": 700 }
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": { "type": "string", "minLength": 10, "maxLength": 700 }
+        },
+        "boundaries": {
+          "const": { "officialApiCalls": false, "personalContextAccepted": false, "sourceDerivedContentIsUntrusted": true }
+        },
+        "entryDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "ukLiving": {
+      "allOf": [
+        { "$ref": "#/$defs/source" },
+        {
+          "type": "object",
+          "properties": {
+            "id": { "const": "uk-living" },
+            "title": { "const": "A Life in the UK — life-course discovery corpus" },
+            "repositoryUrl": { "const": "https://github.com/chris-page-gov/okf-uk-living" },
+            "baseUrl": { "const": "https://chris-page-gov.github.io/okf-uk-living/" },
+            "deploymentId": { "const": "5943077379" },
+            "revision": { "const": "4bc010eab3c9c072f68960393c1458a772aa700b" },
+            "revisionReproducibility": { "const": "exact-repository-revision" },
+            "snapshot": { "const": "life-course-authority-infrastructure-2026-08-08" },
+            "descriptor": { "const": { "path": "okf-explorer.json", "bytes": 3378, "sha256": "ff69f0162a4ba93156b150ae4eea0070c8c8a81187ed5cc7d2425f37b8db34dc" } },
+            "dataManifest": { "const": { "path": "large/data/manifest.json", "bytes": 1590, "sha256": "fe0e11219ceec88702ca8a5d536d6d0ac0425f3bb29c7586884cfb0e56c957b4" } },
+            "searchManifest": { "const": { "path": "large/data/search/manifest.json", "bytes": 13344, "sha256": "112608e17bca06d6b92313dbcdcff1f1798a2bfdc2cb11724a3d26b88d3d5e26", "schema": "okf-static-search.v1" } },
+            "population": { "const": { "records": 9757, "unit": "search documents", "serviceFamilies": 293, "resources": 879 } },
+            "recordArtifacts": {
+              "type": "array",
+              "minItems": 10,
+              "maxItems": 10,
+              "items": { "allOf": [{ "$ref": "#/$defs/artifact" }, { "type": "object", "properties": { "role": { "const": "records" }, "sourcePath": { "type": "string", "pattern": "^large/data/records-[0-9]\\.json$" }, "storedPath": { "type": "string", "pattern": "^app/data/sources/okf-federation/uk-living/records-00[0-9]\\.json\\.gz$" } } }] }
+            },
+            "supportingArtifacts": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": { "allOf": [{ "$ref": "#/$defs/artifact" }, { "type": "object", "properties": { "role": { "const": "resources" }, "sourcePath": { "const": "large/data/resources-0.json" }, "storedPath": { "const": "app/data/sources/okf-federation/uk-living/resources-000.json.gz" } } }] }
+            },
+            "budgets": { "const": { "maximumResourceBytes": 16777216, "maximumDecodedBytes": 22734659, "maximumStoredBytes": 692870, "maximumArtifacts": 11 } },
+            "rights": { "const": { "status": "source-specific", "statement": "Repository-authored structures and summaries use the producer notice; upstream content remains link-only." } },
+            "access": { "const": { "status": "public-static-metadata", "statement": "Discovery routes only; jurisdiction, eligibility and provider decisions remain with the linked current authority." } },
+            "limitations": { "const": ["The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.", "Only 2 of 293 service families had named specialist acceptance at publication time.", "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."] }
+          }
+        }
+      ]
+    },
+    "ons": {
+      "allOf": [
+        { "$ref": "#/$defs/source" },
+        {
+          "type": "object",
+          "properties": {
+            "id": { "const": "ons" },
+            "title": { "const": "ONS data discovery OKF" },
+            "repositoryUrl": { "const": "https://github.com/chris-page-gov/okf-ons" },
+            "baseUrl": { "const": "https://chris-page-gov.github.io/okf-ons/" },
+            "deploymentId": { "const": "5969704658" },
+            "revision": { "const": "b0283b0d0dd2bbd06a8311dd5d1342eea0c36fdf" },
+            "revisionReproducibility": { "const": "deployed-bytes-observed-separately" },
+            "snapshot": { "const": "monday-2026-07-17-r2" },
+            "descriptor": { "const": { "path": "okf-explorer.json", "bytes": 6208, "sha256": "a317360e11996059da9957d89d25e7b9cf5c9b94f31184e36baeee74a4af2719" } },
+            "dataManifest": { "const": { "path": "data/manifest.json", "bytes": 3644, "sha256": "464aab1ad75fdf518ba31c394ecd78521b2e839602e6eaa97184bab89729ff09" } },
+            "searchManifest": { "const": { "path": "data/search/manifest.json", "bytes": 78812, "sha256": "371de3b41a8c294313263de0d1795e98494ce061a053b9df99aac10efb97f53c", "schema": "okf-static-search.v2" } },
+            "population": { "const": { "records": 5097, "unit": "search documents" } },
+            "recordArtifacts": {
+              "type": "array",
+              "minItems": 11,
+              "maxItems": 11,
+              "items": { "allOf": [{ "$ref": "#/$defs/artifact" }, { "type": "object", "properties": { "role": { "const": "records" }, "sourcePath": { "type": "string", "pattern": "^data/datasets-(?:[0-9]|10)\\.json$" }, "storedPath": { "type": "string", "pattern": "^app/data/sources/okf-federation/ons/records-0(?:0[0-9]|10)\\.json\\.gz$" } } }] }
+            },
+            "supportingArtifacts": { "type": "array", "maxItems": 0 },
+            "budgets": { "const": { "maximumResourceBytes": 16777216, "maximumDecodedBytes": 117422624, "maximumStoredBytes": 3644695, "maximumArtifacts": 11 } },
+            "rights": { "const": { "status": "source-specific", "statement": "Rights remain source-specific; metadata inclusion does not grant access to a statistical service or observation payload." } },
+            "access": { "const": { "status": "public-static-metadata", "statement": "Metadata discovery only; source endpoints and selection requirements remain producer-controlled." } },
+            "limitations": { "const": ["The snapshot contains metadata from four declared adapters, not current statistical observations.", "The repository revision does not by itself reproduce the ignored generated Pages bundle; its deployed bytes are locked separately.", "A result does not establish statistical accuracy, currentness, endpoint access or permission to reuse linked material."] }
+          }
+        }
+      ]
+    },
+    "governmentApis": {
+      "allOf": [
+        { "$ref": "#/$defs/source" },
+        {
+          "type": "object",
+          "properties": {
+            "id": { "const": "government-apis" },
+            "title": { "const": "UK Government APIs OKF" },
+            "repositoryUrl": { "const": "https://github.com/chris-page-gov/okf-uk-government-apis" },
+            "baseUrl": { "const": "https://chris-page-gov.github.io/okf-uk-government-apis/" },
+            "deploymentId": { "const": "5969350495" },
+            "revision": { "const": "55c7e67947dfd86e291ca987e354429c36b453d9" },
+            "revisionReproducibility": { "const": "exact-repository-revision" },
+            "snapshot": { "const": null },
+            "descriptor": { "const": { "path": "okf-explorer.json", "bytes": 6390, "sha256": "9f268bbe014317384aa49cf39b42388f1bfe8b8c3d96b122da3ca7a58cd03c19" } },
+            "dataManifest": { "const": { "path": "data/manifest.json", "bytes": 6906, "sha256": "f1f82072950b83e6b5300b93ff55dc7b82d1f7045a085f7533afd2fba8fcbbca" } },
+            "searchManifest": { "const": { "path": "data/search/manifest.json", "bytes": 74160, "sha256": "8586ef20a136340509b20814fa5bf12c0bc88c6c36c8f50d5ac9c2efb426ccb5", "schema": "okf-static-search.v1" } },
+            "population": { "const": { "records": 41598, "unit": "search documents" } },
+            "recordArtifacts": {
+              "type": "array",
+              "minItems": 42,
+              "maxItems": 42,
+              "items": { "allOf": [{ "$ref": "#/$defs/artifact" }, { "type": "object", "properties": { "role": { "const": "records" }, "sourcePath": { "type": "string", "pattern": "^data/apis-(?:[0-9]|[1-3][0-9]|4[01])\\.json$" }, "storedPath": { "type": "string", "pattern": "^app/data/sources/okf-federation/government-apis/records-0(?:[0-3][0-9]|4[01])\\.json\\.gz$" } } }] }
+            },
+            "supportingArtifacts": { "type": "array", "maxItems": 0 },
+            "budgets": { "const": { "maximumResourceBytes": 16777216, "maximumDecodedBytes": 270833628, "maximumStoredBytes": 8233912, "maximumArtifacts": 42 } },
+            "rights": { "const": { "status": "source-specific", "statement": "Licence and access evidence are record-specific; missing or inferred evidence remains visible and fails closed." } },
+            "access": { "const": { "status": "public-static-metadata", "statement": "Catalogue metadata only; no endpoint is called and no credential, authorisation or service availability is implied." } },
+            "limitations": { "const": ["The snapshot describes 41,598 records and is not a claim about every UK public API or dataset.", "Many producer records have missing, inferred or incomplete licence and access evidence.", "A catalogue result does not establish that an endpoint is live, public, authorised, openly licensed or safe to call."] }
+          }
+        }
+      ]
+    },
+    "landRegistry": {
+      "allOf": [
+        { "$ref": "#/$defs/source" },
+        {
+          "type": "object",
+          "properties": {
+            "id": { "const": "land-registry" },
+            "title": { "const": "HM Land Registry public-estate OKF" },
+            "repositoryUrl": { "const": "https://github.com/chris-page-gov/okf-LandRegistry" },
+            "baseUrl": { "const": "https://chris-page-gov.github.io/okf-LandRegistry/" },
+            "deploymentId": { "const": "5860288274" },
+            "revision": { "const": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc" },
+            "revisionReproducibility": { "const": "exact-repository-revision" },
+            "snapshot": { "const": "hmlr-public-metadata-v0.2.0" },
+            "descriptor": { "const": { "path": "okf-explorer.json", "bytes": 11287, "sha256": "36d21eee6b3fcf85ea1a9f9a6501e39d73acba3aef9904c4120075878d4b4b5d" } },
+            "dataManifest": { "const": { "path": "data/explorer/manifest.json", "bytes": 21557, "sha256": "8c59a3578fad8e5a5e67e70f66db19683bf41826e205fdc53c72ccd0b9a7f5dc" } },
+            "searchManifest": { "const": { "path": "data/explorer/search/manifest.json", "bytes": 22773, "sha256": "25d47dab9b157dc96b27208e67af12d4ac5c35abfb4fb8dd89062cccba4f8707", "schema": "okf-static-search.v2" } },
+            "population": { "const": { "records": 2203, "unit": "search documents" } },
+            "recordArtifacts": {
+              "type": "array",
+              "minItems": 9,
+              "maxItems": 9,
+              "items": { "allOf": [{ "$ref": "#/$defs/artifact" }, { "type": "object", "properties": { "role": { "const": "records" }, "sourcePath": { "type": "string", "pattern": "^data/explorer/datasets-00[0-8]\\.json$" }, "storedPath": { "type": "string", "pattern": "^app/data/sources/okf-federation/land-registry/records-00[0-8]\\.json\\.gz$" } } }] }
+            },
+            "supportingArtifacts": { "type": "array", "maxItems": 0 },
+            "budgets": { "const": { "maximumResourceBytes": 16777216, "maximumDecodedBytes": 9454306, "maximumStoredBytes": 450198, "maximumArtifacts": 9 } },
+            "rights": { "const": { "status": "source-specific", "statement": "Per-record rights and access evidence are retained from the producer; inclusion does not grant rights to property data." } },
+            "access": { "const": { "status": "public-static-metadata", "statement": "Metadata routes only; no title, property, ownership, address, polygon or personal records are included." } },
+            "limitations": { "const": ["Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.", "The producer is independent and is not endorsed by HM Land Registry.", "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."] }
+          }
+        }
+      ]
+    }
+  }
+}

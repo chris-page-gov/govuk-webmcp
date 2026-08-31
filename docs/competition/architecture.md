@@ -1,4 +1,9 @@
-# Static competition architecture
+# Static competition architecture and federated candidate
+
+The first diagram records the frozen pre-federation architecture through
+`v0.2.0-rc.2`. Annotated tag `v0.2.0-rc.2` resolves to product commit
+`35fcedd39ed955278d3975a6dd80692fc6e32935` and is retained without rewrite;
+the GitHub release is not described as platform-immutable.
 
 ```text
 Four exact authored source locks
@@ -37,27 +42,114 @@ One shared action controller
 Person and agent inspect the same deterministic evidence and authoritative links
 ```
 
+Version `0.3.0-rc.1` implements the federated architecture locally. Its
+protected integration, exact public deployment and current-candidate host
+evidence remain pending:
+
+```text
+80 reviewed deep-evidence records       Four locked OKF source snapshots
+with 80 item-level receipts             ├─ A Life in the UK: 9,757
+                                        │  including 293 service families
+                                        ├─ ONS metadata: 5,097
+                                        ├─ UK Government APIs: 41,598
+                                        └─ HM Land Registry metadata: 2,203 raw
+                                           ├─ 2,200 searchable
+                                           └─ 3 legislation rows quarantined
+              │                                      │
+              │                                      └─ 58,655 locked raw rows
+              │                                         before deduplication;
+              │                                         58,652 searchable
+              └──────────────────┬───────────────────┘
+                                 ▼
+              five exact source-lock registry entries
+              ├─ four retained reviewed inputs
+              └─ one four-publication federation lock
+                                 │
+                                 ▼
+              validated same-origin evidence planes
+              ├─ reviewed catalogue and receipts
+              ├─ Evidence Trace and 10 corpus admissions
+              │   ├─ 6 searchable
+              │   └─ 4 non-searchable
+              └─ manifest-first federated search
+                  ├─ 73 versioned gzip inputs (13,021,675 bytes)
+                  └─ 1,853 shards + manifest + sidecar
+                     (1,855 files; 127,747,020 bytes)
+                                 │
+                                 ▼
+                    one shared action controller
+              ├─ complete accessible human journey
+              └─ the same five page-scoped WebMCP tools
+                                 │
+                                 ▼
+              tiered result with source, snapshot, link role,
+              integrity basis and limitations; no trust score
+```
+
+Federated trust labels are conservative. Producer text cannot promote an
+arbitrary link or assertion to official status: the public result uses a
+producer-declared link role and `producer-declared` assertion status unless the
+application independently performs a narrow, deterministic normalisation. An
+exact federated record reports source authority as “Not independently
+established”, and the human interface displays the recorded link destination
+hostname so a person can inspect where the link goes.
+
+No standalone UK Legislation collection, payload, index or runtime request is
+included. Three standalone Land Registry legislation rows are quarantined, and
+the searchable projection contains zero `legislation.gov.uk` result links. The
+locked snapshots still retain 28 source-authored cross-reference strings as
+inert, untrusted metadata: 6 in A Life in the UK, 3 in ONS, 2 in UK Government
+APIs and 17 in Land Registry. Literal source-byte exclusion is therefore not an
+architectural claim.
+
 ## Authored and generated boundaries
 
-The four authored locks are the only generator inputs admitted by this
-candidate. A lock binds an expected identifier to one exact repository path,
-item count and SHA-256 value. The validator rejects extra or duplicate locks,
-path swaps, count changes, directories, symbolic links and a file that changes
-while it is being opened.
+The frozen pre-federation candidate has four source-lock registry entries. The
+current candidate has five: the same four reviewed inputs plus
+`okf-federation:public-pages-2026-08-30`, which binds the project-authored
+four-publication federation lock. A registry entry binds an expected
+identifier to one exact repository path, item count and SHA-256 value. The
+validator rejects extra or duplicate entries, path swaps, count changes,
+directories, symbolic links and a file that changes while it is being opened.
 
 The generators produce the catalogue and receipts, the Evidence Trace
-collection and the federation manifest. They do not change the authored
-sources. At runtime, the page checks each artefact's same-origin bytes against
-its sidecar, then checks its closed structure, internal digests and bindings.
-A failure in any of the four artefact families leaves the human fallback error
-visible and prevents all five tools from registering.
+collection, the corpus-admission manifest and the federated search plane. They
+do not change the authored sources. Thirty-one closed JSON Schemas cover the
+authored, generated, input and output contracts. At runtime, the page checks
+the 10 initial same-origin files — five roots and five SHA-256 sidecars — then
+checks their closed structure, internal digests and bindings. An initial-root
+failure leaves the human fallback error visible and prevents all five tools
+from registering.
 
-The federation manifest records `sourceOkfCore` separately from
+The corpus-admission manifest records `sourceOkfCore` separately from
 `targetOkfCore`. The target is OKF core 0.2 for every admission; the source may
 be 0.1, 0.2 or undeclared. A crosswalk or descriptor records an assessed
-relationship only. It does not admit, copy or make the producer payload
-searchable. Only the two reviewed deep-evidence collections account for the 80
-searchable records.
+relationship only. It does not by itself admit, copy or make a producer payload
+searchable. At this working-tree checkpoint the manifest has 6 searchable
+admissions: 2 reviewed deep-evidence collections accounting for 80 records and
+4 federated source-snapshot collections accounting for 58,652 searchable
+records from 58,655 locked raw rows. Three Land Registry legislation rows are
+quarantined. The other 4 admissions remain non-searchable. Recompute admission
+and schema totals after the exact-tree rescan before release binding.
+
+The four-source OKF lock binds exact collection identity, publication base,
+revision or observed deployment bytes, snapshot, descriptor, data and search
+manifests, artefacts, counts, digests, rights, access and resource budgets. Its
+73 versioned gzip artefacts total 13,021,675 bytes. The deterministic builder
+creates 1,853 ignored shard files — 120 record shards and 1,733 postings shards
+— plus the manifest and checksum sidecar, for 1,855 files and 127,747,020 bytes
+in total. The plane is included in the validated Pages artefact and is not
+committed as authored source. Only
+declared files are projected to same-origin paths. A source-snapshot record
+retains those bindings but does not gain the reviewed tier's item-level
+receipt.
+
+The page loads only the federated manifest and checksum at start-up. A query
+then requests checksum-bound postings and only the record shards needed for
+its bounded result. Every collection status reports deterministic
+`verifiedShardFiles` and `verifiedShardBytes` counters. A bad lazy shard marks
+that collection unavailable while the reviewed tier and other valid
+collections remain usable; no external or source-origin fallback is attempted.
 
 ## Evidence-first interaction
 
@@ -76,7 +168,14 @@ state.
 
 ## Runtime and service boundary
 
-The page makes no runtime call to GOV.UK, a data provider or a model provider.
+The page makes no runtime call to GOV.UK, an OKF producer, an operational data
+provider or a model provider. The federated candidate loads only generated
+same-origin static search assets from the fixed
+`data/federated-search/` namespace, with credentials omitted and redirects
+rejected. Response bodies are consumed incrementally under the fixed byte cap;
+strict `Content-Length`, missing-body, empty-body and streamed-overflow checks
+fail closed. The static host can observe ordinary and query-derived asset
+requests.
 Packaged evidence receipts describe the static build; tool calls do not create
 a durable receipt. This prototype does not implement or claim a durable MCP
 gateway, provider execution, authentication, service operations or an access
@@ -118,7 +217,9 @@ prompt context may be sent to that provider under its own terms. A correctly
 configured local model can keep model inference on the citizen's device, but
 ordinary requests for the static page still reach its host and local software
 may retain logs. The proposed reduction in government-hosted AI cost and data
-collection is a hypothesis for measurement, not a demonstrated saving.
+collection is a hypothesis for measurement, not a demonstrated saving. Better
+questions, improved privacy and improved answer quality are separate
+hypotheses, not consequences inferred from the architecture.
 
 ## Independent assurance boundary
 
@@ -134,9 +235,10 @@ For the corrected public deployment, the first and third layers are now
 observed separately: Chrome 152's native WebMCP panel completed all five valid
 calls and displayed a structured invalid-input result, while Chrome DevTools
 MCP 1.8.0 completed the same five-tool public journey with zero console errors.
-Both are deterministic host-execution evidence. Microsoft Explorer and a fixed
-model-selection run remain deliberately open rather than being inferred from
-those results.
+Both are deterministic host-execution evidence. Microsoft Explorer and a
+passing fixed-model selection result remain deliberately open. Three local
+model attempts are retained separately as failed variance evidence rather than
+being inferred from deterministic host execution.
 
 These harnesses operate only against the public synthetic fixture in an
 isolated browser profile with no unrelated tabs, saved credentials or personal
@@ -146,3 +248,26 @@ and unredacted headers do not. Raw reports remain local until reviewed because
 they can contain prompts, tool metadata, arguments, results, console output and
 page URLs; retained submission evidence is sanitised, checksummed and bound to
 the exact tested revision.
+
+For `0.3.0-rc.1`, the A–M matrix adds source allowlisting, semantic mutation,
+progressive-budget, deterministic-ranking, four-producer, evidence-shape,
+partial-failure, context-minimisation, injection/resource, repeated fixed-model,
+accessibility, whole-system-cost and release-binding gates. Local production
+build, byte-idempotence, 144 unit tests, 29 Chrome tests, 29 Edge tests and six
+model-free smoke calls were observed at the last complete pre-remediation
+checkpoint. The unit run completed in 174.5 seconds. Seven initial Low security
+findings were remediated; sealed scan
+`9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed those seven and found one
+further High-confidence Low URL bypass, fixed post-snapshot. Focused security
+checks passed 119 of 119 and the affected post-fix subset passed 23 of 23. The
+scan's mechanically partial and stale-pending coverage and the post-snapshot
+fix keep the immutable rescan open. The current research, build/data, lexical-
+quality, Chrome, Microsoft Edge and authorised model-free smoke gates pass
+where recorded; `npm run test:unit:prepared` passed 173 of 173 in
+`17128.154916 ms`. CI and Pages require the
+frozen nDCG@10 and Recall@20 gate after the complete suite; its current local
+result is mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm parity and
+legislation absent or rejected. CI, Pages, release tag and current-candidate
+supported-host capture remain pending. No pre-federation browser,
+accessibility, video or host receipt is
+evidence that the expanded candidate passes those remaining gates.

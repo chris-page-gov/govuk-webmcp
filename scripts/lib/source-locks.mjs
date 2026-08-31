@@ -8,6 +8,7 @@ export const SOURCE_LOCK_IDS = Object.freeze({
   CURATED_API_DATA: "curated-official-api-data-2026-08-29",
   ANSWER_PACKS: "answer-packs:curated-2026-08-30",
   CORPUS_ADMISSIONS: "corpus-admissions:reviewed-2026-08-30",
+  OKF_FEDERATION: "okf-federation:public-pages-2026-08-30",
 });
 
 export const EXPECTED_SOURCE_LOCKS = Object.freeze([
@@ -30,6 +31,11 @@ export const EXPECTED_SOURCE_LOCKS = Object.freeze([
     id: SOURCE_LOCK_IDS.CORPUS_ADMISSIONS,
     importedPath: "app/data/sources/corpus-admissions.json",
     recordCount: 10,
+  }),
+  Object.freeze({
+    id: SOURCE_LOCK_IDS.OKF_FEDERATION,
+    importedPath: "app/data/sources/okf-federation-lock.json",
+    recordCount: 4,
   }),
 ]);
 
@@ -77,6 +83,7 @@ function itemCount(value) {
   if (value !== null && typeof value === "object") {
     if (Array.isArray(value.packs)) return value.packs.length;
     if (Array.isArray(value.collections)) return value.collections.length;
+    if (Array.isArray(value.sources)) return value.sources.length;
   }
   return undefined;
 }

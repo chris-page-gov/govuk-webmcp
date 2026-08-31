@@ -31,8 +31,8 @@ const expectedTools = [
   {
     name: "search_government_knowledge",
     readOnly: true,
-    input: { query: "register a birth", limit: 3 },
-    schema: "trusted-govuk-discovery.search-result.v1",
+    input: { query: "register a birth", collections: ["deep-evidence"], limit: 3 },
+    schema: "trusted-govuk-discovery.search-result.v2",
   },
   {
     name: "get_resource_record",

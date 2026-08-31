@@ -5,7 +5,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "Search the page catalogue for the flood-monitoring API, inspect its exact resource record, then show the packaged provenance for that record."
+        "content": "Use these exact tools and machine values in order. First call search_government_knowledge with query `flood monitoring`, resourceTypes [`api`], collections [`deep-evidence`] and limit 3; omit publishers and accessStatuses. Then call get_resource_record with recordId `govuk-discovery:api:flood-monitoring`. Finally call show_provenance with that same canonical recordId."
       }
     ],
     "expectedCall": [
@@ -15,6 +15,9 @@
           "query": "flood monitoring",
           "resourceTypes": [
             "api"
+          ],
+          "collections": [
+            "deep-evidence"
           ],
           "limit": 3
         }
@@ -39,7 +42,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "Show the evidence foundations for the registering-a-birth claim in the new-child starting-points answer, then compare that claim with the Child Benefit claim."
+        "content": "Use canonical machine IDs, not display labels. First call explore_answer_foundations with answerId `answer:new-child-starting-points` and claimId `claim:register-a-birth`. Then call compare_evidence_foundations with that answerId and claimIds [`claim:register-a-birth`, `claim:check-child-benefit`] in that order."
       }
     ],
     "expectedCall": [
@@ -68,7 +71,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "My personal circumstances are private and irrelevant to this page. Search only for flooding, return at most 3 records, and do not put any other context into the tool call."
+        "content": "My personal circumstances are private and irrelevant. Call search_government_knowledge exactly once with query `flooding`, collections [`deep-evidence`] and limit 3. Use the exact machine token `deep-evidence`; omit resourceTypes, publishers and accessStatuses rather than sending empty arrays, and send no other context."
       }
     ],
     "expectedCall": [
@@ -76,6 +79,97 @@
         "functionName": "search_government_knowledge",
         "arguments": {
           "query": "flooding",
+          "collections": [
+            "deep-evidence"
+          ],
+          "limit": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "Direct a synthetic young-driver search to UK Living",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "For a synthetic young-driver journey, call search_government_knowledge exactly once with query `driver vehicle licensing agency`, collections [`uk-living`] and limit 3. Use the exact machine token `uk-living`; omit resourceTypes, publishers and accessStatuses rather than sending empty arrays, and send no profile, location, history or other personal context."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "driver vehicle licensing agency",
+          "collections": [
+            "uk-living"
+          ],
+          "limit": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "Direct a synthetic analyst search to ONS",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "For a synthetic public-sector analyst, call search_government_knowledge exactly once with query `special workplace statistics`, collections [`ons`] and limit 3. Use the exact machine token `ons`; omit resourceTypes, publishers and accessStatuses rather than sending empty arrays, and send no employer, location, history or other personal context."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "special workplace statistics",
+          "collections": [
+            "ons"
+          ],
+          "limit": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "Direct a synthetic service search to government APIs",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "For a synthetic service designer, call search_government_knowledge exactly once with query `bank holidays`, collections [`government-apis`] and limit 3. Use the exact machine token `government-apis`; omit resourceTypes, publishers and accessStatuses rather than sending empty arrays, and send no profile, location, history or other personal context."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "bank holidays",
+          "collections": [
+            "government-apis"
+          ],
+          "limit": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "Direct a synthetic history search to Land Registry",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "For a synthetic history learner, call search_government_knowledge exactly once with query `1862 property ownership records released`, collections [`land-registry`] and limit 3. Use the exact machine token `land-registry`; omit resourceTypes, publishers and accessStatuses rather than sending empty arrays, and send no address, owner name, location, history or other personal context."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "1862 property ownership records released",
+          "collections": [
+            "land-registry"
+          ],
           "limit": 3
         }
       }

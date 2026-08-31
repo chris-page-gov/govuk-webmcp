@@ -2,11 +2,12 @@
 
 ## Purpose
 
-This strategy tests the proposition that a public service can publish small,
-bounded page tools while a citizen-selected AI supplies any useful personal
-context. The service should receive only the explicit, validated tool input it
-needs, rather than operating a government-hosted general-purpose assistant or
-collecting an unrelated personal profile.
+This strategy tests the proposition that a public service can publish governed
+static evidence and small, bounded page tools while a citizen-selected AI uses
+permitted context to decide which action is relevant. The service should
+receive only the explicit, validated tool input it needs, rather than operating
+a government-hosted general-purpose assistant or collecting an unrelated
+personal profile.
 
 The [user-supplied ChatGPT research](https://chatgpt.com/share/6a942aa1-cd04-83eb-af1d-a0c73074c736)
 is a secondary research input. Its proposed four-layer evidence stack is adopted
@@ -20,6 +21,12 @@ government-origin requests, bytes, compute and support effort against a defined
 server-side AI baseline. It must not count the citizen's model cost as if it had
 disappeared. This measurement is evaluation E-34 and backlog Should 12; it is
 planned work, not current prototype evidence.
+
+The federated candidate extends the evidence plane, not the privacy or cost
+claim. Its detailed gates are in the
+[OKF federated personal-agent evaluation plan](okf-federated-personal-agent-evaluation-plan.md)
+and its architecture decision is
+[ADR-0004](../adr/0004-okf-federated-discovery-and-evidence-tiers.md).
 
 ## Intended boundary
 
@@ -35,24 +42,81 @@ citizen-selected agent and model
 browser host discovers and calls fixed page tools
                 |
                 v
-same-origin, digest-validated GOV.UK metadata bundle
+same-origin, digest-validated evidence contracts
+  |                               |
+  v                               v
+80 receipt-bound records    58,652 searchable records from
+                            58,655 locked rows in four OKF snapshots
                 |
                 v
 bounded result with source links, assertions and limitations
 ```
 
-The published page must not request a profile, location history or unrelated
-conversation context. Closed schemas and executable validation admit only the
-query, filters and identifiers required for the selected action. The static page
-does not call a model provider and does not make runtime calls to official APIs.
-Those properties reduce the service-side data surface; they do not control what
-a separately selected agent or remote model provider retains.
+The published page must not request a profile, identity, location history,
+browsing history or unrelated conversation context. Closed schemas and
+executable validation admit only the query, filters and identifiers required
+for the selected action. The static page does not call a model provider and
+does not make runtime calls to official APIs. Those properties reduce the
+service-side data surface; they do not control what a separately selected agent
+or remote model provider retains. A free-text query can still contain personal
+data if a caller puts it there, so the agent should derive a general,
+task-minimal query rather than forwarding a profile or conversation extract.
 
 A local model can keep model inference on the citizen's device, but ordinary
 page requests still reach the site and local software can still log data. With a
 remote model, assume that the prompt, exposed tool descriptions, tool arguments
 and returned source-derived data may be sent to that provider. State the chosen
 host, model location and provider policy in every demonstration receipt.
+
+## Federated OKF candidate boundary
+
+The candidate adds four independently republished OKF source snapshots:
+
+- 9,757 A Life in the UK records, including 293 service families;
+- 5,097 ONS metadata records;
+- 41,598 UK Government APIs records; and
+- 2,203 HM Land Registry public-estate metadata rows, of which 2,200 are
+  searchable.
+
+Their locked raw sum is 58,655 rows before cross-source deduplication. Exactly
+three standalone Land Registry legislation rows are quarantined, leaving
+58,652 searchable federated records. Neither total is a unique-record count,
+and the federated tier remains separate from the 80 local records
+with packaged deep-evidence receipts. Every human and tool result must name its
+evidence tier and preserve the producer's route, snapshot, source links and
+limitations. A federated result does not acquire a local receipt merely because
+the application returns it.
+
+There is no standalone UK Legislation collection, payload, index or runtime
+request, and the searchable projection contains zero `legislation.gov.uk`
+result links. The four named collections retain 28 source-authored cross-
+reference strings as inert, untrusted metadata—6 in A Life in the UK, 3 in ONS,
+2 in UK Government APIs and 17 in Land Registry—so literal source-byte absence
+is not claimed. Tests must prove that those strings cannot create a fifth
+collection, request or apex/subdomain legislation result link. A failed source remains visibly
+unavailable while unaffected sources and the validated 80-record tier continue;
+the application must not replace it with an unverified fallback.
+
+The OKF publications are independent discovery republications, not official
+government services or endorsements. They do not grant access, establish an
+open licence, provide service advice or prove current source accuracy. No
+federated behaviour becomes submission evidence until its exact candidate has
+passed the new deterministic, browser, live-host and release-binding gates.
+Federated links and assertions must remain producer-declared rather than
+official; exact-record output reports source authority as “Not independently
+established”, and the human route displays the recorded destination hostname.
+
+The working tree contains remediations for eight Low security findings. Sealed
+scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed seven earlier findings
+and found one further High-confidence Low trailing-dot and secondary
+legislation-URL bypass (`csf_a2d9e030fda789ecd1cb0e41`), which was fixed after
+its snapshot. The scan reported no other open reportable candidate, but its
+coverage is mechanically partial and has stale-pending rows. Focused security
+checks passed 119 of 119, then the affected post-fix subset passed 23 of 23.
+The current research, build/data, lexical-quality, Chrome, Microsoft Edge and
+authorised model-free smoke gates pass where recorded. The full unit command
+passed 173 of 173 in `17128.154916 ms`; the immutable post-fix rescan remains a
+prerequisite for submission evidence.
 
 ## Four complementary evidence layers
 
@@ -228,7 +292,8 @@ Keep the deterministic smoke gate model-free.
 The repository wrapper requires an explicit provider-prefixed model, defaults
 to three bounded runs, uses the upstream six-step cap plus a 30-minute process
 timeout, requires `WEBMCP_EVAL_PRESENTATION_APPROVED=1`, and rejects a context-
-minimisation result if the model adds any input beyond `query` and `limit`.
+minimisation result unless the model sends exactly `query`, `collections` and
+`limit`, with `collections: ["deep-evidence"]` and no unused optional arrays.
 Only the `ollama:` route is preflighted without a download: it permits loopback
 only and checks that the exact model is already installed. A remote provider
 also requires `WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1` and the appropriate API
@@ -246,7 +311,20 @@ receipt retains full tool outputs.
 The prepared model-backed browser runner validates and fails closed on any
 upstream console error or `pageerror`. Acceptance can record only
 `browserConsoleErrorCount: 0`, with
-`browserConsoleErrorsAccepted: false`. No model-backed run has occurred.
+`browserConsoleErrorsAccepted: false`.
+
+Three local attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases, three
+runs per case (24 case executions), 33 expected rows and exact loopback-only
+model `ollama:gpt-oss:20b`, inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+expanded rows. After schema, tool-description and fixture legibility changes,
+attempt 2 passed 33 of 33 upstream rows but the strict verifier accepted 32 of
+33 because one call added empty optional arrays. Attempt 3 on the security-
+fixed tree passed 30 of 35 upstream rows after two malformed-then-corrected
+provenance IDs and one omitted comparison. All three failed overall. Preserve
+their private reports as failure and variance evidence; do not call the
+legibility improvement a model-backed pass.
 
 The wrapper initially stores private JSON, HTML and sanitised receipt files
 beneath ignored `.evals/webmcp-browser/`. After human review, copy only the
@@ -285,20 +363,28 @@ The evidence stack passes only when the same deployed commit:
 
 1. lists exactly the five intended tools and their closed schemas;
 2. rejects invalid and additional inputs;
-3. returns the common bounded source-derived result through the human interface
-   and captured host executions, while deterministic smoke independently proves
-   only the six exact `ok: true` expected-schema envelopes, not full payload
-   equivalence;
+3. returns the common bounded source-derived result and its evidence tier
+   through the human interface and captured host executions, while
+   deterministic smoke independently proves only its authored expected-schema
+   envelopes, not full payload equivalence or model selection;
 4. visibly applies and can reverse the two presentation effects;
-5. retains authoritative links, assertions, limitations and the untrusted-output
-   boundary in every path;
-6. records no unexpected network destination or durable page storage; and
-7. shows at least one fixed-model selection run, with failures and variance
-   reported rather than hidden.
+5. retains reviewed authoritative links and federated producer-declared links,
+   destination hostnames, assertions, limitations and the untrusted-output
+   boundary in every path without promoting federated authority;
+6. records no unexpected network destination or durable page storage, and
+   reports query-derived static-asset requests rather than treating them as
+   proof that no activity is visible to a host;
+7. shows isolated partial-source failure without disabling the 80-record tier
+   or silently weakening integrity; and
+8. shows repeated fixed-model selection runs, with the exact model, provider
+   boundary, failures and variance reported rather than hidden.
 
-Safe submission wording is: “The government page publishes bounded,
-source-linked tools that a citizen-selected browser agent can call. The page
-does not host a model or ask for unrelated personal context.” Do not claim that
-the architecture is private by default, that a personal agent is always more
-accurate, or that it has already saved public money. Those remain hypotheses to
-be measured.
+Safe submission wording is: “Independently republished OKF snapshots make
+governed public-sector evidence progressively retrievable. WebMCP exposes
+bounded actions over that evidence to a citizen-selected AI, while the person
+sees the same sources and limitations. The page hosts no model and its schemas
+do not accept a personal profile.” Always state that a remote provider may see
+prompts, tool metadata, arguments and results. Do not claim that the
+architecture is private by default, that a personal agent is always more
+accurate, that 58,655 raw rows means unique records, or that the design has
+already saved public money. Those remain hypotheses to be measured.
