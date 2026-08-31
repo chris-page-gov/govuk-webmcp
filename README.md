@@ -41,11 +41,14 @@ its recorded evidence and a decision that depends on your circumstances.
 
 The proposed beginner experience is documented, not implemented. Its
 [product requirements](docs/product/beginner-trust-pathway-prd.md),
+[interface specification](docs/product/beginner-interface-specification.md),
 [question and coverage matrix](docs/competition/beginner-question-coverage.md)
 and [guided model evaluation](docs/competition/beginner-conversation-evaluation-2026-08-31.md)
-treat the current public interface as the baseline for a future Technical
-review. The 12 questions are synthetic representative hypotheses, not a ranked
-list of the most common GOV.UK Chat questions or completed user research.
+define a future Guided evidence view while retaining the current public
+interface as Technical review. The specification is a testable proposal, not
+an implemented redesign. The 12 questions are synthetic representative
+hypotheses, not a ranked list of the most common GOV.UK Chat questions or
+completed user research.
 
 A pre-remediation checkpoint passed its production build, deterministic data
 double-build, focused runtime, public-schema and federation tests, complete
@@ -134,12 +137,14 @@ therefore evidence, not a substitute identity.
 The intended impact is a division of responsibility, not an embedded
 assistant: OKF publishes governed, progressively retrievable evidence; WebMCP
 lets a citizen-selected AI invoke bounded page actions over it; and the page
-hosts no model and accepts no identity, profile or general personal-context
-object. The citizen's AI can use context it already holds to choose what to ask
-without sending that context as a new page-tool field. A remote model provider may
-still receive prompts, tool metadata, arguments and results. Cost reduction,
-privacy improvement, better questions and improved answer quality remain
-hypotheses that require the recorded evaluation plan.
+hosts no model and exposes no dedicated identity, profile or general personal-
+context field. Bounded free-text search can still contain personal details, so
+the interface warns against including them. The citizen's AI can use context it
+already holds to choose what to ask without sending that context as a new page-
+tool field. A remote model provider may still receive prompts, tool metadata,
+arguments and results. Cost reduction, privacy improvement, better questions
+and improved answer quality remain hypotheses that require the recorded
+evaluation plan.
 
 The last complete pre-remediation candidate checkpoint recorded the production
 build; 9 of 9 deterministic

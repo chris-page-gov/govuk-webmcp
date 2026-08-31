@@ -1,6 +1,6 @@
 # Evidence before answers
 
-This short learning pathway explains how this prototype can help you check an
+This guide explains how this prototype can help you check an
 AI answer. It assumes no knowledge of artificial intelligence, government data,
 APIs or technical evidence.
 
@@ -11,7 +11,8 @@ source attached and show where the available evidence stops.
 
 The interface described here is a proposed beginner experience. The public
 `v0.3.0-rc.1` site still uses the existing detailed interface, which will be
-assessed as the future **Technical review** view before any redesign.
+retained as **Technical review** in the proposed dual-view design. No redesign
+has been implemented or tested with users.
 
 ## Choose a route
 
@@ -32,7 +33,7 @@ checking and why a source link is useful without being a guarantee.
 
 Complete the short orientation, then work through:
 
-1. [A new-baby example](#a-new-baby-example);
+1. [A new baby example](#a-new-baby-example);
 2. [Three different kinds of result](#three-different-kinds-of-result); and
 3. [Check your understanding](#check-your-understanding).
 
@@ -42,7 +43,7 @@ has added and what you still need to check before acting.
 ## Start with the person's question
 
 A person is not trying to “inspect provenance”. They may be trying to register
-a birth, appeal a school-place decision, understand a tenancy deposit, find an
+a birth, appeal a school place decision, understand a tenancy deposit, find an
 inflation dataset or discover where property information is held.
 
 Their first need is practical:
@@ -58,19 +59,30 @@ answer.
 
 Keep three things separate.
 
-| Thing | Plain-English meaning | Example |
+| Thing | Plain English meaning | Example |
 | --- | --- | --- |
 | Answer | The explanation an AI gives you | “Start by checking birth registration, Child Benefit and parental leave or pay.” |
 | Evidence | The recorded material that supports some or all of that explanation | A captured GOV.UK page title, description, observation date and source link |
 | Decision | The conclusion that applies to your actual circumstances | Whether you qualify, which deadline applies or which authority must act |
 
+A saved record in this prototype is not the live publisher page. A wider source
+collection is not the same thing as the organisation named in a recorded link.
+The link is a route to check; open it and confirm who published the current
+page before acting.
+
 An answer can be clear and still be wrong. Evidence can be genuine and still be
 old, incomplete or irrelevant to your circumstances. A decision can require
 facts or current rules that this static catalogue does not hold.
 
-The safest pattern is:
+There are two useful patterns.
 
-> **Answer → evidence → limitation → current official source → decision**
+When you are starting with a question:
+
+> **Question → evidence → limits → explanation → current source → decision**
+
+When you are checking an answer you have already received:
+
+> **Claim → supporting evidence → missing evidence → current source → decision**
 
 Do not skip from a plausible answer straight to a consequential decision.
 
@@ -98,10 +110,11 @@ deadlines, eligibility rules and legal steps deserve particular care.
 
 ### 4. What is missing, conditional or out of date?
 
-Look for the strongest relevant limitation. The catalogue may contain only
-metadata about a page or dataset. It may not contain live figures, current
-rules, local variations, property records or the facts needed to decide your
-case.
+Look first for an explicitly highlighted limitation. If none has been mapped,
+read every **Limit to check** without assuming that the first is the strongest.
+The catalogue may contain only metadata about a page or dataset. It may not
+contain live figures, current rules, local variations, property records or the
+facts needed to decide your case.
 
 ### 5. What is the safest next action?
 
@@ -109,7 +122,7 @@ Prefer a reversible action: open the recorded source, refine the question,
 check the responsible authority or ask for qualified help. The next step should
 not pretend that a discovery result has already made a decision.
 
-## A new-baby example
+## A new baby example
 
 Imagine asking your chosen AI:
 
@@ -124,7 +137,7 @@ points. It can return records for:
 
 ### Explain
 
-The useful plain-English result is: “These are three official starting points
+The useful plain English result is: “These are three official starting points
 recorded in this prototype.” It is not: “These are all the things every new
 parent must do.”
 
@@ -156,9 +169,11 @@ You can now say:
   source links;
 - what the AI added: its ordering, explanation and any personalisation;
 - what remains unknown: current applicability, eligibility and wider tasks;
-  and
-- what was shared with the page: only the question and references needed for
-  this task, not a general personal profile.
+- what the page needs: no general personal profile, but you should check the
+  exact search words or record reference sent because they can still contain
+  personal detail; and
+- what the page cannot show: everything that your AI provider may have received
+  elsewhere in the conversation.
 
 ## Three different kinds of result
 
@@ -166,7 +181,7 @@ Not every useful response looks like an answer.
 
 ### A route to check
 
-Question: “Where can I check how to appeal a school-admission decision?”
+Question: “Where can I check how to appeal a school admission decision?”
 
 Useful result: the recorded
 [GOV.UK appeal route](https://www.gov.uk/schools-admissions/appealing-a-schools-decision),
@@ -193,7 +208,8 @@ Question: “Who owns this property?”
 
 Useful result: explain that the Land Registry collection in this prototype is
 metadata-only, contains no title, address, ownership, polygon or personal rows,
-and can only point to recorded official guidance.
+and can only point to a recorded GOV.UK property-information link whose
+producer-declared role still needs checking.
 
 Unsafe leap: naming an owner or treating a catalogue record as legal proof.
 
@@ -231,15 +247,16 @@ The intended division of work is:
 | --- | --- |
 | Your chosen AI | Understand the conversation, choose one of the page's limited search or evidence actions and explain what comes back |
 | This static page | Check a small request and return the same source-linked catalogue evidence for the same request |
-| The recorded source | Supply the current official route or specialist material to inspect |
+| The recorded source | Supply a recorded link or material to inspect; its authority, role and currentness still need checking |
 | You | Decide whether the explanation is sufficient and what to check before acting |
 
 The page contains no AI and does not contact an official service while you
 search. A compatible AI can use the page's search and evidence actions through
-a browser feature called WebMCP. Those actions reject a general personal
-profile. This reduces what needs to be sent to the page, but it does not prove
-end-to-end privacy: an AI provider may still receive the conversation, the
-available action descriptions, the small request and the result.
+a browser feature called WebMCP. Those actions expose no dedicated general-
+personal-profile field, although bounded free-text search can still contain
+personal detail. This reduces what needs to be sent to the page, but it does
+not prove end-to-end privacy: an AI provider may still receive the conversation,
+the available action descriptions, the small request and the result.
 
 The complete human search must remain available when that AI connection is
 unavailable.
@@ -286,13 +303,15 @@ Suggested answers:
    currentness or applicability.
 3. No. This release contains dataset metadata, not current observations.
 4. No. The admitted collection contains no property or ownership rows.
-5. None. Send only the search words or record reference that the page needs.
+5. No general profile is needed for these page actions. Check the exact words
+   sent, because a search phrase can still contain personal details.
 
 ## What needs testing next
 
 This pathway and its fictional examples are product hypotheses, not completed
-user research. Before replacing the current interface, a Technical review
-should turn these ideas into a testable design and observe whether people can:
+user research. Before replacing the current interface, the proposed
+specification should be turned into a low-fidelity prototype and tested to
+observe whether people can:
 
 - identify what is supported and what the AI added;
 - notice the most important limitation before acting;
@@ -305,3 +324,7 @@ should turn these ideas into a testable design and observe whether people can:
 
 The research should include occasions when the right outcome is a clarifying
 question, a metadata-only response or no government-tool call at all.
+
+The proposed page order, two-view boundary and tests are defined in the
+[beginner evidence interface specification](../product/beginner-interface-specification.md).
+It is a documentation proposal, not an implemented or tested redesign.

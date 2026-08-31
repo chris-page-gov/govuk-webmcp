@@ -57,15 +57,22 @@ repository was changed.
 
 The current branch is a documentation, research and evaluation slice. It does
 not implement or deploy a beginner interface. The existing public interface is
-the baseline for a future **Technical review**; it has not yet been redesignated
-or changed in executable code.
+specified as the retained **Technical review** view; it has not been
+redesignated or changed in executable code.
 
 The slice adds:
 
-- a plain-English five-question learning pathway under `docs/beginners/`;
+- a plain English five-question learning pathway under `docs/beginners/`;
 - `docs/product/beginner-trust-pathway-prd.md`, with four synthetic personas,
   the Explain–Inspect–Do–Check–Reflect loop, US-01 to US-12, functional and
   accessibility requirements, acceptance criteria and non-goals;
+- `docs/product/beginner-interface-specification.md`, which reviews the current
+  page, defines proposed Guided evidence and retained Technical review views,
+  semantic regions GE-01 to GE-10, deterministic presentation and URL
+  contracts, result and failure states, honest AI and accepted-input
+  boundaries, a candidate but unapproved `present_resource_evidence` action,
+  proposed modules, accessibility requirements, story mapping and verification
+  gates;
 - `docs/competition/beginner-question-coverage.md`, which maps 21 balanced
   fork-local GOV.UK Chat cases and wider representative discovery questions to
   exact released record IDs without making a frequency claim;
@@ -115,19 +122,27 @@ display contracts, tests and release evidence before a UI uses the claim.
 Validation completed for this slice:
 
 - `python3 -c 'import csv,collections; paths=("docs/competition/source-register.csv","docs/competition/evaluation-set.csv","docs/competition/risk-register.csv"); rows={p:list(csv.reader(open(p,newline=""))) for p in paths}; assert all(len(set(map(len,v)))==1 for v in rows.values()); assert all(not [x for x,n in collections.Counter(r[0] for r in v[1:]).items() if n>1] for v in rows.values()); print([(p,len(v),len(v[0])) for p,v in rows.items()])'`
-  — source register 85 rows of 10 fields, evaluation register 57 rows of 10
+  — source register 85 rows of 10 fields, evaluation register 58 rows of 10
   fields and risk register 28 rows of 9 fields; no duplicate identifiers;
 - `node --test --test-name-pattern='beginner conversation' tests/unit/webmcp-evals-harness.test.mjs`
   — 2 passed after the machine-receipt contract was added;
-- `npm test` — research verification, deterministic build and 198 unit tests
+- `npm test` — research verification, deterministic build and 200 unit tests
   passed; the command then stopped because the restricted environment refused
   the Playwright server's loopback socket with `EPERM`;
-- `npm run test:unit:prepared` after the receipt and editorial corrections —
-  199 passed;
+- `npm run research:verify` after the final specification audit — four research
+  baseline checks passed;
+- `npm run build` after the final specification audit — 80 reviewed records,
+  80 receipts and 58,652 searchable federated records validated; three source
+  rows remained quarantined;
+- `node --test tests/unit/beginner-interface-specification.test.mjs` — the
+  structural documentation contract passed;
+- `npm run test:unit:prepared` after the final build and audit corrections —
+  200 passed;
 - `npm run test:browser:prepared` with the loopback bind permitted — 30 Chrome
   tests passed;
-- a read-only local-path and anchor check resolved all 51 relative Markdown
-  links touched by this slice, including six same-document anchors; and
+- a read-only local-path and anchor check resolved all 55 local Markdown
+  references touched by this slice: 49 relative file links and six
+  same-document or file anchors; and
 - `git diff --check` — passed.
 
 Microsoft Edge, manual assistive-technology and formative usability checks were
@@ -239,12 +254,13 @@ without an unverified fallback.
 
 The judge-facing proposition is precise: OKF publishes governed,
 progressively retrievable evidence; WebMCP lets a citizen-selected AI invoke
-bounded page-scoped actions; and the static page hosts no model and accepts no
-identity, profile or general personal-context object. A citizen-selected AI can
-use context it already holds to decide what bounded question to ask without
-passing that whole context into the page tool. A remote model provider may still
-receive prompts, tool metadata, arguments and results. Reduced public cost,
-improved privacy, better questions and improved answer quality remain
+bounded page-scoped actions; and the static page hosts no model and exposes no
+dedicated identity, profile or general personal-context field. Bounded free-
+text search can still contain personal details. A citizen-selected AI can use
+context it already holds to decide what bounded question to ask without passing
+that whole context into a dedicated page-tool field. A remote model provider
+may still receive prompts, tool metadata, arguments and results. Reduced public
+cost, improved privacy, better questions and improved answer quality remain
 hypotheses for controlled evaluation, not implementation claims.
 
 The current 1–10 delivery sequence is mapped in
@@ -799,11 +815,13 @@ repository, live project and submission after the close.
 ## Recommended next step
 
 For the beginner product lane, first reconcile the A Life in the UK specialist-
-review contradiction, then perform the Technical review required by the PRD.
-That review should compare the current UI with a low-fidelity evidence-before-
-answer design, make AI-added statements inspectable, resolve the ambiguous
-record/provenance choreography and define formative comprehension research
-before authorising implementation.
+review contradiction. The documentation review and proposed dual-view
+specification are now complete. After reconciliation, create a low-fidelity
+Guided evidence prototype from the specification, evaluate the candidate
+record-presentation action against the five-tool alternative, and run the
+specified formative comprehension and accessibility research before
+authorising implementation. The page must not claim to inspect the AI host's
+final prose.
 
 For the separate competition-submission lane, Chris Page should complete
 continuous audible playback, privacy, branding, rights, synthetic-voice and

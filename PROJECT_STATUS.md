@@ -67,12 +67,23 @@ claimed.
 The current branch adds product discovery, learning and evaluation evidence
 only. It does not change the released `v0.3.0-rc.1` interface, WebMCP tools,
 data contracts or public deployment. The proposed beginner experience treats
-the existing evidence-dense page as a future **Technical review** view and
+the existing evidence-dense page as the retained **Technical review** view and
 starts instead with five questions: what is being claimed, which source
 supports it, what the AI added, what is missing and what safe check comes next.
 
+The companion `docs/product/beginner-interface-specification.md` completes the
+documentation review and proposes a second **Guided evidence** view over the
+same action controller and canonical results. It defines semantic page order,
+bounded URL and state contracts, reviewed, federated, boundary and failure
+states, deterministic evidence summaries, an honest AI-prose boundary, exact
+accepted-input display, accessible progressive disclosure, all 12 story
+outcomes, proposed module ownership and verification gates. It specifies
+`present_resource_evidence` as a candidate display action for evaluation, not
+an approved or implemented sixth tool. No UI, schema, tool, data or deployment
+changed.
+
 The discovery pack now contains four synthetic personas, 12 representative
-user stories, a plain-English full learning pathway and an exact coverage
+user stories, a plain English full learning pathway and an exact coverage
 matrix across the released evidence estate and 21 fork-local GOV.UK Chat pilot
 cases. No ranked GOV.UK Chat question-frequency dataset was found. The stories
 are therefore hypotheses informed by official GDS research, not “most common
@@ -141,10 +152,13 @@ The release keeps five fixed, page-scoped tools and the complete accessible
 human equivalent over one common deterministic result. OKF supplies governed,
 progressively retrievable evidence; WebMCP lets a citizen-selected AI invoke
 bounded page actions over it. The page hosts no model and its closed schemas
-accept no identity, profile or general personal-context object. This does not
+expose no dedicated identity, profile or general personal-context field.
+Bounded free-text search can still contain personal details. This does not
 establish end-to-end privacy: a remote model provider may receive prompts, tool
 metadata, arguments and results, and the static host may observe ordinary or
-query-derived asset requests.
+query-derived asset requests. The released page's broader “does not accept a
+profile” sentence remains a known copy limitation for the separately authorised
+beginner-interface implementation.
 
 The released files record 6 searchable and 4 non-searchable corpus admissions,
 5 source-lock registry entries and 31 closed JSON Schemas. These are
@@ -608,13 +622,14 @@ complete. The following remain gated:
 
 ## Next safe task
 
-For the beginner product lane, first reconcile the A Life in the UK specialist-
+For the beginner product lane, the documentation review and proposed dual-view
+specification are complete. First reconcile the A Life in the UK specialist-
 review contradiction through the full authored/generated/test contract. Then
-run a Technical review of the current interface against the discovery PRD and
-produce a low-fidelity, evidence-first specification before changing the UI.
-That review must preserve the complete human journey, visible source and
-limitation parity, and separate AI-added explanation from deterministic page
-evidence.
+create a low-fidelity Guided evidence prototype from GE-01 to GE-10 and run the
+specified formative and accessibility research before changing production UI
+or tool contracts. Preserve the complete human journey, current Technical
+review behaviour, source and limitation parity, and the honest boundary that
+the page cannot inspect the AI host's final prose.
 
 The competition-submission lane remains separate and more time-sensitive:
 complete Chris Page's continuous audible playback, privacy, branding, rights,

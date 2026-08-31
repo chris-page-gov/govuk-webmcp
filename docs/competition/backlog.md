@@ -250,11 +250,16 @@ implementation or deployment.
    producer contract's zero accepted, two not-required and 291 required states.
    Update authored source, generated display contract, tests, release notes and
    public evidence together.
-9. **Technical review and UI specification — pending step 8.** Assess the
-   existing page as the future Technical review view. Prototype progressive
-   disclosure, an evidence-before-answer summary, visible AI additions, exact
-   context shared and a deterministic human equivalent. Resolve the ambiguous
-   record/provenance call design before changing tool contracts.
+9. **Technical review and UI specification — documentation review complete;
+   prototype and implementation gated by step 8.** The companion interface
+   specification assesses the existing page as the retained Technical review
+   view and defines a proposed Guided evidence view, progressive disclosure,
+   evidence summary, honest AI-addition boundary, accepted-input display,
+   deterministic human equivalent, complete state model and candidate combined
+   record-presentation action. The candidate action is not approved or
+   implemented. Low-fidelity prototyping and any runtime change remain blocked
+   until the source contradiction is corrected and formative research is
+   authorised.
 10. **Formative and repeated evaluation — pending step 9.** Freeze natural
     prompts without tool names or record IDs; run at least three times per
     story; retain variance and hard unsafe failures; then test comprehension
@@ -266,6 +271,8 @@ The corresponding evidence and detailed status are in
 [`beginner-question-coverage.md`](beginner-question-coverage.md),
 [`beginner-conversation-evaluation-2026-08-31.md`](beginner-conversation-evaluation-2026-08-31.md)
 and [`../product/beginner-trust-pathway-prd.md`](../product/beginner-trust-pathway-prd.md).
+The proposed dual-view contract is in
+[`../product/beginner-interface-specification.md`](../product/beginner-interface-specification.md).
 
 ## Should
 

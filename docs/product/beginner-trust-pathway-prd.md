@@ -1,6 +1,7 @@
 # Beginner trust pathway product requirements
 
-**Status:** discovery PRD; documentation only
+**Status:** discovery PRD with companion proposed interface specification;
+documentation only
 
 **Date:** 31 August 2026
 
@@ -15,11 +16,13 @@ The pathway should make calibrated doubt useful: it should help someone
 distinguish what is supported, what is merely recorded, what is missing and
 which current official source they can check.
 
-This slice produces requirements only. It does not change the application,
-WebMCP tools, data contracts or visual design. A future **Technical review**
-must assess the current interface against this PRD, test feasibility and
-propose an implementation specification and sequenced backlog. It must not
-assume that the current layout is the answer.
+This slice changes documentation only. It does not change the application,
+WebMCP tools, data contracts or visual design. The companion
+[beginner evidence interface specification](beginner-interface-specification.md)
+assesses the current interface, proposes a testable information architecture
+and preserves it as the **Technical review** view. The proposal remains gated
+by source-contract correction, low-fidelity prototyping and user research; it
+does not approve an implemented or public redesign.
 
 ## 2. Product proposition
 
@@ -38,7 +41,8 @@ The mental model is **evidence before answer**:
 
 The intended outcome is not to make a beginner trust AI or government content
 more. It is to help them make a better-informed, reversible judgement and know
-when to check the current official route.
+when to check the recorded source and establish whether it is current and
+official for the task.
 
 ## 3. Problem
 
@@ -97,8 +101,8 @@ reject these hypotheses.
 
 ### 5.1 Repository evidence
 
-The current repository provides the implementation baseline for the future
-Technical review:
+The current repository provides the implementation baseline for the proposed
+Technical review view:
 
 - [architecture](../competition/architecture.md): two evidence tiers, shared
   human and WebMCP actions, separate trust facets and no combined trust score;
@@ -204,18 +208,19 @@ on it blindly.”
 ### Do
 
 Offer a bounded next step: refine the question, inspect an exact record, compare
-foundations where available, or open the recorded official route. Do not turn a
-discovery result into an eligibility, legal, financial, ownership or live-data
-decision.
+foundations where available, or open the recorded source link where one is
+established. Do not turn a discovery result into an eligibility, legal,
+financial, ownership or live-data decision.
 
 Beginner checkpoint: “I know the next reversible action and what information it
 will use.”
 
 ### Check
 
-Help the person compare the result with its current official route and verify
-that the destination, jurisdiction and task match. Make clear that a checksum
-matches declared bytes rather than proving the source is correct.
+Help the person compare the result with its recorded source and verify whether
+the destination, source role, currentness, jurisdiction and task match. Make
+clear that a checksum matches declared bytes rather than proving the source is
+correct.
 
 Beginner checkpoint: “I can check the result at the source and recognise if it
 does not answer my actual question.”
@@ -236,10 +241,11 @@ The primary user needs are hypotheses to validate:
 1. understand the difference between a result, an answer and an official
    decision;
 2. identify the source and why it is present;
-3. see the strongest relevant limitation before acting;
+3. see an explicitly mapped relevant limitation before acting, or every
+   recorded limit when none has been mapped;
 4. understand whether information is reviewed, snapshot-bound or missing;
-5. reach the current official route without mistaking the prototype for an
-   official service;
+5. reach a recorded source where established and assess its role and
+   currentness without mistaking the prototype for an official service;
 6. know what a citizen-selected AI sent to the page tool;
 7. keep unrelated private context out of tool arguments;
 8. receive a clarifying question when the request is too broad;
@@ -281,13 +287,13 @@ source link and understand that the current service decides eligibility and
 action. If a wider UK Living result is used instead, it must remain visibly an
 independent source snapshot without an item-level receipt.
 
-#### US-03 — school-admission appeal
+#### US-03 — school admission appeal
 
 As a parent whose preferred school place was refused, I want to find the
-school-admission appeal route so that I can check the correct authority,
+school admission appeal route so that I can check the correct authority,
 evidence and deadline.
 
-Representative prompt: “How do I appeal a school-admission decision?”
+Representative prompt: “How do I appeal a school admission decision?”
 
 Trust need: expose jurisdiction and coverage limits; do not infer the appeal
 body, merits, deadline or likely outcome from catalogue metadata.
@@ -323,9 +329,9 @@ record for title or ownership evidence.
 Representative prompt: “Who owns this property?” No real or plausible test
 address is supplied.
 
-Trust need: return the recorded official property-information route and an
-explicit no-ownership boundary; do not reveal, infer or fabricate an owner,
-address-specific title fact or personal record.
+Trust need: return the recorded GOV.UK property-information link, retain its
+producer-declared role and add an explicit no-ownership boundary; do not reveal,
+infer or fabricate an owner, address-specific title fact or personal record.
 
 ### Carys: public-data discovery
 
@@ -414,19 +420,22 @@ this government-evidence product.
 
 - **FR-01:** Every result must state its evidence tier in beginner-readable
   language before or alongside technical identifiers.
-- **FR-02:** Every result must retain source title, publisher, recorded link and
-  destination hostname, while distinguishing an official source from an
-  independent OKF republication and a producer-declared link.
+- **FR-02:** Every result must retain source title, publisher and source role,
+  plus a recorded link and destination hostname where established. Missing
+  links must remain explicit. The result must distinguish an official source
+  from an independent OKF republication and a producer-declared link.
 - **FR-03:** Every result must present assertion or derivation state,
   observation date, integrity basis, access, rights, coverage and limitations
   without producing a combined trust score.
 - **FR-04:** Missing, unknown, not independently established and not applicable
   must be explicit states, not blanks or optimistic defaults.
 - **FR-05:** “Checksum”, “receipt”, “snapshot”, “provenance”, “assertion”, “OKF”
-  and “WebMCP” must have plain-English explanations available on demand without
+  and “WebMCP” must have plain English explanations available on demand without
   requiring hover.
-- **FR-06:** The most decision-relevant limitation must be available before the
-  person follows an action that could be mistaken for advice or a decision.
+- **FR-06:** An explicitly mapped decision-relevant limitation must be visible
+  before the person follows an action that could be mistaken for advice or a
+  decision. Where no mapping exists, the complete recorded limitations must be
+  visible without inventing a ranking.
 - **FR-07:** The full structured record and source chain must remain available
   for deeper inspection; beginner simplification must not erase evidence.
 
@@ -434,9 +443,10 @@ this government-evidence product.
 
 - **FR-08:** The human journey and WebMCP action must use the same canonical
   data and preserve the same substantive evidence and limitations.
-- **FR-09:** A person must be able to open the recorded source using link text
-  that states purpose and destination; the prototype must remain visibly
-  independent.
+- **FR-09:** Where a recorded source link is established, a person must be able
+  to open it using link text that states purpose and destination. Otherwise the
+  absence must be explicit and no destination may be invented. The prototype
+  must remain visibly independent.
 - **FR-10:** Reviewed records may expose receipt-bound foundations. Federated
   records must not inherit an item receipt or independent source-authority
   claim that they do not have.
@@ -448,9 +458,11 @@ this government-evidence product.
 
 ### Ambiguity, privacy and no-call behaviour
 
-- **FR-13:** Tool inputs must remain closed and bounded and must not accept an
-  identity, profile, full address, location history, browsing history,
-  unrelated conversation or general `personalContext` object.
+- **FR-13:** Tool inputs must remain closed and bounded and expose no dedicated
+  identity, profile, full-address, location-history, browsing-history,
+  unrelated-conversation or general `personalContext` field. The bounded free-
+  text query can still contain personal detail, so the interface must warn
+  against it and must not claim to detect every disclosure.
 - **FR-14:** When a task can be reduced safely, the host evaluation must show
   the exact minimal argument passed and the fictional context withheld.
 - **FR-15:** When the request is materially ambiguous, host evaluation must
@@ -535,14 +547,14 @@ this government-evidence product.
 13. **AC-13 — independent identity:** the experience remains visibly an
     independent prototype and does not use GOV.UK branding to borrow authority.
 14. **AC-14 — no implementation in this slice:** the present change is accepted
-    only as a PRD. Any interface, schema, tool or data change requires the
-    future Technical review, specification, tests and lockstep documentation.
+    only as documentation. Any interface, schema, tool or data change requires
+    a separately authorised implementation, tests and lockstep documentation.
 
 ## 12. Non-goals
 
-- Redesigning or implementing the current interface in this slice.
+- Implementing or deploying the proposed interface in this slice.
 - Generating a personalised government answer or deciding eligibility.
-- Providing legal, financial, tax, housing, school-admission or property advice.
+- Providing legal, financial, tax, housing, school admission or property advice.
 - Returning live statistics or calling official APIs at runtime.
 - Looking up title, ownership, addresses, polygons or personal Land Registry
   records.
@@ -575,7 +587,7 @@ this government-evidence product.
 
 1. Do non-technical AI sceptics recognise the difference between a source link,
    an assertion, a snapshot and a receipt after one journey?
-2. Which plain-English terms help without removing important distinctions?
+2. Which plain English terms help without removing important distinctions?
 3. When should the most important limitation appear so it informs rather than
    blocks a beginner's next step?
 4. Does the Explain → Inspect → Do → Check → Reflect loop improve source
@@ -597,23 +609,26 @@ this government-evidence product.
 12. What is an appropriate pre-registered comprehension threshold after a
     baseline study, and what negative or null outcomes must be published?
 
-## 15. Future Technical review hand-off
+## 15. Companion specification and next hand-off
 
-The next authorised stage should inspect the current released interface and
-produce an evidence-backed gap analysis against FR-01 to FR-22, AR-01 to AR-10
-and AC-01 to AC-14. It should:
+The companion
+[beginner evidence interface specification](beginner-interface-specification.md)
+records the current-interface gap analysis, dual-view information architecture,
+deterministic presentation contract, proposed module boundary and verification
+matrix against FR-01 to FR-22, AR-01 to AR-10 and AC-01 to AC-14. It:
 
-1. preserve the current authored/generated and human/WebMCP parity boundaries;
-2. map each requirement to existing behaviour, a content change, a component
-   change, an agent-evaluation change or a research question;
-3. prototype alternatives only after identifying the smallest testable
-   comprehension risk;
-4. specify fixtures, browser tests, assistive-technology observations and
+1. preserves the current authored/generated and human/WebMCP parity boundaries;
+2. maps requirements to proposed regions, data flow, components, tests and
+   research questions;
+3. defines the smallest testable comprehension risk before prototyping;
+4. specifies fixtures, browser tests, assistive-technology observations and
    user-research evidence before implementation;
-5. retain the official-source, privacy, no-call and metadata-only boundaries in
-   every proposed design; and
-6. return a sequenced implementation plan with explicit governance gates.
+5. retains the official-source, privacy, no-call and metadata-only boundaries;
+   and
+6. provides a sequenced hand-off with explicit governance gates.
 
-No visual treatment, component choice or page hierarchy is approved by this
-PRD. Those decisions belong to the future Technical review and must be tested
-with representative users rather than inferred from the synthetic personas.
+The companion approves a proposed semantic order, component responsibility and
+page hierarchy for low-fidelity testing only. It does not approve a visual
+treatment, production implementation or public rollout. Those decisions must
+follow the source-contract gate and be tested with representative users rather
+than inferred from the synthetic personas.

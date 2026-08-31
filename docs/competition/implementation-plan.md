@@ -304,8 +304,9 @@ do not satisfy an A–M gate for `0.3.0-rc.1`.
 - The three catalogue query tools are read-only. The two exploration tools have
   only a reversible in-memory page-presentation effect and declare
   `readOnlyHint: false`.
-- Every result retains authoritative links, assertion labels and limitations.
-  The Trace exposes eight facets and no combined trust score.
+- Every result retains recorded source-link and role states, authoritative links
+  where established, assertion labels and limitations. The Trace exposes eight
+  facets and no combined trust score.
 - On 30 August 2026, `Codex In-app Browser` discovered and successfully called
   all five tools against the historical tagged deployment. The final
   comparison's canonical and displayed result digests matched. This does not
@@ -436,11 +437,14 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
    AI-consumer contract says zero accepted, two not required and 291 required.
    Do not surface a positive acceptance count until authored, generated, test
    and release evidence agree.)*
-9. **Perform the Technical review and specify the beginner UI.** *(Open: assess
-   the current page as a future Technical review view; compare clearer
-   choreography with a deterministic combined record-evidence action; specify
-   progressive disclosure, AI-added-statement visibility, accessibility and
-   complete human parity before implementation.)*
+9. **Perform the technical review and specify the beginner UI.**
+   *(Documentation review and proposed specification complete: the current page
+   is retained as Technical review and the companion specification defines a
+   Guided evidence view, deterministic presentation contract, progressive
+   disclosure, honest AI-addition boundary, accepted-input display,
+   accessibility, complete human parity and a candidate combined
+   record-evidence action. The action and UI are not implemented. Low-fidelity
+   prototyping and runtime work remain gated by step 8 and formative research.)*
 10. **Run formative and repeated evaluation.** *(Open: use natural prompts,
     at least three runs per story, hard unsafe-answer failures and separately
     authorised host/model comparison; then test source, limitation and next-
@@ -465,7 +469,7 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
 | Must 17 | Complete: MIT licence and notices are published. PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`; the annotated tag and pre-release are `v0.3.0-rc.1`. Earlier releases remain separately recorded. |
 | Must 18 | Part complete: current-release human interaction clips, supported-host receipt and receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second local review video and its completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. Owner synthetic-voice, privacy, branding, rights and continuous-playback review, public YouTube upload and authorised submission remain open. No registration, submission or upload claim is made. |
 | Federation 1–10 | Released as `v0.3.0-rc.1`: exact final-candidate verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 194 prepared unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. PR #16, protected main and Pages passed; all 1,879 deployed files matched artefact `9745316971`; the current supported host completed all five tools with fixed-query parity; and current VoiceOver and local-video technical evidence are complete with limitations. Five fixed-model attempts are retained and all failed. Owner and public submission-media review remains open. |
-| Beginner 1–10 | Discovery steps 1–7 complete on the current documentation branch; steps 8–10 remain open. Exact coverage, synthetic personas, user stories, beginner guide, PRD, fixture, unit contract and one reviewed model diagnostic are present. The public UI is unchanged. A factual source-lock contradiction, Technical review, natural repeated model evaluation and formative user research remain hard gates. |
+| Beginner 1–10 | Discovery steps 1–7 and the documentation review/specification part of step 9 are complete on the current documentation branch; source reconciliation in step 8, prototyping and step 10 remain open. Exact coverage, synthetic personas, user stories, beginner guide, PRD, dual-view interface specification, fixture, documentation and evaluator unit contracts, privacy-reviewed receipt and one reviewed model diagnostic are present. The public UI is unchanged. A factual source-lock contradiction, low-fidelity/formative review and natural repeated model evaluation remain hard gates. |
 
 ## Implemented Should and Could work
 
