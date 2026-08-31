@@ -17,10 +17,31 @@ const cliPath = resolve(repositoryRoot, "node_modules/.bin/chrome-devtools");
 const captureTarget = parseDevtoolsCaptureTarget(process.env);
 const outputPath = resolve(repositoryRoot, ".evals", captureTarget.receiptName);
 const outputDirectory = dirname(outputPath);
+const reviewedEvidencePath = resolve(
+  repositoryRoot,
+  "docs/competition/evidence/chrome-devtools-mcp-v0.3.0-rc.1.json",
+);
+const liveVerificationPath = resolve(
+  repositoryRoot,
+  "docs/competition/evidence/live-artifact-verification-v0.3.0-rc.1.json",
+);
 const portText = process.env.WEBMCP_DEVTOOLS_PORT ?? "4231";
 const port = Number(portText);
 const expectedChromeDevtoolsMcpVersion = "1.8.0";
 const CLI_TIMEOUT_MS = 60_000;
+const cliArguments = new Set(process.argv.slice(2));
+const admittedArguments = new Set(["--admit-public-evidence", "--overwrite-reviewed-evidence"]);
+for (const argument of cliArguments) {
+  if (!admittedArguments.has(argument)) throw new Error(`Unknown argument: ${argument}`);
+}
+const admitPublicEvidence = cliArguments.has("--admit-public-evidence");
+const overwriteReviewedEvidence = cliArguments.has("--overwrite-reviewed-evidence");
+if (overwriteReviewedEvidence && !admitPublicEvidence) {
+  throw new Error("--overwrite-reviewed-evidence requires --admit-public-evidence.");
+}
+if (admitPublicEvidence && !captureTarget.publicTarget) {
+  throw new Error("--admit-public-evidence is accepted only for the allowlisted public target.");
+}
 
 if (captureTarget.mode === "local" && (!Number.isInteger(port) || port < 1024 || port > 65_535)) {
   throw new Error("WEBMCP_DEVTOOLS_PORT must be an integer from 1024 to 65535.");
@@ -74,6 +95,16 @@ function canonicalJson(value) {
 }
 
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
+
+async function fileExists(path) {
+  try {
+    await access(path);
+    return true;
+  } catch (error) {
+    if (error?.code === "ENOENT") return false;
+    throw error;
+  }
+}
 
 async function runCli(args) {
   const result = await execFileAsync(cliPath, args, {
@@ -278,7 +309,7 @@ try {
   if (rejectedExecution.status !== "Completed" ||
       rejectedExecution.output?.ok !== false ||
       rejectedExecution.output?.schema !== "trusted-govuk-discovery.error.v1" ||
-      !rejectedExecution.output.error?.message?.includes("Unknown input field")) {
+      rejectedExecution.output.error?.code !== "invalid_search_request") {
     throw new Error("The invalid personal-context field did not fail closed as expected.");
   }
 
@@ -401,6 +432,97 @@ try {
   await rename(temporaryPath, outputPath);
   await chmod(outputPath, 0o600);
   console.log(`Captured ${calls.length} Chrome DevTools MCP calls in ${outputPath}.`);
+
+  if (admitPublicEvidence) {
+    if (!overwriteReviewedEvidence && await fileExists(reviewedEvidencePath)) {
+      throw new Error(
+        "Reviewed public evidence already exists; inspect the new ignored receipt and rerun with --overwrite-reviewed-evidence only after review.",
+      );
+    }
+    const liveVerificationBytes = await readFile(liveVerificationPath);
+    const liveVerification = JSON.parse(liveVerificationBytes.toString("utf8"));
+    if (liveVerification.schema !== "govuk-webmcp.live-pages-verification.v1" ||
+        liveVerification.baseUrl !== targetUrl ||
+        liveVerification.commit !== publicDeployment.metadata.commit ||
+        String(liveVerification.runId) !== publicDeployment.metadata.runId ||
+        liveVerification.mismatches?.length !== 0 ||
+        liveVerification.boundaries?.comparedEveryRegularArtifactFile !== true) {
+      throw new Error("The current live-byte verification does not bind the captured public deployment.");
+    }
+    const sourceReceiptBytes = await readFile(outputPath);
+    const reviewedEvidence = {
+      schema: "trusted-govuk-discovery.chrome-devtools-webmcp-public-evidence.v2",
+      observedAt: receipt.observedAt,
+      sourceReceipt: {
+        path: ".evals/chrome-devtools-mcp-public.json",
+        sha256: sha256(sourceReceiptBytes),
+        sizeBytes: sourceReceiptBytes.byteLength,
+        tracking: "ignored local source",
+        review: "The exact tool definitions, inputs, outputs, statuses and canonical output digests below were copied from the reviewed source receipt; local page identifiers were omitted.",
+      },
+      target: receipt.target,
+      releaseEvidence: {
+        productCommit: liveVerification.commit,
+        pagesRunId: String(liveVerification.runId),
+        pagesArtifactId: liveVerification.artifact.id,
+        artifactApiDigest: liveVerification.artifact.apiDigest,
+        artifactTarSha256: liveVerification.artifact.tarSha256,
+        liveArtifactVerification: "docs/competition/evidence/live-artifact-verification-v0.3.0-rc.1.json",
+        liveArtifactVerificationSha256: sha256(liveVerificationBytes),
+        comparedFileCount: liveVerification.fileCount,
+        comparedByteCount: liveVerification.byteCount,
+        liveManifestSha256: liveVerification.manifestSha256,
+      },
+      environment: receipt.environment,
+      capture: {
+        mechanism: receipt.boundaries.bridge,
+        modelSelected: false,
+        modelProviderCalled: false,
+        exactToolOutputsRetained: true,
+        redactions: {
+          localProfilePath: "not retained",
+          hostPageIdentifiers: "not retained",
+          networkHeaders: "not retained",
+          cookies: "not inspected or retained",
+        },
+      },
+      boundaries: receipt.boundaries,
+      discovery: {
+        toolCount: receipt.discovery.toolCount,
+        tools: receipt.discovery.tools,
+      },
+      calls: receipt.calls.map(({ toolName, input, status: callStatus, output, canonicalOutputSha256 }) => ({
+        toolName,
+        input,
+        status: callStatus,
+        output,
+        canonicalOutputSha256,
+      })),
+      rejectedCall: {
+        toolName: receipt.rejectedCall.toolName,
+        input: receipt.rejectedCall.input,
+        status: receipt.rejectedCall.status,
+        output: receipt.rejectedCall.output,
+        canonicalOutputSha256: receipt.rejectedCall.canonicalOutputSha256,
+      },
+      console: {
+        messageCount: receipt.console.messageCount,
+        errorCount: receipt.console.errorCount,
+        types: receipt.console.types,
+      },
+      limitations: [
+        "This time-bound capture proves browser-native WebMCP discovery and deterministic execution in Chrome DevTools MCP 1.8.0 against exact public release v0.3.0-rc.1; it is not a general compatibility claim.",
+        "Chrome DevTools MCP did not select or evaluate a model, and no model provider was contacted.",
+        "The static page tools are page-scoped progressive enhancement, not a durable government MCP service.",
+        "Source-derived content remains untrusted; this capture did not refetch or independently certify the cited sources.",
+        "The reviewed public record omits the disposable profile path, host page identifiers, network headers and cookies.",
+      ],
+    };
+    const reviewedTemporaryPath = `${reviewedEvidencePath}.tmp-${process.pid}`;
+    await writeFile(reviewedTemporaryPath, `${JSON.stringify(reviewedEvidence, null, 2)}\n`, { mode: 0o644 });
+    await rename(reviewedTemporaryPath, reviewedEvidencePath);
+    console.log(`Admitted reviewed Chrome evidence in ${reviewedEvidencePath}.`);
+  }
 } finally {
   if (daemonStarted || daemonStartAttempted) {
     try {

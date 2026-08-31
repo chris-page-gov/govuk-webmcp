@@ -1,0 +1,207 @@
+{
+  "schema": "trusted-govuk-discovery.demo-video-build.v3",
+  "status": "local-review-build-not-published",
+  "product": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.3.0-rc.1",
+    "commit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+    "pagesRunId": "33356452048"
+  },
+  "environment": {
+    "node": "v26.7.0",
+    "platform": "darwin",
+    "operatingSystemRelease": "25.5.0",
+    "architecture": "arm64",
+    "tools": {
+      "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+      "ffprobe": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers",
+      "say": "Daniel en-GB"
+    }
+  },
+  "inputs": [
+    {
+      "path": "docs/competition/demo-video-script.json",
+      "sizeBytes": 7401,
+      "sha256": "ae23117cf75ca25bfdd7a8181d90c2795fe80348ac4f09fbf2c40ba5c5bf5096"
+    },
+    {
+      "path": "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json",
+      "sizeBytes": 7497,
+      "sha256": "8fba32b9d28d1d82d5fbbbb1276bf8e8ea84860c2f5f2b5536736b6d6bcdbd9b"
+    },
+    {
+      "path": "docs/competition/evidence/manual-voiceover-journey-v0.3.0-rc.1.json",
+      "sizeBytes": 5451,
+      "sha256": "ca749f8db049ea2411ca52f44c9335f34fa0362177e714bc31ba513180b66e87"
+    },
+    {
+      "path": "docs/competition/evidence/supported-host-webmcp-capture-v0.3.0-rc.1.json",
+      "sizeBytes": 124751,
+      "sha256": "5ca7e19372dc00f9704474ff5bf513a236b48e8843a37871d6b6f0831722e5ea"
+    },
+    {
+      "path": "docs/competition/evidence/supported-host-webmcp-clip-v0.3.0-rc.1.json",
+      "sizeBytes": 1195,
+      "sha256": "ee0b8932854a44e44a03571537fcd0dcfba8e37f841f251e481d928bb677f0f8"
+    },
+    {
+      "path": "docs/competition/evidence/supported-host-webmcp-raw-receipt-v0.3.0-rc.1.json",
+      "sizeBytes": 123373,
+      "sha256": "91e25ca1d560c9cdb42f64a5c6289f6b9ff5bff17071452e2dd9afe8a87e80f8"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/01-overview.mov",
+      "sizeBytes": 4801413,
+      "sha256": "c6a93eece50493ecc54ae9f3913d3c60b677ab4d227624430cf9e4dc266ef228"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/02-federated-search.mov",
+      "sizeBytes": 6333300,
+      "sha256": "0719f5899b0d940795e9c732473d2e64dbf336a8af7cad7906e40850632b4080"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/03-federated-record.mov",
+      "sizeBytes": 4511418,
+      "sha256": "c9b0d5cd90619692a4fa918c46daec38a8f4b9ad864d0ade79a9da83e9ad29ba"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/04-supported-host-webmcp.mov",
+      "sizeBytes": 2777999,
+      "sha256": "512c9cb9a0c703b8ef0047418969220e79d49b8500c467b7b15b47c2db132878"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/05-reviewed-foundations.mov",
+      "sizeBytes": 2770903,
+      "sha256": "a9108e4ddaa9503b03770bc8f76a1b0f7764250908cb7c651c1ceabc359bb7e5"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/06-voiceover.mov",
+      "sizeBytes": 1011644,
+      "sha256": "e77d8f277d19db7af372090b78ae83b76b50a1221cef69fccb5f047e9e4a62d0"
+    },
+    {
+      "path": "output/demo-clips/v0.3.0-rc.1/07-boundary.mov",
+      "sizeBytes": 6653154,
+      "sha256": "5bb9c2f6b3f396585b274c8886c51e8f6a61cbebe6527c4781611b0f0d43d7f2"
+    },
+    {
+      "path": "output/voiceover-capture/v0.3.0-rc.1-capture-manifest.json",
+      "sizeBytes": 4248,
+      "sha256": "3ff39de4fb1355728504a5e29eaf1bf93b7e71b34ad7ac1c7493e21aeb1d2629"
+    }
+  ],
+  "video": {
+    "fileName": "govuk-webmcp-demo-v0.3.0-rc.1.mp4",
+    "sha256": "e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4",
+    "durationSeconds": 156.023,
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "tags": {
+          "language": "und"
+        }
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 1,
+        "r_frame_rate": "0/0",
+        "tags": {
+          "language": "und"
+        }
+      },
+      {
+        "index": 2,
+        "codec_name": "mov_text",
+        "codec_type": "subtitle",
+        "r_frame_rate": "0/0",
+        "tags": {
+          "language": "eng"
+        }
+      }
+    ],
+    "publicUrl": null,
+    "signedOutPlaybackVerified": false
+  },
+  "captions": {
+    "path": "docs/competition/demo-captions.en-GB.vtt",
+    "sha256": "513158c2ef2231486f28d7fbb48b48b0f37816315854f64a3549c64628c3b2b9",
+    "language": "en-GB",
+    "embeddedTrack": true,
+    "publicPlayerTrackVerified": false
+  },
+  "transcript": {
+    "path": "docs/competition/demo-transcript.md",
+    "sha256": "8f896858d3f8c69078c7f3e490206e5d10d50b1e558a0cb004ca3b900910d62f"
+  },
+  "script": {
+    "path": "docs/competition/demo-video-script.json",
+    "sha256": "ae23117cf75ca25bfdd7a8181d90c2795fe80348ac4f09fbf2c40ba5c5bf5096"
+  },
+  "narration": {
+    "type": "synthetic-local-review",
+    "engine": "macOS Speech Synthesis",
+    "voice": "Daniel",
+    "locale": "en-GB",
+    "speechRate": 170,
+    "publicationBasis": "pending-owner-review",
+    "sourceClipAudioIncluded": false,
+    "backgroundMusic": false,
+    "measuredOutput": {
+      "input_i": "-16.12",
+      "input_tp": "-1.36",
+      "input_lra": "1.60",
+      "input_thresh": "-26.34",
+      "output_i": "-16.04",
+      "output_tp": "-1.50",
+      "output_lra": "1.50",
+      "output_thresh": "-26.26",
+      "normalization_type": "dynamic",
+      "target_offset": "0.04"
+    }
+  },
+  "evidence": {
+    "interactionCapture": {
+      "clipCount": 5,
+      "captureMethod": "playwright-public-site-interaction",
+      "demonstratedRecordId": "govuk-discovery:federated:land-registry:57845",
+      "searchResultDigest": "cb363a29933c19d4e949cd56635b18c9059762b750a0c7765af191aa2683ce61"
+    },
+    "supportedHost": {
+      "canonicalCallResultDigest": "12e8e56056c73c06d41d418856f356f25da6a157b64feabf33664a0eca6349ad",
+      "demonstratedRecordId": "govuk-discovery:federated:land-registry:57845",
+      "fourSourceResultCount": 8,
+      "host": "Codex In-app Browser"
+    },
+    "supportedHostMedia": {
+      "kind": "receipt-reconstruction",
+      "sourceArtefactCount": 1,
+      "durationSeconds": 40.966667
+    },
+    "voiceOver": {
+      "overallStatus": "completed-with-limitations",
+      "screenReaderAudioCaptured": false
+    }
+  },
+  "reviews": {
+    "privacy": "pending-human-review",
+    "branding": "pending-human-review",
+    "rights": "pending-human-review",
+    "voicePublicationBasis": "pending-owner-review",
+    "finalHumanPlayback": "pending",
+    "finalHumanReviewRequiredBeforePublication": true
+  },
+  "limitations": [
+    "This record proves a bounded local review build, not public YouTube publication or signed-out playback.",
+    "The installed macOS synthetic voice was used locally; its publication basis remains pending owner review.",
+    "Source-clip audio is omitted. The retained VoiceOver record, not this soundtrack, supports the manual accessibility observation."
+  ]
+}

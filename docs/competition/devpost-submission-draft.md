@@ -6,10 +6,17 @@ read-only observation. No submission action is authorised by this document.
 
 This draft describes the public `v0.3.0-rc.1` federated release. Protected CI,
 Pages, exact public-byte comparison and current supported-host execution are
-complete. Do not enter it as final submission copy until the refreshed
-VoiceOver evidence is complete, Chris Page has approved the final video, its
-public YouTube playback works signed out, and every live Devpost field and
-human attestation has been reviewed again.
+complete. The refreshed VoiceOver observation and local final-video technical
+review are also complete. Do not enter this as final submission copy until
+Chris Page has completed playback, privacy, branding, rights and synthetic-
+voice publication review, the
+approved public YouTube playback works signed out, and every live Devpost field
+and human attestation has been reviewed again.
+
+The current local technical compliance interpretation is retained in
+[`final-devpost-compliance-review-2026-08-31.md`](final-devpost-compliance-review-2026-08-31.md).
+It records no form mutation, public video upload or submission and is not the
+final live-rules and form refresh.
 
 ## Project title
 
@@ -25,8 +32,9 @@ Evidence before answers: WebMCP lets your chosen AI search governed UK public ev
 
 ## Live Devpost form mapping
 
-Authenticated read-only Devpost calls at `2026-08-31T12:16:23Z` confirmed
-that project `1406973` remained `Untitled` and `submission_pre_draft`, with no
+Authenticated read-only Devpost calls started at `2026-08-31T12:16:23Z` and
+completed at `2026-08-31T12:16:25Z`. They confirmed that project `1406973`
+remained `Untitled` and `submission_pre_draft`, with no
 tagline, description, video URL, publication timestamp or submission timestamp.
 This is a time-bounded observation of editable state, not a submission receipt.
 The following remains preparation copy only.
@@ -41,7 +49,7 @@ The following remains preparation copy only.
 | Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — exact public release commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; verify it again signed out before final entry. |
 | Testing instructions (`28255`, optional) | Open the deployed live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Tested agents or clients (`28257`) | Codex In-app Browser plugin 26.825.32147 completed all five tools on exact public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Historical Chrome native-panel and Chrome DevTools MCP evidence remains separately labelled. Do not imply that a model selected a tool. |
+| Tested agents or clients (`28257`) | Codex In-app Browser plugin 26.825.32147 completed all five tools on exact public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. At `2026-08-31T18:49:38.356Z`, isolated Chrome 152 with browser-native WebMCP enabled completed all five exact-release calls through Chrome DevTools MCP 1.8.0, rejected `personalContext` by stable error code and recorded zero console errors. Neither observation used a model provider or proves model selection, ChatGPT support or universal compatibility. |
 | AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
 | Learning level (`28259`) | **Owner assessment required:** select `None`, `Moderate` or `Significant`. |
 | Career value (`28260`) | **Owner assessment required:** select `Yes` or `No`. |
@@ -248,13 +256,31 @@ completed; unrelated `personalContext` was rejected; and the canonical and
 displayed 11-row comparison digests matched. This is supported-host execution
 and human/display parity evidence. No model selected the tools.
 
+Separately, isolated Chrome 152 with browser-native WebMCP enabled discovered
+and completed all five tools against the exact release through Chrome DevTools
+MCP 1.8.0 at `2026-08-31T18:49:38.356Z`. It rejected unrelated
+`personalContext` with `invalid_search_request`, recorded zero console errors
+and used no model provider. The first current-release attempt stopped only
+because the capture harness expected obsolete rejection prose; the harness was
+changed to assert the stable error code and the reviewed rerun passed. This is
+a one-time Chrome observation, not ChatGPT or model-selection evidence.
+
 The previous 142.920-second local review MP4, captions, transcript, receipts and
 manual Safari and VoiceOver evidence remain evidence for the pre-federation
 journey. That video was not approved for publication, uploaded or submitted and
-must not be presented as the federated demonstration. A refreshed video must be
-recorded from the exact deployed release and pass owner and signed-out public
-player review. The refreshed VoiceOver journey and video build remain open
-pending the macOS capture environment; no WCAG conformance is claimed.
+must not be presented as the federated demonstration.
+
+For the exact federated release, the fresh nine-step manual Safari and
+VoiceOver journey completed with 7 passes and 2 limitations. Its Caption Panel
+scene is a 27-second screenshot sequence, not a continuous recording;
+VoiceOver speech audio was not captured and no WCAG conformance is claimed.
+The guarded build produced a 156.023-second local MP4 with SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+Technical review verified its H.264 video, AAC audio and English caption
+streams, complete video/audio decode, and all 40 normalised caption cues against
+the tracked captions, script and transcript. No audible human playback or
+publication approval is claimed. The local cut has not been uploaded or
+submitted and still requires owner and signed-out public-player review.
 
 ## `v0.3.0-rc.1` submission evidence gate
 
@@ -280,15 +306,18 @@ builder lock-byte check and mutation regressions remediate it. Immutable fixed-
 tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review
 items against exact commit `9c6ed7d9a21574972ee564b333cbc49983058554` with
 zero reportable findings. Protected CI and merge, Pages, exact public-byte
-comparison and current supported-host execution are complete. Refreshed
-VoiceOver evidence and the final video remain open. A strict model-backed pass
-remains optional additional assurance; none is claimed.
+comparison and current supported-host execution are complete. Current-release
+VoiceOver evidence and the local final-video technical review are complete. A
+strict model-backed pass remains optional additional assurance; none is
+claimed. Owner publication review, public-player verification and Devpost
+submission remain open.
 
 The earlier final-candidate demonstration preflight correctly failed closed
 because no deployed commit and no explicit overwrite approval were supplied.
-After the exact deployment, guarded current-release human and supported-host captures
-completed. The refreshed VoiceOver and final video build are still in progress,
-so they do not yet supply submission-video evidence.
+After the exact deployment, guarded current-release human, supported-host and
+VoiceOver captures completed. The guarded local final-video build and technical
+review also completed. They establish local review evidence, not the required
+approved public-video URL or submission evidence.
 
 - [x] Protected-main CI passes for exact release commit
   `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` in run `33356272534` after PR
@@ -304,15 +333,21 @@ so they do not yet supply submission-video evidence.
   separately labelled.
 - [x] Codex In-app Browser plugin 26.825.32147 lists and completes all five
   WebMCP tools on public `v0.3.0-rc.1`; no model-selection claim is made.
+- [x] One rules-named judging route — isolated Chrome 152 with browser-native
+  WebMCP enabled through Chrome DevTools MCP 1.8.0 — lists and completes all
+  five tools on exact public `v0.3.0-rc.1`. No model provider was called.
 - [x] Human and tool routes return the same canonical fields for the fixed
   query, including a matching displayed 11-row comparison digest.
-- [ ] The refreshed nine-step Safari and VoiceOver journey is completed and
+- [x] The refreshed nine-step Safari and VoiceOver journey is completed and
   reviewed with its limitations and without a WCAG conformance claim.
-- [ ] The refreshed under-three-minute federated video is recorded from the
-  deployed candidate and includes accurate captions and a transcript.
+- [x] The refreshed 156.023-second federated local video is built from the
+  deployed candidate; H.264/AAC/English-caption streams, full decode and
+  normalised caption, script and transcript parity pass technical review.
 - [ ] Chris Page approves the cut, synthetic-voice basis, privacy, branding and
   submission claims.
 - [ ] A public video URL works signed out.
+- [x] The 31 August local technical compliance review records the currently
+  blocked evidence position without changing Devpost.
 - [ ] The final live Devpost fields, rules, attestations and URLs are reviewed
   without submitting.
 

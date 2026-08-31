@@ -21,10 +21,32 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   page result. The raw receipt and derived capture record are retained; the
   generated scene is explicitly labelled as a receipt reconstruction rather
   than a host-owned recording.
+- Exact `v0.3.0-rc.1` rules-named Chrome evidence captured at
+  `2026-08-31T18:49:38.356Z` in isolated Chrome 152 with browser-native WebMCP
+  enabled through Chrome DevTools MCP 1.8.0. All five tools completed, unrelated
+  `personalContext` was rejected by stable error code, zero console errors were
+  recorded and no model provider was called. The reviewed receipt SHA-256 is
+  `4d87c3d55379266f68f633896e016f9294b991aa88458ea3f4b91b883c430396`.
 - Five silent, genuine public-page interaction clips bound to product commit
   `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` and Pages run `33356452048`.
   Agent privacy and branding review passed; human publication review remains
   pending.
+- A completed-with-limitations nine-step Safari 26.5.2 and VoiceOver 10
+  observation against exact public release `v0.3.0-rc.1`. Nine unique,
+  hash-bound Caption Panel frames produce a visibly labelled 27-second
+  non-continuous sequence. Seven checkpoints passed and two retain explicit
+  limitations: a heading-rotor selection was not retained and the automatic
+  spoken live-status wording was not proved. VoiceOver speech audio was not
+  captured, no WCAG conformance is claimed, and the Caption Panel and
+  VoiceOver were turned off afterwards.
+- A 156.023-second exact-release local review video with SHA-256
+  `e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`,
+  H.264 video, mono AAC synthetic narration and an embedded 40-cue English
+  caption track. Technical review completed the full video/audio decode,
+  counted 4,678 video frames, matched all normalised caption timings and text,
+  and retained one non-blocking subtitle metadata warning. It did not perform
+  audible content-parity or continuous human playback review and does not
+  approve publication.
 
 ### Changed
 
@@ -32,20 +54,34 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   search appears before the architecture summary, corrected source naming and
   personal-AI boundary wording, and added a fail-closed human rights-review
   gate to the script validator, transcript and build receipt.
-- Began a fresh nine-step Safari 26.5.2 and VoiceOver 10 journey against the
-  exact `v0.3.0-rc.1` deployment. This recapture and its Caption Panel evidence
-  are paused pending macOS unlock and are not yet a completed accessibility
-  observation.
-- Began rebuilding the under-three-minute demonstration from the exact release
-  clips and current evidence. Final assembly, technical review, owner playback
-  and publication approval remain pending; no refreshed video upload or
-  Devpost submission is claimed.
+- Replaced the invalid privacy-screen capture attempt with the clean, manually
+  reviewed current-release VoiceOver sequence and bound the
+  resulting manual evidence, media digest and capture-manifest digest.
+- Rebuilt the under-three-minute demonstration from the exact-release clips and
+  current evidence, then refreshed the en-GB captions and transcript from the
+  validated script. Owner playback, privacy, branding, rights and
+  synthetic-voice approval remain pending; no public video upload or Devpost
+  submission is claimed.
+- Guarded public Chrome capture admission: the default full receipt remains
+  ignored under `.evals`; `--admit-public-evidence` is restricted to the
+  allowlisted public target, binds complete live-byte verification and redacts
+  local page identifiers; an existing reviewed receipt fails closed unless
+  `--overwrite-reviewed-evidence` is explicit.
 
 ### Fixed
 
 - Updated the evidence-chronology regression so the top-level evidence window
   ends with the current `v0.3.0-rc.1` release observation while the historical
   Devpost receipt remains bound to its own 30 August timestamp.
+- Replaced a brittle invalid-input message assertion in the Chrome capture
+  harness with stable error code `invalid_search_request`. The first current-
+  release capture stopped only at that harness assertion; the corrected,
+  reviewed rerun passed.
+- Corrected lockstep status language so the 31 August Devpost observation ends
+  at `12:16:25Z` after its `12:16:23Z` start, pull-request run `33391552626` is
+  a prior evidence checkpoint rather than validation of the current uncommitted
+  diff, and the local technical compliance review remains distinct from the
+  final live-rules and form refresh.
 
 ## [0.3.0-rc.1] - 2026-08-31
 

@@ -236,6 +236,10 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
   assert.match(targetSource, /receiptName: "chrome-devtools-mcp\.json"/u);
   assert.match(targetSource, /receiptName: "chrome-devtools-mcp-public\.json"/u);
   assert.match(source, /captureTarget\.receiptName/u);
+  assert.match(source, /--admit-public-evidence/u);
+  assert.match(source, /--overwrite-reviewed-evidence/u);
+  assert.match(source, /comparedEveryRegularArtifactFile/u);
+  assert.match(source, /local page identifiers were omitted/u);
   assert.match(source, /captureTarget\.mode === "local"/u);
   assert.match(source, /fetchPublicDeploymentMetadata/u);
   assert.match(source, /deploymentMetadataValidated: publicDeployment !== null/u);
@@ -255,6 +259,8 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
   assert.match(source, /timeout: CLI_TIMEOUT_MS/u);
   assert.match(source, /server\.kill\("SIGKILL"\)/u);
   assert.match(source, /personalContext: "synthetic context that the page contract must reject"/u);
+  assert.match(source, /error\?\.code !== "invalid_search_request"/u);
+  assert.doesNotMatch(source, /error\?\.message\?\.includes\("Unknown input field"\)/u);
   assert.match(source, /invalid personal-context field did not fail closed/u);
   assert.match(source, /schema: "trusted-govuk-discovery\.search-result\.v2"/u);
   assert.match(source, /collections: \["deep-evidence"\]/u);

@@ -24,10 +24,25 @@ WebMCP tools on the exact public release, rejected an unrelated
 digests matched. This is machine evidence from a host capability interface, not
 a host-owned recording and not evidence that a model selected a tool. Five
 silent public-page interaction clips are also captured with agent privacy and
-branding review complete. A fresh nine-step Safari 26.5.2 and VoiceOver 10
-Caption Panel journey is paused pending macOS unlock; it and the final under-
-three-minute demonstration video are still in progress. Do not describe either
-as complete, owner-approved, published or submitted.
+branding review complete. Codex In-app Browser retains its own host name.
+Separately, isolated Chrome 152 with browser-native WebMCP enabled discovered
+and completed all five tools on the exact release through Chrome DevTools MCP
+1.8.0 at `2026-08-31T18:49:38.356Z`. It rejected unrelated `personalContext`
+with stable error code `invalid_search_request`, recorded zero console errors
+and called no model provider. This closes the rules-named Chrome observation
+gate without proving ChatGPT support, model selection or general browser
+compatibility. A fresh nine-step Safari 26.5.2 and VoiceOver 10
+Caption Panel journey against the exact release is complete with limitations:
+seven checkpoints passed; a heading-rotor selection was not retained; and the
+automatic spoken live-status wording was not proved. VoiceOver speech audio was
+not captured, no WCAG conformance is claimed, and the Caption Panel and
+VoiceOver were turned off afterwards. The resulting 156.023-second local review
+video has SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+Technical review passed the complete video/audio decode, 4,678-frame count and
+40-cue caption-parity checks while retaining one non-blocking subtitle metadata
+warning. It did not include audible or continuous human playback review. Do not
+describe the video as owner-approved, published or submitted.
 
 The release retains the full correction history rather than rewriting it.
 Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` reviewed 55 of
@@ -41,7 +56,8 @@ be moved or rewritten. Historical release and deployment observations below
 remain evidence for their named commits only.
 
 Competition registration is complete. The latest authenticated read-only Devpost
-observation, at `2026-08-31T12:16:23Z`, showed project `1406973` as `Untitled`,
+observation, completed at `2026-08-31T12:16:25Z` after starting at
+`2026-08-31T12:16:23Z`, showed project `1406973` as `Untitled`,
 blank and `submission_pre_draft`, with no video URL, publication timestamp or
 submission timestamp. No Devpost submission or public YouTube upload is
 claimed.
@@ -122,8 +138,10 @@ delivery, ranking, producer coverage, evidence parity, partial failure,
 context minimisation, safety, model choice, accessibility, cost or release
 binding. Cost reduction, privacy improvement, better questions and answer
 quality remain testable hypotheses. The exact build, protected integration,
-deployment and live-byte identity gates are closed; the model-backed, fresh
-accessibility, refreshed-video and submission gates remain open.
+deployment, live-byte identity, bounded manual VoiceOver observation, local
+video-build and technical-review gates are closed. The fixed-model,
+inclusive-design follow-up, owner-review, public-video and submission gates
+remain open.
 
 The frozen lexical retrieval-quality gate is implemented and required by CI
 and Pages after `npm test`. It measures bounded nDCG@10 and Recall@20 cases,
@@ -199,14 +217,18 @@ The exact post-remediation local verification now records:
   searchable rows, 120 record shards and 1,733 postings shards;
 - focused combined/public-search regressions: 11 of 11 passed;
 - release-candidate prepared unit suite: 194 of 194 passed;
-- current evidence-branch prepared unit suite: 195 of 195 passed locally and
-  in pull-request validation run `33391552626`;
+- prior evidence-follow-up prepared unit checkpoint: 195 of 195 passed locally
+  and in pull-request validation run `33391552626`; that run predates the
+  current VoiceOver and video-evidence diff and does not validate it;
 - frozen retrieval quality: mean nDCG@10 `0.984698009`, Recall@20 `1`, identical
   cold/warm results, no legislation collection and the legislation request
   rejected;
 - installed Google Chrome and Microsoft Edge: 30 of 30 browser tests passed in
   each;
 - model-free WebMCP smoke: 6 of 6 passed in real Chrome;
+- exact-release Chrome WebMCP observation: 5 of 5 tools discovered and
+  completed in isolated Chrome 152 through Chrome DevTools MCP 1.8.0, with the
+  invalid personal-context input rejected and zero console errors;
 - `npm audit`: zero vulnerabilities across 162 total dependencies; and
 - `git diff --check`: clean.
 
@@ -228,8 +250,15 @@ Those results were pre-release local checkpoints. Pull-request validation
 `33356087333`, protected-main validation `33356272534`, Pages run `33356452048`,
 the complete live-byte comparison and exact-release supported-host capture now
 provide their respective release evidence. Fresh manual accessibility evidence,
-a passing model-backed evaluation, the refreshed video and submission remain
-open.
+the refreshed local video and its technical review are now complete with their
+recorded limitations. A passing model-backed evaluation, the unproved
+screen-reader checks, owner publication review, public playback and submission
+remain open.
+
+The 31 August local technical compliance review is complete through the
+current Chrome observation at `2026-08-31T18:49:38.356Z`. It is an intermediate
+evidence review, not the final live-rules and Devpost-form refresh; that final
+refresh remains open.
 
 Five model-backed attempts are preserved as local variance evidence. They used
 Chrome 152, `webmcp-evals` 0.0.4, eight cases, three runs per case and the exact
@@ -418,14 +447,23 @@ version-pinned Python requirements and run semantic WebMCP smoke before
 deployment. Those checks ran in the protected integration and Pages path that
 produced run `33323152751`.
 
-The public-target Chrome DevTools MCP 1.8.0 capture validated that corrected
-deployment, discovered all five tools and completed all five calls with zero
-console errors. Separately, Chrome's native WebMCP panel recorded all five
+The 30 August public-target Chrome DevTools MCP 1.8.0 capture validated the
+earlier corrected deployment, discovered all five tools and completed all five
+calls with zero console errors. Separately, Chrome's native WebMCP panel recorded all five
 calls as `Completed`; a search with `limit: 21` returned the expected structured
 validation rejection. Both presentation tools updated the visible page; the
 comparison showed 11 facet rows and its displayed digest prefix matched the
 canonical result. These are time-, browser- and host-specific observations,
 not general WebMCP compatibility claims.
+
+On 31 August 2026, a fresh public-target rerun in isolated Chrome
+152.0.7977.64 with browser-native WebMCP enabled bound the same five successful
+calls to exact release commit `b0bd634` and Pages run `33356452048`. It rejected
+`personalContext` by stable error code `invalid_search_request`, recorded zero
+console errors and used no model or provider. The first current-release capture
+stopped only because the harness expected obsolete error prose; the harness was
+changed to assert the stable code and the reviewed rerun passed. This remains a
+one-time Chrome observation, not a general compatibility claim.
 
 Raw evaluator smoke rows are deleted after semantic validation. The ignored
 smoke receipt retains the six-of-six counts and a digest of the validated
@@ -514,6 +552,10 @@ complete. The following remain gated:
   repository with a visibly detectable open-source licence, a public YouTube
   video under three minutes with audio and the exact live project accessible in
   ChatGPT's in-app browser or Chrome with WebMCP enabled;
+- retain the exact-release Codex In-app Browser and isolated Chrome 152
+  observations under their own host and capture-mechanism names; the current
+  Chrome receipt closes the rules-named host gate without establishing ChatGPT
+  support, model selection or general compatibility;
 - freeze the repository, live project and submission after the close;
 - do not submit to Devpost without a separate instruction;
 - do not claim WCAG conformance, official endorsement, comprehensive coverage,
@@ -526,13 +568,11 @@ complete. The following remain gated:
 
 ## Next safe task
 
-Complete the evidence follow-up against the unchanged exact `v0.3.0-rc.1`
-deployment. Resume the fresh nine-step Safari and VoiceOver Caption Panel
-journey when the Mac is unlocked, finish and hash-bind all observations, then
-turn the Caption Panel and VoiceOver off. Build the final demonstration from
-the exact-release clips, perform the technical and owner playback, privacy,
-branding, voice and caption reviews, and verify any public video while signed
-out before the final Devpost compliance review.
+Complete Chris Page's continuous audible playback, privacy, branding, rights,
+synthetic-voice and caption review of the exact 156.023-second local candidate.
+If it is approved, publish that exact digest to public YouTube and verify sound
+and captions while signed out, then perform the final read-only rules and
+Devpost-form refresh.
 
 Do not move the `v0.3.0-rc.1` tag or substitute historical pre-federation
 accessibility, host or video evidence. The strict model-backed gate, public

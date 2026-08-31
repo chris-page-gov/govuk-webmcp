@@ -26,9 +26,12 @@ files and 128,548,215 bytes with zero mismatches. The release retains 80
 reviewed records and adds 58,652 searchable federated records from 58,655
 locked source rows; 3 standalone legislation rows remain quarantined.
 Supported-host evidence records discovery and deterministic calls for all five
-page tools against the exact release. The refreshed manual VoiceOver journey
-and demonstration-video publication remain separate evidence gates and are not
-implied by the product release.
+page tools against the exact release. A separate isolated Chrome 152 / Chrome
+DevTools MCP 1.8.0 observation also completed all five tools with browser-native
+WebMCP enabled. The refreshed manual VoiceOver journey and 156.023-second local
+video technical review are complete with explicit limitations. Owner approval,
+public-video publication, final live-rules and form review, and submission
+remain separate gates and are not implied by the product release.
 
 A pre-remediation checkpoint passed its production build, deterministic data
 double-build, focused runtime, public-schema and federation tests, complete
@@ -185,8 +188,9 @@ scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items with
 zero reportable findings. Its sealed scope predates the reviewed-gzip and
 referenced import-deadline CI portability corrections. Protected-main CI,
 Pages, exact-byte and supported-host evidence were completed separately for the
-release; focused current accessibility, a passing model-backed result and the
-refreshed video remain separate open gates.
+release; focused current VoiceOver evidence and the refreshed local-video
+technical review are also complete with limitations. A passing model-backed
+result, owner review, public playback and submission remain separate open gates.
 
 Combined and public WebMCP search preserve `federated_runtime_busy` rather than
 misclassifying that scheduler state as source unavailable. The human live region
@@ -197,7 +201,8 @@ prepared suite; the Chrome and Edge reruns each exited zero at 30 of 30.
 An earlier final-candidate demonstration preflight correctly failed closed
 without a deployed commit and explicit overwrite approval. The exact release
 now has five silent public-page interaction clips and a supported-host receipt
-reconstruction; the refreshed VoiceOver clip and final video remain open.
+reconstruction. The refreshed VoiceOver clip and 156.023-second local review
+video are complete; owner approval and public playback remain open.
 
 Five preserved local model attempts used Chrome 152, `webmcp-evals` 0.0.4,
 eight cases, three runs per case and exact loopback-only model
@@ -387,10 +392,12 @@ secure browser host exposes `document.modelContext`. They are available only in
 that page context. They do not provide an independently callable, durable MCP
 gateway, provider authentication, persistent sessions or durable call
 receipts. Instrumented browser tests cover registration and calls. On 30 August
-2026, `Codex In-app Browser` also discovered and successfully called all five
-tools against the historical tagged deployment; the final comparison's
-canonical and displayed result digests matched. This is evidence for that host
-and time only, not a general browser-support claim.
+2026, `Codex In-app Browser` discovered and successfully called all five tools
+against the historical tagged deployment. Current exact-release evidence now
+records the same five tools in Codex In-app Browser and, separately, in isolated
+Chrome 152 with browser-native WebMCP enabled through Chrome DevTools MCP 1.8.0.
+These are evidence for their named hosts, versions, releases and times only,
+not model-selection or general browser-support claims.
 
 ## Local WebMCP interoperability checks
 
@@ -431,13 +438,27 @@ npm run webmcp:devtools:capture
 Only that exact public URL is accepted. The runner validates the deployment
 schema, repository, commit and Pages run before capture, binds the raw metadata
 digest into `.evals/chrome-devtools-mcp-public.json`, and does not start the
-loopback server. Against corrected deployed main, it discovered and completed
+loopback server. This default public capture remains ignored. After manual
+review, `--admit-public-evidence` may write the reviewed exact-release receipt
+only for the allowlisted public target. Admission also binds the complete live-
+byte verification, omits local page identifiers and fails closed if the
+reviewed target exists unless `--overwrite-reviewed-evidence` is explicitly
+supplied. Against corrected deployed main, the earlier capture discovered and completed
 all five tools with zero console errors. Chrome's native WebMCP panel separately
 recorded five valid calls as `Completed`; `limit: 21` returned the expected
 structured rejection. Both presentation tools updated the visible page; the
 comparison showed 11 facet rows and its displayed digest prefix matched the
 canonical result. These bounded observations do not establish general browser
 or host support.
+
+At `2026-08-31T18:49:38.356Z`, the guarded admission path retained a reviewed
+rerun against exact public `v0.3.0-rc.1`: isolated Chrome 152 discovered and
+completed all five tools, rejected unrelated `personalContext` by stable error
+code `invalid_search_request`, recorded zero console errors and used no model
+provider. The first current-release capture stopped only because the harness
+expected obsolete rejection prose; the stable-code correction and rerun
+passed. The reviewed receipt SHA-256 is
+`4d87c3d55379266f68f633896e016f9294b991aa88458ea3f4b91b883c430396`.
 
 `webmcp:eval:smoke` uses `webmcp-evals` 0.0.4, the concrete calls in
 `evals/webmcp-smoke.json`, installed stable Chrome and a same-origin loopback
@@ -532,12 +553,13 @@ at the `v0.3.0-rc.1` release commit identified above.
 Microsoft WebMCP Explorer browser execution and a passing fixed-model evaluation
 remain optional assurance work; five preserved local attempts currently show
 legibility improvement, fail-closed recovery and variance, not a pass. The
-existing 142.920-second local review video
-is unchanged and passed technical decode, frame-count and caption-parity checks,
-but still requires owner playback, privacy, branding and synthetic-voice
-approval before public upload. Final Devpost completion and submission remain
-open. A release-platform SBOM or attestation is optional additional assurance,
-not a current official submission prerequisite.
+current exact-release 156.023-second local review video passed full video/audio
+decode, 4,678-frame and 40-cue caption-parity checks, with one non-blocking
+subtitle metadata warning. It still requires owner playback, privacy, branding,
+rights and synthetic-voice approval before public upload. Final Devpost
+completion and submission remain open. A release-platform SBOM or attestation
+is optional additional assurance, not a current official submission
+prerequisite.
 
 Current official compliance requires completion by 1:00 pm PDT on 3 September
 2026, a public source repository with a visibly detectable open-source licence,
@@ -605,11 +627,22 @@ access or permission to reuse linked material.
   required actions, durations and SHA-256 values. The WebMCP scene is a labelled
   receipt visualisation rather than a host recording. Raw media under `output/`
   is deliberately Git-ignored local review material and must be preserved until
-  the final build and human publication review are complete.
+  human publication review is complete.
+  Current-release evidence is retained in the
+  [manual Safari and VoiceOver record](docs/competition/evidence/manual-voiceover-journey-v0.3.0-rc.1.json),
+  [local video build receipt](docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json)
+  and
+  [technical review](docs/competition/evidence/demo-video-technical-review-v0.3.0-rc.1.json).
+  The exact-release browser evidence also includes the
+  [reviewed Chrome DevTools MCP receipt](docs/competition/evidence/chrome-devtools-mcp-v0.3.0-rc.1.json).
+  The manual record completed with two limitations and no WCAG claim. The
+  156.023-second video's full decode, 4,678 frames and 40 normalised caption cues
+  passed technical review, but audible continuous playback and owner publication
+  approval were not performed.
   The
   [manual Safari and VoiceOver record](docs/competition/evidence/manual-voiceover-journey-2026-08-30.json)
-  is completed with two retained limitations and makes no WCAG conformance
-  claim. The
+  is the historical pre-federation observation, completed with two retained
+  limitations and no WCAG conformance claim. The
   [local video build receipt](docs/competition/evidence/demo-video-build-2026-08-30.json)
   binds a captioned 142.920-second review cut, transcript and source evidence;
   the separate
@@ -618,7 +651,10 @@ access or permission to reuse linked material.
   owner approval. Neither is proof of public YouTube publication. The
   [final read-only compliance review](docs/competition/final-devpost-compliance-review-2026-08-30.md)
   is the retained checkpoint before the corrected-main Chrome observations;
-  owner review, public-video and submission gates remain open.
+  the
+  [31 August local technical compliance review](docs/competition/final-devpost-compliance-review-2026-08-31.md)
+  incorporates the current Chrome capture but is not the final live-rules and
+  form refresh. Owner review, public-video and submission gates remain open.
   A separate
   [read-only Devpost status record](docs/competition/evidence/devpost-read-only-status-2026-08-30.json)
   distinguishes completed registration from the unsubmitted project draft; the

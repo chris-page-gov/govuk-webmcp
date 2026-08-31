@@ -156,13 +156,24 @@ files to Pages artefact `9745316971`. Codex In-app Browser (Browser plugin
 `26.825.32147`) then discovered and executed all five tools, rejected an
 unrelated `personalContext` field and matched the displayed comparison digest.
 No model selected a tool and no model provider was called. The refreshed
-current-release VoiceOver journey, a passing fixed-model evaluation, final
-video, owner review, public-player verification and Devpost submission remain
-open.
+current-release Safari and VoiceOver journey completed with 7 passes and 2
+limitations. Its 27-second Caption Panel clip is a non-continuous screenshot
+sequence without captured VoiceOver speech audio or a WCAG conformance claim.
+The guarded local final-video build and technical review also completed: the
+156.023-second H.264/AAC/English-caption MP4 has SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`, passed
+complete video/audio decode and matched all 40 normalised caption cues to the
+tracked captions, script and transcript. A passing fixed-model evaluation
+remains optional. Owner playback, privacy, branding, rights and synthetic-
+voice publication review, public-player verification and Devpost submission
+remain open.
 
 An earlier final-candidate demonstration preflight correctly failed closed
 without a deployed commit and explicit overwrite approval. It did not start
-live capture, so it contributes no gate M live-capture evidence.
+live capture, so it contributes no gate M live-capture evidence. The later
+release-bound interaction, supported-host, VoiceOver and local-video evidence
+passed the guarded path separately; it does not turn the earlier failure into
+evidence or establish public upload or submission.
 
 | Gate | Proposition | Method | Pass condition | Claim unlocked |
 | --- | --- | --- | --- | --- |

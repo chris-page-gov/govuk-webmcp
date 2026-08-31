@@ -244,8 +244,8 @@ binding failure still prevents all registration. After a valid root is
 established, a failed lazy collection is isolated and returned as explicit
 source status while unaffected sources and the reviewed tier remain available.
 Each collection status reports deterministic `verifiedShardFiles` and
-`verifiedShardBytes` counters. This behaviour has local unit, Chrome and Edge
-evidence but not current-candidate CI, deployed or supported-host evidence.
+`verifiedShardBytes` counters. This behaviour has local unit, Chrome and Edge,
+protected CI, deployment and current-host evidence.
 
 The execution-options argument is optional at the page-host boundary. Some
 hosts, including the pinned Chrome DevTools MCP and `webmcp-evals` paths, invoke
@@ -369,11 +369,22 @@ host, version, time, arguments and result digests are retained. No model
 selected a tool and no model provider was called, so this is not model-selection
 evidence or a general browser-support claim.
 
-Historical Chrome 152 native-panel, Chrome DevTools MCP 1.8.0 and manual Safari
-and VoiceOver observations remain bound to the earlier revisions they name.
-The fresh current-release VoiceOver journey is still open and will retain its
-observed limitations; neither the historical nor refreshed observation is a
-WCAG conformance claim.
+At `2026-08-31T18:49:38.356Z`, isolated Chrome 152 with browser-native WebMCP
+enabled also discovered and completed all five exact-release tools through
+Chrome DevTools MCP 1.8.0. It rejected unrelated `personalContext` using stable
+error code `invalid_search_request`, recorded zero console errors and called no
+model provider. The first current-release attempt stopped only because the
+capture harness expected obsolete error prose; the harness was changed to
+assert the stable code and the reviewed rerun passed. This closes the rules-
+named Chrome observation for that host, version, release and time only.
+
+Historical Chrome 152 native-panel, earlier Chrome DevTools MCP 1.8.0 and manual
+Safari and VoiceOver observations remain bound to the earlier revisions they name.
+The fresh current-release Safari and VoiceOver journey completed separately
+with 7 passes and 2 limitations. Its nine Caption Panel frames form a 27-second
+screenshot sequence, not a continuous recording; VoiceOver speech audio was
+not captured, and neither the historical nor current observation is a WCAG
+conformance claim.
 
 The last complete pre-remediation `0.3.0-rc.1` checkpoint included a successful
 production build, a byte-idempotent reconstruction of the federated plane, 144
@@ -420,14 +431,21 @@ reportable findings. Its sealed scope predates the reviewed-gzip and referenced
 import-deadline CI portability corrections; focused mutation and deadline
 regressions and the protected Linux rerun evidence those deltas separately.
 Protected CI, Pages, final tag, release and current-release supported-host
-capture are complete. A passing fixed-model evaluation, refreshed manual
-screen-reader journey and refreshed video remain open.
+capture are complete. The current-release manual screen-reader journey and
+local final-video technical review are also complete. The 156.023-second local
+MP4 has SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`; its
+H.264, AAC and English-caption streams, complete video/audio decode and all 40
+normalised caption cues passed technical review. A passing fixed-model
+evaluation remains optional, while human playback and publication review,
+public-player verification and Devpost submission remain open.
 
 An earlier demonstration preflight correctly failed closed without a deployed
 commit and explicit overwrite approval. The current release now has five
-silent public-page interaction clips and a supported-host receipt
-reconstruction; final video assembly, technical review and owner publication
-review remain open.
+silent public-page interaction clips, a supported-host receipt reconstruction,
+the current-release VoiceOver sequence and a technically reviewed local final
+video. Owner playback, privacy, branding, rights and synthetic-voice
+publication review remain open; no public upload or submission is claimed.
 
 ## 8.7 Pinned local interoperability harnesses
 
@@ -482,6 +500,17 @@ commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and Pages run
 `33323152751`. The reviewed receipt records five discovered tools, five
 completed calls, a closed-input rejection and zero console errors; the complete
 raw response remains ignored and private.
+
+By default, the current public-target capture also remains ignored under
+`.evals`. After human review, `--admit-public-evidence` writes the reviewed
+exact-release receipt only for the allowlisted public target, binds it to the
+complete live-byte verification and omits local page identifiers. It fails
+closed if the reviewed receipt already exists unless
+`--overwrite-reviewed-evidence` is explicit. This guarded path admitted the
+current `b0bd634` / Pages `33356452048` Chrome receipt after the first attempt
+exposed a harness dependency on old error prose; changing the assertion to the
+stable `invalid_search_request` code and rerunning produced five completed
+calls, one closed-input rejection and zero console errors.
 
 `webmcp:eval:smoke` uses the exactly pinned `webmcp-evals` 0.0.4 and
 `evals/webmcp-smoke.json`. Three synthetic cases make six concrete calls that
