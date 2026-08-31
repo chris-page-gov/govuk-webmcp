@@ -2,14 +2,15 @@
   "schema": "trusted-govuk-discovery.challenge-provenance.v1",
   "observationWindow": {
     "startedAt": "2026-08-30T01:53:35Z",
-    "completedAt": "2026-08-30T17:57:48Z"
+    "completedAt": "2026-08-31T04:36:36.746Z"
   },
-  "latestEvidenceAt": "2026-08-30T17:57:48Z",
+  "latestEvidenceAt": "2026-08-31T04:36:36.746Z",
   "challenge": {
     "start": "2026-08-25T18:00:00Z",
     "deadline": "2026-09-03T20:00:00Z",
     "rulesUrl": "https://webmcp.devpost.com/rules",
     "officialRulesObservedAt": "2026-08-30T17:57:47Z",
+    "officialRulesRecheckedOn": "2026-08-31",
     "devpostConnectorSubmissionsStartAt": "2026-08-25T19:00:00Z",
     "timingResolution": "The live official rules state 11:00 Pacific Time, equivalent to 18:00 UTC on 25 August 2026, and control over the inconsistent connector start timestamp. The repository's first commit was on 29 August, so the discrepancy does not affect its chronology classification."
   },

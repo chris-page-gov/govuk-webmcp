@@ -548,7 +548,7 @@ not claims of registration, submission or a public video upload.
 
 ## Privacy and operating boundary
 
-The page loads only its packaged same-origin artefacts. The federated candidate
+The page loads only its packaged same-origin artefacts. The released federated tier
 also mirrors its locked static search files to that origin; it does not query an
 official operational API or an OKF producer at runtime. The static host can
 observe ordinary and query-derived asset requests. The application uses no
@@ -573,8 +573,8 @@ access or permission to reuse linked material.
 - `src/evidence-runtime.ts` — Evidence Trace validation and exploration.
 - `src/federation-runtime.ts` — corpus-admission validation.
 - `src/okf-federated-contracts.ts` — fixed four-source snapshot and resource-
-  budget contract for the in-progress federation.
-- `app/data/sources/okf-federation-lock.json` — authored candidate lock for the
+  budget contract for the released federation.
+- `app/data/sources/okf-federation-lock.json` — authored release lock for the
   four admitted source snapshots and 73 versioned gzip artefacts; generated
   federation search files are ignored and not hand-edited.
 - `app/data/sources/` — reviewed source locks and authored inputs.

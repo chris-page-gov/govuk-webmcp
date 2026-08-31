@@ -64,7 +64,7 @@ annotated `v0.3.0-rc.1` tag and public pre-release preserve that identity. A
 byte-for-byte public verification compared all 1,879 regular Pages files
 (128,548,215 bytes): every request returned HTTP 200 and no file differed from
 Pages artefact `9745316971`. The retained deployed-file manifest has SHA-256
-`4b23369fcbf388254ec4770abceeb8cff48712786dc5111f5c0cd36ab5b0183`.
+`4b2336a8927d34951c94008703dec27ed79f1ad87a318526c6807eeaa4bc0183`.
 The preceding exact-range scan
 `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55 of 55 review items and
 reported one High-confidence, Low-severity source-substitution finding
