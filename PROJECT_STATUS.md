@@ -62,6 +62,46 @@ blank and `submission_pre_draft`, with no video URL, publication timestamp or
 submission timestamp. No Devpost submission or public YouTube upload is
 claimed.
 
+## Beginner trust-pathway discovery status
+
+The current branch adds product discovery, learning and evaluation evidence
+only. It does not change the released `v0.3.0-rc.1` interface, WebMCP tools,
+data contracts or public deployment. The proposed beginner experience treats
+the existing evidence-dense page as a future **Technical review** view and
+starts instead with five questions: what is being claimed, which source
+supports it, what the AI added, what is missing and what safe check comes next.
+
+The discovery pack now contains four synthetic personas, 12 representative
+user stories, a plain-English full learning pathway and an exact coverage
+matrix across the released evidence estate and 21 fork-local GOV.UK Chat pilot
+cases. No ranked GOV.UK Chat question-frequency dataset was found. The stories
+are therefore hypotheses informed by official GDS research, not “most common
+questions” or completed user research.
+
+One guided local Chrome 152 / `webmcp-evals` 0.0.4 run used exact
+`ollama:gpt-oss:20b` digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
+All 12 stories produced final text; every intended first search and both
+no-call decisions worked. The ordered matcher reported 13 pass, 16 fail and 0
+error across 29 scored steps. Eight failure pairs arise from an ambiguous
+fixture that expected separate record and provenance calls after asking the
+model only to “inspect and show provenance”; each actual provenance call
+succeeded before the model answered. Qualitative review remains a hard
+failure: US-02, US-03, US-09 and US-10 contained material unsupported or
+rights-inaccurate claims. This run is diagnostic and does not close the
+existing strict model-backed gate or establish beginner comprehension. A
+privacy-reviewed machine receipt admits the 19 actual calls, arguments, result
+digests and review labels without committing full prompts, model prose or tool
+payloads.
+
+A separate factual gate is open. The admitted A Life in the UK federation lock
+states that two of 293 service families had named specialist acceptance. The
+producer's exact-revision AI-consumer contract states zero accepted reviews,
+two families not requiring review and 291 requiring review. Beginner material
+makes no positive acceptance claim. Do not implement or publish that claim in
+a redesigned interface until the authored lock, generated display contracts,
+tests and release evidence are corrected together.
+
 ## Released `0.3.0-rc.1` federated boundary
 
 The released slice extends discovery without weakening the assurance of
@@ -568,7 +608,16 @@ complete. The following remain gated:
 
 ## Next safe task
 
-Complete Chris Page's continuous audible playback, privacy, branding, rights,
+For the beginner product lane, first reconcile the A Life in the UK specialist-
+review contradiction through the full authored/generated/test contract. Then
+run a Technical review of the current interface against the discovery PRD and
+produce a low-fidelity, evidence-first specification before changing the UI.
+That review must preserve the complete human journey, visible source and
+limitation parity, and separate AI-added explanation from deterministic page
+evidence.
+
+The competition-submission lane remains separate and more time-sensitive:
+complete Chris Page's continuous audible playback, privacy, branding, rights,
 synthetic-voice and caption review of the exact 156.023-second local candidate.
 If it is approved, publish that exact digest to public YouTube and verify sound
 and captions while signed out, then perform the final read-only rules and

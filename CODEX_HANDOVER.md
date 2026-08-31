@@ -53,6 +53,89 @@ The frozen `v0.2.0-rc.2` pre-federation baseline remains at product commit
 historical evidence for their named commits only. No `gis-ai-go` or OKF source
 repository was changed.
 
+## Beginner trust-pathway discovery handover
+
+The current branch is a documentation, research and evaluation slice. It does
+not implement or deploy a beginner interface. The existing public interface is
+the baseline for a future **Technical review**; it has not yet been redesignated
+or changed in executable code.
+
+The slice adds:
+
+- a plain-English five-question learning pathway under `docs/beginners/`;
+- `docs/product/beginner-trust-pathway-prd.md`, with four synthetic personas,
+  the Explain–Inspect–Do–Check–Reflect loop, US-01 to US-12, functional and
+  accessibility requirements, acceptance criteria and non-goals;
+- `docs/competition/beginner-question-coverage.md`, which maps 21 balanced
+  fork-local GOV.UK Chat cases and wider representative discovery questions to
+  exact released record IDs without making a frequency claim;
+- `evals/beginner-conversations.json` and a unit contract covering 12 guided
+  stories, all five tools, an expected task-minimal argument shape and two
+  no-call cases; and
+- `docs/competition/beginner-conversation-evaluation-2026-08-31.md`, which
+  retains the exact local client, fixture/report digests, harness ambiguity and
+  answer-quality review; and
+- `docs/competition/evidence/beginner-conversation-evaluation-receipt-2026-08-31.json`,
+  a privacy-reviewed machine receipt with 19 actual calls, their arguments and
+  result digests, 12 final-text-presence states and the qualitative labels, but
+  no full prompts, model prose or tool-result payloads.
+
+The only genuinely model-backed WebMCP client selected for this slice was local
+`ollama:gpt-oss:20b`, exact inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
+The run used Chrome `152.0.7977.64`, `webmcp-evals` `0.0.4`, one run per case
+and maximum six steps. All 12 stories produced final text. The ordered matcher
+reported 13 pass, 16 fail and 0 error across 27 expected calls and two no-call
+decisions. US-02 to US-09 called successful provenance directly after search
+because the prompts did not name the separately expected record call. This is
+partly a fixture/harness mismatch. It is not an answer-quality pass: US-02,
+US-03, US-09 and US-10 contained material unsupported or rights-inaccurate
+claims.
+
+The raw JSON report remains ignored under
+`.evals/beginner-conversations/2026-08-31T22-10-18Z/`; its SHA-256 is
+`3ef684647d0606b04de783a4fa15e51979a790522e9652b156d03861ff1918ab`.
+The committed fixture SHA-256 is
+`989e90265dc750bca96156939668b7bcc147856fd1e50d979ea41164eb6f8dac`.
+The privacy-reviewed receipt SHA-256 is
+`0dd7996f5cc97c4834929c6a40eedb3342cf3016046ef768926041656ba0252f`.
+The local server was stopped after the run. The full report is not admitted
+because it is large, duplicates complete tool payloads and contains unreviewed
+model prose. The committed receipt makes the bounded trajectory evidence
+reviewable while retaining that exclusion.
+
+One data-contract contradiction was found and deliberately not hidden. The
+admitted A Life in the UK lock says two of 293 service families had named
+specialist acceptance; the producer's AI-consumer contract at exact admitted
+revision `4bc010eab3c9c072f68960393c1458a772aa700b` says zero accepted, two not
+requiring review and 291 requiring it. The beginner documents make no positive
+acceptance claim. Correct this through the authored source lock, generated
+display contracts, tests and release evidence before a UI uses the claim.
+
+Validation completed for this slice:
+
+- `python3 -c 'import csv,collections; paths=("docs/competition/source-register.csv","docs/competition/evaluation-set.csv","docs/competition/risk-register.csv"); rows={p:list(csv.reader(open(p,newline=""))) for p in paths}; assert all(len(set(map(len,v)))==1 for v in rows.values()); assert all(not [x for x,n in collections.Counter(r[0] for r in v[1:]).items() if n>1] for v in rows.values()); print([(p,len(v),len(v[0])) for p,v in rows.items()])'`
+  — source register 85 rows of 10 fields, evaluation register 57 rows of 10
+  fields and risk register 28 rows of 9 fields; no duplicate identifiers;
+- `node --test --test-name-pattern='beginner conversation' tests/unit/webmcp-evals-harness.test.mjs`
+  — 2 passed after the machine-receipt contract was added;
+- `npm test` — research verification, deterministic build and 198 unit tests
+  passed; the command then stopped because the restricted environment refused
+  the Playwright server's loopback socket with `EPERM`;
+- `npm run test:unit:prepared` after the receipt and editorial corrections —
+  199 passed;
+- `npm run test:browser:prepared` with the loopback bind permitted — 30 Chrome
+  tests passed;
+- a read-only local-path and anchor check resolved all 51 relative Markdown
+  links touched by this slice, including six same-document anchors; and
+- `git diff --check` — passed.
+
+Microsoft Edge, manual assistive-technology and formative usability checks were
+not rerun because executable UI behaviour did not change. The one-run guided
+model diagnostic is recorded above and was not repeated or upgraded into an
+acceptance result. No deployment, tag, release or submission action belongs to
+this documentation-only slice.
+
 ## Released `0.3.0-rc.1` federation handover
 
 The release implements a new federated source-snapshot discovery tier. A pre-remediation
@@ -715,11 +798,18 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-Chris Page should complete continuous audible playback, privacy, branding,
-rights, synthetic-voice and caption review of the exact 156.023-second local
-candidate. If approved, publish that exact digest to public YouTube and verify
-sound and captions while signed out, then perform the final read-only rules and
-Devpost-form refresh.
+For the beginner product lane, first reconcile the A Life in the UK specialist-
+review contradiction, then perform the Technical review required by the PRD.
+That review should compare the current UI with a low-fidelity evidence-before-
+answer design, make AI-added statements inspectable, resolve the ambiguous
+record/provenance choreography and define formative comprehension research
+before authorising implementation.
+
+For the separate competition-submission lane, Chris Page should complete
+continuous audible playback, privacy, branding, rights, synthetic-voice and
+caption review of the exact 156.023-second local candidate. If approved,
+publish that exact digest to public YouTube and verify sound and captions while
+signed out, then perform the final read-only rules and Devpost-form refresh.
 
 Do not move the `v0.3.0-rc.1` tag or reuse pre-federation accessibility, host or
 video evidence as proof of the expanded release. Public YouTube upload and

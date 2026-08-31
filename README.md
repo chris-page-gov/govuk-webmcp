@@ -33,6 +33,20 @@ video technical review are complete with explicit limitations. Owner approval,
 public-video publication, final live-rules and form review, and submission
 remain separate gates and are not implied by the product release.
 
+## Beginner documentation
+
+Start with [Evidence before answers](docs/beginners/index.md) if you are new to
+AI-assisted government information. It explains how to separate an AI answer,
+its recorded evidence and a decision that depends on your circumstances.
+
+The proposed beginner experience is documented, not implemented. Its
+[product requirements](docs/product/beginner-trust-pathway-prd.md),
+[question and coverage matrix](docs/competition/beginner-question-coverage.md)
+and [guided model evaluation](docs/competition/beginner-conversation-evaluation-2026-08-31.md)
+treat the current public interface as the baseline for a future Technical
+review. The 12 questions are synthetic representative hypotheses, not a ranked
+list of the most common GOV.UK Chat questions or completed user research.
+
 A pre-remediation checkpoint passed its production build, deterministic data
 double-build, focused runtime, public-schema and federation tests, complete
 unit suite, Chrome and Microsoft Edge browser suites and model-free smoke. A

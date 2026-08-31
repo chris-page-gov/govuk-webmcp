@@ -1,0 +1,485 @@
+{
+  "schema": "govuk-webmcp.beginner-conversation-evaluation-receipt.v1",
+  "observedOn": "2026-08-31",
+  "scope": "Privacy-minimised deterministic receipt for the guided beginner conversation evaluation.",
+  "provenance": {
+    "productBaseCommit": "cd039cf233c549d497db779b7082b723973bf126",
+    "fixture": {
+      "path": "evals/beginner-conversations.json",
+      "sha256": "989e90265dc750bca96156939668b7bcc147856fd1e50d979ea41164eb6f8dac"
+    },
+    "rawReport": {
+      "path": ".evals/beginner-conversations/2026-08-31T22-10-18Z/report-1788214493102.json",
+      "sha256": "3ef684647d0606b04de783a4fa15e51979a790522e9652b156d03861ff1918ab",
+      "repositoryStatus": "ignored-local-evidence"
+    }
+  },
+  "environment": {
+    "operatingSystem": "macOS 26.5.2",
+    "node": "v26.7.0",
+    "browser": "Google Chrome 152.0.7977.64",
+    "evaluator": "webmcp-evals 0.0.4",
+    "model": "ollama:gpt-oss:20b",
+    "modelInventorySha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+    "modelContextTokensObservedAfterRun": 32768,
+    "modelDigestBoundary": "Post-run local inventory observation; not a cryptographic binding of every response to model weights.",
+    "inferenceBoundary": "Local loopback model endpoint; no remote model credential supplied."
+  },
+  "reportConfiguration": {
+    "url": "http://127.0.0.1:4183/",
+    "evalsFile": "evals/beginner-conversations.json",
+    "backend": "vercel",
+    "model": "ollama:gpt-oss:20b",
+    "runs": 1,
+    "maxSteps": 6,
+    "outputDir": ".evals/beginner-conversations/2026-08-31T22-10-18Z",
+    "reporter": [
+      "console",
+      "json",
+      "html"
+    ],
+    "chromeChannel": "chrome"
+  },
+  "resultCanonicalisation": {
+    "algorithm": "SHA-256",
+    "input": "UTF-8 encoded compact JSON with object keys sorted recursively and array order preserved",
+    "scope": "The complete per-call tool result before this receipt removes its payload"
+  },
+  "aggregate": {
+    "storyCount": 12,
+    "reportedStepCount": 29,
+    "actualToolCallCount": 19,
+    "finalTextPresentCount": 12,
+    "noCallStoryCount": 2,
+    "orderedCallMatch": {
+      "pass": 13,
+      "fail": 16,
+      "error": 0,
+      "interpretation": "Ordered call-match evidence, not tool-execution success or answer quality."
+    },
+    "qualitativeOutcomeCount": {
+      "usable": 4,
+      "revise": 4,
+      "unsafe": 4
+    }
+  },
+  "privacyReview": {
+    "reviewerClass": "agent",
+    "reviewedOn": "2026-08-31",
+    "syntheticFixture": true,
+    "toolArgumentsIncluded": true,
+    "fullPromptsIncluded": false,
+    "rawModelProseIncluded": false,
+    "fullToolResultPayloadsIncluded": false,
+    "personalDataObservedInAdmittedFields": false,
+    "boundary": "The raw ignored report remains the source of truth for model prose and complete result payloads; this committed receipt admits neither."
+  },
+  "stories": [
+    {
+      "id": "US-01",
+      "actualCalls": [
+        {
+          "name": "explore_answer_foundations",
+          "arguments": {
+            "answerId": "answer:new-child-starting-points",
+            "claimId": "claim:register-a-birth"
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.evidence-exploration-result.v1",
+            "canonicalResponseResultSha256": "598e35479aa1336855e306483e249bb05696194f6d39eb0b26d7f369f143b717"
+          }
+        },
+        {
+          "name": "compare_evidence_foundations",
+          "arguments": {
+            "answerId": "answer:new-child-starting-points",
+            "claimIds": [
+              "claim:register-a-birth",
+              "claim:check-child-benefit",
+              "claim:check-parental-pay-and-leave"
+            ]
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.evidence-comparison-result.v1",
+            "canonicalResponseResultSha256": "871a22295b1a7f312a79f3d11d48d4c42a94615eb94b82ac14d14b6e26f28c2a"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 2,
+        "pass": 2,
+        "fail": 0,
+        "error": 0
+      },
+      "qualitativeOutcome": "revise"
+    },
+    {
+      "id": "US-02",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "tax free childcare",
+            "collections": [
+              "deep-evidence"
+            ],
+            "limit": 5
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "18709377e603b32c072ef8ff0871c18e20738ad0b2297bc679e3df0dcb2da10f"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114"
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.provenance-result.v1",
+            "canonicalResponseResultSha256": "5939e79e4c3070351793f2a80f3868513c33b56257f086ff6c7841f30207f7ca"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "unsafe"
+    },
+    {
+      "id": "US-03",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "appeal school admission",
+            "collections": [
+              "uk-living"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "54e1e03402c7e2268b48b8e072a64374d79b1d29c3db1412480dc87cc9ab92ec"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:uk-living:6959"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "3ab47bb150c2dd8d4ecb1dec30862436a78345f1c235856e2f52911c826fc062"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "unsafe"
+    },
+    {
+      "id": "US-04",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "register for VAT",
+            "collections": [
+              "uk-living"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "dd537c307decc9a00862b532da43e4c672048fe9fecd9dee7ef7e1139614c497"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:uk-living:7155"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "1b53f5437b1fbf6693523b22364671471c0e76b616b100701aa6fa45ebd8cfca"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "usable"
+    },
+    {
+      "id": "US-05",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "protect tenancy deposit",
+            "collections": [
+              "uk-living"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "958f971e9c39370dab5cc40693c8b5f7edefddd91e198cfb81916ad4bc1d53b0"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:uk-living:7132"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "50689805f4cf42d40ee7e4b0140c8789162f2662d30447e6fbe714343b261e21"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "revise"
+    },
+    {
+      "id": "US-06",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "Consumer Prices Index including owner occupiers housing costs",
+            "collections": [
+              "ons"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "75c8165fde0660cf4792cc29c5185964ba24d56cfa88f8c2cfcf86d04dd3d955"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:ons:11396"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "b87f20d50fcdcff624bea308454730eaf01c069d76fedbb7ee02e004fd76098c"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "usable"
+    },
+    {
+      "id": "US-07",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "annual population survey variables percentages",
+            "collections": [
+              "ons"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "6870b25d78f924191d9699e5f68cb29605c74951cb5ba7a78ddcd2a33d67216c"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:ons:9783"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "8a75432a6e3072647917da6cdb8680d46425414a4046d40e156475a46c585844"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "revise"
+    },
+    {
+      "id": "US-08",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "GOV.UK Notify",
+            "collections": [
+              "government-apis"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "5c93da5b5986a69017ac36c19b4c013645f301a7abb8c167543a3c9b18640980"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:government-apis:14854"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "1ffe6443502a2286f243121fa3f8215a403e0c1ef16275ee30ade1afbe888ee6"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "usable"
+    },
+    {
+      "id": "US-09",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "title register title summary information",
+            "collections": [
+              "land-registry"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "92fb2b638ec0a47f30880e6981e5b1f1e03036ffbc880a534bbb82bc6a0cbcbb"
+          }
+        },
+        {
+          "name": "show_provenance",
+          "arguments": {
+            "recordId": "govuk-discovery:federated:land-registry:57975"
+          },
+          "result": {
+            "ok": true,
+            "schema": "govuk-webmcp.federated-provenance-result.v1",
+            "canonicalResponseResultSha256": "544e5b37b37797b479b4cedebde57466fae1855e7e83acdd73c19659cfd63851"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 3,
+        "pass": 1,
+        "fail": 2,
+        "error": 0
+      },
+      "qualitativeOutcome": "unsafe"
+    },
+    {
+      "id": "US-10",
+      "actualCalls": [
+        {
+          "name": "search_government_knowledge",
+          "arguments": {
+            "query": "flood monitoring",
+            "collections": [
+              "deep-evidence"
+            ],
+            "limit": 3
+          },
+          "result": {
+            "ok": true,
+            "schema": "trusted-govuk-discovery.search-result.v2",
+            "canonicalResponseResultSha256": "342eff3497a3c6e1f76c48d2709bfd4c52c9f9a1c60a451a7be84104cbd680ca"
+          }
+        }
+      ],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 1,
+        "pass": 1,
+        "fail": 0,
+        "error": 0
+      },
+      "qualitativeOutcome": "unsafe",
+      "argumentBoundary": "Expected minimal argument shape observed; supplied private-marker withholding was not tested."
+    },
+    {
+      "id": "US-11",
+      "actualCalls": [],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 1,
+        "pass": 1,
+        "fail": 0,
+        "error": 0
+      },
+      "qualitativeOutcome": "revise"
+    },
+    {
+      "id": "US-12",
+      "actualCalls": [],
+      "finalTextPresent": true,
+      "orderedMatch": {
+        "expectedSteps": 1,
+        "pass": 1,
+        "fail": 0,
+        "error": 0
+      },
+      "qualitativeOutcome": "usable"
+    }
+  ]
+}

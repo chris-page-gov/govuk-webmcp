@@ -211,6 +211,62 @@ The controlling A–M matrix is in
 Implementation progress alone does not turn a planned test into observed
 evidence.
 
+## Beginner trust pathway — discovery and evaluation slice
+
+This sequenced backlog defines the documentation-first route from the released
+technical interface to a testable beginner experience. It does not authorise UI
+implementation or deployment.
+
+1. **Evidence and frequency boundary — complete.** Register official GOV.UK
+   Chat/user-needs research and the fork-local comparator. Call the questions
+   representative hypotheses; do not claim a ranked “most common” list.
+2. **Exact coverage matrix — complete.** Map the released reviewed and
+   federated estate to the comparator and representative life-course, ONS, API
+   and Land Registry questions. Mark discovery, partial, boundary and absent
+   outcomes separately from full answerability.
+3. **Synthetic personas and stories — complete.** Retain four clearly
+   fictional personas and US-01 to US-12. No persona may be described as a
+   research participant or prevalence segment.
+4. **Beginner learning pathway and PRD — complete.** Teach answer, evidence and
+   decision as separate things; use Explain–Inspect–Do–Check–Reflect; translate
+   technical facets into task questions; never create a combined trust score.
+5. **Guided conversation fixture — complete.** Cover all five tools, both
+   evidence tiers, every federated collection, an expected task-minimal
+   argument shape, clarification and unrelated no-call behaviour. Validate the
+   12-story order, 27 expected calls and two no-call decisions in unit tests.
+   The first diagnostic did not supply private marker values, so actual marker
+   withholding remains part of step 10.
+6. **Exact model-client diagnostic — complete with limitations.** Retain the
+   exact local model digest, browser, evaluator, fixture/report digests and
+   ignored raw-report boundary. Admit a privacy-reviewed per-story receipt
+   without full model prose or result payloads. Treat 13/29 as ordered call
+   matching, not answer quality.
+7. **Qualitative answer review — complete; not passed.** Keep sources,
+   supported-versus-added statements, limitations, plain English, safe next
+   steps and privacy/no-call behaviour separate. Four material unsafe answers
+   block an acceptance claim.
+8. **Source-contract reconciliation — next.** Correct the contradiction between
+   the A Life in the UK lock's two named specialist acceptances and the
+   producer contract's zero accepted, two not-required and 291 required states.
+   Update authored source, generated display contract, tests, release notes and
+   public evidence together.
+9. **Technical review and UI specification — pending step 8.** Assess the
+   existing page as the future Technical review view. Prototype progressive
+   disclosure, an evidence-before-answer summary, visible AI additions, exact
+   context shared and a deterministic human equivalent. Resolve the ambiguous
+   record/provenance call design before changing tool contracts.
+10. **Formative and repeated evaluation — pending step 9.** Freeze natural
+    prompts without tool names or record IDs; run at least three times per
+    story; retain variance and hard unsafe failures; then test comprehension
+    with non-technical and assistive-technology users before implementation
+    promotion.
+
+The corresponding evidence and detailed status are in
+[`implementation-plan.md`](implementation-plan.md),
+[`beginner-question-coverage.md`](beginner-question-coverage.md),
+[`beginner-conversation-evaluation-2026-08-31.md`](beginner-conversation-evaluation-2026-08-31.md)
+and [`../product/beginner-trust-pathway-prd.md`](../product/beginner-trust-pathway-prd.md).
+
 ## Should
 
 1. `compare_resources` after core freeze. *(Superseded for this release by claim-foundation comparison. Resource ranking/comparison remains deliberately absent.)*
