@@ -8,6 +8,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- An authenticated, read-only Devpost status receipt for `v0.3.0-rc.1`,
+  confirming at 31 August 2026 that project `1406973` remained an untitled,
+  unsubmitted pre-draft with no tagline, description or video. The receipt
+  preserves the nine required custom-field identifiers and latest organiser
+  announcement while keeping current-release video, owner-review and final
+  submission gates explicitly open; no Devpost state was changed.
 - Exact `v0.3.0-rc.1` supported-host evidence from Codex In-app Browser
   (Browser plugin `26.825.32147`): all five registered WebMCP tools executed
   successfully against the public release, an unrelated `personalContext`
@@ -22,6 +28,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Reordered the exact-release demonstration so the four-source `housing`
+  search appears before the architecture summary, corrected source naming and
+  personal-AI boundary wording, and added a fail-closed human rights-review
+  gate to the script validator, transcript and build receipt.
 - Began a fresh nine-step Safari 26.5.2 and VoiceOver 10 journey against the
   exact `v0.3.0-rc.1` deployment. This recapture and its Caption Panel evidence
   are paused pending macOS unlock and are not yet a completed accessibility

@@ -20,6 +20,7 @@ const CHROME_PATH = `${EVIDENCE_DIRECTORY}/chrome-devtools-mcp-2026-08-30-edd4ce
 const NATIVE_PATH = `${EVIDENCE_DIRECTORY}/native-devtools-webmcp-2026-08-30-edd4ce6.json`;
 const CHALLENGE_PATH = `${EVIDENCE_DIRECTORY}/challenge-provenance.json`;
 const DEVPOST_PATH = `${EVIDENCE_DIRECTORY}/devpost-read-only-status-2026-08-30-edd4ce6.json`;
+const CURRENT_DEVPOST_PATH = `${EVIDENCE_DIRECTORY}/devpost-read-only-status-v0.3.0-rc.1.json`;
 const VIDEO_REVIEW_PATH = `${EVIDENCE_DIRECTORY}/demo-video-technical-review-2026-08-30.json`;
 const REPORT_PATH = `${EVIDENCE_DIRECTORY}/public-deployment-verification-2026-08-30-edd4ce6.md`;
 
@@ -293,6 +294,7 @@ test("video, Devpost and challenge receipts retain the latest human gates", asyn
     CHALLENGE_PATH,
     DEVPOST_PATH,
     VIDEO_REVIEW_PATH,
+    CURRENT_DEVPOST_PATH,
   ];
   const reviewedTexts = await Promise.all(reviewedPaths.map((path) => readFile(path, "utf8")));
   for (const [index, text] of reviewedTexts.entries()) {
@@ -306,12 +308,13 @@ test("video, Devpost and challenge receipts retain the latest human gates", asyn
   const challenge = JSON.parse(reviewedTexts[4]);
   const devpost = JSON.parse(reviewedTexts[5]);
   const video = JSON.parse(reviewedTexts[6]);
+  const currentDevpost = JSON.parse(reviewedTexts[7]);
 
   assert.equal(
     challenge.latestEvidenceAt,
     challenge.currentReleaseEvidence.observationWindow.completedAt,
   );
-  assert.equal(challenge.latestEvidenceAt, "2026-08-31T04:36:36.746Z");
+  assert.equal(challenge.latestEvidenceAt, "2026-08-31T12:16:25Z");
   assert.equal(challenge.observationWindow.completedAt, challenge.latestEvidenceAt);
   assert.equal(
     challenge.postReleaseEvidence.devpostReadOnlyStatus.evidencePath,
@@ -351,6 +354,59 @@ test("video, Devpost and challenge receipts retain the latest human gates", asyn
   assert.equal(devpost.repositoryReadinessAtObservation.submitted, false);
   assert.equal(devpost.actionsPerformed.projectChanged, false);
   assert.equal(devpost.actionsPerformed.submissionPerformed, false);
+
+  assert.equal(currentDevpost.schema, "trusted-govuk-discovery.devpost-read-only-status.v2");
+  assert.equal(currentDevpost.observedAt, "2026-08-31T12:16:25Z");
+  assert.deepEqual(currentDevpost.observationWindow, {
+    startedAt: "2026-08-31T12:16:23Z",
+    completedAt: "2026-08-31T12:16:25Z",
+  });
+  assert.deepEqual(currentDevpost.sourceCalls, {
+    projectFetchedAt: "2026-08-31T12:16:23Z",
+    requirementsFetchedAt: "2026-08-31T12:16:23Z",
+    keyDatesFetchedAt: "2026-08-31T12:16:24Z",
+    announcementsFetchedAt: "2026-08-31T12:16:25Z",
+  });
+  assert.equal(currentDevpost.hackathon.submissionsEndAt, "2026-09-03T20:00:00Z");
+  assert.equal(currentDevpost.project.id, 1406973);
+  assert.equal(currentDevpost.project.name, "Untitled");
+  assert.equal(currentDevpost.project.state, "submission_pre_draft");
+  assert.equal(currentDevpost.project.taglinePresent, false);
+  assert.equal(currentDevpost.project.descriptionPresent, false);
+  assert.equal(currentDevpost.project.videoUrlPresent, false);
+  assert.equal(currentDevpost.project.publishedAt, null);
+  assert.equal(currentDevpost.project.submittedAt, null);
+  assert.deepEqual(
+    currentDevpost.officialSubmissionRequirements.requiredCustomFields.map(({ id }) => id),
+    [28249, 28250, 28252, 28254, 28256, 28257, 28258, 28259, 28260],
+  );
+  assert.equal(currentDevpost.latestAnnouncement.id, 46123);
+  assert.equal(currentDevpost.latestAnnouncement.sentAt, "2026-08-30T16:31:51Z");
+  assert.equal(currentDevpost.currentReleaseReadinessAtObservation.technicalVideoCandidateUnderThreeMinutes, false);
+  assert.equal(currentDevpost.currentReleaseReadinessAtObservation.ownerVideoReviewCompleted, false);
+  assert.equal(currentDevpost.currentReleaseReadinessAtObservation.ownerApprovedPublicYouTubeVideo, false);
+  assert.equal(currentDevpost.currentReleaseReadinessAtObservation.completeDevpostProjectFields, false);
+  assert.equal(currentDevpost.currentReleaseReadinessAtObservation.finalHumanAttestations, false);
+  assert.equal(currentDevpost.currentReleaseReadinessAtObservation.submitted, false);
+  assert.equal(currentDevpost.actionsPerformed.projectChanged, false);
+  assert.equal(currentDevpost.actionsPerformed.submissionPerformed, false);
+  assert.equal(
+    challenge.currentReleaseEvidence.devpostReadOnlyStatus.evidencePath,
+    CURRENT_DEVPOST_PATH,
+  );
+  assert.equal(
+    challenge.currentReleaseEvidence.devpostReadOnlyStatus.evidenceSha256,
+    sha256(await readFile(CURRENT_DEVPOST_PATH)),
+  );
+  assert.equal(
+    challenge.currentReleaseEvidence.devpostReadOnlyStatus.observedAt,
+    currentDevpost.observedAt,
+  );
+  assert.deepEqual(
+    challenge.currentReleaseEvidence.devpostReadOnlyStatus.requiredCustomFieldIds,
+    currentDevpost.officialSubmissionRequirements.requiredCustomFields.map(({ id }) => id),
+  );
+  assert.equal(challenge.currentReleaseEvidence.devpostReadOnlyStatus.submissionPerformed, false);
 
   assert.equal(video.artefact.sha256, "efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a");
   assert.equal(video.probe.format.durationSeconds, 142.92);

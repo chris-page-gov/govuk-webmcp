@@ -15,6 +15,7 @@
   "reviews": {
     "privacy": "pending-human-review",
     "branding": "pending-human-review",
+    "rights": "pending-human-review",
     "voicePublicationBasis": "pending-owner-review"
   },
   "demonstrationInputs": {
@@ -36,32 +37,8 @@
   "interactionCaptureReceipt": "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json",
   "scenes": [
     {
-      "id": "overview",
-      "number": "01",
-      "kind": "interaction",
-      "eyebrow": "Evidence before answers",
-      "title": "Two evidence tiers, honestly labelled",
-      "media": {
-        "type": "video",
-        "path": "output/demo-clips/v0.3.0-rc.1/01-overview.mov",
-        "startSeconds": 0
-      },
-      "requiredActions": [
-        "load-exact-public-release",
-        "show-evidence-tier-counts"
-      ],
-      "cues": [
-        "Evidence Trace puts evidence before answers.",
-        "This is an independent prototype, not a government service.",
-        "Eighty reviewed records retain item-level evidence receipts.",
-        "Another 58,652 records support wider governed discovery.",
-        "They come from 58,655 locked source rows.",
-        "Three standalone legislation rows remain quarantined."
-      ]
-    },
-    {
       "id": "federated-search",
-      "number": "02",
+      "number": "01",
       "kind": "interaction",
       "eyebrow": "Four-source discovery",
       "title": "Search governed OKF snapshots together",
@@ -76,11 +53,34 @@
         "show-all-four-sources"
       ],
       "cues": [
-        "A person can search four governed OKF sources together.",
-        "They cover UK Living, ONS and the government API catalogue.",
-        "They also include metadata-only HM Land Registry discovery.",
-        "The fixed housing search returns every selected source.",
-        "Its ordering shows bounded relevance, not a trust score."
+        "Search housing across four locked OKF source snapshots.",
+        "The results include A Life in the UK and ONS.",
+        "They include UK Government APIs and metadata-only HM Land Registry.",
+        "This is an independent prototype, not a government service.",
+        "The ordering shows bounded relevance, not a trust score."
+      ]
+    },
+    {
+      "id": "overview",
+      "number": "02",
+      "kind": "interaction",
+      "eyebrow": "Evidence before answers",
+      "title": "Two evidence tiers, honestly labelled",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.3.0-rc.1/01-overview.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "load-exact-public-release",
+        "show-evidence-tier-counts"
+      ],
+      "cues": [
+        "Evidence Trace puts evidence before answers.",
+        "Eighty reviewed records retain item-level evidence receipts.",
+        "Another 58,652 records support wider governed discovery.",
+        "They come from 58,655 locked source rows.",
+        "Three standalone legislation rows remain quarantined."
       ]
     },
     {
@@ -125,7 +125,8 @@
         "Search uses the same housing query and four collections.",
         "Record and provenance calls use the bound federated result.",
         "Reviewed tools explore and compare separate evidence facets.",
-        "The page accepts no personal context field or hosted model."
+        "The page accepts no personal-context field and hosts no model.",
+        "This receipt proves host invocation; no model selected a tool."
       ]
     },
     {
@@ -193,7 +194,9 @@
         "A remote provider may still receive the prompt, arguments and result.",
         "This static path calls neither official APIs nor a model at runtime.",
         "Land Registry remains metadata-only, with no personal rows.",
-        "No standalone legislation payload, index or result link is published.",
+        "No standalone legislation collection, payload or index is published.",
+        "There is no legislation runtime request or legislation.gov.uk result link.",
+        "Locked snapshots retain inert source-authored cross-reference strings.",
         "Privacy, cost and accuracy benefits remain hypotheses to test.",
         "Your AI asks. You inspect the evidence."
       ]

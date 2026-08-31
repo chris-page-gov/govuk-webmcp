@@ -474,7 +474,7 @@ The refreshed manual Safari and VoiceOver journey and final federated video
 remain in progress. The completed-with-limitations VoiceOver sequence and
 142.920-second local review MP4 belong to the pre-federation revision; neither
 is carried forward as current submission evidence.
-The latest read-only Devpost check at `2026-08-30T17:57:48Z` found project
+The latest read-only Devpost check at `2026-08-31T12:16:23Z` found project
 `1406973` still `Untitled`, blank and `submission_pre_draft`. The remaining
 official compliance boundary is: close at 1:00 pm PDT on 3 September 2026; use
 a public repository with a visibly detectable open-source licence; provide a

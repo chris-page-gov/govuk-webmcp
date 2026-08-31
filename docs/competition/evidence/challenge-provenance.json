@@ -2,9 +2,9 @@
   "schema": "trusted-govuk-discovery.challenge-provenance.v1",
   "observationWindow": {
     "startedAt": "2026-08-30T01:53:35Z",
-    "completedAt": "2026-08-31T04:36:36.746Z"
+    "completedAt": "2026-08-31T12:16:25Z"
   },
-  "latestEvidenceAt": "2026-08-31T04:36:36.746Z",
+  "latestEvidenceAt": "2026-08-31T12:16:25Z",
   "challenge": {
     "start": "2026-08-25T18:00:00Z",
     "deadline": "2026-09-03T20:00:00Z",
@@ -367,7 +367,7 @@
   "currentReleaseEvidence": {
     "observationWindow": {
       "startedAt": "2026-08-31T04:20:45.247Z",
-      "completedAt": "2026-08-31T04:36:36.746Z"
+      "completedAt": "2026-08-31T12:16:25Z"
     },
     "exactLiveDeployment": {
       "observedAt": "2026-08-31T04:20:45.247Z",
@@ -431,6 +431,42 @@
       "hostOwnedSurfaceEmbedded": false,
       "visibleLabel": "Receipt reconstruction — not a host recording",
       "humanPublicationReview": "pending"
+    },
+    "devpostReadOnlyStatus": {
+      "observedAt": "2026-08-31T12:16:25Z",
+      "observationWindow": {
+        "startedAt": "2026-08-31T12:16:23Z",
+        "completedAt": "2026-08-31T12:16:25Z"
+      },
+      "evidencePath": "docs/competition/evidence/devpost-read-only-status-v0.3.0-rc.1.json",
+      "evidenceSha256": "645d7bb5e13247d532a16c08b376a97dc1234d5e909991dc93369c93f822b7b0",
+      "projectId": 1406973,
+      "projectName": "Untitled",
+      "projectState": "submission_pre_draft",
+      "taglinePresent": false,
+      "descriptionPresent": false,
+      "videoUrlPresent": false,
+      "publishedAt": null,
+      "submittedAt": null,
+      "requiredCustomFieldIds": [
+        28249,
+        28250,
+        28252,
+        28254,
+        28256,
+        28257,
+        28258,
+        28259,
+        28260
+      ],
+      "submissionsEndAt": "2026-09-03T20:00:00Z",
+      "latestAnnouncementId": 46123,
+      "currentReleaseTechnicalVideoCandidateUnderThreeMinutes": false,
+      "ownerVideoReviewCompleted": false,
+      "publicYouTubeVideoPublished": false,
+      "finalHumanAttestationsCompleted": false,
+      "submissionPerformed": false,
+      "scope": "Authenticated read-only observation only. The exact-release video, owner review, public YouTube publication, final human attestations and submission gates remain open; no project or submission state was changed."
     },
     "accessibilityVideoAndSubmissionGates": {
       "currentReleaseVoiceOverCaptureAttemptValid": false,

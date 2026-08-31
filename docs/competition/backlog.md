@@ -19,7 +19,7 @@
 15. CSP, no storage, no external runtime request. *(Complete.)*
 16. ChatGPT/Chrome tests. *(Complete for host execution: instrumented WebMCP and installed Chrome and Edge contract checks passed, and Codex In-app Browser completed all five tools on public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Historical Chrome DevTools MCP and native Chrome-panel results remain separately labelled. Five local fixed-model attempts are retained but all failed the strict gate; attempt 4 retained a null evaluation after structural validation failed and attempt 5 recovered after rejected malformed IDs but failed `verify-reports`. No model-selection claim is made; a passing model result and Microsoft WebMCP Explorer browser execution remain under Should 11.)*
 17. Public deployment, MIT licence and notices. *(Complete: PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`. Annotated tag and public pre-release `v0.3.0-rc.1` bind that commit; earlier release identities remain unchanged.)*
-18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: guarded build tooling, current-release human interaction clips, supported-host receipt and receipt visualisation, submission copy, exact public-release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second review video and completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. The refreshed VoiceOver record and final video are open pending the macOS capture environment; owner synthetic-voice, privacy, branding and final-playback review, public YouTube upload and Devpost form submission remain open. No WCAG conformance, registration, submission or upload claim is made.)*
+18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: guarded build tooling, current-release human interaction clips, supported-host receipt and receipt visualisation, submission copy, current read-only Devpost receipt, exact public-release hashes and tag `v0.3.0-rc.1` are complete. The final script now opens with the working four-source search and fails closed on privacy, branding, rights and synthetic-voice review. The historical 142.920-second review video and completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. The refreshed VoiceOver record and final video are open pending the macOS capture environment; owner review, public YouTube upload and Devpost form submission remain open. No WCAG conformance, registration, submission or upload claim is made.)*
 
 The current official submission boundary closes at 1:00 pm PDT on 3 September
 2026. It requires a public source repository with a visibly detectable open-
@@ -103,7 +103,8 @@ fails closed.
    calls in real Chrome. Combined and public WebMCP search preserve
    `federated_runtime_busy`; the human live region distinguishes rejected input,
    busy state and other failure. The focused regression set passes 11 of 11 and
-   the prepared unit suite passes 194 of 194. Current-candidate supported-host
+   the release prepared unit suite passes 194 of 194; the evidence follow-up
+   passes 195 of 195 locally. Current-release supported-host
    execution and fixed-query parity are retained under gates E, F, G and H.)*
 6. Show collection availability, evidence tier, source snapshot, link role and
    limitations; isolate one source failure without an unverified fallback.
@@ -152,9 +153,10 @@ fails closed.
    remediated with separately code-reviewed source pins and direct builder lock
    validation. Fresh immutable fixed-tree scan
    `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 items with zero
-   reportable findings. The focused manual screen-reader journey and current-
-   candidate supported-host capture is complete. The refreshed manual screen-
-   reader journey remains open under gates D–K and makes no WCAG claim.)*
+   reportable findings. The pre-federation focused manual screen-reader journey
+   and current-release supported-host capture are complete. The refreshed
+   current-release manual screen-reader journey remains open under gates D–K
+   and makes no WCAG claim.)*
 9. Run each synthetic fixed-model case at least three times, retain failures
    and variance, and compare whole-system costs under declared assumptions.
    *(Five local attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases,

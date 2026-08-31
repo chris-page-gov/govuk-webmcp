@@ -1943,7 +1943,7 @@ fd84c0024a0190d6ad3506a04f9e4b140665e24901fa0ee972a017232e1c9a50  app/data/sourc
 2480e30152569270cd44eb7b67284e0d7c1a41a7caf22233237b5dc52cfd4f0d  docs/competition/evidence/accessibility-test-2026-08-29.md
 de1d920fe3284def4b3a9833c7fa2979fd3e1fe7c1bc56067cdd755970578dce  docs/competition/evidence/accessibility-test-2026-08-30.md
 e2c0342d40c08ad7f8784176781af4a8f479b907704b6127d3f2f951f5655fe0  docs/competition/evidence/candidate-verification-2026-08-30.md
-63a2cf952566e337b726afed65642bea9414243ba36d705e2c197b1d9f6550d2  docs/competition/evidence/challenge-provenance.json
+31338f5fa45a76cb1aa4b4188851627b6161a07442f6dede882dff55680918ef  docs/competition/evidence/challenge-provenance.json
 b7830ddf76719c7cfe8c38f8dc11233d01099e03a723b14fe91fc4e1e154d2a5  docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json
 c15ff7ab52d628ad29cde79664acb6b37cfb68d6d91f94313cf07e8835fd960a  docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json
 8fba32b9d28d1d82d5fbbbb1276bf8e8ea84860c2f5f2b5536736b6d6bcdbd9b  docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json
@@ -1956,6 +1956,7 @@ c15ff7ab52d628ad29cde79664acb6b37cfb68d6d91f94313cf07e8835fd960a  docs/competiti
 4e2350763ecfe8e6d64575234be097d1b0b15dd5fb9be4636db2120c5d622dfb  docs/competition/evidence/demo-video-technical-review-2026-08-30.json
 d868c1f2a7c5a25b1937dd6c060180e9c296b091e6b25081b0e007cd5c6b9c53  docs/competition/evidence/devpost-read-only-status-2026-08-30-edd4ce6.json
 9c8f07d8c6e346602a6c64440e734ea194a821c4c22b68f7a4a67c671cca3c81  docs/competition/evidence/devpost-read-only-status-2026-08-30.json
+645d7bb5e13247d532a16c08b376a97dc1234d5e909991dc93369c93f822b7b0  docs/competition/evidence/devpost-read-only-status-v0.3.0-rc.1.json
 4be32f70aa28913460ce3012db64fe04f91a725b9ed4bd146417076408a7e3a7  docs/competition/evidence/evidence-first-overview-2026-08-30.png
 b378dba916f6ace764ad71ee9a590c9756809a0161478a23cd97bfb8134838c7  docs/competition/evidence/evidence-foundation-comparison-2026-08-30.png
 aef39e80e4f604001e92e43f8d5d0479d3f673e0e9846605adc81a0ccf0bc54e  docs/competition/evidence/link-health-2026-08-29.json

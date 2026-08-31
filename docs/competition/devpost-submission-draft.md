@@ -13,9 +13,9 @@ human attestation has been reviewed again.
 
 ## Project title
 
-**Evidence Trace: ask AI, inspect the proof**
+**Evidence Trace: ask AI, inspect the evidence**
 
-41 characters; Devpost limit: 60.
+44 characters; Devpost limit: 60.
 
 ## One-line description
 
@@ -25,11 +25,11 @@ Evidence before answers: WebMCP lets your chosen AI search governed UK public ev
 
 ## Live Devpost form mapping
 
-Authenticated read-only Devpost calls at `2026-08-30T17:57:48Z` confirmed
-that project `1406973` was `Untitled` and `submission_pre_draft`, with no
+Authenticated read-only Devpost calls at `2026-08-31T12:16:23Z` confirmed
+that project `1406973` remained `Untitled` and `submission_pre_draft`, with no
 tagline, description, video URL, publication timestamp or submission timestamp.
-This is a historical observation, not evidence of the present form state. The
-following remains preparation copy only.
+This is a time-bounded observation of editable state, not a submission receipt.
+The following remains preparation copy only.
 
 | Live field | Prepared value or owner action |
 | --- | --- |
@@ -39,7 +39,7 @@ following remains preparation copy only.
 | App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing OKF design lineage and this repository's separately evidenced competition-period WebMCP implementation. |
 | Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement the five-tool WebMCP product, evidence interface, tests and deployment. |
 | Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — exact public release commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; verify it again signed out before final entry. |
-| Testing instructions (`28255`, optional) | After deployment, open the live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
+| Testing instructions (`28255`, optional) | Open the deployed live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
 | Tested agents or clients (`28257`) | Codex In-app Browser plugin 26.825.32147 completed all five tools on exact public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Historical Chrome native-panel and Chrome DevTools MCP evidence remains separately labelled. Do not imply that a model selected a tool. |
 | AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
@@ -110,7 +110,9 @@ The important WebMCP step is separation of responsibilities. The static public
 page publishes deterministic evidence tools but hosts no model. A
 citizen-selected AI can use preferences or circumstances it already knows to
 decide which bounded call is useful, without sending that private context to
-this page. Only the explicit tool arguments and result cross the page boundary.
+this page. The WebMCP call exposes only the declared tool metadata, explicit
+arguments and deterministic result to its caller; the static host may still
+observe ordinary or query-derived same-origin asset requests.
 If the citizen selects a remote AI provider, that provider can still receive
 prompts, tool metadata, arguments and results; the page cannot control or hide
 that separate boundary.
@@ -127,7 +129,7 @@ WebMCP is an enhancement, not the only route. A person can use the same page to:
 1. select one or more reviewed or federated collections;
 2. search the catalogue with the same bounded query;
 3. inspect each result's evidence tier, collection and publisher;
-4. open the maintained human source link;
+4. open the recorded producer-declared source link;
 5. read integrity, snapshot, access, rights, currentness and coverage limits;
 6. inspect an exact record or packaged provenance; and
 7. explore and compare the deeper foundations available for reviewed claims.
@@ -279,11 +281,12 @@ tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review
 items against exact commit `9c6ed7d9a21574972ee564b333cbc49983058554` with
 zero reportable findings. Protected CI and merge, Pages, exact public-byte
 comparison and current supported-host execution are complete. Refreshed
-VoiceOver evidence, a model-backed pass and the final video remain open.
+VoiceOver evidence and the final video remain open. A strict model-backed pass
+remains optional additional assurance; none is claimed.
 
 The earlier final-candidate demonstration preflight correctly failed closed
 because no deployed commit and no explicit overwrite approval were supplied.
-After deployment, guarded current-release human and supported-host captures
+After the exact deployment, guarded current-release human and supported-host captures
 completed. The refreshed VoiceOver and final video build are still in progress,
 so they do not yet supply submission-video evidence.
 
@@ -335,5 +338,6 @@ This is an independent experimental prototype. It is not a GOV.UK or UK
 government service and is not endorsed by any public body. It does not provide
 access to restricted APIs, call providers, authenticate users, operate public
 services or make official decisions. It is not a durable MCP gateway and makes
-no claim of comprehensive or current coverage. Follow each maintained
-publisher link for authoritative information.
+no claim of comprehensive or current coverage. Follow each recorded producer-
+declared source link and independently verify its authority, currentness,
+access and rights.

@@ -40,8 +40,8 @@ annotated tag `v0.2.0-rc.2` at product commit
 be moved or rewritten. Historical release and deployment observations below
 remain evidence for their named commits only.
 
-Competition registration is complete. The last authenticated read-only Devpost
-observation, at `2026-08-30T17:57:48Z`, showed project `1406973` as `Untitled`,
+Competition registration is complete. The latest authenticated read-only Devpost
+observation, at `2026-08-31T12:16:23Z`, showed project `1406973` as `Untitled`,
 blank and `submission_pre_draft`, with no video URL, publication timestamp or
 submission timestamp. No Devpost submission or public YouTube upload is
 claimed.
@@ -198,7 +198,9 @@ The exact post-remediation local verification now records:
   records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652
   searchable rows, 120 record shards and 1,733 postings shards;
 - focused combined/public-search regressions: 11 of 11 passed;
-- prepared unit suite: 194 of 194 passed;
+- release-candidate prepared unit suite: 194 of 194 passed;
+- current evidence-branch prepared unit suite: 195 of 195 passed locally and
+  in pull-request validation run `33391552626`;
 - frozen retrieval quality: mean nDCG@10 `0.984698009`, Recall@20 `1`, identical
   cold/warm results, no legislation collection and the legislation request
   rejected;
