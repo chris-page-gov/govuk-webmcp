@@ -9,6 +9,7 @@
     "docs/competition/evidence/challenge-provenance.json",
     "docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json",
     "docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json",
+    "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json",
     "docs/competition/evidence/demo-scene-01-overview-2026-08-30.jpg",
     "docs/competition/evidence/demo-scene-02-evidence-trace-2026-08-30.jpg",
     "docs/competition/evidence/demo-scene-03-foundation-facets-2026-08-30.jpg",
@@ -24,6 +25,7 @@
     "docs/competition/evidence/link-health-2026-08-30.json",
     "docs/competition/evidence/live-artifact-verification-2026-08-30-edd4ce6.json",
     "docs/competition/evidence/live-artifact-verification-2026-08-30.json",
+    "docs/competition/evidence/live-artifact-verification-v0.3.0-rc.1.json",
     "docs/competition/evidence/live-deployment-metadata-2026-08-30-edd4ce6.json",
     "docs/competition/evidence/live-deployment-metadata-2026-08-30.json",
     "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json",
@@ -31,6 +33,7 @@
     "docs/competition/evidence/native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg",
     "docs/competition/evidence/native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg",
     "docs/competition/evidence/public-deployment-verification-2026-08-30-edd4ce6.md",
+    "docs/competition/evidence/public-deployment-verification-v0.3.0-rc.1.md",
     "docs/competition/evidence/public-live-search-2026-08-29.png",
     "docs/competition/evidence/public-live-search-2026-08-30.png",
     "docs/competition/evidence/public-release-verification-2026-08-29.md",
@@ -68,7 +71,10 @@
     "docs/competition/evidence/site-SHA256SUMS-2026-08-30",
     "docs/competition/evidence/site-SHA256SUMS-2026-08-30-edd4ce6",
     "docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json",
+    "docs/competition/evidence/supported-host-webmcp-capture-v0.3.0-rc.1.json",
+    "docs/competition/evidence/supported-host-webmcp-clip-v0.3.0-rc.1.json",
     "docs/competition/evidence/supported-host-webmcp-full-page-2026-08-30.jpg",
+    "docs/competition/evidence/supported-host-webmcp-raw-receipt-v0.3.0-rc.1.json",
     "docs/competition/evidence/supported-host-webmcp-runtime-summary-2026-08-30.jpg"
   ]
 }

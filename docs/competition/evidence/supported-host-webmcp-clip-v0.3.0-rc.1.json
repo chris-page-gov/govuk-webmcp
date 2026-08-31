@@ -1,0 +1,33 @@
+{
+  "schema": "trusted-govuk-discovery.supported-host-webmcp-clip.v1",
+  "builtAt": "2026-08-31T04:36:36.746Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.3.0-rc.1",
+    "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+    "pagesRunId": "33356452048"
+  },
+  "sourceEvidence": {
+    "path": "docs/competition/evidence/supported-host-webmcp-capture-v0.3.0-rc.1.json",
+    "sha256": "5ca7e19372dc00f9704474ff5bf513a236b48e8843a37871d6b6f0831722e5ea"
+  },
+  "sourceArtefacts": [
+    {
+      "path": "docs/competition/evidence/supported-host-webmcp-raw-receipt-v0.3.0-rc.1.json",
+      "sha256": "91e25ca1d560c9cdb42f64a5c6289f6b9ff5bff17071452e2dd9afe8a87e80f8"
+    }
+  ],
+  "rendering": {
+    "kind": "receipt-reconstruction",
+    "hostRecordingEmbedded": false,
+    "hostOwnedSurfaceEmbedded": false,
+    "visibleLabel": "Receipt reconstruction — not a host recording"
+  },
+  "media": {
+    "path": "output/demo-clips/v0.3.0-rc.1/04-supported-host-webmcp.mov",
+    "sha256": "512c9cb9a0c703b8ef0047418969220e79d49b8500c467b7b15b47c2db132878",
+    "durationSeconds": 40.966667,
+    "startSeconds": 0,
+    "endSeconds": 40.966667
+  }
+}

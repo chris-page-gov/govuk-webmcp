@@ -8,7 +8,34 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- An in-progress `0.3.0-rc.1` federated-discovery slice for exactly four
+- Exact `v0.3.0-rc.1` supported-host evidence from Codex In-app Browser
+  (Browser plugin `26.825.32147`): all five registered WebMCP tools executed
+  successfully against the public release, an unrelated `personalContext`
+  field failed closed, and the final comparison digest matched the displayed
+  page result. The raw receipt and derived capture record are retained; the
+  generated scene is explicitly labelled as a receipt reconstruction rather
+  than a host-owned recording.
+- Five silent, genuine public-page interaction clips bound to product commit
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` and Pages run `33356452048`.
+  Agent privacy and branding review passed; human publication review remains
+  pending.
+
+### Changed
+
+- Began a fresh nine-step Safari 26.5.2 and VoiceOver 10 journey against the
+  exact `v0.3.0-rc.1` deployment. This recapture and its Caption Panel evidence
+  are paused pending macOS unlock and are not yet a completed accessibility
+  observation.
+- Began rebuilding the under-three-minute demonstration from the exact release
+  clips and current evidence. Final assembly, technical review, owner playback
+  and publication approval remain pending; no refreshed video upload or
+  Devpost submission is claimed.
+
+## [0.3.0-rc.1] - 2026-08-31
+
+### Added
+
+- A released `0.3.0-rc.1` federated-discovery slice for exactly four
   independently republished OKF source snapshots: 9,757 A Life in the UK
   rows, including 293 service families; 5,097 ONS metadata rows; 41,598 UK
   Government APIs rows; and 2,203 HM Land Registry public-estate metadata
@@ -37,17 +64,17 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   to 1,853 shard files — 120 record shards and 1,733 postings shards — plus
   `manifest.json` and its checksum sidecar: 1,855 generated files and
   127,747,020 bytes in total. The ignored plane is copied into `dist`. The lock
-  and generated-manifest digests are bound by the build; record their final
-  values only after the exact-tree rescan and deterministic rebuild.
+  and generated-manifest digests are bound by the build and were validated in
+  the protected release path.
 - Eleven additional closed JSON Schemas for the federated lock, generated
   manifest and shards, and public federated result families, bringing the
-  published candidate contract set to 31 schemas.
+  published release contract set to 31 schemas.
 
 ### Changed
 
 - Bound the four federated collections to one exact ordered population contract
   across the source lock, corpus admissions, generated manifest and lazy search
-  manifest. The candidate now derives collection coverage from executable
+  manifest. The release derives collection coverage from executable
   source, quarantine and searchable counts and validates the human-facing title,
   ordered supplementary counts, completeness statement and first limitation as
   part of the same display contract. HM Land Registry is therefore stated
@@ -73,7 +100,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the exact `name` and `model`, and reject `remote_model` or `remote_host`
   markers so an Ollama-labelled cloud proxy cannot bypass explicit remote-
   provider approval. Remote-provider receipts retain no local inventory details.
-- The in-progress candidate keeps the existing five page-scoped WebMCP tools
+- The release keeps the existing five page-scoped WebMCP tools
   and complete human journey while extending the three discovery tools to
   distinguish reviewed deep evidence from federated source-snapshot evidence.
   Federated results retain their collection, snapshot, source-native identity,
@@ -99,9 +126,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   citizen-selected AI invoke bounded page actions; and the static page hosts no
   model and accepts no personal profile. A remote model provider may still
   receive prompts, tool metadata, arguments and results.
-- CI and Pages now run `okf-federation:quality:prepared` immediately after the
-  complete test suite. The release result remains pending until that frozen gate
-  passes on the exact post-remediation tree.
+- CI and Pages run `okf-federation:quality:prepared` immediately after the
+  complete test suite. It passed in pull-request validation run `33356087333`,
+  protected-main run `33356272534` and exact-commit Pages run `33356452048` for
+  product commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`.
 - Improved model legibility by publishing canonical machine identifiers,
   explicit collection tokens and omit-unused-field guidance in tool schemas,
   descriptions and the eight-case browser fixture. Five preserved local
@@ -141,12 +169,14 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   bytes to the freshly fetched source byte for byte. The builder independently
   enforces the stored and decoded bindings without requiring the host
   compressor to reproduce the reviewed stream. A co-digested semantic-mutation
-  regression covers the fetched-byte cross-binding. The final protected Linux
-  rerun remains pending. Protected run `33355787295` then reached the full
+  regression covers the fetched-byte cross-binding. Protected run `33355787295`
+  then reached the full
   prepared unit suite and exposed that Node's unreferenced
   `AbortSignal.timeout` could let an isolated pending import test end before its
   deadline fired. The import-wide deadline now uses an explicitly referenced,
-  finally-cleared timer; the focused regression passes in macOS and Linux.
+  finally-cleared timer; the focused regression passed in macOS and Linux.
+  Pull-request validation run `33356087333` and protected-main validation run
+  `33356272534` subsequently passed the complete corrected tree.
 - Preserved the `federated_runtime_busy` code through combined and public
   WebMCP search results instead of misclassifying a busy runtime as an
   unavailable source. The human live region now distinguishes rejected input,
@@ -181,8 +211,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   privileged loopback model-service control, repository/build or same-origin
   write authority, or causes bounded self-availability impact only. The defects
   nevertheless affect evidence integrity or engineering resilience, so all
-  three have working-tree remediations rather than being dismissed. The
-  immutable rescan of the complete post-remediation tree remains pending.
+  three were remediated rather than dismissed. Fresh immutable scan
+  `040ad945-3723-4aef-9c03-1bb552630deb` subsequently reviewed 55 of 55 items
+  on fixed candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero
+  reportable findings.
 - Implemented remediations for seven initial Low findings from the federated candidate
   scan: superlinear postings generation (`csf_d6045d8bfb6836f0a274850d`),
   unenforced Land Registry row limits (`csf_628dded1ed9a62431cf1f121`), mutable
@@ -200,10 +232,11 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   after the scanned snapshot, and the affected focused tests passed 23 of 23
   after an earlier focused security batch passed 119 of 119. The sealed scan
   reported no other open reportable candidate, but its coverage record contains
-  mechanically partial and stale-pending rows and predates this last fix. An
-  immutable exact-tree rescan therefore remains pending; none of the eight
-  remediations is yet release evidence. The current full unit command
-  `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`.
+  mechanically partial and stale-pending rows and predates this last fix. The
+  later 55-item immutable scan named above closed that scan gap with zero
+  reportable findings. The earlier full unit command
+  `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`; the final
+  prepared suite passed 194 of 194 before the protected release path.
 - Executable federated URL validation now matches the closed schema by rejecting
   explicit ports. Projection also rejects any apex, `www` or other subdomain
   `legislation.gov.uk` result link. Same-origin response bodies are consumed
@@ -213,13 +246,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   recreates `.DS_Store`; the production copy omits `.DS_Store`, and `dist` is
   cleaned before compilation so operating-system metadata cannot enter the
   release artefact.
-- The candidate design admits only four locked, credential-free HTTPS
+- The release design admits only four locked, credential-free HTTPS
   publications, mirrors only declared artefacts to the same-origin build and
   applies byte, decoded-size, row, fan-out and time budgets. Unknown origins,
   redirects, traversal, a legislation collection or request, and co-digested
   semantic substitutions fail closed. The focused federation suite passed 15
-  of 15 after closing an extra-searchable-collection fail-closed gap. This is
-  local candidate evidence, not a completed release assurance claim.
+  of 15 after closing an extra-searchable-collection fail-closed gap; later
+  exact-release assurance is recorded under Governance below.
 - CI and Pages now fetch complete Git history so the release-evidence test can
   resolve and verify the retained annotated `v0.2.0-rc.2` baseline instead of
   depending on history that is present only in a developer checkout. Unit tests
@@ -234,6 +267,15 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Governance
 
+- Released protected-main product commit
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` as annotated tag
+  `v0.3.0-rc.1` (tag object
+  `8278c580df4767491ef0808516dd90cc3423cb9d`). Pull-request validation run
+  `33356087333`, protected-main validation run `33356272534` and exact-commit
+  Pages run `33356452048` passed. All 1,879 deployed regular files, totalling
+  128,548,215 bytes, returned HTTP 200 and matched Pages artefact `9745316971`
+  byte for byte; the live comparison manifest SHA-256 is
+  `4b2336a8927d34951c94008703dec27ed79f1ad87a318526c6807eeaa4bc0183`.
 - Recorded the current official submission boundary: entries close at 1:00 pm
   PDT on 3 September 2026; the entry must provide a public source repository
   with a visibly detectable open-source licence, a public YouTube demonstration
@@ -277,9 +319,11 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   real Chrome; zero npm-audit vulnerabilities across 162 total dependencies;
   and a clean `git diff --check`. Fresh immutable exact-range scan
   `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items with zero
-  reportable findings. Protected-main CI and merge, Pages, current-host capture, focused manual
-  accessibility evidence, passing model-backed evaluation, refreshed video and
-  submission remain pending.
+  reportable findings. Pull-request validation `33356087333`, protected-main
+  validation `33356272534` and Pages run `33356452048` subsequently passed for
+  the released product commit. Passing model-backed evaluation, fresh focused
+  manual accessibility evidence, the refreshed video and submission remain
+  pending.
 - Recorded that the final-candidate demonstration preflight correctly failed
   closed when no deployed commit and no explicit overwrite approval were
   supplied. It did not start live capture and is not live-capture evidence.
@@ -689,7 +733,8 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Preserved competition registration and Devpost submission as separate,
   unperformed actions.
 
-[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.2.0-rc.2...HEAD
+[Unreleased]: https://github.com/chris-page-gov/govuk-webmcp/compare/v0.3.0-rc.1...HEAD
+[0.3.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.3.0-rc.1
 [0.2.0-rc.2]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.2
 [0.2.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1
 [0.1.0-rc.1]: https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.1.0-rc.1

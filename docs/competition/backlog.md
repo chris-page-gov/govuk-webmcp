@@ -5,8 +5,8 @@
 1. Entrant/ownership/outside-interest decision.
 2. Baseline, rights and attribution manifests.
 3. 30–80 record reviewed corpus. *(Complete: 80 records and receipts.)*
-4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas. At the current working-tree checkpoint the local `0.3.0-rc.1` candidate has 31 closed schemas; recompute that total after the exact-tree rescan. Source-native and target OKF states remain separate.)*
-5. Accessible search, results, record and provenance UI. *(Complete for the bounded tested journeys: automated Chrome and Edge cover the analytical index, Evidence Trace and comparison; a manual Safari and VoiceOver journey completed with two retained limitations and no WCAG claim.)*
+4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas and public `v0.3.0-rc.1` with 31 closed schemas. Source-native and target OKF states remain separate.)*
+5. Accessible search, results, record and provenance UI. *(Complete for the bounded automated Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The pre-federation manual Safari and VoiceOver journey remains historical evidence; its refreshed current-release equivalent is open and no WCAG conformance is claimed.)*
 6. `search_government_knowledge`. *(Complete.)*
 7. `get_resource_record`. *(Complete.)*
 8. `show_provenance`. *(Complete.)*
@@ -14,12 +14,12 @@
 10. Authoritative human links. *(Complete.)*
 11. Access/licence/assertion/observation/limitation fields. *(Complete, with eight separate Trace facets and no combined score.)*
 12. Source/record/bundle digests and receipt. *(Complete and extended to Evidence Trace and federation bindings.)*
-13. Fail-closed validation. *(Complete for the historical `v0.2` release's four artefact families and four exact source locks. The local federated candidate validates five source-lock registry entries against separately code-reviewed imported SHA-256 pins, directly pins the federation-lock bytes in the standalone builder, and validates the additional manifest-first lazy plane plus exact ordered per-source population and display contracts. Same-count source-and-registry substitution now fails closed. Exact post-remediation build/data, unit, browser and smoke verification passes, and immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 items with zero reportable findings; release binding remains open.)*
+13. Fail-closed validation. *(Complete for public `v0.3.0-rc.1`: five source-lock registry entries validate against separately code-reviewed imported SHA-256 pins; the standalone builder directly pins the federation-lock bytes; and the manifest-first lazy plane plus exact ordered per-source population and display contracts validate. Same-count source-and-registry substitution fails closed. Post-remediation build/data, unit, browser and smoke verification passes, immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 items with zero reportable findings, and all 1,879 public files matched the retained Pages artefact.)*
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests. *(Part complete: injection, unsafe URL, missing licence, no-match, deep-input and bounded-fragment cases pass; dedicated stale and conflicting-assertion fixtures remain.)*
 15. CSP, no storage, no external runtime request. *(Complete.)*
-16. ChatGPT/Chrome tests. *(Complete: instrumented WebMCP and installed Chrome and Edge contract checks passed, and `Codex In-app Browser` called all five tools on the historical tagged release. Corrected main is deployed; Chrome DevTools MCP completed all five public calls with zero console errors, while Chrome's native WebMCP panel recorded five valid `Completed` calls, the expected structured rejection for `limit: 21`, and visible-page parity for both presentation tools. Pull request 13 admitted the evidence and its tests; exact-main validation run `33327860583` passed. Five local fixed-model attempts are retained but all failed the strict gate; attempt 4 retained a null evaluation after structural validation failed and attempt 5 recovered after rejected malformed IDs but failed `verify-reports`. A passing model result and Microsoft WebMCP Explorer browser execution remain under Should 11.)*
-17. Public deployment, MIT licence and notices. *(Complete: PR #9 integrated tagged commit `9235ee5db4df637bdb2a12e87449e871614afe68`, with exact-main run `33286750188` and Pages run `33286771963`; PR #12 later integrated corrected main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`, deployed by Pages run `33323152751`. The historical tag remains unchanged.)*
-18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: storyboard, guarded build tooling, five genuine live interaction clips with exact release/action/duration/hash binding and agent review, supported-host receipt visualisation, the manual Safari and VoiceOver record and its visibly labelled non-continuous screenshot sequence, submission copy, a historical read-only Devpost-state review, release hashes and historical tag `v0.2.0-rc.1` are complete. The `v0.2.0-rc.2` repository checkpoint freezes the corrected pre-federation state without changing the recorded Pages product identity. A 142.920-second local review video with H.264 video, AAC synthetic narration, embedded English captions, separate en-GB captions, transcript and build receipt is also complete. Full technical decode, 4,284-frame and 38-caption-cue checks passed with one retained non-fatal subtitle metadata warning, but no audible content-parity or owner approval is claimed. This checkpoint makes no registration, submission or public YouTube-upload claim. Owner synthetic-voice, privacy, branding and final-playback review, public upload and Devpost submission remain open.)*
+16. ChatGPT/Chrome tests. *(Complete for host execution: instrumented WebMCP and installed Chrome and Edge contract checks passed, and Codex In-app Browser completed all five tools on public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Historical Chrome DevTools MCP and native Chrome-panel results remain separately labelled. Five local fixed-model attempts are retained but all failed the strict gate; attempt 4 retained a null evaluation after structural validation failed and attempt 5 recovered after rejected malformed IDs but failed `verify-reports`. No model-selection claim is made; a passing model result and Microsoft WebMCP Explorer browser execution remain under Should 11.)*
+17. Public deployment, MIT licence and notices. *(Complete: PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`. Annotated tag and public pre-release `v0.3.0-rc.1` bind that commit; earlier release identities remain unchanged.)*
+18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: guarded build tooling, current-release human interaction clips, supported-host receipt and receipt visualisation, submission copy, exact public-release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second review video and completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. The refreshed VoiceOver record and final video are open pending the macOS capture environment; owner synthetic-voice, privacy, branding and final-playback review, public YouTube upload and Devpost form submission remain open. No WCAG conformance, registration, submission or upload claim is made.)*
 
 The current official submission boundary closes at 1:00 pm PDT on 3 September
 2026. It requires a public source repository with a visibly detectable open-
@@ -56,8 +56,8 @@ fails closed.
 
 1. Freeze annotated `v0.2.0-rc.2` at product commit
    `35fcedd39ed955278d3975a6dd80692fc6e32935` as the retained pre-federation
-   baseline; do not describe the GitHub release as platform-immutable. *(Baseline
-   complete; candidate release binding remains gate M.)*
+   baseline; do not describe the GitHub release as platform-immutable. *(Complete;
+   public `v0.3.0-rc.1` is separately release-bound under gate M.)*
 2. Lock exactly four source identities, descriptors, manifests, snapshots,
    counts, files and same-origin target paths. Reject a legislation collection
    or request and every undeclared origin or route without treating inert
@@ -66,15 +66,16 @@ fails closed.
    artefacts totalling 13,021,675 bytes. Each exact stored length and SHA-256 is
    bound to the decoded raw length and SHA-256; import preserves the reviewed
    stored bytes only after a byte-for-byte fetched-source cross-check, without
-   host recompression. The focused source-contract checks and release binding
-   remain to be revalidated under gates A–C and I.)*
+   host recompression. The focused source-contract checks and public release
+   binding passed under gates A–C and I.)*
 3. Publish separate `reviewed-deep-evidence` and
    `federated-source-snapshot` contracts, closed schemas and executable
    validators with a common evidence shape. *(Implemented with search result v2
    and reviewed/federated record and provenance unions; focused schema and
-   executable-contract tests pass locally. Exact post-remediation build/data
-   validation and all 187 prepared unit tests now pass; immutable security
-   rescan and release binding remain pending under gates B, F, H and I.)*
+   executable-contract tests pass. Exact post-remediation build/data validation
+   and all 194 prepared unit tests pass; immutable fixed-tree scan
+   `040ad945-3723-4aef-9c03-1bb552630deb` and release binding close gates B, F,
+   H and I.)*
 4. Build deterministic progressive search with explicit request, byte,
    decompression, row, retained-text, shard-fan-out, memory, worker and timeout
    budgets. *(Implemented with incremental exact-byte postings partitioning,
@@ -94,8 +95,7 @@ fails closed.
    shards and 1,733 postings shards. The frozen lexical gate reports mean
    nDCG@10 `0.984698009`, Recall@20 `1`,
    identical cold/warm results, no legislation collection and rejection of a
-   legislation request; release
-   binding still keeps gates C, D and I open.)*
+   legislation request; public release binding closes gates C, D and I.)*
 5. Extend the accessible human journey and the three discovery tools through
    the shared action controller, while retaining the two presentation tools'
    existing scope. *(Implemented locally. The exact post-remediation candidate
@@ -104,7 +104,7 @@ fails closed.
    `federated_runtime_busy`; the human live region distinguishes rejected input,
    busy state and other failure. The focused regression set passes 11 of 11 and
    the prepared unit suite passes 194 of 194. Current-candidate supported-host
-   evidence remains pending under gates E, F, G and H.)*
+   execution and fixed-query parity are retained under gates E, F, G and H.)*
 6. Show collection availability, evidence tier, source snapshot, link role and
    limitations; isolate one source failure without an unverified fallback.
    *(Implemented with deterministic verified-shard file and byte counters and
@@ -125,8 +125,8 @@ fails closed.
    including same-count source-and-registry substitution, direct builder lock
    substitution, per-source semantic mutation and physical cancellation churn;
    immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55
-   items with zero reportable findings; release binding remains pending under
-   gates A–I.)*
+   items with zero reportable findings; public release binding closes gates
+   A–I for this product release.)*
 8. Run model-free four-source, parity, browser and accessibility journeys
    against one exact candidate. *(In verification: the exact post-remediation
    candidate passes research 4 of 4; production build/data validation with 80
@@ -153,8 +153,8 @@ fails closed.
    validation. Fresh immutable fixed-tree scan
    `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 items with zero
    reportable findings. The focused manual screen-reader journey and current-
-   candidate supported-host
-   capture remain pending under gates D–K.)*
+   candidate supported-host capture is complete. The refreshed manual screen-
+   reader journey remains open under gates D–K and makes no WCAG claim.)*
 9. Run each synthetic fixed-model case at least three times, retain failures
    and variance, and compare whole-system costs under declared assumptions.
    *(Five local attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases,
@@ -194,11 +194,14 @@ fails closed.
     next protected run `33355787295` cleared the build gate, then exposed an
     unreferenced import-wide timeout whose isolated test could end before the
     deadline fired. The deadline now uses a referenced, finally-cleared timer
-    and focused macOS/Linux regressions pass. The final protected rerun, Pages,
-    tag, release, deployed-byte and supported-host evidence remain pending
-    under gate M. The final-candidate
-    demo preflight correctly failed closed without a deployed commit and
-    explicit overwrite approval; it did not start live capture.)*
+    and focused macOS/Linux regressions pass. PR validation `33356087333`,
+    exact-main validation `33356272534` and Pages `33356452048` then passed;
+    PR #16 merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` and annotated
+    tag and pre-release `v0.3.0-rc.1` bind that commit. All 1,879 deployed
+    regular files (128,548,215 bytes) returned HTTP 200 and matched Pages
+    artefact `9745316971`; current supported-host execution also completed.
+    Gate M is complete for product release. Submission media and human
+    attestations remain separate open gates.)*
 
 The controlling A–M matrix is in
 [`okf-federated-personal-agent-evaluation-plan.md`](okf-federated-personal-agent-evaluation-plan.md).
@@ -214,7 +217,7 @@ evidence.
 5. Downloadable record and receipt.
 6. Automated SBOM/attestation. *(Local macOS ARM64 sanitised CycloneDX SBOM
    complete; release-platform SBOM and signed attestation pending.)*
-7. Accessibility statement and manual test log. *(Statement, Chrome/Edge and headed-browser evidence complete; a manual Safari and VoiceOver observation completed with two retained limitations. VoiceOver audio was not captured and no WCAG conformance is claimed.)*
+7. Accessibility statement and manual test log. *(Statement, Chrome/Edge and headed-browser evidence are complete. The pre-federation Safari and VoiceOver observation remains historical evidence with two retained limitations; the refreshed current-release record is open pending the macOS capture environment. VoiceOver audio is not claimed and no WCAG conformance is claimed.)*
 8. Baseline-to-submission visual compare. *(Part complete: separate retained public search captures show `v0.1.0-rc.1` and deployed `v0.2.0-rc.1`; a bound side-by-side comparison artefact remains.)*
 9. Optional small set of related-record links.
 10. Public status/known-issues page.
@@ -248,10 +251,9 @@ evidence.
 5. Serverless refresh preview outside judging path.
 6. Persistent MCP hand-off demo.
 7. User study dashboard.
-8. Additional publishers/corpora. *(The 10-entry descriptor now has 6
-   searchable and 4 non-searchable admissions. The four-source payload
-   federation is implemented locally under Federation 1–10 above; protected
-   integration and exact deployment remain pending.)*
+8. Additional publishers/corpora. *(The 10-entry descriptor has 6 searchable
+   and 4 non-searchable admissions. The four-source payload federation is
+   integrated, deployed and tagged as `v0.3.0-rc.1` under Federation 1–10.)*
 9. Declarative WebMCP experiment in a future release; the current imperative
    path is observed only in the bounded Codex in-app, Chrome DevTools MCP and
    native Chrome-panel environments recorded in the evidence.

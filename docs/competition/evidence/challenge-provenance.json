@@ -130,6 +130,85 @@
       "pushProtectionEnabled": true
     }
   },
+  "currentRelease": {
+    "repository": "chris-page-gov/govuk-webmcp",
+    "packageVersion": "0.3.0-rc.1",
+    "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+    "pullRequest": {
+      "number": 16,
+      "url": "https://github.com/chris-page-gov/govuk-webmcp/pull/16",
+      "validationRunId": 33356087333,
+      "integrationMethod": "rebase-style linear integration"
+    },
+    "validation": {
+      "exactMainRunId": 33356272534,
+      "exactMainConclusion": "success",
+      "preparedUnitTests": {
+        "passed": 194,
+        "failed": 0
+      },
+      "chromiumTests": {
+        "passed": 30,
+        "failed": 0
+      },
+      "microsoftEdgeTests": {
+        "passed": 30,
+        "failed": 0
+      },
+      "modelFreeWebmcpCalls": {
+        "passed": 6,
+        "failed": 0
+      },
+      "dependencyAudit": {
+        "dependencyCount": 162,
+        "vulnerabilityCount": 0
+      }
+    },
+    "deployment": {
+      "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "runId": 33356452048,
+      "artifactId": 9745316971,
+      "artifactApiDigest": "sha256:3d7a7eb777d3b99504c9fb0533b89cb37ffc2d66dcad7a000e86ca6674e5727d",
+      "artifactTarSha256": "872384696f587572d794de3a4e07485aee7d2816598c86546ed178cd5aa03bf2",
+      "deploymentMetadataSha256": "a7b1f8e2f2c99da7051a091bb72a7948379af53c826a9c66d3bc98f89c67f728",
+      "regularFileCount": 1879,
+      "byteCount": 128548215,
+      "liveComparisonManifestSha256": "4b2336a8927d34951c94008703dec27ed79f1ad87a318526c6807eeaa4bc0183",
+      "allRegularFilesMatchedArtifact": true
+    },
+    "release": {
+      "tag": "v0.3.0-rc.1",
+      "tagObject": "8278c580df4767491ef0808516dd90cc3423cb9d",
+      "targetCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+      "annotated": true,
+      "url": "https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.3.0-rc.1",
+      "prerelease": true
+    },
+    "evidenceEstate": {
+      "reviewedRecordCount": 80,
+      "reviewedReceiptCount": 80,
+      "federatedRawRowCount": 58655,
+      "federatedQuarantinedRowCount": 3,
+      "federatedSearchableRecordCount": 58652,
+      "sourceLockCount": 5,
+      "versionedGzipArtefactCount": 73,
+      "corpusAdmissionCount": 10,
+      "searchableCorpusAdmissionCount": 6,
+      "closedSchemaCount": 31,
+      "standaloneLegislationCollectionPublished": false,
+      "legislationResultLinkCount": 0,
+      "landRegistryScope": "Metadata-only discovery; no title, ownership, address, polygon or personal rows are admitted."
+    },
+    "securityEvidence": {
+      "scanId": "040ad945-3723-4aef-9c03-1bb552630deb",
+      "scannedCommit": "9c6ed7d9a21574972ee564b333cbc49983058554",
+      "reviewItemsCompleted": 55,
+      "reviewItemCount": 55,
+      "reportableFindingCount": 0,
+      "scope": "The immutable scan is bound to its exact fixed-tree commit. Later reviewed-gzip and referenced import-deadline corrections passed focused checks and the protected release workflows; they are not described as part of the scan."
+    },
+    "scope": "This records the released product and its exact deployment identity. It does not establish factual completeness, official certification, open licensing, current-source accuracy, model-selection quality, accessibility conformance, video publication or Devpost submission."
+  },
   "postReleaseEvidence": {
     "correctedPublicDeployment": {
       "observedAt": "2026-08-30T16:44:23.237Z",
@@ -284,10 +363,109 @@
       "scope": "The named Chrome host gate is closed. Owner video review, public YouTube publication, final human attestations and authorised submission remain open."
     }
   },
+  "currentReleaseEvidence": {
+    "observationWindow": {
+      "startedAt": "2026-08-31T04:20:45.247Z",
+      "completedAt": "2026-08-31T04:36:36.746Z"
+    },
+    "exactLiveDeployment": {
+      "observedAt": "2026-08-31T04:20:45.247Z",
+      "evidencePath": "docs/competition/evidence/live-artifact-verification-v0.3.0-rc.1.json",
+      "evidenceSha256": "5a869aa5c462fb6b63a300388199930cee7a71f11ccccacb1410d45c6653f79f",
+      "humanReportPath": "docs/competition/evidence/public-deployment-verification-v0.3.0-rc.1.md",
+      "humanReportSha256": "164bc11abed9005b4b7e18333ea5b6bfd1901497e7d2ae38ca6b8652b34d0cb3",
+      "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+      "pagesRunId": 33356452048,
+      "artifactId": 9745316971,
+      "regularFileCount": 1879,
+      "byteCount": 128548215,
+      "allResponsesWereHttp200": true,
+      "allRegularFilesMatchedArtifact": true,
+      "scope": "Complete regular-file comparison against one Pages artefact. This proves deployment identity, not source truth, currentness, licensing or future availability."
+    },
+    "supportedHostWebmcp": {
+      "observedAt": "2026-08-31T04:31:28.362Z",
+      "evidencePath": "docs/competition/evidence/supported-host-webmcp-capture-v0.3.0-rc.1.json",
+      "evidenceSha256": "5ca7e19372dc00f9704474ff5bf513a236b48e8843a37871d6b6f0831722e5ea",
+      "rawReceiptPath": "docs/competition/evidence/supported-host-webmcp-raw-receipt-v0.3.0-rc.1.json",
+      "rawReceiptSha256": "91e25ca1d560c9cdb42f64a5c6289f6b9ff5bff17071452e2dd9afe8a87e80f8",
+      "host": "Codex In-app Browser",
+      "hostVersion": "Browser plugin 26.825.32147",
+      "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+      "pagesRunId": 33356452048,
+      "discoveredToolCount": 5,
+      "successfulCallCount": 5,
+      "rejectedField": "personalContext",
+      "comparisonRowCount": 11,
+      "comparisonResultDigest": "12e8e56056c73c06d41d418856f356f25da6a157b64feabf33664a0eca6349ad",
+      "comparisonDigestParity": true,
+      "hostOwnedSurfaceObserved": false,
+      "hostRecordingCaptured": false,
+      "modelSelected": false,
+      "modelProviderCalled": false,
+      "scope": "One named host and plugin version. Machine discovery and deterministic invocation do not establish model selection or support in another host."
+    },
+    "demoLiveInteractionCapture": {
+      "capturedAt": "2026-08-31T04:35:13.448Z",
+      "evidencePath": "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json",
+      "evidenceSha256": "8fba32b9d28d1d82d5fbbbb1276bf8e8ea84860c2f5f2b5536736b6d6bcdbd9b",
+      "clipCount": 5,
+      "browser": "Playwright Chromium 151.0.7922.34",
+      "browserChromeCaptured": false,
+      "sourceAudioCaptured": false,
+      "agentPrivacyReview": "pass",
+      "agentBrandingReview": "pass",
+      "humanPublicationReview": "pending",
+      "scope": "Genuine public-page interaction with the exact release. Agent review is not owner publication approval."
+    },
+    "supportedHostReceiptVisualisation": {
+      "builtAt": "2026-08-31T04:36:36.746Z",
+      "evidencePath": "docs/competition/evidence/supported-host-webmcp-clip-v0.3.0-rc.1.json",
+      "evidenceSha256": "ee0b8932854a44e44a03571537fcd0dcfba8e37f841f251e481d928bb677f0f8",
+      "localMediaPath": "output/demo-clips/v0.3.0-rc.1/04-supported-host-webmcp.mov",
+      "localMediaSha256": "512c9cb9a0c703b8ef0047418969220e79d49b8500c467b7b15b47c2db132878",
+      "durationSeconds": 40.966667,
+      "kind": "receipt-reconstruction",
+      "hostRecordingEmbedded": false,
+      "hostOwnedSurfaceEmbedded": false,
+      "visibleLabel": "Receipt reconstruction — not a host recording",
+      "humanPublicationReview": "pending"
+    },
+    "accessibilityVideoAndSubmissionGates": {
+      "currentReleaseVoiceOverCaptureAttemptValid": false,
+      "currentReleaseVoiceOverCaptureAdmitted": false,
+      "invalidVoiceOverFrameIds": [
+        "analytical-index-controls",
+        "selected-foundation",
+        "comparison-table",
+        "live-status",
+        "search-and-record",
+        "source-link-role-and-destination",
+        "focus-restoration"
+      ],
+      "invalidVoiceOverCaptureReason": "Frames 3 to 9 are duplicate privacy-screen bytes and do not evidence their named checkpoints.",
+      "cleanVoiceOverRecaptureRequired": true,
+      "currentReleaseManualVoiceOverEvidenceCompleted": false,
+      "currentReleaseVoiceOverClipBuilt": false,
+      "currentReleaseFinalVideoBuilt": false,
+      "currentReleaseVideoTechnicalReviewCompleted": false,
+      "ownerPrivacyReviewCompleted": false,
+      "ownerBrandingReviewCompleted": false,
+      "ownerSyntheticVoicePublicationApproval": false,
+      "ownerContinuousAudiblePlaybackCompleted": false,
+      "publicYouTubeVideoPublished": false,
+      "signedOutPublicPlayerAudioVerified": false,
+      "signedOutPublicPlayerCaptionsVerified": false,
+      "finalDevpostAttestationsCompleted": false,
+      "devpostSubmissionAuthorised": false,
+      "devpostSubmissionPerformed": false,
+      "scope": "The current Safari and VoiceOver attempt is invalid and unadmitted. Frames 3 to 9 are duplicate privacy-screen bytes; a clean nine-step recapture is required. Captured files do not close the manual-evidence, local-video, owner-review, public-player or submission gates."
+    }
+  },
   "evidenceBoundary": {
     "subjectPredatesThisRecord": true,
     "recordClaimsToBeContainedInSubjectCommit": false,
-    "bindingMechanism": "The protected commit that eventually contains this record supplies its repository binding externally; this record does not name or attest to its own future commit",
+    "bindingMechanism": "Historical sections retain their named commit bindings. The current product commit, Pages artefact and host observations predate this evidence follow-up; the protected commit that eventually contains this updated record supplies its repository binding externally, and this record does not attest to its own future commit.",
     "bindingCompleteAtObservation": false
   },
   "gates": {
@@ -312,6 +490,21 @@
     "devpostRegistrationObserved": true,
     "devpostProjectSubmissionObserved": false,
     "finalDevpostComplianceReviewCompleted": true,
-    "devpostSubmissionPerformed": false
+    "devpostSubmissionPerformed": false,
+    "currentReleaseExactDeploymentVerified": true,
+    "currentReleaseSupportedHostToolDiscoveryObserved": true,
+    "currentReleaseSupportedHostToolCallObserved": true,
+    "currentReleaseModelSelectionObserved": false,
+    "currentReleaseInteractionClipsCaptured": true,
+    "currentReleaseInteractionClipsAgentReviewed": true,
+    "currentReleaseInteractionClipsHumanPublicationReviewed": false,
+    "currentReleaseSupportedHostReceiptVisualisationBuilt": true,
+    "currentReleaseManualScreenReaderEvidenceCompleted": false,
+    "currentReleaseLocalDemoVideoBuilt": false,
+    "currentReleaseDemoVideoTechnicalReviewComplete": false,
+    "currentReleaseDemoVideoHumanReviewComplete": false,
+    "currentReleaseVideoPublished": false,
+    "currentReleaseSignedOutPublicPlayerVerified": false,
+    "currentReleaseDevpostSubmissionPerformed": false
   }
 }

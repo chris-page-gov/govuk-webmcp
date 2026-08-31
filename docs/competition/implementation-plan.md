@@ -1,11 +1,12 @@
 # Implementation plan and backlog tracking
 
 This is the lockstep implementation map for
-`docs/competition/backlog.md`. It records the published `v0.2.0-rc.1`
-implementation and records the later supported-host observation separately
-from the completed-with-limitations manual accessibility observation and local
-review video. Owner publication review and the competition submission remain
-separate gates; release-platform attestation is optional assurance.
+`docs/competition/backlog.md`. It preserves the published `v0.2.0-rc.1`
+history and records the separately released `v0.3.0-rc.1` OKF federation.
+Current-candidate supported-host execution and exact public-byte verification
+are complete. The refreshed VoiceOver journey, final video, owner publication
+review, public YouTube upload and competition submission remain separate open
+gates; release-platform attestation is optional assurance.
 
 The integrated compatibility and evaluator follow-up is mapped to Must 9,
 13–17 and Should 11 below. It is deployed from corrected main commit
@@ -26,8 +27,8 @@ product and historical `v0.2.0-rc.1` boundaries rather than replacing either.
 Annotated tag `v0.2.0-rc.2` resolves to product commit
 `35fcedd39ed955278d3975a6dd80692fc6e32935`. It and the public pre-release are
 the retained, frozen project baseline; the GitHub release is not described as
-platform-immutable. Package version `0.3.0-rc.1` identifies the implemented
-local federated candidate. Its production build, byte-idempotence, 144 unit
+platform-immutable. Package version `0.3.0-rc.1` identifies the released
+federated candidate. Its production build, byte-idempotence, 144 unit
 tests, 29 Chrome tests, 29 Edge tests and six model-free smoke calls passed at
 the last complete pre-remediation checkpoint. Seven initial Low security
 findings were remediated; a sealed follow-up scan suppressed those seven and
@@ -55,9 +56,16 @@ the builder validates the same stored/raw binding without recompression. The
 next protected run `33355787295` cleared that build gate, then exposed that an
 unreferenced import-wide timeout could let an isolated pending test end before
 the deadline fired. The deadline now uses a referenced, finally-cleared timer;
-focused macOS and Linux regressions pass. The final protected rerun, Pages,
-release and current-candidate supported-host evidence remain open. The
-preceding exact-range scan
+focused macOS and Linux regressions pass. Pull request 16 then passed validation
+run `33356087333` and merged as release commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. Exact-main validation run
+`33356272534` passed, and Pages run `33356452048` deployed the same commit. The
+annotated `v0.3.0-rc.1` tag and public pre-release preserve that identity. A
+byte-for-byte public verification compared all 1,879 regular Pages files
+(128,548,215 bytes): every request returned HTTP 200 and no file differed from
+Pages artefact `9745316971`. The retained deployed-file manifest has SHA-256
+`4b23369fcbf388254ec4770abceeb8cff48712786dc5111f5c0cd36ab5b0183`.
+The preceding exact-range scan
 `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55 of 55 review items and
 reported one High-confidence, Low-severity source-substitution finding
 (`csf_050a3c08c471d3176e0640c3`). Its remediation adds separately code-reviewed
@@ -81,7 +89,7 @@ the production build and 194 of 194 prepared unit tests pass.
 | 9 | Run schema, digest, source-lock, unit, browser, accessibility, Edge and security assurance. | Must 13–17; Should 3, 6–7 | Complete |
 | 10 | Update lockstep documentation/evidence, integrate by PR and verify the exact deployment. | Must 17–18; Should 8, 10 | Complete |
 
-## Implemented local `0.3.0-rc.1` sequenced 1–10 plan
+## Released `0.3.0-rc.1` sequenced 1–10 plan
 
 The new sequence is mapped to the federation items in
 [`backlog.md`](backlog.md) and the A–M gates in the
@@ -91,16 +99,16 @@ only the named gate against the exact candidate can do that.
 
 | Step | Scope | Backlog mapping | Acceptance gates | Status |
 | --- | --- | --- | --- | --- |
-| 1 | Freeze the pre-federation baseline and fix the population, rights and no-overclaim boundary. | Federation 1 | A, L, M | Baseline complete; candidate release binding pending |
-| 2 | Admit exactly four fixed source identities, descriptors, search manifests and mirrored artefact paths. | Federation 2 | A, B, C, I | Implemented and locally verified; release binding pending |
+| 1 | Freeze the pre-federation baseline and fix the population, rights and no-overclaim boundary. | Federation 1 | A, L, M | Complete; the baseline and separate `v0.3.0-rc.1` release identities are preserved |
+| 2 | Admit exactly four fixed source identities, descriptors, search manifests and mirrored artefact paths. | Federation 2 | A, B, C, I | Complete and release-bound |
 | 3 | Define the two evidence tiers, common record/provenance shape, closed schemas and executable validation. | Federation 3 | B, F, H, I | Implemented, including exact ordered per-source population bindings and executable collection display contracts; the current contract count is recorded below |
-| 4 | Build deterministic, progressively loaded same-origin search with fixed byte, row, fan-out, memory and timeout budgets. | Federation 4 | C, D, I | Implemented with incremental exact-byte postings partitioning, aggregate build caps, streamed response caps, bounded generated-plane cleanup and separate 4-active/32-queued/36-distinct physical-fetch limits; each 3-second file deadline includes queue time and a slot is retained until loader settlement; exact local build/data and quality gates pass; release binding pending |
+| 4 | Build deterministic, progressively loaded same-origin search with fixed byte, row, fan-out, memory and timeout budgets. | Federation 4 | C, D, I | Complete and release-bound, with incremental exact-byte postings partitioning, aggregate build caps, streamed response caps, bounded generated-plane cleanup and separate 4-active/32-queued/36-distinct physical-fetch limits; each 3-second file deadline includes queue time and a slot is retained until loader settlement |
 | 5 | Extend the three discovery tools and accessible human controls through the shared action controller; retain the two presentation tools unchanged in scope. | Federation 5 | E, F, G, H | Implemented; combined and public WebMCP search preserve `federated_runtime_busy`, while the human live region distinguishes rejected input, busy state and other failure; focused tests pass 11 of 11, prepared unit 194 of 194 and both installed browsers 30 of 30 with exit 0 |
-| 6 | Surface collection status, tier, snapshot, source-link role and limitations; isolate partial source failures without a weak fallback. | Federation 6 | F, G, K | Implemented; a busy runtime is not misclassified as source unavailable, and all four genuine unavailable-source cases passed in Chrome and Edge; manual accessibility evidence pending |
+| 6 | Surface collection status, tier, snapshot, source-link role and limitations; isolate partial source failures without a weak fallback. | Federation 6 | F, G, K | Implemented; a busy runtime is not misclassified as source unavailable, and all four genuine unavailable-source cases passed in Chrome and Edge; the refreshed current-release VoiceOver record remains in progress and makes no WCAG claim |
 | 7 | Add tiny v1/v2 fixtures plus corruption, co-digested semantic mutation, ranking, duplicate, injection and resource-exhaustion tests. | Federation 7 | A–I | Implemented, including code-reviewed source pins, same-count source-and-registry substitution, direct federation-lock substitution, per-source co-digested population/display mutation and cancellation-churn cases; the exact post-remediation frozen quality gate passes at mean nDCG@10 0.984698009 and Recall@20 1 with cold/warm parity, no legislation collection and the legislation request rejected |
-| 8 | Run the four producer journeys, human/tool parity, accessibility and model-free browser/host checks against one candidate. | Federation 8 | D–K | In verification: exact final-candidate local Chrome and Edge each pass 30 of 30 and model-free WebMCP smoke passes 6 of 6 in real Chrome; focused manual accessibility and supported-host capture remain pending |
+| 8 | Run the four producer journeys, human/tool parity, accessibility and model-free browser/host checks against one candidate. | Federation 8 | D–K | Part complete: exact final-candidate local Chrome and Edge each pass 30 of 30; model-free WebMCP smoke passes 6 of 6 in real Chrome; and the current supported host completed all five tools on the public release with fixed-query human/display parity. The refreshed VoiceOver journey remains in progress |
 | 9 | Run at least three fixed-model selections per synthetic case and the whole-system cost comparison, retaining failures and uncertainty. | Federation 9 | J, L | Five local attempts are retained and all failed the strict gate; attempt 4 bound receipt-v2 identity but retained a null evaluation after structural validation failed; attempt 5 retained 30 pass and 6 fail but failed `verify-reports`; cost study remains planned; hypotheses only |
-| 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Lockstep update records the sealed pre-remediation Low finding, its implemented code-pin fix and fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` with zero reportable findings. Pull request 16's first protected Linux run `33354712509` exposed host-dependent gzip output; its header-only correction was disproved by second run `33355108429`, which also differed in the DEFLATE stream. The final contract binds the exact reviewed stored-gzip length and SHA-256 to the decoded raw length and SHA-256, preserves reviewed stored bytes only after a byte-for-byte fetched-source cross-check, and requires no host recompression. Run `33355787295` cleared that gate and exposed an unreferenced import-wide timeout; the referenced, finally-cleared timer correction passes focused macOS/Linux regressions. The final protected rerun, Pages, tag, release and exact public evidence remain pending |
+| 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Complete for the product release. Pull request 16 retained the gzip and timeout failure chronology, passed run `33356087333`, and merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; exact-main run `33356272534` and Pages run `33356452048` passed. Tag and pre-release `v0.3.0-rc.1` bind that commit. All 1,879 deployed regular files, totalling 128,548,215 bytes, returned HTTP 200 and matched Pages artefact `9745316971`. Submission media and human attestations remain separate gates |
 
 The approved federated population is 58,655 locked raw source rows:
 9,757 A Life in the UK records, including 293 service families; 5,097 ONS
@@ -143,11 +151,11 @@ that plane before copying it into the Pages artefact. The page initially loads
 the manifest and checksum only, then retrieves bounded checksum-verified
 postings and record shards from the same origin as a query requires.
 
-## Observed `0.3.0-rc.1` local verification checkpoint
+## Observed `0.3.0-rc.1` verification chronology
 
-These results are the last complete pre-remediation checkpoint. They do not
-apply to the exact current tree and do not replace protected CI, exact deployed-
-byte or supported-host evidence.
+The early results below remain labelled as pre-remediation history. The release
+closure recorded after them binds protected CI, exact deployed bytes and the
+current supported-host observation to one public commit.
 
 - Five exact source-lock registry entries validated: four retained reviewed
   inputs and one four-publication OKF federation lock.
@@ -220,9 +228,11 @@ byte or supported-host evidence.
   rejected input, busy state and other failure, and passed the production build,
   11 of 11 focused regressions and 194 of 194 prepared unit tests. Chrome and
   Edge each exited zero with 30 of 30.
-- The final-candidate demonstration preflight correctly failed closed without a
-  deployed commit and explicit overwrite approval. It did not start live capture
-  and supplies no live-capture evidence.
+- The earlier final-candidate demonstration preflight correctly failed closed
+  without a deployed commit and explicit overwrite approval. After deployment,
+  the guarded live human interaction and supported-host captures completed
+  against the exact public release. The refreshed VoiceOver capture and final
+  video build remain in progress and are not yet submission evidence.
 - Five local `webmcp-evals` attempts used Chrome 152, eight cases, three runs
   per case and exact loopback-only `ollama:gpt-oss:20b` model digest
   `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
@@ -253,9 +263,14 @@ byte or supported-host evidence.
   explicit remote-provider path and approval. Privileged daemon control, tag
   changes between observations and a previously loaded model remain outside the
   receipt boundary.
-- Protected CI, Pages, final tag and release, current-candidate supported-host
-  capture, a passing fixed-model result and refreshed manual screen-reader
-  evidence have not yet been completed.
+- Pull request 16 validation `33356087333`, exact-main validation
+  `33356272534`, Pages `33356452048`, the annotated tag and public pre-release
+  `v0.3.0-rc.1`, complete deployed-file comparison and current supported-host
+  capture are complete. The host completed all five tools, rejected the
+  unrelated `personalContext` key and produced the same canonical comparison
+  digest as the displayed 11-row comparison. No model selected the tools. A
+  passing fixed-model result and the refreshed manual screen-reader record are
+  not complete.
 
 ## Observed pre-federation verification checkpoints
 
@@ -340,7 +355,7 @@ do not satisfy an A–M gate for `0.3.0-rc.1`.
   rows were deleted after semantic validation; the ignored smoke receipt
   retains counts and a results digest, while only the ignored DevTools receipt
   retains full outputs. At that historical pre-federation checkpoint, no model-
-  backed selection test had been run; three later local candidate attempts are
+  backed selection test had been run; five later local candidate attempts are
   recorded above and all failed the strict gate.
 - The public Chrome DevTools MCP capture is bound to corrected main commit
   `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and records five successful calls
@@ -378,13 +393,13 @@ tag and its evidence remain unchanged.
 | Must 9 | Complete: one action controller, deterministic page/tool output and display-digest parity. |
 | Must 10–11 | Complete: authoritative human links and visible access, rights, assertion, observation and limitation fields. |
 | Must 12 | Complete: source, record, bundle, receipt, Trace, federation and raw-file digests/checksums. |
-| Must 13 | Implemented locally for the candidate: the initial artefacts, lazy manifest, exact ordered per-source population/display contracts and separate 80 reviewed plus 58,655-raw, 3-quarantined and 58,652-searchable federated boundaries fail closed. Five exact source-lock registry entries validate, the post-remediation local suite passes and immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` reports zero findings. Historical release assurance remains bound to its four artefact families and four locks. |
+| Must 13 | Complete for the released candidate: the initial artefacts, lazy manifest, exact ordered per-source population/display contracts and separate 80 reviewed plus 58,655-raw, 3-quarantined and 58,652-searchable federated boundaries fail closed. Five exact source-lock registry entries validate, the post-remediation suite passes, immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` reports zero findings and the public byte comparison closes release binding. Historical release assurance remains bound to its four artefact families and four locks. |
 | Must 14 | Part complete: tamper, input, URL, inert-text, missing-licence and no-match tests pass; dedicated stale and conflicting-assertion fixtures remain. |
 | Must 15 | Complete: CSP, no storage and no external runtime provider request are enforced and tested. |
-| Must 16 | Complete: instrumented lifecycle tests and installed Chrome and Edge contract checks passed; `Codex In-app Browser` called all five tools on the historical tagged release; and corrected deployed main passed five public Chrome DevTools MCP calls with zero console errors. Chrome's native WebMCP panel recorded five `Completed` calls, a structured rejection for `limit: 21` and presentation parity. Five local model attempts are retained but all failed; attempt 4 failed structural validation and attempt 5 demonstrated fail-closed malformed-ID recovery but failed strict verification. A passing result and Microsoft Explorer browser execution remain under Should 11. |
-| Must 17 | Complete: MIT licence and notices are published; PR #9 and the exact tagged deployment remain recorded; PR #12 and Pages run `33323152751` bind corrected main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` separately. |
-| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips and their consolidated receipt, the labelled supported-host receipt visualisation, manual VoiceOver evidence and its non-continuous screenshot sequence, release hashes, tag `v0.2.0-rc.1`, a captioned 142.920-second local review video with transcript and build receipt, its technical decode/frame/caption review, and a historical read-only Devpost-state review are complete. Owner synthetic-voice, privacy, branding and final-playback review, public YouTube upload and authorised submission remain open; this checkpoint makes no registration, submission or upload claim. |
-| Federation 1–10 | Implemented locally for `0.3.0-rc.1`: exact final-candidate local verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 193 unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. The earlier 144-, 173-, 182-, 187- and 190-unit results and 29-test browser runs remain historical checkpoints only. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` retained one Low source-substitution finding, now remediated with code-reviewed pins; immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. Five fixed-model attempts are retained and all failed; attempt 4 retained a null evaluation after structural validation failed and attempt 5 failed `verify-reports`. Manual current-candidate accessibility, supported-host evidence, protected integration, exact deployment and submission-media refresh remain pending. |
+| Must 16 | Complete: instrumented lifecycle tests and installed Chrome and Edge contract checks passed; the current Codex In-app Browser host completed all five tools on public `v0.3.0-rc.1`, rejected unrelated `personalContext`, and retained human/display comparison parity. Historical Chrome DevTools MCP and native Chrome-panel observations remain separately labelled. Five local model attempts are retained but all failed; attempt 4 failed structural validation and attempt 5 demonstrated fail-closed malformed-ID recovery but failed strict verification. No model-selection claim is made; a passing result and Microsoft Explorer browser execution remain under Should 11. |
+| Must 17 | Complete: MIT licence and notices are published. PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`; the annotated tag and pre-release are `v0.3.0-rc.1`. Earlier releases remain separately recorded. |
+| Must 18 | Part complete: current-release human interaction clips, supported-host receipt and receipt visualisation, submission copy, release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second local review video and its completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. The refreshed VoiceOver record and final video are in progress; owner synthetic-voice, privacy, branding and final-playback review, public YouTube upload and authorised submission remain open. No registration, submission or upload claim is made. |
+| Federation 1–10 | Released as `v0.3.0-rc.1`: exact final-candidate verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 194 prepared unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. PR #16, protected main and Pages passed; all 1,879 deployed files matched artefact `9745316971`; and the current supported host completed all five tools with fixed-query parity. Five fixed-model attempts are retained and all failed. The refreshed VoiceOver evidence and submission-media review remain open. |
 
 ## Implemented Should and Could work
 
@@ -419,11 +434,9 @@ tag and its evidence remain unchanged.
   origin requests, bytes, compute and support effort alongside citizen-provider
   whole-system costs. No public saving is claimed from the static prototype.
 - Could 1: an accessible Evidence Trace graph and relationship table.
-- Could 8: at this working-tree checkpoint the bounded 10-entry estate
-  descriptor has 6 searchable and 4 non-searchable admissions. The four
-  source-snapshot admissions are
-  local payload federation; their release status remains separate from the 2
-  reviewed deep-evidence collections.
+- Could 8: the released bounded 10-entry estate descriptor has 6 searchable and
+  4 non-searchable admissions. The four source-snapshot admissions remain a
+  distinct evidence tier from the 2 reviewed deep-evidence collections.
 
 `compare_resources` is not implemented. The completed comparison contrasts
 the foundations of two to four claims in one answer and deliberately does not
@@ -441,17 +454,26 @@ integrated the compatibility correction and Pages run `33323152751` deployed
 exact corrected main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
 
 The separate `v0.2.0-rc.2` checkpoint freezes pre-federation product commit
-`35fcedd39ed955278d3975a6dd80692fc6e32935`. The working `0.3.0-rc.1`
-candidate has no inherited release assurance: the earlier Pages, host,
-accessibility and video receipts cover only the revisions they name.
+`35fcedd39ed955278d3975a6dd80692fc6e32935`. Pull request 16 released the
+federated candidate independently as commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`: PR validation `33356087333`,
+exact-main validation `33356272534` and Pages `33356452048` passed. Annotated
+tag and public pre-release `v0.3.0-rc.1` bind that commit. The earlier Pages,
+host, accessibility and video receipts continue to cover only the revisions
+they name.
 
-Supported-host discovery and calls were observed for the historical tagged
-deployment in `Codex In-app Browser`. Five genuine public-page interaction
-clips and their release/action/duration/hash receipt are complete, and the
-guarded pipeline rejects preview substitutions, unrelated VoiceOver media and
-receipt drift. The manual Safari and VoiceOver journey, Caption Panel frame
-sequence and exact media/time binding are complete. The guarded build produced
-the captioned, 142.920-second local review MP4, transcript and build receipt.
+Supported-host discovery and calls have now also been observed for public
+`v0.3.0-rc.1` in Codex In-app Browser. The host completed all five tools for
+the fixed four-source journey, rejected an unrelated `personalContext` key and
+produced the same comparison digest shown by the 11-row human comparison. This
+is host execution and human/display parity evidence, not model-selection
+evidence. Five genuine current-release public-page interaction clips and their
+release/action/duration/hash receipt are complete, and the guarded pipeline
+rejects preview substitutions, unrelated VoiceOver media and receipt drift.
+The refreshed manual Safari and VoiceOver journey and final federated video
+remain in progress. The completed-with-limitations VoiceOver sequence and
+142.920-second local review MP4 belong to the pre-federation revision; neither
+is carried forward as current submission evidence.
 The latest read-only Devpost check at `2026-08-30T17:57:48Z` found project
 `1406973` still `Untitled`, blank and `submission_pre_draft`. The remaining
 official compliance boundary is: close at 1:00 pm PDT on 3 September 2026; use
@@ -462,24 +484,16 @@ the repository, live project and submission after close. These requirements do
 not establish registration, submission or upload. The remaining sequence is
 now:
 
-1. Finish the focused manual accessibility evidence; immutable fixed-tree scan
-   `040ad945-3723-4aef-9c03-1bb552630deb` has completed against exact commit
-   `9c6ed7d9a21574972ee564b333cbc49983058554`, while the deterministic, browser
-   and smoke gates are recorded separately from the remaining observations.
-2. Capture current-candidate supported-host evidence and refine the model-
-   legibility fixture only through transparent machine identifiers; rerun the
-   same fixed local model while retaining the five failed attempts and without
-   inheriting pre-federation results.
-3. Revalidate pull request 16's stored-gzip/decoded-raw binding in protected
-   Linux CI. Run `33354712509` first exposed host-dependent gzip output, while
-   run `33355108429` disproved the header-only correction by exposing DEFLATE
-   stream drift. Run `33355787295` cleared the build gate, then exposed an
-   unreferenced import deadline; focused macOS/Linux regressions now pass with
-   a referenced, finally-cleared timer. The final protected rerun remains
-   pending; after it passes,
-   complete A–M release binding and verify the exact deployed bytes before
-   describing the expanded experience as live.
-4. Rebuild and review the demonstration video against that exact candidate,
-   then complete owner privacy, branding, voice and caption decisions.
-5. Upload only an approved exact video digest, complete the Devpost form and
-   submit only with separate authority, retaining the returned receipt.
+1. Complete the refreshed nine-step Safari and VoiceOver journey against the
+   exact public release, retain its limitations and make no WCAG conformance
+   claim.
+2. Build and technically review the under-three-minute federated video from the
+   exact captured inputs, then complete owner privacy, branding, voice, caption
+   and final-playback decisions.
+3. Optionally refine the model-legibility fixture only through transparent
+   machine identifiers, retaining all five failed attempts. Do not claim a
+   fixed-model pass unless a fresh strict result actually passes.
+4. Upload only an owner-approved exact video digest to public YouTube and
+   verify signed-out sound and captions.
+5. Complete the live Devpost form and submit only with separate authority,
+   retaining the returned receipt.

@@ -19,6 +19,7 @@ import {
   verifyDemoDeployment,
   wrapCaption,
 } from "../../scripts/build-demo-video.mjs";
+import { waitForRenderedSearchResult } from "../../scripts/capture-live-demo-clips.mjs";
 
 const environment = {
   [demoReleaseEnvironment.productCommit]: "a".repeat(40),
@@ -33,6 +34,35 @@ const recordIds = {
   "land-registry": "govuk-discovery:federated:land-registry:4",
 };
 const demonstratedRecordId = recordIds["land-registry"];
+
+test("live capture waits for a visible result card but accepts collapsed structured JSON", async () => {
+  const waits = [];
+  const resultCard = {
+    waitFor: async (options) => {
+      waits.push(["result-card", options.state]);
+      assert.equal(options.state, "visible");
+    },
+  };
+  const structuredResult = {
+    waitFor: async (options) => {
+      waits.push(["structured-result", options.state]);
+      assert.equal(options.state, "attached");
+    },
+  };
+  const page = {
+    locator: (selector) => {
+      if (selector === "#results article.result") return { first: () => resultCard };
+      if (selector === "#results details.structured pre") return structuredResult;
+      throw new Error(`Unexpected selector: ${selector}`);
+    },
+  };
+
+  assert.equal(await waitForRenderedSearchResult(page), structuredResult);
+  assert.deepEqual(waits, [
+    ["result-card", "visible"],
+    ["structured-result", "attached"],
+  ]);
+});
 
 function digest(value) {
   return createHash("sha256").update(canonicalJson(value)).digest("hex");

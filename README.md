@@ -3,8 +3,12 @@
 Public source repository for **Trusted government knowledge discovery**, an
 independent experimental prototype.
 
-<https://chris-page-gov.github.io/govuk-webmcp/> serves corrected main commit
-`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` from Pages run `33323152751`.
+<https://chris-page-gov.github.io/govuk-webmcp/> serves release commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf` from Pages run `33356452048`.
+The annotated
+[`v0.3.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.3.0-rc.1)
+tag resolves to those exact product bytes and is the current public release
+candidate.
 The earlier product commit `9235ee5db4df637bdb2a12e87449e871614afe68`
 remains unchanged as the
 [`v0.2.0-rc.1` public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
@@ -15,20 +19,26 @@ the recorded Pages product identity. Its annotated tag resolves to product
 commit `35fcedd39ed955278d3975a6dd80692fc6e32935`; it is the retained, frozen
 project baseline and is not described as a GitHub-platform immutable release.
 
-Package version `0.3.0-rc.1` identifies the current in-progress federated-
-discovery candidate. A pre-remediation checkpoint passed its production build,
-deterministic data double-build, focused runtime, public-schema and federation
-tests, complete unit suite, Chrome and Microsoft Edge browser suites and model-
-free smoke. A sealed follow-up scan suppressed those seven and found one
-further Low URL-boundary issue, which was fixed after its snapshot. The current
-research, build/data, frozen lexical-quality, Chrome, Microsoft Edge and
-authorised model-free smoke gates pass where recorded. The full unit command
-passed 173 of 173 on the exact tree before the latest three engineering
-remediations.
+Package version `0.3.0-rc.1` identifies the released federated-discovery
+candidate. Protected-main validation run `33356272534` and Pages run
+`33356452048` passed. The deployed artefact comparison covered 1,879 regular
+files and 128,548,215 bytes with zero mismatches. The release retains 80
+reviewed records and adds 58,652 searchable federated records from 58,655
+locked source rows; 3 standalone legislation rows remain quarantined.
+Supported-host evidence records discovery and deterministic calls for all five
+page tools against the exact release. The refreshed manual VoiceOver journey
+and demonstration-video publication remain separate evidence gates and are not
+implied by the product release.
+
+A pre-remediation checkpoint passed its production build, deterministic data
+double-build, focused runtime, public-schema and federation tests, complete
+unit suite, Chrome and Microsoft Edge browser suites and model-free smoke. A
+sealed follow-up scan suppressed those seven and found one further Low URL-
+boundary issue, which was fixed after its snapshot.
 Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` subsequently completed 50
 of 50 review items, dynamically reproduced three evidence-integrity or
 availability defects and classified zero as reportable vulnerabilities after
-attack-path analysis. The defects are being fixed nevertheless. The exact post-
+attack-path analysis. The defects were fixed nevertheless. The exact post-
 remediation local research, build/data, unit, frozen-quality, Chrome, Microsoft
 Edge, model-free real-Chrome smoke, dependency-audit and diff-integrity gates
 now pass as recorded below. Exact-range scan
@@ -42,25 +52,27 @@ build and 194-test prepared suite pass; a fresh immutable fixed-tree scan
 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
 findings. That sealed scope predates the narrow CI portability corrections
 described below; focused mutation and deadline regressions plus the protected
-Linux rerun must evidence those deltas separately. Protected-main integration,
-CI, Pages deployment and release verification remain pending.
+Linux rerun evidence those deltas separately. Protected-main integration, CI,
+Pages deployment and exact artefact verification have since completed as
+identified above.
 
 ## Current implementation
 
-The frozen public implementation is a static TypeScript application with:
+The current public implementation is a static TypeScript application with:
 
 - 80 digest-bound catalogue records and 80 matching evidence receipts;
 - one digest-bound Evidence Trace for a worked answer;
-- 10 reviewed corpus admissions: 2 searchable collections and 8 collections
-  that are described but not searchable;
-- four exact source locks for the 69-record GOV.UK import, the 11 curated data
-  and API records, the authored answer pack, and the corpus admissions;
+- 10 corpus admissions: 2 reviewed searchable collections, 4 federated
+  searchable collections and 4 non-searchable collections;
+- five exact source locks for the 69-record GOV.UK import, the 11 curated data
+  and API records, the authored answer pack, the corpus admissions and the
+  four-source OKF federation;
 - an analytical-index-first human interface, with the visual Evidence Trace as
   a progressive explanation of the same data; and
 - five page-scoped WebMCP tools over the same deterministic action path used by
   the human controls.
 
-The in-progress `0.3.0-rc.1` slice adds a separate federated source-snapshot
+The released `0.3.0-rc.1` slice adds a separate federated source-snapshot
 tier without relabelling those 80 reviewed records. Exactly four independently
 republished OKF snapshots are in scope: 9,757 A Life in the UK records,
 including 293 service families; 5,097 ONS metadata records; 41,598 UK
@@ -85,7 +97,7 @@ title, ordered supplementary counts, completeness statement and first
 limitation displayed for each collection, so a co-digested per-source
 redistribution or contradictory population statement fails closed.
 
-At this working-tree checkpoint, the generated files contain 6 searchable and
+At the released product checkpoint, the generated files contain 6 searchable and
 4 non-searchable corpus admissions, 5 source-lock registry entries and 31
 closed JSON Schemas. The 73 versioned gzip source artefacts total
 13,021,675 bytes. A deterministic build expands them to 1,853 shard files —
@@ -127,14 +139,15 @@ further High-confidence Low trailing-dot and secondary legislation-URL bypass
 post-snapshot. The scan reported no other open reportable candidate, but its
 mechanically recorded coverage is partial and includes stale-pending rows. A
 focused security batch passed 119 of 119 and the affected post-fix subset
-passed 23 of 23. None of these results is protected-main, deployed-host or
-release evidence.
+passed 23 of 23. Those intermediate results were not protected-main,
+deployed-host or release evidence; the later release path is recorded below.
 
-The remediated candidate applies aggregate build-work caps, prototype-safe
+The released implementation applies aggregate build-work caps, prototype-safe
 token indexing, per-row Land Registry admission, partial-source isolation,
 per-runtime in-flight fetch sharing, explicit-port and legislation-link
-rejection, and incremental same-origin response limits. These are implemented
-controls pending the exact-tree rescan, not a release security claim.
+rejection, and incremental same-origin response limits. The exact fixed-tree
+scan and protected release validation are reported below without extending the
+sealed scan beyond its recorded commit.
 
 The last complete tree before the latest three remediations passed the research
 pack 4 of 4, production build and
@@ -144,10 +157,10 @@ absent or rejected. Installed Chrome and Microsoft Edge each passed 29 of 29
 browser tests. The first model-free smoke run failed at the expected sandbox
 `EPERM` loopback boundary; the authorised outside-socket-sandbox rerun passed 6
 of 6. `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms` on
-that tree. These results have not yet been rerun as one exact candidate after
-the latest remediations.
+that tree. Those intermediate results were later superseded by the exact post-
+remediation verification below.
 
-The three newly reproduced defects are addressed in the working candidate by
+The three reproduced defects are addressed in the released implementation by
 exact ordered per-source population and display bindings, and by a physical
 shard-fetch boundary of 4 active loads, 32 queued loads and 36 distinct in-
 flight files. Each file's 3-second deadline begins before queueing, while the
@@ -170,9 +183,10 @@ model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
 across 162 total dependencies; and a clean `git diff --check`. Fresh immutable
 scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items with
 zero reportable findings. Its sealed scope predates the reviewed-gzip and
-referenced import-deadline CI portability corrections. These local results are
-not protected-main CI, Pages, supported-host, focused manual accessibility,
-passing model-backed, refreshed-video or release evidence.
+referenced import-deadline CI portability corrections. Protected-main CI,
+Pages, exact-byte and supported-host evidence were completed separately for the
+release; focused current accessibility, a passing model-backed result and the
+refreshed video remain separate open gates.
 
 Combined and public WebMCP search preserve `federated_runtime_busy` rather than
 misclassifying that scheduler state as source unavailable. The human live region
@@ -180,9 +194,10 @@ distinguishes rejected input, busy state and other failure. The correction
 passed the production build, 11 of 11 focused regressions and the 193-of-193
 prepared suite; the Chrome and Edge reruns each exited zero at 30 of 30.
 
-The final-candidate demonstration preflight correctly failed closed without a
-deployed commit and explicit overwrite approval. It did not start live capture,
-so no live-capture result is claimed.
+An earlier final-candidate demonstration preflight correctly failed closed
+without a deployed commit and explicit overwrite approval. The exact release
+now has five silent public-page interaction clips and a supported-host receipt
+reconstruction; the refreshed VoiceOver clip and final video remain open.
 
 Five preserved local model attempts used Chrome 152, `webmcp-evals` 0.0.4,
 eight cases, three runs per case and exact loopback-only model
@@ -508,11 +523,11 @@ context. The setup command itself does not load the extension, alter browser
 flags or configure a provider, and no Explorer browser execution or model
 selection is claimed here.
 
-The corrected public implementation also accepts hosts that invoke a tool as
+The public implementation also accepts hosts that invoke a tool as
 `execute(input)` without a second execution-options object, while still
 forwarding cancellation when a host supplies an `AbortSignal`. Historical
 `v0.2.0-rc.1` bytes predate that compatibility fix; corrected main is deployed
-separately from `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+at the `v0.3.0-rc.1` release commit identified above.
 
 Microsoft WebMCP Explorer browser execution and a passing fixed-model evaluation
 remain optional assurance work; five preserved local attempts currently show
