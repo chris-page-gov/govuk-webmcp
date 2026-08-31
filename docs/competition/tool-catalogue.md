@@ -419,12 +419,12 @@ across 162 total dependencies; and a clean `git diff --check`. Exact-range scan
 substitution finding, now remediated with separately code-reviewed source pins,
 a direct builder lock-byte check and mutation regressions. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items with zero
-reportable findings. Its sealed scope predates the narrow reviewed-gzip CI
-portability correction described above; focused mutation regressions and the
-protected Linux rerun must evidence that delta separately. Protected CI, Pages,
-final tag and release, current-candidate supported-host capture, a passing
-fixed-model evaluation, refreshed manual screen-reader journey and video remain
-pending.
+reportable findings. Its sealed scope predates the reviewed-gzip and referenced
+import-deadline CI portability corrections; focused mutation and deadline
+regressions plus the protected Linux rerun must evidence those deltas
+separately. Protected CI, Pages, final tag and release, current-candidate
+supported-host capture, a passing fixed-model evaluation, refreshed manual
+screen-reader journey and video remain pending.
 
 The final-candidate demonstration preflight correctly failed closed without a
 deployed commit and explicit overwrite approval. It did not start live capture,
