@@ -298,8 +298,9 @@ export function validateBrowserEvaluationReport(
       || result.response?.functionName !== "search_government_knowledge"
       || !arguments_
       || arguments_.query !== "flooding"
+      || canonicalJson(arguments_.collections) !== canonicalJson(["deep-evidence"])
       || arguments_.limit !== 3
-      || Object.keys(arguments_).sort().join(",") !== "limit,query"
+      || Object.keys(arguments_).sort().join(",") !== "collections,limit,query"
     ) {
       throw new Error("The model-backed context-minimisation call was not exact.");
     }
@@ -334,8 +335,28 @@ export function createBrowserEvalReceipt({
   failurePhase,
   fixtureSha256,
   fixtureSummary,
+  localModelInventory,
   reports,
 }) {
+  let inventoryIdentity = null;
+  if (configuration.provider === "ollama") {
+    if (
+      localModelInventory === null
+      || typeof localModelInventory !== "object"
+      || Array.isArray(localModelInventory)
+      || Object.keys(localModelInventory).sort().join(",") !== "digest,name"
+      || localModelInventory.name !== configuration.modelIdentifier
+      || !/^[a-f0-9]{64}$/u.test(localModelInventory.digest)
+    ) {
+      throw new Error("The local model inventory identity is missing or invalid.");
+    }
+    inventoryIdentity = {
+      name: localModelInventory.name,
+      digest: localModelInventory.digest,
+    };
+  } else if (localModelInventory !== null && localModelInventory !== undefined) {
+    throw new Error("A remote provider receipt must not contain a local model inventory identity.");
+  }
   const passed = failurePhase === null
     && commandResult?.exitCode === 0
     && commandResult?.timedOut === false
@@ -365,6 +386,7 @@ export function createBrowserEvalReceipt({
       presentationApproved: configuration.presentationApproved,
       remoteProviderApproved: configuration.remoteProviderApproved,
       credentialConfigured: configuration.providerClass === "remote",
+      localInventory: inventoryIdentity,
     },
     fixture: {
       path: "evals/webmcp-browser.json",
@@ -400,7 +422,7 @@ export async function runWebmcpBrowserEvaluation(environment = process.env) {
   assertPinnedWebmcpEvalsVersion(webmcpEvalsPackage.version);
   const applicationPackage = JSON.parse(await readFile(join(repositoryRoot, "package.json"), "utf8"));
   const browserVersion = await installedChromeVersion();
-  await preflightOllamaModel(configuration);
+  const localModelInventory = await preflightOllamaModel(configuration);
 
   const createdAt = new Date().toISOString();
   const runDirectory = await createRunDirectory(createdAt);
@@ -478,6 +500,7 @@ export async function runWebmcpBrowserEvaluation(environment = process.env) {
       failurePhase,
       fixtureSha256,
       fixtureSummary,
+      localModelInventory,
       reports,
     });
     await writeFile(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });

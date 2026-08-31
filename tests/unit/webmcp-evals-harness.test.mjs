@@ -40,12 +40,15 @@ async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
 
-test("browser evals cover every tool, exactly two multi-step journeys, privacy minimisation and no-call selection", async () => {
+test("browser evals cover every tool, all four federated collections, privacy minimisation and no-call selection", async () => {
   const browserCases = await readJson("evals/webmcp-browser.json");
   const smokeCases = await readJson("evals/webmcp-smoke.json");
 
-  assert.equal(browserCases.length, 4);
-  assert.deepEqual(browserCases.slice(0, 3), smokeCases);
+  assert.equal(browserCases.length, 8);
+  assert.deepEqual(
+    browserCases.slice(0, 3).map(({ name, expectedCall }) => ({ name, expectedCall })),
+    smokeCases.map(({ name, expectedCall }) => ({ name, expectedCall })),
+  );
   assert.equal(browserCases.filter(({ expectedCall }) => Array.isArray(expectedCall) && expectedCall.length > 1).length, 2);
   assert.equal(browserCases.filter(({ expectedCall }) => expectedCall === null).length, 1);
 
@@ -54,15 +57,54 @@ test("browser evals cover every tool, exactly two multi-step journeys, privacy m
   const privacyCase = browserCases.find(({ name }) => name.startsWith("Minimise context"));
   assert.deepEqual(privacyCase.expectedCall, [{
     functionName: "search_government_knowledge",
-    arguments: { query: "flooding", limit: 3 },
+    arguments: { query: "flooding", collections: ["deep-evidence"], limit: 3 },
   }]);
+  assert.equal(EXPECTED_RESULT_SCHEMAS.search_government_knowledge, "trusted-govuk-discovery.search-result.v2");
   assert.equal(
     JSON.stringify(privacyCase.expectedCall[0].arguments).match(/postcode|location|email|preference/giu),
     null,
   );
+  const directedCases = browserCases.slice(3, 7);
+  assert.deepEqual(
+    directedCases.map(({ expectedCall }) => expectedCall[0]),
+    [
+      {
+        functionName: "search_government_knowledge",
+        arguments: { query: "driver vehicle licensing agency", collections: ["uk-living"], limit: 3 },
+      },
+      {
+        functionName: "search_government_knowledge",
+        arguments: { query: "special workplace statistics", collections: ["ons"], limit: 3 },
+      },
+      {
+        functionName: "search_government_knowledge",
+        arguments: { query: "bank holidays", collections: ["government-apis"], limit: 3 },
+      },
+      {
+        functionName: "search_government_knowledge",
+        arguments: { query: "1862 property ownership records released", collections: ["land-registry"], limit: 3 },
+      },
+    ],
+  );
+  const directedArguments = directedCases.flatMap(({ expectedCall }) =>
+    expectedCall.map(({ arguments: arguments_ }) => arguments_));
+  const prohibitedArgumentKeys = new Set([
+    "postcode", "location", "email", "preference", "profile", "history", "address", "owner", "personalContext",
+  ]);
+  assert.ok(directedArguments.every((arguments_) =>
+    Object.keys(arguments_).every((key) => !prohibitedArgumentKeys.has(key))));
+  assert.ok(directedArguments.every(({ collections }) => !collections.includes("legislation")));
+  assert.match(browserCases[0].messages[0].content, /search_government_knowledge.*get_resource_record.*show_provenance/u);
+  assert.match(browserCases[1].messages[0].content, /explore_answer_foundations.*compare_evidence_foundations/u);
+  for (const evalCase of browserCases.slice(2, 7)) {
+    const expected = evalCase.expectedCall[0];
+    assert.match(evalCase.messages[0].content, /call search_government_knowledge exactly once/iu);
+    assert.ok(evalCase.messages[0].content.includes(`machine token \`${expected.arguments.collections[0]}\``));
+    assert.match(evalCase.messages[0].content, /omit resourceTypes, publishers and accessStatuses rather than sending empty arrays/u);
+  }
   assert.deepEqual(validateBrowserFixture(browserCases), {
-    caseCount: 4,
-    expectedStepCount: 6,
+    caseCount: 8,
+    expectedStepCount: 10,
     noCallCaseCount: 1,
     toolNames: [...EXPECTED_TOOL_NAMES].sort(),
   });
@@ -209,6 +251,8 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
   assert.match(source, /server\.kill\("SIGKILL"\)/u);
   assert.match(source, /personalContext: "synthetic context that the page contract must reject"/u);
   assert.match(source, /invalid personal-context field did not fail closed/u);
+  assert.match(source, /schema: "trusted-govuk-discovery\.search-result\.v2"/u);
+  assert.match(source, /collections: \["deep-evidence"\]/u);
   for (const runner of [browserEvalSource, smokeSource]) {
     assert.match(runner, /process\.kill\(-child\.pid, signal\)/u);
     assert.match(runner, /timedOut/u);
@@ -397,18 +441,53 @@ test("Ollama is constrained to loopback and its exact model is preflighted witho
     OLLAMA_HOST: "http://127.0.0.1:11434",
   });
   let requestedUrl;
-  await preflightOllamaModel(configuration, async (url) => {
+  const inventoryIdentity = await preflightOllamaModel(configuration, async (url) => {
     requestedUrl = url;
-    return { ok: true, json: async () => ({ models: [{ name: "qwen2.5:14b" }] }) };
+    return {
+      ok: true,
+      json: async () => ({ models: [{ name: "qwen2.5:14b", digest: `sha256:${"A".repeat(64)}` }] }),
+    };
   });
   assert.equal(requestedUrl, "http://127.0.0.1:11434/api/tags");
+  assert.deepEqual(inventoryIdentity, { name: "qwen2.5:14b", digest: "a".repeat(64) });
+  assert.equal(Object.isFrozen(inventoryIdentity), true);
   await assert.rejects(
     preflightOllamaModel(configuration, async () => ({
       ok: true,
-      json: async () => ({ models: [{ name: "different:latest" }] }),
+      json: async () => ({ models: [{ name: "different:latest", digest: "b".repeat(64) }] }),
     })),
     /exact Ollama model qwen2\.5:14b is not installed/u,
   );
+  await assert.rejects(
+    preflightOllamaModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({ models: [{ name: "qwen2.5:14b", digest: "short" }] }),
+    })),
+    /no validated inventory digest/u,
+  );
+  await assert.rejects(
+    preflightOllamaModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({
+        models: [
+          { name: "qwen2.5:14b", digest: "a".repeat(64) },
+          { model: "qwen2.5:14b", digest: "b".repeat(64) },
+        ],
+      }),
+    })),
+    /ambiguous inventory identity/u,
+  );
+  let remoteFetchCalled = false;
+  const remoteConfiguration = parseBrowserEvalConfiguration({
+    WEBMCP_EVAL_MODEL: "openai:gpt-5-mini",
+    WEBMCP_EVAL_PRESENTATION_APPROVED: "1",
+    WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED: "1",
+    OPENAI_API_KEY: "not-recorded",
+  });
+  assert.equal(await preflightOllamaModel(remoteConfiguration, async () => {
+    remoteFetchCalled = true;
+  }), null);
+  assert.equal(remoteFetchCalled, false);
 });
 
 test("browser evaluator receives only a minimal provider environment", () => {
@@ -497,6 +576,7 @@ test("browser receipt records versions and report digests without credentials", 
   });
   assert.equal(receipt.status, "passed");
   assert.equal(receipt.model.providerClass, "remote");
+  assert.equal(receipt.model.localInventory, null);
   assert.equal(receipt.model.presentationApproved, true);
   assert.equal(receipt.runner.webmcpEvalsVersion, "0.0.4");
   assert.equal(receipt.fixture.sha256, "c".repeat(64));
@@ -508,6 +588,53 @@ test("browser receipt records versions and report digests without credentials", 
   assert.equal(JSON.stringify(receipt).includes("ANTHROPIC_API_KEY"), false);
 });
 
+test("browser receipt binds a validated local model inventory identity without local paths", () => {
+  const configuration = parseBrowserEvalConfiguration({
+    WEBMCP_EVAL_MODEL: "ollama:gpt-oss:20b",
+    WEBMCP_EVAL_PRESENTATION_APPROVED: "1",
+  });
+  const base = {
+    applicationPackage: { name: "govuk-webmcp", version: "0.2.0" },
+    browserVersion: "Google Chrome 152.0.7977.64",
+    fixtureSha256: "c".repeat(64),
+    commandResult: { exitCode: 1, signal: null, timedOut: false },
+    configuration,
+    createdAt: "2026-08-30T12:00:00.000Z",
+    evaluation: null,
+    failurePhase: "evaluate",
+    fixtureSummary: {
+      caseCount: 8,
+      expectedStepCount: 10,
+      noCallCaseCount: 1,
+      toolNames: [...EXPECTED_TOOL_NAMES].sort(),
+    },
+    reports: [],
+  };
+  const receipt = createBrowserEvalReceipt({
+    ...base,
+    localModelInventory: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+  });
+  assert.deepEqual(receipt.model.localInventory, {
+    name: "gpt-oss:20b",
+    digest: "1".repeat(64),
+  });
+  assert.equal(JSON.stringify(receipt).includes("/Users/"), false);
+  assert.throws(
+    () => createBrowserEvalReceipt({
+      ...base,
+      localModelInventory: { name: "gpt-oss:20b", digest: "1".repeat(64), path: "/private/model" },
+    }),
+    /inventory identity is missing or invalid/u,
+  );
+  assert.throws(
+    () => createBrowserEvalReceipt({
+      ...base,
+      localModelInventory: { name: "different:20b", digest: "1".repeat(64) },
+    }),
+    /inventory identity is missing or invalid/u,
+  );
+});
+
 test("browser report validation requires exact successful results and no-call behaviour", async () => {
   const configuration = parseBrowserEvalConfiguration({
     WEBMCP_EVAL_MODEL: "ollama:qwen2.5:14b",
@@ -515,6 +642,7 @@ test("browser report validation requires exact successful results and no-call be
     WEBMCP_EVAL_RUNS: "1",
   });
   const fixture = await readJson("evals/webmcp-browser.json");
+  const fixtureSummary = validateBrowserFixture(fixture);
   const reportRows = fixture.flatMap((evalCase) => {
     if (evalCase.expectedCall === null) {
       return [{
@@ -552,8 +680,8 @@ test("browser report validation requires exact successful results and no-call be
       url: "http://127.0.0.1:43210/",
     },
     results: {
-      testCount: 4,
-      passCount: 7,
+      testCount: fixtureSummary.caseCount,
+      passCount: reportRows.length,
       failCount: 0,
       errorCount: 0,
       results: reportRows,
@@ -570,8 +698,8 @@ test("browser report validation requires exact successful results and no-call be
       browserConsoleErrorCount: 0,
       errorCount: 0,
       failCount: 0,
-      passCount: 7,
-      testCount: 4,
+      passCount: 11,
+      testCount: 8,
     },
   );
 

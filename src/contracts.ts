@@ -9,6 +9,7 @@ export type AccessStatus =
 
 export type AssertionStatus =
   | "official-source"
+  | "producer-declared"
   | "normalised"
   | "inferred"
   | "model-derived";
@@ -113,4 +114,59 @@ export interface EvidenceReceipt {
     accessAuthorityGranted: false;
   };
   receiptDigest: string;
+}
+
+export type EvidenceTier = "reviewed-deep-evidence" | "federated-source-snapshot";
+
+export type FederatedCollectionId =
+  | "uk-living"
+  | "ons"
+  | "government-apis"
+  | "land-registry";
+
+export type KnowledgeCollectionId = "deep-evidence" | FederatedCollectionId;
+
+export type AuthorityLinkRole =
+  | "official-source"
+  | "producer-declared-source"
+  | "producer-record"
+  | "no-direct-authority-link";
+
+export interface FederatedRecordSummary extends JsonObject {
+  id: string;
+  ordinal: number;
+  evidenceTier: "federated-source-snapshot";
+  collectionId: FederatedCollectionId;
+  sourceNativeId: string;
+  sourceNativeIdSha256: string;
+  title: string;
+  description: string;
+  resourceType: ResourceType;
+  publisher: string;
+  topics: string[];
+  authoritativeLink: {
+    url: string | null;
+    role: AuthorityLinkRole;
+    label: string;
+  };
+  documentationUrl: string | null;
+  licence: {
+    status: "confirmed" | "missing" | "conflicting" | "not-applicable";
+    title: string | null;
+    url: string | null;
+  };
+  access: {
+    status: AccessStatus;
+    note: string;
+  };
+  assertionStatus: AssertionStatus | "unclassified";
+  observedAt: string;
+  snapshot: string | null;
+  revision: string;
+  deploymentId: string;
+  sourcePath: string;
+  sourceSha256: string;
+  extractionMethod: string;
+  limitations: string[];
+  recordDigest: string;
 }

@@ -89,12 +89,25 @@ test("loads one digest-bound evidence answer and ten bounded corpus admissions",
   assert.equal(evidence.traces.length, 1);
   assert.equal(evidence.defaultAnswerId, "answer:new-child-starting-points");
   assert.equal(federation.collections.length, 10);
-  assert.equal(federation.searchableCollections, 2);
-  assert.equal(federation.notSearchableCollections, 8);
-  assert.equal(federation.stateCounts.quarantined, 3);
+  assert.equal(federation.searchableCollections, 6);
+  assert.equal(federation.deepEvidenceCollections, 2);
+  assert.equal(federation.federatedCollections, 4);
+  assert.equal(federation.federatedSourceRecordCount, 58_655);
+  assert.equal(federation.federatedQuarantinedRecordCount, 3);
+  assert.equal(federation.federatedRecordCount, 58_652);
+  assert.deepEqual(federation.federatedSearch, JSON.parse(rawFederation).federatedSearch);
+  assert.equal(federation.notSearchableCollections, 4);
+  assert.equal(federation.stateCounts.quarantined, 2);
   assert.deepEqual(
     federation.collections.filter(({ admissionState }) => admissionState === "searchable").map(({ id }) => id).sort(),
-    ["corpus:curated-government-data-apis", "corpus:govuk-new-child"],
+    [
+      "corpus:curated-government-data-apis",
+      "corpus:govuk-new-child",
+      "corpus:land-registry-metadata",
+      "corpus:ons-metadata",
+      "corpus:uk-government-apis",
+      "corpus:uk-life-course",
+    ],
   );
 });
 
@@ -329,15 +342,29 @@ test("federation validation fails closed for raw tampering and an expanded searc
   );
 
   const manifest = JSON.parse(rawFederation);
-  const candidate = manifest.collections.find(({ admission }) => admission.id === "corpus:uk-life-course");
+  const candidate = manifest.collections.find(({ admission }) => admission.id === "corpus:ai-infrastructure");
   candidate.admission.admissionState = "searchable";
   candidate.entryDigest = sha256(canonicalJson(candidate.admission));
   manifest.manifestDigest = digestWithout(manifest, "manifestDigest");
   const [text, checksum] = packaged(manifest, "federation.json");
   await assert.rejects(
     createFederationRuntime(text, checksum, catalogue.bundleDigest, catalogue.records.length),
-    /exactly the two reviewed deep-evidence collections as searchable/u,
+    /exactly six searchable collections: two reviewed and four federated/u,
   );
+});
+
+test("federation validation rejects co-digested federated-search count and shape drift", async () => {
+  for (const mutate of [
+    (manifest) => { manifest.federatedSearch.recordCount += 1; },
+    (manifest) => { manifest.federatedSearch.quarantinedRecordCount = 2; },
+    (manifest) => { manifest.federatedSearch.unadmitted = true; },
+  ]) {
+    const [text, checksum] = reboundFederation(mutate);
+    await assert.rejects(
+      createFederationRuntime(text, checksum, catalogue.bundleDigest, catalogue.records.length),
+      /federated-search source-lock and population binding is invalid|Federated-search binding contains an unknown field/u,
+    );
+  }
 });
 
 test("federation validation cross-checks its declared 80 records against the catalogue population", async () => {

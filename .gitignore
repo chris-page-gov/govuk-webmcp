@@ -4,6 +4,7 @@
 .tools/
 node_modules/
 dist/
+app/data/federated-search/
 coverage/
 test-results/
 playwright-report/

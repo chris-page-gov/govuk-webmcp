@@ -11,11 +11,25 @@ remains unchanged as the
 and historical evidence boundary.
 [`v0.2.0-rc.2`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.2)
 freezes the later corrected pre-federation repository state without changing
-the recorded Pages product identity.
+the recorded Pages product identity. Its annotated tag resolves to product
+commit `35fcedd39ed955278d3975a6dd80692fc6e32935`; it is the retained, frozen
+project baseline and is not described as a GitHub-platform immutable release.
+
+Package version `0.3.0-rc.1` identifies the current in-progress federated-
+discovery candidate. A pre-remediation checkpoint passed its production build,
+deterministic data double-build, focused runtime, public-schema and federation
+tests, complete unit suite, Chrome and Microsoft Edge browser suites and model-
+free smoke. A sealed follow-up scan suppressed those seven and found one
+further Low URL-boundary issue, which was fixed after its snapshot. The current
+research, build/data, frozen lexical-quality, Chrome, Microsoft Edge and
+authorised model-free smoke gates pass where recorded. The current full unit
+command passed 173 of 173; the immutable post-fix security rescan remains
+pending alongside protected-main
+integration, CI, Pages deployment and release verification.
 
 ## Current implementation
 
-The current working implementation is a static TypeScript application with:
+The frozen public implementation is a static TypeScript application with:
 
 - 80 digest-bound catalogue records and 80 matching evidence receipts;
 - one digest-bound Evidence Trace for a worked answer;
@@ -27,6 +41,89 @@ The current working implementation is a static TypeScript application with:
   a progressive explanation of the same data; and
 - five page-scoped WebMCP tools over the same deterministic action path used by
   the human controls.
+
+The in-progress `0.3.0-rc.1` slice adds a separate federated source-snapshot
+tier without relabelling those 80 reviewed records. Exactly four independently
+republished OKF snapshots are in scope: 9,757 A Life in the UK records,
+including 293 service families; 5,097 ONS metadata records; 41,598 UK
+Government APIs records; and 2,203 HM Land Registry public-estate metadata
+rows. The locked raw sum is 58,655 before cross-source deduplication. Exactly
+three standalone Land Registry legislation rows are quarantined, leaving
+2,200 searchable Land Registry records and 58,652 searchable federated records
+overall. Neither total is a unique-record count, and no federated record gains
+an item-level receipt by being searchable. There is no standalone UK
+Legislation collection, payload, index or runtime request, and the searchable
+projection contains zero `legislation.gov.uk` result links. The locked source
+files retain 28 source-authored cross-reference strings as inert, untrusted
+metadata: 6 in A Life in the UK, 3 in ONS, 2 in UK Government APIs and 17 in
+Land Registry.
+
+At this working-tree checkpoint, the generated files contain 6 searchable and
+4 non-searchable corpus admissions, 5 source-lock registry entries and 31
+closed JSON Schemas. Recompute these dynamic totals after the exact-tree rescan
+before binding them to a release. The 73 versioned gzip source artefacts total
+13,021,675 bytes. A deterministic build expands them to 1,853 shard files —
+120 record shards and 1,733 postings shards — plus the manifest and checksum
+sidecar: 1,855 ignored generated files and 127,747,020 bytes in total. The
+plane is copied into `dist` rather than committed. The federation lock and
+generated-manifest digests are cross-bound, but their final candidate values
+must be recorded after the exact-tree rescan and deterministic rebuild.
+UK Government APIs records use the source-authored, collection-unique
+`concept_id` as their native identity. An endpoint URL can be shared and is
+therefore evidence, not a substitute identity.
+
+The intended impact is a division of responsibility, not an embedded
+assistant: OKF publishes governed, progressively retrievable evidence; WebMCP
+lets a citizen-selected AI invoke bounded page actions over it; and the page
+hosts no model and accepts no personal profile. A remote model provider may
+still receive prompts, tool metadata, arguments and results. Cost reduction,
+privacy improvement, better questions and improved answer quality remain
+hypotheses that require the recorded evaluation plan.
+
+The last complete pre-remediation candidate checkpoint recorded the production
+build; 9 of 9 deterministic
+data double-build tests; 21 of 21 focused runtime and public-schema tests; 15
+of 15 focused federation tests after closing the extra-searchable-collection
+fail-closed gap; 29 of 29 installed-Chrome Playwright tests; 6 of 6
+model-free smoke calls; 144 of 144 complete unit tests in 174.5 seconds; and 29
+of 29 installed-Microsoft-Edge Playwright tests in a loopback-only run after
+the expected sandbox socket restriction. The seven initial Low-finding
+remediations were implemented afterwards. Sealed scan
+`9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed those seven and found a
+further High-confidence Low trailing-dot and secondary legislation-URL bypass
+(`csf_a2d9e030fda789ecd1cb0e41`), which generator and runtime validation fixed
+post-snapshot. The scan reported no other open reportable candidate, but its
+mechanically recorded coverage is partial and includes stale-pending rows. A
+focused security batch passed 119 of 119 and the affected post-fix subset
+passed 23 of 23. None of these results is protected-main, deployed-host or
+release evidence.
+
+The remediated candidate applies aggregate build-work caps, prototype-safe
+token indexing, per-row Land Registry admission, partial-source isolation,
+per-runtime in-flight fetch sharing, explicit-port and legislation-link
+rejection, and incremental same-origin response limits. These are implemented
+controls pending the exact-tree rescan, not a release security claim.
+
+The current post-fix tree passed the research pack 4 of 4, production build and
+generated-data validation, and the frozen lexical gate with mean nDCG@10
+`0.984698009`, Recall@20 `1`, identical cold/warm results and legislation
+absent or rejected. Installed Chrome and Microsoft Edge each passed 29 of 29
+browser tests. The first model-free smoke run failed at the expected sandbox
+`EPERM` loopback boundary; the authorised outside-socket-sandbox rerun passed 6
+of 6. `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`.
+The immutable post-fix security rescan remains open.
+
+Three preserved local model attempts used Chrome 152, `webmcp-evals` 0.0.4,
+eight cases, three runs per case and exact loopback-only model
+`ollama:gpt-oss:20b`, local inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+expanded rows. After schema, tool-description and fixture legibility changes,
+attempt 2 passed 33 of 33 upstream rows but only 32 of 33 under the strict
+project verifier because one call added empty optional arrays. Attempt 3 on the
+security-fixed tree passed 30 of 35 upstream rows after two malformed-then-
+corrected provenance IDs and one omitted comparison. All three failed overall;
+they show improved legibility and variance, not a model-backed pass.
 
 This is not an official GOV.UK or UK government service. It is not a durable MCP
 gateway, a production service or a comprehensive index of government
@@ -72,12 +169,14 @@ made.
 
    ```bash
    npm run test:browser:edge
+   npm run okf-federation:quality
    npm run webmcp:eval:smoke
    ```
 
    The integrated CI and Pages workflow definitions also use
    `npm ci --ignore-scripts --no-audit`; Pages is configured to install the
-   pinned Python requirements and run semantic WebMCP smoke before deployment.
+   pinned Python requirements, run the frozen federated retrieval-quality gate
+   after the complete suite and run semantic WebMCP smoke before deployment.
    Those definitions ran in the protected integration and corrected Pages
    deployment path.
 
@@ -93,29 +192,48 @@ made.
 
 ## Evidence and integrity model
 
-Four generated artefact families must all pass checksum, schema, digest and
-cross-binding validation before any WebMCP tool can register:
+Five generated artefact families must pass checksum, schema, digest and cross-
+binding validation before any candidate WebMCP tool can register. The frozen
+baseline uses the first four; `0.3.0-rc.1` adds the fifth:
 
 1. the catalogue and its raw-byte checksum;
 2. the evidence receipts and their raw-byte checksum;
 3. the Evidence Trace collection and its raw-byte checksum; and
-4. the corpus federation manifest and its raw-byte checksum.
+4. the corpus federation manifest and its raw-byte checksum; and
+5. the progressive federated-search manifest and its raw-byte checksum.
 
-The catalogue contains the 69 locked GOV.UK records and 11 curated government
-data and API records. Those are the only two searchable admissions. The other
-eight admissions remain described-only, conditional, quarantined or
-contract-only; descriptor inclusion does not admit their payloads to search.
+The frozen catalogue contains the 69 locked GOV.UK records and 11 curated
+government data and API records. Those remain the two reviewed searchable
+admissions. The candidate admits four more collections only to the separate
+federated tier, leaving four entries described-only, conditional, quarantined
+or contract-only; descriptor inclusion does not admit their payloads to search.
 
-The four reviewed source locks are recorded in
+The frozen four reviewed source locks, plus the candidate federation lock, are
+recorded as 5 entries at this working-tree checkpoint in
 `app/data/sources/source-locks.json`. Generated files under `app/data/` must not
 be edited by hand. Change the reviewed inputs under `app/data/sources/`, then
 run `npm run data:build` and `npm run data:validate`.
 
+The federation adds a separately digest-bound four-source OKF lock and
+same-origin, progressively loaded search artefacts. It admits only A Life in
+the UK, ONS, UK Government APIs and HM Land Registry; a standalone legislation
+source and otherwise undeclared sources fail closed. Federated results retain
+source-native identity, snapshot, source-link role, file integrity and
+limitations, but remain a weaker source-snapshot evidence tier than the 80
+receipt-bound records. Producer text cannot promote a federated source or
+assertion to official status: output uses conservative producer-declared labels
+unless a narrow normalisation is independently justified. Exact-record output
+reports source authority as “Not independently established”, and the human
+interface displays the recorded destination hostname. The production build
+validates the current contract set and copies the ignored generated search
+plane into `dist`; source inputs and the deterministic builder remain the
+versioned reproducibility boundary.
+
 Digest validation proves that packaged bytes and declared relationships match.
 It does not prove official endorsement, current accuracy, access authority or
-an open licence. Every result therefore keeps authoritative human links,
-assertion status and limitations visible. Source-derived text is untrusted data
-and is rendered as text rather than executable content.
+an open licence. Every result therefore keeps its maintained human source link,
+explicit link role, assertion status and limitations visible. Source-derived
+text is untrusted data and is rendered as text rather than executable content.
 
 ## Human and WebMCP actions
 
@@ -129,6 +247,14 @@ page tools use the same action controller and deterministic runtime:
   reversible, transient selection in the visible page, so they truthfully
   declare `readOnlyHint: false` even though they do not change a source,
   browser storage or external state.
+
+For the `0.3.0-rc.1` candidate, the three discovery tools accept the fixed
+collection allowlist and return either reviewed deep evidence or federated
+source-snapshot evidence. Human search and WebMCP use the same action
+controller and common deterministic result. The two presentation tools retain
+their existing Evidence Trace boundary. One federated source failure is
+reported explicitly without silently removing the source, weakening integrity
+or disabling unaffected evidence.
 
 All five tools have closed, bounded input schemas and repeat validation in
 executable code. A shared input budget rejects broad roots and accessors before
@@ -205,9 +331,9 @@ envelope. Raw evaluator rows are deleted after validation; the ignored
 the validated results. Smoke mode does not prove model selection or complete
 payload equivalence.
 
-`evals/webmcp-browser.json` adds a no-call case for a later model-backed browser
-evaluation. The fail-closed wrapper is available after an exact installed local
-model has been selected:
+`evals/webmcp-browser.json` defines eight cases, including a no-call case, for
+model-backed browser evaluation. The fail-closed wrapper accepts an exact
+installed local model:
 
 ```bash
 WEBMCP_EVAL_PRESENTATION_APPROVED=1 \
@@ -233,9 +359,18 @@ WEBMCP_EVAL_MODEL='openai:<exact-model>' \
 npm run webmcp:eval:browser
 ```
 
-A consumer chat subscription does not itself supply a CLI API credential. No
-model-backed evaluation has yet been run, so do not supply a remote credential
-merely to make this optional check pass.
+A consumer chat subscription does not itself supply a CLI API credential. The
+three recorded attempts used exact local model `ollama:gpt-oss:20b`, inventory
+digest `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+Chrome 152, `webmcp-evals` 0.0.4, three runs per case and no remote credential.
+The pre-legibility attempt passed 8 of 102 retry-expanded rows. After schema,
+tool-description and fixture legibility changes, attempt 2 passed 33 of 33
+upstream rows but the strict verifier accepted 32 of 33 because one call added
+empty optional arrays. Attempt 3 on the security-fixed tree passed 30 of 35
+upstream rows after two malformed-then-corrected provenance IDs and one omitted
+comparison. All three attempts failed overall. Do not supply a remote
+credential merely to turn this optional failed gate into a different data-
+boundary test.
 
 `webmcp:explorer:setup` checks out Microsoft WebMCP Explorer 0.1.0 at exact
 commit `f7091c12420e713b11361630dc1649d5678f62ab`, installs its lock with
@@ -270,8 +405,9 @@ forwarding cancellation when a host supplies an `AbortSignal`. Historical
 `v0.2.0-rc.1` bytes predate that compatibility fix; corrected main is deployed
 separately from `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
 
-Microsoft WebMCP Explorer browser execution and a fixed-model backed evaluation
-remain optional assurance work. The existing 142.920-second local review video
+Microsoft WebMCP Explorer browser execution and a passing fixed-model evaluation
+remain optional assurance work; three preserved local attempts currently show
+legibility improvement and variance, not a pass. The existing 142.920-second local review video
 is unchanged and passed technical decode, frame-count and caption-parity checks,
 but still requires owner playback, privacy, branding and synthetic-voice
 approval before public upload. Final Devpost completion and submission remain
@@ -280,11 +416,14 @@ not a current official submission prerequisite.
 
 ## Privacy and operating boundary
 
-The page loads only its packaged same-origin artefacts. It makes no runtime call
-to a provider API and uses no accounts, cookies, analytics or browser storage API.
-Search terms are not put in the URL or stored. Bounded answer, claim, record and
-comparison selections can appear in the URL fragment so that the human view can
-be restored; see `PRIVACY.md` for the page and browser-host boundary.
+The page loads only its packaged same-origin artefacts. The federated candidate
+also mirrors its locked static search files to that origin; it does not query an
+official operational API or an OKF producer at runtime. The static host can
+observe ordinary and query-derived asset requests. The application uses no
+accounts, cookies, analytics or browser storage API. Search terms are not put
+in the URL or stored. Bounded answer, claim, record and comparison selections
+can appear in the URL fragment so that the human view can be restored; see
+`PRIVACY.md` for the page and browser-host boundary.
 
 Original application code is MIT licensed. `NOTICE.md` retains item-level
 rights and access limits for source material. Catalogue inclusion never grants
@@ -295,13 +434,26 @@ access or permission to reuse linked material.
 - `src/application-actions.ts` — shared action, presentation and diagnostic
   boundary.
 - `src/webmcp-tools.ts` — catalogue runtime and imperative WebMCP registration.
+- `src/combined-knowledge-runtime.ts` — common deterministic reviewed and
+  federated result boundary shared by human controls and WebMCP.
+- `src/federated-search-runtime.ts` — progressively loaded federated search,
+  exact-record and provenance runtime.
 - `src/evidence-runtime.ts` — Evidence Trace validation and exploration.
 - `src/federation-runtime.ts` — corpus-admission validation.
+- `src/okf-federated-contracts.ts` — fixed four-source snapshot and resource-
+  budget contract for the in-progress federation.
+- `app/data/sources/okf-federation-lock.json` — authored candidate lock for the
+  four admitted source snapshots and 73 versioned gzip artefacts; generated
+  federation search files are ignored and not hand-edited.
 - `app/data/sources/` — reviewed source locks and authored inputs.
 - `app/data/` — deterministic generated artefacts and checksum sidecars.
 - `schemas/` — closed input, output and generated-artefact schemas.
 - `SECURITY.md`, `PRIVACY.md` and `ACCESSIBILITY.md` — public operating
   boundaries and known limitations.
+- [`ADR-0004`](docs/adr/0004-okf-federated-discovery-and-evidence-tiers.md)
+  and the
+  [A–M evaluation plan](docs/competition/okf-federated-personal-agent-evaluation-plan.md)
+  — candidate architecture, no-overclaim language and release gates.
 - `docs/competition/evidence/` — dated candidate and release evidence, including
   exact deployment metadata, live-byte verification and explicit remaining
   gates. Start with the

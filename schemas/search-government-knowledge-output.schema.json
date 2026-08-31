@@ -37,6 +37,7 @@
         }
       }
     },
+    { "$ref": "urn:govuk-webmcp:schema:combined-search-result:v2" },
     { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
   ]
 }

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:combined-search-result:v2",
+  "title": "Combined reviewed and federated government knowledge search result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "ok", "query", "selectedCollections", "evidenceEstate", "totalMatches", "totalRelation",
+    "returned", "truncated", "results", "collectionStatuses", "boundaries"
+  ],
+  "properties": {
+    "schema": { "const": "trusted-govuk-discovery.search-result.v2" },
+    "ok": { "const": true },
+    "query": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "selectedCollections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": { "enum": ["deep-evidence", "uk-living", "ons", "government-apis", "land-registry"] }
+    },
+    "evidenceEstate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewedRecordCount", "reviewedBundleDigest", "federatedSourceRecordCount",
+        "federatedQuarantinedRecordCount", "federatedRecordCount", "federatedCollectionCount",
+        "federatedManifestDigest"
+      ],
+      "properties": {
+        "reviewedRecordCount": { "const": 80 },
+        "reviewedBundleDigest": { "$ref": "#/$defs/sha256" },
+        "federatedSourceRecordCount": { "const": 58655 },
+        "federatedQuarantinedRecordCount": { "const": 3 },
+        "federatedRecordCount": { "const": 58652 },
+        "federatedCollectionCount": { "const": 4 },
+        "federatedManifestDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "totalMatches": { "type": "integer", "minimum": 0, "maximum": 58732 },
+    "totalRelation": { "enum": ["eq", "gte"] },
+    "returned": { "type": "integer", "minimum": 0, "maximum": 20 },
+    "truncated": { "type": "boolean" },
+    "results": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "oneOf": [
+          { "$ref": "urn:govuk-webmcp:schema:combined-reviewed-record-summary:v2" },
+          { "$ref": "urn:govuk-webmcp:schema:federated-public-record-summary:v1" }
+        ]
+      }
+    },
+    "collectionStatuses": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/reviewedStatus" },
+          { "$ref": "#/$defs/federatedStatus" }
+        ]
+      }
+    },
+    "boundaries": { "$ref": "#/$defs/boundaries" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "reviewedStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collectionId", "title", "evidenceTier", "status", "totalMatches", "totalRelation", "returned", "verifiedShardFiles", "verifiedShardBytes"],
+      "properties": {
+        "collectionId": { "const": "deep-evidence" },
+        "title": { "const": "Reviewed deep evidence" },
+        "evidenceTier": { "const": "reviewed-deep-evidence" },
+        "status": { "const": "ready" },
+        "totalMatches": { "type": "integer", "minimum": 0, "maximum": 80 },
+        "totalRelation": { "const": "eq" },
+        "returned": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "verifiedShardFiles": { "const": 0 },
+        "verifiedShardBytes": { "const": 0 }
+      }
+    },
+    "federatedStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collectionId", "title", "evidenceTier", "status", "totalMatches", "totalRelation", "returned", "verifiedShardFiles", "verifiedShardBytes"],
+      "properties": {
+        "collectionId": { "enum": ["uk-living", "ons", "government-apis", "land-registry"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "evidenceTier": { "const": "federated-source-snapshot" },
+        "status": { "enum": ["ready", "unavailable"] },
+        "totalMatches": { "type": "integer", "minimum": 0, "maximum": 58652 },
+        "totalRelation": { "enum": ["eq", "gte"] },
+        "returned": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "verifiedShardFiles": { "type": "integer", "minimum": 0, "maximum": 64 },
+        "verifiedShardBytes": { "type": "integer", "minimum": 0, "maximum": 25165824 },
+        "limitation": { "type": "string", "minLength": 1, "maxLength": 300 }
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pageScoped", "readOnly", "providerCall", "officialApiCall", "sameOriginStaticReads",
+        "personalContextAccepted", "durableReceiptCreated", "sourceDerivedContentIsUntrusted", "rankingIsTrustAssessment"
+      ],
+      "properties": {
+        "pageScoped": { "const": true },
+        "readOnly": { "const": true },
+        "providerCall": { "const": false },
+        "officialApiCall": { "const": false },
+        "sameOriginStaticReads": { "const": true },
+        "personalContextAccepted": { "const": false },
+        "durableReceiptCreated": { "const": false },
+        "sourceDerivedContentIsUntrusted": { "const": true },
+        "rankingIsTrustAssessment": { "const": false }
+      }
+    }
+  }
+}

@@ -24,28 +24,107 @@ disposition. There is no bug bounty or guaranteed response time.
 The application is static and loads only packaged, same-origin data. It makes no
 runtime provider API call, creates no account and uses no cookies, analytics,
 local storage, session storage or persistent server-side application storage.
-Following an authoritative link leaves this boundary.
+Following a reviewed authoritative link or a federated producer-declared link
+leaves this boundary.
 
-Four artefact families gate all WebMCP registration: the 80-record catalogue,
-80 evidence receipts, one Evidence Trace collection and the 10-entry federation
-manifest. Each raw file must match its SHA-256 sidecar. Schemas, internal
-digests, record-to-receipt bindings, catalogue-to-trace bindings and
-catalogue-to-federation bindings must also pass. A failure in any family leaves
-a human-readable failure state and prevents every tool registration; no partial
-tool set is accepted.
+Five logical artefact families gate all WebMCP registration: the 80-record
+catalogue, 80 evidence receipts, one Evidence Trace collection, the 10-entry
+federation manifest and the lazy federated-search manifest. Each raw file must
+match its SHA-256 sidecar. Schemas, internal digests, record-to-receipt
+bindings, catalogue-to-trace bindings, catalogue-to-federation bindings and
+the federated record-count binding must also pass. A failure in any root family
+leaves a human-readable failure state and prevents every tool registration; no
+partial tool set is accepted.
 
-The packaged evidence estate is derived from four exact source locks. Integrity
-checks bind the packaged bytes and declared relationships. They are not
+The frozen reviewed evidence estate is derived from four exact source locks;
+the current working candidate adds a separate federation lock through the
+registry. Recompute the exact registry, admission and schema totals after the
+exact-tree rescan. Integrity checks bind the packaged bytes and declared relationships. They are not
 signatures from a government body and do not prove official endorsement,
 current accuracy, access authority or an open licence.
 
 Source-derived titles, descriptions and limitations remain untrusted data.
 They are rendered as text, and admitted links must be credential-free HTTPS
-URLs. Catalogue and Evidence Trace links use the bounded official-host
-allowlist. Federation repository links use a separate, exact GitHub repository
-allowlist under `chris-page-gov`; the application does not fetch or admit
-producer payload from those repositories. WebMCP output is also labelled as
-untrusted content.
+URLs without explicit ports. Catalogue and Evidence Trace links use the bounded official-host
+allowlist. The frozen pre-federation manifest uses a separate, exact GitHub
+repository allowlist under `chris-page-gov` without admitting producer payload.
+The `0.3.0-rc.1` build instead admits only four explicitly locked static
+publication routes and mirrors only their declared search artefacts. An apex,
+`www` or other subdomain `legislation.gov.uk` URL selected as a federated result
+link fails projection. The page still performs no cross-origin producer fetch
+at runtime. WebMCP output is also labelled as untrusted content.
+
+## In-progress federated snapshot boundary
+
+Version `0.3.0-rc.1` is adding a separate, digest-bound discovery plane for
+exactly four independently republished OKF snapshots: A Life in the UK, ONS,
+UK Government APIs and HM Land Registry. Their 58,655 locked raw rows remain
+separate from the 80 reviewed records and item-level receipts. Exactly three
+standalone Land Registry legislation rows are quarantined, leaving 58,652
+searchable federated records. There is no standalone UK Legislation collection,
+payload, index or runtime request, and the searchable projection contains zero
+`legislation.gov.uk` result links. The locked files retain 28 source-authored
+cross-reference strings as inert, untrusted metadata—6 in A Life in the UK, 3
+in ONS, 2 in UK Government APIs and 17 in Land Registry—and do not claim literal
+source-byte exclusion.
+
+The build may mirror only the files named by the locked descriptors and search
+manifests into generated same-origin paths. The browser runtime does not fetch
+an OKF publisher or official operational API. Candidate validation must reject
+unknown origins, credentials, explicit ports, redirects, path traversal,
+undeclared files, unsupported contracts, snapshot conflicts, a legislation
+collection or request and legislation result-link hosts before source-derived
+content is consumed. A source-authored cross-reference string remains inert
+data and cannot define a source or request.
+
+Raw checksums alone are insufficient. Tests must also reject co-digested changes
+to source identity, record count, snapshot, entry point, shard reference and
+cross-artefact binding. Fixed request, compressed-byte, decoded-byte, decoded-
+row, retained-text, shard-fan-out, worker-lifetime and timeout budgets constrain
+progressive loading. A corrupt or unavailable lazy source must be reported as a
+partial source failure without becoming trusted through a fallback or disabling
+the validated 80-record tier. Root lock or manifest failure still prevents all
+tool registration.
+
+Same-origin response bodies are consumed incrementally under the fixed byte cap
+rather than buffered in full before checking. `Content-Length` is parsed
+strictly; declared overflow, streamed overflow, an empty body or a missing body
+fails closed. The generated-plane builder uses bounded cleanup retries because
+Finder can recreate `.DS_Store` during removal; static copying excludes
+`.DS_Store`, and `dist` is cleaned before compilation so operating-system
+metadata cannot enter the release artefact.
+
+Federated trust remains conservative. Producer wording cannot promote a link or
+assertion to official status. Exact-record output reports source authority as
+“Not independently established”, retains a producer-declared link role and
+shows the recorded destination hostname in the human interface.
+
+Eight Low findings have implemented remediations:
+
+| Finding | Remediation state |
+| --- | --- |
+| Crafted token distribution causes superlinear postings generation (`csf_d6045d8bfb6836f0a274850d`) | Incremental exact-byte partitioning and aggregate token, posting and generated-byte caps implemented |
+| Land Registry metadata-only limits are not enforced per row (`csf_628dded1ed9a62431cf1f121`) | Exact row classification, prohibited-field rejection and three-record legislation quarantine implemented |
+| Mutable source artefacts can retain fixed revision claims (`csf_a685f5df80a811659b866345`) | Mutable-source and fixed-revision consistency checks implemented |
+| One federated collection can suppress healthy sources (`csf_e9078180b75895a09a282bda`) | Per-source failure isolation implemented |
+| Producer text can self-promote arbitrary links and assertions to official status (`csf_13ddf953dc16e399c8c04f03`) | Producer-declared labels, unestablished authority, destination display, explicit-port rejection and legislation-host rejection implemented |
+| The constructor token can crash the federated build (`csf_5b3f067459df708770da0536`) | Prototype-safe token maps implemented |
+| Concurrent WebMCP calls amplify uncached shard work (`csf_afca5f27e901f0db4b730cc7`) | Per-runtime in-flight fetch sharing implemented |
+| Trailing-dot and secondary legislation URLs bypass the excluded-host boundary (`csf_a2d9e030fda789ecd1cb0e41`) | Generator and runtime canonical-host checks cover primary and secondary URLs, including trailing-dot forms |
+
+Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
+findings and identified the eighth with High confidence and Low severity. It
+recorded no other open reportable candidate, but its coverage has mechanically
+partial and stale-pending rows, and the eighth fix postdates its snapshot. A
+focused security batch passed 119 of 119 and the affected post-fix subset
+passed 23 of 23. These are implemented candidate controls, not completed
+release security evidence. Gates A–I and M, the immutable exact-tree security
+rescan must pass against one exact release candidate
+before the findings are described as verified fixed for release. The exact
+research, build/data, lexical-quality, installed-Chrome, installed-Microsoft-
+Edge and authorised model-free smoke gates pass where separately recorded. The
+current `npm run test:unit:prepared` also passed 173 of 173 in
+`17128.154916 ms`.
 
 ## Action and input boundary
 
@@ -124,7 +203,17 @@ final 15:53 BST rerun left that modification time unchanged. This observed
 boundary does not turn the privileged harness into an operating-system sandbox.
 The prepared model-backed browser-evaluation wrapper also rejects any upstream
 console error or `pageerror`, validates the diagnostic shape and records
-`browserConsoleErrorsAccepted: false`; no model-backed run has occurred.
+`browserConsoleErrorsAccepted: false`. Three local runs used Chrome 152,
+`webmcp-evals` 0.0.4, eight cases, three runs per case and exact loopback model
+`ollama:gpt-oss:20b`, inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+expanded rows; attempt 2 passed 33 of 33 upstream rows but 32 of 33 under the
+strict verifier because one call added empty optional arrays; and attempt 3 on
+the security-fixed tree passed 30 of 35 upstream rows after two malformed-then-
+corrected provenance IDs and one omitted comparison. All three failed overall;
+their private reports remain failure and variance evidence, not a security or
+model-selection pass.
 
 The native Chrome-panel capture used a separately named temporary Chrome app
 clone, a disposable profile, no extensions or sign-in, loopback-only remote

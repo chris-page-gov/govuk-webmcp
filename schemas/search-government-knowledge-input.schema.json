@@ -4,11 +4,13 @@
   "title": "search_government_knowledge input",
   "type": "object",
   "additionalProperties": false,
+  "description": "Search terms and optional exact filters only. Keep personal context outside this page-scoped tool call.",
   "properties": {
     "query": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 160
+      "maxLength": 160,
+      "description": "The exact search terms. Do not add personal context or rewrite an explicitly supplied query."
     },
     "resourceTypes": {
       "type": "array",
@@ -16,7 +18,8 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/$defs/resourceType"
-      }
+      },
+      "description": "Optional exact machine tokens: govuk-content, dataset, api, api-documentation, catalogue-record, organisation and guidance. Omit this property when unused; do not send an empty array or display labels."
     },
     "publishers": {
       "type": "array",
@@ -26,7 +29,8 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 100
-      }
+      },
+      "description": "Optional exact publisher names. Omit this property when unused; do not send an empty array."
     },
     "accessStatuses": {
       "type": "array",
@@ -34,13 +38,25 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/$defs/accessStatus"
-      }
+      },
+      "description": "Optional exact access-status machine tokens. Omit this property when unused; do not send an empty array or display labels."
+    },
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/knowledgeCollection"
+      },
+      "description": "Optional exact machine tokens: deep-evidence, uk-living, ons, government-apis and land-registry. Omit this property to search all collections; never send an empty array or a display label."
     },
     "limit": {
       "type": "integer",
       "minimum": 1,
       "maximum": 20,
-      "default": 8
+      "default": 8,
+      "description": "Maximum results from 1 to 20. Use an explicitly requested value exactly; omit it only to accept the default of 8."
     }
   },
   "required": [
@@ -67,6 +83,16 @@
         "catalogue-record",
         "organisation",
         "guidance"
+      ]
+    },
+    "knowledgeCollection": {
+      "type": "string",
+      "enum": [
+        "deep-evidence",
+        "uk-living",
+        "ons",
+        "government-apis",
+        "land-registry"
       ]
     }
   }

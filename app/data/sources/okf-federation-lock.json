@@ -1,0 +1,1076 @@
+{
+  "schema": "govuk-webmcp.okf-federation-lock.v1",
+  "profile": "govuk-webmcp.okf-federated-search.v1",
+  "evidenceTier": "federated-source-snapshot",
+  "authoredAt": "2026-08-30T00:00:00Z",
+  "aggregate": {
+    "sourceCount": 4,
+    "recordCount": 58655,
+    "artifactCount": 73,
+    "decodedArtifactBytes": 420445217,
+    "storedArtifactBytes": 13021675,
+    "sourceIdentityDigest": "39b0228d143a0d14cc81d1ff3e949e51fe1e75015cc211e2fe02b887d184a875",
+    "aggregateDigest": "c269c8d212bc04d9bce6900c35fd09ad00ce4d5f88a44cf0508da1c3f94478ad"
+  },
+  "sources": [
+    {
+      "id": "uk-living",
+      "title": "A Life in the UK — life-course discovery corpus",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-living",
+      "baseUrl": "https://chris-page-gov.github.io/okf-uk-living/",
+      "deploymentId": "5943077379",
+      "revision": "4bc010eab3c9c072f68960393c1458a772aa700b",
+      "revisionReproducibility": "exact-repository-revision",
+      "snapshot": "life-course-authority-infrastructure-2026-08-08",
+      "descriptor": {
+        "path": "okf-explorer.json",
+        "bytes": 3378,
+        "sha256": "ff69f0162a4ba93156b150ae4eea0070c8c8a81187ed5cc7d2425f37b8db34dc"
+      },
+      "dataManifest": {
+        "path": "large/data/manifest.json",
+        "bytes": 1590,
+        "sha256": "fe0e11219ceec88702ca8a5d536d6d0ac0425f3bb29c7586884cfb0e56c957b4"
+      },
+      "searchManifest": {
+        "path": "large/data/search/manifest.json",
+        "bytes": 13344,
+        "sha256": "112608e17bca06d6b92313dbcdcff1f1798a2bfdc2cb11724a3d26b88d3d5e26",
+        "schema": "okf-static-search.v1"
+      },
+      "population": {
+        "records": 9757,
+        "unit": "search documents",
+        "serviceFamilies": 293,
+        "resources": 879
+      },
+      "recordArtifacts": [
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-0.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-000.json.gz",
+          "sourceBytes": 1857390,
+          "sourceSha256": "77205e5aadd9fb1d6295b5cbc27f09d4b1d8d21c967f96f7e7e46fe3cde265d9",
+          "storedBytes": 45736,
+          "storedSha256": "ce148572005cfd77429507ac2482a35aedca47973027e125857fe421245e4063",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-1.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-001.json.gz",
+          "sourceBytes": 2023885,
+          "sourceSha256": "8c90d19163ba759686a2c4735ccea2de3dd1019460fb0c3c0f0c2d0a3717d525",
+          "storedBytes": 43058,
+          "storedSha256": "fb0ef90569ccd92e7496980050fef3fca4dde2808558fe8a2f10871a835e145d",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-2.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-002.json.gz",
+          "sourceBytes": 2144286,
+          "sourceSha256": "f3f4ce2c2028c04fad8416254158987ad3a5a07b98d27d8005e460f4a711674b",
+          "storedBytes": 66172,
+          "storedSha256": "478b77b135d23a42c602dece1ac6a62aad3d4f34e467c3ed7ac7e7f6c96da329",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-3.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-003.json.gz",
+          "sourceBytes": 2070933,
+          "sourceSha256": "2743918b0e5a7636624cd61a94c6ca44af7426472f1261680c7cdfc63030e780",
+          "storedBytes": 38902,
+          "storedSha256": "7ec99cbe199bb3e27185af2c66a37976d38670fcf581fc8b682f840234ddec21",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-4.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-004.json.gz",
+          "sourceBytes": 2161521,
+          "sourceSha256": "c3a124876f718b0f8bc8d75fe8705469af3373acc0d3706599e46918fdd6f4d4",
+          "storedBytes": 39671,
+          "storedSha256": "adb6d42be309907fa81929a4ff62c06938e6161bec01076847ba37ce49927dec",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-5.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-005.json.gz",
+          "sourceBytes": 2114424,
+          "sourceSha256": "05d9d7247168d7e987ce0ec65e3b5acf231296be8041371e03a6507eca388bda",
+          "storedBytes": 40104,
+          "storedSha256": "90ad2143f6391988be860de982ec0b9c0d7fb725265c50d0424158e4cdb860b6",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-6.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-006.json.gz",
+          "sourceBytes": 2348534,
+          "sourceSha256": "8cb4dba51dbf45b51a0dd8a513fb0a3363b9381f5ed3020314b99f3c964556e8",
+          "storedBytes": 94083,
+          "storedSha256": "15cbd9e736856828ea4cfbd7dee897de4dffc421724e31c0dff53d73fc2f5583",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-7.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-007.json.gz",
+          "sourceBytes": 3646908,
+          "sourceSha256": "0c65a2c6909d218db62e1992c0905d1b0c039a6878bfca65083a5d961b9cee2e",
+          "storedBytes": 167473,
+          "storedSha256": "563ccd60c7e14e9e5b604a538b4662599c933edf1b2980c24c85502192691a0f",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-8.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-008.json.gz",
+          "sourceBytes": 1742500,
+          "sourceSha256": "ab797ddb9891c1949c9c3b443d7439ebcd6d410239db0886b2bb425c9e7cd27d",
+          "storedBytes": 39387,
+          "storedSha256": "3273fe523506b07e06c5c375094eeb96126a03264b3ed19a9eb870b40c8af123",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "large/data/records-9.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/records-009.json.gz",
+          "sourceBytes": 1327074,
+          "sourceSha256": "a68da5d93406a2ec70d3244038c8d8bce88f2f5e5cb47f217618a06fec75c54c",
+          "storedBytes": 51091,
+          "storedSha256": "0acad1296d41ea6d8abb248dcf92fcbff01eba0c036169e75cdf551b482b957d",
+          "compression": "gzip",
+          "itemCount": 757
+        }
+      ],
+      "supportingArtifacts": [
+        {
+          "role": "resources",
+          "sourcePath": "large/data/resources-0.json",
+          "storedPath": "app/data/sources/okf-federation/uk-living/resources-000.json.gz",
+          "sourceBytes": 1297204,
+          "sourceSha256": "848c6d3a9d002b680381b77d5161ba7aedbab0d979dd5cffbb376a948686b01b",
+          "storedBytes": 67193,
+          "storedSha256": "dbdb4edd6f2476cb7781477c701e95661e784211d9be0ee91fb357af7f182bb0",
+          "compression": "gzip",
+          "itemCount": 879
+        }
+      ],
+      "requestPolicy": {
+        "credentials": "omit",
+        "redirect": "error",
+        "sameOriginOnly": true
+      },
+      "budgets": {
+        "maximumResourceBytes": 16777216,
+        "maximumDecodedBytes": 22734659,
+        "maximumStoredBytes": 692870,
+        "maximumArtifacts": 11
+      },
+      "rights": {
+        "status": "source-specific",
+        "statement": "Repository-authored structures and summaries use the producer notice; upstream content remains link-only."
+      },
+      "access": {
+        "status": "public-static-metadata",
+        "statement": "Discovery routes only; jurisdiction, eligibility and provider decisions remain with the linked current authority."
+      },
+      "limitations": [
+        "The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.",
+        "Only 2 of 293 service families had named specialist acceptance at publication time.",
+        "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."
+      ],
+      "boundaries": {
+        "officialApiCalls": false,
+        "personalContextAccepted": false,
+        "sourceDerivedContentIsUntrusted": true
+      },
+      "entryDigest": "efd71bfc2d8eea499bb2242e8cd1262f99fe140d81b06e4fbe5b86196c58f845"
+    },
+    {
+      "id": "ons",
+      "title": "ONS data discovery OKF",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-ons",
+      "baseUrl": "https://chris-page-gov.github.io/okf-ons/",
+      "deploymentId": "5969704658",
+      "revision": "b0283b0d0dd2bbd06a8311dd5d1342eea0c36fdf",
+      "revisionReproducibility": "deployed-bytes-observed-separately",
+      "snapshot": "monday-2026-07-17-r2",
+      "descriptor": {
+        "path": "okf-explorer.json",
+        "bytes": 6208,
+        "sha256": "a317360e11996059da9957d89d25e7b9cf5c9b94f31184e36baeee74a4af2719"
+      },
+      "dataManifest": {
+        "path": "data/manifest.json",
+        "bytes": 3644,
+        "sha256": "464aab1ad75fdf518ba31c394ecd78521b2e839602e6eaa97184bab89729ff09"
+      },
+      "searchManifest": {
+        "path": "data/search/manifest.json",
+        "bytes": 78812,
+        "sha256": "371de3b41a8c294313263de0d1795e98494ce061a053b9df99aac10efb97f53c",
+        "schema": "okf-static-search.v2"
+      },
+      "population": {
+        "records": 5097,
+        "unit": "search documents"
+      },
+      "recordArtifacts": [
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-0.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-000.json.gz",
+          "sourceBytes": 12177862,
+          "sourceSha256": "3171673e35d25a69d6bb3ca4a9842487ed25c17fdd7a573422369aa501e16f54",
+          "storedBytes": 365261,
+          "storedSha256": "38947ba87acea8a6bfa53b4fb7069afd9d1c232fd80ced276d3291a286d0f7e1",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-1.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-001.json.gz",
+          "sourceBytes": 12990051,
+          "sourceSha256": "fa373d9e3b2ed397c2e1dd88489ce129bbec0b1ffb26e933529e89a9030accf2",
+          "storedBytes": 382051,
+          "storedSha256": "b115b68bc6c69d733440e49d8091910ca1ed2237fe13f466a9b6bfa5d2dec605",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-2.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-002.json.gz",
+          "sourceBytes": 12422123,
+          "sourceSha256": "77f85a700504ad19cd7c23b7aa009088950c36f08cfbfeafefecee2051da8843",
+          "storedBytes": 386730,
+          "storedSha256": "d99af39a6d999328c0eec07dc502a5f9983d4382135d253d5eb6e71f35b78600",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-3.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-003.json.gz",
+          "sourceBytes": 8632977,
+          "sourceSha256": "7782f01a3faafc12845054a9828f0442c898ab7bb1328765118bdd2bdb527fdd",
+          "storedBytes": 292150,
+          "storedSha256": "2050b69cf8391f59daaae74aa8bef711dcf23d923c675a2eff5e85f2d414021e",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-4.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-004.json.gz",
+          "sourceBytes": 11369549,
+          "sourceSha256": "44e0b66d893722890b377a883e11eb5b81c852229a6d2f370d6f065860173d7c",
+          "storedBytes": 356420,
+          "storedSha256": "98b3410c0709299c154ed611a6d2c9997f310ba26026fd2e3cc365955b370142",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-5.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-005.json.gz",
+          "sourceBytes": 11480478,
+          "sourceSha256": "a44bbb1e3dc7d519659a86c27a4f244b59d8060571556eae2e85c3b9e0077b17",
+          "storedBytes": 326113,
+          "storedSha256": "fd43b4c6e79092a510153458f080d3a7010a7c7665dc56dd6c09492f8459113b",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-6.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-006.json.gz",
+          "sourceBytes": 11547761,
+          "sourceSha256": "175f0e9f21bff916a8d554fc3a5f1f4207fea9b3d9226406ef32c8f6c46402f0",
+          "storedBytes": 341542,
+          "storedSha256": "edc18a17b67bf38ec4cc1c2a5c2fae47c08cc2b41f74a4878ed3bba151168ad7",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-7.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-007.json.gz",
+          "sourceBytes": 11281999,
+          "sourceSha256": "6ce5c6fbec7f08ee231dbf4da2de84b5ffc50acf799f4b62babaefd26ad8c0c7",
+          "storedBytes": 374128,
+          "storedSha256": "609003dbaffe7d0b48cbd12b6560deb4468b98b64165c58366c3d169e788a1c5",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-8.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-008.json.gz",
+          "sourceBytes": 11314838,
+          "sourceSha256": "907756b67e35660058ac49ffcb5667159b3a3378ff6f1e305f7156b7954b1dec",
+          "storedBytes": 367505,
+          "storedSha256": "abc4f0a0467ad42aeef7b8cc95348a0dd88f5b2e8bdd55c5793a4a8f497bf5d1",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-9.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-009.json.gz",
+          "sourceBytes": 11943035,
+          "sourceSha256": "e449e332255dbccae60457c1171c814bf51c9c30c32d0479890fc63ded4f1b06",
+          "storedBytes": 381493,
+          "storedSha256": "36dcabe67ad433f66cafa509d316b2e51333b0a853bd84d77ead529ba3d4fe8c",
+          "compression": "gzip",
+          "itemCount": 500
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/datasets-10.json",
+          "storedPath": "app/data/sources/okf-federation/ons/records-010.json.gz",
+          "sourceBytes": 2261951,
+          "sourceSha256": "26a452e2dfe6402625a714cc13df040181c3b1f45aec0217a002e2095e73c41a",
+          "storedBytes": 71302,
+          "storedSha256": "3cba48f0c3ef7c8453ecab2ecc1feb2ad75e82430f152900bea9a6b7eb9dcf34",
+          "compression": "gzip",
+          "itemCount": 97
+        }
+      ],
+      "supportingArtifacts": [],
+      "requestPolicy": {
+        "credentials": "omit",
+        "redirect": "error",
+        "sameOriginOnly": true
+      },
+      "budgets": {
+        "maximumResourceBytes": 16777216,
+        "maximumDecodedBytes": 117422624,
+        "maximumStoredBytes": 3644695,
+        "maximumArtifacts": 11
+      },
+      "rights": {
+        "status": "source-specific",
+        "statement": "Rights remain source-specific; metadata inclusion does not grant access to a statistical service or observation payload."
+      },
+      "access": {
+        "status": "public-static-metadata",
+        "statement": "Metadata discovery only; source endpoints and selection requirements remain producer-controlled."
+      },
+      "limitations": [
+        "The snapshot contains metadata from four declared adapters, not current statistical observations.",
+        "The repository revision does not by itself reproduce the ignored generated Pages bundle; its deployed bytes are locked separately.",
+        "A result does not establish statistical accuracy, currentness, endpoint access or permission to reuse linked material."
+      ],
+      "boundaries": {
+        "officialApiCalls": false,
+        "personalContextAccepted": false,
+        "sourceDerivedContentIsUntrusted": true
+      },
+      "entryDigest": "84b42f8eb7bb44a5ec900ef3a9f0a6d7fa4ab3d13712dc472ea45dedf4cab57e"
+    },
+    {
+      "id": "government-apis",
+      "title": "UK Government APIs OKF",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-government-apis",
+      "baseUrl": "https://chris-page-gov.github.io/okf-uk-government-apis/",
+      "deploymentId": "5969350495",
+      "revision": "55c7e67947dfd86e291ca987e354429c36b453d9",
+      "revisionReproducibility": "exact-repository-revision",
+      "snapshot": null,
+      "descriptor": {
+        "path": "okf-explorer.json",
+        "bytes": 6390,
+        "sha256": "9f268bbe014317384aa49cf39b42388f1bfe8b8c3d96b122da3ca7a58cd03c19"
+      },
+      "dataManifest": {
+        "path": "data/manifest.json",
+        "bytes": 6906,
+        "sha256": "f1f82072950b83e6b5300b93ff55dc7b82d1f7045a085f7533afd2fba8fcbbca"
+      },
+      "searchManifest": {
+        "path": "data/search/manifest.json",
+        "bytes": 74160,
+        "sha256": "8586ef20a136340509b20814fa5bf12c0bc88c6c36c8f50d5ac9c2efb426ccb5",
+        "schema": "okf-static-search.v1"
+      },
+      "population": {
+        "records": 41598,
+        "unit": "search documents"
+      },
+      "recordArtifacts": [
+        {
+          "role": "records",
+          "sourcePath": "data/apis-0.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-000.json.gz",
+          "sourceBytes": 6198400,
+          "sourceSha256": "bfbd3ce3fff362b836f84d254f4a15219467c34798852cc8d41e9ed7d060bf06",
+          "storedBytes": 276927,
+          "storedSha256": "792096edc12c10da2c2b60871efc0f55848e4491fd64c56e3c98fade135a86f9",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-1.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-001.json.gz",
+          "sourceBytes": 6136293,
+          "sourceSha256": "29a872be81005371fd4260aaad247b9324d4d23f8516c7fc0d3e6d9242b39723",
+          "storedBytes": 230667,
+          "storedSha256": "9928fe31b27b061e6d112794075ee57fddc59e5ad25d757bf957ce3e0ff5a5db",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-2.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-002.json.gz",
+          "sourceBytes": 6602566,
+          "sourceSha256": "347fda935a0ee89f0abccc1b023e132725fda71235b269c69c96e8edb8f55929",
+          "storedBytes": 201078,
+          "storedSha256": "2b5f28d6a530d911bd9fe9e3d2265d98f3b548a51c96c502a71df1c881e2ee69",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-3.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-003.json.gz",
+          "sourceBytes": 6866128,
+          "sourceSha256": "a29f2173c4e96c5d2ff359cd13a474be869614d7f5725ef95652bee5eaae6879",
+          "storedBytes": 194418,
+          "storedSha256": "1f197caa711eed5eae351559332ce4db65bb837e4546a0b5134fb0ec356cbca1",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-4.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-004.json.gz",
+          "sourceBytes": 6479529,
+          "sourceSha256": "a76f10ffd99bee8030fe6d6c1472b22f0301fa47675c311414cf6692d0480b39",
+          "storedBytes": 216353,
+          "storedSha256": "fea8c314c6351fb92c1332a2374ffe68cfac85fb509bb1fc18ba72ab11ea611e",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-5.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-005.json.gz",
+          "sourceBytes": 6988591,
+          "sourceSha256": "0c9e5feeaa088dc622cbe855f7fa6ab4f5cd2500317a448de3b4f7f9403d4681",
+          "storedBytes": 179148,
+          "storedSha256": "b00fe5cfb13ca64e5b50653fa27aae2c693a905bc401464ca4a165fa3fbf92cd",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-6.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-006.json.gz",
+          "sourceBytes": 6859478,
+          "sourceSha256": "4eba71d69a5c4e3841fb0ffeed7b03c9f260b9c9e9448864fc3c4e4c00b5d69a",
+          "storedBytes": 179169,
+          "storedSha256": "b21897d86bc209b07892695c3e9a97a270b488fcb4fb69d0bd1eb622fc91a745",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-7.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-007.json.gz",
+          "sourceBytes": 6838731,
+          "sourceSha256": "351e004c7449463a5f6c3ce3fd013247e23054cc936a058069c89e17eec79dca",
+          "storedBytes": 179314,
+          "storedSha256": "952d4c1699f335e19b6ca011a627baf0efec55434386ec3e7db2b8e80e0d3a03",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-8.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-008.json.gz",
+          "sourceBytes": 6421073,
+          "sourceSha256": "66d3e3ef10796bd7ce3f5519037a30aeb4f15710833e39e3949f3153f04e6536",
+          "storedBytes": 217748,
+          "storedSha256": "b98182cfb3c3dd763bbaeda3e4a63a82b8198356fa9c9d359ea9d5a857651cc9",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-9.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-009.json.gz",
+          "sourceBytes": 6694820,
+          "sourceSha256": "57e4c3f2e1b218760dbec84936193d1b269b2e272e001c779ff8da303c7c7d03",
+          "storedBytes": 204972,
+          "storedSha256": "7dba8c9909abfb974c2d29faf43f6cb71bba5a500ec9d52a1697cc96b3657eae",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-10.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-010.json.gz",
+          "sourceBytes": 6224306,
+          "sourceSha256": "b2fb5165288f849149bf52e007606e1b9db5535b73f7b742a8bc1cdb9caad194",
+          "storedBytes": 256518,
+          "storedSha256": "80657a46a83565779a90e5c561e373c09c98ee078e2c2951ab43d01354963510",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-11.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-011.json.gz",
+          "sourceBytes": 6441760,
+          "sourceSha256": "0e16903deaa4ffae15e69762774b34c0a7207b2888a8bad44675308f982572ab",
+          "storedBytes": 209845,
+          "storedSha256": "3fe765738076f855cf61aa53e915c23e2237d842d55eb4e90898392346c823ef",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-12.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-012.json.gz",
+          "sourceBytes": 6549662,
+          "sourceSha256": "f9abef8d61660e1053364442f6e12968aa6f55b2f19ac02651ff2ff726db60a8",
+          "storedBytes": 205799,
+          "storedSha256": "8b446fd10699efb7ba283ece55dcf804f109ecd179bd3b0f2ef338e7ed85e8aa",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-13.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-013.json.gz",
+          "sourceBytes": 6796852,
+          "sourceSha256": "90af455e57c56229ad9438312018aff48fa621f953e9dd836f92f38eafc50293",
+          "storedBytes": 185601,
+          "storedSha256": "6560c4b86880584c14c48e627acfd0c22445140a903a00198ad2a29d009d61d9",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-14.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-014.json.gz",
+          "sourceBytes": 6953552,
+          "sourceSha256": "cbd7fea0032fde0c1e9072447eaf34501c0e01fbe3378772d49cdd4c52e67eb6",
+          "storedBytes": 181773,
+          "storedSha256": "af621777653e4d53959865178094bcca733b77421ccfd6c5550191f70061a326",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-15.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-015.json.gz",
+          "sourceBytes": 6937066,
+          "sourceSha256": "7f739bd6b1e55a7bc0c2de0509c29dacfaafd9df315eb6bf2aa5e2ab7437e53b",
+          "storedBytes": 188353,
+          "storedSha256": "b7129da683dcc7a4efd5b36e8df5e0a88df3edaf0251c69bd867978ec40406f1",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-16.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-016.json.gz",
+          "sourceBytes": 6654284,
+          "sourceSha256": "7de6f73795b5b1a8d5849ae204b14626b728b9019f2aa2d2e9067c824a448df7",
+          "storedBytes": 192759,
+          "storedSha256": "557e1cf2113afe90277642720a5da57fda57ab5ddd999fec790035c587465364",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-17.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-017.json.gz",
+          "sourceBytes": 6798371,
+          "sourceSha256": "b7eb64d0c0934789586a7e173ca116ea4a836d48af16972142463cec3f9f72c8",
+          "storedBytes": 192753,
+          "storedSha256": "885d2dcbcb62711646fb8adc56e105c0c051abf62ecf1dd01ba39c31a1f40c16",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-18.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-018.json.gz",
+          "sourceBytes": 6679843,
+          "sourceSha256": "a48c245755d5c9199a564634b2cc56bb0cc3efc746b097ccdf509d1d2cafc67c",
+          "storedBytes": 214853,
+          "storedSha256": "8ca945f58e9ab4e2c1bd69042d8873e1d9cd55fdfae3751ac5d9ba4ecda6e717",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-19.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-019.json.gz",
+          "sourceBytes": 6736670,
+          "sourceSha256": "b06e5a54c0c12219e027f6e09a0ad7000837e9cae7e4fc6c646a8eabbcb84bff",
+          "storedBytes": 203466,
+          "storedSha256": "a7f18bbf5976f3f45e8b549400cc424be551ac120cc97d51d766560596745e5f",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-20.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-020.json.gz",
+          "sourceBytes": 6803839,
+          "sourceSha256": "388e4d93219ba671a78e8efa7354134dd43e18c73242f39c6b95405c9c7f592c",
+          "storedBytes": 202024,
+          "storedSha256": "63d088e5081ba2d2e0101743a73c37215e68377e3c3e8e9f2275869add0d0c72",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-21.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-021.json.gz",
+          "sourceBytes": 6726760,
+          "sourceSha256": "ed429c482b82e737d365a4b21a2c5d13251802328624e5d3d27f8f27cec11ac9",
+          "storedBytes": 201463,
+          "storedSha256": "d54ee8900cb81dcfa4fd98309fffd7fdc22e4d2c53334d0c4a4f628c5679fd23",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-22.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-022.json.gz",
+          "sourceBytes": 6526885,
+          "sourceSha256": "4f335e5886d243be89e38bb2c8104d8db331b9c710a3ffec4b04172391ad62f9",
+          "storedBytes": 189988,
+          "storedSha256": "5103987820062c8c6e9ce71d134e05ac28b86cac1d36c886a2975446d85c4c1a",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-23.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-023.json.gz",
+          "sourceBytes": 5958518,
+          "sourceSha256": "597f95bed746e2fd4cff090b7555648f1a9b514a14df52882bd642f6a1db4e8e",
+          "storedBytes": 191054,
+          "storedSha256": "86201df67903d5a57fd7204026b9b75abc3618f4f87c5929dd4044c605e2abb6",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-24.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-024.json.gz",
+          "sourceBytes": 6601186,
+          "sourceSha256": "520436a689c679297c856fa2fd03f2e69b58287d2297f7372ed2237036c311a8",
+          "storedBytes": 203920,
+          "storedSha256": "ee73ba3f78bc68543a99e7715cc36a73ed1a00b452611eabfed9e79ed74bbb07",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-25.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-025.json.gz",
+          "sourceBytes": 6901398,
+          "sourceSha256": "bba6306a2e0fe35c89359a440a1d2ca7ef51caa3a11ccf01e4309f43689f46ca",
+          "storedBytes": 186311,
+          "storedSha256": "61944fa3ce4d0d16385be09a34dec343b26d9323fb82b05d328168e9e7a69601",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-26.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-026.json.gz",
+          "sourceBytes": 6566841,
+          "sourceSha256": "8bd455180667f0a50db186a23adc93523913416e2fa8ba5351f65d0dd35c9ce3",
+          "storedBytes": 190632,
+          "storedSha256": "694a3de0800ba2c4ffe166a71b1273379a3681ef986723066f9262a3ac0d4094",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-27.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-027.json.gz",
+          "sourceBytes": 6457228,
+          "sourceSha256": "64b070b36fe4e49d3fe90d3b807bc43620f8d1824afd9cea2af5c083d53a87cf",
+          "storedBytes": 218210,
+          "storedSha256": "7fa208e748d11d38918d46d55d4f7e291f41af6880440bad49958608e5df63ac",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-28.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-028.json.gz",
+          "sourceBytes": 6027076,
+          "sourceSha256": "ff36e24584b40cdcbd9a1858546076fda84221a76aa1636d759a3cc1a4c773c1",
+          "storedBytes": 156442,
+          "storedSha256": "fb75fe02f80b0cc20c41a55662f1fc70e0da24d50a63a2eec0501c24761802fd",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-29.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-029.json.gz",
+          "sourceBytes": 6691966,
+          "sourceSha256": "8f08c4c3bf014a031ddd4451feec46e81ee7c6c058e4e0b00f1372f066edeac0",
+          "storedBytes": 204141,
+          "storedSha256": "cf706eba3a2779a84716dfadd95d33ca39e5e808b066047a09f208a0bc77d6ec",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-30.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-030.json.gz",
+          "sourceBytes": 6500057,
+          "sourceSha256": "413fbe14276fd4a887129787944350e62931beaccb825218d46a10a6e6cfd653",
+          "storedBytes": 195507,
+          "storedSha256": "57ad31cb19cd7e7d425990281087aadf86108edba21cb191ca59ad2097801c36",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-31.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-031.json.gz",
+          "sourceBytes": 6230153,
+          "sourceSha256": "9cf32044bffa5dd891a83d57809d1c48cf36cadbcf5fc77a28fbf06645e0cb7a",
+          "storedBytes": 228603,
+          "storedSha256": "766fb018d10420cf06362e0b99fb5a7d5ae84f624af63a6bff0925554c4620af",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-32.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-032.json.gz",
+          "sourceBytes": 6532649,
+          "sourceSha256": "a8fb392591332af71e3e2283354da381a51dd7e9f974d57d95669b062f8ab7b6",
+          "storedBytes": 215994,
+          "storedSha256": "1bf7f00ffcb1a36280cbbb0802704b7a947cbd47b6fe3361d8123e461fcbe6e5",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-33.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-033.json.gz",
+          "sourceBytes": 6113063,
+          "sourceSha256": "af846afef696e7a0d4975ebf347cdfd47395f0c74539b0340f57adb5cb5553ed",
+          "storedBytes": 204589,
+          "storedSha256": "a717eb804c502fbce3ebb8b54cf1ac76d014b58ca9795390f54730daad69cb10",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-34.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-034.json.gz",
+          "sourceBytes": 6650055,
+          "sourceSha256": "7efbe81cf167c63b0b0731ef0c5592902226dc861893136135c14bf56b53f289",
+          "storedBytes": 190994,
+          "storedSha256": "f9cd22d429cb8d84829f1021753f80788564fb7b66e5bd13a6de68d4011d087e",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-35.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-035.json.gz",
+          "sourceBytes": 6664705,
+          "sourceSha256": "ecb0598bb618a919f9b6d6698d02280a8c3fe50c0dd082c3124321c766d593b5",
+          "storedBytes": 195762,
+          "storedSha256": "7256e7230372ab6e18d2bd9e6670d1a6f0f2a508d7d8ba2e0e5a21bd70d6c3e3",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-36.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-036.json.gz",
+          "sourceBytes": 6773806,
+          "sourceSha256": "744273c22967709a73e42872f92df24d2fdf3ffcb833098c93ea85b8f0f1928f",
+          "storedBytes": 187060,
+          "storedSha256": "4b6ff41bbd2b61aa7068883ea8db6bc159af9d715d5ba93385bcc69e39c1f451",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-37.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-037.json.gz",
+          "sourceBytes": 6759162,
+          "sourceSha256": "8304a459e291faeb38bb4661ca2c14a90ff18875ffe370c3082a571d78e967b1",
+          "storedBytes": 192093,
+          "storedSha256": "ab3131ec6e65fe9fb290f1b7272143a707d57b358f4b3898787c84923ad6a05d",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-38.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-038.json.gz",
+          "sourceBytes": 5779947,
+          "sourceSha256": "f0a8c43ba621bc5a3f6dea20bae7115d647cca96446897fa256957ce3c712d59",
+          "storedBytes": 170191,
+          "storedSha256": "1ce3d3a7759b19ad4e3a86e8f7966214d37b5956845311d45ba309517eb52f5d",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-39.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-039.json.gz",
+          "sourceBytes": 5745010,
+          "sourceSha256": "b0f893ef8c545407f3dbb8041ec754d0e1e9b1fa44e97130f038663e79a4237c",
+          "storedBytes": 162056,
+          "storedSha256": "88e7955d5ea6c17809076eb9b3f0effb3f16cb2e828bff3af9bade65d80dfa83",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-40.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-040.json.gz",
+          "sourceBytes": 5742796,
+          "sourceSha256": "f65eef66c790031ea23414a883d99d4a9f85ed6ae7c2829fcd83ea70ed80bc23",
+          "storedBytes": 164853,
+          "storedSha256": "c45e77130d8e9013a68ed38ddcc2d3642fb967b8051c2c1c4d8548dde2da2613",
+          "compression": "gzip",
+          "itemCount": 1000
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/apis-41.json",
+          "storedPath": "app/data/sources/okf-federation/government-apis/records-041.json.gz",
+          "sourceBytes": 3222553,
+          "sourceSha256": "9ccea0e4c42d2a3410dc4d3050ab507d95113b5a49b5b8cc59c4e53d5c5513e5",
+          "storedBytes": 70511,
+          "storedSha256": "64b7a910b4f3955c457dca0f4f6c7f71c62641993cc632145d99e571377ee8cc",
+          "compression": "gzip",
+          "itemCount": 598
+        }
+      ],
+      "supportingArtifacts": [],
+      "requestPolicy": {
+        "credentials": "omit",
+        "redirect": "error",
+        "sameOriginOnly": true
+      },
+      "budgets": {
+        "maximumResourceBytes": 16777216,
+        "maximumDecodedBytes": 270833628,
+        "maximumStoredBytes": 8233912,
+        "maximumArtifacts": 42
+      },
+      "rights": {
+        "status": "source-specific",
+        "statement": "Licence and access evidence are record-specific; missing or inferred evidence remains visible and fails closed."
+      },
+      "access": {
+        "status": "public-static-metadata",
+        "statement": "Catalogue metadata only; no endpoint is called and no credential, authorisation or service availability is implied."
+      },
+      "limitations": [
+        "The snapshot describes 41,598 records and is not a claim about every UK public API or dataset.",
+        "Many producer records have missing, inferred or incomplete licence and access evidence.",
+        "A catalogue result does not establish that an endpoint is live, public, authorised, openly licensed or safe to call."
+      ],
+      "boundaries": {
+        "officialApiCalls": false,
+        "personalContextAccepted": false,
+        "sourceDerivedContentIsUntrusted": true
+      },
+      "entryDigest": "f9fe87bd180c02ac60dd44124cb5f86ed2593dce1e721de47b60fa423a8f57c2"
+    },
+    {
+      "id": "land-registry",
+      "title": "HM Land Registry public-estate OKF",
+      "repositoryUrl": "https://github.com/chris-page-gov/okf-LandRegistry",
+      "baseUrl": "https://chris-page-gov.github.io/okf-LandRegistry/",
+      "deploymentId": "5860288274",
+      "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+      "revisionReproducibility": "exact-repository-revision",
+      "snapshot": "hmlr-public-metadata-v0.2.0",
+      "descriptor": {
+        "path": "okf-explorer.json",
+        "bytes": 11287,
+        "sha256": "36d21eee6b3fcf85ea1a9f9a6501e39d73acba3aef9904c4120075878d4b4b5d"
+      },
+      "dataManifest": {
+        "path": "data/explorer/manifest.json",
+        "bytes": 21557,
+        "sha256": "8c59a3578fad8e5a5e67e70f66db19683bf41826e205fdc53c72ccd0b9a7f5dc"
+      },
+      "searchManifest": {
+        "path": "data/explorer/search/manifest.json",
+        "bytes": 22773,
+        "sha256": "25d47dab9b157dc96b27208e67af12d4ac5c35abfb4fb8dd89062cccba4f8707",
+        "schema": "okf-static-search.v2"
+      },
+      "population": {
+        "records": 2203,
+        "unit": "search documents"
+      },
+      "recordArtifacts": [
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-000.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-000.json.gz",
+          "sourceBytes": 1055473,
+          "sourceSha256": "ad35f3e1d2e94604d62bdfad11d85986df6a4e7be71fcde9232696aa7353845d",
+          "storedBytes": 58743,
+          "storedSha256": "caa192218bc6cda4519ddc6ad4a85f1281ff179cac071a594afa629ad2210baa",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-001.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-001.json.gz",
+          "sourceBytes": 1041801,
+          "sourceSha256": "b591dbd4ecfbf551934592c74e3839ee0452c3a4323176b05c07e09fda997f78",
+          "storedBytes": 53888,
+          "storedSha256": "4603d5c191319fff5a0969a1ab939b74df78b489ffca7b2ffddaa6ac5d7e48d2",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-002.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-002.json.gz",
+          "sourceBytes": 1106300,
+          "sourceSha256": "5f0e0eef97ccd876dfe66a139ef1d643f756e62a024aedb61248d9195b8f1a99",
+          "storedBytes": 57716,
+          "storedSha256": "6a9f1bbf6e262d927f0c632887eab0d86ddf281d84990736d9b248ecd95a12e8",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-003.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-003.json.gz",
+          "sourceBytes": 1074799,
+          "sourceSha256": "b40c8821e916344451a6f22d7e7d08b1b5a5d15958ca1161da25681f6ea39501",
+          "storedBytes": 55894,
+          "storedSha256": "3cf2035ac2626077f6ba2a008a50d2d9780472e2a717e1850a25a07e961f98f4",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-004.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-004.json.gz",
+          "sourceBytes": 1052812,
+          "sourceSha256": "3a561154f772ff37677c6a1b11e2a9eafceeb34833b34348141de5a94c7c1b4a",
+          "storedBytes": 51171,
+          "storedSha256": "cf55efde78ab0c91d9d45f6cb142ed338487d2178ddad8bb9a192180c1ca9063",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-005.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-005.json.gz",
+          "sourceBytes": 1075605,
+          "sourceSha256": "06f2000bdc88872bd7568adcc1e8cf400b38dcda2d9afbe64ec1c2a2197468fe",
+          "storedBytes": 63978,
+          "storedSha256": "5abbabf0daacd8e056632fc6026a78bf9d498d2c1d6b5c842cc30106071483a3",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-006.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-006.json.gz",
+          "sourceBytes": 1066723,
+          "sourceSha256": "31f2af91e4ad35c70bc5346f9e79595e12c7e46cea50540f257238e3d5a1000e",
+          "storedBytes": 40260,
+          "storedSha256": "7daf709a600b05444f3dc720563b71e3128b3e975f7f3ee57f07ec8c4547c5b7",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-007.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-007.json.gz",
+          "sourceBytes": 1083939,
+          "sourceSha256": "c45000a0c0a66f6c7a398b922b2e8f7f54d25d6825a62bcc6c0a73f5b02fb760",
+          "storedBytes": 33059,
+          "storedSha256": "22478cab8a211734f32e6d7566ad7d21b1832674ead47c0cad0eba2ff774320e",
+          "compression": "gzip",
+          "itemCount": 250
+        },
+        {
+          "role": "records",
+          "sourcePath": "data/explorer/datasets-008.json",
+          "storedPath": "app/data/sources/okf-federation/land-registry/records-008.json.gz",
+          "sourceBytes": 896854,
+          "sourceSha256": "54d749a6aa4b4d01a41521381dfc2ac8ab847d4415837aff99fc129f81548f4d",
+          "storedBytes": 35489,
+          "storedSha256": "42fadbb56f4403bea443dcb4b63926f83b1732b4bc219e17bdc3d656ac0c60b7",
+          "compression": "gzip",
+          "itemCount": 203
+        }
+      ],
+      "supportingArtifacts": [],
+      "requestPolicy": {
+        "credentials": "omit",
+        "redirect": "error",
+        "sameOriginOnly": true
+      },
+      "budgets": {
+        "maximumResourceBytes": 16777216,
+        "maximumDecodedBytes": 9454306,
+        "maximumStoredBytes": 450198,
+        "maximumArtifacts": 9
+      },
+      "rights": {
+        "status": "source-specific",
+        "statement": "Per-record rights and access evidence are retained from the producer; inclusion does not grant rights to property data."
+      },
+      "access": {
+        "status": "public-static-metadata",
+        "statement": "Metadata routes only; no title, property, ownership, address, polygon or personal records are included."
+      },
+      "limitations": [
+        "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+        "The producer is independent and is not endorsed by HM Land Registry.",
+        "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+      ],
+      "boundaries": {
+        "officialApiCalls": false,
+        "personalContextAccepted": false,
+        "sourceDerivedContentIsUntrusted": true
+      },
+      "entryDigest": "ada84b4fa29506fa63debf3a57080cef16331af449fe104d7c98554a7b472e66"
+    }
+  ],
+  "lockDigest": "3bc8efc0fab22d7d1dec85539746027555c78c5ce7916a851dc62f00693f3f00"
+}

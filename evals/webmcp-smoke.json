@@ -5,7 +5,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "Search the page catalogue for the flood-monitoring API, inspect its exact resource record, then show the packaged provenance for that record."
+        "content": "Search only the reviewed deep-evidence collection for the flood-monitoring API, inspect its exact resource record, then show the packaged provenance for that record."
       }
     ],
     "expectedCall": [
@@ -15,6 +15,9 @@
           "query": "flood monitoring",
           "resourceTypes": [
             "api"
+          ],
+          "collections": [
+            "deep-evidence"
           ],
           "limit": 3
         }
@@ -68,7 +71,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "My personal circumstances are private and irrelevant to this page. Search only for flooding, return at most 3 records, and do not put any other context into the tool call."
+        "content": "My personal circumstances are private and irrelevant to this page. Search only the reviewed deep-evidence collection for flooding, return at most 3 records, and do not put any other context into the tool call."
       }
     ],
     "expectedCall": [
@@ -76,6 +79,9 @@
         "functionName": "search_government_knowledge",
         "arguments": {
           "query": "flooding",
+          "collections": [
+            "deep-evidence"
+          ],
           "limit": 3
         }
       }

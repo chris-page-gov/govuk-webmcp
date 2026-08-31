@@ -2,7 +2,14 @@
   "schema": "govuk-webmcp.corpus-admission.v1",
   "generatedAt": "2026-08-30T00:00:00Z",
   "catalogueBundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
-  "admissionSourceDigest": "dc798de2d33fc9434e1dce730bb945c8fd7b6c01466cea02728c9aadf292edd0",
+  "admissionSourceDigest": "d61f1cc58e851f1544efd43dcb22395e1338dae54b2b263ae8dc58cca0de2714",
+  "federatedSearch": {
+    "sourceLockSha256": "bcd0b2b3631aea744b802e8b0199672fea76e446abe4adf2332e9c4683302b10",
+    "sourceLockDigest": "3bc8efc0fab22d7d1dec85539746027555c78c5ce7916a851dc62f00693f3f00",
+    "sourceRecordCount": 58655,
+    "quarantinedRecordCount": 3,
+    "recordCount": 58652
+  },
   "collections": [
     {
       "admission": {
@@ -256,12 +263,12 @@
           "refType": "tag",
           "tag": "v0.3.0",
           "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
-          "snapshotId": null,
-          "importedSha256": null
+          "snapshotId": "hmlr-public-metadata-v0.2.0",
+          "importedSha256": "36d21eee6b3fcf85ea1a9f9a6501e39d73acba3aef9904c4120075878d4b4b5d"
         },
         "producerState": "released",
-        "admissionState": "described-only",
-        "payloadState": "descriptor-only",
+        "admissionState": "searchable",
+        "payloadState": "federated-source-snapshot",
         "freshness": {
           "status": "observed",
           "observedAt": "2026-07-29T18:00:00Z",
@@ -286,7 +293,7 @@
         "rights": {
           "repositoryLicence": "Repository-specific notice applies",
           "upstreamPolicy": "Per-record rights and access evidence retained by the producer.",
-          "redistribution": "Descriptor only in this build.",
+          "redistribution": "Bounded normalised metadata snapshot with per-record rights, access and source evidence.",
           "perRecordReviewRequired": true,
           "accessDefault": "access-not-established"
         },
@@ -298,22 +305,22 @@
           "crosswalkStatus": "mapping-required"
         },
         "delivery": {
-          "mode": "descriptor-only",
+          "mode": "same-origin-lazy-index",
           "sameOriginPaths": [
-            "data/federation.json"
+            "data/federated-search/manifest.json"
           ],
           "lazy": true,
           "maximumInitialBytes": 524288
         },
         "decision": {
           "allowedClaims": [
-            "The producer release describes land and property metadata routes."
+            "The producer release exposes 2,203 searchable metadata records through a digest-bound lazy index."
           ],
           "forbiddenClaims": [
             "The build contains title, property or personal records, or has completed an independent legal audit."
           ],
           "limitations": [
-            "A separate domain, legal, licence and accessibility acceptance is required before payload admission."
+            "This metadata-only discovery tier excludes title-register, title-plan, ownership, address, polygon and personal rows; it is not property evidence or legal advice."
           ]
         },
         "boundaries": {
@@ -321,7 +328,7 @@
           "runtimeOfficialApiCalls": false
         }
       },
-      "entryDigest": "04c24a94519d8c690c324bf82ade3987d09742c98250c63776ced0659180bc1e"
+      "entryDigest": "2179ec51a1f623cdf298cb0921d432b52a0ce319859111b8c63d8df7a08cec23"
     },
     {
       "admission": {
@@ -469,18 +476,18 @@
         "domain": "Official statistics metadata",
         "repositoryUrl": "https://github.com/chris-page-gov/okf-ons",
         "source": {
-          "refType": "tag",
-          "tag": "v0.2.0",
-          "revision": "9e2c46d7167d626910be5016ed94786e7b9e4e5c",
-          "snapshotId": null,
-          "importedSha256": null
+          "refType": "commit",
+          "tag": null,
+          "revision": "b0283b0d0dd2bbd06a8311dd5d1342eea0c36fdf",
+          "snapshotId": "monday-2026-07-17-r2",
+          "importedSha256": "a317360e11996059da9957d89d25e7b9cf5c9b94f31184e36baeee74a4af2719"
         },
         "producerState": "released",
-        "admissionState": "conditional",
-        "payloadState": "lazy-candidate",
+        "admissionState": "searchable",
+        "payloadState": "federated-source-snapshot",
         "freshness": {
-          "status": "not-established",
-          "observedAt": null,
+          "status": "observed",
+          "observedAt": "2026-08-30T00:00:00Z",
           "staleAfter": null
         },
         "population": {
@@ -502,7 +509,7 @@
         "rights": {
           "repositoryLicence": "Repository-specific notice applies",
           "upstreamPolicy": "Rights remain source-specific; ELS record rights are not established.",
-          "redistribution": "Descriptor only pending release-asset verification.",
+          "redistribution": "Bounded normalised metadata snapshot with record-level rights and source links.",
           "perRecordReviewRequired": true,
           "accessDefault": "access-not-established"
         },
@@ -514,22 +521,22 @@
           "crosswalkStatus": "mapping-required"
         },
         "delivery": {
-          "mode": "descriptor-only",
+          "mode": "same-origin-lazy-index",
           "sameOriginPaths": [
-            "data/federation.json"
+            "data/federated-search/manifest.json"
           ],
           "lazy": true,
           "maximumInitialBytes": 524288
         },
         "decision": {
           "allowedClaims": [
-            "The producer release describes metadata from four registered adapters."
+            "The locked publication exposes 5,097 searchable metadata records from four registered adapters through a digest-bound lazy index."
           ],
           "forbiddenClaims": [
             "The collection contains current statistical observations or grants endpoint access."
           ],
           "limitations": [
-            "The release archive checksum must be verified before any payload is packaged; ELS rights remain not established."
+            "The deployed generated bundle is locked by observed bytes because the recorded commit alone does not reproduce its ignored Pages output; ELS rights remain not established."
           ]
         },
         "boundaries": {
@@ -537,7 +544,7 @@
           "runtimeOfficialApiCalls": false
         }
       },
-      "entryDigest": "213cc2302884da65066231e764e2a5dbef9dd21f436da7dd0b2eb0ad5012de42"
+      "entryDigest": "106fd578cf07349cdfd082561cd13bff903bd82858e5d9aac7c90a045ea0eddf"
     },
     {
       "admission": {
@@ -546,30 +553,30 @@
         "domain": "Government APIs and data access",
         "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-government-apis",
         "source": {
-          "refType": "tag",
-          "tag": "v0.4.0",
-          "revision": "99e310a3c3b8d38d63163df626da5905b3f1de1f",
+          "refType": "commit",
+          "tag": null,
+          "revision": "55c7e67947dfd86e291ca987e354429c36b453d9",
           "snapshotId": null,
-          "importedSha256": null
+          "importedSha256": "9f268bbe014317384aa49cf39b42388f1bfe8b8c3d96b122da3ca7a58cd03c19"
         },
         "producerState": "released",
-        "admissionState": "quarantined",
-        "payloadState": "lazy-candidate",
+        "admissionState": "searchable",
+        "payloadState": "federated-source-snapshot",
         "freshness": {
-          "status": "not-established",
-          "observedAt": null,
+          "status": "observed",
+          "observedAt": "2026-08-30T00:00:00Z",
           "staleAfter": null
         },
         "population": {
-          "definition": "The producer's v0.4.0 API, product, endpoint and operation catalogue.",
-          "denominator": 41520,
+          "definition": "The locked Pages publication's API, product, endpoint and operation catalogue.",
+          "denominator": 41598,
           "unit": "records",
-          "completenessClaim": "Bounded to the producer release manifest; not a claim about every UK public API."
+          "completenessClaim": "Bounded to the observed 41,598-record publication snapshot; not a claim about every UK public API."
         },
         "counts": [
           {
             "metric": "records",
-            "count": 41520
+            "count": 41598
           },
           {
             "metric": "relationships",
@@ -579,7 +586,7 @@
         "rights": {
           "repositoryLicence": "Repository-specific notice applies",
           "upstreamPolicy": "Licence and access evidence are record-specific; missing evidence fails closed.",
-          "redistribution": "Descriptor only pending item-level admission.",
+          "redistribution": "Bounded normalised metadata snapshot retaining record-specific access, licence and source limitations.",
           "perRecordReviewRequired": true,
           "accessDefault": "access-not-established"
         },
@@ -591,22 +598,22 @@
           "crosswalkStatus": "mapping-required"
         },
         "delivery": {
-          "mode": "descriptor-only",
+          "mode": "same-origin-lazy-index",
           "sameOriginPaths": [
-            "data/federation.json"
+            "data/federated-search/manifest.json"
           ],
           "lazy": true,
           "maximumInitialBytes": 524288
         },
         "decision": {
           "allowedClaims": [
-            "The producer release describes 41,520 records with explicit provenance-bearing relationships."
+            "The locked publication exposes 41,598 searchable records through a digest-bound lazy index."
           ],
           "forbiddenClaims": [
             "Every endpoint is live, public, openly licensed or safe to call."
           ],
           "limitations": [
-            "11,120 records lack a licence, 202 have unknown access and 25,383 licences were inferred from provider terms; a bounded candidate pool still needs item-level review."
+            "Licence and access evidence remain record-specific and may be missing or inferred; source-snapshot search does not make an endpoint live, public, authorised or safe to call."
           ]
         },
         "boundaries": {
@@ -614,12 +621,12 @@
           "runtimeOfficialApiCalls": false
         }
       },
-      "entryDigest": "bfce2936b27db14025087a4d9c2341aa6c00f02672683e034f74aae14f9d10d3"
+      "entryDigest": "d6845f1bef96ebc99af23d37ed676474f55f10f592547d9230363b7a92df54f0"
     },
     {
       "admission": {
         "id": "corpus:uk-legislation",
-        "title": "UK legislation knowledge collection",
+        "title": "UK legislation knowledge collection — excluded",
         "domain": "Legislation metadata",
         "repositoryUrl": "https://github.com/chris-page-gov/okf-uk-legislation",
         "source": {
@@ -631,7 +638,7 @@
         },
         "producerState": "validated",
         "admissionState": "quarantined",
-        "payloadState": "lazy-candidate",
+        "payloadState": "quarantined",
         "freshness": {
           "status": "not-established",
           "observedAt": null,
@@ -685,13 +692,13 @@
         },
         "decision": {
           "allowedClaims": [
-            "The producer tag describes legislation works and distinguishes official from model-assisted relationship assertions."
+            "The estate register records that this collection is explicitly excluded from search, import and runtime requests."
           ],
           "forbiddenClaims": [
             "The collection gives legal advice or provides complete official-effects coverage."
           ],
           "limitations": [
-            "The tagged tree still records seven external finalisation gates; immutable release assets and receipts must reconcile before payload admission."
+            "No legislation descriptor, manifest, record or runtime path is admitted to the federated data plane in this release."
           ]
         },
         "boundaries": {
@@ -699,7 +706,7 @@
           "runtimeOfficialApiCalls": false
         }
       },
-      "entryDigest": "b34d5ad5b7baa71372ffb10dcb135c91a7a02c48e6d7c5d50709c7c4c08460e2"
+      "entryDigest": "1ef4a09931869d85109a92b49c5e7cb05405bbdaede27df50f5ed1abe7ae9ce8"
     },
     {
       "admission": {
@@ -710,23 +717,23 @@
         "source": {
           "refType": "commit",
           "tag": null,
-          "revision": "c38f927944dedc56b6454dba4d4463d419f85ee8",
-          "snapshotId": null,
-          "importedSha256": null
+          "revision": "4bc010eab3c9c072f68960393c1458a772aa700b",
+          "snapshotId": "life-course-authority-infrastructure-2026-08-08",
+          "importedSha256": "ff69f0162a4ba93156b150ae4eea0070c8c8a81187ed5cc7d2425f37b8db34dc"
         },
         "producerState": "candidate",
-        "admissionState": "described-only",
-        "payloadState": "lazy-candidate",
+        "admissionState": "searchable",
+        "payloadState": "federated-source-snapshot",
         "freshness": {
-          "status": "not-established",
-          "observedAt": null,
+          "status": "observed",
+          "observedAt": "2026-08-30T00:00:00Z",
           "staleAfter": null
         },
         "population": {
-          "definition": "The producer's declared life-course service-family denominator, not every service or local variation.",
-          "denominator": 293,
-          "unit": "service families",
-          "completenessClaim": "Population-complete against the declared 293-family denominator only."
+          "definition": "The producer's 9,757 searchable concepts, including 293 service families and supporting concepts; not every service or local variation.",
+          "denominator": 9757,
+          "unit": "search records",
+          "completenessClaim": "Complete against the locked 9,757-record source snapshot only; 293 of those records are service families."
         },
         "counts": [
           {
@@ -749,7 +756,7 @@
         "rights": {
           "repositoryLicence": "Repository-specific notice applies",
           "upstreamPolicy": "Original summaries and authoritative links; linked content is not republished.",
-          "redistribution": "Descriptor only in this build.",
+          "redistribution": "Bounded normalised metadata snapshot with producer and source links; linked upstream content is not copied.",
           "perRecordReviewRequired": true,
           "accessDefault": "access-not-established"
         },
@@ -761,22 +768,22 @@
           "crosswalkStatus": "mapping-required"
         },
         "delivery": {
-          "mode": "descriptor-only",
+          "mode": "same-origin-lazy-index",
           "sameOriginPaths": [
-            "data/federation.json"
+            "data/federated-search/manifest.json"
           ],
           "lazy": true,
           "maximumInitialBytes": 524288
         },
         "decision": {
           "allowedClaims": [
-            "The producer describes 293 service families and their possible source routes."
+            "The locked producer snapshot exposes 9,757 searchable concepts, including 293 service families, through a digest-bound lazy index."
           ],
           "forbiddenClaims": [
             "The collection determines eligibility or provides sufficient legal, medical or financial evidence."
           ],
           "limitations": [
-            "291 of 293 families still require specialist review and none has named specialist acceptance."
+            "291 of 293 service families still require specialist review; search inclusion is not an item-level reviewed evidence receipt."
           ]
         },
         "boundaries": {
@@ -784,8 +791,8 @@
           "runtimeOfficialApiCalls": false
         }
       },
-      "entryDigest": "b562f612519fe1f9a029d4a4f2aad6f40aa75e6e568773a965efe1f6212d5a3b"
+      "entryDigest": "3af14b74c0ec05c2fa34c1b81524b8f3f0f606dc03e981e7d11a9b0900155bd4"
     }
   ],
-  "manifestDigest": "3b1301d55ebd232e6d4b89226ddb9cc92ee4ae0878fc5b6ac48a88594ed06d71"
+  "manifestDigest": "d2f9457a64d23220e737ff8b535aff747c9b0450e930bd4733ca8e28badc1080"
 }

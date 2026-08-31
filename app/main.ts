@@ -27,6 +27,7 @@ const resourceType = document.querySelector<HTMLSelectElement>("#resource-type")
 const publisher = document.querySelector<HTMLSelectElement>("#publisher")!;
 const accessStatus = document.querySelector<HTMLSelectElement>("#access-status")!;
 const resultLimit = document.querySelector<HTMLSelectElement>("#result-limit")!;
+const collectionInputs = [...document.querySelectorAll<HTMLInputElement>("input[name='collection']")];
 const clearSearch = document.querySelector<HTMLButtonElement>("#clear-search")!;
 const analyticalIndex = document.querySelector<HTMLOListElement>("#analytical-index")!;
 const traceDiagram = document.querySelector<HTMLElement>("#trace-diagram")!;
@@ -74,12 +75,20 @@ function formatDate(value: unknown): string {
 function friendlyStatus(value: unknown): string {
   const labels: Record<string, string> = {
     "official-source": "Taken from the official source",
+    "producer-declared": "Assertion declared by the OKF producer; not independently verified",
     normalised: "Deterministically restated from cited source metadata",
     inferred: "Inferred and not an official assertion",
     "model-derived": "Model-derived and not authoritative",
     "digest-bound": "Packaged integrity checks passed",
     "source-linked": "Linked to a digest-bound source record",
     "authored-boundary": "Explicitly authored limitation",
+    "reviewed-deep-evidence": "Reviewed deep evidence",
+    "federated-source-snapshot": "Federated OKF discovery",
+    "snapshot-file-integrity": "Snapshot and file-integrity checks passed",
+    "federated-source-linked": "Federated source and snapshot linked",
+    "producer-declared-source": "Source link declared by the OKF producer",
+    "producer-record": "Open the independently published OKF record",
+    "no-direct-authority-link": "No direct authority link established",
     public: "Public human page recorded",
     restricted: "Restricted",
     "authentication-required": "Authentication required",
@@ -130,6 +139,15 @@ function appendStructuredResult(parent: HTMLElement, label: string, value: JsonO
   parent.append(details);
 }
 
+function recordedLinkHostname(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  try {
+    return new URL(value).hostname;
+  } catch {
+    return undefined;
+  }
+}
+
 function renderSearchResult(result: JsonObject): void {
   results.replaceChildren();
   clearSearch.hidden = false;
@@ -138,29 +156,41 @@ function renderSearchResult(result: JsonObject): void {
     return;
   }
   const matches = result.results as JsonObject[];
-  if (!matches.length) results.append(element("p", "No matching records were found in this bounded catalogue."));
+  if (!matches.length) results.append(element("p", "No matching records were found in the selected evidence collections."));
   for (const match of matches) {
     const article = element("article", undefined, "result");
     article.dataset.recordId = String(match.recordId);
-    article.dataset.recordDigest = String(match.recordDigest);
-    article.dataset.bundleDigest = String(match.bundleDigest);
+    article.dataset.evidenceTier = String(match.evidenceTier ?? "reviewed-deep-evidence");
+    if (match.recordDigest) article.dataset.recordDigest = String(match.recordDigest);
+    if (match.bundleDigest) article.dataset.bundleDigest = String(match.bundleDigest);
+    article.append(element("p", friendlyStatus(match.evidenceTier ?? "reviewed-deep-evidence"), "plain-status"));
     const heading = element("h3");
-    const link = element("a", String(match.title));
-    link.href = String(match.canonicalHumanUrl);
-    link.rel = "noopener noreferrer";
-    heading.append(link);
+    if (match.canonicalHumanUrl) {
+      const link = element("a", String(match.title));
+      link.href = String(match.canonicalHumanUrl);
+      link.rel = "noopener noreferrer";
+      heading.append(link);
+    } else {
+      heading.textContent = String(match.title);
+    }
     article.append(heading, element("p", String(match.description)));
     appendDefinitionList(article, [
+      ["Collection", match.collectionTitle ?? match.collectionId],
       ["Publisher", match.publisher],
       ["Resource type", friendlyStatus(match.resourceType)],
       ["Access", friendlyStatus(match.accessStatus)],
       ["Licence", `${friendlyStatus(match.licenceStatus)}${match.licenceTitle ? ` — ${String(match.licenceTitle)}` : ""}`],
       ["Observed", formatDate(match.lastObserved)],
+      ["Source snapshot", match.snapshot],
+      ["Integrity basis", friendlyStatus(match.integrityBasis ?? (match.evidenceTier === "federated-source-snapshot" ? "snapshot-file-integrity" : "digest-bound"))],
+      ["Link role", match.linkRole ? friendlyStatus(match.linkRole) : undefined],
+      ["Link destination", recordedLinkHostname(match.canonicalHumanUrl)],
     ]);
     appendLabelList(article, match.assertionStatuses as string[]);
     const limitations = element("ul", undefined, "limitations");
     for (const limitation of match.limitations as string[]) limitations.append(element("li", limitation));
     article.append(element("h4", "Limitations"), limitations);
+    if (match.match) article.append(element("p", "Search order reflects bounded relevance only. It is not a trust score.", "hint"));
     const inspect = element("button", "View record and provenance", "secondary");
     inspect.type = "button";
     inspect.addEventListener("click", () => void showRecord(String(match.recordId), inspect));
@@ -177,14 +207,22 @@ function renderRecord(result: JsonObject): void {
     return;
   }
   const record = result.record as JsonObject;
+  const source = record.source && typeof record.source === "object" && !Array.isArray(record.source)
+    ? record.source as JsonObject
+    : {};
+  recordContent.append(element("p", friendlyStatus(result.evidenceTier ?? "reviewed-deep-evidence"), "plain-status"));
   document.querySelector<HTMLElement>("#record-heading")!.textContent = String(record.title);
   recordContent.append(element("p", String(record.description), "lede-small"));
-  const source = element("a", "Open authoritative source");
-  source.href = String(record.canonicalHumanUrl);
-  source.rel = "noopener noreferrer";
-  recordContent.append(source);
+  if (record.canonicalHumanUrl) {
+    const source = element("a", result.evidenceTier === "federated-source-snapshot" ? "Open recorded source link" : "Open authoritative source");
+    source.href = String(record.canonicalHumanUrl);
+    source.rel = "noopener noreferrer";
+    recordContent.append(source);
+  }
   appendDefinitionList(recordContent, [
     ["Record ID", record.id],
+    ["Collection", record.collectionTitle ?? record.collectionId],
+    ["Source-native ID", record.sourceNativeId],
     ["Publisher", record.publisher],
     ["Steward", record.steward],
     ["Resource type", friendlyStatus(record.resourceType)],
@@ -196,13 +234,17 @@ function renderRecord(result: JsonObject): void {
     ["First published", formatDate((record.dates as JsonObject).firstPublished)],
     ["Modified", formatDate((record.dates as JsonObject).modified)],
     ["Observed", formatDate((record.dates as JsonObject).observed)],
+    ["Snapshot", record.snapshot ?? source.snapshot],
+    ["Revision", record.revision ?? source.revision],
+    ["Link role", record.linkRole ? friendlyStatus(record.linkRole) : undefined],
+    ["Link destination", recordedLinkHostname(record.canonicalHumanUrl)],
     ["Verification", friendlyStatus(result.verificationStatus)],
   ]);
   recordContent.append(element("h3", "Topics"));
   appendLabelList(recordContent, record.topics as string[]);
   recordContent.append(element("h3", "Field assertions"));
   const assertions = element("ul", undefined, "evidence-list");
-  for (const assertion of record.assertions as JsonObject[]) {
+  for (const assertion of (record.assertions ?? []) as JsonObject[]) {
     assertions.append(element("li", `${String(assertion.field)} — ${friendlyStatus(assertion.status)}${assertion.note ? `: ${String(assertion.note)}` : ""}`));
   }
   recordContent.append(assertions, element("h3", "Limitations"));
@@ -239,9 +281,15 @@ function renderProvenance(result: JsonObject): void {
     ["Source digest", result.sourceDigest],
     ["Record digest", result.recordDigest],
     ["Bundle digest", result.bundleDigest],
-    ["Receipt digest", (result.evidenceReceipt as JsonObject).receiptDigest],
+    ["Snapshot", result.snapshot],
+    ["Revision", result.revision],
+    ["Source file", result.sourcePath],
+    ["Source file digest", result.sourceFileDigest],
+    ["Receipt digest", result.evidenceReceipt ? (result.evidenceReceipt as JsonObject).receiptDigest : "No item-level receipt for this evidence tier"],
   ]);
-  provenanceContent.append(element("p", "The receipt verifies packaged bytes and bindings. It is not a government signature or a fresh source check.", "hint"));
+  provenanceContent.append(element("p", result.evidenceReceipt
+    ? "The receipt verifies packaged bytes and bindings. It is not a government signature or a fresh source check."
+    : "This trail binds an independently published source snapshot, generated search shard and normalised record. It is not an item-level review, government signature or fresh source check.", "hint"));
   appendStructuredResult(provenanceContent, "Structured provenance used by the page and tool", result);
 }
 
@@ -582,8 +630,9 @@ function renderEstate(knowledgeRuntime: TrustedKnowledgeRuntime): void {
     );
     body.append(row);
   }
-  document.querySelector("#collection-count")!.textContent = `${knowledgeRuntime.federation.searchableCollections} searchable · ${knowledgeRuntime.federation.notSearchableCollections} not searchable`;
+  document.querySelector("#collection-count")!.textContent = `${knowledgeRuntime.federation.deepEvidenceCollections} reviewed + ${knowledgeRuntime.federation.federatedCollections} federated · ${knowledgeRuntime.federation.notSearchableCollections} excluded or described`;
   document.querySelector("#federation-digest")!.textContent = knowledgeRuntime.federation.manifestDigest;
+  document.querySelector("#diagnostic-collections")!.textContent = `${knowledgeRuntime.federation.deepEvidenceCollections} reviewed collections ready; ${knowledgeRuntime.federation.federatedCollections} federated collections initialise on demand; ${knowledgeRuntime.federation.federatedRecordCount.toLocaleString("en-GB")} searchable from ${knowledgeRuntime.federation.federatedSourceRecordCount.toLocaleString("en-GB")} source rows; ${knowledgeRuntime.federation.federatedQuarantinedRecordCount} legislation rows quarantined`;
 }
 
 function updateCompareButton(): void {
@@ -597,6 +646,21 @@ function updatePresentationDiagnostics(presentation: ActionPresentation): void {
   document.querySelector("#diagnostic-input-digest")!.textContent = presentation.inputDigest ?? "Not retained for rejected input";
   document.querySelector("#diagnostic-parity")!.textContent = `Displayed deterministic result ${presentation.resultDigest.slice(0, 12)}…`;
   document.querySelector<HTMLElement>("#webmcp-diagnostics")!.dataset.resultDigest = presentation.resultDigest;
+  const federatedRead = document.querySelector("#diagnostic-federated-read")!;
+  if (presentation.action === "search_government_knowledge" && Array.isArray(presentation.result.collectionStatuses)) {
+    const statuses = (presentation.result.collectionStatuses as JsonObject[])
+      .filter(({ evidenceTier }) => evidenceTier === "federated-source-snapshot");
+    const files = statuses.reduce((total, item) => total + Number(item.verifiedShardFiles ?? 0), 0);
+    const bytes = statuses.reduce((total, item) => total + Number(item.verifiedShardBytes ?? 0), 0);
+    federatedRead.textContent = files
+      ? `${files} checksum-bound shard files verified or reused; ${bytes.toLocaleString("en-GB")} bytes covered for this search`
+      : "No federated shard was used for this search";
+  } else if (
+    (presentation.action === "get_resource_record" || presentation.action === "show_provenance") &&
+    presentation.result.evidenceTier === "federated-source-snapshot"
+  ) {
+    federatedRead.textContent = "Exact checksum-bound federated record shard inspected";
+  }
 }
 
 function commitPresentation(presentation: ActionPresentation): void {
@@ -604,7 +668,7 @@ function commitPresentation(presentation: ActionPresentation): void {
     case "search_government_knowledge":
       renderSearchResult(presentation.result);
       status.textContent = presentation.result.ok === true
-        ? `${String(presentation.result.totalMatches)} matching records; ${String(presentation.result.returned)} shown.`
+        ? `${String(presentation.result.totalMatches)} matching records${presentation.result.totalRelation && presentation.result.totalRelation !== "eq" ? " or more" : ""}; ${String(presentation.result.returned)} shown. ${Array.isArray(presentation.result.collectionStatuses) && (presentation.result.collectionStatuses as JsonObject[]).some(({ status: collectionStatus }) => collectionStatus !== "ready") ? "One or more collections were unavailable; available evidence is shown." : ""}`
         : "The search input was rejected.";
       break;
     case "get_resource_record":
@@ -750,7 +814,7 @@ function populateSelect(select: HTMLSelectElement, values: string[]): void {
 
 function updateRegistrationDiagnostics(registration: RegistrationResult): void {
   document.querySelector("#diagnostic-secure-context")!.textContent = globalThis.isSecureContext ? "Yes" : "No";
-  document.querySelector("#diagnostic-artefacts")!.textContent = "Catalogue, receipts, Evidence Trace and federation manifest validated";
+  document.querySelector("#diagnostic-artefacts")!.textContent = "Catalogue, receipts, Evidence Trace, admissions and lazy federated-search manifest validated";
   document.querySelector("#diagnostic-registration")!.textContent = `${friendlyStatus(registration.state)} — ${registration.reason}`;
   document.querySelector("#diagnostic-tools")!.textContent = `${registration.registeredNames.length} registered of ${registration.expectedNames.length} expected: ${registration.expectedNames.join(", ")}`;
 }
@@ -759,6 +823,7 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!actions) return;
   const input: JsonObject = { query: query.value, limit: Number(resultLimit.value) };
+  input.collections = collectionInputs.filter(({ checked }) => checked).map(({ value }) => value);
   if (resourceType.value) input.resourceTypes = [resourceType.value];
   if (publisher.value) input.publishers = [publisher.value];
   if (accessStatus.value) input.accessStatuses = [accessStatus.value];
@@ -798,13 +863,16 @@ try {
   populateSelect(resourceType, runtime.facets.resourceTypes);
   populateSelect(publisher, runtime.facets.publishers);
   populateSelect(accessStatus, runtime.facets.accessStatuses);
-  for (const control of [query, submit, resourceType, publisher, accessStatus, resultLimit]) control.disabled = false;
+  for (const control of [query, submit, resourceType, publisher, accessStatus, resultLimit, ...collectionInputs]) control.disabled = false;
   document.querySelector("#record-count")!.textContent = String(runtime.recordCount);
+  document.querySelector("#federated-record-count")!.textContent = runtime.federation.federatedRecordCount.toLocaleString("en-GB");
+  document.querySelector("#federated-source-record-count")!.textContent = runtime.federation.federatedSourceRecordCount.toLocaleString("en-GB");
+  document.querySelector("#federated-quarantined-count")!.textContent = runtime.federation.federatedQuarantinedRecordCount.toLocaleString("en-GB");
   document.querySelector("#bundle-digest")!.textContent = runtime.bundleDigest.slice(0, 12);
   document.querySelector("#tool-status")!.textContent = "Human interface ready";
   status.textContent = "All knowledge artefacts verified. The human interface is ready while WebMCP registration is checked.";
   document.querySelector("#diagnostic-secure-context")!.textContent = globalThis.isSecureContext ? "Yes" : "No";
-  document.querySelector("#diagnostic-artefacts")!.textContent = "Catalogue, receipts, Evidence Trace and federation manifest validated";
+  document.querySelector("#diagnostic-artefacts")!.textContent = "Catalogue, receipts, Evidence Trace, admissions and lazy federated-search manifest validated";
   document.querySelector("#diagnostic-registration")!.textContent = "Registration check in progress; human controls are already available";
   void initialised.registration.then((registration) => {
     document.querySelector("#tool-status")!.textContent = registration.state === "registered" ? "5 WebMCP tools" : "Human interface";
@@ -820,6 +888,7 @@ try {
   document.documentElement.dataset.applicationState = "failed";
   status.textContent = `Search unavailable: ${error instanceof Error ? error.message : "knowledge artefact validation failed."}`;
   document.querySelector("#record-count")!.textContent = "Unavailable";
+  document.querySelector("#federated-record-count")!.textContent = "Unavailable";
   document.querySelector("#bundle-digest")!.textContent = "Validation failed";
   document.querySelector("#collection-count")!.textContent = "Unavailable";
   document.querySelector("#tool-status")!.textContent = "Unavailable";

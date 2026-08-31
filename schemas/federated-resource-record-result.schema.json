@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:federated-resource-record-result:v1",
+  "title": "Federated source-snapshot record result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "ok", "evidenceTier", "verificationStatus", "record", "relatedRecords", "integrity", "boundaries"],
+  "properties": {
+    "schema": { "const": "govuk-webmcp.federated-resource-record-result.v1" },
+    "ok": { "const": true },
+    "evidenceTier": { "const": "federated-source-snapshot" },
+    "verificationStatus": { "const": "snapshot-file-integrity" },
+    "record": { "$ref": "#/$defs/record" },
+    "relatedRecords": { "type": "array", "maxItems": 0 },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifestDigest", "sourceLockDigest", "recordShard", "recordDigest", "recordDigestScope"],
+      "properties": {
+        "manifestDigest": { "$ref": "#/$defs/sha256" },
+        "sourceLockDigest": { "$ref": "#/$defs/sha256" },
+        "recordShard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "bytes", "sha256"],
+          "properties": {
+            "path": { "type": "string", "pattern": "^data/federated-search/records/(?:uk-living|ons|government-apis|land-registry)/records-[0-9]{3,6}\\.json$" },
+            "bytes": { "type": "integer", "minimum": 2, "maximum": 2097152 },
+            "sha256": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "recordDigest": { "$ref": "#/$defs/sha256" },
+        "recordDigestScope": { "const": "Closed stored item-specific record excluding recordDigest; shard, collection and manifest digests bind inherited fields." }
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pageScoped", "readOnly", "officialApiCall", "accessAuthorityGranted", "itemLevelReview",
+        "evidenceReceiptAvailable", "sourceDerivedContentIsUntrusted"
+      ],
+      "properties": {
+        "pageScoped": { "const": true },
+        "readOnly": { "const": true },
+        "officialApiCall": { "const": false },
+        "accessAuthorityGranted": { "const": false },
+        "itemLevelReview": { "const": false },
+        "evidenceReceiptAvailable": { "const": false },
+        "sourceDerivedContentIsUntrusted": { "const": true }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "httpsUrl": { "type": "string", "format": "uri", "pattern": "^https://[^/@:]+(?:/|$)" },
+    "collectionId": { "enum": ["uk-living", "ons", "government-apis", "land-registry"] },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "ordinal", "evidenceTier", "collectionId", "sourceNativeId", "sourceNativeIdSha256", "title",
+        "description", "resourceType", "publisher", "topics", "authoritativeLink", "documentationUrl", "licence",
+        "access", "assertionStatus", "observedAt", "snapshot", "revision", "deploymentId", "sourcePath",
+        "sourceSha256", "extractionMethod", "limitations", "recordDigest", "collectionTitle", "canonicalHumanUrl",
+        "linkRole", "sourceAuthority", "dates", "assertions"
+      ],
+      "properties": {
+        "id": { "type": "string", "maxLength": 160, "pattern": "^govuk-discovery:federated:(?:uk-living|ons|government-apis|land-registry):(0|[1-9][0-9]{0,5})$" },
+        "ordinal": { "type": "integer", "minimum": 0, "maximum": 58651 },
+        "evidenceTier": { "const": "federated-source-snapshot" },
+        "collectionId": { "$ref": "#/$defs/collectionId" },
+        "sourceNativeId": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "sourceNativeIdSha256": { "$ref": "#/$defs/sha256" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1200 },
+        "resourceType": { "$ref": "urn:govuk-webmcp:schema:federated-record-shard:v1#/$defs/resourceType" },
+        "publisher": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "topics": { "type": "array", "maxItems": 20, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 100 } },
+        "authoritativeLink": { "$ref": "urn:govuk-webmcp:schema:federated-record-shard:v1#/$defs/authorityLink" },
+        "documentationUrl": { "oneOf": [{ "$ref": "#/$defs/httpsUrl" }, { "type": "null" }] },
+        "licence": { "$ref": "urn:govuk-webmcp:schema:federated-record-shard:v1#/$defs/storedRecord/properties/licence" },
+        "access": { "$ref": "urn:govuk-webmcp:schema:federated-record-shard:v1#/$defs/storedRecord/properties/access" },
+        "assertionStatus": { "enum": ["producer-declared", "normalised", "inferred", "model-derived", "unclassified"] },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "snapshot": { "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 200 }, { "type": "null" }] },
+        "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "deploymentId": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "sourcePath": { "$ref": "urn:govuk-webmcp:schema:federated-record-shard:v1#/$defs/storedRecord/properties/sourcePath" },
+        "sourceSha256": { "$ref": "#/$defs/sha256" },
+        "extractionMethod": { "const": "deterministic projection from a checksum-bound published OKF source snapshot" },
+        "limitations": { "type": "array", "minItems": 1, "maxItems": 24, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 500 } },
+        "recordDigest": { "$ref": "#/$defs/sha256" },
+        "collectionTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "canonicalHumanUrl": { "oneOf": [{ "$ref": "#/$defs/httpsUrl" }, { "type": "null" }] },
+        "linkRole": { "enum": ["producer-declared-source", "producer-record", "no-direct-authority-link"] },
+        "sourceAuthority": { "const": "Not independently established" },
+        "dates": {
+          "type": "object", "additionalProperties": false, "required": ["observed"],
+          "properties": { "observed": { "type": "string", "format": "date-time" } }
+        },
+        "assertions": {
+          "type": "array", "minItems": 1, "maxItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["field", "status", "evidenceUrls", "note"],
+            "properties": {
+              "field": { "const": "record" },
+              "status": { "enum": ["producer-declared", "normalised", "inferred", "model-derived", "unclassified"] },
+              "evidenceUrls": { "type": "array", "maxItems": 1, "items": { "$ref": "#/$defs/httpsUrl" } },
+              "note": { "const": "Federated source-snapshot status; this record has not received item-level review." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

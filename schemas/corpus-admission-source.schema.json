@@ -40,7 +40,7 @@
         },
         "producerState": { "enum": ["checkpoint", "candidate", "released", "validated", "unversioned"] },
         "admissionState": { "enum": ["searchable", "described-only", "conditional", "quarantined", "contract-only"] },
-        "payloadState": { "enum": ["deep-evidence", "lazy-candidate", "descriptor-only", "quarantined"] },
+        "payloadState": { "enum": ["deep-evidence", "federated-source-snapshot", "lazy-candidate", "descriptor-only", "quarantined"] },
         "freshness": {
           "type": "object",
           "additionalProperties": false,
@@ -104,7 +104,7 @@
           "additionalProperties": false,
           "required": ["mode", "sameOriginPaths", "lazy", "maximumInitialBytes"],
           "properties": {
-            "mode": { "enum": ["same-origin-bundle", "descriptor-only", "quarantined"] },
+            "mode": { "enum": ["same-origin-bundle", "same-origin-lazy-index", "descriptor-only", "quarantined"] },
             "sameOriginPaths": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9/.-]+$" } },
             "lazy": { "type": "boolean" },
             "maximumInitialBytes": { "type": "integer", "minimum": 0, "maximum": 1048576 }

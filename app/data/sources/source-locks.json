@@ -31,9 +31,16 @@
     {
       "id": "corpus-admissions:reviewed-2026-08-30",
       "importedPath": "app/data/sources/corpus-admissions.json",
-      "importedSha256": "dc798de2d33fc9434e1dce730bb945c8fd7b6c01466cea02728c9aadf292edd0",
+      "importedSha256": "d61f1cc58e851f1544efd43dcb22395e1338dae54b2b263ae8dc58cca0de2714",
       "recordCount": 10,
       "rights": "Original admission analysis by Chris Page over cited public repository evidence; descriptor inclusion grants no right to copy a producer payload."
+    },
+    {
+      "id": "okf-federation:public-pages-2026-08-30",
+      "importedPath": "app/data/sources/okf-federation-lock.json",
+      "importedSha256": "bcd0b2b3631aea744b802e8b0199672fea76e446abe4adf2332e9c4683302b10",
+      "recordCount": 4,
+      "rights": "Original federation lock and deterministic projection metadata by Chris Page; each vendored producer record retains its source-specific rights and access boundary."
     }
   ]
 }

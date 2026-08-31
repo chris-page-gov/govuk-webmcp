@@ -18,6 +18,14 @@ commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Exact-main validation run
 complete. Devpost project `1406973` remains an unpublished pre-submission draft
 and has not been submitted.
 
+Package version `0.3.0-rc.1` identifies the current working candidate. It keeps
+the frozen release history and adds four checksum-bound federated source
+snapshots totalling 58,655 locked raw rows. Three standalone Land Registry
+legislation rows are quarantined, leaving 58,652 searchable federated records,
+separately from the 80 reviewed records and receipts. The tree below records
+that working shape; it does not claim final candidate tests, protected-main
+integration, release or deployment.
+
 ## 20.2 Implemented tree
 
 ```text
@@ -51,25 +59,40 @@ govuk-webmcp/
 │       ├── receipts.json.sha256
 │       ├── evidence-traces.json        # 1 Evidence Trace
 │       ├── evidence-traces.json.sha256
-│       ├── federation.json             # 10 corpus admissions
+│       ├── federation.json             # candidate admission projection; recount before release
 │       ├── federation.json.sha256
+│       ├── federated-search/           # ignored generated plane; copied to dist
+│       │   ├── manifest.json
+│       │   ├── manifest.json.sha256
+│       │   ├── records/                # generated record shards
+│       │   └── postings/               # generated lazy-search shards
 │       └── sources/
-│           ├── source-locks.json       # exactly 4 authored locks
+│           ├── source-locks.json       # candidate registry; recount before release
 │           ├── govuk-content-69.lock.json
 │           ├── curated-api-data.json
 │           ├── answer-packs.json       # 1 authored answer pack
-│           └── corpus-admissions.json  # 10 authored decisions
+│           ├── corpus-admissions.json  # 10 authored decisions
+│           ├── okf-federation-lock.json # authored four-source control metadata
+│           └── okf-federation/         # 73 versioned checksum-bound gzip imports
+│               ├── uk-living/
+│               ├── ons/
+│               ├── government-apis/
+│               └── land-registry/
 ├── evals/
 │   ├── webmcp-smoke.json          # model-free concrete five-tool calls
-│   └── webmcp-browser.json        # prepared model-selection and no-call cases
+│   ├── webmcp-browser.json        # prepared model-selection and no-call cases
+│   └── federated-search-quality.json # frozen authored lexical-quality fixture
 ├── src/
 │   ├── contracts.ts
 │   ├── integrity.ts
 │   ├── evidence-runtime.ts
 │   ├── federation-runtime.ts
+│   ├── okf-federated-contracts.ts # fixed four-source and resource-budget contract
+│   ├── federated-search-runtime.ts # lazy checksum-bound source-snapshot search
+│   ├── combined-knowledge-runtime.ts # common reviewed and federated results
 │   ├── application-actions.ts     # shared human and WebMCP controller
 │   └── webmcp-tools.ts            # 5 fixed imperative registrations
-├── schemas/
+├── schemas/                        # closed JSON Schemas; recount before release
 │   ├── catalogue.schema.json
 │   ├── evidence-receipt.schema.json
 │   ├── evidence-trace.schema.json
@@ -82,12 +105,26 @@ govuk-webmcp/
 │   ├── show-provenance-*.schema.json
 │   ├── explore-answer-foundations-*.schema.json
 │   ├── compare-evidence-foundations-*.schema.json
+│   ├── combined-reviewed-record-summary.schema.json
+│   ├── combined-search-result.schema.json
+│   ├── federated-error-result.schema.json
+│   ├── federated-postings-shard.schema.json
+│   ├── federated-provenance-result.schema.json
+│   ├── federated-public-record-summary.schema.json
+│   ├── federated-record-shard.schema.json
+│   ├── federated-resource-record-result.schema.json
+│   ├── federated-search-manifest.schema.json
+│   ├── federated-search-result.schema.json
+│   ├── okf-federation-lock.schema.json
 │   └── error-result.schema.json
 ├── scripts/
 │   ├── validate-authored-sources.mjs
 │   ├── build-catalogue.mjs
 │   ├── build-evidence.mjs
+│   ├── run-federated-search-quality.mjs # nDCG@10/Recall@20 deterministic gate
 │   ├── build-federation.mjs
+│   ├── import-okf-federation.mjs  # controlled exact-source acquisition
+│   ├── build-federated-search.mjs # deterministic ignored search projection
 │   ├── validate-generated.mjs
 │   ├── copy-static.mjs
 │   ├── audit-catalogue-links.mjs
@@ -112,6 +149,11 @@ govuk-webmcp/
 │   ├── unit/
 │   │   ├── knowledge-runtime.test.mjs
 │   │   ├── evidence-federation.test.mjs
+│   │   ├── combined-knowledge-runtime.test.mjs
+│   │   ├── federated-search-runtime.test.mjs
+│   │   ├── federated-public-output-schema.test.mjs
+│   │   ├── okf-federated-contracts.test.mjs
+│   │   ├── okf-federation-data.test.mjs
 │   │   ├── source-locks.test.mjs
 │   │   ├── demo-video.test.mjs
 │   │   ├── voiceover-screenshot-clip.test.mjs
@@ -129,7 +171,11 @@ govuk-webmcp/
 │   └── evidence-receipt-example.json # frozen illustrative bytes
 ├── docs/
 │   ├── adr/
-│   │   └── 0003-citizen-selected-agent-and-independent-assurance.md
+│   │   ├── 0000-repository-seed-and-competition-boundary.md
+│   │   ├── 0001-static-same-origin-webmcp-boundary.md
+│   │   ├── 0002-evidence-first-federation-and-presentation-tools.md
+│   │   ├── 0003-citizen-selected-agent-and-independent-assurance.md
+│   │   └── 0004-okf-federated-discovery-and-evidence-tiers.md
 │   └── competition/
 │       ├── architecture.md
 │       ├── tool-catalogue.md
@@ -142,6 +188,7 @@ govuk-webmcp/
 │       ├── final-devpost-compliance-review-2026-08-30.md
 │       ├── post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md
 │       ├── personal-agent-webmcp-test-strategy.md
+│       ├── okf-federated-personal-agent-evaluation-plan.md # A–M gates
 │       ├── evaluation-set.csv
 │       ├── implementation-plan.md
 │       ├── backlog.md
@@ -196,11 +243,42 @@ govuk-webmcp/
         └── pages.yml
 ```
 
-Generated files are projections of the four exact authored locks. The authored
-files under `app/data/sources/` must not be regenerated from the projections.
-The 10-entry federation manifest is descriptive governance data: 2 admissions
-are searchable and 8 are not. A descriptor does not include or admit a producer
-payload.
+At this working-tree checkpoint, `app/data/sources/source-locks.json` contains
+five registry entries. Four retain the frozen reviewed inputs; the fifth binds the project-authored
+`okf-federation-lock.json`. That federation lock allows exactly four publication
+identities and 73 versioned gzip artefacts under
+`app/data/sources/okf-federation/`, totalling 13,021,675 stored bytes. The gzip
+files are checksum-bound imported producer metadata, not generated projections
+or project-authored content.
+
+`app/data/federated-search/` is an ignored deterministic projection of those
+locked imports. The current build produces 1,853 shard files — 120 record
+shards and 1,733 postings shards — plus the manifest and checksum sidecar, for
+1,855 files and 127,747,020 bytes in total. `scripts/copy-static.mjs` copies the
+validated plane into `dist` for publication. Do not regenerate an authored lock from its projection,
+edit a vendored source artefact by hand or treat generated normalisation as a
+new licence for producer material.
+
+At this working-tree checkpoint, the 10-entry corpus federation manifest records
+6 searchable admissions—2 reviewed deep-evidence collections and 4 federated
+source snapshots—and 4 non-searchable admissions. Recompute the exact registry,
+admission and schema totals after the exact-tree rescan. UK Legislation remains
+an explicitly quarantined descriptor with no standalone collection, payload,
+index or runtime request. Exactly three standalone Land Registry legislation
+rows are quarantined, and the searchable projection exposes zero
+`legislation.gov.uk` result links. A descriptor alone does not include or admit
+a producer payload, and the 28 inert source-authored cross-references in allowed
+snapshots do not create a fifth federated source.
+
+Federated trust is not promoted by producer wording. Public links retain
+producer-declared roles, exact-record authority is “Not independently
+established”, and the human interface displays the recorded destination
+hostname. Eight Low security findings have implemented remediations. Sealed
+scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven and found
+`csf_a2d9e030fda789ecd1cb0e41`, fixed post-snapshot; its coverage is
+mechanically partial and stale-pending. Focused checks passed 119 of 119 then 23
+of 23 for the affected post-fix subset. The full unit command passed 173 of 173
+in `17128.154916 ms`; the immutable post-fix rescan remains pending.
 
 The repository also pins `jsonschema` 4.26.0 and each mandatory or
 Python-version-conditional runtime dependency in `requirements-dev.txt`;
@@ -222,8 +300,12 @@ model-free smoke wrapper validates six `ok: true` expected-schema envelopes,
 deletes the raw rows and retains counts plus a results digest. It forwards no
 provider credential environment variables and gives the child an isolated
 `HOME`, but the child retains the operating-system filesystem access of the
-invoking user. The tracked fixtures live under `evals/`; the browser fixture is
-prepared for a later model-backed run and has not yet been executed. These
+invoking user. The tracked fixtures live under `evals/`; the eight-case browser
+fixture has been executed three times with Chrome 152, `webmcp-evals` 0.0.4 and
+exact loopback-only `ollama:gpt-oss:20b`, inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
+All attempts failed: 8 of 102 retry-expanded rows; 33 of 33 upstream but 32 of
+33 strict; then 30 of 35 upstream. These
 harnesses exercise the corrected candidate, whose tool callbacks now
 tolerate an omitted execution-options argument. The unchanged, checksum-bound `v0.2.0-rc.1`
 tag predates that fix; the corrected protected-main deployment contains it.
@@ -303,8 +385,8 @@ frames and matched all 38 caption cues, while retaining one non-fatal subtitle
 metadata warning and explicitly excluding audible content-parity or owner
 approval. Synthetic-voice publication, privacy, branding, final playback,
 public video upload and Devpost submission remain pending. Microsoft Explorer,
-fixed-model evaluation and a release-platform SBOM or attestation remain
-optional assurance work. Competition registration is complete; the refreshed
+a passing fixed-model evaluation and a release-platform SBOM or attestation
+remain optional assurance work. Competition registration is complete; the refreshed
 Devpost project remains `Untitled`, blank and `submission_pre_draft`.
 
 Protected pull request 13 admitted the post-deployment evidence, evidence tests
@@ -313,9 +395,9 @@ and lockstep documentation as repository commit
 `33327860583` passed. This evidence-only integration did not dispatch Pages or
 change the deployed application bytes.
 
-## 20.5 Release evidence set
+## 20.5 Historical v0.2 release evidence set
 
-The release evidence binds, without rewriting earlier evidence:
+The historical v0.2 release evidence binds, without rewriting earlier evidence:
 
 - the exact source commit, release tag and deployed revision;
 - the four authored source locks and generated artefact checksums;

@@ -1,0 +1,208 @@
+{
+  "schema": "govuk-webmcp.federated-search-quality.v1",
+  "evaluationProfile": "frozen-authored-lexical-relevance-v1",
+  "manifestDigest": "1894390575cfab372bf8d84b66063873b9e252fce43be842b855ae83f9911952",
+  "cutoffs": {
+    "ndcg": 10,
+    "recall": 20
+  },
+  "thresholds": {
+    "minimumMeanNdcgAt10": 0.95,
+    "minimumMeanRecallAt20": 1
+  },
+  "expectedResultDigest": "6dc5b5a2170feccaf9c2fc359a0a1d9c92e24826f3da60d3a6d25c8b18e1965c",
+  "cases": [
+    {
+      "id": "exact-source-native-id",
+      "category": "exact-id",
+      "query": "hmlr-7073dffae7f428e0cb9f875c",
+      "collections": ["land-registry"],
+      "limit": 20,
+      "expectedTotalMatches": 1,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:land-registry:56454",
+          "gain": 3,
+          "reason": "The query is the record's complete source-native identifier."
+        }
+      ],
+      "rationale": "Checks exact source-native identifier retrieval without treating the identifier as an instruction."
+    },
+    {
+      "id": "exact-title-land-registry",
+      "category": "title",
+      "query": "1862 property ownership records released",
+      "collections": ["land-registry"],
+      "limit": 20,
+      "expectedTotalMatches": 1,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:land-registry:56455",
+          "gain": 3,
+          "reason": "All query terms are the complete record title."
+        }
+      ],
+      "rationale": "Checks a specific title in the searchable Land Registry projection."
+    },
+    {
+      "id": "publisher-government-commercial-agency",
+      "category": "publisher",
+      "query": "Government Commercial Agency",
+      "collections": ["government-apis"],
+      "limit": 20,
+      "expectedTotalMatches": 1,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:government-apis:15084",
+          "gain": 3,
+          "reason": "The query exactly matches the record's declared publisher, while its title is Contractmap."
+        }
+      ],
+      "rationale": "Checks publisher-field retrieval independently of a matching title."
+    },
+    {
+      "id": "topic-land-register-archive",
+      "category": "topic",
+      "query": "archive history land-register",
+      "collections": ["land-registry"],
+      "limit": 20,
+      "expectedTotalMatches": 1,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:land-registry:56454",
+          "gain": 3,
+          "reason": "All three query terms occur in the record's declared topic set."
+        }
+      ],
+      "rationale": "Checks topic-field retrieval using terms that are not collectively present in the title."
+    },
+    {
+      "id": "multi-token-driver-agency",
+      "category": "multi-token",
+      "query": "driver vehicle licensing agency",
+      "collections": ["uk-living"],
+      "limit": 20,
+      "expectedTotalMatches": 1,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:uk-living:5",
+          "gain": 3,
+          "reason": "The record title directly names the driver and vehicle licensing agency."
+        }
+      ],
+      "rationale": "Checks deterministic intersection of four meaningful query terms."
+    },
+    {
+      "id": "ambiguous-vehicle-agency",
+      "category": "ambiguous",
+      "query": "vehicle agency",
+      "collections": ["uk-living", "government-apis"],
+      "limit": 20,
+      "expectedTotalMatches": 9,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:uk-living:4",
+          "gain": 3,
+          "reason": "The title directly describes Northern Ireland's driver and vehicle agency."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:14863",
+          "gain": 2,
+          "reason": "The service directly concerns vehicle enquiries and is published by the Driver and Vehicle Licensing Agency."
+        },
+        {
+          "recordId": "govuk-discovery:federated:uk-living:5",
+          "gain": 3,
+          "reason": "The title directly describes the driver and vehicle licensing agency."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:14979",
+          "gain": 2,
+          "reason": "The API concerns vehicle keepers and is published by the Driver and Vehicle Licensing Agency."
+        },
+        {
+          "recordId": "govuk-discovery:federated:uk-living:6",
+          "gain": 3,
+          "reason": "The title directly describes the driver and vehicle standards agency."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:14864",
+          "gain": 1,
+          "reason": "The authentication API is agency-related but not specifically a vehicle-information service."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:14976",
+          "gain": 1,
+          "reason": "The API is agency-related driver data rather than a direct vehicle service."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:14977",
+          "gain": 1,
+          "reason": "The API is agency-related driver imagery rather than a direct vehicle service."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:14978",
+          "gain": 1,
+          "reason": "The API is agency-related driver search rather than a direct vehicle service."
+        }
+      ],
+      "rationale": "Checks a genuinely ambiguous phrase across organisation concepts and operational APIs with graded relevance."
+    },
+    {
+      "id": "no-match-synthetic-token",
+      "category": "no-match",
+      "query": "zyxwvutsrqponmlkjihgfedcba",
+      "collections": ["uk-living", "ons", "government-apis", "land-registry"],
+      "limit": 20,
+      "expectedTotalMatches": 0,
+      "judgements": [],
+      "rationale": "Checks that an absent synthetic token returns no record and does not invent a substitute."
+    },
+    {
+      "id": "cross-source-ageing-projections",
+      "category": "cross-source",
+      "query": "local authority ageing statistics population projections older people",
+      "collections": ["ons", "government-apis"],
+      "limit": 20,
+      "expectedTotalMatches": 6,
+      "judgements": [
+        {
+          "recordId": "govuk-discovery:federated:ons:11533",
+          "gain": 3,
+          "reason": "This is the directly named ONS population-projections dataset."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:56070",
+          "gain": 2,
+          "reason": "This is the machine-readable contract associated with the directly named dataset."
+        },
+        {
+          "recordId": "govuk-discovery:federated:ons:11534",
+          "gain": 2,
+          "reason": "This ONS dataset is a strong related ageing projection about sex ratios for older people."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:53292",
+          "gain": 3,
+          "reason": "This is the cross-published directly named population-projections dataset."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:56042",
+          "gain": 1,
+          "reason": "This contract concerns household rather than population projections, but remains related to older-people ageing statistics."
+        },
+        {
+          "recordId": "govuk-discovery:federated:government-apis:53263",
+          "gain": 2,
+          "reason": "This cross-published record is a strong related ageing projection about sex ratios for older people."
+        }
+      ],
+      "rationale": "Checks fair retrieval across the ONS and government-APIs projections without collapsing duplicate evidence roles."
+    }
+  ],
+  "prohibitedLegislation": {
+    "query": "legislation register",
+    "collection": "legislation",
+    "expectedErrorCode": "invalid_federated_search_request"
+  }
+}

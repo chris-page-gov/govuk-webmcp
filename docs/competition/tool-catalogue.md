@@ -1,4 +1,4 @@
-# 8. Implemented WebMCP experience
+# 8. Implemented baseline and federated WebMCP candidate
 
 ## 8.1 Human-agent shared page
 
@@ -20,6 +20,20 @@ integrity, access, rights and coverage. They remain separate in the index,
 trace, selected-foundation view and comparison. The application does not
 calculate or imply a combined trust score.
 
+Package version `0.3.0-rc.1` is an implemented local extension, not a released
+host observation. It keeps the 80 reviewed records and adds a distinct
+`federated-source-snapshot` tier from exactly four locked OKF publications:
+9,757 A Life in the UK records, including 293 service families; 5,097 ONS
+metadata records; 41,598 UK Government APIs records; and 2,203 HM Land
+Registry public-estate metadata rows. Their raw 58,655-row sum is before cross-
+source deduplication. Exactly three standalone Land Registry legislation rows
+are quarantined, leaving 2,200 searchable Land Registry records and 58,652
+searchable federated records overall. There is no standalone UK Legislation
+collection, payload, index or runtime request, and the searchable projection
+contains no `legislation.gov.uk` result link. Twenty-eight source-authored
+cross-reference strings remain as inert, untrusted metadata in the four locked
+snapshots.
+
 WebMCP is progressive enhancement. The human interface remains usable when
 `document.modelContext` is absent, registration is blocked or registration
 fails. Instrumented browser tests prove the page contract and human-tool parity;
@@ -29,9 +43,9 @@ they do not prove discovery or execution by a live agent host.
 
 | Tool | Purpose | Input bound | Page effect | `readOnlyHint` |
 |---|---|---|---|---:|
-| `search_government_knowledge` | Search 80 validated records | Query up to 160 characters; filters bounded; 1 to 20 results | None | `true` |
-| `get_resource_record` | Return one exact record | One identifier up to 128 characters | None | `true` |
-| `show_provenance` | Inspect one packaged receipt and source chain | One identifier up to 128 characters | None | `true` |
+| `search_government_knowledge` | Search 80 reviewed records and 58,652 searchable federated records from 58,655 locked raw rows | Query up to 160 characters; one to five fixed collections and other bounded filters; 1 to 20 results | None | `true` |
+| `get_resource_record` | Return one exact reviewed or federated record | One reviewed or four-collection federated identifier up to 160 characters | None | `true` |
+| `show_provenance` | Inspect one packaged reviewed receipt or federated snapshot chain | One reviewed or four-collection federated identifier up to 160 characters | None | `true` |
 | `explore_answer_foundations` | Select the worked answer or one exact claim | One answer ID; optional claim ID, each up to 96 characters | Reversible in-memory selection | `false` |
 | `compare_evidence_foundations` | Compare two to four claims from the worked answer | One answer ID and 2 to 4 unique claim IDs | Reversible in-memory comparison | `false` |
 
@@ -39,66 +53,109 @@ All five tools have `untrustedContentHint: true`, closed input schemas and fixed
 names, titles and descriptions. Source-derived strings never become tool names
 or instructions.
 
+The candidate does not add a general question-answering tool. It extends
+`search_government_knowledge`, `get_resource_record` and `show_provenance` over
+the fixed evidence tiers while leaving the two Evidence Trace presentation
+tools within their existing answer-pack scope. Search can name one to five
+allowlisted collections: `deep-evidence`, `uk-living`, `ons`,
+`government-apis` and `land-registry`. It cannot supply an origin, URL or
+arbitrary collection name.
+
 ### Tool 1 — `search_government_knowledge`
 
 **Title:** Search government knowledge
 
-**Description:** Search the page's verified, read-only 80-record GOV.UK
-metadata catalogue. Return authoritative human links, assertion labels and
-limitations without contacting providers or establishing access rights.
+**Current description:** Search 80 reviewed records and 58,652 searchable
+records from 58,655 locked raw rows in four checksum-bound OKF source snapshots.
+Three source rows are quarantined. Returns the evidence tier, source-link role,
+access, rights and limitations. It accepts no personal profile and calls no
+official or model-provider API.
 
-**Input:** `query`; optional `resourceTypes`, `publishers`, `accessStatuses`
-and `limit`. The query is limited to 160 characters, publisher arrays to 8
-values and output to 20 records. Unknown fields are rejected.
+**Input:** `query`; optional `resourceTypes`, `publishers`, `accessStatuses`,
+`collections` and `limit`. The query is limited to 160 characters, publisher
+arrays to 8 values, collections to 1 to 5 unique allowlisted values and output
+to 20 records. Unknown fields are rejected.
 
-**Output:** catalogue date, bundle digest and record count; deterministic match
-counts and fields; compact record summaries; access, licence and assertion
-states; authoritative links; record and bundle digests; packaged receipt IDs;
-and limitations.
+**Output:** a successful current-candidate search is
+`trusted-govuk-discovery.search-result.v2`. It returns selected collections,
+separate reviewed and federated estate counts and digests, exact or lower-bound
+total semantics, tiered summaries, per-collection availability and
+deterministic `verifiedShardFiles` and `verifiedShardBytes` counters. Reviewed
+summaries retain item-level receipt IDs; federated summaries retain snapshot,
+source-file and link-role evidence without gaining a receipt. The published
+union also retains the historical v1 success contract and the common closed
+error contract.
 
 **Human equivalent:** the search form and result list. Both call the shared
 action controller, although a read-only WebMCP query does not change the page
 selection.
 
+**`0.3.0-rc.1` implementation:** search returns a common bounded summary
+with evidence tier, collection, snapshot, source-native identifier, link role,
+integrity basis and limitations. The 80 reviewed records retain their item-
+level receipts. Federated records retain source-file and snapshot evidence but
+do not gain those receipts. Collection-level partial failures are explicit.
+
 ### Tool 2 — `get_resource_record`
 
 **Title:** Get a government resource record
 
-**Description:** Return one exact digest-bound record, including authoritative
-links, access and licence status, assertions and limitations. It grants no
-access authority.
+**Current description:** Return one exact reviewed or federated record with its
+assurance tier, source link, access, licence, assertions and limitations. A
+federated result is snapshot-bound, not item-reviewed, and grants no access
+authority.
 
 **Input:** exact `recordId` matching the closed catalogue identifier pattern.
 There is no fuzzy identifier resolution.
 
-**Output:** the complete record, related record summaries, digest-bound status
-and explicit page, provider and access boundaries.
+**Output:** an explicit union of the historical reviewed
+`trusted-govuk-discovery.resource-record-result.v1`, the federated
+`govuk-webmcp.federated-resource-record-result.v1` and the common closed error
+contract. Federated success reports snapshot-file integrity, exact record and
+shard digests, no related-record inference, no item-level review or receipt and
+the page, API and access boundaries. It reports source authority as “Not
+independently established”, preserves the producer-declared link role and
+exposes the recorded destination hostname to the human interface.
 
 **Human equivalent:** **View record and provenance** on a result.
+
+The candidate admits only exact generated federated identifiers tied to the
+four collection IDs and a bounded ordinal. It does not fuzzy-resolve a source
+identifier or treat a source-snapshot result as reviewed deep evidence.
 
 ### Tool 3 — `show_provenance`
 
 **Title:** Show record provenance
 
-**Description:** Inspect the packaged source, assertion and digest evidence for
-one record. It does not refetch or independently certify the source.
+**Current description:** Inspect either an item-level reviewed receipt or the
+file, snapshot and manifest bindings for a federated record. It does not refetch
+an official source or independently certify it.
 
 **Input:** exact `recordId`.
 
-**Output:** observation date, extraction method, source lock where applicable,
-source, record and bundle digests, the packaged evidence receipt, source links,
-field assertions and limitations.
+**Output:** an explicit union of the historical reviewed
+`trusted-govuk-discovery.provenance-result.v1`, the federated
+`govuk-webmcp.federated-provenance-result.v1` and the common closed error
+contract. Federated provenance returns snapshot, revision, deployment,
+source-file and manifest bindings and states that neither item-level review nor
+an evidence receipt is available.
 
 **Human equivalent:** the provenance and receipt section of the exact record
 view.
+
+For a federated record, the candidate returns the collection, revision,
+snapshot, source path and source-file digest and explicitly states that no
+item-level receipt exists. The recorded source link may be producer-declared or
+may be absent; the interface must not relabel every link as authoritative.
 
 ### Tool 4 — `explore_answer_foundations`
 
 **Title:** Explore answer foundations
 
-**Description:** Select one bounded evidence-first answer or one of its exact
-claims and update the page's analytical index and Evidence Trace. The only
-effect is reversible in-memory presentation.
+**Current description:** Select one bounded evidence-first answer or one of its
+exact claims and update this page's analytical index and Evidence Trace. The
+only effect is reversible in-memory presentation; no source, storage or
+external state changes.
 
 **Input:** required `answerId` and optional `claimId`. Both use closed patterns
 and a 96-character maximum.
@@ -118,9 +175,9 @@ controls.
 
 **Title:** Compare evidence foundations
 
-**Description:** Compare two to four exact claims in one evidence-first answer
-and update the page's accessible comparison. It does not rank sources or change
-catalogue, storage, network or external state.
+**Current description:** Compare two to four exact claims in one evidence-first
+answer and update this page's accessible comparison. It does not rank sources
+or change catalogue, storage, network or external state.
 
 **Input:** required `answerId` and 2 to 4 unique `claimIds`. Unknown, duplicate,
 malformed or out-of-answer identifiers fail closed.
@@ -135,8 +192,14 @@ comparison and selects the matching trace paths.
 
 ## 8.3 Registration and shared execution
 
+At this working-tree checkpoint the repository publishes 31 closed JSON
+Schemas; recompute the exact contract count after the exact-tree rescan. The current search input and
+successful v2 output, reviewed and federated record summaries, federated
+manifest and shards, and reviewed/federated exact-record and provenance unions
+are all checked against their executable counterparts.
+
 The page registers tools imperatively with `document.modelContext.registerTool`
-only after four same-origin artefact families have validated:
+only after five same-origin artefact families have validated:
 
 1. the catalogue and its checksum, including 80 record digests, safe official
    URLs and the bundle root;
@@ -145,7 +208,11 @@ only after four same-origin artefact families have validated:
 3. the one-trace Evidence Trace collection and its checksum, including graph,
    facet, source-record and digest bindings; and
 4. the 10-entry federation manifest and its checksum, including admission,
-   payload, semantic and catalogue bindings.
+   payload, semantic and catalogue bindings; and
+5. the lazy federated-search manifest and its checksum, including the four
+   collection identities, 58,655 raw source rows, 3 quarantined rows, 58,652
+   searchable records, source-lock digest and every declared postings and
+   record-shard identity.
 
 The application registers all five fixed definitions or none. Local definition
 checks reject duplicate names or an open schema. Registration has a three-second
@@ -157,6 +224,17 @@ The controller applies a cheap root-input budget before action-specific
 validation, honours cancellation, hashes only admitted diagnostic input and
 commits a presentation result only when the action allows it. This keeps the
 structured tool result and the visible deterministic result aligned.
+
+The candidate's build admission adds the fifth source-lock registry entry for
+the digest-bound four-publication federation lock. The browser does not fetch
+that authored lock: it receives the validated same-origin lazy-search manifest
+as the fifth start-up artefact family. A start-up checksum, manifest, schema or
+binding failure still prevents all registration. After a valid root is
+established, a failed lazy collection is isolated and returned as explicit
+source status while unaffected sources and the reviewed tier remain available.
+Each collection status reports deterministic `verifiedShardFiles` and
+`verifiedShardBytes` counters. This behaviour has local unit, Chrome and Edge
+evidence but not current-candidate CI, deployed or supported-host evidence.
 
 The execution-options argument is optional at the page-host boundary. Some
 hosts, including the pinned Chrome DevTools MCP and `webmcp-evals` paths, invoke
@@ -175,17 +253,53 @@ closed output schemas for validation, but it does not register a non-standard
 
 ## 8.4 Source and federation boundary
 
-Generation starts only after four exact authored source locks validate: 69
-GOV.UK content records, 11 curated government data and API records, 1 answer
-pack and 10 corpus-admission decisions. Lock validation binds exact IDs, paths,
-item counts and SHA-256 values and rejects symbolic links, non-regular files,
-path swaps and changed file identity.
+The historical `v0.2` generation starts from four exact source-lock registry
+entries: 69 GOV.UK content records, 11 curated government data and API records,
+1 answer pack and 10 corpus-admission decisions. At this working-tree
+checkpoint the candidate requires a fifth entry binding the exact four-
+publication OKF federation lock. Registry
+validation binds exact IDs, paths, item counts and SHA-256 values and rejects
+symbolic links, non-regular files, path swaps and changed file identity.
 
-The federation manifest contains 10 admissions: 2 searchable deep-evidence
-collections and 8 that are described-only, conditional, quarantined or
-contract-only. `sourceOkfCore` records the producer declaration separately from
-the `targetOkfCore` 0.2 mapping. A descriptor or crosswalk does not admit,
-redistribute or make a producer payload searchable.
+The historical federation manifest contains 10 admissions: 2 searchable
+deep-evidence collections and 8 that were described-only, conditional,
+quarantined or contract-only. At this working-tree checkpoint the 10-entry
+manifest has 6 searchable admissions — the same 2 reviewed collections and 4
+federated source snapshots — and 4 non-searchable admissions. Recompute the
+exact admission, lock and schema totals after the exact-tree rescan.
+`sourceOkfCore` records the producer
+declaration separately from the `targetOkfCore` 0.2 mapping. A descriptor or
+crosswalk does not by itself admit, redistribute or make a producer payload
+searchable.
+
+The `0.3.0-rc.1` candidate admits exactly four previously governed OKF
+publications into a separate source-snapshot search tier. It does not promote
+the remaining admissions. The four locked populations total 58,655 raw rows
+and remain separate from the 80 deep-evidence records. Three standalone Land
+Registry legislation rows are quarantined, leaving 58,652 searchable records.
+Land Registry contributes public-estate metadata only; no title, ownership,
+address, polygon or personal row is admitted. UK Legislation contributes no
+standalone collection, payload, index, total or runtime request, and any apex,
+`www` or subdomain `legislation.gov.uk` result link fails projection. The 28
+retained source-authored cross-reference strings cannot define a collection,
+tool, instruction or network request.
+
+The versioned input plane consists of 73 checksum-bound gzip artefacts under
+`app/data/sources/okf-federation/`, totalling 13,021,675 bytes. The deterministic
+builder creates 1,853 ignored shard files — 120 record shards and 1,733
+postings shards — plus the manifest and checksum sidecar under
+`app/data/federated-search/`: 1,855 files and 127,747,020 bytes in total.
+Production builds validate and copy that plane to `dist` for Pages. The authored
+gzip bytes and generated projection stay distinct.
+
+At start-up the page loads the federated manifest and checksum, not every
+record. Queries can fetch only declared files below the same-origin
+`data/federated-search/` namespace, with credentials omitted, redirects
+rejected, exact byte and SHA-256 checks and bounded file, byte, result-shard and
+time budgets. Response bodies are read incrementally under the fixed byte cap;
+strict declared-length, empty-body, missing-body and streamed-overflow checks
+fail closed. There is no official-source, legislation or model-provider runtime
+fallback.
 
 ## 8.5 Input, route and injection controls
 
@@ -198,8 +312,15 @@ redistribute or make a producer payload searchable.
   answer, claim and comparison routes fall back safely.
 - No input accepts a user URL, selector, callback, origin, endpoint,
   credential, personal detail, browsing history or arbitrary instruction.
-- Authoritative links must be credential-free HTTPS URLs on admitted official
-  hosts.
+- Federated search accepts only the five fixed collection values. The page
+  schemas do not accept a profile, identity, location history, conversation
+  history or general `personalContext` object.
+- Reviewed authoritative links must be credential-free HTTPS URLs on admitted
+  official hosts. Federated links must be credential-free HTTPS and retain
+  their explicit producer-record, producer-declared-source or
+  no-direct-authority-link role; producer text can never upgrade that role to
+  official. Federated assertions use `producer-declared` unless a narrow
+  normalisation is independently justified.
 - Source text is rendered as inert text and returned as untrusted data; no HTML
   is returned to an agent.
 - There is no page-side query storage, analytics, provider call or external
@@ -236,6 +357,39 @@ the comparison rendered 11 facet rows and the displayed result digest matched
 the canonical digest prefix. Chrome DevTools MCP 1.8.0 also completed all five
 public-page calls and recorded zero console errors. Neither path selected or
 contacted a model.
+
+Those observations predate the federated candidate. They must not be cited as
+evidence that the four new source snapshots load, rank, fail partially, remain
+accessible or work through a supported host. The candidate requires fresh
+model-free tests, repeated fixed-model runs and exact release binding under the
+A–M plan.
+
+The last complete pre-remediation `0.3.0-rc.1` checkpoint included a successful
+production build, a byte-idempotent reconstruction of the federated plane, 144
+of 144 unit tests in 174.5 seconds, 29 Chrome tests, 29 installed-Microsoft-Edge
+tests and six of six model-free evaluator smoke calls. These checks covered all
+four source journeys,
+the search v2 and exact-record/provenance union contracts, manifest-first lazy
+loading, same-origin requests, deterministic shard counters, failing each
+federated source independently, partial failure,
+input closure, human/tool parity and automated accessibility. The Edge run used
+an authorised loopback-only exception after the sandbox produced the expected
+`EPERM` socket error. Seven initial Low security findings were remediated
+afterwards, including aggregate build budgets, per-row Land Registry policy, source-
+revision consistency, partial-source isolation, producer-declared trust labels,
+prototype-safe token keys and per-runtime in-flight fetch sharing. The fix also
+rejects explicit URL ports in executable validation, not only the schema. The
+sealed follow-up scan suppressed those seven and found one further High-
+confidence Low trailing-dot and secondary legislation-URL bypass
+(`csf_a2d9e030fda789ecd1cb0e41`), fixed post-snapshot. The scan has mechanically
+partial and stale-pending coverage. Focused security checks passed 119 of 119
+and the affected post-fix subset passed 23 of 23. The current research,
+build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
+smoke gates pass where recorded. The full unit command passed 173 of 173 in
+`17128.154916 ms`; the immutable post-fix rescan remains pending with protected
+CI, Pages, final tag and release, current-
+candidate supported-host capture, a passing fixed-model evaluation and a
+refreshed manual screen-reader journey.
 
 ## 8.7 Pinned local interoperability harnesses
 
@@ -304,12 +458,14 @@ rows are deleted after validation; ignored
 digest. Smoke mode does not establish complete payload equivalence or measure
 agent tool selection. Only the DevTools receipt above retains full tool outputs.
 
-`evals/webmcp-browser.json` retains the same positive journeys and adds an
-unrelated no-call case. It is prepared input for a later model-backed browser
-evaluation through `npm run webmcp:eval:browser`, not evidence of one. The
+`evals/webmcp-browser.json` contains eight cases, including context minimisation
+and an unrelated no-call case. It drives model-backed browser evaluation
+through `npm run webmcp:eval:browser`. The
 wrapper requires an explicit provider-prefixed model and
 `WEBMCP_EVAL_PRESENTATION_APPROVED=1`, bounds runs and agent steps, and checks
-that the context-minimisation call contains exactly `query` and `limit`. Only
+that the context-minimisation call contains exactly `query`, `collections` and
+`limit`, including `collections: ["deep-evidence"]` and no empty optional
+arrays. Only
 the `ollama:` route is preflighted on loopback without downloading a model. A
 remote route additionally requires `WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1` and
 the provider credential. Both local and remote commands must include the
@@ -326,13 +482,18 @@ WEBMCP_EVAL_MODEL='openai:<exact-model>' \
 npm run webmcp:eval:browser
 ```
 
-The wrapper writes private, ignored reports and a sanitised receipt. No model-
-backed evaluation has been run, and no model or remote provider has been
-selected for it. Any later run must record the exact model, provider boundary,
-fixture digest, run count and variance and must keep its credentials and
-unreviewed reports out of the repository. It validates and fails closed on any
-upstream console error or `pageerror`; acceptance records
-`browserConsoleErrorCount: 0` and `browserConsoleErrorsAccepted: false`.
+The wrapper writes private, ignored reports and a sanitised receipt. Three local
+attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases, three runs per case
+and exact loopback-only model `ollama:gpt-oss:20b`, inventory digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
+without remote credentials. Their results were 8 of 102 retry-expanded rows,
+then 33 of 33 upstream but 32 of 33 strict because one call added empty optional
+arrays, then 30 of 35 upstream after two malformed-then-corrected provenance
+IDs and one omitted comparison. All failed overall. Any later run must retain
+these failures and record the exact model, provider boundary, fixture digest,
+run count and variance. The wrapper fails closed on any upstream console error
+or `pageerror`; acceptance records `browserConsoleErrorCount: 0` and
+`browserConsoleErrorsAccepted: false`.
 
 `npm run webmcp:explorer:setup` separately checks out and builds Microsoft
 WebMCP Explorer 0.1.0 at commit
@@ -364,3 +525,11 @@ create a durable per-call receipt or make an official decision. The packaged
 receipts are static build evidence. Any future gateway, provider or service-
 operation capability would require a separate architecture, authority and
 assurance case.
+
+The federated candidate is also not an official service, a comprehensive or
+unique-record government index, a source-currentness certificate or proof that
+an API is callable, a person is eligible or a property record is supplied. The
+page hosts no model and accepts no personal profile, but a remote provider may
+receive prompts, tool metadata, arguments and results. Any claim of lower cost,
+better privacy, better questions or better answers remains an evaluation
+hypothesis.

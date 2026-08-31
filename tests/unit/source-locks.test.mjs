@@ -24,6 +24,9 @@ function sourceValue(source) {
   if (source.id === SOURCE_LOCK_IDS.CORPUS_ADMISSIONS) {
     return { collections: Array.from({ length: source.recordCount }, (_, index) => ({ id: `corpus:${index}` })) };
   }
+  if (source.id === SOURCE_LOCK_IDS.OKF_FEDERATION) {
+    return { sources: Array.from({ length: source.recordCount }, (_, index) => ({ id: `okf:${index}` })) };
+  }
   return Array.from({ length: source.recordCount }, (_, index) => ({ id: index }));
 }
 
@@ -77,7 +80,7 @@ async function runScript(script, cwd) {
   });
 }
 
-test("admits exactly the four expected regular source files and returns their verified bytes", async (t) => {
+test("admits exactly the five expected regular source files and returns their verified bytes", async (t) => {
   const value = await fixture(t);
   const admitted = await validateSourceLocks({ rootDir: value.rootDir });
   assert.deepEqual([...admitted.sourcesById.keys()], EXPECTED_SOURCE_LOCKS.map(({ id }) => id));
@@ -93,7 +96,7 @@ for (const expected of EXPECTED_SOURCE_LOCKS) {
     await writeRegistry(value);
     await assert.rejects(
       validateSourceLocks({ rootDir: value.rootDir }),
-      /must contain exactly 4 admitted sources/u,
+      /must contain exactly 5 admitted sources/u,
     );
   });
 }
@@ -109,7 +112,7 @@ test("rejects an extra source lock", async (t) => {
   await writeRegistry(value);
   await assert.rejects(
     validateSourceLocks({ rootDir: value.rootDir }),
-    /must contain exactly 4 admitted sources/u,
+    /must contain exactly 5 admitted sources/u,
   );
 });
 
@@ -226,6 +229,6 @@ test("every standalone builder rejects an incomplete registry before consuming a
   for (const script of ["build-catalogue.mjs", "build-evidence.mjs", "build-federation.mjs"]) {
     const result = await runScript(script, value.rootDir);
     assert.notEqual(result.code, 0, `${script} unexpectedly succeeded: ${result.stdout}`);
-    assert.match(result.stderr, /must contain exactly 4 admitted sources/u, `${script} did not fail at source admission`);
+    assert.match(result.stderr, /must contain exactly 5 admitted sources/u, `${script} did not fail at source admission`);
   }
 });

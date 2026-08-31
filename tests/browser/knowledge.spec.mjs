@@ -22,6 +22,36 @@ const expectedToolNames = [
   "explore_answer_foundations",
   "compare_evidence_foundations",
 ];
+const representativeFederatedSearches = [
+  {
+    collectionId: "uk-living",
+    query: "access child trust fund",
+    recordId: "govuk-discovery:federated:uk-living:6945",
+    title: "Access a Child Trust Fund",
+    authoritativeHref: "https://www.gov.uk/child-trust-funds",
+  },
+  {
+    collectionId: "ons",
+    query: "1981 census small area statistics",
+    recordId: "govuk-discovery:federated:ons:9757",
+    title: "1981 census - small area statistics",
+    authoritativeHref: "https://www.nomisweb.co.uk/api/v01/dataset/NM_66_1.overview.json",
+  },
+  {
+    collectionId: "government-apis",
+    query: "GOV.UK Notify",
+    recordId: "govuk-discovery:federated:government-apis:14854",
+    title: "GOV.UK Notify",
+    authoritativeHref: "https://www.notifications.service.gov.uk/documentation",
+  },
+  {
+    collectionId: "land-registry",
+    query: "Application Enquiry",
+    recordId: "govuk-discovery:federated:land-registry:56493",
+    title: "Application enquiry updates for Business e-services customers",
+    authoritativeHref: "https://www.gov.uk/government/news/application-enquiry-updates-for-business-e-services-customers",
+  },
+];
 
 function canonicalJson(value) {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
@@ -186,7 +216,14 @@ async function executeTool(page, name, input) {
   }, { toolName: name, toolInput: input });
 }
 
-test("human search covers the verified 80-record range without WebMCP or storage", async ({ page, context }) => {
+async function selectOnlyCollections(page, selectedCollectionIds) {
+  const selected = new Set(selectedCollectionIds);
+  for (const input of await page.locator("input[name='collection']").all()) {
+    await input.setChecked(selected.has(await input.getAttribute("value")));
+  }
+}
+
+test("human search exposes the reviewed and federated estate without WebMCP or storage", async ({ page, context }) => {
   const requests = [];
   const failedResponses = [];
   const consoleErrors = [];
@@ -198,7 +235,10 @@ test("human search covers the verified 80-record range without WebMCP or storage
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.getByRole("heading", { name: "Trusted government knowledge discovery" })).toBeVisible();
   await expect(page.locator("#record-count")).toHaveText("80");
-  await expect(page.locator("#collection-count")).toHaveText("2 searchable · 8 not searchable");
+  await expect(page.locator("#federated-record-count")).toHaveText("58,652");
+  await expect(page.locator("#federated-source-record-count")).toHaveText("58,655");
+  await expect(page.locator("#federated-quarantined-count")).toHaveText("3");
+  await expect(page.locator("#collection-count")).toHaveText("2 reviewed + 4 federated · 4 excluded or described");
   await expect(page.getByRole("status")).toContainText("WebMCP API is not available");
   await expect(page.getByRole("heading", { name: "Analytical index of the answer" })).toBeVisible();
   await expect(page.locator("#analytical-index > li")).toHaveCount(3);
@@ -206,6 +246,7 @@ test("human search covers the verified 80-record range without WebMCP or storage
 
   await page.getByLabel("Search term").fill("flood API");
   await page.getByText("Filter results").click();
+  await selectOnlyCollections(page, ["deep-evidence"]);
   await page.getByLabel("Resource type").selectOption("api");
   await page.getByRole("button", { name: "Search" }).click();
   const result = page.locator("article.result").first();
@@ -261,10 +302,27 @@ test("registers five closed tools with truthful effects and deterministic page p
   expect(await registeredTools(page)).toHaveLength(5);
 
   await page.getByLabel("Search term").fill("companies house");
+  await page.getByText("Filter results").click();
+  await selectOnlyCollections(page, ["deep-evidence"]);
   await page.getByRole("button", { name: "Search" }).click();
-  const toolSearch = await executeTool(page, "search_government_knowledge", { query: "companies house", limit: 8 });
+  const toolSearch = await executeTool(page, "search_government_knowledge", {
+    query: "companies house",
+    collections: ["deep-evidence"],
+    limit: 8,
+  });
   const pageSearch = JSON.parse(await page.locator("#results details.structured pre").textContent());
   expect(pageSearch).toEqual(toolSearch);
+  expect(pageSearch).toMatchObject({
+    schema: "trusted-govuk-discovery.search-result.v2",
+    selectedCollections: ["deep-evidence"],
+    evidenceEstate: {
+      reviewedRecordCount: 80,
+      federatedSourceRecordCount: 58_655,
+      federatedQuarantinedRecordCount: 3,
+      federatedRecordCount: 58_652,
+      federatedCollectionCount: 4,
+    },
+  });
 
   const inspectRecord = page.locator("article.result").first().getByRole("button", { name: "View record and provenance" });
   await inspectRecord.click();
@@ -280,6 +338,198 @@ test("registers five closed tools with truthful effects and deterministic page p
   await page.getByRole("button", { name: "Close record" }).click();
   await expect(inspectRecord).toBeFocused();
 });
+
+test("human and WebMCP searches retain exact parity across all four federated collections", async ({ page }) => {
+  await installModelContext(page);
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await page.getByText("Filter results").click();
+
+  for (const fixture of representativeFederatedSearches) {
+    await page.getByLabel("Search term").fill(fixture.query);
+    await selectOnlyCollections(page, [fixture.collectionId]);
+    await page.getByRole("button", { name: "Search", exact: true }).click();
+
+    await expect.poll(async () => {
+      const value = JSON.parse(await page.locator("#results details.structured pre").textContent());
+      return value.selectedCollections;
+    }).toEqual([fixture.collectionId]);
+
+    const pageResult = JSON.parse(await page.locator("#results details.structured pre").textContent());
+    expect(pageResult).toMatchObject({
+      schema: "trusted-govuk-discovery.search-result.v2",
+      ok: true,
+      selectedCollections: [fixture.collectionId],
+      evidenceEstate: {
+        reviewedRecordCount: 80,
+        federatedSourceRecordCount: 58_655,
+        federatedQuarantinedRecordCount: 3,
+        federatedRecordCount: 58_652,
+        federatedCollectionCount: 4,
+      },
+    });
+    expect(pageResult.collectionStatuses).toHaveLength(1);
+    expect(pageResult.collectionStatuses[0]).toMatchObject({
+      collectionId: fixture.collectionId,
+      evidenceTier: "federated-source-snapshot",
+      status: "ready",
+    });
+    expect(pageResult.results[0]).toMatchObject({
+      recordId: fixture.recordId,
+      collectionId: fixture.collectionId,
+      evidenceTier: "federated-source-snapshot",
+      canonicalHumanUrl: fixture.authoritativeHref,
+      integrityBasis: "snapshot-file-integrity",
+    });
+    expect(pageResult.results.every(({ collectionId }) => collectionId === fixture.collectionId)).toBe(true);
+
+    const article = page.locator(`article.result[data-record-id="${fixture.recordId}"]`);
+    await expect(article).toContainText("Federated OKF discovery");
+    await expect(article).toContainText("Snapshot and file-integrity checks passed");
+    await expect(article).toContainText(new URL(fixture.authoritativeHref).hostname);
+    await expect(article.getByRole("link", { name: fixture.title, exact: true }))
+      .toHaveAttribute("href", fixture.authoritativeHref);
+
+    const toolResult = await executeTool(page, "search_government_knowledge", {
+      query: fixture.query,
+      collections: [fixture.collectionId],
+      limit: 8,
+    });
+    expect(pageResult, `${fixture.collectionId} human/tool parity`).toEqual(toolResult);
+  }
+});
+
+test("collection and resource filters remain closed and report federated lower-bound semantics", async ({ page }) => {
+  await installModelContext(page);
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await page.getByText("Filter results").click();
+  await page.getByLabel("Search term").fill("census");
+  await selectOnlyCollections(page, ["ons"]);
+  await page.getByLabel("Resource type").selectOption("dataset");
+  await page.getByRole("button", { name: "Search", exact: true }).click();
+
+  const pageResult = JSON.parse(await page.locator("#results details.structured pre").textContent());
+  expect(pageResult.selectedCollections).toEqual(["ons"]);
+  expect(pageResult.totalRelation).toBe("gte");
+  expect(pageResult.results.length).toBeGreaterThan(0);
+  expect(pageResult.results.every(({ collectionId, resourceType }) =>
+    collectionId === "ons" && resourceType === "dataset")).toBe(true);
+  expect(pageResult.collectionStatuses).toEqual([
+    expect.objectContaining({
+      collectionId: "ons",
+      totalRelation: "gte",
+      limitation: "Federated filters are applied to the bounded candidate window; the displayed total is a lower bound.",
+    }),
+  ]);
+
+  const toolResult = await executeTool(page, "search_government_knowledge", {
+    query: "census",
+    resourceTypes: ["dataset"],
+    collections: ["ons"],
+    limit: 8,
+  });
+  expect(pageResult).toEqual(toolResult);
+});
+
+test("exact federated record and provenance expose source evidence without claiming an item receipt", async ({ page }) => {
+  const fixture = representativeFederatedSearches[0];
+  await installModelContext(page);
+  await page.goto(`/#record=${encodeURIComponent(fixture.recordId)}`);
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await expect(page.locator("#record-panel")).toBeVisible();
+  await expect(page.getByRole("heading", { name: fixture.title, exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Open recorded source link" }))
+    .toHaveAttribute("href", fixture.authoritativeHref);
+  await expect(page.locator("#record-content")).toContainText("Not independently established");
+  await expect(page.locator("#record-content")).toContainText(new URL(fixture.authoritativeHref).hostname);
+  await expect(page.locator("#provenance-content")).toContainText("No item-level receipt for this evidence tier");
+  await expect(page.locator("#provenance-content")).toContainText("not an item-level review");
+
+  const pageRecord = JSON.parse(await page.locator("#record-content details.structured pre").textContent());
+  const pageProvenance = JSON.parse(await page.locator("#provenance-content details.structured pre").textContent());
+  expect(pageRecord).toMatchObject({
+    schema: "govuk-webmcp.federated-resource-record-result.v1",
+    evidenceTier: "federated-source-snapshot",
+    verificationStatus: "snapshot-file-integrity",
+    record: {
+      id: fixture.recordId,
+      canonicalHumanUrl: fixture.authoritativeHref,
+      sourceAuthority: "Not independently established",
+    },
+    boundaries: { itemLevelReview: false, evidenceReceiptAvailable: false },
+  });
+  expect(pageProvenance).toMatchObject({
+    schema: "govuk-webmcp.federated-provenance-result.v1",
+    evidenceTier: "federated-source-snapshot",
+    recordId: fixture.recordId,
+    status: "federated-source-linked",
+    evidenceReceiptAvailable: false,
+    authoritativeLink: { url: fixture.authoritativeHref },
+    boundaries: { itemLevelReview: false, evidenceReceiptAvailable: false },
+  });
+  expect(pageProvenance.fieldAssertions[0].note).toContain("no item-level evidence receipt is claimed");
+
+  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  expect(pageRecord).toEqual(await executeTool(page, "get_resource_record", { recordId: fixture.recordId }));
+  expect(pageProvenance).toEqual(await executeTool(page, "show_provenance", { recordId: fixture.recordId }));
+});
+
+test("federated shards load lazily from same-origin without legislation or external runtime requests", async ({ page }) => {
+  const requests = [];
+  page.on("request", (request) => requests.push(request.url()));
+  await installModelContext(page);
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+
+  expect(requests.some((url) => /\/federated-search\/(?:postings|records)\//u.test(url))).toBe(false);
+  await page.getByText("Filter results").click();
+  await selectOnlyCollections(page, ["uk-living"]);
+  await page.getByLabel("Search term").fill("access child trust fund");
+  await page.getByRole("button", { name: "Search", exact: true }).click();
+  await expect(page.locator("article.result").first()).toBeVisible();
+
+  const lazyRequests = requests.filter((url) => /\/federated-search\/(?:postings|records)\//u.test(url));
+  expect(lazyRequests.length).toBeGreaterThanOrEqual(2);
+  expect(lazyRequests.some((url) => url.includes("/postings/uk-living/"))).toBe(true);
+  expect(lazyRequests.some((url) => url.includes("/records/uk-living/"))).toBe(true);
+  expect(requests.every((url) => new URL(url).origin === testOrigin)).toBe(true);
+  expect(requests.some((url) => new URL(url).hostname === "legislation.gov.uk")).toBe(false);
+  expect(requests.some((url) => url.includes("legislation.gov.uk"))).toBe(false);
+});
+
+for (const unavailableCollection of ["uk-living", "ons", "government-apis", "land-registry"]) {
+  test(`an unavailable ${unavailableCollection} source leaves every other selected source usable`, async ({ page }) => {
+    await page.route(`**/data/federated-search/postings/${unavailableCollection}/**`, (route) =>
+      route.fulfill({ status: 503, body: "Source unavailable in the acceptance fixture." }));
+    await installModelContext(page);
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+    const result = await executeTool(page, "search_government_knowledge", {
+      query: "housing",
+      collections: ["uk-living", "ons", "government-apis", "land-registry"],
+      limit: 20,
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.totalRelation).toBe("gte");
+    expect(result.truncated).toBe(true);
+    expect(result.results.length).toBeGreaterThan(0);
+    expect(result.results.every(({ collectionId }) => collectionId !== unavailableCollection)).toBe(true);
+    expect(result.collectionStatuses).toHaveLength(4);
+    expect(result.collectionStatuses.find(({ collectionId }) => collectionId === unavailableCollection)).toEqual(
+      expect.objectContaining({
+        status: "unavailable",
+        totalRelation: "gte",
+        limitation: "This checksum-bound collection was unavailable or invalid; results from other ready collections remain usable.",
+      }),
+    );
+    expect(result.collectionStatuses
+      .filter(({ collectionId }) => collectionId !== unavailableCollection)
+      .every(({ status }) => status === "ready")).toBe(true);
+  });
+}
 
 test("WebMCP exploration and comparison update only the matching visible deterministic result", async ({ page }) => {
   await installModelContext(page);
@@ -323,7 +573,7 @@ test("WebMCP callbacks tolerate hosts that omit execution options", async ({ pag
     {
       name: "search_government_knowledge",
       input: { query: "register a birth", limit: 3 },
-      schema: "trusted-govuk-discovery.search-result.v1",
+      schema: "trusted-govuk-discovery.search-result.v2",
     },
     {
       name: "get_resource_record",
@@ -504,11 +754,16 @@ for (const integrityFailure of [
   { label: "receipt", checksum: "receipts.json.sha256", message: "receipt checksum does not match" },
   { label: "Evidence Trace", checksum: "evidence-traces.json.sha256", message: "Evidence Trace checksum does not match" },
   { label: "federation", checksum: "federation.json.sha256", message: "federation checksum does not match" },
+  {
+    label: "federated search manifest",
+    checksum: "federated-search/manifest.json.sha256",
+    message: "federated search manifest checksum does not match",
+  },
 ]) {
   test(`${integrityFailure.label} tampering prevents all tool registration`, async ({ page }) => {
     await installModelContext(page);
     await page.route(`**/data/${integrityFailure.checksum}`, (route) =>
-      route.fulfill({ body: `${"0".repeat(64)}  ${integrityFailure.checksum.replace(".sha256", "")}\n`, contentType: "text/plain" }));
+      route.fulfill({ body: `${"0".repeat(64)}  ${integrityFailure.checksum.split("/").at(-1).replace(".sha256", "")}\n`, contentType: "text/plain" }));
     await page.goto("/");
     await expect(page.getByRole("status")).toContainText(integrityFailure.message);
     await expect(page.getByLabel("Search term")).toBeDisabled();
@@ -587,7 +842,9 @@ test("axe WCAG 2.2 scan finds no serious or critical violations in the expanded 
   await selectors.nth(0).check();
   await selectors.nth(1).check();
   await page.getByRole("button", { name: "Compare 2 selected claims" }).click();
-  await page.getByLabel("Search term").fill("child benefit");
+  await page.getByText("Filter results").click();
+  await selectOnlyCollections(page, ["government-apis"]);
+  await page.getByLabel("Search term").fill("GOV.UK Notify");
   await page.getByRole("button", { name: "Search" }).click();
   await page.locator("article.result").first().getByRole("button", { name: "View record and provenance" }).click();
   const results = await new AxeBuilder({ page })
@@ -627,7 +884,10 @@ test("keyboard, 320px reflow, forced colours and reduced motion retain evidence 
   await expect(page.locator("#foundation-detail")).not.toBeEmpty();
 
   await page.getByLabel("Search term").focus();
-  await page.keyboard.type("flood API");
+  await page.keyboard.type("access child trust fund");
+  await page.getByText("Filter results").click();
+  await selectOnlyCollections(page, ["uk-living"]);
+  await page.getByLabel("Search term").focus();
   await page.keyboard.press("Tab");
   const searchButton = page.getByRole("button", { name: "Search" });
   await expect(searchButton).toBeFocused();

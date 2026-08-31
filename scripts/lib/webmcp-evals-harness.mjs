@@ -18,7 +18,7 @@ export const EXPECTED_TOOL_NAMES = Object.freeze([
   "compare_evidence_foundations",
 ]);
 export const EXPECTED_RESULT_SCHEMAS = Object.freeze({
-  search_government_knowledge: "trusted-govuk-discovery.search-result.v1",
+  search_government_knowledge: "trusted-govuk-discovery.search-result.v2",
   get_resource_record: "trusted-govuk-discovery.resource-record-result.v1",
   show_provenance: "trusted-govuk-discovery.provenance-result.v1",
   explore_answer_foundations: "trusted-govuk-discovery.evidence-exploration-result.v1",
@@ -31,6 +31,7 @@ const ALLOWED_ARGUMENTS = Object.freeze({
     "resourceTypes",
     "publishers",
     "accessStatuses",
+    "collections",
     "limit",
   ]),
   get_resource_record: new Set(["recordId"]),
@@ -343,7 +344,7 @@ export function browserEvalChildEnvironment(environment, configuration) {
 }
 
 export async function preflightOllamaModel(configuration, fetchImplementation = fetch) {
-  if (configuration.provider !== "ollama") return;
+  if (configuration.provider !== "ollama") return null;
   let response;
   try {
     response = await fetchImplementation(`${configuration.ollama.apiOrigin}/api/tags`, {
@@ -362,14 +363,32 @@ export async function preflightOllamaModel(configuration, fetchImplementation = 
   } catch {
     throw new Error("The loopback Ollama model inventory was not valid JSON.");
   }
-  const installedModels = Array.isArray(payload?.models)
-    ? payload.models.flatMap((entry) => [entry?.name, entry?.model]).filter((value) => typeof value === "string")
-    : [];
-  if (!installedModels.includes(configuration.modelIdentifier)) {
+  if (!plainObject(payload) || !Array.isArray(payload.models) || payload.models.length > 256) {
+    throw new Error("The loopback Ollama model inventory was not a bounded models array.");
+  }
+  const matchingEntries = payload.models.filter((entry) =>
+    plainObject(entry)
+      && [entry.name, entry.model].some((value) => value === configuration.modelIdentifier));
+  if (matchingEntries.length === 0) {
     throw new Error(
       `The exact Ollama model ${configuration.modelIdentifier} is not installed; the harness will not download it.`,
     );
   }
+  if (matchingEntries.length !== 1) {
+    throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has an ambiguous inventory identity.`);
+  }
+  const rawDigest = matchingEntries[0].digest;
+  if (typeof rawDigest !== "string") {
+    throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has no validated inventory digest.`);
+  }
+  const digest = rawDigest.replace(/^sha256:/iu, "").toLowerCase();
+  if (!/^[a-f0-9]{64}$/u.test(digest)) {
+    throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has no validated inventory digest.`);
+  }
+  return Object.freeze({
+    name: configuration.modelIdentifier,
+    digest,
+  });
 }
 
 export function buildBrowserEvalArguments({

@@ -1,5 +1,55 @@
 # Final pre-submission checklist
 
+## `v0.3.0-rc.1` federated candidate evidence gate
+
+The checked evidence below belongs to the earlier 80-record release unless it
+explicitly names the federated candidate. None of it can be carried forward as
+proof for `v0.3.0-rc.1`. Complete this section against one exact public commit
+before changing any item to checked. The last complete pre-remediation
+checkpoint passed 144 of 144 unit tests and 29 of 29 installed-Microsoft-Edge
+acceptance tests. Seven initial Low security findings were remediated afterwards.
+A sealed scan suppressed those seven and found an eighth High-confidence Low
+URL-boundary bypass, which was fixed post-snapshot. Current research,
+build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
+smoke gates pass where recorded; the immutable post-fix rescan,
+CI, Pages, current-host and refreshed-video evidence remain separate and
+unchecked.
+
+- [x] The current full unit command passed 173 of 173 in `17128.154916 ms`;
+  Chrome and installed Microsoft Edge each passed 29 of 29 on the current tree.
+- [x] The current partial rerun records research 4 of 4, passing production
+  build/data validation, mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
+  parity, legislation absent or rejected, and 29 of 29 in both installed Chrome
+  and Microsoft Edge. The full unit result is recorded above.
+- [ ] The immutable exact-tree security rescan verifies all eight Low
+  findings as fixed and retains their IDs, dispositions, commands and failures.
+  Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
+  and found `csf_a2d9e030fda789ecd1cb0e41`, but its coverage is mechanically
+  partial and stale-pending and the eighth fix postdates its snapshot.
+- [ ] Protected-main CI passes for the exact candidate commit, including
+  deterministic source import, generated projection, schema, integrity, unit,
+  browser, frozen nDCG@10/Recall@20 quality and security checks.
+- [ ] GitHub Pages deploys the exact candidate commit and its federated assets;
+  the public bytes, source locks and generated manifest match the retained
+  evidence, including 58,655 raw rows, 3 quarantined rows, 58,652 searchable
+  records and zero `legislation.gov.uk` result links.
+- [ ] A currently supported host lists and completes all five WebMCP tools on
+  that deployment, including the four-source search, exact record and
+  provenance calls; record host, version, time and arguments.
+- [ ] The fixed human and WebMCP journeys produce the same canonical evidence
+  fields, and the page shows evidence tier, producer-declared source link,
+  destination hostname, “Not independently established” source authority,
+  integrity and limitations without inventing a federated item receipt or
+  official status.
+- [ ] A refreshed video shorter than three minutes is captured from the exact
+  deployed federated candidate, accurately shows all four sources and the
+  human/tool parity journey, and has reviewed captions and a transcript.
+- [ ] Chris Page completes owner review of the candidate, video, synthetic
+  voice, privacy, branding, rights, impact claims and remaining hypotheses.
+- [ ] The approved public video URL plays signed out with sound and captions.
+- [ ] A final read-only Devpost compliance review refreshes the rules, live
+  fields, URLs, entrant attestations and current evidence without submitting.
+
 ## Governance no-go gate
 
 - [ ] Entrant route is fixed and matches all accounts, repository ownership and the Devpost form.
@@ -67,13 +117,23 @@
   errors. This does not establish agent model selection.
 - [x] The pinned model-free `webmcp-evals` smoke suite completed six of six
   authored calls across all five tools in isolated Chrome 152 without provider
-  credentials. This is execution evidence, not model-selection evidence.
+  credentials on the authorised outside-socket-sandbox rerun. The first in-
+  sandbox attempt failed with the expected loopback `EPERM`. This is execution
+  evidence, not model-selection evidence.
+- [x] Three failed local-model attempts are retained with Chrome 152,
+  `webmcp-evals` 0.0.4, eight cases, three runs per case, no remote credential
+  and exact `ollama:gpt-oss:20b` inventory digest
+  `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
+  Results were 8 of 102 retry-expanded rows, 32 of 33 strict rows despite 33 of
+  33 upstream, and 30 of 35 upstream. This records improved legibility and
+  variance, not a model-backed pass.
 - [ ] **Optional assurance:** Microsoft WebMCP Explorer is run from its pinned source revision in a
   fresh profile, first in Tools/Agent Step mode, with the exact provider class,
   model and extension digest recorded and no credential retained in evidence.
-- [ ] **Optional assurance:** the browser-selection fixture is repeated with one fixed explicitly local
-  or remote model; no-call, context-minimisation, variance and valid alternate
-  trajectories are reported rather than hidden.
+- [ ] **Optional assurance:** obtain a strict passing browser-selection result
+  with one fixed explicitly local or remote model; no-call, context-
+  minimisation, variance and valid alternate trajectories are reported without
+  hiding the three failed local attempts.
 - [x] The unsupported-host manual fallback was recorded against the deployed
   `v0.2.0-rc.1` site in a signed-out Chromium session where
   `document.modelContext` was absent.

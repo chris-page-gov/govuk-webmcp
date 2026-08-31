@@ -6,6 +6,160 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- An in-progress `0.3.0-rc.1` federated-discovery slice for exactly four
+  independently republished OKF source snapshots: 9,757 A Life in the UK
+  rows, including 293 service families; 5,097 ONS metadata rows; 41,598 UK
+  Government APIs rows; and 2,203 HM Land Registry public-estate metadata
+  rows. The locked raw population is 58,655 rows before cross-source
+  deduplication. Exactly three standalone HM Land Registry legislation records
+  are quarantined, leaving 58,652 searchable federated records, including
+  2,200 searchable Land Registry records. The federated tier remains separate
+  from the 80 reviewed records with packaged deep-evidence receipts. No
+  standalone UK Legislation collection, payload, index or runtime request is
+  included, and the searchable projection contains no `legislation.gov.uk`
+  result link. The locked source files still retain 28 source-authored
+  cross-reference strings as inert, untrusted source metadata: 6 in A Life in
+  the UK, 3 in ONS, 2 in UK Government APIs and 17 in Land Registry.
+- ADR-0004 and an A–M acceptance plan covering the source allowlist, byte and
+  semantic integrity, progressive delivery, deterministic search, four source
+  journeys, common evidence shape, partial failure, context minimisation,
+  injection and resource safety, repeated fixed-model evaluation,
+  accessibility, whole-system cost and exact release binding.
+- A frozen authored lexical retrieval-quality fixture and deterministic runner
+  for exact ID, title, publisher, topic, multi-token, ambiguous, no-match,
+  duplicate and prohibited-legislation cases. It reports nDCG@10 and Recall@20,
+  enforces authored thresholds, checks cold/warm parity and binds a canonical
+  result digest without claiming model or corpus-wide answer quality.
+- A reproducible federated data plane comprising 73 versioned gzip source
+  artefacts totalling 13,021,675 bytes. The deterministic builder expands them
+  to 1,853 shard files — 120 record shards and 1,733 postings shards — plus
+  `manifest.json` and its checksum sidecar: 1,855 generated files and
+  127,747,020 bytes in total. The ignored plane is copied into `dist`. The lock
+  and generated-manifest digests are bound by the build; record their final
+  values only after the exact-tree rescan and deterministic rebuild.
+- Eleven additional closed JSON Schemas for the federated lock, generated
+  manifest and shards, and public federated result families, bringing the
+  published candidate contract set to 31 schemas.
+
+### Changed
+
+- The in-progress candidate keeps the existing five page-scoped WebMCP tools
+  and complete human journey while extending the three discovery tools to
+  distinguish reviewed deep evidence from federated source-snapshot evidence.
+  Federated results retain their collection, snapshot, source-native identity,
+  source-link role and limitations without acquiring an item-level receipt.
+  Human search and WebMCP now use the same action controller and common
+  deterministic result.
+- Changed the corpus admission split from 2 searchable and 8 non-searchable
+  entries to 6 searchable and 4 non-searchable entries. The source-lock
+  registry now has 5 entries, including the closed four-source federation lock.
+- Preserved every UK Government APIs record by using its source-authored,
+  collection-unique `concept_id` as the source-native identity. Endpoint URLs
+  can be shared and remain evidence links rather than surrogate record IDs.
+- Federated producer text can no longer self-promote a link or assertion to
+  official status. Source links use conservative producer-declared roles, and
+  source assertions use `producer-declared` unless the application can justify
+  a narrower mechanical normalisation independently.
+- Federated exact-record output now reports source authority as “Not
+  independently established”. Human search and record views display the
+  recorded link destination hostname so people can inspect where a producer-
+  declared link leads.
+- The judging account now states the division of responsibility precisely:
+  OKF publishes governed, progressively retrievable evidence; WebMCP lets a
+  citizen-selected AI invoke bounded page actions; and the static page hosts no
+  model and accepts no personal profile. A remote model provider may still
+  receive prompts, tool metadata, arguments and results.
+- CI and Pages now run `okf-federation:quality:prepared` immediately after the
+  complete test suite. The release result remains pending until that frozen gate
+  passes on the exact post-remediation tree.
+- Improved model legibility by publishing canonical machine identifiers,
+  explicit collection tokens and omit-unused-field guidance in tool schemas,
+  descriptions and the eight-case browser fixture. Three preserved local
+  `webmcp-evals` attempts used Chrome 152 and the exact loopback-only
+  `ollama:gpt-oss:20b` inventory digest
+  `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
+  The pre-legibility attempt passed 8 of 102 retry-expanded rows; the second
+  upstream report passed 33 of 33 rows but the strict project verifier accepted
+  only 32 because one call added empty optional arrays; the security-fixed
+  third attempt passed 30 of 35 upstream rows after two malformed-then-
+  corrected provenance IDs and one omitted comparison. All three attempts
+  failed overall and remain variance evidence, not a model-backed pass.
+
+### Security
+
+- Implemented remediations for seven initial Low findings from the federated candidate
+  scan: superlinear postings generation (`csf_d6045d8bfb6836f0a274850d`),
+  unenforced Land Registry row limits (`csf_628dded1ed9a62431cf1f121`), mutable
+  source artefacts retaining fixed-revision claims
+  (`csf_a685f5df80a811659b866345`), one failing collection suppressing healthy
+  sources (`csf_e9078180b75895a09a282bda`), producer self-promotion of arbitrary
+  links and assertions (`csf_13ddf953dc16e399c8c04f03`), the `constructor`
+  token crashing the builder (`csf_5b3f067459df708770da0536`) and concurrent
+  calls amplifying uncached shard work (`csf_afca5f27e901f0db4b730cc7`). Focused
+  remediation checks have passed where recorded. Sealed scan
+  `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed those seven findings.
+- The same sealed scan found one further High-confidence, Low-severity
+  trailing-dot and secondary legislation-URL bypass
+  (`csf_a2d9e030fda789ecd1cb0e41`). Generator and runtime validation were fixed
+  after the scanned snapshot, and the affected focused tests passed 23 of 23
+  after an earlier focused security batch passed 119 of 119. The sealed scan
+  reported no other open reportable candidate, but its coverage record contains
+  mechanically partial and stale-pending rows and predates this last fix. An
+  immutable exact-tree rescan therefore remains pending; none of the eight
+  remediations is yet release evidence. The current full unit command
+  `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`.
+- Executable federated URL validation now matches the closed schema by rejecting
+  explicit ports. Projection also rejects any apex, `www` or other subdomain
+  `legislation.gov.uk` result link. Same-origin response bodies are consumed
+  incrementally under the fixed byte cap; malformed `Content-Length`, empty or
+  missing bodies, declared overflow and streamed overflow fail closed.
+- Generated-plane cleanup now retries a bounded number of times when Finder
+  recreates `.DS_Store`; the production copy omits `.DS_Store`, and `dist` is
+  cleaned before compilation so operating-system metadata cannot enter the
+  release artefact.
+- The candidate design admits only four locked, credential-free HTTPS
+  publications, mirrors only declared artefacts to the same-origin build and
+  applies byte, decoded-size, row, fan-out and time budgets. Unknown origins,
+  redirects, traversal, a legislation collection or request, and co-digested
+  semantic substitutions fail closed. The focused federation suite passed 15
+  of 15 after closing an extra-searchable-collection fail-closed gap. This is
+  local candidate evidence, not a completed release assurance claim.
+- CI and Pages now fetch complete Git history so the release-evidence test can
+  resolve and verify the retained annotated `v0.2.0-rc.2` baseline instead of
+  depending on history that is present only in a developer checkout. Unit tests
+  lock that workflow requirement.
+- Corrected the security and competition assurance wording to distinguish the
+  historical release's four root artefact families from the federated
+  candidate's fifth lazy-search-manifest family.
+- Expanded the partial-source browser matrix to fail A Life in the UK, ONS,
+  UK Government APIs and HM Land Registry independently, while requiring every
+  unaffected selected source to remain ready and usable in both Chrome and
+  Microsoft Edge.
+
+### Governance
+
+- Retained annotated tag `v0.2.0-rc.2` and its public pre-release as the frozen
+  pre-federation baseline at product commit
+  `35fcedd39ed955278d3975a6dd80692fc6e32935`. This is a project history
+  boundary that must not be moved or rewritten; it is not described as a
+  GitHub-platform immutable release.
+- Kept cost reduction, privacy improvement, better questions and improved
+  answer quality as hypotheses requiring controlled evaluation.
+- Recorded the pre-remediation local candidate checkpoint: production build; 9 of 9
+  deterministic data double-build tests; 21 of 21 focused runtime and public-
+  schema tests; 15 of 15 focused federation tests; 29 of 29 installed-Chrome
+  Playwright tests; 6 of 6 model-free smoke calls; 144 of 144 complete unit
+  tests in 174.5 seconds; and 29 of 29 installed-Microsoft-Edge Playwright
+  tests in a loopback-only run after the expected sandbox socket restriction.
+  The seven initial Low-finding remediations were implemented afterwards. A
+  sealed follow-up scan suppressed those seven and found one further Low URL-
+  boundary bypass, which was fixed post-snapshot. Focused security checks
+  passed 119 of 119 and the affected post-fix subset passed 23 of 23, but the
+  complete exact-tree suite and rescan, protected-main CI, Pages, current-host
+  capture, release tagging and submission remain pending.
+
 ## [0.2.0-rc.2] - 2026-08-30
 
 ### Added
@@ -83,8 +237,9 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   model preflight, exact context-minimisation checking, private reports and
   sanitised receipts. It validates and rejects any upstream console error or
   `pageerror`; accepted receipts record `browserConsoleErrorCount: 0` and
-  `browserConsoleErrorsAccepted: false`. No model-backed run has yet been
-  performed.
+  `browserConsoleErrorsAccepted: false`. At this `0.2.0-rc.2` history
+  checkpoint no model-backed run had yet been performed; three later candidate
+  attempts are recorded under Unreleased and all failed overall.
 - A repeatable local setup for Microsoft WebMCP Explorer 0.1.0 pinned to commit
   `f7091c12420e713b11361630dc1649d5678f62ab`. It built twice idempotently in
   isolated ignored `.tools/webmcp-explorer-build/` and left the source checkout

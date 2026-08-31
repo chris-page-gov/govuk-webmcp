@@ -2,15 +2,30 @@
 
 ## What the page processes
 
-Search terms are processed in the browser against the 80-record same-origin
-static catalogue. The application does not add them to the URL, write them to
-local storage or session storage, send them to a government or other provider
-API, or deliberately log them.
+The frozen public page processes search terms in the browser against the
+80-record same-origin static catalogue. The in-progress `0.3.0-rc.1` candidate
+is designed to search 58,652 records from 58,655 locked raw rows in exactly
+four OKF source snapshots through progressively loaded, same-origin static
+assets. Exactly three standalone Land Registry legislation rows are
+quarantined. It does not contact
+the OKF publishers, an official operational API or a model provider at query
+time. There is no standalone UK Legislation source, payload, index or runtime
+request, and the searchable projection exposes zero `legislation.gov.uk`
+result links. Source-authored cross-reference strings remain in the locked
+snapshots as inert, untrusted metadata; their presence in source text does not
+admit a link or collection.
+
+The application does not add search terms to the URL, write them to local
+storage or session storage, or deliberately log them. A static host can still
+observe ordinary requests and query-derived asset paths, alongside ordinary
+network metadata. That is a narrower boundary than sending a profile to the
+page, not proof that searching is unobservable.
 
 The application does not use accounts, cookies, analytics, advertising,
 tracking pixels or persistent server-side application storage. Its five WebMCP
-tools accept only bounded action-specific inputs. They do not request unrelated
-conversation, identity or personal context.
+tools accept only bounded action-specific inputs. The federated search contract
+adds only a fixed collection allowlist; it does not request unrelated
+conversation, identity, a personal profile, location or browsing history.
 
 ## URL fragments and browser history
 
@@ -37,6 +52,12 @@ page. Rejected tool input is not retained in the page's diagnostic input digest.
 No tool creates a new durable receipt for the call, a persistent session or
 external state.
 
+Federated exact-record output reports source authority as “Not independently
+established”. Links and assertions remain producer-declared; producer wording
+cannot promote them to official status. The visible destination hostname helps
+a person inspect where a recorded link leads. This is an assurance boundary,
+not a privacy claim about the destination site.
+
 A compatible browser or agent host may observe tool names, inputs, outputs and
 the current page independently of this application. Its logging, history,
 telemetry, model processing and retention are governed by that host and are
@@ -59,6 +80,13 @@ keep model inference on the citizen's device, although the browser still makes
 ordinary requests to the static host and local applications may keep logs. Do
 not treat “personal agent” as meaning “private by default”.
 
+The proposition that this arrangement improves privacy, asks better questions,
+improves answer quality or reduces public cost is an evaluation hypothesis. A
+valid test must distinguish the page's admitted arguments and same-origin
+requests from provider-side prompt, tool-metadata, argument and result
+processing. It must not use real personal data merely to make the demonstration
+feel personalised.
+
 ## Test evidence and retention
 
 Native developer tools, Microsoft WebMCP Explorer, Chrome DevTools MCP and
@@ -78,6 +106,13 @@ class and model identifier, not its credential, and is checksummed against the
 tested revision. Provider-side logging and retention remain subject to the
 selected provider's privacy terms.
 
+The federated candidate adds a synthetic-persona minimisation test with visible
+sentinel values, a no-call case and at least three runs per fixed model after
+model-free checks pass. It must report any sentinel reaching page-tool
+arguments, application-origin requests or storage, and report remote-provider
+traffic separately. These checks are planned A–M acceptance evidence; none is
+claimed complete for `0.3.0-rc.1` yet.
+
 The admitted native-panel screenshots were captured from a disposable,
 unconnected Chrome profile containing only the public project. They were
 visually reviewed before admission and contain no personal tab, account,
@@ -88,8 +123,9 @@ remain ignored; only sanitised, checksum-bound observations are retained.
 ## Hosting and external links
 
 A static host may process ordinary request data under its own privacy terms.
-Following an authoritative source link leaves this prototype; the destination
-organisation's privacy and cookie notices then apply.
+Following a reviewed authoritative link or a federated producer-declared link
+leaves this prototype; the destination organisation's privacy and cookie
+notices then apply.
 
 Do not enter personal, sensitive or unpublished information into the search
 box or a tool call. The catalogue is a research fixture, not a channel for
