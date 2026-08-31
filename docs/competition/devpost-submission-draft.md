@@ -257,10 +257,11 @@ policy. The defects have working-tree remediations and the exact local verificat
 above exercises them. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
 then retained one High-confidence, Low-severity co-digested source-substitution
 finding. Separately code-reviewed pins for all five source files, a direct
-builder lock-byte check and mutation regressions remediate it. A fresh immutable
-fixed-tree scan,
-protected CI and merge, Pages, supported-host, accessibility, model-backed
-evaluation and refreshed video remain pending.
+builder lock-byte check and mutation regressions remediate it. Immutable fixed-
+tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review
+items against exact commit `9c6ed7d9a21574972ee564b333cbc49983058554` with
+zero reportable findings. Protected CI and merge, Pages, supported-host,
+accessibility, model-backed evaluation and refreshed video remain pending.
 
 The final-candidate demonstration preflight correctly failed closed because no
 deployed commit and no explicit overwrite approval were supplied. It did not

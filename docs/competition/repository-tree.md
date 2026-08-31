@@ -282,7 +282,8 @@ in `17128.154916 ms`. Exact-range scan
 `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` later retained ninth finding
 `csf_050a3c08c471d3176e0640c3`; separately code-reviewed pins for all five
 sources, a direct builder lock-byte check and mutation regressions remediate
-it. The fresh immutable fixed-tree scan remains pending.
+it. Fresh immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55
+of 55 review items against the fixed candidate with zero reportable findings.
 
 The repository also pins `jsonschema` 4.26.0 and each mandatory or
 Python-version-conditional runtime dependency in `requirements-dev.txt`;

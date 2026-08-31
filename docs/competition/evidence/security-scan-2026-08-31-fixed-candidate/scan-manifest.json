@@ -1,0 +1,94 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "bc3de9a1dc9f8b26d5b5a0e3e0d63302f2abe9746ba342877ed3cece98b5fdec"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "ea79dfbd3bc1fdada02335d65c24a00cb4e99213400c708f3888b56c4ae1f922"
+      }
+    ],
+    "completedAt": "2026-08-31T03:30:22.326084Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "040ad945-3723-4aef-9c03-1bb552630deb",
+    "preservedSources": {
+      "checkpoints/7ae6464856d783a524d47106fa8e9580c66fd01f7dbfafecca02c362e42857a6.json": "7ae6464856d783a524d47106fa8e9580c66fd01f7dbfafecca02c362e42857a6",
+      "checkpoints/e177041fca10ffe91058b098866037dc23f7e837dabe4bba0d07238ca2f1843f.json": "f6fe86c3f07f5c04e07d7d74f8bee2a323595c8ed8ee5790505ed7ddf73ec5c6"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "55 of 55 prepared review items",
+        "Source import/admission/build pipeline and all five executable source pins",
+        "Federated and combined browser runtimes plus all 58,652 generated records",
+        "Five WebMCP tools and closed schemas",
+        "DOM rendering, CSP, evaluator and demo evidence pipeline"
+      ],
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "No third-party penetration test",
+        "Supported-host and assistive-technology release observations remain pending",
+        "Repository authenticity is rooted in protected review, not publisher signatures"
+      ],
+      "runtimeStatus": "Production build and 193 prepared unit tests passed before scan; reviewers added 33 source/federation tests, 54 runtime tests, 88 WebMCP/evidence tests, 6 focused Chrome tests and 58,652-record/122,533-link inspection.",
+      "summary": "Complete exact-range review of all 55 security-relevant items changed from v0.2.0-rc.2 to fixed candidate 9c6ed7d.",
+      "validationMode": "Exact commit-range static review plus independent source-substitution proofs, focused unit/browser suites and complete generated-corpus link/content scan."
+    },
+    "sealedAt": "2026-08-31T03:30:22.326084Z",
+    "startedAt": "2026-08-31T03:20:58.590370Z",
+    "status": "completed",
+    "target": {
+      "baseRevision": "35fcedd39ed955278d3975a6dd80692fc6e32935",
+      "displayName": "govuk-webmcp",
+      "headRevision": "9c6ed7d9a21574972ee564b333cbc49983058554",
+      "kind": "git_diff",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:77e22674c167accddae3c849ef48d333fd9ec9476a1bb561c540f03093020630",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "assets": [
+        "Integrity and provenance of four OKF source snapshots and 58,652 searchable records",
+        "Citizen trust in human and WebMCP result parity",
+        "Browser origin, credentials and availability",
+        "Release and supported-host evidence"
+      ],
+      "assumptions": [
+        "Protected-main and Pages workflow remain enforced",
+        "Native browser fetch honours AbortSignal",
+        "GitHub and the authenticated user account are outside application scope"
+      ],
+      "attackerCapabilities": [
+        "Supply altered source or metadata bytes upstream",
+        "Submit a repository change subject to protected review",
+        "Provide hostile free-text query or source-authored strings",
+        "Invoke WebMCP tools repeatedly within or outside schema bounds"
+      ],
+      "securityObjectives": [
+        "Reject unreviewed source identities before generation",
+        "Keep runtime fetching same-origin, credential-free and bounded",
+        "Keep source text inert and visibly untrusted",
+        "Expose deterministic human/tool parity with explicit limitations"
+      ],
+      "summary": "A public static Pages application builds checksum-labelled government discovery data from repository-vendored OKF source snapshots and exposes five read-only or reversible-presentation WebMCP tools. Primary risks are source substitution, untrusted-content execution, cross-origin retrieval, resource exhaustion, privacy leakage and release-evidence spoofing.",
+      "trustBoundaries": [
+        "Repository-authored source locks into deterministic build",
+        "Same-origin static assets into browser runtime",
+        "Untrusted source text into structured tool output and DOM text nodes",
+        "Host or evaluator around page WebMCP registration"
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

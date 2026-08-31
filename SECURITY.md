@@ -182,9 +182,14 @@ and reported the ninth finding above with High confidence and Low severity.
 The sealed report is retained under
 `docs/competition/evidence/security-scan-2026-08-31-pre-remediation/`.
 The separately code-reviewed source pins, direct builder check and mutation
-regressions were implemented after that immutable snapshot. A fresh immutable
-scan of the fixed tree remains pending; neither the earlier scan nor the local
-remediation tests are a release security claim.
+regressions were implemented after that immutable snapshot. Fresh immutable
+exact-range scan `040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of
+55 review items against fixed candidate
+`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. Its
+sealed report is retained under
+`docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/`. This is
+complete local candidate security evidence; protected CI, exact deployment and
+supported-host observations remain separate release claims.
 
 The final-candidate demonstration preflight also failed closed as intended when
 no deployed commit and no explicit overwrite approval were supplied. It did not

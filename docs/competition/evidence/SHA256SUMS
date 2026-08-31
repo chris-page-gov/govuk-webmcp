@@ -1993,6 +1993,10 @@ a1b2f30c106493171430a70459aa3dd6a9bb4b2a30468f88d1f019a5e28e6cae  docs/competiti
 fd8b605ff4bb91586c71cc19fa6f89994468160e6468ef339dbcf7bee75c6cd4  docs/competition/evidence/security-scan-2026-08-30/findings.json
 bb7f22b0c38a5dc9be522437f69a297806e65cbba29f757d63f7294402baa702  docs/competition/evidence/security-scan-2026-08-30/report.md
 e62c4ec4a481dd7b44ef87404a7f2a12a9fa4f43d2c954fcb60ac477395c49e1  docs/competition/evidence/security-scan-2026-08-30/scan-manifest.json
+ea79dfbd3bc1fdada02335d65c24a00cb4e99213400c708f3888b56c4ae1f922  docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/coverage.json
+bc3de9a1dc9f8b26d5b5a0e3e0d63302f2abe9746ba342877ed3cece98b5fdec  docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/findings.json
+4dac6bcd19c93bde089b845f664f60975721d0138c18ded8da97a4c4abeeec44  docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/report.md
+38c9fc70846bfcc41e1ab7228252a29278f4b912cbe5e170773d2ecc721ad692  docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/scan-manifest.json
 9c2b61d485edc7f68c3d77ee79c30a5e56c121fd537217b500137af271003ef0  docs/competition/evidence/security-scan-2026-08-31-pre-remediation/coverage.json
 dd0c88c8574028a71b4f09c6cae0b7949baac4a83d63f13653f9488355134dd0  docs/competition/evidence/security-scan-2026-08-31-pre-remediation/findings.json
 aa87bf838ddec5040877b98a9d8ac422f6cefe34a0e82a67b87d9b645ba5252e  docs/competition/evidence/security-scan-2026-08-31-pre-remediation/report.md

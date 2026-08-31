@@ -82,9 +82,12 @@ The last complete pre-remediation checkpoint passed 144 of 144 unit tests and
 29 of 29 installed-Microsoft-Edge acceptance tests. Seven Low findings were
 remediated afterwards. The final-candidate local rerun now passes 193 of 193
 prepared unit tests and 30 of 30 tests in both installed Chrome and Microsoft
-Edge. The fresh immutable fixed-tree scan, exact deployment and host evidence remain
-required; neither the old checkpoint nor local checks replace them. The demo
-preflight correctly failed closed without a deployed commit and explicit
+Edge. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb`
+completed 55 of 55 review items against exact commit
+`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
+Exact deployment, supported-host and focused manual accessibility evidence
+remain required; neither the old checkpoint nor local checks replace them. The
+demo preflight correctly failed closed without a deployed commit and explicit
 overwrite approval, and no live capture started.
 
 ## Evidence still required before publication

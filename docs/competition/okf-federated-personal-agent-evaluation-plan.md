@@ -129,9 +129,11 @@ of 55 review items and retained one High-confidence, Low-severity co-digested
 source-substitution finding (`csf_050a3c08c471d3176e0640c3`). Separately code-
 reviewed pins for all five admitted source files, a direct federation-lock byte
 check in the standalone builder and two mutation regressions now remediate that
-path. A fresh immutable fixed-tree security scan and release binding remain
-pending; the deterministic local portions of gates A–I now have exact post-
-remediation observations.
+path. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb`
+completed 55 of 55 review items against exact commit
+`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
+Release binding remains pending; the deterministic local portions of gates
+A–I now have exact post-remediation observations.
 
 The frozen authored lexical-quality runner is implemented and required by CI
 and Pages after `npm test`. On the exact post-remediation candidate, the
@@ -145,9 +147,8 @@ Microsoft Edge each pass 30 of 30, six of six model-free WebMCP smoke calls pass
 in real Chrome, `npm audit` reports zero vulnerabilities across 162 total
 dependencies, and `git diff --check` is clean. Gate D still requires release
 binding; these bounded fixture metrics are not model-quality or corpus-wide-
-recall evidence. The exact security rescan, protected integration, Pages,
-supported-host, accessibility, model-backed and refreshed-video evidence remain
-pending.
+recall evidence. Protected CI and integration, Pages, supported-host,
+accessibility, model-backed and refreshed-video evidence remain pending.
 
 The final-candidate demonstration preflight correctly failed closed without a
 deployed commit and explicit overwrite approval. It did not start live capture,

@@ -411,8 +411,9 @@ six model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
 across 162 total dependencies; and a clean `git diff --check`. Exact-range scan
 `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` retained one Low co-digested source-
 substitution finding, now remediated with separately code-reviewed source pins,
-a direct builder lock-byte check and mutation regressions. A fresh immutable
-fixed-tree scan, protected CI, Pages, final tag and
+a direct builder lock-byte check and mutation regressions. Fresh immutable scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items with zero
+reportable findings. Protected CI, Pages, final tag and
 release, current-candidate supported-host capture, a passing fixed-model
 evaluation, refreshed manual screen-reader journey and video remain pending.
 

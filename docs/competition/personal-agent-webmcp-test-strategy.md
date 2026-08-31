@@ -134,7 +134,10 @@ Immutable scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` later completed 55 of
 55 review items and reported the ninth, High-confidence Low co-digested source-
 substitution finding (`csf_050a3c08c471d3176e0640c3`). Separately code-
 reviewed source pins, a direct builder lock-byte check and mutation regressions
-now remediate it; a fresh immutable scan of that fixed tree remains required.
+now remediate it. Immutable fixed-tree scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
+exact commit `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
+findings.
 
 Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` subsequently completed
 50 of 50 review items and dynamically reproduced mutable local-model identity
@@ -154,10 +157,12 @@ across 162 total dependencies; and a clean `git diff --check`. The immutable
 scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55 of 55 items and
 retained one Low co-digested source-substitution finding. Separately code-
 reviewed pins for all five sources, a direct builder lock-byte check and
-mutation regressions remediate it; a fresh immutable fixed-tree scan and the
-protected, deployed, manual,
-supported-host, model-backed and refreshed-video evidence remain prerequisites
-for the corresponding submission claims.
+mutation regressions remediate it. Immutable fixed-tree scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against exact
+commit `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
+Protected CI, Pages deployment, manual accessibility, supported-host,
+model-backed and refreshed-video evidence remain prerequisites for the
+corresponding submission claims.
 
 The final-candidate demonstration preflight correctly failed closed because no
 deployed commit and no explicit overwrite approval were supplied. It did not
