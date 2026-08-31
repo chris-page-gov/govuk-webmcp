@@ -31,6 +31,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   and publication approval remain pending; no refreshed video upload or
   Devpost submission is claimed.
 
+### Fixed
+
+- Updated the evidence-chronology regression so the top-level evidence window
+  ends with the current `v0.3.0-rc.1` release observation while the historical
+  Devpost receipt remains bound to its own 30 August timestamp.
+
 ## [0.3.0-rc.1] - 2026-08-31
 
 ### Added

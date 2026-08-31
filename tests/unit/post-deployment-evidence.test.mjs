@@ -307,7 +307,11 @@ test("video, Devpost and challenge receipts retain the latest human gates", asyn
   const devpost = JSON.parse(reviewedTexts[5]);
   const video = JSON.parse(reviewedTexts[6]);
 
-  assert.equal(challenge.latestEvidenceAt, "2026-08-30T17:57:48Z");
+  assert.equal(
+    challenge.latestEvidenceAt,
+    challenge.currentReleaseEvidence.observationWindow.completedAt,
+  );
+  assert.equal(challenge.latestEvidenceAt, "2026-08-31T04:36:36.746Z");
   assert.equal(challenge.observationWindow.completedAt, challenge.latestEvidenceAt);
   assert.equal(
     challenge.postReleaseEvidence.devpostReadOnlyStatus.evidencePath,
@@ -326,7 +330,14 @@ test("video, Devpost and challenge receipts retain the latest human gates", asyn
   assert.equal(challenge.gates.videoPublished, false);
   assert.equal(challenge.gates.devpostSubmissionPerformed, false);
 
-  assert.equal(devpost.observedAt, challenge.latestEvidenceAt);
+  assert.equal(
+    devpost.observedAt,
+    challenge.postReleaseEvidence.devpostReadOnlyStatus.observedAt,
+  );
+  assert.ok(
+    Date.parse(devpost.observedAt) < Date.parse(challenge.latestEvidenceAt),
+    "the historical Devpost receipt must predate the current-release evidence endpoint",
+  );
   assert.equal(devpost.project.id, 1406973);
   assert.equal(devpost.project.name, "Untitled");
   assert.equal(devpost.project.state, "submission_pre_draft");
