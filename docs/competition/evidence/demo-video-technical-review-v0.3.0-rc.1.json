@@ -1,0 +1,284 @@
+{
+  "schema": "trusted-govuk-discovery.demo-video-technical-review.v1",
+  "status": "technical-review-complete-with-non-fatal-observation",
+  "reviewedAt": "2026-08-31T18:14:36Z",
+  "review": {
+    "type": "agent-technical-review",
+    "conclusion": "The digest-bound MP4 and its three-stream structure match the tracked build receipt. A complete video and audio decode succeeded, audio signal inspection completed, the embedded caption timings and text matched the tracked captions, script and transcript, and sampled decoded frames showed no obvious rendering corruption. No audible content-parity or narration-quality review was performed. The artefact is ready for the required human reviews; this record does not approve publication.",
+    "readyForHumanReview": true,
+    "publicationApproved": false
+  },
+  "productBoundary": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.3.0-rc.1",
+    "commit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+    "shortCommit": "b0bd634",
+    "pagesRunId": "33356452048"
+  },
+  "environment": {
+    "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers",
+    "temporaryPathProjection": "Host-specific temporary paths are represented as <temporary-review-directory>."
+  },
+  "artefact": {
+    "path": "output/govuk-webmcp-demo-v0.3.0-rc.1.mp4",
+    "sizeBytes": 27193896,
+    "sha256": "e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4",
+    "buildReceipt": {
+      "path": "docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json",
+      "sha256": "4b58838aaeb331e1ec1d661894924391df7ed139be6fa04153d5c0bd224181f0",
+      "videoDigestMatched": true,
+      "productBoundaryMatched": true,
+      "durationMatched": true,
+      "streamContractMatched": true
+    }
+  },
+  "probe": {
+    "format": {
+      "name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "durationSeconds": 156.023,
+      "sizeBytes": 27193896,
+      "bitRate": 1394353
+    },
+    "streams": [
+      {
+        "index": 0,
+        "type": "video",
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pixelFormat": "yuv420p",
+        "reportedFrameRate": "30/1",
+        "averageFrameRate": "4678000/155953",
+        "durationSeconds": 155.953,
+        "declaredFrameCount": 4678,
+        "decodedFrameCount": 4678,
+        "language": "und"
+      },
+      {
+        "index": 1,
+        "type": "audio",
+        "codec": "aac",
+        "sampleRateHz": 48000,
+        "channels": 1,
+        "durationSeconds": 156.023,
+        "declaredFrameCount": 7311,
+        "language": "und"
+      },
+      {
+        "index": 2,
+        "type": "subtitle",
+        "codec": "mov_text",
+        "durationSeconds": 155.689,
+        "declaredSampleCount": 80,
+        "language": "eng"
+      }
+    ],
+    "nonFatalObservation": {
+      "message": "UDTA parsing failed retrying raw",
+      "locationObservedAtTraceLevel": "subtitle track trak/udta/name",
+      "effect": "FFmpeg 8.1.2 continued after retrying the track metadata as raw data. Structured probing, subtitle extraction, frame counting and the complete video and audio decode all completed successfully.",
+      "classification": "non-blocking-container-metadata-warning"
+    }
+  },
+  "decode": {
+    "videoAndAudioCompleteDecode": true,
+    "exitStatus": 0,
+    "reportedDecodeErrors": [],
+    "decodedVideoFrames": 4678
+  },
+  "captionsAndNarration": {
+    "trackedCaptions": {
+      "path": "docs/competition/demo-captions.en-GB.vtt",
+      "sha256": "513158c2ef2231486f28d7fbb48b48b0f37816315854f64a3549c64628c3b2b9",
+      "cueCount": 40
+    },
+    "embeddedCaptionExtraction": {
+      "temporaryPath": "<temporary-review-directory>/embedded.en-GB.vtt",
+      "sha256": "0eecddb73478caa2c35d38055b331e9e607fb1e2dc978842db8ba41c007220d9",
+      "cueCount": 40,
+      "byteForByteMatchWithTrackedVtt": false,
+      "normalisedCueTimingsAndTextMatched": true,
+      "serialisationNote": "FFmpeg omits the tracked cue numbers and shortens timestamp notation when extracting WebVTT; all 40 normalised start times, end times and cue texts matched."
+    },
+    "firstCue": {
+      "startMilliseconds": 0,
+      "endMilliseconds": 3612,
+      "text": "Search housing across four locked OKF source snapshots."
+    },
+    "lastCue": {
+      "startMilliseconds": 152796,
+      "endMilliseconds": 155689,
+      "text": "Your AI asks. You inspect the evidence."
+    },
+    "script": {
+      "path": "docs/competition/demo-video-script.json",
+      "sha256": "ae23117cf75ca25bfdd7a8181d90c2795fe80348ac4f09fbf2c40ba5c5bf5096",
+      "cueCount": 40,
+      "normalisedNarrationMatched": true
+    },
+    "transcript": {
+      "path": "docs/competition/demo-transcript.md",
+      "sha256": "8f896858d3f8c69078c7f3e490206e5d10d50b1e558a0cb004ca3b900910d62f",
+      "sectionCount": 7,
+      "normalisedNarrationMatched": true
+    },
+    "audioSignal": {
+      "integratedLoudnessLufs": -16.1,
+      "loudnessRangeLu": 1.8,
+      "truePeakDbfs": -1.4,
+      "technicalSignalInspectionOnly": true,
+      "audiblePlaybackPerformed": false
+    }
+  },
+  "sampledVisualInspection": {
+    "method": "Agent inspection of three contact sheets generated from decoded frames.",
+    "sampleTimesSeconds": {
+      "broad": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150
+      ],
+      "opening": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "closing": [
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155
+      ]
+    },
+    "temporaryContactSheets": [
+      {
+        "path": "<temporary-review-directory>/contact-10s.png",
+        "sha256": "6031bfc3943258cf6246544bfebddffeeeb588c38d4f88c677703ff5fd3f3abd"
+      },
+      {
+        "path": "<temporary-review-directory>/contact-start.png",
+        "sha256": "00cabba27e182bbfc8abe3ed15eb08e3a5219bc9d131f7a1b9acc5da77165efd"
+      },
+      {
+        "path": "<temporary-review-directory>/contact-end.png",
+        "sha256": "ee7eb485392067d87ac89a4d93ecf0eca671ce3de6df68e8598741b5c2fca382"
+      }
+    ],
+    "repositoryRetention": "Contact sheets are temporary review artefacts and are not admitted to the repository.",
+    "result": "No obvious malformed, torn, unrelated or otherwise visibly corrupted decoded frame was observed in the sampled opening, broad and closing sequences. Unused contact-sheet grid cells are not video frames.",
+    "continuousHumanPlaybackPerformed": false
+  },
+  "commands": [
+    {
+      "command": "shasum -a 256 output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 docs/competition/demo-captions.en-GB.vtt docs/competition/demo-transcript.md docs/competition/demo-video-script.json docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json",
+      "exitStatus": 0,
+      "result": "Observed, in command order: e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4; 513158c2ef2231486f28d7fbb48b48b0f37816315854f64a3549c64628c3b2b9; 8f896858d3f8c69078c7f3e490206e5d10d50b1e558a0cb004ca3b900910d62f; ae23117cf75ca25bfdd7a8181d90c2795fe80348ac4f09fbf2c40ba5c5bf5096; 4b58838aaeb331e1ec1d661894924391df7ed139be6fa04153d5c0bd224181f0."
+    },
+    {
+      "command": "ffprobe -v error -show_entries format=format_name,duration,size,bit_rate:stream=index,codec_type,codec_name,width,height,pix_fmt,r_frame_rate,avg_frame_rate,sample_rate,channels,duration,nb_frames:stream_tags=language,title -of json output/govuk-webmcp-demo-v0.3.0-rc.1.mp4",
+      "exitStatus": 0,
+      "result": "Returned the 156.023-second MP4 format record and the H.264 video, mono AAC audio and English mov_text subtitle streams recorded in probe.streams."
+    },
+    {
+      "command": "ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of default=noprint_wrappers=1:nokey=1 output/govuk-webmcp-demo-v0.3.0-rc.1.mp4",
+      "exitStatus": 0,
+      "result": "4678"
+    },
+    {
+      "command": "ffmpeg -nostdin -v error -xerror -i output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 -map 0:v:0 -map 0:a:0 -f null -",
+      "exitStatus": 0,
+      "result": "No output: the complete mapped video and audio streams decoded without a reported error."
+    },
+    {
+      "command": "ffmpeg -nostdin -v error -xerror -y -i output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 -map 0:s:0 -c:s webvtt <temporary-review-directory>/embedded.en-GB.vtt",
+      "exitStatus": 0,
+      "result": "Extracted one WebVTT subtitle track; the extracted file SHA-256 was 0eecddb73478caa2c35d38055b331e9e607fb1e2dc978842db8ba41c007220d9."
+    },
+    {
+      "command": "diff -u <(sed -E '/^[0-9]+$/d; s/00:([0-9]{2}:[0-9]{2}\\.[0-9]{3})/\\1/g' docs/competition/demo-captions.en-GB.vtt) <temporary-review-directory>/embedded.en-GB.vtt",
+      "exitStatus": 0,
+      "result": "No diff after removing tracked cue numbers and normalising the equivalent WebVTT timestamp notation; all 40 cue timings and texts matched."
+    },
+    {
+      "command": "node -e 'const f=require(\"node:fs\"),n=s=>s.replace(/\\s+/g,\" \").trim(),v=f.readFileSync(\"docs/competition/demo-captions.en-GB.vtt\",\"utf8\").split(/\\n/).filter(x=>x&&x!==\"WEBVTT\"&&!/^\\d+$/.test(x)&&!x.includes(\" --> \")).join(\" \"),j=JSON.parse(f.readFileSync(\"docs/competition/demo-video-script.json\",\"utf8\")).scenes.flatMap(x=>x.cues).join(\" \"),r=f.readFileSync(\"docs/competition/demo-transcript.md\",\"utf8\"),t=r.slice(r.indexOf(\"## 01.\"),r.indexOf(\"## Boundary\")).split(/\\n/).filter(x=>x&&!x.startsWith(\"##\")).join(\" \"); console.log(JSON.stringify({captionTextMatchesScript:n(v)===n(j),captionTextMatchesTranscript:n(v)===n(t)})); if(n(v)!==n(j)||n(v)!==n(t))process.exit(1)'",
+      "exitStatus": 0,
+      "result": "{\"captionTextMatchesScript\":true,\"captionTextMatchesTranscript\":true}"
+    },
+    {
+      "command": "ffmpeg -nostdin -hide_banner -i output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 -map 0:a:0 -filter:a ebur128=peak=true -f null -",
+      "exitStatus": 0,
+      "result": "Integrated loudness -16.1 LUFS; loudness range 1.8 LU; true peak -1.4 dBFS."
+    },
+    {
+      "command": "ffmpeg -nostdin -v error -xerror -y -i output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 -vf \"fps=1/10,scale=640:-1,tile=5x4:padding=4:margin=4\" -frames:v 1 <temporary-review-directory>/contact-10s.png",
+      "exitStatus": 0,
+      "result": "Generated the 16-frame broad contact sheet inspected by the reviewing agent."
+    },
+    {
+      "command": "ffmpeg -nostdin -v error -xerror -y -ss 0 -t 15 -i output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 -vf \"fps=1,scale=640:-1,tile=5x3:padding=4:margin=4\" -frames:v 1 <temporary-review-directory>/contact-start.png",
+      "exitStatus": 0,
+      "result": "Generated the 15-frame opening contact sheet inspected by the reviewing agent."
+    },
+    {
+      "command": "ffmpeg -nostdin -v error -xerror -y -sseof -10 -i output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 -vf \"fps=1,scale=640:-1,tile=5x2:padding=4:margin=4\" -frames:v 1 <temporary-review-directory>/contact-end.png",
+      "exitStatus": 0,
+      "result": "Generated the ten-frame closing contact sheet inspected by the reviewing agent."
+    },
+    {
+      "command": "ffprobe -v trace -show_entries format=duration -of json output/govuk-webmcp-demo-v0.3.0-rc.1.mp4 2>&1 | rg -i -C 10 'udta|retrying raw'",
+      "exitStatus": 0,
+      "result": "Located the non-fatal UDTA retry at the subtitle track trak/udta/name metadata atom; the probe continued and returned duration 156.023000."
+    }
+  ],
+  "approvalBoundary": {
+    "technicalAgentReviewOnly": true,
+    "humanContinuousPlaybackApproval": false,
+    "brandingApproval": false,
+    "privacyApproval": false,
+    "rightsApproval": false,
+    "syntheticVoicePublicationApproval": false,
+    "signedOutPublishedPlaybackVerified": false,
+    "ownerPublicationApproval": false
+  },
+  "limitations": [
+    "This is a technical agent review, not human playback, branding, privacy, rights or owner publication approval.",
+    "Visual inspection used decoded sampled frames and does not replace continuous real-time human playback.",
+    "Audio inspection measured the encoded signal; no audible listening or judgement of narration quality was performed.",
+    "The VoiceOver scene is an admitted screenshot sequence rather than a continuous recording, and VoiceOver speech audio was not captured; the synthetic narration is separate.",
+    "FFmpeg 8.1.2 emitted a non-fatal UDTA metadata warning for the subtitle track; all subsequent structured probing, extraction and decoding checks succeeded.",
+    "The review is bound to product commit b0bd634579a3abf82bdd1fc83ff688535e0db0bf, Pages run 33356452048 and release v0.3.0-rc.1; it does not verify any later deployment.",
+    "The ignored local MP4 has no public URL, and signed-out playback was not tested."
+  ]
+}

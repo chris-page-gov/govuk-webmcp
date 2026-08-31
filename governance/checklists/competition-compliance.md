@@ -19,14 +19,17 @@ Microsoft Edge and authorised model-free smoke gates pass where recorded. A
 code-reviewed-pin remediation passes locally. Fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
 exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
-findings. Exact-release deployment and supported-host gates are complete. A
-refreshed VoiceOver journey, final video and human publication checks remain
-open.
+findings. Exact-release deployment, supported-host, rules-named Chrome,
+current-release VoiceOver and local-video technical gates are complete. Human
+playback and publication checks, public-player verification, the final live-
+rules and form refresh, and Devpost submission remain open.
 
 - [x] **Re-verified locally after remediation:** the exact product release
   passed 194 of 194 prepared unit tests; Chrome and installed Microsoft Edge
-  each passed 30 of 30. The evidence follow-up passes 195 of 195 locally and in
-  protected pull-request run `33391552626` without changing release bytes.
+  each passed 30 of 30. A prior evidence-follow-up checkpoint passed 195 of 195
+  locally and in protected pull-request run `33391552626` without changing
+  release bytes. That run predates the current VoiceOver and video-evidence
+  diff and does not validate it.
 - [x] **Current final-candidate rerun recorded:** research passed 4 of 4, production
   build/data validation passed, the frozen lexical gate reported mean nDCG@10
   `0.984698009`, Recall@20 `1`, cold/warm parity and legislation absent or
@@ -60,19 +63,32 @@ open.
   `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. The retained observation records
   the host and call receipts. No model was selected and this is not evidence of
   model-driven tool selection.
+- [x] **Verified one rules-named host on the exact current release:** isolated
+  Chrome 152 with browser-native WebMCP enabled discovered and completed all
+  five calls against public `v0.3.0-rc.1` through Chrome DevTools MCP 1.8.0 at
+  `2026-08-31T18:49:38.356Z`. The invalid `personalContext` check returned stable
+  error code `invalid_search_request`; there were zero console errors and no
+  model or provider call. The first current capture stopped because the harness
+  expected obsolete error prose; after changing the harness to assert the
+  stable code, the reviewed rerun passed. This is a time-bound Chrome
+  observation, not a universal compatibility or model-selection claim.
 - [x] **Verified parity and privacy boundary:** the fixed human and tool journeys
   return the same canonical fields; no tool accepts a personal profile or
   `personalContext`; the federated tier does not claim an item receipt or
   official status; links and assertions remain producer-declared; exact-record
   source authority is “Not independently
   established”; and the human view shows each recorded destination hostname.
-- [ ] **Capture refreshed assistive-technology evidence:** complete and retain
-  the nine-step Safari and VoiceOver journey, with the Caption Panel visible,
-  against the exact public release. Record limitations without making a WCAG
+- [x] **Captured refreshed assistive-technology evidence:** the nine-step Safari
+  and VoiceOver journey, with the Caption Panel visible, completed against the
+  exact public release with 7 passes and 2 limitations. The 27-second clip is a
+  non-continuous screenshot sequence with no VoiceOver speech audio and no WCAG
   conformance claim.
-- [ ] **Produce the refreshed final video:** record a federated demonstration
-  shorter than three minutes from the exact deployment, with all four sources,
-  accurate narration, captions, transcript and retained build evidence.
+- [x] **Produced and technically reviewed the refreshed local final video:** the
+  exact-deployment federated demonstration runs for 156.023 seconds and has
+  SHA-256
+  `e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+  H.264 video, AAC audio, English captions, full decode and normalised caption,
+  script and transcript parity passed. Audible human review is not claimed.
 - [ ] **Owner approval required:** Chris Page approves the exact release,
   synthetic-voice basis, media, privacy, branding, rights, statements about
   WebMCP impact and the explicit hypothesis boundaries.
@@ -192,15 +208,17 @@ open.
 - [x] Historical manual VoiceOver journey evidence and scene media exist for
   the earlier release with exact path, SHA-256, capture-time and journey-step
   binding, retained limitations and no WCAG conformance claim.
-- [ ] Capture and review the refreshed nine-step Safari and VoiceOver journey
-  for exact `v0.3.0-rc.1`, with the Caption Panel visible. Label any resulting
-  scene as a screenshot sequence rather than a continuous recording; manifest
-  declarations alone do not satisfy this gate.
+- [x] Captured and reviewed the refreshed nine-step Safari and VoiceOver journey
+  for exact `v0.3.0-rc.1`, with the Caption Panel visible. Its 27-second scene
+  is explicitly a screenshot sequence rather than a continuous recording and
+  retains the 2 observed limitations.
 - [x] Historical guarded-video preflight and build evidence bind the earlier
   142.920-second MP4, captions, transcript, script and evidence inputs. This is
   not current-release or public-player evidence.
-- [ ] Build and technically review the final `v0.3.0-rc.1` video, captions and
-  transcript against the exact deployment and retained evidence inputs.
+- [x] Built and technically reviewed the local final `v0.3.0-rc.1` video,
+  captions and transcript against the exact deployment and retained evidence
+  inputs. Complete video/audio decode and all 40 normalised caption cues passed;
+  this does not approve publication.
 - [ ] Chris Page approves the synthetic-voice publication basis and verifies the
   final audible playback, captions, transcript, privacy and branding.
 - [ ] Publicly visible YouTube video shorter than three minutes, with audio that
@@ -217,6 +235,9 @@ open.
 - [x] Historical post-deployment compliance review was refreshed after the
   corrected exact commit was deployed and the Chrome native-panel and DevTools
   MCP reports were privacy-reviewed.
+- [x] The 31 August 2026 local technical compliance review reconciles the exact
+  release, current local video and retained Devpost receipt. It remains blocked
+  and is not the final live-rules and form refresh.
 - [ ] Complete a final read-only Devpost and rules compliance review for exact
   `v0.3.0-rc.1`, its approved public video and every current form field and URL,
   without submitting.

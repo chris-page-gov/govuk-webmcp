@@ -1,0 +1,97 @@
+{
+  "schema": "trusted-govuk-discovery.manual-voiceover-journey.v1",
+  "observedAt": "2026-08-31T17:49:23Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.3.0-rc.1",
+    "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+    "pagesRunId": "33356452048"
+  },
+  "method": "manual-operator-driven",
+  "manual": true,
+  "assistiveTechnologyActuallyUsed": true,
+  "withoutWebMCP": true,
+  "noWcagConformanceClaim": true,
+  "screenReaderAudioCaptured": false,
+  "environment": {
+    "operatingSystem": "macOS",
+    "operatingSystemVersion": "26.5.2",
+    "operatingSystemBuild": "25F84",
+    "browser": "Safari",
+    "browserVersion": "26.5.2 (21624.2.5.11.8)",
+    "screenReader": "VoiceOver",
+    "screenReaderVersion": "10 (993)"
+  },
+  "overallStatus": "completed-with-limitations",
+  "journey": [
+    {
+      "id": "page-title-and-headings",
+      "result": "limitation",
+      "observation": "With VoiceOver running and its Caption Panel enabled, Safari exposed the page title and visible level-one heading as ‘Trusted government knowledge discovery’. The retained frame shows that heading and the VoiceOver Caption Panel.",
+      "limitation": "The page title and level-one heading were visible while VoiceOver was active, but a heading-rotor selection was not retained in the nine-frame sequence."
+    },
+    {
+      "id": "skip-link-and-main-focus",
+      "result": "pass",
+      "observation": "Safari and VoiceOver identified ‘Skip to main content’ as a link. Activating it moved accessibility focus to the main content container before the worked answer."
+    },
+    {
+      "id": "analytical-index-controls",
+      "result": "pass",
+      "observation": "VoiceOver exposed the separately named claim 1 and claim 3 comparison tickboxes. After both were selected, each reported value 1 and the enabled trigger was exposed as ‘Compare 2 selected claims’."
+    },
+    {
+      "id": "selected-foundation",
+      "result": "pass",
+      "observation": "Activating ‘Show foundations for claim 1’ moved accessibility focus to ‘Selected foundation’. Safari exposed Authority, Assertion, Verification, Freshness, Integrity, Access, Rights and Coverage as separate facets."
+    },
+    {
+      "id": "comparison-table",
+      "result": "pass",
+      "observation": "Activating ‘Compare 2 selected claims’ moved accessibility focus to the named ‘Evidence comparison’ region. Safari exposed an 11-row comparison through Limitations without presenting a combined trust score."
+    },
+    {
+      "id": "live-status",
+      "result": "limitation",
+      "observation": "With the query ‘housing’, all four federated collections selected and the result limit set to 8, the visible status read exactly ‘797 matching records; 8 shown.’",
+      "limitation": "The Caption Panel showed ‘Filter results, collapsed, summary’ rather than the visible ‘797 matching records; 8 shown.’ status, so the automatic spoken live-status wording was not proved."
+    },
+    {
+      "id": "search-and-record",
+      "result": "pass",
+      "observation": "Activating ‘View record and provenance’ opened record ‘govuk-discovery:federated:land-registry:57845’, titled ‘Reduced regulation of English social housing providers: registration requirements’, and exposed its HM Land Registry collection and limitations."
+    },
+    {
+      "id": "source-link-role-and-destination",
+      "result": "pass",
+      "observation": "Within the opened record, VoiceOver focused the descriptively named ‘Open recorded source link’. The display retained the producer-declared source-link role, destination hostname ‘www.gov.uk’ and ‘Not independently established’ source-authority label. The link was not opened.",
+      "details": {
+        "linkRole": "producer-declared-source",
+        "destinationHostname": "www.gov.uk",
+        "sourceAuthority": "Not independently established"
+      }
+    },
+    {
+      "id": "focus-restoration",
+      "result": "pass",
+      "observation": "Closing the record restored focus to its originating ‘View record and provenance’ button. Closing the evidence comparison restored focus to ‘Compare 2 selected claims’; both selected tickboxes remained selected."
+    }
+  ],
+  "limitations": [
+    "The page title and level-one heading were visible while VoiceOver was active, but a heading-rotor selection was not retained in the nine-frame sequence.",
+    "The Caption Panel showed ‘Filter results, collapsed, summary’ rather than the visible ‘797 matching records; 8 shown.’ status, so the automatic spoken live-status wording was not proved.",
+    "VoiceOver speech audio was not captured; the retained sequence uses the Caption Panel and manual Safari observations.",
+    "This screenshot sequence is not a continuous recording.",
+    "This observation covers one manual environment and does not establish WCAG conformance."
+  ],
+  "media": {
+    "path": "output/demo-clips/v0.3.0-rc.1/06-voiceover.mov",
+    "sha256": "e77d8f277d19db7af372090b78ae83b76b50a1221cef69fccb5f047e9e4a62d0",
+    "startSeconds": 0,
+    "endSeconds": 27,
+    "captureStartedAt": "2026-08-31T17:20:03Z",
+    "captureEndedAt": "2026-08-31T17:49:23Z",
+    "captureManifestPath": "output/voiceover-capture/v0.3.0-rc.1-capture-manifest.json",
+    "captureManifestSha256": "3ff39de4fb1355728504a5e29eaf1bf93b7e71b34ad7ac1c7493e21aeb1d2629"
+  }
+}

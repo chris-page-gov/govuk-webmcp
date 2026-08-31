@@ -160,13 +160,25 @@ reviewed pins for all five sources, a direct builder lock-byte check and
 mutation regressions remediate it. Immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against exact
 commit `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Protected CI, Pages deployment, manual accessibility, supported-host,
-model-backed and refreshed-video evidence remain prerequisites for the
-corresponding submission claims.
+Protected CI, Pages deployment and supported-host evidence are complete. The
+current-release manual Safari and VoiceOver journey also completed with 7
+passes and 2 retained limitations. Its Caption Panel media is a 27-second
+non-continuous screenshot sequence; VoiceOver speech audio was not captured and
+no WCAG conformance is claimed. The guarded pipeline produced a technically
+reviewed 156.023-second local MP4 with SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+H.264 video, AAC audio, English captions, complete video/audio decode and all 40
+normalised caption cues passed. A passing model-backed evaluation remains
+optional assurance. Owner playback, privacy, branding, rights and synthetic-
+voice publication review, public-player verification and Devpost submission
+remain prerequisites for the corresponding publication claims.
 
 The final-candidate demonstration preflight correctly failed closed because no
 deployed commit and no explicit overwrite approval were supplied. It did not
 start live capture and must not be used as supported-host or video evidence.
+After deployment, the separately bound current-release captures, VoiceOver
+record and local video build passed the guarded path; they do not retroactively
+change that historical failure or prove public upload or submission.
 
 The physical shard layer admits at most 4 active loads, 32 queued loads and 36
 distinct in-flight files. Each 3-second file deadline begins before queueing,

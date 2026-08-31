@@ -2,9 +2,9 @@
   "schema": "trusted-govuk-discovery.challenge-provenance.v1",
   "observationWindow": {
     "startedAt": "2026-08-30T01:53:35Z",
-    "completedAt": "2026-08-31T12:16:25Z"
+    "completedAt": "2026-08-31T18:49:38.356Z"
   },
-  "latestEvidenceAt": "2026-08-31T12:16:25Z",
+  "latestEvidenceAt": "2026-08-31T18:49:38.356Z",
   "challenge": {
     "start": "2026-08-25T18:00:00Z",
     "deadline": "2026-09-03T20:00:00Z",
@@ -367,7 +367,7 @@
   "currentReleaseEvidence": {
     "observationWindow": {
       "startedAt": "2026-08-31T04:20:45.247Z",
-      "completedAt": "2026-08-31T12:16:25Z"
+      "completedAt": "2026-08-31T18:49:38.356Z"
     },
     "exactLiveDeployment": {
       "observedAt": "2026-08-31T04:20:45.247Z",
@@ -468,24 +468,107 @@
       "submissionPerformed": false,
       "scope": "Authenticated read-only observation only. The exact-release video, owner review, public YouTube publication, final human attestations and submission gates remain open; no project or submission state was changed."
     },
+    "manualVoiceOver": {
+      "observedAt": "2026-08-31T17:49:23Z",
+      "evidencePath": "docs/competition/evidence/manual-voiceover-journey-v0.3.0-rc.1.json",
+      "evidenceSha256": "ca749f8db049ea2411ca52f44c9335f34fa0362177e714bc31ba513180b66e87",
+      "status": "completed-with-limitations",
+      "browser": "Safari 26.5.2 (21624.2.5.11.8)",
+      "screenReader": "VoiceOver 10 (993)",
+      "captionPanelUsed": true,
+      "captionPanelAndVoiceOverTurnedOffAfterwards": true,
+      "journeyCheckpointCount": 9,
+      "passedCheckpointCount": 7,
+      "limitedCheckpointCount": 2,
+      "screenReaderAudioCaptured": false,
+      "media": {
+        "path": "output/demo-clips/v0.3.0-rc.1/06-voiceover.mov",
+        "sha256": "e77d8f277d19db7af372090b78ae83b76b50a1221cef69fccb5f047e9e4a62d0",
+        "durationSeconds": 27,
+        "continuousRecording": false,
+        "captureManifestPath": "output/voiceover-capture/v0.3.0-rc.1-capture-manifest.json",
+        "captureManifestSha256": "3ff39de4fb1355728504a5e29eaf1bf93b7e71b34ad7ac1c7493e21aeb1d2629"
+      },
+      "scope": "One bounded manual environment. The heading-rotor selection was not retained, automatic spoken live-status wording was not proven, VoiceOver speech audio was not captured and no WCAG conformance is claimed."
+    },
+    "demoVideoBuild": {
+      "evidencePath": "docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json",
+      "evidenceSha256": "4b58838aaeb331e1ec1d661894924391df7ed139be6fa04153d5c0bd224181f0",
+      "status": "local-review-build-not-published",
+      "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+      "pagesRunId": 33356452048,
+      "videoPath": "output/govuk-webmcp-demo-v0.3.0-rc.1.mp4",
+      "videoSha256": "e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4",
+      "durationSeconds": 156.023,
+      "underThreeMinutes": true,
+      "captionCueCount": 40,
+      "publicUrl": null,
+      "signedOutPlaybackVerified": false,
+      "humanPublicationReview": "pending",
+      "scope": "Digest-bound local review build only. It does not establish owner approval, public YouTube publication, signed-out playback or Devpost readiness."
+    },
+    "demoVideoTechnicalReview": {
+      "reviewedAt": "2026-08-31T18:14:36Z",
+      "evidencePath": "docs/competition/evidence/demo-video-technical-review-v0.3.0-rc.1.json",
+      "evidenceSha256": "88cff68c54833cf393d8708f3ad9883a9cffe1f638ca601b6ef2e33d0f387fad",
+      "status": "technical-review-complete-with-non-fatal-observation",
+      "videoSha256": "e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4",
+      "durationSeconds": 156.023,
+      "decodedVideoFrames": 4678,
+      "captionCueCount": 40,
+      "readyForHumanReview": true,
+      "humanPublicationReview": "pending",
+      "scope": "Technical agent review only. Complete owner playback, privacy, branding, rights, caption synchronisation, synthetic-voice and publication approval remain open."
+    },
+    "localTechnicalComplianceReview": {
+      "reviewedAt": "2026-08-31T18:49:38.356Z",
+      "evidencePath": "docs/competition/final-devpost-compliance-review-2026-08-31.md",
+      "evidenceSha256": "aa30c6437467747cc4de7868c7c16808174066c5d1cb3e9cbf39e57eb9c41d1c",
+      "status": "local-video-technical-pass-submission-blocked",
+      "scope": "Read-only compliance review after the local technical video pass. Owner review, public YouTube publication, signed-out public-player verification, final human attestations and authorised submission remain open."
+    },
+    "rulesNamedChromeWebmcp": {
+      "observedAt": "2026-08-31T18:49:38.356Z",
+      "evidencePath": "docs/competition/evidence/chrome-devtools-mcp-v0.3.0-rc.1.json",
+      "evidenceSha256": "4d87c3d55379266f68f633896e016f9294b991aa88458ea3f4b91b883c430396",
+      "host": "Google Chrome 152.0.7977.64",
+      "bridge": "Chrome DevTools MCP 1.8.0",
+      "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+      "pagesRunId": 33356452048,
+      "discoveredToolCount": 5,
+      "successfulCallCount": 5,
+      "rejectedField": "personalContext",
+      "rejectedErrorCode": "invalid_search_request",
+      "consoleErrorCount": 0,
+      "modelSelected": false,
+      "modelProviderCalled": false,
+      "universalBrowserSupportEstablished": false,
+      "scope": "One time-bound rules-named Chrome and Chrome DevTools MCP version. Browser-native discovery and deterministic execution do not establish model selection, provider behaviour or universal browser compatibility."
+    },
     "accessibilityVideoAndSubmissionGates": {
-      "currentReleaseVoiceOverCaptureAttemptValid": false,
-      "currentReleaseVoiceOverCaptureAdmitted": false,
-      "invalidVoiceOverFrameIds": [
-        "analytical-index-controls",
-        "selected-foundation",
-        "comparison-table",
-        "live-status",
-        "search-and-record",
-        "source-link-role-and-destination",
-        "focus-restoration"
-      ],
-      "invalidVoiceOverCaptureReason": "Frames 3 to 9 are duplicate privacy-screen bytes and do not evidence their named checkpoints.",
-      "cleanVoiceOverRecaptureRequired": true,
-      "currentReleaseManualVoiceOverEvidenceCompleted": false,
-      "currentReleaseVoiceOverClipBuilt": false,
-      "currentReleaseFinalVideoBuilt": false,
-      "currentReleaseVideoTechnicalReviewCompleted": false,
+      "priorInvalidCaptureAttempt": {
+        "status": "rejected-before-admission",
+        "admitted": false,
+        "invalidFrameIds": [
+          "analytical-index-controls",
+          "selected-foundation",
+          "comparison-table",
+          "live-status",
+          "search-and-record",
+          "source-link-role-and-destination",
+          "focus-restoration"
+        ],
+        "reason": "Frames 3 to 9 were duplicate privacy-screen bytes and did not evidence their named checkpoints.",
+        "supersededByCleanRecapture": true,
+        "scope": "The failed attempt was rejected before evidence admission and is retained only as chronology; its bytes were not used in the accepted clip or final video."
+      },
+      "currentReleaseVoiceOverCaptureAttemptValid": true,
+      "currentReleaseVoiceOverCaptureAdmitted": true,
+      "cleanVoiceOverRecaptureRequired": false,
+      "currentReleaseManualVoiceOverEvidenceCompleted": true,
+      "currentReleaseVoiceOverClipBuilt": true,
+      "currentReleaseFinalVideoBuilt": true,
+      "currentReleaseVideoTechnicalReviewCompleted": true,
       "ownerPrivacyReviewCompleted": false,
       "ownerBrandingReviewCompleted": false,
       "ownerSyntheticVoicePublicationApproval": false,
@@ -496,7 +579,7 @@
       "finalDevpostAttestationsCompleted": false,
       "devpostSubmissionAuthorised": false,
       "devpostSubmissionPerformed": false,
-      "scope": "The current Safari and VoiceOver attempt is invalid and unadmitted. Frames 3 to 9 are duplicate privacy-screen bytes; a clean nine-step recapture is required. Captured files do not close the manual-evidence, local-video, owner-review, public-player or submission gates."
+      "scope": "The clean nine-step Safari and VoiceOver recapture, bounded manual record, non-continuous clip and under-three-minute local technical review are admitted. They do not close owner review, continuous audible playback, public YouTube, signed-out public-player, final-attestation or submission gates."
     }
   },
   "evidenceBoundary": {
@@ -531,14 +614,19 @@
     "currentReleaseExactDeploymentVerified": true,
     "currentReleaseSupportedHostToolDiscoveryObserved": true,
     "currentReleaseSupportedHostToolCallObserved": true,
+    "currentReleaseRulesNamedChromeToolDiscoveryObserved": true,
+    "currentReleaseRulesNamedChromeToolCallObserved": true,
+    "currentReleaseUniversalBrowserSupportEstablished": false,
     "currentReleaseModelSelectionObserved": false,
     "currentReleaseInteractionClipsCaptured": true,
     "currentReleaseInteractionClipsAgentReviewed": true,
     "currentReleaseInteractionClipsHumanPublicationReviewed": false,
     "currentReleaseSupportedHostReceiptVisualisationBuilt": true,
-    "currentReleaseManualScreenReaderEvidenceCompleted": false,
-    "currentReleaseLocalDemoVideoBuilt": false,
-    "currentReleaseDemoVideoTechnicalReviewComplete": false,
+    "currentReleaseManualScreenReaderEvidenceCompleted": true,
+    "currentReleaseLocalDemoVideoBuilt": true,
+    "currentReleaseDemoVideoTechnicalReviewComplete": true,
+    "currentReleaseLocalTechnicalComplianceReviewCompleted": true,
+    "currentReleaseFinalPreSubmissionRefreshCompleted": false,
     "currentReleaseDemoVideoHumanReviewComplete": false,
     "currentReleaseVideoPublished": false,
     "currentReleaseSignedOutPublicPlayerVerified": false,

@@ -27,8 +27,12 @@ run `33356087333`, protected-main run `33356272534` and exact-commit Pages run
 `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, which is retained as annotated tag
 `v0.3.0-rc.1` and deployed at
 <https://chris-page-gov.github.io/govuk-webmcp/>. The tree below records that
-released shape. Current VoiceOver, final-video, owner-review, public-player,
-fixed-model and Devpost gates remain separate and open.
+released shape. Current-release VoiceOver and local final-video technical
+evidence are complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0
+receipt also binds five completed WebMCP calls to the exact release. Owner
+review, public upload and player verification, the optional fixed-model gate,
+final live-rules and form review, and Devpost submission remain separate and
+open.
 
 ## 20.2 Implemented tree
 
@@ -135,7 +139,7 @@ govuk-webmcp/
 │   ├── sanitise-sbom.mjs
 │   ├── write-deployment-metadata.mjs
 │   ├── verify-research-pack.sh    # exact jsonschema gate and seed verifier
-│   ├── capture-chrome-devtools-webmcp.mjs # isolated five-tool MCP capture
+│   ├── capture-chrome-devtools-webmcp.mjs # guarded isolated five-tool MCP capture and evidence admission
 │   ├── run-webmcp-evals-smoke.mjs # model-free pinned browser smoke wrapper
 │   ├── run-webmcp-evals-browser.mjs # explicit-model, private browser eval wrapper
 │   ├── setup-webmcp-explorer.sh # pinned isolated Explorer source and build
@@ -184,12 +188,14 @@ govuk-webmcp/
 │       ├── architecture.md
 │       ├── tool-catalogue.md
 │       ├── demo-storyboard.md
+│       ├── federated-demo-storyboard.md
 │       ├── demo-video-script.json
 │       ├── demo-captions.en-GB.vtt
 │       ├── demo-transcript.md
 │       ├── evidence-manifest-registry.json
 │       ├── devpost-submission-draft.md
 │       ├── final-devpost-compliance-review-2026-08-30.md
+│       ├── final-devpost-compliance-review-2026-08-31.md
 │       ├── post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md
 │       ├── personal-agent-webmcp-test-strategy.md
 │       ├── okf-federated-personal-agent-evaluation-plan.md # A–M gates
@@ -214,6 +220,7 @@ govuk-webmcp/
 │           ├── supported-host-webmcp-runtime-summary-2026-08-30.jpg
 │           ├── supported-host-webmcp-full-page-2026-08-30.jpg
 │           ├── chrome-devtools-mcp-2026-08-30-edd4ce6.json
+│           ├── chrome-devtools-mcp-v0.3.0-rc.1.json
 │           ├── native-devtools-webmcp-2026-08-30-edd4ce6.json
 │           ├── native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg
 │           ├── native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg
@@ -222,10 +229,14 @@ govuk-webmcp/
 │           ├── demo-live-interaction-capture-2026-08-30.json
 │           ├── demo-live-interaction-capture-v0.3.0-rc.1.json
 │           ├── manual-voiceover-journey-2026-08-30.json
+│           ├── manual-voiceover-journey-v0.3.0-rc.1.json
 │           ├── demo-video-build-2026-08-30.json
+│           ├── demo-video-build-v0.3.0-rc.1.json
 │           ├── demo-video-technical-review-2026-08-30.json
+│           ├── demo-video-technical-review-v0.3.0-rc.1.json
 │           ├── devpost-read-only-status-2026-08-30.json
 │           ├── devpost-read-only-status-2026-08-30-edd4ce6.json
+│           ├── devpost-read-only-status-v0.3.0-rc.1.json
 │           ├── demo-scene-01-overview-2026-08-30.jpg
 │           ├── demo-scene-02-evidence-trace-2026-08-30.jpg
 │           ├── demo-scene-03-foundation-facets-2026-08-30.jpg
@@ -385,15 +396,25 @@ genuine, silent public-page interaction clips are also bound to the exact
 release; agent privacy and branding review passed, while owner publication
 review remains open.
 
-The fresh current-release Safari and VoiceOver Caption Panel journey is not yet
-admitted as completed evidence. Its manual record and non-continuous clip, the
-final under-three-minute video, technical review, owner playback, privacy,
-branding, synthetic-voice and caption approval, public-player verification and
-Devpost submission all remain open. Microsoft Explorer, a passing fixed-model
-evaluation and a release-platform SBOM or attestation remain optional assurance
-work. Competition registration is complete; the last authenticated read-only
-Devpost observation still records project `1406973` as `Untitled`, blank and
-`submission_pre_draft`.
+The fresh current-release Safari and VoiceOver Caption Panel journey is now
+admitted as completed-with-limitations evidence: 7 of 9 checkpoints passed and
+2 retained limitations. Its nine-frame media is a 27-second non-continuous
+screenshot sequence without captured VoiceOver speech audio or a WCAG
+conformance claim. The guarded pipeline also produced a technically reviewed
+156.023-second local MP4 with SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+H.264 video, AAC audio, English captions, complete video/audio decode and
+normalised parity across all 40 caption cues, the script and transcript passed.
+
+Owner playback, privacy, branding, rights, synthetic-voice publication and
+caption review, public upload and player verification, and Devpost submission
+remain open. Microsoft Explorer, a passing fixed-model evaluation and a
+release-platform SBOM or attestation remain optional assurance work.
+Competition registration is complete; the current read-only Devpost review is
+retained as the local technical review in
+`final-devpost-compliance-review-2026-08-31.md`. It is complete through the
+Chrome observation at `2026-08-31T18:49:38.356Z`, does not record a submission
+and does not replace the final live-rules and Devpost-form refresh.
 
 The older evidence remains historical and revision-specific. The earlier
 `v0.2.0-rc.1` evidence records 58 unit, 19 Chromium and 19 installed-Microsoft-

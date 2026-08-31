@@ -1943,8 +1943,9 @@ fd84c0024a0190d6ad3506a04f9e4b140665e24901fa0ee972a017232e1c9a50  app/data/sourc
 2480e30152569270cd44eb7b67284e0d7c1a41a7caf22233237b5dc52cfd4f0d  docs/competition/evidence/accessibility-test-2026-08-29.md
 de1d920fe3284def4b3a9833c7fa2979fd3e1fe7c1bc56067cdd755970578dce  docs/competition/evidence/accessibility-test-2026-08-30.md
 e2c0342d40c08ad7f8784176781af4a8f479b907704b6127d3f2f951f5655fe0  docs/competition/evidence/candidate-verification-2026-08-30.md
-31338f5fa45a76cb1aa4b4188851627b6161a07442f6dede882dff55680918ef  docs/competition/evidence/challenge-provenance.json
+ef0dfc7a2b705ddfc0bd8730ca54a9bcbc6789eee8cd8d65edceea0fc6c0cb86  docs/competition/evidence/challenge-provenance.json
 b7830ddf76719c7cfe8c38f8dc11233d01099e03a723b14fe91fc4e1e154d2a5  docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json
+4d87c3d55379266f68f633896e016f9294b991aa88458ea3f4b91b883c430396  docs/competition/evidence/chrome-devtools-mcp-v0.3.0-rc.1.json
 c15ff7ab52d628ad29cde79664acb6b37cfb68d6d91f94313cf07e8835fd960a  docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json
 8fba32b9d28d1d82d5fbbbb1276bf8e8ea84860c2f5f2b5536736b6d6bcdbd9b  docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json
 357fd49f400ee9a2924521aa1aa16f3d5cce5e57136deaea03937cc9fc20dc93  docs/competition/evidence/demo-scene-01-overview-2026-08-30.jpg
@@ -1953,7 +1954,9 @@ c15ff7ab52d628ad29cde79664acb6b37cfb68d6d91f94313cf07e8835fd960a  docs/competiti
 29c17adab0c42de2a35d220ada184844b6244a0ea39efa07d4c332172a719166  docs/competition/evidence/demo-scene-04-comparison-2026-08-30.jpg
 791193772608f591db303cf8a20db0c2e40f9028c3ae0d8720acb4efd1069008  docs/competition/evidence/demo-scene-07-evidence-estate-2026-08-30.jpg
 3b10b09080fb9840c2033e2efdadff94925198d64a0ec093706bcc4e74144987  docs/competition/evidence/demo-video-build-2026-08-30.json
+4b58838aaeb331e1ec1d661894924391df7ed139be6fa04153d5c0bd224181f0  docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json
 4e2350763ecfe8e6d64575234be097d1b0b15dd5fb9be4636db2120c5d622dfb  docs/competition/evidence/demo-video-technical-review-2026-08-30.json
+88cff68c54833cf393d8708f3ad9883a9cffe1f638ca601b6ef2e33d0f387fad  docs/competition/evidence/demo-video-technical-review-v0.3.0-rc.1.json
 d868c1f2a7c5a25b1937dd6c060180e9c296b091e6b25081b0e007cd5c6b9c53  docs/competition/evidence/devpost-read-only-status-2026-08-30-edd4ce6.json
 9c8f07d8c6e346602a6c64440e734ea194a821c4c22b68f7a4a67c671cca3c81  docs/competition/evidence/devpost-read-only-status-2026-08-30.json
 645d7bb5e13247d532a16c08b376a97dc1234d5e909991dc93369c93f822b7b0  docs/competition/evidence/devpost-read-only-status-v0.3.0-rc.1.json
@@ -1967,6 +1970,7 @@ c930bfc6e0dc66c7e453b2ffb367ada1e7a137a2e65e2b83ac0ea9c74a42a55c  docs/competiti
 4a4778dea35bb9e0ad0884291d6f1246fe0b26d0a94cdf472c3fff449469546e  docs/competition/evidence/live-deployment-metadata-2026-08-30-edd4ce6.json
 f7b072e77f3cccd5d0596a64c5921eecf5475bed4b36889fe19886356df6a1a6  docs/competition/evidence/live-deployment-metadata-2026-08-30.json
 31671dc81be25e1d6067f6dfa0a9fde8d53e7e1fed0a96391ccda5e8ec4a7261  docs/competition/evidence/manual-voiceover-journey-2026-08-30.json
+ca749f8db049ea2411ca52f44c9335f34fa0362177e714bc31ba513180b66e87  docs/competition/evidence/manual-voiceover-journey-v0.3.0-rc.1.json
 13e6e25e11788826be958c07114d6aea43f52cad160820fffb667c60b89ccceb  docs/competition/evidence/native-devtools-webmcp-2026-08-30-edd4ce6.json
 fdaf5b5a04b718cd4300d9b4e1dc23e7ae66e808426d818c9969ebfd88327e06  docs/competition/evidence/native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg
 19e3774b641814ad917eaa0d812ae42888bf83661e441eb2138874e725fb4cb2  docs/competition/evidence/native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg

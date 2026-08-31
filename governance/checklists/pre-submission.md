@@ -14,17 +14,21 @@ build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
 smoke gates pass where recorded. Fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
 exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
-findings. Protected CI, Pages, exact public-byte comparison and current-host
-evidence are now complete. Refreshed VoiceOver and video evidence remain open.
+findings. Protected CI, Pages, exact public-byte comparison, current supported-
+host and rules-named Chrome observations, current-release VoiceOver and local-
+video technical evidence are now complete. Owner publication review, public-
+player verification, final live-rules and form refresh, and Devpost submission
+remain open.
 Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
 subsequently retained a ninth High-confidence Low source-substitution finding;
 its separately code-reviewed-pin remediation passed locally and was then
 covered by the fresh fixed-tree scan below.
 
 - [x] The exact product release passed 194 of 194 prepared unit tests; Chrome
-  and installed Microsoft Edge each passed 30 of 30. The evidence follow-up
-  passes 195 of 195 locally and in protected pull-request run `33391552626`
-  without changing release bytes.
+  and installed Microsoft Edge each passed 30 of 30. A prior evidence-follow-up
+  checkpoint passed 195 of 195 locally and in protected pull-request run
+  `33391552626` without changing release bytes. That run predates the current
+  VoiceOver and video-evidence diff and is not validation of it.
 - [x] The current final-candidate rerun records research 4 of 4, passing production
   build/data validation, mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
   parity, legislation absent or rejected, and 30 of 30 in both installed Chrome
@@ -54,17 +58,26 @@ covered by the fresh fixed-tree scan below.
   that deployment, including the four-source search, exact record and
   provenance calls. The receipt records Browser plugin 26.825.32147, time and
   arguments; no model selected the tools.
+- [x] Isolated Chrome 152 with browser-native WebMCP enabled listed and
+  completed all five tools against exact public `v0.3.0-rc.1` through Chrome
+  DevTools MCP 1.8.0 at `2026-08-31T18:49:38.356Z`. It rejected unrelated
+  `personalContext` using stable error code `invalid_search_request`, recorded
+  zero console errors and called no model provider.
 - [x] The fixed human and WebMCP journeys produce the same canonical evidence
   fields, and the page shows evidence tier, producer-declared source link,
   destination hostname, “Not independently established” source authority,
   integrity and limitations without inventing a federated item receipt or
   official status. The canonical and displayed 11-row comparison digests match.
-- [ ] A refreshed video shorter than three minutes is captured from the exact
-  deployed federated candidate, accurately shows all four sources and the
-  human/tool parity journey, and has reviewed captions and a transcript.
+- [x] A refreshed 156.023-second local video is built from the exact deployed
+  federated candidate, accurately shows all four sources and the human/tool
+  parity journey, and binds the tracked captions and transcript. Its SHA-256 is
+  `e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
 - [ ] Chris Page completes owner review of the candidate, video, synthetic
   voice, privacy, branding, rights, impact claims and remaining hypotheses.
 - [ ] The approved public video URL plays signed out with sound and captions.
+- [x] The 31 August local technical compliance review reconciles the current
+  release, local video and retained Devpost receipt without changing the form.
+  It is an intermediate blocked review, not the final pre-submission refresh.
 - [ ] A final read-only Devpost compliance review refreshes the rules, live
   fields, URLs, entrant attestations and current evidence without submitting.
 
@@ -110,26 +123,28 @@ covered by the fresh fixed-tree scan below.
   admission rather than being silently inferred.
 - [x] Demonstration inputs fail closed on preview-path substitution, receipt or
   media hash drift, unrelated VoiceOver media and incomplete manual journeys.
-- [ ] The refreshed current-release VoiceOver clip, nine-step manual journey
-  record and exact media/evidence binding pass
-  `npm run demo:preflight -- --overwrite`. This remains open pending the macOS
-  capture environment and makes no WCAG conformance claim.
-- [ ] The refreshed local video build receipt binds the under-three-minute MP4,
+- [x] The refreshed current-release VoiceOver clip, nine-step manual journey
+  record and exact media/evidence binding pass the guarded demonstration
+  preflight. The journey records 7 passes and 2 limitations, with no VoiceOver
+  speech audio, continuous-recording or WCAG conformance claim.
+- [x] The refreshed local video build receipt binds the 156.023-second MP4,
   captions, transcript, script and every current-release evidence input. The
-  historical 142.920-second receipt does not satisfy this gate.
+  historical 142.920-second receipt remains historical rather than satisfying
+  this current-release gate.
 
 ## Human and agent acceptance
 
 - [x] Search, exact record and provenance work in the tested human keyboard and pointer journey; touch remains an observational gap.
-- [ ] **Inclusive-design follow-up, not an official submission blocker:** finish
-  the unproved screen-reader heading-rotor and automatic live-status checks.
-- [ ] The refreshed VoiceOver record covers every exact journey checkpoint,
+- [ ] **Inclusive-design follow-up, not an official submission blocker:** prove
+  the heading-rotor selection and automatic spoken live-status wording that the
+  current manual observation retains as its 2 limitations.
+- [x] The refreshed VoiceOver record covers every exact journey checkpoint,
   records all retained limitations, and binds the actual Safari scene by path,
   SHA-256 and capture interval without claiming WCAG conformance.
-- [ ] All nine refreshed screenshot-sequence frames are reviewed against the
-  manual Safari and VoiceOver observation, the non-continuous label remains
-  visible throughout, and the builder's declared metadata is not treated as
-  independent proof of assistive-technology use.
+- [x] All nine refreshed screenshot-sequence frames were reviewed against the
+  manual Safari and VoiceOver observation. The 27-second scene remains labelled
+  as a non-continuous sequence, and the record does not use builder-declared
+  metadata as independent proof of assistive-technology use.
 - [x] Narrow-screen reflow, forced-colours, reduced-motion and automated contrast rules pass; manual zoom remains an observational gap.
 - [x] Codex In-app Browser plugin 26.825.32147 discovered and successfully
   called all five tools against public `v0.3.0-rc.1`. The fixed four-source
@@ -137,13 +152,18 @@ covered by the fresh fixed-tree scan below.
   rejected, and the final comparison's canonical and displayed 11-row result
   digests matched. This does not prove model-led selection or universal host
   support.
-- [x] One rules-named judging route is recorded against the exact published
-  URL: native Chrome 152's WebMCP panel listed all five tools, completed all five
-  valid calls and showed the safe `limit: 21` rejection. This does not establish
-  ChatGPT desktop support.
-- [x] Chrome DevTools MCP 1.8.0 separately completed all five calls on the exact
-  corrected deployment, rejected `personalContext` and recorded zero console
-  errors. This does not establish agent model selection.
+- [x] One rules-named judging route is observed against exact public
+  `v0.3.0-rc.1`: isolated Chrome 152 with browser-native WebMCP enabled,
+  exercised through Chrome DevTools MCP 1.8.0, discovered and completed all five
+  calls. The reviewed receipt has SHA-256
+  `4d87c3d55379266f68f633896e016f9294b991aa88458ea3f4b91b883c430396`.
+  This one-time model-free observation does not establish model selection,
+  ChatGPT support or universal browser compatibility.
+- [x] The first exact-release Chrome capture stopped only because the harness
+  was coupled to obsolete rejection prose. The harness now checks stable error
+  code `invalid_search_request`; the reviewed rerun passed. Historical native-
+  panel and DevTools MCP evidence remains bound to the earlier corrected
+  deployment.
 - [x] The pinned model-free `webmcp-evals` smoke suite completed six of six
   authored calls across all five tools in isolated Chrome 152 without provider
   credentials on the authorised outside-socket-sandbox rerun. The first in-
@@ -177,6 +197,10 @@ covered by the fresh fixed-tree scan below.
 - [ ] Human publication review confirms the retained clips, receipt
   visualisation, VoiceOver scene and final cut are truthful, private and free of
   misleading branding.
+- [x] Agent technical review verified the local final MP4's H.264, AAC and
+  English-caption streams, complete video/audio decode, and normalised parity
+  across all 40 embedded caption cues, tracked captions, script and transcript.
+  It did not perform audible human playback or approve publication.
 - [x] The admitted Chrome native-panel and Chrome DevTools MCP reports and
   screenshots were reviewed for prompts, personal context, credentials,
   cookies, profile data and unredacted headers. Apply the same gate to any later
@@ -221,8 +245,10 @@ covered by the fresh fixed-tree scan below.
   files, corpus files, package lock, schemas and dated evidence.
 - [x] Retain SHA-256 freeze evidence for the historical local review video,
   captions, transcript and build receipt.
-- [ ] Retain SHA-256 freeze evidence for the refreshed final video, captions,
-  transcript and build receipt.
+- [x] Retain SHA-256 freeze evidence for the refreshed local final video,
+  captions, transcript and build receipt. The MP4 digest is
+  `e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`;
+  this does not establish public upload or playback.
 - [ ] Retain SHA-256 freeze evidence for the final submitted text when it
   exists.
 - [ ] Avoid last-minute feature changes after acceptance; only evidence-preserving fixes may cross the freeze gate.

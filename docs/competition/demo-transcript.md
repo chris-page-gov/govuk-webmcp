@@ -1,44 +1,45 @@
 # Demonstration video transcript
 
-**Evidence Trace: show your GOV.UK working**
+**Evidence Trace: your AI asks, you inspect**
 
 - Language: British English (`en-GB`)
-- Product release: `v0.2.0-rc.1` at commit `9235ee5db4df637bdb2a12e87449e871614afe68`
+- Product release: `v0.3.0-rc.1` at commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`
 - Demonstrated URL: <https://chris-page-gov.github.io/govuk-webmcp/>
 - Narration: original script synthesised locally with the installed macOS `Daniel` voice at rate 170
 - Narration publication basis: pending owner review
+- Privacy, branding and rights review: pending human review
 - Source-clip audio: omitted from the edit
 - Music: none
 
 The reviewed live-interaction clips are paired with an original British-English script. The supported-host scene is a local visualisation of its machine receipt, not a host recording. The VoiceOver evidence record, not the synthetic soundtrack, is the basis for the bounded assistive-technology observation.
 
-## 01. Start with an inspectable analytical index
+## 01. Search governed OKF snapshots together
 
-See the evidence before the answer. This independent prototype opens on an analytical index. It packages eighty digest-bound records. They cover GOV.UK content, public data and APIs. The worked answer identifies three official starting points. They cover what to check after a baby is born. Observation times, scope and the main limitation stay visible.
+Search housing across four locked OKF source snapshots. The results include A Life in the UK and ONS. They include UK Government APIs and metadata-only HM Land Registry. This is an independent prototype, not a government service. The ordering shows bounded relevance, not a trust score.
 
-## 02. Follow every labelled relationship
+## 02. Two evidence tiers, honestly labelled
 
-The Evidence Trace visualises the same deterministic material. Follow a labelled path from answer to claim, source and transformation. Then inspect its packaged SHA-two-five-six check and limitation. Every relationship is text-labelled; colour never carries meaning alone.
+Evidence Trace puts evidence before answers. Eighty reviewed records retain item-level evidence receipts. Another 58,652 records support wider governed discovery. They come from 58,655 locked source rows. Three standalone legislation rows remain quarantined.
 
-## 03. Keep eight trust facets separate
+## 03. Keep origin, link role and limitations visible
 
-Select one foundation to inspect authority and assertion. Verification and freshness stay separate. Integrity, access, rights and coverage stay separate too. Nothing is collapsed into a trust score. The authoritative page and limitations remain visible.
+This result keeps its collection and checksum-bound snapshot visible. Its source link has the producer-declared-source role. The destination hostname and limitations remain inspectable. Source authority is not independently established. This wider tier does not claim an item-level receipt.
 
-## 04. Compare claims without declaring a winner
+## 04. Five bounded tools over the same evidence
 
-Compare two claims field by field. Each keeps its official source, observation time and limitation. The table declares no winner and makes no personal decision.
+This reconstruction names the host, version and observation time. Its receipt records all five native page tools and their schemas. Search uses the same housing query and four collections. Record and provenance calls use the bound federated result. Reviewed tools explore and compare separate evidence facets. The page accepts no personal-context field and hosts no model. This receipt proves host invocation; no model selected a tool.
 
-## 05. Five WebMCP tools, one deterministic receipt
+## 05. Inspect facets without inventing a trust score
 
-A supported Codex in-app browser receipt records five native page tools. Three inspect verified data; two reversibly update the page. All five were called against this exact public release. The comparison used the same answer and claims as the human view. Its canonical and displayed result digests match. No provider, storage, catalogue or external state changed.
+Reviewed evidence supports a deeper, receipt-bound view. People and agents can inspect one answer foundation. They can compare authority, freshness, integrity and rights. Access and coverage remain separate as well. No combined score hides uncertainty or declares a winner.
 
 ## 06. Follow the same evidence with VoiceOver
 
-A manual Safari VoiceOver journey uses the same public release without WebMCP. It covers headings, controls and selected foundations. It also covers comparison, live status and source links. Results and limitations are recorded. This is not a Web Content Accessibility Guidelines conformance claim. Final frames show the link’s accessible name and restored comparison focus.
+A fresh manual Safari and VoiceOver journey checks this release. It follows headings, controls, search and the selected record. It checks the source-link role, destination and authority label. It also covers comparison, live status and focus restoration. This bounded observation is not a WCAG conformance claim.
 
-## 07. Show what is admitted — and what is not
+## 07. Publish inspectable tools, not another chatbot
 
-The evidence estate makes scope explicit. Two reviewed collections supply all eighty searchable records. Eight others are described but not searchable. A descriptor never admits a producer payload by itself. Every result keeps an authoritative human link and limitations visible. This is an independent prototype, not an official service. It grants no access and is not a durable gateway.
+This page hosts no model, profile or chat history. Your AI sends declared arguments; providers may receive prompts and results. The static path calls no official API or model. Land Registry stays metadata-only, without personal rows. No searchable legislation collection or result link is published. No legislation request occurs; cross-references stay inert. Privacy, cost and accuracy remain hypotheses. Your AI asks. You inspect the evidence.
 
 ## Boundary
 

@@ -1,7 +1,12 @@
 # Federated demonstration storyboard
 
-**Status: exact-release production plan. The refreshed VoiceOver scene and final
-edit remain open.**
+**Status: exact-release local review cut and rules-named Chrome capture
+complete. Human publication review, public-player verification, final
+compliance refresh and Devpost submission remain open.**
+
+The 31 August local technical compliance review now includes the Chrome
+observation at `2026-08-31T18:49:38.356Z`; the final live-rules and Devpost-form
+refresh remains open.
 
 `v0.3.0-rc.1` is merged through protected `main`, deployed to the public Pages
 URL and verified byte for byte at commit
@@ -9,8 +14,9 @@ URL and verified byte for byte at commit
 is bound to that release. Do not substitute a local build, mock result or
 earlier release without labelling it prominently.
 
-Target running time: **2 minutes 45 seconds**. Maximum: **2 minutes 59
-seconds**, including title and closing cards.
+The digest-bound local review cut runs for **156.023 seconds** (2 minutes
+36.023 seconds), below the **2 minutes 59 seconds** maximum including title and
+closing cards. It has not been published or submitted.
 
 ## Story in one sentence
 
@@ -79,20 +85,43 @@ government page hosting a model or receiving a personal profile.
 The last complete pre-remediation checkpoint passed 144 of 144 unit tests and
 29 of 29 installed-Microsoft-Edge acceptance tests. Seven Low findings were
 remediated afterwards. The exact product release passes 194 of 194 prepared
-unit tests and 30 of 30 tests in both installed Chrome and Microsoft Edge. The
-evidence follow-up passes 195 of 195 locally and in protected pull-request run
-`33391552626`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb`
+unit tests and 30 of 30 tests in both installed Chrome and Microsoft Edge. A
+prior evidence-follow-up checkpoint passed 195 of 195 locally and in protected
+pull-request run `33391552626`; that run predates and does not validate the
+current VoiceOver and video-evidence diff. Immutable fixed-tree scan
+`040ad945-3723-4aef-9c03-1bb552630deb`
 completed 55 of 55 review items against exact commit
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
 Exact deployment, supported-host and live-interaction evidence are complete.
-The refreshed VoiceOver sequence and final edit remain required. The guarded
-demo preflight continues to fail closed until those exact inputs exist.
+An isolated Chrome 152 / Chrome DevTools MCP 1.8.0 capture at
+`2026-08-31T18:49:38.356Z` also discovered and completed all five tools against
+the exact release, rejected `personalContext` by stable error code and recorded
+zero console errors. Its first attempt stopped because the harness expected old
+error prose; the stable-code harness correction and reviewed rerun passed. No
+model or provider was used, and no general compatibility claim is made.
+The current-release manual Safari and VoiceOver journey is also complete with
+7 passes and 2 recorded limitations. Its nine-frame Caption Panel sequence is
+retained as a 27-second screenshot-sequence clip: VoiceOver speech audio was
+not captured, the sequence is not a continuous recording and it does not make
+a WCAG conformance claim.
+
+The guarded build produced a local 156.023-second MP4 with SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`. Its
+H.264 video, AAC audio and English caption streams passed complete video and
+audio decode, and all 40 normalised embedded caption cues matched the tracked
+en-GB captions, script and transcript. This is technical evidence only: no
+audible human playback or publication approval is claimed.
 
 ## Evidence still required before publication
 
-- [ ] Final capture uses the exact deployed release and follows this storyboard.
-- [ ] Final duration is below three minutes.
-- [ ] Narration, captions and transcript agree and use British English.
+- [x] Exact public `v0.3.0-rc.1` lists and completes all five tools in isolated
+  Chrome 152 with browser-native WebMCP enabled through Chrome DevTools MCP
+  1.8.0. Retain Codex In-app Browser evidence under its own name.
+- [x] Final local capture uses the exact deployed release and follows this
+  storyboard.
+- [x] Local review-cut duration is 156.023 seconds, below three minutes.
+- [x] Embedded captions, tracked captions, script and transcript agree after
+  normalisation and use British English.
 - [ ] Media, browser state, prompts, headers and results pass privacy and rights
   review.
 - [ ] Claims match the retained host, CI, Pages, parity, network and integrity
@@ -101,7 +130,7 @@ demo preflight continues to fail closed until those exact inputs exist.
   privacy, rights and hypothesis wording.
 - [ ] Public playback works signed out with audible narration and captions.
 - [ ] The public URL and exact video checksum are retained before the final
-  read-only Devpost compliance review.
+  read-only live-rules and Devpost-form refresh.
 
 Do not upload, publish or submit a video merely because the automated build and
 decode checks pass. Those checks do not replace owner review or public-player

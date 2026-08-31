@@ -50,6 +50,18 @@ regular files to Pages artefact `9745316971`. One current supported host then
 discovered and executed all five page tools; no model selected a tool and no
 model provider was called:
 
+A separate current-release manual Safari and VoiceOver journey completed with
+7 passes and 2 retained limitations. Its Caption Panel media is a 27-second
+screenshot sequence, not a continuous recording; VoiceOver speech audio was
+not captured and the observation is not a WCAG conformance claim. The guarded
+pipeline then produced a 156.023-second local review MP4 with SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+Technical review passed its H.264 video, AAC audio and English-caption stream
+contract, complete video/audio decode, and normalised parity across all 40
+caption cues, the script and transcript. These records establish local review
+evidence, not human publication approval, public-player availability or
+submission.
+
 ```text
 80 reviewed deep-evidence records       Four locked OKF source snapshots
 with 80 item-level receipts             ├─ A Life in the UK: 9,757
@@ -335,11 +347,13 @@ focused mutation and deadline regressions plus the protected release path
 evidence those deltas separately. Pull-request validation `33356087333`,
 protected-main validation `33356272534` and Pages run `33356452048` passed,
 and the annotated `v0.3.0-rc.1` tag and current five-tool supported-host
-observation bind the released product. A passing fixed-model evaluation, the
-refreshed current-release VoiceOver journey, final video, owner review,
-public-player verification and Devpost submission remain open. No historical
-pre-federation browser, accessibility, video or host receipt is carried
-forward as proof of those open gates.
+observation bind the released product. The current-release VoiceOver journey
+and local final-video technical review are complete under the limitations above.
+A passing fixed-model evaluation remains optional; owner playback, privacy,
+branding, rights and synthetic-voice publication review, public upload and
+player verification, and Devpost submission remain open. No historical pre-
+federation browser, accessibility, video or host receipt is carried forward as
+proof of the current-release evidence.
 
 An earlier final-candidate demonstration preflight correctly failed closed
 without a deployed commit and explicit overwrite approval. It did not start

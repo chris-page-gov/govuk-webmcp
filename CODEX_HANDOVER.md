@@ -25,14 +25,27 @@ comparison whose canonical digest matched the displayed digest. Its media
 scene is a labelled receipt reconstruction, not a host-owned recording; no
 model selected a tool and no model provider was called. Five genuine silent
 public-page clips are also captured, with agent privacy and branding review
-passed and human publication review still pending.
+passed and human publication review still pending. Keep the host name exact:
+Codex In-app Browser is not relabelled as another client. A separate isolated
+Chrome 152 observation at `2026-08-31T18:49:38.356Z` discovered and completed
+all five tools against exact public `v0.3.0-rc.1` through Chrome DevTools MCP
+1.8.0, rejected unrelated `personalContext` by stable error code
+`invalid_search_request` and recorded zero console errors. It closes the rules-
+named Chrome gate but proves neither ChatGPT support nor model selection.
 
-The fresh nine-step Safari 26.5.2 and VoiceOver 10 Caption Panel journey is
-paused pending macOS unlock. It is not yet a completed current-release
-accessibility observation. The final demonstration video, technical review,
-owner playback and publication approval are also in progress. Nothing in this
-handover claims a refreshed public video, public YouTube upload or Devpost
-submission.
+The fresh nine-step Safari 26.5.2 and VoiceOver 10 Caption Panel journey against
+the exact release completed with limitations: seven checkpoints passed; a
+heading-rotor selection was not retained; and automatic spoken live-status
+wording was not proved. VoiceOver speech audio was not captured, no WCAG
+conformance is claimed, and the Caption Panel and VoiceOver were turned off
+afterwards. The resulting exact-release local review video is 156.023 seconds
+long and has SHA-256
+`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
+Technical review passed the complete video/audio decode, 4,678-frame count and
+40-cue caption-parity checks, with one non-blocking subtitle metadata warning.
+It did not include audible or continuous human playback. Owner review and
+publication approval remain open. Nothing in this handover claims a public
+YouTube upload or Devpost submission.
 
 The frozen `v0.2.0-rc.2` pre-federation baseline remains at product commit
 `35fcedd39ed955278d3975a6dd80692fc6e32935`; do not move or rewrite it. Earlier
@@ -344,7 +357,7 @@ historical failed model attempts predate v2 and remain failures.
 | Research pack | 4 of 4 passed |
 | Production build and generated-data validation | Passed: 80 reviewed records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings shards |
 | Focused combined/public-search regressions | 11 of 11 passed |
-| Prepared unit suite | 194 of 194 passed on the product release; the evidence follow-up passes 195 of 195 locally and in PR run `33391552626` |
+| Prepared unit suite | 194 of 194 passed on the product release; a prior evidence-follow-up checkpoint passed 195 of 195 locally and in PR run `33391552626`, which predates and does not validate the current VoiceOver and video-evidence diff |
 | Frozen retrieval-quality gate | Mean nDCG@10 `0.984698009`; Recall@20 `1`; identical cold/warm results; legislation collection absent and legislation request rejected |
 | Installed Google Chrome | 30 of 30 browser tests passed |
 | Installed Microsoft Edge | 30 of 30 browser tests passed |
@@ -376,10 +389,14 @@ with zero reportable findings. These were local candidate checkpoints.
 Pull-request validation `33356087333`, protected-main validation `33356272534`,
 Pages run `33356452048`, the complete live-byte comparison and exact-release
 supported-host capture now provide their respective release evidence. Fresh
-manual accessibility evidence, a passing model-backed evaluation, the
-refreshed video and submission remain open.
+manual accessibility evidence, the refreshed local video and technical review
+are now complete with explicit limitations. A passing model-backed evaluation,
+owner and public-player review, publication and submission remain open.
+The 31 August local technical compliance review is complete through the current
+Chrome observation at `2026-08-31T18:49:38.356Z`; it is not the final live-rules
+and Devpost-form refresh, which remains open.
 
-## Release assurance observed on 30 August 2026
+## Release assurance observed on 30 and 31 August 2026
 
 | Command or observation | Result |
 | --- | --- |
@@ -417,10 +434,12 @@ refreshed video and submission remain open.
 | Integrated Edge suite | 20 of 20 passed |
 | `webmcp-evals` 0.0.4 smoke | six of six required calls passed across three model-free cases in Chrome 152; each returned `ok: true` in the expected result-schema envelope |
 | Chrome DevTools MCP 1.8.0 | final hardened run at 15:53 BST on 30 August 2026 in isolated Chrome 152.0.7977.64 discovered and executed all five tools, checked closed schemas and annotations, rejected synthetic `personalContext` and recorded zero console errors |
-| Public Chrome DevTools MCP 1.8.0 | exact corrected deployment discovered and completed all five calls with zero console errors |
+| Historical public Chrome DevTools MCP 1.8.0 | earlier corrected deployment discovered and completed all five calls with zero console errors |
+| Current-release Chrome 152 and Chrome DevTools MCP 1.8.0 | at `2026-08-31T18:49:38.356Z`, isolated Chrome with browser-native WebMCP enabled discovered and completed all five tools against commit `b0bd634` / Pages run `33356452048`, rejected `personalContext` using `invalid_search_request`, recorded zero console errors and used no model provider |
 | Native Chrome WebMCP panel | five valid calls recorded `Completed`; `limit: 21` returned the expected structured rejection; both presentation tools updated the visible page, and the comparison's 11 facet rows and digest prefix agreed with the canonical result |
-| Video technical review | complete video/audio decode, 4,284 decoded frames and 38 caption cues passed; one non-fatal subtitle metadata warning retained; no audible content-parity or owner approval claimed |
-| Refreshed Devpost state | project `1406973` remained `Untitled`, blank and `submission_pre_draft` at `2026-08-31T12:16:23Z`; no form or submission mutation |
+| Historical video technical review | complete video/audio decode, 4,284 decoded frames and 38 caption cues passed; one non-fatal subtitle metadata warning retained; no audible content-parity or owner approval claimed |
+| Current-release video technical review | complete video/audio decode, 4,678 decoded frames and 40 normalised caption cues passed; one non-blocking subtitle metadata warning retained; no continuous audible human playback or owner approval claimed |
+| Refreshed Devpost state | the observation started at `2026-08-31T12:16:23Z` and completed at `2026-08-31T12:16:25Z`; project `1406973` remained `Untitled`, blank and `submission_pre_draft`; no form or submission mutation |
 | Current dependency reinstall and audit | local `npm ci --ignore-scripts --no-audit` passed and `npm audit --json` reported zero vulnerabilities across 162 application dependencies; the integrated CI and Pages definitions use the same install boundary, and Pages installs the Python pins and runs semantic smoke before deployment |
 | Microsoft WebMCP Explorer build | exact commit built twice idempotently in isolated `.tools/webmcp-explorer-build/`; source checkout remained clean and the clean-output allow-list passed; source, lock and unpacked-extension file-manifest SHA-256 values recorded below |
 
@@ -637,8 +656,9 @@ start of this handover.
   legislation rows are quarantined. They are four source-snapshot populations
   rather than unique government entities, reviewed item-level receipts or a
   claim of comprehensive current coverage. Exact deployment binding is
-  complete; model-backed, fresh accessibility, refreshed-video and submission
-  evidence remain open.
+  complete; the exact-release manual accessibility and local-video technical
+  evidence are complete with limitations. Model-backed, owner-review,
+  public-video and submission evidence remain open.
 - The GOV.UK imported bytes and Git blob are verified, but the historical
   producer revision was not available in the local checkout.
 - The cached ONS release ZIP has a local SHA-256 but no independently retrieved
@@ -653,8 +673,9 @@ start of this handover.
   two retained limitations: a heading-rotor selection was not retained, and the
   Caption Panel did not prove the automatic spoken wording of the live search
   status. VoiceOver audio was not captured. A fresh exact-release nine-step
-  recapture is paused pending macOS unlock and must not yet be described as
-  complete. Neither observation establishes WCAG conformance.
+  recapture is now complete with the same two retained limitations and with the
+  Caption Panel and VoiceOver turned off afterwards. Neither observation
+  establishes WCAG conformance.
 - On 30 August 2026, `Codex In-app Browser` discovered all five tools on the
   historical tagged deployment and returned successful results from all five.
   The final comparison call had matching canonical and displayed result
@@ -665,16 +686,22 @@ start of this handover.
 - The historical tagged release has the confirmed Chrome DevTools MCP 1.8.0
   execution compatibility defect. Corrected main is deployed and passed the
   bounded public DevTools MCP and native Chrome-panel observations; neither is
-  a general compatibility guarantee.
+  a general compatibility guarantee. A fresh isolated Chrome 152 / Chrome
+  DevTools MCP 1.8.0 capture now binds all five successful calls to the current
+  federated release. Its first attempt stopped only because the capture harness
+  expected obsolete error prose; the stable `invalid_search_request` code check
+  and reviewed rerun passed. This is one-time Chrome evidence, not ChatGPT or
+  model-selection evidence.
 - The model-free evaluator proves six exact successful result-schema envelopes,
   not complete payload equivalence or that an agent selects the right tool.
   Five exact local-model attempts are retained and show improved legibility,
   fail-closed recovery, failures and variance, but none passed the strict gate.
   Explorer remains
   unrun; a remote provider would change the data boundary.
-- The pre-federation demonstration exists only as a local review build. The
-  exact-release final demonstration, synthetic-voice publication, privacy,
-  branding and final playback reviews remain pending. A
+- The pre-federation demonstration remains historical. The exact-release
+  156.023-second local demonstration and technical review are complete, but
+  synthetic-voice publication, privacy, branding, rights and continuous human
+  playback reviews remain pending. A
   historical read-only record showed project `1406973` as `Untitled`, blank and
   `submission_pre_draft`; this checkpoint makes no registration, submission or
   public YouTube-upload claim.
@@ -688,12 +715,11 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-Resume the exact-release nine-step Safari and VoiceOver Caption Panel journey
-when the Mac is unlocked, complete and hash-bind the observations, then turn
-the Caption Panel and VoiceOver off. Build the final demonstration from the
-exact-release clips, complete technical and owner playback, privacy, branding,
-voice and caption review, and verify any public video while signed out before
-the final Devpost compliance review.
+Chris Page should complete continuous audible playback, privacy, branding,
+rights, synthetic-voice and caption review of the exact 156.023-second local
+candidate. If approved, publish that exact digest to public YouTube and verify
+sound and captions while signed out, then perform the final read-only rules and
+Devpost-form refresh.
 
 Do not move the `v0.3.0-rc.1` tag or reuse pre-federation accessibility, host or
 video evidence as proof of the expanded release. Public YouTube upload and

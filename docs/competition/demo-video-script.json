@@ -189,15 +189,13 @@
         "show-legislation-exclusion"
       ],
       "cues": [
-        "The page hosts no model and exposes no profile or conversation-history field.",
-        "A citizen-selected AI can send only the necessary declared arguments.",
-        "A remote provider may still receive the prompt, arguments and result.",
-        "This static path calls neither official APIs nor a model at runtime.",
-        "Land Registry remains metadata-only, with no personal rows.",
-        "No standalone legislation collection, payload or index is published.",
-        "There is no legislation runtime request or legislation.gov.uk result link.",
-        "Locked snapshots retain inert source-authored cross-reference strings.",
-        "Privacy, cost and accuracy benefits remain hypotheses to test.",
+        "This page hosts no model, profile or chat history.",
+        "Your AI sends declared arguments; providers may receive prompts and results.",
+        "The static path calls no official API or model.",
+        "Land Registry stays metadata-only, without personal rows.",
+        "No searchable legislation collection or result link is published.",
+        "No legislation request occurs; cross-references stay inert.",
+        "Privacy, cost and accuracy remain hypotheses.",
         "Your AI asks. You inspect the evidence."
       ]
     }
