@@ -321,10 +321,10 @@ Separately code-reviewed pins for all five source files, a direct builder lock-
 byte check and mutation regressions remediate it. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
 the fixed candidate with zero reportable findings. Its sealed scope predates
-the narrow reviewed-gzip CI portability correction described above; focused
-mutation regressions and the protected Linux rerun must evidence that delta
-separately. CI, Pages, release tag and current-candidate supported-host capture
-remain pending. No pre-federation browser,
+the reviewed-gzip and referenced import-deadline CI portability corrections;
+focused mutation and deadline regressions plus the protected Linux rerun must
+evidence those deltas separately. CI, Pages, release tag and current-candidate
+supported-host capture remain pending. No pre-federation browser,
 accessibility, video or host receipt is
 evidence that the expanded candidate passes those remaining gates.
 

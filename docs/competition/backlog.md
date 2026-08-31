@@ -191,8 +191,12 @@ fails closed.
     length and SHA-256; import preserves the reviewed stored bytes only after
     proving that they decode byte-for-byte to the freshly fetched raw source,
     and the builder validates that binding without host recompression. The
-    final protected rerun, Pages, tag, release, deployed-byte and supported-host
-    evidence remain pending under gate M. The final-candidate
+    next protected run `33355787295` cleared the build gate, then exposed an
+    unreferenced import-wide timeout whose isolated test could end before the
+    deadline fired. The deadline now uses a referenced, finally-cleared timer
+    and focused macOS/Linux regressions pass. The final protected rerun, Pages,
+    tag, release, deployed-byte and supported-host evidence remain pending
+    under gate M. The final-candidate
     demo preflight correctly failed closed without a deployed commit and
     explicit overwrite approval; it did not start live capture.)*
 

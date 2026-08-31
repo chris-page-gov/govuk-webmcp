@@ -52,8 +52,12 @@ stored-gzip length and SHA-256 plus the decoded raw length and SHA-256 as the
 portable contract. The importer preserves those reviewed stored bytes only
 after proving that they decode byte-for-byte to the freshly fetched raw source;
 the builder validates the same stored/raw binding without recompression. The
-final protected rerun, Pages, release and current-candidate supported-host
-evidence remain open. The preceding exact-range scan
+next protected run `33355787295` cleared that build gate, then exposed that an
+unreferenced import-wide timeout could let an isolated pending test end before
+the deadline fired. The deadline now uses a referenced, finally-cleared timer;
+focused macOS and Linux regressions pass. The final protected rerun, Pages,
+release and current-candidate supported-host evidence remain open. The
+preceding exact-range scan
 `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55 of 55 review items and
 reported one High-confidence, Low-severity source-substitution finding
 (`csf_050a3c08c471d3176e0640c3`). Its remediation adds separately code-reviewed
@@ -96,7 +100,7 @@ only the named gate against the exact candidate can do that.
 | 7 | Add tiny v1/v2 fixtures plus corruption, co-digested semantic mutation, ranking, duplicate, injection and resource-exhaustion tests. | Federation 7 | A–I | Implemented, including code-reviewed source pins, same-count source-and-registry substitution, direct federation-lock substitution, per-source co-digested population/display mutation and cancellation-churn cases; the exact post-remediation frozen quality gate passes at mean nDCG@10 0.984698009 and Recall@20 1 with cold/warm parity, no legislation collection and the legislation request rejected |
 | 8 | Run the four producer journeys, human/tool parity, accessibility and model-free browser/host checks against one candidate. | Federation 8 | D–K | In verification: exact final-candidate local Chrome and Edge each pass 30 of 30 and model-free WebMCP smoke passes 6 of 6 in real Chrome; focused manual accessibility and supported-host capture remain pending |
 | 9 | Run at least three fixed-model selections per synthetic case and the whole-system cost comparison, retaining failures and uncertainty. | Federation 9 | J, L | Five local attempts are retained and all failed the strict gate; attempt 4 bound receipt-v2 identity but retained a null evaluation after structural validation failed; attempt 5 retained 30 pass and 6 fail but failed `verify-reports`; cost study remains planned; hypotheses only |
-| 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Lockstep update records the sealed pre-remediation Low finding, its implemented code-pin fix and fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` with zero reportable findings. Pull request 16's first protected Linux run `33354712509` exposed host-dependent gzip output; its header-only correction was disproved by second run `33355108429`, which also differed in the DEFLATE stream. The final contract binds the exact reviewed stored-gzip length and SHA-256 to the decoded raw length and SHA-256, preserves reviewed stored bytes only after a byte-for-byte fetched-source cross-check, and requires no host recompression. The final protected rerun, Pages, tag, release and exact public evidence remain pending |
+| 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Lockstep update records the sealed pre-remediation Low finding, its implemented code-pin fix and fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` with zero reportable findings. Pull request 16's first protected Linux run `33354712509` exposed host-dependent gzip output; its header-only correction was disproved by second run `33355108429`, which also differed in the DEFLATE stream. The final contract binds the exact reviewed stored-gzip length and SHA-256 to the decoded raw length and SHA-256, preserves reviewed stored bytes only after a byte-for-byte fetched-source cross-check, and requires no host recompression. Run `33355787295` cleared that gate and exposed an unreferenced import-wide timeout; the referenced, finally-cleared timer correction passes focused macOS/Linux regressions. The final protected rerun, Pages, tag, release and exact public evidence remain pending |
 
 The approved federated population is 58,655 locked raw source rows:
 9,757 A Life in the UK records, including 293 service families; 5,097 ONS
@@ -469,7 +473,10 @@ now:
 3. Revalidate pull request 16's stored-gzip/decoded-raw binding in protected
    Linux CI. Run `33354712509` first exposed host-dependent gzip output, while
    run `33355108429` disproved the header-only correction by exposing DEFLATE
-   stream drift. The final protected rerun remains pending; after it passes,
+   stream drift. Run `33355787295` cleared the build gate, then exposed an
+   unreferenced import deadline; focused macOS/Linux regressions now pass with
+   a referenced, finally-cleared timer. The final protected rerun remains
+   pending; after it passes,
    complete A–M release binding and verify the exact deployed bytes before
    describing the expanded experience as live.
 4. Rebuild and review the demonstration video against that exact candidate,

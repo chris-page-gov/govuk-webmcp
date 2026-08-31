@@ -40,10 +40,10 @@ the reviewed lock bytes before parsing. The mutation regressions, production
 build and 194-test prepared suite pass; a fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` subsequently completed all 55 review
 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
-findings. That sealed scope predates the narrow CI portability correction
-described below; focused mutation regressions and the protected Linux rerun
-must evidence that delta separately. Protected-main integration, CI, Pages
-deployment and release verification remain pending.
+findings. That sealed scope predates the narrow CI portability corrections
+described below; focused mutation and deadline regressions plus the protected
+Linux rerun must evidence those deltas separately. Protected-main integration,
+CI, Pages deployment and release verification remain pending.
 
 ## Current implementation
 
@@ -169,10 +169,10 @@ rejected legislation request;
 model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
 across 162 total dependencies; and a clean `git diff --check`. Fresh immutable
 scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items with
-zero reportable findings. Its sealed scope predates the narrow CI portability
-correction. These local results are not protected-main CI, Pages,
-supported-host, focused manual accessibility, passing model-backed,
-refreshed-video or release evidence.
+zero reportable findings. Its sealed scope predates the reviewed-gzip and
+referenced import-deadline CI portability corrections. These local results are
+not protected-main CI, Pages, supported-host, focused manual accessibility,
+passing model-backed, refreshed-video or release evidence.
 
 Combined and public WebMCP search preserve `federated_runtime_busy` rather than
 misclassifying that scheduler state as source unavailable. The human live region

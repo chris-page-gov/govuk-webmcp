@@ -142,7 +142,11 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   enforces the stored and decoded bindings without requiring the host
   compressor to reproduce the reviewed stream. A co-digested semantic-mutation
   regression covers the fetched-byte cross-binding. The final protected Linux
-  rerun remains pending.
+  rerun remains pending. Protected run `33355787295` then reached the full
+  prepared unit suite and exposed that Node's unreferenced
+  `AbortSignal.timeout` could let an isolated pending import test end before its
+  deadline fired. The import-wide deadline now uses an explicitly referenced,
+  finally-cleared timer; the focused regression passes in macOS and Linux.
 - Preserved the `federated_runtime_busy` code through combined and public
   WebMCP search results instead of misclassifying a busy runtime as an
   unavailable source. The human live region now distinguishes rejected input,

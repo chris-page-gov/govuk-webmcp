@@ -687,7 +687,12 @@ export async function importOkfFederation({
   const stagingRoot = await mkdtemp(resolve(root, ".okf-federation-import-"));
   const stagingStat = await lstat(stagingRoot);
   if (!stagingStat.isDirectory() || stagingStat.isSymbolicLink()) throw new Error("Federation staging root is unsafe.");
-  const operationSignal = AbortSignal.timeout(importDurationMs);
+  const operationController = new AbortController();
+  const operationTimeout = setTimeout(
+    () => operationController.abort(new DOMException("The operation timed out.", "TimeoutError")),
+    importDurationMs,
+  );
+  const operationSignal = operationController.signal;
   const fetchOptions = { fetchImpl, operationSignal, perRequestTimeoutMs };
   const importedSources = [];
   let aggregateSourceBytes = 0;
@@ -849,6 +854,7 @@ export async function importOkfFederation({
     await assertRootIdentity(root, rootIdentity);
     return lock;
   } finally {
+    clearTimeout(operationTimeout);
     const stagingRelative = relative(root, stagingRoot);
     if (/^\.okf-federation-import-[^/\\]+$/u.test(stagingRelative)) {
       await rm(stagingRoot, { recursive: true, force: true });

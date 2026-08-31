@@ -38,9 +38,14 @@ preserves the exact reviewed stored representation after validating its byte
 length and SHA-256, boundedly decompresses it and validates the decoded source
 length and SHA-256, and requires the importer to match those decoded bytes to
 the freshly fetched source byte for byte. The builder independently enforces
-the stored and decoded bindings. Protected CI has not yet revalidated this
-final correction. This is not yet a protected-main integration, Pages
-deployment, release or submission. The frozen
+the stored and decoded bindings. Protected run `33355787295` cleared that
+build gate, then exposed a later timer-liveness defect: Node could finish an
+isolated pending import test before an unreferenced `AbortSignal.timeout`
+fired. The import-wide deadline now uses an explicitly referenced timer that is
+cleared in `finally`, and its focused macOS and Linux regressions pass.
+Protected CI has not yet revalidated this final timer correction. This is not
+yet a protected-main integration, Pages deployment, release or submission. The
+frozen
 pre-federation baseline is annotated tag
 `v0.2.0-rc.2` at product commit
 `35fcedd39ed955278d3975a6dd80692fc6e32935`; its public pre-release is retained
@@ -556,10 +561,11 @@ gated:
 
 Finish the remaining A–M candidate matrix without weakening the four-source
 allowlist, evidence-tier distinction or fail-closed budgets. Push the exact-
-reviewed-gzip and decoded-source cross-binding correction to pull request 16,
-require its exact Linux CI rerun to pass, merge without bypassing branch
-protection, deploy the exact main commit and bind the live artefact back to that
-commit before tagging or refreshing submission evidence.
+reviewed-gzip, decoded-source cross-binding and referenced import-deadline
+corrections to pull request 16, require its exact Linux CI rerun to pass, merge
+without bypassing branch protection, deploy the exact main commit and bind the
+live artefact back to that commit before tagging or refreshing submission
+evidence.
 
 Until that work is complete, do not describe federated behaviour as released,
 deployed, CI-validated or observed in a live WebMCP host. The existing video,

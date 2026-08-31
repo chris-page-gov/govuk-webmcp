@@ -89,7 +89,12 @@ decoded source length and SHA-256, and cross-binds those decoded bytes to the
 freshly fetched source byte for byte during import. The standalone builder
 independently enforces the stored and decoded bindings; it does not require a
 host compressor to reproduce them. The protected rerun, remaining A–M matrix,
-Pages and release verification have not yet completed.
+Pages and release verification have not yet completed. Protected run
+`33355787295` cleared the gzip build gate, then exposed a later unit-test
+liveness defect: Node could end an isolated pending import before an
+unreferenced `AbortSignal.timeout` fired. The import-wide deadline now uses an
+explicitly referenced timer, cleared in `finally`; the focused regression
+passes on macOS and Linux. Its protected rerun is pending.
 
 The intended, closed population is:
 
@@ -694,11 +699,11 @@ repository, live project and submission after the close.
 ## Recommended next step
 
 Close the remaining A–M matrix against the exact `0.3.0-rc.1` candidate. Update
-pull request 16 with the exact-reviewed-gzip and decoded-source cross-binding
-correction, require its exact Linux CI rerun, merge through the protected path,
-deploy the exact main commit and verify the live artefact is bound to that
-commit before tagging or refreshing supported-host, video and submission
-evidence.
+pull request 16 with the exact-reviewed-gzip, decoded-source cross-binding and
+referenced import-deadline corrections, require its exact Linux CI rerun, merge
+through the protected path, deploy the exact main commit and verify the live
+artefact is bound to that commit before tagging or refreshing supported-host,
+video and submission evidence.
 
 Do not reuse the pre-federation video, host capture or Pages evidence as proof
 of the expanded candidate. Rebuild and review submission media only after the
