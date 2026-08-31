@@ -28,13 +28,19 @@ build, source validation and 194-test prepared unit suite pass. A fresh
 immutable exact-range scan, `040ad945-3723-4aef-9c03-1bb552630deb`, then
 completed all 55 review items against fixed candidate
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Pull request 16 then exposed one cross-platform reproducibility defect in its
-first Linux validation run `33354712509`: RFC 1952 gzip header byte 9 retained
-Node's host operating-system value. The candidate now normalises that byte to
-the reviewed value `19`; source, compressed and lock digests remain unchanged,
-and a fixed-vector regression covers the representation. Protected CI has not
-yet revalidated that correction. This is not yet a protected-main integration,
-Pages deployment, release or submission. The frozen
+Pull request 16 then exposed a cross-platform reproducibility defect in Linux
+validation run `33354712509`. A first correction normalised RFC 1952 operating-
+system byte 9, but rerun `33355108429` proved that the Linux and macOS zlib
+implementations also produced different valid DEFLATE streams. The header-only
+explanation and correction were therefore insufficient. The final candidate
+does not reproduce reviewed gzip bytes with the current host compressor: it
+preserves the exact reviewed stored representation after validating its byte
+length and SHA-256, boundedly decompresses it and validates the decoded source
+length and SHA-256, and requires the importer to match those decoded bytes to
+the freshly fetched source byte for byte. The builder independently enforces
+the stored and decoded bindings. Protected CI has not yet revalidated this
+final correction. This is not yet a protected-main integration, Pages
+deployment, release or submission. The frozen
 pre-federation baseline is annotated tag
 `v0.2.0-rc.2` at product commit
 `35fcedd39ed955278d3975a6dd80692fc6e32935`; its public pre-release is retained
@@ -115,13 +121,17 @@ The current generated files record 6 searchable and 4 non-searchable corpus
 admissions, 5 source-lock registry entries and 31 closed JSON Schemas. These
 working-tree totals must be recomputed after the exact-tree remediation rescan;
 they are not release-bound counts. The stable reproducibility boundary is 73
-versioned gzip source artefacts totalling 13,021,675 bytes. The deterministic
-builder expands those inputs to 1,853 shard files — 120 record shards and 1,733
-postings shards — plus the manifest and checksum sidecar: 1,855 ignored
-generated files and 127,747,020 bytes in total. The production build copies
-that same-origin plane into `dist`. The federation lock and generated-manifest
-digests are cross-bound, but their final candidate values must be recorded
-after the exact-tree rescan and deterministic rebuild.
+versioned, reviewed gzip source artefacts totalling 13,021,675 bytes. Their
+exact stored byte lengths and SHA-256 values bind the reviewed representations;
+bounded decompression plus decoded lengths and SHA-256 values bind their source
+meaning. Import preserves those reviewed bytes only after matching each decoded
+payload to the freshly fetched source byte for byte. The deterministic builder
+expands those inputs to 1,853 shard files — 120 record shards and 1,733 postings
+shards — plus the manifest and checksum sidecar: 1,855 ignored generated files
+and 127,747,020 bytes in total. The production build copies that same-origin
+plane into `dist`. The federation lock and generated-manifest digests are cross-
+bound, but their final candidate values must be recorded after the exact-tree
+rescan and deterministic rebuild.
 UK Government APIs records use their source-authored, collection-unique
 `concept_id`; shared endpoint URLs are not used as record identity.
 
@@ -545,11 +555,11 @@ gated:
 ## Next safe task
 
 Finish the remaining A–M candidate matrix without weakening the four-source
-allowlist, evidence-tier distinction or fail-closed budgets. Push the portable-
-gzip correction to pull request 16, require its exact Linux CI rerun to pass,
-merge without bypassing branch protection, deploy the exact main commit and
-bind the live artefact back to that commit before tagging or refreshing
-submission evidence.
+allowlist, evidence-tier distinction or fail-closed budgets. Push the exact-
+reviewed-gzip and decoded-source cross-binding correction to pull request 16,
+require its exact Linux CI rerun to pass, merge without bypassing branch
+protection, deploy the exact main commit and bind the live artefact back to that
+commit before tagging or refreshing submission evidence.
 
 Until that work is complete, do not describe federated behaviour as released,
 deployed, CI-validated or observed in a live WebMCP host. The existing video,

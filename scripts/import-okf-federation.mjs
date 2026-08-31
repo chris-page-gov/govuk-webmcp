@@ -3,7 +3,7 @@ import { constants } from "node:fs";
 import { lstat, mkdir, mkdtemp, open, realpath, rename, rm } from "node:fs/promises";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { gzipSync } from "node:zlib";
+import { gunzipSync } from "node:zlib";
 
 export const FEDERATION_LOCK_SCHEMA = "govuk-webmcp.okf-federation-lock.v1";
 export const FEDERATION_PROFILE = "govuk-webmcp.okf-federated-search.v1";
@@ -242,16 +242,6 @@ function sourceIdentity(source) {
   };
 }
 
-export function deterministicGzip(value) {
-  const compressed = gzipSync(value, { level: 9, mtime: 0 });
-  // RFC 1952 byte 9 identifies the compressor's operating system. Node writes
-  // the host value, which made the reviewed Mac-authored bytes differ on the
-  // Linux release runner despite an identical DEFLATE stream. Retain the
-  // reviewed snapshot's explicit macOS value as part of this release contract.
-  compressed[9] = 0x13;
-  return compressed;
-}
-
 export function safeRelativePath(value, label = "Resource path") {
   if (typeof value !== "string" || value.length < 1 || value.length > 240 || !SAFE_PATH.test(value) || value.includes("\\")) {
     throw new Error(`${label} is not a safe relative path.`);
@@ -464,13 +454,19 @@ async function assertNoUnexpectedFiles(directory, expectedPaths) {
   }
 }
 
-async function readRegularFile(path, label) {
+async function readRegularFile(path, label, maximumBytes = Number.MAX_SAFE_INTEGER) {
   const initial = await lstat(path);
   if (!initial.isFile() || initial.isSymbolicLink()) throw new Error(`${label} must be a regular non-symlink file.`);
+  if (!Number.isSafeInteger(maximumBytes) || maximumBytes < 1 || initial.size > maximumBytes) {
+    throw new Error(`${label} exceeds its reviewed byte limit.`);
+  }
   const handle = await open(path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
   try {
     const opened = await handle.stat();
-    if (!opened.isFile() || opened.dev !== initial.dev || opened.ino !== initial.ino) {
+    if (
+      !opened.isFile() || opened.dev !== initial.dev || opened.ino !== initial.ino ||
+      opened.size !== initial.size || opened.size > maximumBytes
+    ) {
       throw new Error(`${label} changed while being read.`);
     }
     return await handle.readFile();
@@ -590,7 +586,8 @@ function reviewedArtifactFor(reviewedSource, role, index, sourcePath, storedPath
   if (
     !pin || pin.role !== role || pin.sourcePath !== sourcePath || pin.storedPath !== storedPath ||
     pin.compression !== "gzip" || !Number.isSafeInteger(pin.itemCount) ||
-    !Number.isSafeInteger(pin.sourceBytes) || !Number.isSafeInteger(pin.storedBytes) ||
+    !Number.isSafeInteger(pin.sourceBytes) || pin.sourceBytes < 2 || pin.sourceBytes > MAX_SOURCE_BYTES ||
+    !Number.isSafeInteger(pin.storedBytes) || pin.storedBytes < 2 || pin.storedBytes > MAX_SOURCE_BYTES ||
     !SHA256.test(pin.sourceSha256) || !SHA256.test(pin.storedSha256)
   ) {
     throw new Error(`${reviewedSource.id} ${role} artifact ${index} differs from its reviewed pin identity.`);
@@ -598,14 +595,39 @@ function reviewedArtifactFor(reviewedSource, role, index, sourcePath, storedPath
   return pin;
 }
 
+export function validateReviewedStoredArtifact(compressed, pin, label = "Reviewed artifact") {
+  if (
+    !Number.isSafeInteger(pin.sourceBytes) || pin.sourceBytes < 2 || pin.sourceBytes > MAX_SOURCE_BYTES ||
+    !Number.isSafeInteger(pin.storedBytes) || pin.storedBytes < 2 || pin.storedBytes > MAX_SOURCE_BYTES ||
+    !SHA256.test(pin.sourceSha256) || !SHA256.test(pin.storedSha256) ||
+    compressed.byteLength !== pin.storedBytes || sha256(compressed) !== pin.storedSha256
+  ) {
+    throw new Error(`${label} differs from its exact reviewed stored-byte pin.`);
+  }
+  let decoded;
+  try {
+    decoded = gunzipSync(compressed, { maxOutputLength: MAX_SOURCE_BYTES });
+  } catch (error) {
+    throw new Error(`${label} reviewed gzip cannot be safely decompressed.`, { cause: error });
+  }
+  if (decoded.byteLength !== pin.sourceBytes || sha256(decoded) !== pin.sourceSha256) {
+    throw new Error(`${label} decoded source differs from its reviewed byte or digest pin.`);
+  }
+  return decoded;
+}
+
 export function verifyFetchedArtifactAgainstPin(sourceBytes, value, compressed, pin, label = "Fetched artifact") {
   if (
     !Array.isArray(value) || value.length !== pin.itemCount ||
-    sourceBytes.byteLength !== pin.sourceBytes || sha256(sourceBytes) !== pin.sourceSha256 ||
-    compressed.byteLength !== pin.storedBytes || sha256(compressed) !== pin.storedSha256
+    sourceBytes.byteLength !== pin.sourceBytes || sha256(sourceBytes) !== pin.sourceSha256
   ) {
     throw new Error(`${label} differs from its reviewed byte, digest or item-count pin.`);
   }
+  const decoded = validateReviewedStoredArtifact(compressed, pin, label);
+  if (!decoded.equals(sourceBytes)) {
+    throw new Error(`${label} reviewed gzip does not decode to the fetched source bytes.`);
+  }
+  return compressed;
 }
 
 export async function loadReviewedFederationLock({ rootDir = process.cwd() } = {}) {
@@ -702,30 +724,37 @@ export async function importOkfFederation({
           if (!Array.isArray(value)) throw new Error(`${source.id} ${sourcePath} must contain a JSON array.`);
           if (role === "records") sourceRecordCount += value.length;
           else supportingCount += value.length;
-          const compressed = deterministicGzip(sourceBytes);
-          aggregateStoredBytes += compressed.byteLength;
-          if (aggregateStoredBytes > MAX_AGGREGATE_STORED_BYTES) throw new Error("Federation stored bytes exceed the aggregate limit.");
           const storedName = `${role}-${String(index).padStart(3, "0")}.json.gz`;
           const absoluteStoredPath = resolve(sourceDirectory, storedName);
           const storedPath = relative(root, absoluteStoredPath).replaceAll("\\", "/");
           safeRelativePath(storedPath, "Stored artifact path");
           const reviewedArtifact = reviewedArtifactFor(reviewedSource, role, index, sourcePath, storedPath);
-          verifyFetchedArtifactAgainstPin(
+          // DEFLATE output varies across otherwise conforming zlib versions.
+          // Preserve the separately reviewed stored bytes rather than claiming
+          // that host recompression can reproduce their exact representation.
+          const compressed = await readRegularFile(
+            resolve(root, reviewedArtifact.storedPath),
+            `${source.id} reviewed stored artifact`,
+            MAX_SOURCE_BYTES,
+          );
+          const verifiedCompressed = verifyFetchedArtifactAgainstPin(
             sourceBytes,
             value,
             compressed,
             reviewedArtifact,
             `${source.id} ${sourcePath}`,
           );
-          await writeStagedFile(stagingRoot, storedPath, compressed);
+          aggregateStoredBytes += verifiedCompressed.byteLength;
+          if (aggregateStoredBytes > MAX_AGGREGATE_STORED_BYTES) throw new Error("Federation stored bytes exceed the aggregate limit.");
+          await writeStagedFile(stagingRoot, storedPath, verifiedCompressed);
           artifacts.push({
             role,
             sourcePath,
             storedPath,
             sourceBytes: sourceBytes.byteLength,
             sourceSha256: sha256(sourceBytes),
-            storedBytes: compressed.byteLength,
-            storedSha256: sha256(compressed),
+            storedBytes: verifiedCompressed.byteLength,
+            storedSha256: sha256(verifiedCompressed),
             compression: "gzip",
             itemCount: value.length,
           });

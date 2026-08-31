@@ -40,8 +40,10 @@ the reviewed lock bytes before parsing. The mutation regressions, production
 build and 194-test prepared suite pass; a fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` subsequently completed all 55 review
 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
-findings. Protected-main integration, CI, Pages deployment and release
-verification remain pending.
+findings. That sealed scope predates the narrow CI portability correction
+described below; focused mutation regressions and the protected Linux rerun
+must evidence that delta separately. Protected-main integration, CI, Pages
+deployment and release verification remain pending.
 
 ## Current implementation
 
@@ -90,9 +92,12 @@ closed JSON Schemas. The 73 versioned gzip source artefacts total
 120 record shards and 1,733 postings shards — plus the manifest and checksum
 sidecar: 1,855 ignored generated files and 127,747,020 bytes in total. The
 plane is copied into `dist` rather than committed. The federation lock and
-generated-manifest digests are cross-bound. RFC 1952 operating-system byte 9 is
-normalised to reviewed value `19` so Mac and Linux validate one exact gzip
-representation.
+generated-manifest digests are cross-bound. Each reviewed gzip representation
+is pinned and preserved as exact stored bytes; the build does not recompress it.
+A bounded gunzip must validate the locked decoded length and SHA-256 digest,
+and the importer additionally requires those decoded bytes to equal the newly
+fetched raw source bytes. This keeps Mac and Linux verification independent of
+host-specific compression output.
 UK Government APIs records use the source-authored, collection-unique
 `concept_id` as their native identity. An endpoint URL can be shared and is
 therefore evidence, not a substitute identity.
@@ -164,8 +169,9 @@ rejected legislation request;
 model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
 across 162 total dependencies; and a clean `git diff --check`. Fresh immutable
 scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items with
-zero reportable findings. These local results are not protected-main
-CI, Pages, supported-host, focused manual accessibility, passing model-backed,
+zero reportable findings. Its sealed scope predates the narrow CI portability
+correction. These local results are not protected-main CI, Pages,
+supported-host, focused manual accessibility, passing model-backed,
 refreshed-video or release evidence.
 
 Combined and public WebMCP search preserve `federated_runtime_busy` rather than

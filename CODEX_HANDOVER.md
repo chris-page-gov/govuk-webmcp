@@ -79,11 +79,17 @@ model-free real-Chrome smoke, dependency-audit and diff-integrity gates now
 pass as recorded below. Immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Pull request 16's first Linux run `33354712509` then found a host-specific gzip
-header byte in the deterministic representation. The narrow correction pins
-RFC 1952 byte 9 to the reviewed value `19` and adds a fixed-vector regression;
-its protected rerun, remaining A–M matrix, Pages and release verification have
-not yet completed.
+Pull request 16's first Linux run `33354712509` then found that host
+recompression did not reproduce the reviewed gzip representation. A first
+correction normalised RFC 1952 operating-system byte 9, but rerun `33355108429`
+proved that Linux and macOS zlib also emitted different valid DEFLATE streams.
+The final correction therefore preserves the exact reviewed stored gzip after
+its byte length and SHA-256 pass, boundedly decompresses it to validate the
+decoded source length and SHA-256, and cross-binds those decoded bytes to the
+freshly fetched source byte for byte during import. The standalone builder
+independently enforces the stored and decoded bindings; it does not require a
+host compressor to reproduce them. The protected rerun, remaining A–M matrix,
+Pages and release verification have not yet completed.
 
 The intended, closed population is:
 
@@ -119,11 +125,15 @@ The current generated files contain 6 searchable and 4 non-searchable corpus
 admissions, 5 source-lock registry entries and 31 closed JSON Schemas, while
 keeping the reviewed and federated evidence tiers distinct. Recompute these
 dynamic working-tree totals after the exact-tree rescan before binding them to
-a release. The stable federated reproducibility boundary is 73 versioned gzip
-artefacts totalling 13,021,675 bytes. The deterministic builder expands those
-inputs into 1,853 shard files — 120 record shards and 1,733 postings shards —
-plus the manifest and checksum sidecar: 1,855 ignored generated files and
-127,747,020 bytes in total. The plane is copied to `dist`; do not commit it.
+a release. The stable federated reproducibility boundary is 73 versioned,
+reviewed gzip artefacts totalling 13,021,675 bytes. Exact stored lengths and
+SHA-256 values bind their reviewed representations; bounded decoded lengths and
+SHA-256 values bind their source meaning. Import preserves those reviewed bytes
+only after exact decoded-to-fetched byte matching. The deterministic builder
+expands those inputs into 1,853 shard files — 120 record shards and 1,733
+postings shards — plus the manifest and checksum sidecar: 1,855 ignored
+generated files and 127,747,020 bytes in total. The plane is copied to `dist`;
+do not commit it.
 
 UK Government APIs records use the source-authored, collection-unique
 `concept_id` as their source-native identity. All 41,598 admitted rows have a
@@ -197,7 +207,7 @@ Generated JSON and checksum sidecars are deterministic.
 | Candidate binding | Value |
 | --- | --- |
 | Source-lock registry | 5 entries at this working-tree checkpoint; recompute after the exact-tree rescan |
-| Federated source plane | 73 versioned gzip artefacts; 13,021,675 bytes |
+| Federated source plane | 73 versioned reviewed gzip artefacts; 13,021,675 stored bytes; exact stored and bounded decoded digest bindings; importer decoded-to-fetched byte cross-binding |
 | Federation lock digest | Recompute after the exact-tree rescan and deterministic rebuild |
 | Generated search plane | 1,853 shards (120 record + 1,733 postings) and 2 root files; 1,855 files and 127,747,020 bytes in total; copied into `dist` |
 | Generated manifest digest | Recompute after the exact-tree rescan and deterministic rebuild |
@@ -684,10 +694,11 @@ repository, live project and submission after the close.
 ## Recommended next step
 
 Close the remaining A–M matrix against the exact `0.3.0-rc.1` candidate. Update
-pull request 16 with the portable-gzip correction, require its exact Linux CI
-rerun, merge through the protected path, deploy the exact main commit and
-verify the live artefact is bound to that commit before tagging or refreshing
-supported-host, video and submission evidence.
+pull request 16 with the exact-reviewed-gzip and decoded-source cross-binding
+correction, require its exact Linux CI rerun, merge through the protected path,
+deploy the exact main commit and verify the live artefact is bound to that
+commit before tagging or refreshing supported-host, video and submission
+evidence.
 
 Do not reuse the pre-federation video, host capture or Pages evidence as proof
 of the expanded candidate. Rebuild and review submission media only after the

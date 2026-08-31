@@ -61,10 +61,13 @@ fails closed.
 2. Lock exactly four source identities, descriptors, manifests, snapshots,
    counts, files and same-origin target paths. Reject a legislation collection
    or request and every undeclared origin or route without treating inert
-   source-authored cross-references as a fifth source. *(Implemented and
-   verified locally through the current federation lock, 73
-   checksum-bound gzip artefacts totalling 13,021,675 bytes and focused source
-   contract tests; release binding remains pending under gates A–C and I.)*
+   source-authored cross-references as a fifth source. *(Implemented through
+   the current federation lock and 73 reviewed gzip
+   artefacts totalling 13,021,675 bytes. Each exact stored length and SHA-256 is
+   bound to the decoded raw length and SHA-256; import preserves the reviewed
+   stored bytes only after a byte-for-byte fetched-source cross-check, without
+   host recompression. The focused source-contract checks and release binding
+   remain to be revalidated under gates A–C and I.)*
 3. Publish separate `reviewed-deep-evidence` and
    `federated-source-snapshot` contracts, closed schemas and executable
    validators with a common evidence shape. *(Implemented with search result v2
@@ -180,12 +183,16 @@ fails closed.
     public bytes and bind every released statement to the deployed candidate.
     *(Documentation retains the sealed 55-item pre-remediation scan and its Low
     finding alongside the implemented code-pin fix and zero-finding fixed-tree
-    scan `040ad945-3723-4aef-9c03-1bb552630deb`. Pull request 16's first Linux
-    run `33354712509` exposed Node's host-specific RFC 1952 gzip header byte;
-    the correction pins byte 9 to reviewed value `19` and adds a fixed-vector
-    regression. Its CI rerun, Pages, tag, release, deployed-byte and supported-
-    host evidence remain
-    pending under gate M. The final-candidate
+    scan `040ad945-3723-4aef-9c03-1bb552630deb`. Pull request 16's first
+    protected Linux run `33354712509` exposed host-dependent gzip output. Its
+    header-only correction was disproved by second protected Linux run
+    `33355108429`, which also differed in the DEFLATE stream. The final contract
+    binds the exact reviewed stored-gzip length and SHA-256 to the decoded raw
+    length and SHA-256; import preserves the reviewed stored bytes only after
+    proving that they decode byte-for-byte to the freshly fetched raw source,
+    and the builder validates that binding without host recompression. The
+    final protected rerun, Pages, tag, release, deployed-byte and supported-host
+    evidence remain pending under gate M. The final-candidate
     demo preflight correctly failed closed without a deployed commit and
     explicit overwrite approval; it did not start live capture.)*
 

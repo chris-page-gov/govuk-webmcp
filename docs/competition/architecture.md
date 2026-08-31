@@ -144,9 +144,12 @@ admissions, 5 source-lock entries and 31 schemas.
 The four-source OKF lock binds exact collection identity, publication base,
 revision or observed deployment bytes, snapshot, descriptor, data and search
 manifests, artefacts, counts, digests, rights, access and resource budgets. Its
-73 versioned gzip artefacts total 13,021,675 bytes. The deterministic builder
-normalises RFC 1952 operating-system byte 9 to the reviewed value `19`, avoiding
-host-specific Mac/Linux output while retaining the checksum-bound snapshot. It
+73 versioned gzip artefacts total 13,021,675 bytes. Each exact reviewed stored
+representation is digest-pinned and preserved; the builder does not recompress
+it. Bounded gunzip validates the locked decoded length and SHA-256 digest, and
+the importer requires those decoded bytes to equal the newly fetched raw source
+bytes. This avoids treating host-specific Mac/Linux compression output as the
+evidence contract while retaining the checksum-bound snapshot. The builder
 creates 1,853 ignored shard files — 120 record shards and 1,733 postings shards
 — plus the manifest and checksum sidecar, for 1,855 files and 127,747,020 bytes
 in total. The plane is included in the validated Pages artefact and is not
@@ -317,9 +320,11 @@ of 55 review items and retained one Low co-digested source-substitution finding.
 Separately code-reviewed pins for all five source files, a direct builder lock-
 byte check and mutation regressions remediate it. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
-the fixed candidate with zero reportable findings. CI, Pages, release tag and
-current-candidate supported-host capture remain
-pending. No pre-federation browser,
+the fixed candidate with zero reportable findings. Its sealed scope predates
+the narrow reviewed-gzip CI portability correction described above; focused
+mutation regressions and the protected Linux rerun must evidence that delta
+separately. CI, Pages, release tag and current-candidate supported-host capture
+remain pending. No pre-federation browser,
 accessibility, video or host receipt is
 evidence that the expanded candidate passes those remaining gates.
 
