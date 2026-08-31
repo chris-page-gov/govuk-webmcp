@@ -169,6 +169,7 @@ govuk-webmcp/
 │   │   ├── demo-video.test.mjs
 │   │   ├── voiceover-screenshot-clip.test.mjs
 │   │   ├── python-test-environment.test.mjs
+│   │   ├── beginner-interface-specification.test.mjs
 │   │   ├── webmcp-evals-harness.test.mjs
 │   │   ├── post-deployment-evidence.test.mjs
 │   │   └── release-evidence.test.mjs
@@ -190,7 +191,8 @@ govuk-webmcp/
 │   ├── beginners/
 │   │   └── index.md               # evidence-before-answer learning pathway
 │   ├── product/
-│   │   └── beginner-trust-pathway-prd.md # discovery PRD; no implemented UI
+│   │   ├── beginner-trust-pathway-prd.md # discovery PRD; no implemented UI
+│   │   └── beginner-interface-specification.md # proposed dual-view UI contract
 │   └── competition/
 │       ├── architecture.md
 │       ├── tool-catalogue.md

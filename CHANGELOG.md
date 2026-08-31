@@ -8,12 +8,27 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A documentation-only beginner evidence interface specification that reviews
+  the current page, retains it as the proposed **Technical review** view and
+  defines a future **Guided evidence** view over the same deterministic actions
+  and data. It specifies semantic page order, URL and state contracts, result
+  and failure states, human/WebMCP choreography, accessible progressive
+  disclosure, exact accepted-input boundaries, a candidate but unapproved
+  record-presentation tool, module ownership, 12-story and primary-limitation
+  mappings, verification and source/research/release gates. No UI, schema, tool
+  or deployment changed.
+- A unit documentation contract for the companion beginner PRD, interface
+  specification and learning guide. It checks the two-view and
+  documentation-only boundaries, structurally exact DS-01 to DS-12, GE-01 to
+  GE-10, US-01 to US-12, the 46 requirement-trace rows, the 12-story primary-
+  limitation map, the unresolved source gate and the absence of an approved
+  sixth tool.
 - A documentation-only beginner trust pathway: a five-question evidence-
   checking guide, discovery PRD, four synthetic personas, 12 representative
   user stories and an exact question-to-released-corpus coverage matrix. The
   questions are labelled hypotheses rather than frequency claims, and the
-  current public interface remains unchanged pending Technical review and user
-  research.
+  current public interface remains unchanged pending a low-fidelity prototype,
+  formative research and separately authorised implementation.
 - A 12-story guided WebMCP conversation fixture and unit contract covering all
   five tools, reviewed and four-source federated evidence, context
   minimisation requirements, an expected task-minimal argument shape,
@@ -69,6 +84,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Aligned the beginner PRD and learning guide with the companion interface
+  specification. The guide now distinguishes question-first and answer-checking
+  evidence paths, removes an unsupported claim about what an AI withheld and
+  explains that a short search phrase can itself contain personal detail. The
+  PRD now approves only the proposed semantic hierarchy for low-fidelity
+  testing, not visual design, implementation or public rollout.
 - Extended the source, evaluation and risk registers with official GOV.UK Chat
   design and evaluation research, the exact local guided-model result and a
   beginner-overtrust risk. The records explicitly distinguish representative
