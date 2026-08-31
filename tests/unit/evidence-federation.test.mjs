@@ -95,7 +95,39 @@ test("loads one digest-bound evidence answer and ten bounded corpus admissions",
   assert.equal(federation.federatedSourceRecordCount, 58_655);
   assert.equal(federation.federatedQuarantinedRecordCount, 3);
   assert.equal(federation.federatedRecordCount, 58_652);
+  assert.deepEqual(federation.federatedSearch.collectionBindings, [
+    {
+      admissionId: "corpus:uk-life-course",
+      collectionId: "uk-living",
+      sourceRecordCount: 9_757,
+      quarantinedRecordCount: 0,
+      recordCount: 9_757,
+    },
+    {
+      admissionId: "corpus:ons-metadata",
+      collectionId: "ons",
+      sourceRecordCount: 5_097,
+      quarantinedRecordCount: 0,
+      recordCount: 5_097,
+    },
+    {
+      admissionId: "corpus:uk-government-apis",
+      collectionId: "government-apis",
+      sourceRecordCount: 41_598,
+      quarantinedRecordCount: 0,
+      recordCount: 41_598,
+    },
+    {
+      admissionId: "corpus:land-registry-metadata",
+      collectionId: "land-registry",
+      sourceRecordCount: 2_203,
+      quarantinedRecordCount: 3,
+      recordCount: 2_200,
+    },
+  ]);
   assert.deepEqual(federation.federatedSearch, JSON.parse(rawFederation).federatedSearch);
+  const landRegistry = federation.collections.find(({ id }) => id === "corpus:land-registry-metadata");
+  assert.match(landRegistry.decision.allowedClaims[0], /2,203 source metadata records; 3 are quarantined and 2,200 are searchable/u);
   assert.equal(federation.notSearchableCollections, 4);
   assert.equal(federation.stateCounts.quarantined, 2);
   assert.deepEqual(
@@ -365,6 +397,51 @@ test("federation validation rejects co-digested federated-search count and shape
       /federated-search source-lock and population binding is invalid|Federated-search binding contains an unknown field/u,
     );
   }
+});
+
+test("federation validation rejects co-digested per-source population redistribution", async () => {
+  for (const redistributeBinding of [false, true]) {
+    const [text, checksum] = reboundFederation((manifest) => {
+      const landRegistry = manifest.collections.find(
+        ({ admission }) => admission.id === "corpus:land-registry-metadata",
+      ).admission;
+      const ukLiving = manifest.collections.find(({ admission }) => admission.id === "corpus:uk-life-course").admission;
+      landRegistry.population.denominator = 2_206;
+      landRegistry.counts.find(({ metric }) => metric === "records").count = 2_206;
+      ukLiving.population.denominator = 9_754;
+      ukLiving.counts.find(({ metric }) => metric === "concepts").count = 9_754;
+      if (redistributeBinding) {
+        const landRegistryBinding = manifest.federatedSearch.collectionBindings.find(
+          ({ collectionId }) => collectionId === "land-registry",
+        );
+        const ukLivingBinding = manifest.federatedSearch.collectionBindings.find(
+          ({ collectionId }) => collectionId === "uk-living",
+        );
+        landRegistryBinding.sourceRecordCount = 2_206;
+        landRegistryBinding.recordCount = 2_203;
+        ukLivingBinding.sourceRecordCount = 9_754;
+        ukLivingBinding.recordCount = 9_754;
+      }
+    });
+    await assert.rejects(
+      createFederationRuntime(text, checksum, catalogue.bundleDigest, catalogue.records.length),
+      /admission does not match .* collection population binding|collection population binding is invalid/u,
+    );
+  }
+});
+
+test("federation validation rejects co-digested prose that contradicts a collection binding", async () => {
+  const [text, checksum] = reboundFederation((manifest) => {
+    const landRegistry = manifest.collections.find(
+      ({ admission }) => admission.id === "corpus:land-registry-metadata",
+    ).admission;
+    landRegistry.decision.limitations[0] =
+      "All 2,203 source metadata records are searchable; none are quarantined.";
+  });
+  await assert.rejects(
+    createFederationRuntime(text, checksum, catalogue.bundleDigest, catalogue.records.length),
+    /collection population binding or its validated display contract/u,
+  );
 });
 
 test("federation validation cross-checks its declared 80 records against the catalogue population", async () => {

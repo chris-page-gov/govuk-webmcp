@@ -9,6 +9,11 @@ receive only the explicit, validated tool input it needs, rather than operating
 a government-hosted general-purpose assistant or collecting an unrelated
 personal profile.
 
+This is the product boundary the submission must make obvious: OKF exposes the
+governed evidence plane; WebMCP exposes bounded actions over it; and the
+citizen-selected AI contributes contextual reasoning without making the public
+page host an AI or accept a general personal-context object.
+
 The [user-supplied ChatGPT research](https://chatgpt.com/share/6a942aa1-cd04-83eb-af1d-a0c73074c736)
 is a secondary research input. Its proposed four-layer evidence stack is adopted
 below where it is supported by the linked primary sources. Product, security and
@@ -97,6 +102,13 @@ collection, request or apex/subdomain legislation result link. A failed source r
 unavailable while unaffected sources and the validated 80-record tier continue;
 the application must not replace it with an unverified fallback.
 
+One exact ordered contract binds source/quarantined/searchable counts for every
+collection: 9,757/0/9,757 for A Life in the UK, 5,097/0/5,097 for ONS,
+41,598/0/41,598 for UK Government APIs and 2,203/3/2,200 for HM Land Registry.
+Executable validation also binds each title, ordered supplementary counts,
+completeness statement and first limitation, so a co-digested per-source
+redistribution or contradictory display claim fails closed.
+
 The OKF publications are independent discovery republications, not official
 government services or endorsements. They do not grant access, establish an
 open licence, provide service advice or prove current source accuracy. No
@@ -115,8 +127,40 @@ coverage is mechanically partial and has stale-pending rows. Focused security
 checks passed 119 of 119, then the affected post-fix subset passed 23 of 23.
 The current research, build/data, lexical-quality, Chrome, Microsoft Edge and
 authorised model-free smoke gates pass where recorded. The full unit command
-passed 173 of 173 in `17128.154916 ms`; the immutable post-fix rescan remains a
-prerequisite for submission evidence.
+passed 173 of 173 in `17128.154916 ms` before the latest three engineering
+remediations.
+
+Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` subsequently completed
+50 of 50 review items and dynamically reproduced mutable local-model identity
+evidence, aggregate-only per-source population binding and cancellation-driven
+physical shard-work amplification. Attack-path review classified zero as
+reportable vulnerabilities because the paths require privileged model-service
+control, repository/build or same-origin write authority, or cause bounded
+self-availability impact. The defects have working-tree remediations anyway.
+The exact post-remediation local chain now passes research 4 of 4; build/data
+validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
+quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
+shards; 190 of 190 prepared unit tests; frozen quality at mean nDCG@10
+`0.984698009`, Recall@20 `1`, cold/warm parity, no legislation collection and a
+rejected legislation request; 30 of 30 tests in both Chrome and Edge; six of
+six model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
+across 162 total dependencies; and a clean `git diff --check`. The immutable
+exact post-remediation security rescan and the protected, deployed, manual,
+supported-host, model-backed and refreshed-video evidence remain prerequisites
+for the corresponding submission claims.
+
+The final-candidate demonstration preflight correctly failed closed because no
+deployed commit and no explicit overwrite approval were supplied. It did not
+start live capture and must not be used as supported-host or video evidence.
+
+The physical shard layer admits at most 4 active loads, 32 queued loads and 36
+distinct in-flight files. Each 3-second file deadline begins before queueing,
+and a physical slot remains held until the underlying loader actually settles.
+This stops cancelled logical calls from amplifying physical work. If four non-
+cooperative loaders never settle, all four slots can remain occupied and
+federated loading can remain unavailable; the runtime fails closed rather than
+starting another load. Queue or immediate pre-loader deadline expiry is
+reported as scheduler busy rather than source corruption.
 
 ## Four complementary evidence layers
 
@@ -295,7 +339,15 @@ timeout, requires `WEBMCP_EVAL_PRESENTATION_APPROVED=1`, and rejects a context-
 minimisation result unless the model sends exactly `query`, `collections` and
 `limit`, with `collections: ["deep-evidence"]` and no unused optional arrays.
 Only the `ollama:` route is preflighted without a download: it permits loopback
-only and checks that the exact model is already installed. A remote provider
+only and checks that the exact model is already installed. Receipt v2 also
+requires an otherwise-successful local run to bind that exact `/api/tags`
+identity before and after evaluation to the daemon-reported loaded identity
+from `/api/ps` afterwards. Missing, ambiguous or mismatched evidence fails the
+run. This is daemon-reported post-run evidence, not cryptographic proof that an
+individual response came from particular weights. Redirects, mismatched
+`name`/`model` fields and `remote_model` or `remote_host` markers fail before
+evaluation; an Ollama-labelled cloud proxy must use the explicit remote-
+provider path and approval. A remote provider
 also requires `WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1` and the appropriate API
 credential. Both local and remote commands must include the presentation
 approval. A ChatGPT, Claude or Gemini consumer subscription does not itself
@@ -313,18 +365,36 @@ upstream console error or `pageerror`. Acceptance can record only
 `browserConsoleErrorCount: 0`, with
 `browserConsoleErrorsAccepted: false`.
 
-Three local attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases, three
+Five local attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases, three
 runs per case (24 case executions), 33 expected rows and exact loopback-only
 model `ollama:gpt-oss:20b`, inventory digest
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
-without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+with the first three using no remote credentials. The pre-legibility attempt passed 8 of 102 retry-
 expanded rows. After schema, tool-description and fixture legibility changes,
 attempt 2 passed 33 of 33 upstream rows but the strict verifier accepted 32 of
 33 because one call added empty optional arrays. Attempt 3 on the security-
 fixed tree passed 30 of 35 upstream rows after two malformed-then-corrected
-provenance IDs and one omitted comparison. All three failed overall. Preserve
-their private reports as failure and variance evidence; do not call the
-legibility improvement a model-backed pass.
+provenance IDs and one omitted comparison. Receipt-v2 attempt 4 at 01:53 on 31
+August 2026 bound stable exact identity and exited zero, but structural
+validation failed and its evaluation was null. Receipt-v2 attempt 5 at 02:13 used
+fixture digest
+`ce0cb0264a836c26911b09b2fc1c362dcc70d979fb0aa1a49d6a94de0f4ee93f` and
+reported 36 rows for 33 expected rows, including 3 retries: 30 passed, 6 failed,
+and none errored, were missing or produced console errors. All three provenance
+trajectories first supplied a malformed canonical ID, were rejected, then
+recovered with a correct successful call. `verify-reports` failed. All five
+failed overall. Preserve their private reports as failure and variance evidence;
+do not call legibility or fail-closed recovery a model-backed pass.
+
+The first three historical attempts predate receipt v2 and are not upgraded by
+the new identity rule. Attempts 4 and 5 bound stable pre-run, post-run and loaded-model
+identity at the digest above and recorded `executionBound: true`. Its private
+JSON and HTML reports are represented in tracked documentation by SHA-256 values
+`4864596182a483b75cd966357e46fd8047a5bea08062132d574443ebf3ffcbfb` and
+`3f7e27724abc9346820ef6ce293f9b416609d6f9a947423033e4045e52a252ff`.
+Privileged control of the local account, model daemon or
+evidence channel, tag changes between observations and a previously loaded
+model remain outside the receipt's trust boundary.
 
 The wrapper initially stores private JSON, HTML and sanitised receipt files
 beneath ignored `.evals/webmcp-browser/`. After human review, copy only the
@@ -377,14 +447,23 @@ The evidence stack passes only when the same deployed commit:
 7. shows isolated partial-source failure without disabling the 80-record tier
    or silently weakening integrity; and
 8. shows repeated fixed-model selection runs, with the exact model, provider
-   boundary, failures and variance reported rather than hidden.
+   boundary, receipt-v2 local daemon identity where applicable, failures and
+   variance reported rather than hidden.
 
 Safe submission wording is: “Independently republished OKF snapshots make
 governed public-sector evidence progressively retrievable. WebMCP exposes
 bounded actions over that evidence to a citizen-selected AI, while the person
 sees the same sources and limitations. The page hosts no model and its schemas
-do not accept a personal profile.” Always state that a remote provider may see
+do not accept an identity, profile or general personal-context object.” Always
+state that a remote provider may see
 prompts, tool metadata, arguments and results. Do not claim that the
 architecture is private by default, that a personal agent is always more
 accurate, that 58,655 raw rows means unique records, or that the design has
 already saved public money. Those remain hypotheses to be measured.
+
+Current official compliance requires completion by 1:00 pm PDT on 3 September
+2026, a public source repository with a visibly detectable open-source licence,
+a public YouTube demonstration under three minutes with audio and the exact live
+project accessible in ChatGPT's in-app browser or Chrome with WebMCP enabled.
+Freeze the repository, live project and submission after the close. These are
+requirements, not claims of registration, submission or a public upload.

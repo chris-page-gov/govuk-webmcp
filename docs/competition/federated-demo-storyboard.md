@@ -35,8 +35,7 @@ government page hosting a model or receiving a personal profile.
 ## Fixed demonstration inputs
 
 - Human and tool query: `housing`.
-- Collections: `okf-uk-living`, `okf-ons`, `okf-uk-government-apis` and
-  `okf-land-registry`.
+- Collections: `uk-living`, `ons`, `government-apis` and `land-registry`.
 - Result limit: use the smallest tested limit that returns a representative
   result from all four sources on the exact deployment; record it in the
   receipt rather than assuming it in advance.
@@ -81,9 +80,12 @@ government page hosting a model or receiving a personal profile.
 
 The last complete pre-remediation checkpoint passed 144 of 144 unit tests and
 29 of 29 installed-Microsoft-Edge acceptance tests. Seven Low findings were
-remediated afterwards. Focused checks have passed where recorded, but the exact-
-tree security rescan and complete suite rerun remain required; neither the old
-checkpoint nor focused checks replace exact-deployment and host evidence.
+remediated afterwards. The final-candidate local rerun now passes 190 of 190
+prepared unit tests and 30 of 30 tests in both installed Chrome and Microsoft
+Edge. The exact-tree security rescan, exact deployment and host evidence remain
+required; neither the old checkpoint nor local checks replace them. The demo
+preflight correctly failed closed without a deployed commit and explicit
+overwrite approval, and no live capture started.
 
 ## Evidence still required before publication
 

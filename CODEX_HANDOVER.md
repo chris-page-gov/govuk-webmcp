@@ -68,10 +68,16 @@ security findings were remediated. Sealed scan
 further High-confidence Low URL-boundary bypass, which was fixed after the
 scanned snapshot. The exact research, production build/data, frozen lexical-
 quality, installed-Chrome, installed-Microsoft-Edge and authorised model-free
-smoke gates now pass where recorded. The full unit command passed 173 of 173;
-the immutable post-fix security rescan, remaining A–M matrix, protected-main
-CI, Pages and release
-verification have not yet completed.
+smoke gates now pass where recorded. The full unit command passed 173 of 173
+before the latest three engineering remediations. Immutable scan
+`4ab29c3e-0a96-4596-b930-5eccb9b63ebc` subsequently completed 50 of 50 review
+items, dynamically reproduced three evidence-integrity or availability defects
+and classified zero as reportable vulnerabilities under attack-path policy.
+All three defects have working-tree remediations nevertheless. The exact post-
+remediation research, build/data, unit, frozen-quality, Chrome, Microsoft Edge,
+model-free real-Chrome smoke, dependency-audit and diff-integrity gates now
+pass as recorded below. The exact security rescan, remaining A–M matrix,
+protected-main CI, Pages and release verification have not yet completed.
 
 The intended, closed population is:
 
@@ -93,6 +99,15 @@ result links. The locked source files retain 28 source-authored cross-reference
 strings as inert, untrusted metadata: 6 in A Life in the UK, 3 in ONS, 2 in UK
 Government APIs and 17 in Land Registry. Do not claim literal source-byte
 exclusion.
+
+The four populations are now bound by one exact ordered executable contract,
+not only by their aggregate: source/quarantined/searchable counts are
+9,757/0/9,757 for A Life in the UK, 5,097/0/5,097 for ONS,
+41,598/0/41,598 for UK Government APIs and 2,203/3/2,200 for HM Land Registry.
+The builder and runtime also validate each admission's title, ordered
+supplementary counts, completeness statement and first limitation before the
+human display uses them. A co-digested per-source redistribution or
+contradictory display claim must fail closed.
 
 The current generated files contain 6 searchable and 4 non-searchable corpus
 admissions, 5 source-lock registry entries and 31 closed JSON Schemas, while
@@ -124,10 +139,12 @@ without an unverified fallback.
 The judge-facing proposition is precise: OKF publishes governed,
 progressively retrievable evidence; WebMCP lets a citizen-selected AI invoke
 bounded page-scoped actions; and the static page hosts no model and accepts no
-personal profile. A remote model provider may still receive prompts, tool
-metadata, arguments and results. Reduced public cost, improved privacy, better
-questions and improved answer quality remain hypotheses for controlled
-evaluation, not implementation claims.
+identity, profile or general personal-context object. A citizen-selected AI can
+use context it already holds to decide what bounded question to ask without
+passing that whole context into the page tool. A remote model provider may still
+receive prompts, tool metadata, arguments and results. Reduced public cost,
+improved privacy, better questions and improved answer quality remain
+hypotheses for controlled evaluation, not implementation claims.
 
 The current 1–10 delivery sequence is mapped in
 [`docs/competition/implementation-plan.md`](docs/competition/implementation-plan.md),
@@ -139,7 +156,8 @@ The frozen lexical quality gate is implemented as
 `npm run okf-federation:quality:prepared` and is required in CI and Pages after
 the complete test suite. It checks authored nDCG@10 and Recall@20 thresholds,
 cold/warm parity, a canonical result digest and the prohibited legislation
-request. The exact post-fix tree passed locally at mean nDCG@10 `0.984698009`
+request. The exact tree before the latest three remediations passed locally at
+mean nDCG@10 `0.984698009`
 and Recall@20 `1`, with cold/warm parity and legislation absent or rejected.
 This is not model-quality or corpus-wide-recall evidence, and exact CI and
 Pages release binding remain pending.
@@ -200,6 +218,9 @@ Generated JSON and checksum sidecars are deterministic.
   shallow admitted-data copy; the displayed result has a deterministic digest.
 - Public fragment routes are bounded before parsing and comparison values are
   bounded before splitting.
+- Physical shard work is bounded independently of logical callers: 4 active,
+  32 queued and 36 distinct in-flight files, with the queue included in each
+  file's 3-second deadline and slots retained until actual loader settlement.
 - Source-derived text remains untrusted and is rendered as inert text.
 - Reviewed authoritative links and federated producer-declared links retain
   their distinct roles. Federated exact-record source authority is “Not
@@ -236,23 +257,34 @@ after the scanned snapshot. A focused security batch passed 119 of 119, then
 the affected post-fix subset passed 23 of 23. The sealed scan reported no other
 open reportable candidate, but its mechanically recorded coverage is partial
 and includes stale-pending rows. The exact-tree rescan therefore remains open.
-The current `npm run test:unit:prepared` passed 173 of 173 in
-`17128.154916 ms`. Neither the checkpoint nor the focused checks are
+The exact tree before the latest three remediations passed 173 of 173 under
+`npm run test:unit:prepared` in `17128.154916 ms`. Neither the checkpoint nor
+the focused checks are
 protected-main CI, Pages, supported-host, release-tag or Devpost evidence.
 
-The fixed-model gate has been exercised but has not passed. All three local
+The fixed-model gate has been exercised but has not passed. All five local
 attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases, three runs per case
 and the exact loopback-only `ollama:gpt-oss:20b` inventory digest
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
-without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+with the first three using no remote credentials. The pre-legibility attempt passed 8 of 102 retry-
 expanded rows. After schema, tool-description and fixture legibility changes,
 attempt 2 passed 33 of 33 upstream rows but the strict verifier accepted 32 of
 33 because one call added empty optional arrays. Attempt 3 on the security-
 fixed tree passed 30 of 35 upstream rows after two malformed-then-corrected
-provenance IDs and one omitted comparison. Preserve all three failures and
-their variance; do not call this a model-backed pass or close gate J.
+provenance IDs and one omitted comparison. Receipt-v2 attempt 4 at 01:53 on 31
+August 2026 bound stable exact model identity and exited zero, but structural
+validation failed and its evaluation was null. Receipt-v2 attempt 5 at 02:13 ran 24
+case executions from fixture digest
+`ce0cb0264a836c26911b09b2fc1c362dcc70d979fb0aa1a49d6a94de0f4ee93f`.
+It reported 36 rows for 33 expected rows, including 3 additional retries: 30
+passed, 6 failed, and none errored, were missing or produced console errors.
+All three provenance trajectories recovered with a correct successful call
+after first supplying a malformed canonical ID. Fail-closed input validation
+and recovery were observed, but `verify-reports` failed. Preserve all five
+failures and their variance; do not call this a model-backed pass or close gate
+J.
 
-The current post-fix tree separately passed the research pack 4 of 4, the
+The same pre-latest-remediation tree separately passed the research pack 4 of 4, the
 production build and generated-data validation, and the frozen lexical gate
 with mean nDCG@10 `0.984698009`, Recall@20 `1`, identical cold/warm results and
 legislation absent or rejected. Installed Chrome and Microsoft Edge each passed
@@ -260,6 +292,74 @@ legislation absent or rejected. Installed Chrome and Microsoft Edge each passed
 expected sandbox `EPERM` loopback boundary; the authorised rerun outside that
 socket sandbox passed 6 of 6. `npm run test:unit:prepared` passed 173 of 173 in
 `17128.154916 ms`.
+
+The later scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` completed 50 of 50
+review items and dynamically reproduced three candidates: mutable local Ollama
+identity evidence, aggregate-only per-source population binding and
+cancellation-driven physical shard-work amplification. Attack-path review
+classified zero as reportable vulnerabilities because the paths require
+privileged loopback model-service control, repository/build or same-origin
+write authority, or cause bounded self-availability impact. Preserve that
+security disposition, but do not discard the engineering defects.
+
+The candidate remediations are:
+
+- the ordered per-source population and display contracts described above;
+- at most 4 active physical shard loads, 32 queued loads and 36 distinct in-
+  flight files, with the 3-second file deadline beginning before queueing and a
+  slot held until the underlying loader actually settles; queue or immediate
+  pre-loader deadline expiry returns the scheduler-busy result rather than a
+  source-corruption diagnosis; and
+- local-model receipt v2, requiring the selected digest through `/api/tags`
+  both before and after a run and the daemon-reported loaded digest through
+  `/api/ps` afterwards before an otherwise-successful local run can pass.
+
+Attempts 4 and 5 exercised receipt v2: pre-run, post-run and loaded-model observations
+were stable at the full digest above and the receipt recorded
+`executionBound: true`. Its ignored private reports are represented in tracked
+documentation by JSON SHA-256
+`4864596182a483b75cd966357e46fd8047a5bea08062132d574443ebf3ffcbfb` and HTML
+SHA-256 `3f7e27724abc9346820ef6ce293f9b416609d6f9a947423033e4045e52a252ff`.
+
+If four non-cooperative physical loaders never settle, they can retain all four
+slots indefinitely and make federated search unavailable; the runtime fails
+closed rather than admitting more work. The v2 model identity is daemon-
+reported post-run evidence, not cryptographic per-response proof, and
+privileged local account or model-service control, tag changes between
+observations and a previously loaded model remain outside its trust boundary.
+Inventory redirects, incomplete `name`/`model` identities and `remote_model` or
+`remote_host` markers fail before evaluation, so an Ollama-labelled cloud proxy
+cannot use the local path without explicit remote-provider approval. The
+historical failed model attempts predate v2 and remain failures.
+
+## Exact post-remediation local verification
+
+| Check | Observed result |
+| --- | --- |
+| Research pack | 4 of 4 passed |
+| Production build and generated-data validation | Passed: 80 reviewed records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings shards |
+| Focused combined/public-search regressions | 11 of 11 passed |
+| Prepared unit suite | 190 of 190 passed |
+| Frozen retrieval-quality gate | Mean nDCG@10 `0.984698009`; Recall@20 `1`; identical cold/warm results; legislation collection absent and legislation request rejected |
+| Installed Google Chrome | 30 of 30 browser tests passed |
+| Installed Microsoft Edge | 30 of 30 browser tests passed |
+| Model-free WebMCP smoke | 6 of 6 calls passed in real Chrome |
+| Dependency audit | Zero vulnerabilities across 162 total dependencies |
+| Patch integrity | `git diff --check` clean |
+
+Combined and public WebMCP search now preserve `federated_runtime_busy` rather
+than translating that scheduler state into source unavailable. The human live
+region distinguishes rejected input, a busy runtime and other failures. The
+Chrome and Edge reruns each exited zero with 30 of 30 tests passed.
+
+The final-candidate demonstration preflight correctly failed closed because no
+deployed commit and no explicit overwrite approval were supplied. It did not
+start live capture and must not be described as live-capture evidence.
+
+The immutable exact post-remediation security rescan remains pending. These are
+local candidate results, not protected-main CI or merge, Pages, supported-host,
+focused manual accessibility, passing model-backed, refreshed-video or release
+evidence.
 
 ## Release assurance observed on 30 August 2026
 
@@ -441,19 +541,24 @@ Chrome DevTools MCP calls with zero console errors. Chrome's native WebMCP panel
 also recorded five `Completed` calls, the expected structured rejection for
 `limit: 21`, and presentation parity with the visible page. The tracked browser
 evaluation fixture now contains eight cases, including context minimisation and
-an unrelated no-call case. Three local attempts used Chrome 152,
+an unrelated no-call case. Five local attempts used Chrome 152,
 `webmcp-evals` 0.0.4, three runs per case and exact model
 `ollama:gpt-oss:20b`, whose local inventory digest was
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
-Inference stayed on the loopback model endpoint and no remote credential was
-configured. The initial pre-legibility report passed 8 of 102 retry-expanded
+Inference stayed on the loopback model endpoint; the first three attempts used
+no remote credential. The initial pre-legibility report passed 8 of 102 retry-expanded
 rows. After schema, tool-description and fixture legibility changes, attempt 2
 passed 33 of 33 upstream rows but failed the strict verifier at 32 of 33 because
 one call added empty optional arrays. Attempt 3, on the security-fixed tree,
 passed 30 of 35 upstream rows after two malformed-then-corrected provenance IDs
-and one omitted comparison. Browser evaluation requires
+and one omitted comparison. Receipt-v2 attempt 4 exited zero with stable bound
+identity but retained a null evaluation after structural validation failed.
+Receipt-v2 attempt 5 reported 30 pass and 6 fail
+across 36 rows for 33 expected rows. Its 3 retries recovered from rejected
+malformed provenance IDs, with zero error, console-error or missing counts, but
+`verify-reports` failed. Browser evaluation requires
 `WEBMCP_EVAL_PRESENTATION_APPROVED=1`; the wrapper rejects any typed upstream
-console error or `pageerror`. All three receipts are failures and are retained
+console error or `pageerror`. All five receipts are failures and are retained
 as variance evidence; no model-backed pass is claimed.
 
 The hardened DevTools runner sets
@@ -540,18 +645,28 @@ tree rescan and the complete verification suite pass.
   a general compatibility guarantee.
 - The model-free evaluator proves six exact successful result-schema envelopes,
   not complete payload equivalence or that an agent selects the right tool.
-  Three exact local-model attempts are retained and show improved legibility,
-  failures and variance, but none passed the strict gate. Explorer remains
+  Five exact local-model attempts are retained and show improved legibility,
+  fail-closed recovery, failures and variance, but none passed the strict gate.
+  Explorer remains
   unrun; a remote provider would change the data boundary.
-- Competition registration is complete. The demonstration exists only as a
-  local review build; synthetic-voice publication, privacy, branding and final
-  playback reviews remain pending. No public video upload or Devpost submission
-  has occurred; the refreshed project `1406973` is still `Untitled`, blank and
-  `submission_pre_draft` with no submission timestamp.
+- The demonstration exists only as a local review build; synthetic-voice
+  publication, privacy, branding and final playback reviews remain pending. A
+  historical read-only record showed project `1406973` as `Untitled`, blank and
+  `submission_pre_draft`; this checkpoint makes no registration, submission or
+  public YouTube-upload claim.
+
+Official compliance requirements checked for handover are: the deadline is
+1:00 pm PDT on 3 September 2026; the source repository must be public with a
+visibly detectable open-source licence; the public YouTube demonstration must
+be under three minutes and include audio; and the exact live project must be
+accessible in ChatGPT's in-app browser or Chrome with WebMCP enabled. Freeze the
+repository, live project and submission after the close.
 
 ## Recommended next step
 
-Close the remaining A–M matrix against the exact `0.3.0-rc.1` candidate. If it
+Run the immutable exact-tree security rescan, then close the remaining A–M
+matrix against the exact
+`0.3.0-rc.1` candidate. If it
 passes, open a protected pull request, require CI, merge through the protected
 path, deploy the exact main commit and verify the live artefact is bound to that
 commit before tagging or refreshing supported-host, video and submission

@@ -266,10 +266,7 @@ export function createCombinedKnowledgeRuntime(
       ]);
       if (reviewedResult && reviewedResult.ok !== true) return reviewedResult;
       if (federatedResult && federatedResult.ok !== true) {
-        return errorResult(
-          "federated_search_unavailable",
-          String((federatedResult.error as JsonObject).message ?? "Federated search failed."),
-        );
+        return publicFederatedResult(federatedResult as unknown as JsonObject);
       }
 
       const reviewedResults = reviewedResult

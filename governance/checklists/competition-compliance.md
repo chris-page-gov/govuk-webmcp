@@ -16,13 +16,13 @@ Microsoft Edge and authorised model-free smoke gates pass where recorded; the
 immutable post-fix security rescan remains open, as do the
 deployment, host and media gates below.
 
-- [x] **Re-verified locally after remediation:** the current full unit command
-  passed 173 of 173 in `17128.154916 ms`; Chrome and installed Microsoft Edge
-  each passed 29 of 29 on the current tree.
-- [x] **Current partial rerun recorded:** research passed 4 of 4, production
+- [x] **Re-verified locally after remediation:** the current prepared unit
+  command passed 190 of 190; Chrome and installed Microsoft Edge each passed 30
+  of 30 on the current final-candidate tree.
+- [x] **Current final-candidate rerun recorded:** research passed 4 of 4, production
   build/data validation passed, the frozen lexical gate reported mean nDCG@10
   `0.984698009`, Recall@20 `1`, cold/warm parity and legislation absent or
-  rejected, and installed Chrome and Microsoft Edge each passed 29 of 29. The
+  rejected, and installed Chrome and Microsoft Edge each passed 30 of 30. The
   full unit result is recorded above.
 - [ ] **Re-scan the exact tree:** all eight Low findings are verified
   fixed against one immutable candidate; retain their IDs, dispositions,

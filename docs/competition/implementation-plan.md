@@ -34,9 +34,15 @@ findings were remediated; a sealed follow-up scan suppressed those seven and
 found an eighth Low URL-boundary issue, which was fixed after its snapshot. The
 current exact research, build/data, lexical-quality, Chrome, Microsoft Edge and
 authorised model-free smoke gates pass where recorded. The full unit suite now
-passes 173 of 173 in `17128.154916 ms`; the immutable post-fix rescan, CI,
-Pages, release and current-candidate supported-
-host evidence remain open.
+passed 173 of 173 in `17128.154916 ms` before the latest three engineering
+remediations. Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` completed
+50 of 50 review items, dynamically reproduced three evidence-integrity or
+availability defects and classified zero as reportable vulnerabilities under
+attack-path policy. The defects have working-tree remediations nevertheless.
+The exact post-remediation local research, build/data, unit, frozen-quality,
+Chrome, Microsoft Edge, model-free real-Chrome smoke, dependency-audit and
+diff-integrity gates now pass. The immutable exact security rescan, CI, Pages,
+release and current-candidate supported-host evidence remain open.
 
 ## Completed pre-federation 1–10 plan
 
@@ -65,13 +71,13 @@ only the named gate against the exact candidate can do that.
 | --- | --- | --- | --- | --- |
 | 1 | Freeze the pre-federation baseline and fix the population, rights and no-overclaim boundary. | Federation 1 | A, L, M | Baseline complete; candidate release binding pending |
 | 2 | Admit exactly four fixed source identities, descriptors, search manifests and mirrored artefact paths. | Federation 2 | A, B, C, I | Implemented and locally verified; release binding pending |
-| 3 | Define the two evidence tiers, common record/provenance shape, closed schemas and executable validation. | Federation 3 | B, F, H, I | Implemented; recompute the working-tree contract count after the exact-tree rescan |
-| 4 | Build deterministic, progressively loaded same-origin search with fixed byte, row, fan-out, memory and timeout budgets. | Federation 4 | C, D, I | Implemented with incremental exact-byte postings partitioning, aggregate build caps, streamed response caps and bounded generated-plane cleanup; current build/data validation and lexical metrics pass; release binding pending |
-| 5 | Extend the three discovery tools and accessible human controls through the shared action controller; retain the two presentation tools unchanged in scope. | Federation 5 | E, F, G, H | Implemented; current Chrome and Edge each pass 29 of 29 and current unit suite passes 173 of 173 |
-| 6 | Surface collection status, tier, snapshot, source-link role and limitations; isolate partial source failures without a weak fallback. | Federation 6 | F, G, K | Implemented; all four unavailable-source cases passed in Chrome and Edge; manual accessibility evidence pending |
-| 7 | Add tiny v1/v2 fixtures plus corruption, co-digested semantic mutation, ranking, duplicate, injection and resource-exhaustion tests. | Federation 7 | A–I | Implemented; frozen quality gate passes locally at mean nDCG@10 0.984698009 and Recall@20 1 with cold/warm parity and legislation absent or rejected; current unit suite passes 173 of 173 |
-| 8 | Run the four producer journeys, human/tool parity, accessibility and model-free browser/host checks against one candidate. | Federation 8 | D–K | In verification: the current post-fix tree passed 29 Chrome, 29 Edge and six of six model-free smoke calls; manual accessibility and supported-host capture remain pending |
-| 9 | Run at least three fixed-model selections per synthetic case and the whole-system cost comparison, retaining failures and uncertainty. | Federation 9 | J, L | Three local model attempts retained and all failed the strict gate; cost study remains planned; hypotheses only |
+| 3 | Define the two evidence tiers, common record/provenance shape, closed schemas and executable validation. | Federation 3 | B, F, H, I | Implemented, including exact ordered per-source population bindings and executable collection display contracts; recompute the working-tree contract count after the exact-tree rescan |
+| 4 | Build deterministic, progressively loaded same-origin search with fixed byte, row, fan-out, memory and timeout budgets. | Federation 4 | C, D, I | Implemented with incremental exact-byte postings partitioning, aggregate build caps, streamed response caps, bounded generated-plane cleanup and separate 4-active/32-queued/36-distinct physical-fetch limits; each 3-second file deadline includes queue time and a slot is retained until loader settlement; exact local build/data and quality gates pass; release binding pending |
+| 5 | Extend the three discovery tools and accessible human controls through the shared action controller; retain the two presentation tools unchanged in scope. | Federation 5 | E, F, G, H | Implemented; combined and public WebMCP search preserve `federated_runtime_busy`, while the human live region distinguishes rejected input, busy state and other failure; focused tests pass 11 of 11, prepared unit 190 of 190 and both installed browsers 30 of 30 with exit 0 |
+| 6 | Surface collection status, tier, snapshot, source-link role and limitations; isolate partial source failures without a weak fallback. | Federation 6 | F, G, K | Implemented; a busy runtime is not misclassified as source unavailable, and all four genuine unavailable-source cases passed in Chrome and Edge; manual accessibility evidence pending |
+| 7 | Add tiny v1/v2 fixtures plus corruption, co-digested semantic mutation, ranking, duplicate, injection and resource-exhaustion tests. | Federation 7 | A–I | Implemented, including per-source co-digested population/display mutation and cancellation-churn cases; the exact post-remediation frozen quality gate passes at mean nDCG@10 0.984698009 and Recall@20 1 with cold/warm parity, no legislation collection and the legislation request rejected |
+| 8 | Run the four producer journeys, human/tool parity, accessibility and model-free browser/host checks against one candidate. | Federation 8 | D–K | In verification: exact final-candidate local Chrome and Edge each pass 30 of 30 and model-free WebMCP smoke passes 6 of 6 in real Chrome; focused manual accessibility and supported-host capture remain pending |
+| 9 | Run at least three fixed-model selections per synthetic case and the whole-system cost comparison, retaining failures and uncertainty. | Federation 9 | J, L | Five local attempts are retained and all failed the strict gate; attempt 4 bound receipt-v2 identity but retained a null evaluation after structural validation failed; attempt 5 retained 30 pass and 6 fail but failed `verify-reports`; cost study remains planned; hypotheses only |
 | 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Lockstep update in progress; CI, Pages, tag, release and exact public evidence pending |
 
 The approved federated population is 58,655 locked raw source rows:
@@ -86,6 +92,14 @@ runtime request is included, and the searchable projection contains zero
 `legislation.gov.uk` result links. The four snapshots retain 28 source-authored
 cross-reference strings as inert, untrusted metadata: 6 in A Life in the UK, 3
 in ONS, 2 in UK Government APIs and 17 in Land Registry.
+
+One ordered executable contract now binds every admission and search collection
+to source/quarantined/searchable counts: 9,757/0/9,757 for A Life in the UK,
+5,097/0/5,097 for ONS, 41,598/0/41,598 for UK Government APIs and
+2,203/3/2,200 for HM Land Registry. It also binds each collection's title,
+ordered supplementary counts, completeness statement and first limitation. A
+self-consistent checksum cannot legitimise a per-source population
+redistribution or contradictory display statement.
 
 Federated links and assertions remain producer-declared rather than official.
 Exact-record source authority is “Not independently established”, and the human
@@ -129,7 +143,8 @@ byte or supported-host evidence.
   the sandbox produced the expected `EPERM` socket error.
 - Model-free `webmcp-evals`: six of six authored smoke calls passed their
   expected result-schema envelopes.
-- The current post-fix frozen lexical gate passed with mean nDCG@10
+- The exact tree before the latest three remediations passed the frozen lexical
+  gate with mean nDCG@10
   `0.984698009`, Recall@20 `1`, identical cold/warm results and legislation
   absent or rejected. It remains required by CI and Pages.
 - Seven initial Low security findings were remediated after this checkpoint.
@@ -139,21 +154,75 @@ byte or supported-host evidence.
   The scan reported no other open reportable candidate, but its coverage is
   mechanically partial and has stale-pending rows. Focused security checks
   passed 119 of 119, then the affected post-fix subset passed 23 of 23.
-- The current tree also passed the research pack 4 of 4, production build/data
+- The exact tree before the latest three remediations also passed the research
+  pack 4 of 4, production build/data
   validation, and 29 of 29 tests in both installed Chrome and Microsoft Edge.
   The first model-free smoke attempt hit the expected sandbox `EPERM` loopback
   restriction; the authorised outside-socket-sandbox rerun passed 6 of 6. The
-  `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`; the
-  immutable post-fix security rescan remains pending.
-- Three local `webmcp-evals` attempts used Chrome 152, eight cases, three runs
+  `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms` on that
+  tree.
+- Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` subsequently completed
+  50 of 50 review items and dynamically reproduced mutable local-model identity
+  evidence, aggregate-only per-source population binding and cancellation-
+  driven physical shard-work amplification. Attack-path review classified zero
+  as reportable vulnerabilities: exploitation respectively needs privileged
+  loopback model-service control, repository/build or same-origin write
+  authority, or causes bounded self-availability impact. All three remain real
+  engineering or evidence-integrity defects and have working-tree remediations.
+- The physical-fetch remediation permits 4 active, 32 queued and 36 distinct
+  in-flight shard files. A file's 3-second deadline starts before queueing, and
+  its slot remains held until the underlying loader settles. Queue or immediate
+  pre-loader deadline expiry returns a scheduler-busy result, not a source-
+  corruption result. Up to four loaders that never settle can therefore retain
+  every slot and make federation loading unavailable, but cancellation churn
+  cannot admit additional physical work.
+- Exact post-remediation local verification passed research 4 of 4; production
+  build and data validation for 80 reviewed records, 80 receipts, 58,655 raw
+  rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733
+  postings shards; 190 of 190 prepared unit tests; mean nDCG@10 `0.984698009`
+  and Recall@20 `1` with cold/warm parity, no legislation collection and the
+  legislation request rejected; 30 of 30 tests in installed Chrome and 30 of 30
+  in installed Microsoft Edge; 6 of 6 model-free WebMCP smoke calls in real
+  Chrome; zero npm-audit vulnerabilities across 162 total dependencies; and a
+  clean `git diff --check`. The immutable exact security rescan remains pending.
+- The post-review busy-state correction preserved `federated_runtime_busy`
+  through combined/public WebMCP search, made the human live region distinguish
+  rejected input, busy state and other failure, and passed the production build,
+  11 of 11 focused regressions and 190 of 190 prepared unit tests. Chrome and
+  Edge each exited zero with 30 of 30.
+- The final-candidate demonstration preflight correctly failed closed without a
+  deployed commit and explicit overwrite approval. It did not start live capture
+  and supplies no live-capture evidence.
+- Five local `webmcp-evals` attempts used Chrome 152, eight cases, three runs
   per case and exact loopback-only `ollama:gpt-oss:20b` model digest
   `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
-  without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+  with the first three using no remote credentials. The pre-legibility attempt passed 8 of 102 retry-
   expanded rows. Attempt 2 passed 33 of 33 upstream after schema, tool and
   fixture legibility changes, but 32 of 33 under the strict verifier because
   one call added empty optional arrays. Attempt 3 on the security-fixed tree
   passed 30 of 35 upstream after two malformed-then-corrected provenance IDs
-  and one omitted comparison. All three failed overall; gate J remains open.
+  and one omitted comparison. Receipt-v2 attempt 4 at 01:53 on 31 August 2026
+  bound stable exact identity and exited zero, but structural validation failed
+  and its evaluation was null. Receipt-v2 attempt 5 at 02:13 ran 24 case executions
+  from fixture digest
+  `ce0cb0264a836c26911b09b2fc1c362dcc70d979fb0aa1a49d6a94de0f4ee93f`.
+  It produced 36 rows for 33 expected rows: 30 pass, 6 fail, 0 error, 0 console
+  errors and 0 missing. Each of the three provenance trajectories recovered
+  after a malformed canonical ID was rejected, but `verify-reports` failed. All
+  five attempts failed overall; gate J remains open.
+- Attempts 4 and 5 used receipt v2. The model digest matched through `/api/tags` before
+  and after evaluation and daemon-reported `/api/ps` afterwards, was stable and
+  recorded `executionBound: true`. This is post-run daemon evidence, not
+  cryptographic proof for an individual response. The JSON report SHA-256 was
+  `4864596182a483b75cd966357e46fd8047a5bea08062132d574443ebf3ffcbfb`; the HTML
+  report SHA-256 was
+  `3f7e27724abc9346820ef6ce293f9b416609d6f9a947423033e4045e52a252ff`.
+- Local inventory calls reject redirects, require exact matching `name` and
+  `model` fields and reject `remote_model` or `remote_host` markers before and
+  after evaluation. An Ollama-labelled cloud proxy therefore requires the
+  explicit remote-provider path and approval. Privileged daemon control, tag
+  changes between observations and a previously loaded model remain outside the
+  receipt boundary.
 - Protected CI, Pages, final tag and release, current-candidate supported-host
   capture, a passing fixed-model result and refreshed manual screen-reader
   evidence have not yet been completed.
@@ -279,13 +348,13 @@ tag and its evidence remain unchanged.
 | Must 9 | Complete: one action controller, deterministic page/tool output and display-digest parity. |
 | Must 10–11 | Complete: authoritative human links and visible access, rights, assertion, observation and limitation fields. |
 | Must 12 | Complete: source, record, bundle, receipt, Trace, federation and raw-file digests/checksums. |
-| Must 13 | Implemented locally for the candidate: the initial artefacts, lazy manifest and separate 80 reviewed plus 58,655-raw, 3-quarantined and 58,652-searchable federated boundaries fail closed. Recompute the exact candidate registry count and rerun the complete suite after remediation. Historical release assurance remains bound to its four artefact families and four locks. |
+| Must 13 | Implemented locally for the candidate: the initial artefacts, lazy manifest, exact ordered per-source population/display contracts and separate 80 reviewed plus 58,655-raw, 3-quarantined and 58,652-searchable federated boundaries fail closed. Recompute the exact candidate registry count and rerun the complete suite after remediation. Historical release assurance remains bound to its four artefact families and four locks. |
 | Must 14 | Part complete: tamper, input, URL, inert-text, missing-licence and no-match tests pass; dedicated stale and conflicting-assertion fixtures remain. |
 | Must 15 | Complete: CSP, no storage and no external runtime provider request are enforced and tested. |
-| Must 16 | Complete: instrumented lifecycle tests and installed Chrome and Edge contract checks passed; `Codex In-app Browser` called all five tools on the historical tagged release; and corrected deployed main passed five public Chrome DevTools MCP calls with zero console errors. Chrome's native WebMCP panel recorded five `Completed` calls, a structured rejection for `limit: 21` and presentation parity. Three local model attempts are retained but all failed; a passing result and Microsoft Explorer browser execution remain under Should 11. |
+| Must 16 | Complete: instrumented lifecycle tests and installed Chrome and Edge contract checks passed; `Codex In-app Browser` called all five tools on the historical tagged release; and corrected deployed main passed five public Chrome DevTools MCP calls with zero console errors. Chrome's native WebMCP panel recorded five `Completed` calls, a structured rejection for `limit: 21` and presentation parity. Five local model attempts are retained but all failed; attempt 4 failed structural validation and attempt 5 demonstrated fail-closed malformed-ID recovery but failed strict verification. A passing result and Microsoft Explorer browser execution remain under Should 11. |
 | Must 17 | Complete: MIT licence and notices are published; PR #9 and the exact tagged deployment remain recorded; PR #12 and Pages run `33323152751` bind corrected main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` separately. |
-| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips and their consolidated receipt, the labelled supported-host receipt visualisation, manual VoiceOver evidence and its non-continuous screenshot sequence, release hashes, competition registration, tag `v0.2.0-rc.1`, a captioned 142.920-second local review video with transcript and build receipt, its technical decode/frame/caption review, and the final read-only compliance review are complete. Owner synthetic-voice, privacy, branding and final-playback review, public upload and authorised submission remain open; the refreshed Devpost project `1406973` is `Untitled`, blank and `submission_pre_draft`. |
-| Federation 1–10 | Implemented locally for `0.3.0-rc.1`: the current tree passes research 4 of 4, production build/data validation, frozen lexical quality, 29 Chrome, 29 Edge, six model-free smoke calls and 173 unit tests. The earlier 144-unit result remains a pre-remediation checkpoint only. Three fixed-model attempts are retained but all failed. Manual current-candidate accessibility, supported-host evidence, protected integration, exact deployment and submission-media refresh remain pending. |
+| Must 18 | Part complete: submission copy, storyboard, five genuine interaction clips and their consolidated receipt, the labelled supported-host receipt visualisation, manual VoiceOver evidence and its non-continuous screenshot sequence, release hashes, tag `v0.2.0-rc.1`, a captioned 142.920-second local review video with transcript and build receipt, its technical decode/frame/caption review, and a historical read-only Devpost-state review are complete. Owner synthetic-voice, privacy, branding and final-playback review, public YouTube upload and authorised submission remain open; this checkpoint makes no registration, submission or upload claim. |
+| Federation 1–10 | Implemented locally for `0.3.0-rc.1`: exact final-candidate local verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 190 unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. The earlier 144-, 173-, 182- and 187-unit results and 29-test browser runs remain historical checkpoints only. Five fixed-model attempts are retained and all failed; attempt 4 retained a null evaluation after structural validation failed and attempt 5 failed `verify-reports`. The immutable exact security rescan, manual current-candidate accessibility, supported-host evidence, protected integration, exact deployment and submission-media refresh remain pending. |
 
 ## Implemented Should and Could work
 
@@ -303,8 +372,11 @@ tag and its evidence remain unchanged.
 - Should 11: part complete through pinned Chrome DevTools MCP and
   `webmcp-evals` harnesses, isolated loopback execution, context-minimisation and
   no-call fixtures, exact public-commit DevTools MCP execution and native Chrome-
-  panel evidence. Three exact local fixed-model attempts are retained with all
-  failures and variance, but none passed; Microsoft Explorer remains. The exact
+  panel evidence. Five exact local fixed-model attempts are retained with all
+  failures and variance, but none passed. Attempts 4 and 5 exercised receipt v2 with
+  stable pre/post `/api/tags`, daemon-reported post-run `/api/ps` identity and
+  `executionBound: true`, without claiming cryptographic per-response proof;
+  Microsoft Explorer remains. The exact
   Explorer 0.1.0 source was built twice
   idempotently in isolated `.tools/webmcp-explorer-build/`, leaving its source
   checkout clean and passing the clean-output allow-list. Static triage dated
@@ -352,13 +424,21 @@ sequence and exact media/time binding are complete. The guarded build produced
 the captioned, 142.920-second local review MP4, transcript and build receipt.
 The latest read-only Devpost check at `2026-08-30T17:57:48Z` found project
 `1406973` still `Untitled`, blank and `submission_pre_draft`. The remaining
-sequence is now:
+official compliance boundary is: close at 1:00 pm PDT on 3 September 2026; use
+a public repository with a visibly detectable open-source licence; provide a
+public YouTube video under three minutes with audio; make the exact live project
+accessible in ChatGPT's in-app browser or Chrome with WebMCP enabled; and freeze
+the repository, live project and submission after close. These requirements do
+not establish registration, submission or upload. The remaining sequence is
+now:
 
-1. Complete the remaining frozen search-quality and focused manual
-   accessibility evidence; the fail-each-source browser matrix is complete.
+1. Complete the immutable exact-tree security rescan, then finish the focused
+   manual accessibility evidence; the exact post-remediation deterministic,
+   browser and smoke gates are already recorded separately from those remaining
+   observations.
 2. Capture current-candidate supported-host evidence and refine the model-
    legibility fixture only through transparent machine identifiers; rerun the
-   same fixed local model while retaining the three failed attempts and without
+   same fixed local model while retaining the five failed attempts and without
    inheriting pre-federation results.
 3. Complete protected CI and A–M release binding, then verify the exact deployed
    bytes before describing the expanded experience as live.

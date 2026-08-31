@@ -38,7 +38,7 @@ following remains preparation copy only.
 | App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing OKF design lineage and this repository's separately evidenced competition-period WebMCP implementation. |
 | Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement the five-tool WebMCP product, evidence interface, tests and deployment. |
 | Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — verify that the exact federated candidate is deployed before entry. |
-| Testing instructions (`28255`, optional) | After deployment, open the live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["okf-uk-living","okf-ons","okf-uk-government-apis","okf-land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
+| Testing instructions (`28255`, optional) | After deployment, open the live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
 | Tested agents or clients (`28257`) | Historical release evidence includes Chrome's native WebMCP panel, Chrome DevTools MCP and Codex In-app Browser observations described below. Replace this text only after all five tools have been called on the exact public `v0.3.0-rc.1` candidate; do not imply that a model selected a tool unless that was separately observed. |
 | AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
@@ -142,9 +142,14 @@ permission, public access or official approval. The prototype contributes an
 inspectable chain:
 
 - exact source locks, checksums and deterministic generated projections;
+- exact ordered per-source population and human-display contracts, so a valid
+  self-digest cannot hide a count redistribution or contradictory claim;
 - fail-closed validation before the five tools register;
 - closed, bounded contracts repeated in executable validation;
 - source-specific failure isolation and lazy same-origin retrieval;
+- a separate physical shard-work cap of 4 active, 32 queued and 36 distinct in-
+  flight files, with queue time inside the 3-second deadline and each slot held
+  until its loader actually settles;
 - a frozen deterministic nDCG@10/Recall@20 retrieval-quality gate required by
   CI and Pages, without presenting lexical fixture metrics as model quality;
 - inert rendering and `untrustedContentHint: true` for source-derived text;
@@ -189,13 +194,25 @@ tool-call variance, latency, bytes transferred and estimated operating cost.
 Remote-provider and local-model runs must be reported separately, including
 valid no-call and alternate-call outcomes.
 
-Three local Chrome 152 attempts used `webmcp-evals` 0.0.4, eight cases, three
+Five local Chrome 152 attempts used `webmcp-evals` 0.0.4, eight cases, three
 runs per case and exact loopback-only `ollama:gpt-oss:20b` inventory digest
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
-without remote credentials. They failed overall: 8 of 102 retry-expanded rows;
+with the first three using no remote credentials. They failed overall: 8 of 102 retry-expanded rows;
 then 33 of 33 upstream but 32 of 33 under the strict verifier; then 30 of 35
-upstream. The legibility improvement and variance are useful evidence, but the
+upstream. Receipt-v2 attempt 4 bound stable identity and exited zero but retained
+a null evaluation after structural validation failed. Receipt-v2 attempt 5
+retained 30 pass and 6 fail across 36 reported rows and failed `verify-reports`.
+The legibility improvement and variance are useful evidence, but the
 submission must not claim a model-backed pass.
+
+Attempts 4 and 5 used receipt v2, matching the selected digest reported by
+`/api/tags` before and after evaluation to the daemon-reported loaded digest
+from `/api/ps` afterwards, with stable identity and `executionBound: true`.
+That is post-run daemon
+identity evidence, not cryptographic proof about an individual response, and it
+does not upgrade the three historical failures. Redirects and remote-backed
+Ollama identities fail the local route; explicit remote-provider approval is
+still required for a cloud model.
 
 ## Historical release and submission observations
 
@@ -222,22 +239,37 @@ player review.
 
 ## `v0.3.0-rc.1` submission evidence gate
 
-The current candidate passed research 4 of 4, production build/data validation,
-the frozen lexical gate at mean nDCG@10 `0.984698009` and Recall@20 `1` with
-cold/warm parity and legislation absent or rejected, and 29 of 29 tests in both
-installed Chrome and Microsoft Edge. The authorised model-free smoke rerun
-passed 6 of 6 after the first in-sandbox attempt hit the expected loopback
-`EPERM`. `npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`;
-the earlier 144-of-144 result is only a pre-remediation checkpoint.
+The exact post-remediation candidate passes research 4 of 4; production
+build/data validation with 80 reviewed records and 80 receipts, 58,655 raw
+rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733
+postings shards; 190 of 190 prepared unit tests; and the frozen lexical gate at
+mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm parity, no legislation
+collection and rejection of a legislation request. Installed Chrome and
+Microsoft Edge each pass 30 of 30, and six of six model-free WebMCP smoke calls
+pass in real Chrome. `npm audit` reports zero vulnerabilities across 162 total
+dependencies and `git diff --check` is clean. The earlier 144-of-144 and 173-of-
+173 results are historical pre-remediation checkpoints only.
+
+Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50
+review items, dynamically reproduced three engineering or evidence-integrity
+defects and classified zero as reportable vulnerabilities under attack-path
+policy. The defects have working-tree remediations and the exact local verification
+above exercises them. The immutable exact post-remediation security rescan,
+protected CI and merge, Pages, supported-host, accessibility, model-backed
+evaluation and refreshed video remain pending.
+
+The final-candidate demonstration preflight correctly failed closed because no
+deployed commit and no explicit overwrite approval were supplied. It did not
+start live capture and supplies no submission-video evidence.
 
 - [ ] Protected-main CI passes for the exact candidate commit.
 - [ ] GitHub Pages serves that exact commit and its federated artefacts.
-- [x] The installed Microsoft Edge acceptance suite passes 29 of 29 tests for
+- [x] The installed Microsoft Edge acceptance suite passes 30 of 30 tests for
   the candidate.
-- [x] The installed Chrome acceptance suite passes 29 of 29 tests for the
+- [x] The installed Chrome acceptance suite passes 30 of 30 tests for the
   candidate.
-- [x] The full current unit suite passes 173 of 173; the historical 144-of-144
-  checkpoint remains separately labelled.
+- [x] The full post-remediation prepared unit suite passes 190 of 190; the
+  historical 144-of-144 and 173-of-173 checkpoints remain separately labelled.
 - [ ] A current supported host lists and completes all five WebMCP tools.
 - [ ] Human and tool routes return the same canonical fields for a fixed query.
 - [ ] The refreshed under-three-minute federated video is recorded from the

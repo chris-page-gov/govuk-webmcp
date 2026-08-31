@@ -12,6 +12,7 @@ import type {
   EvidenceTrace,
   EvidenceTraceNode,
 } from "../src/evidence-runtime.js";
+import { searchPresentationStatus } from "../src/search-presentation-status.js";
 
 document.documentElement.dataset.applicationState = "starting";
 
@@ -608,6 +609,9 @@ function renderEstate(knowledgeRuntime: TrustedKnowledgeRuntime): void {
   const body = document.querySelector<HTMLTableSectionElement>("#estate-body")!;
   body.replaceChildren();
   for (const admission of knowledgeRuntime.federation.collections) {
+    const populationBinding = knowledgeRuntime.federation.federatedSearch.collectionBindings.find(
+      ({ admissionId }) => admissionId === admission.id,
+    );
     const row = element("tr");
     const heading = element("th");
     heading.scope = "row";
@@ -622,17 +626,36 @@ function renderEstate(knowledgeRuntime: TrustedKnowledgeRuntime): void {
     const counts = admission.counts.map((count) =>
       `${Number(count.count).toLocaleString("en-GB")} ${String(count.metric)}`).join("; ") || "Not a corpus";
     const decision = admission.decision;
+    const populationSummary = populationBinding
+      ? `${populationBinding.sourceRecordCount.toLocaleString("en-GB")} source records; ` +
+        `${populationBinding.quarantinedRecordCount.toLocaleString("en-GB")} quarantined; ` +
+        `${populationBinding.recordCount.toLocaleString("en-GB")} searchable`
+      : counts;
+    const primaryCountIndex = populationBinding
+      ? admission.counts.findIndex(({ count }) => Number(count) === populationBinding.sourceRecordCount)
+      : -1;
+    const supplementaryCounts = populationBinding
+      ? admission.counts.filter((_count, index) => index !== primaryCountIndex).map((count) =>
+        `${Number(count.count).toLocaleString("en-GB")} ${String(count.metric)}`).join("; ")
+      : "";
+    const decisionSummary = populationBinding
+      ? "Coverage is derived from the validated source, quarantine and searchable record counts."
+      : String((decision.allowedClaims as string[])[0]);
+    const completenessSummary = populationBinding
+      ? `Counts are bound to the validated collection contract. Scope: ${String((admission.population as JsonObject).completenessClaim)}` +
+        (supplementaryCounts ? ` Additional admitted measures: ${supplementaryCounts}.` : "")
+      : String((admission.population as JsonObject).completenessClaim);
     row.append(
       heading,
       element("td", friendlyStatus(admission.admissionState)),
-      element("td", `${counts}. ${String((admission.population as JsonObject).completenessClaim)}`),
-      element("td", `${String((decision.allowedClaims as string[])[0])} Limitation: ${String((decision.limitations as string[])[0])}`),
+      element("td", `${populationSummary}. ${completenessSummary}`),
+      element("td", `${decisionSummary} Limitation: ${String((decision.limitations as string[])[0])}`),
     );
     body.append(row);
   }
   document.querySelector("#collection-count")!.textContent = `${knowledgeRuntime.federation.deepEvidenceCollections} reviewed + ${knowledgeRuntime.federation.federatedCollections} federated · ${knowledgeRuntime.federation.notSearchableCollections} excluded or described`;
   document.querySelector("#federation-digest")!.textContent = knowledgeRuntime.federation.manifestDigest;
-  document.querySelector("#diagnostic-collections")!.textContent = `${knowledgeRuntime.federation.deepEvidenceCollections} reviewed collections ready; ${knowledgeRuntime.federation.federatedCollections} federated collections initialise on demand; ${knowledgeRuntime.federation.federatedRecordCount.toLocaleString("en-GB")} searchable from ${knowledgeRuntime.federation.federatedSourceRecordCount.toLocaleString("en-GB")} source rows; ${knowledgeRuntime.federation.federatedQuarantinedRecordCount} legislation rows quarantined`;
+  document.querySelector("#diagnostic-collections")!.textContent = `${knowledgeRuntime.federation.deepEvidenceCollections} reviewed collections ready; ${knowledgeRuntime.federation.federatedCollections} federated collections initialise on demand; ${knowledgeRuntime.federation.federatedRecordCount.toLocaleString("en-GB")} searchable from ${knowledgeRuntime.federation.federatedSourceRecordCount.toLocaleString("en-GB")} source rows; ${knowledgeRuntime.federation.federatedQuarantinedRecordCount} source rows quarantined`;
 }
 
 function updateCompareButton(): void {
@@ -667,9 +690,7 @@ function commitPresentation(presentation: ActionPresentation): void {
   switch (presentation.action) {
     case "search_government_knowledge":
       renderSearchResult(presentation.result);
-      status.textContent = presentation.result.ok === true
-        ? `${String(presentation.result.totalMatches)} matching records${presentation.result.totalRelation && presentation.result.totalRelation !== "eq" ? " or more" : ""}; ${String(presentation.result.returned)} shown. ${Array.isArray(presentation.result.collectionStatuses) && (presentation.result.collectionStatuses as JsonObject[]).some(({ status: collectionStatus }) => collectionStatus !== "ready") ? "One or more collections were unavailable; available evidence is shown." : ""}`
-        : "The search input was rejected.";
+      status.textContent = searchPresentationStatus(presentation.result);
       break;
     case "get_resource_record":
       renderRecord(presentation.result);

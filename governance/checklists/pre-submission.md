@@ -15,11 +15,11 @@ smoke gates pass where recorded; the immutable post-fix rescan,
 CI, Pages, current-host and refreshed-video evidence remain separate and
 unchecked.
 
-- [x] The current full unit command passed 173 of 173 in `17128.154916 ms`;
-  Chrome and installed Microsoft Edge each passed 29 of 29 on the current tree.
-- [x] The current partial rerun records research 4 of 4, passing production
+- [x] The current prepared unit command passed 190 of 190; Chrome and installed
+  Microsoft Edge each passed 30 of 30 on the current final-candidate tree.
+- [x] The current final-candidate rerun records research 4 of 4, passing production
   build/data validation, mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
-  parity, legislation absent or rejected, and 29 of 29 in both installed Chrome
+  parity, legislation absent or rejected, and 30 of 30 in both installed Chrome
   and Microsoft Edge. The full unit result is recorded above.
 - [ ] The immutable exact-tree security rescan verifies all eight Low
   findings as fixed and retains their IDs, dispositions, commands and failures.

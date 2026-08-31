@@ -29,6 +29,9 @@ export const FEDERATED_SEARCH_LIMITS = Object.freeze({
   maximumCacheBytes: 32 * 1024 * 1024,
   maximumConcurrentOperations: 4,
   maximumQueuedOperations: 32,
+  maximumConcurrentPhysicalFetches: 4,
+  maximumQueuedPhysicalFetches: 32,
+  maximumDistinctInFlightFiles: 36,
   maximumOperationMilliseconds: 10_000,
   maximumFileMilliseconds: 3_000,
 });
@@ -133,6 +136,7 @@ export interface FederatedErrorResult extends JsonObject {
 }
 
 interface ExpectedCollection {
+  readonly admissionId: string;
   readonly id: OkfFederatedCollectionId;
   readonly title: string;
   readonly sourceRecordCount: number;
@@ -148,6 +152,7 @@ interface ExpectedCollection {
 
 const EXPECTED_COLLECTIONS: readonly ExpectedCollection[] = Object.freeze([
   Object.freeze({
+    admissionId: "corpus:uk-life-course",
     id: "uk-living",
     title: "A Life in the UK — life-course discovery corpus",
     sourceRecordCount: 9_757,
@@ -161,6 +166,7 @@ const EXPECTED_COLLECTIONS: readonly ExpectedCollection[] = Object.freeze([
     serviceFamilies: 293,
   }),
   Object.freeze({
+    admissionId: "corpus:ons-metadata",
     id: "ons",
     title: "ONS data discovery OKF",
     sourceRecordCount: 5_097,
@@ -173,6 +179,7 @@ const EXPECTED_COLLECTIONS: readonly ExpectedCollection[] = Object.freeze([
     descriptorUrl: "https://chris-page-gov.github.io/okf-ons/okf-explorer.json",
   }),
   Object.freeze({
+    admissionId: "corpus:uk-government-apis",
     id: "government-apis",
     title: "UK Government APIs OKF",
     sourceRecordCount: 41_598,
@@ -185,6 +192,7 @@ const EXPECTED_COLLECTIONS: readonly ExpectedCollection[] = Object.freeze([
     descriptorUrl: "https://chris-page-gov.github.io/okf-uk-government-apis/okf-explorer.json",
   }),
   Object.freeze({
+    admissionId: "corpus:land-registry-metadata",
     id: "land-registry",
     title: "HM Land Registry public-estate OKF",
     sourceRecordCount: 2_203,
@@ -245,6 +253,9 @@ const COLLECTION_KEYS = new Set([
   "id", "title", "sourceRecordCount", "quarantinedRecordCount", "recordCount", "firstOrdinal", "lastOrdinal", "serviceFamilies",
   "snapshot", "revision",
   "deploymentId", "descriptorUrl", "extractionMethod", "limitations", "recordShards", "postings", "collectionDigest",
+]);
+const ADMISSION_COLLECTION_BINDING_KEYS = new Set([
+  "admissionId", "collectionId", "sourceRecordCount", "quarantinedRecordCount", "recordCount",
 ]);
 const RECORD_REFERENCE_KEYS = new Set(["collectionId", "path", "bytes", "sha256", "firstOrdinal", "lastOrdinal", "recordCount"]);
 const POSTINGS_REFERENCE_KEYS = new Set(["collectionId", "path", "bytes", "sha256", "tokenCount", "postingCount"]);
@@ -359,6 +370,18 @@ interface OperationWaiter {
   readonly resolve: (release: () => void) => void;
   readonly reject: (reason?: unknown) => void;
   readonly onAbort: () => void;
+}
+
+interface PhysicalFetchWaiter {
+  readonly deadline: number;
+  readonly resolve: (release: () => void) => void;
+  readonly reject: (reason?: unknown) => void;
+  readonly timeout: ReturnType<typeof setTimeout>;
+}
+
+interface InFlightFile {
+  readonly result: Promise<unknown>;
+  readonly settled: Promise<void>;
 }
 
 function plainObject(
@@ -588,21 +611,60 @@ function validateWorstPermittedAccess(
 
 function validateFederatedSearchBinding(value: unknown): FederatedSearchBinding {
   const object = plainObject(value, new Set([
-    "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount",
+    "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount", "collectionBindings",
   ]), [
-    "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount",
+    "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount", "collectionBindings",
   ], "Federated-search admission binding");
+  const rawCollectionBindings = dataArray(
+    object.collectionBindings,
+    "Federated-search admission collection bindings",
+    EXPECTED_COLLECTIONS.length,
+    EXPECTED_COLLECTIONS.length,
+  );
+  const collectionBindings = rawCollectionBindings.map((candidate, index) => {
+    const expected = EXPECTED_COLLECTIONS[index]!;
+    const admitted = plainObject(
+      candidate,
+      ADMISSION_COLLECTION_BINDING_KEYS,
+      [...ADMISSION_COLLECTION_BINDING_KEYS],
+      `Federated-search admission collection binding ${index}`,
+    );
+    if (
+      admitted.admissionId !== expected.admissionId || admitted.collectionId !== expected.id ||
+      admitted.sourceRecordCount !== expected.sourceRecordCount ||
+      admitted.quarantinedRecordCount !== expected.quarantinedRecordCount ||
+      admitted.recordCount !== expected.recordCount ||
+      Number(admitted.sourceRecordCount) !== Number(admitted.recordCount) + Number(admitted.quarantinedRecordCount)
+    ) {
+      throw new Error(`${expected.id} does not match its exact admitted collection population binding.`);
+    }
+    return Object.freeze({
+      admissionId: expected.admissionId,
+      collectionId: expected.id,
+      sourceRecordCount: expected.sourceRecordCount,
+      quarantinedRecordCount: expected.quarantinedRecordCount,
+      recordCount: expected.recordCount,
+    });
+  });
   const binding = {
     sourceLockSha256: digest(object.sourceLockSha256, "Admitted source-lock byte digest"),
     sourceLockDigest: digest(object.sourceLockDigest, "Admitted source-lock semantic digest"),
     sourceRecordCount: integer(object.sourceRecordCount, "Admitted source record count", 58_655, 58_655),
     quarantinedRecordCount: integer(object.quarantinedRecordCount, "Admitted quarantine count", 3, 3),
     recordCount: integer(object.recordCount, "Admitted searchable record count", 58_652, 58_652),
+    collectionBindings: Object.freeze(collectionBindings),
   };
-  if (binding.sourceRecordCount !== binding.recordCount + binding.quarantinedRecordCount) {
+  if (
+    binding.sourceRecordCount !== binding.recordCount + binding.quarantinedRecordCount ||
+    binding.collectionBindings.reduce((total, admitted) => total + admitted.sourceRecordCount, 0) !==
+      binding.sourceRecordCount ||
+    binding.collectionBindings.reduce((total, admitted) => total + admitted.quarantinedRecordCount, 0) !==
+      binding.quarantinedRecordCount ||
+    binding.collectionBindings.reduce((total, admitted) => total + admitted.recordCount, 0) !== binding.recordCount
+  ) {
     throw new Error("The admitted federated source, quarantine and searchable counts disagree.");
   }
-  return Object.freeze(binding);
+  return Object.freeze(binding) as FederatedSearchBinding;
 }
 
 async function validateManifest(value: unknown, expectedBinding: FederatedSearchBinding): Promise<ValidatedManifest> {
@@ -639,12 +701,19 @@ async function validateManifest(value: unknown, expectedBinding: FederatedSearch
   const collections: ValidatedCollection[] = [];
   for (const [index, rawCollection] of rawCollections.entries()) {
     const expected = EXPECTED_COLLECTIONS[index]!;
+    const admitted = binding.collectionBindings[index]!;
     const object = plainObject(
       rawCollection,
       COLLECTION_KEYS,
       [...COLLECTION_KEYS].filter((key) => key !== "serviceFamilies"),
       `Federated collection ${index}`,
     );
+    if (
+      object.id !== admitted.collectionId || object.sourceRecordCount !== admitted.sourceRecordCount ||
+      object.quarantinedRecordCount !== admitted.quarantinedRecordCount || object.recordCount !== admitted.recordCount
+    ) {
+      throw new Error(`${expected.id} lazy collection does not match its admitted collection population binding.`);
+    }
     if (object.id !== expected.id || object.title !== expected.title ||
         object.sourceRecordCount !== expected.sourceRecordCount ||
         object.quarantinedRecordCount !== expected.quarantinedRecordCount ||
@@ -879,10 +948,21 @@ function isCallerAbort(error: unknown, signal: AbortSignal | undefined): boolean
 }
 
 class FederatedRuntimeBusyError extends Error {
-  constructor() {
-    super("The bounded federated runtime already has its maximum queued operations.");
+  constructor(message = "The bounded federated runtime already has its maximum queued operations.") {
+    super(message);
     this.name = "FederatedRuntimeBusyError";
   }
+}
+
+class FederatedPhysicalFetchSchedulingError extends FederatedRuntimeBusyError {
+  constructor() {
+    super("The bounded federated runtime could not start the physical shard fetch before its fixed file deadline.");
+    this.name = "FederatedPhysicalFetchSchedulingError";
+  }
+}
+
+function fileTimeoutError(): DOMException {
+  return new DOMException("The shard fetch timed out.", "TimeoutError");
 }
 
 function copyBytes(value: Uint8Array | ArrayBuffer): Uint8Array {
@@ -1040,10 +1120,12 @@ export class FederatedSearchRuntime {
 
   private readonly collectionById: ReadonlyMap<OkfFederatedCollectionId, ValidatedCollection>;
   private readonly cache = new Map<string, CacheEntry>();
-  private readonly inFlight = new Map<string, Promise<unknown>>();
+  private readonly inFlight = new Map<string, InFlightFile>();
   private readonly operationWaiters: OperationWaiter[] = [];
+  private readonly physicalFetchWaiters: PhysicalFetchWaiter[] = [];
   private cacheBytes = 0;
   private activeOperations = 0;
+  private activePhysicalFetches = 0;
 
   private constructor(
     private readonly manifest: ValidatedManifest,
@@ -1160,34 +1242,106 @@ export class FederatedSearchRuntime {
     });
   }
 
-  private async fetchAndValidateJson(
-    reference: { readonly path: FederatedSearchPath; readonly bytes: number; readonly sha256: string },
-  ): Promise<unknown> {
-    const controller = new AbortController();
-    const timeout = setTimeout(
-      () => controller.abort(new DOMException("The shard fetch timed out.", "TimeoutError")),
-      FEDERATED_SEARCH_LIMITS.maximumFileMilliseconds,
-    );
-    let rejectAbort: ((reason?: unknown) => void) | undefined;
-    const abortPromise = new Promise<never>((_resolve, reject) => {
-      rejectAbort = reject;
+  private physicalFetchRelease(): () => void {
+    let released = false;
+    return () => {
+      if (released) return;
+      released = true;
+      this.activePhysicalFetches -= 1;
+      while (this.physicalFetchWaiters.length) {
+        const waiter = this.physicalFetchWaiters.shift()!;
+        clearTimeout(waiter.timeout);
+        if (performance.now() >= waiter.deadline) {
+          waiter.reject(new FederatedPhysicalFetchSchedulingError());
+          continue;
+        }
+        this.activePhysicalFetches += 1;
+        waiter.resolve(this.physicalFetchRelease());
+        break;
+      }
+    };
+  }
+
+  private async acquirePhysicalFetch(deadline: number): Promise<() => void> {
+    if (performance.now() >= deadline) throw new FederatedPhysicalFetchSchedulingError();
+    if (this.activePhysicalFetches < FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches) {
+      this.activePhysicalFetches += 1;
+      return this.physicalFetchRelease();
+    }
+    if (this.physicalFetchWaiters.length >= FEDERATED_SEARCH_LIMITS.maximumQueuedPhysicalFetches) {
+      throw new FederatedRuntimeBusyError(
+        "The bounded federated runtime already has its maximum queued physical shard fetches.",
+      );
+    }
+    return new Promise<() => void>((resolve, reject) => {
+      const waiter = {} as PhysicalFetchWaiter;
+      const timeout = setTimeout(() => {
+        const index = this.physicalFetchWaiters.indexOf(waiter);
+        if (index < 0) return;
+        this.physicalFetchWaiters.splice(index, 1);
+        reject(new FederatedPhysicalFetchSchedulingError());
+      }, Math.max(1, deadline - performance.now()));
+      Object.assign(waiter, { deadline, resolve, reject, timeout });
+      this.physicalFetchWaiters.push(waiter);
     });
-    const rejectOnAbort = (): void => rejectAbort?.(
-      controller.signal.reason ?? new DOMException("The shard fetch was cancelled.", "AbortError"));
-    controller.signal.addEventListener("abort", rejectOnAbort, { once: true });
+  }
+
+  private fetchAndValidateJson(
+    reference: { readonly path: FederatedSearchPath; readonly bytes: number; readonly sha256: string },
+  ): InFlightFile {
+    const deadline = performance.now() + FEDERATED_SEARCH_LIMITS.maximumFileMilliseconds;
+    let resolveResult!: (value: unknown) => void;
+    let rejectResult!: (reason?: unknown) => void;
+    const result = new Promise<unknown>((resolve, reject) => {
+      resolveResult = resolve;
+      rejectResult = reject;
+    });
+    const settled = (async (): Promise<void> => {
+      let releasePhysicalFetch: (() => void) | undefined;
+      try {
+        releasePhysicalFetch = await this.acquirePhysicalFetch(deadline);
+        if (performance.now() >= deadline) throw new FederatedPhysicalFetchSchedulingError();
+        await this.fetchAndValidateJsonWithinSlot(
+          reference,
+          deadline,
+          resolveResult,
+          rejectResult,
+        );
+      } catch (error) {
+        rejectResult(error);
+      } finally {
+        releasePhysicalFetch?.();
+      }
+    })();
+    return Object.freeze({ result, settled });
+  }
+
+  private async fetchAndValidateJsonWithinSlot(
+    reference: { readonly path: FederatedSearchPath; readonly bytes: number; readonly sha256: string },
+    deadline: number,
+    resolveResult: (value: unknown) => void,
+    rejectResult: (reason?: unknown) => void,
+  ): Promise<void> {
+    const controller = new AbortController();
+    const expire = (): void => {
+      const error = fileTimeoutError();
+      controller.abort(error);
+      rejectResult(error);
+    };
+    const timeout = setTimeout(expire, Math.max(1, deadline - performance.now()));
     let loaded: Uint8Array | ArrayBuffer;
     try {
-      loaded = await Promise.race([
-        this.loader(reference.path, {
-          credentials: "omit",
-          redirect: "error",
-          signal: controller.signal,
-        }),
-        abortPromise,
-      ]);
+      loaded = await this.loader(reference.path, {
+        credentials: "omit",
+        redirect: "error",
+        signal: controller.signal,
+      });
     } finally {
       clearTimeout(timeout);
-      controller.signal.removeEventListener("abort", rejectOnAbort);
+    }
+    if (controller.signal.aborted || performance.now() >= deadline) {
+      if (!controller.signal.aborted) rejectResult(fileTimeoutError());
+      return;
     }
     const bytes = copyBytes(loaded);
     if (bytes.byteLength !== reference.bytes || await sha256Bytes(bytes) !== reference.sha256) {
@@ -1207,7 +1361,7 @@ export class FederatedSearchRuntime {
     }
     const frozen = deepFreeze(decoded);
     this.cachePut(reference.path, frozen, bytes.byteLength);
-    return frozen;
+    resolveResult(frozen);
   }
 
   private async waitForInFlight(pending: Promise<unknown>, budget: OperationBudget): Promise<unknown> {
@@ -1248,9 +1402,14 @@ export class FederatedSearchRuntime {
     if (cached !== undefined) return cached;
     let pending = this.inFlight.get(reference.path);
     if (!pending) {
+      if (this.inFlight.size >= FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles) {
+        throw new FederatedRuntimeBusyError(
+          "The bounded federated runtime already has its maximum distinct in-flight shard files.",
+        );
+      }
       pending = this.fetchAndValidateJson(reference);
       this.inFlight.set(reference.path, pending);
-      void pending.then(
+      void pending.settled.then(
         () => {
           if (this.inFlight.get(reference.path) === pending) this.inFlight.delete(reference.path);
         },
@@ -1259,7 +1418,7 @@ export class FederatedSearchRuntime {
         },
       );
     }
-    return this.waitForInFlight(pending, budget);
+    return this.waitForInFlight(pending.result, budget);
   }
 
   private async postingRows(
@@ -1432,6 +1591,7 @@ export class FederatedSearchRuntime {
         state.totalMatches = state.candidates.length;
       } catch (error) {
         if (isCallerAbort(error, options.signal)) throw error;
+        if (error instanceof FederatedRuntimeBusyError) throw error;
         state.status = "unavailable";
         state.candidates = [];
         state.totalMatches = 0;
@@ -1480,6 +1640,7 @@ export class FederatedSearchRuntime {
         );
       } catch (error) {
         if (isCallerAbort(error, options.signal)) throw error;
+        if (error instanceof FederatedRuntimeBusyError) throw error;
         failedCollections.add(candidate.collection.metadata.id);
       }
     }));
@@ -1572,6 +1733,7 @@ export class FederatedSearchRuntime {
       return { request, collection, reference, record };
     } catch (error) {
       if (isCallerAbort(error, options.signal)) throw error;
+      if (error instanceof FederatedRuntimeBusyError) throw error;
       return errorResult(
         "federated_record_unavailable",
         "The checksum-bound record shard is unavailable or invalid.",

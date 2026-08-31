@@ -23,6 +23,8 @@ import {
   CHROME_CHANNEL,
   createLocalStaticServer,
   EXPECTED_RESULT_SCHEMAS,
+  MAX_BROWSER_AGENT_STEPS,
+  observeOllamaLoadedModel,
   parseBrowserEvalConfiguration,
   PINNED_WEBMCP_EVALS_VERSION,
   preflightOllamaModel,
@@ -43,6 +45,9 @@ const webmcpEvalsCliPath = join(
   "webmcp-evals.js",
 );
 const MAX_COMMAND_DURATION_MS = 30 * 60 * 1_000;
+export const MAX_BROWSER_REPORT_BYTES = 32 * 1024 * 1024;
+export const MAX_BROWSER_REPORTED_STEPS_PER_CASE =
+  MAX_BROWSER_AGENT_STEPS * Object.keys(EXPECTED_RESULT_SCHEMAS).length;
 
 function canonicalJson(value) {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
@@ -54,6 +59,16 @@ function canonicalJson(value) {
 function isWithin(parent, child) {
   const childRelative = relative(resolve(parent), resolve(child));
   return childRelative !== ".." && !childRelative.startsWith(`..${sep}`);
+}
+
+export function assertBrowserReportByteLength(byteLength) {
+  if (
+    !Number.isSafeInteger(byteLength)
+    || byteLength < 0
+    || byteLength > MAX_BROWSER_REPORT_BYTES
+  ) {
+    throw new Error("The browser evaluation report exceeds the bounded file-size allowance.");
+  }
 }
 
 async function rejectSymlinkIfPresent(path, label) {
@@ -161,7 +176,9 @@ async function reportFiles(runDirectory) {
     if (!entry.isFile() || !/^report-\d+\.(?:html|json)$/u.test(entry.name)) continue;
     const path = join(runDirectory, entry.name);
     await chmod(path, 0o600);
+    assertBrowserReportByteLength((await lstat(path)).size);
     const value = await readFile(path);
+    assertBrowserReportByteLength(value.byteLength);
     reports.push({
       format: entry.name.endsWith(".json") ? "json" : "html",
       path: entry.name,
@@ -183,6 +200,7 @@ export function validateBrowserEvaluationReport(
     report?.config?.backend !== "vercel"
     || report?.config?.model !== configuration.model
     || report?.config?.runs !== configuration.runs
+    || report?.config?.maxSteps !== MAX_BROWSER_AGENT_STEPS
     || report?.config?.url !== targetUrl
   ) {
     throw new Error("The JSON report configuration does not match the authorised evaluation.");
@@ -199,103 +217,185 @@ export function validateBrowserEvaluationReport(
   const expectedResultCount = (
     fixtureSummary.expectedStepCount + fixtureSummary.noCallCaseCount
   ) * configuration.runs;
-  if (results.passCount + results.failCount + results.errorCount !== expectedResultCount) {
-    throw new Error("The JSON report step count does not match the bounded fixture.");
-  }
   if (!Array.isArray(results.results)) {
     throw new Error("The JSON report has no per-step results.");
   }
-  if (results.results.length !== expectedResultCount) {
-    throw new Error("The JSON report per-step result count does not match the bounded fixture.");
+  const reportedResultCount = results.passCount + results.failCount + results.errorCount;
+  const maximumResultCount = fixtureSummary.caseCount
+    * configuration.runs
+    * MAX_BROWSER_REPORTED_STEPS_PER_CASE;
+  if (reportedResultCount > maximumResultCount || results.results.length > maximumResultCount) {
+    throw new Error("The JSON report exceeds the bounded per-case tool-step allowance.");
+  }
+  if (results.results.length !== reportedResultCount) {
+    throw new Error("The JSON report outcome counts do not match its per-step results.");
   }
 
-  const expectedRows = [];
+  const expectedGroups = [];
   for (let runIndex = 1; runIndex <= configuration.runs; runIndex += 1) {
     for (const evalCase of fixture) {
-      if (evalCase.expectedCall === null) {
-        expectedRows.push({
-          call: null,
-          messages: evalCase.messages,
-          name: evalCase.name,
-          runIndex,
-          stepIndex: 1,
-        });
-      } else {
-        for (const [callIndex, call] of evalCase.expectedCall.entries()) {
-          expectedRows.push({
-            call,
-            messages: evalCase.messages,
-            name: evalCase.name,
-            runIndex,
-            stepIndex: callIndex + 1,
-          });
-        }
+      const expectedCalls = evalCase.expectedCall === null ? [null] : evalCase.expectedCall;
+      if (expectedCalls.length > MAX_BROWSER_REPORTED_STEPS_PER_CASE) {
+        throw new Error("The authored fixture exceeds the bounded per-case tool-step allowance.");
       }
+      expectedGroups.push({
+        authoredExpectedCall: evalCase.expectedCall,
+        expectedCalls,
+        messages: evalCase.messages,
+        name: evalCase.name,
+        runIndex,
+      });
     }
   }
 
-  for (const [index, result] of results.results.entries()) {
-    const expected = expectedRows[index];
-    if (
-      result.test?.name !== expected.name
-      || canonicalJson(result.test?.messages) !== canonicalJson(expected.messages)
-      || result.runIndex !== expected.runIndex
-      || result.stepIndex !== expected.stepIndex
-      || canonicalJson(result.test?.expectedCall)
-        !== canonicalJson(expected.call === null ? null : [expected.call])
-    ) {
-      throw new Error(`The JSON report row ${index + 1} does not match the authored fixture trajectory.`);
-    }
-    if (
-      Object.hasOwn(result, "browserConsoleErrors")
-      && !Array.isArray(result.browserConsoleErrors)
-    ) {
-      throw new Error(`The JSON report row ${index + 1} has an invalid browser-console diagnostic.`);
-    }
-    if (result.browserConsoleErrors?.length > 0) {
-      throw new Error(
-        `The JSON report row ${index + 1} contains a browser console or page error.`,
-      );
-    }
-    if (expected.call === null) {
-      if (result.outcome !== "pass" || result.response?.functionName) {
-        throw new Error("The model-backed no-call case executed an unexpected page tool.");
+  const outcomeCounts = { pass: 0, fail: 0, error: 0 };
+  let additionalStepCount = 0;
+  let missingStepCount = 0;
+  let resultIndex = 0;
+  for (const expectedGroup of expectedGroups) {
+    let groupStepIndex = 0;
+    let terminalError = false;
+    while (resultIndex < results.results.length) {
+      const result = results.results[resultIndex];
+      if (
+        result?.runIndex !== expectedGroup.runIndex
+        || result.test?.name !== expectedGroup.name
+      ) {
+        break;
       }
-      continue;
-    }
+      groupStepIndex += 1;
+      if (groupStepIndex > MAX_BROWSER_REPORTED_STEPS_PER_CASE) {
+        throw new Error(
+          `The JSON report case ${expectedGroup.name} exceeds the bounded tool-step allowance.`,
+        );
+      }
+      if (
+        canonicalJson(result.test?.messages) !== canonicalJson(expectedGroup.messages)
+        || result.stepIndex !== groupStepIndex
+        || !["pass", "fail", "error"].includes(result.outcome)
+      ) {
+        throw new Error(
+          `The JSON report row ${resultIndex + 1} does not match the authored fixture trajectory.`,
+        );
+      }
+      if (
+        Object.hasOwn(result, "trajectory")
+        && (
+          !Array.isArray(result.trajectory)
+          || result.trajectory.length > MAX_BROWSER_AGENT_STEPS
+        )
+      ) {
+        throw new Error(
+          `The JSON report row ${resultIndex + 1} exceeds the bounded agent trajectory.`,
+        );
+      }
+      if (
+        Object.hasOwn(result, "browserConsoleErrors")
+        && !Array.isArray(result.browserConsoleErrors)
+      ) {
+        throw new Error(
+          `The JSON report row ${resultIndex + 1} has an invalid browser-console diagnostic.`,
+        );
+      }
+      if (result.browserConsoleErrors?.length > 0) {
+        throw new Error(
+          `The JSON report row ${resultIndex + 1} contains a browser console or page error.`,
+        );
+      }
 
-    const expectedCall = expected.call;
-    const expectedSchema = EXPECTED_RESULT_SCHEMAS[expectedCall.functionName];
-    if (
-      result.outcome !== "pass"
-      || result.response?.functionName !== expectedCall.functionName
-      || canonicalJson(result.response?.args) !== canonicalJson(expectedCall.arguments)
-    ) {
-      throw new Error(
-        `The model-backed ${expectedCall.functionName} step did not match the exact authored call.`,
-      );
+      const isTerminalError = groupStepIndex === 1
+        && result.outcome === "error"
+        && canonicalJson(result.test?.expectedCall)
+          === canonicalJson(expectedGroup.authoredExpectedCall);
+      if (isTerminalError) {
+        if (result.response !== null) {
+          throw new Error(
+            `The JSON report row ${resultIndex + 1} has an invalid terminal error result.`,
+          );
+        }
+        outcomeCounts.error += 1;
+        missingStepCount += expectedGroup.expectedCalls.length;
+        resultIndex += 1;
+        terminalError = true;
+        break;
+      }
+      if (result.outcome === "error") {
+        throw new Error(
+          `The JSON report row ${resultIndex + 1} has an invalid non-terminal error result.`,
+        );
+      }
+
+      const isAdditionalStep = groupStepIndex > expectedGroup.expectedCalls.length;
+      const expectedCall = isAdditionalStep
+        ? null
+        : expectedGroup.expectedCalls[groupStepIndex - 1];
+      const expectedCallMetadata = expectedCall === null ? null : [expectedCall];
+      if (canonicalJson(result.test?.expectedCall) !== canonicalJson(expectedCallMetadata)) {
+        throw new Error(
+          `The JSON report row ${resultIndex + 1} does not match the authored fixture trajectory.`,
+        );
+      }
+      if (isAdditionalStep && result.outcome !== "fail") {
+        throw new Error("The JSON report has an invalid additional unrequested tool step outcome.");
+      }
+      if (isAdditionalStep) additionalStepCount += 1;
+
+      if (result.outcome === "pass") {
+        if (expectedCall === null) {
+          if (result.response?.functionName) {
+            throw new Error("The model-backed no-call case executed an unexpected page tool.");
+          }
+        } else {
+          const expectedSchema = EXPECTED_RESULT_SCHEMAS[expectedCall.functionName];
+          if (
+            result.response?.functionName !== expectedCall.functionName
+            || canonicalJson(result.response?.args) !== canonicalJson(expectedCall.arguments)
+          ) {
+            throw new Error(
+              `The model-backed ${expectedCall.functionName} step did not match the exact authored call.`,
+            );
+          }
+          if (
+            result.response?.result?.ok !== true
+            || result.response?.result?.schema !== expectedSchema
+            || Object.hasOwn(result.response.result, "error")
+          ) {
+            throw new Error(
+              `The model-backed ${expectedCall.functionName} result was not a successful ${expectedSchema} envelope.`,
+            );
+          }
+        }
+      }
+
+      outcomeCounts[result.outcome] += 1;
+      resultIndex += 1;
     }
-    if (
-      result.response?.result?.ok !== true
-      || result.response?.result?.schema !== expectedSchema
-      || Object.hasOwn(result.response.result, "error")
-    ) {
-      throw new Error(
-        `The model-backed ${expectedCall.functionName} result was not a successful ${expectedSchema} envelope.`,
-      );
+    if (!terminalError && groupStepIndex < expectedGroup.expectedCalls.length) {
+      throw new Error(`The JSON report is missing an authored step for ${expectedGroup.name}.`);
     }
+  }
+  if (resultIndex !== results.results.length) {
+    throw new Error(`The JSON report row ${resultIndex + 1} does not match the authored fixture trajectory.`);
+  }
+  if (
+    outcomeCounts.pass !== results.passCount
+    || outcomeCounts.fail !== results.failCount
+    || outcomeCounts.error !== results.errorCount
+  ) {
+    throw new Error("The JSON report outcome totals do not match its per-step outcomes.");
   }
 
   const privacyCaseName = "Minimise context sent to a catalogue search";
-  const privacyResults = results.results.filter(({ test }) => test?.name === privacyCaseName);
+  const privacyResults = results.results.filter(({ stepIndex, test }) =>
+    test?.name === privacyCaseName && stepIndex === 1);
   if (privacyResults.length !== configuration.runs) {
     throw new Error("The JSON report does not contain one context-minimisation result per run.");
   }
   for (const result of privacyResults) {
+    if (result.outcome !== "pass") continue;
     const arguments_ = result?.response?.args;
     if (
-      result.outcome !== "pass"
-      || result.response?.functionName !== "search_government_knowledge"
+      result.response?.functionName !== "search_government_knowledge"
       || !arguments_
       || arguments_.query !== "flooding"
       || canonicalJson(arguments_.collections) !== canonicalJson(["deep-evidence"])
@@ -307,10 +407,14 @@ export function validateBrowserEvaluationReport(
   }
 
   return {
+    additionalStepCount,
     browserConsoleErrorCount: 0,
     errorCount: results.errorCount,
+    expectedStepCount: expectedResultCount,
     failCount: results.failCount,
+    missingStepCount,
     passCount: results.passCount,
+    reportedStepCount: reportedResultCount,
     testCount: results.testCount,
   };
 }
@@ -321,8 +425,74 @@ async function readEvaluationSummary(runDirectory, reports, configuration, targe
   if (jsonReports.length !== 1 || htmlReports.length !== 1) {
     throw new Error("The browser evaluation did not produce exactly one JSON and one HTML report.");
   }
-  const report = JSON.parse(await readFile(join(runDirectory, jsonReports[0].path), "utf8"));
+  const reportBytes = await readFile(join(runDirectory, jsonReports[0].path));
+  assertBrowserReportByteLength(reportBytes.byteLength);
+  if (reportBytes.byteLength !== jsonReports[0].bytes) {
+    throw new Error("The JSON browser evaluation report changed after it was inventoried.");
+  }
+  const report = JSON.parse(reportBytes.toString("utf8"));
   return validateBrowserEvaluationReport(report, configuration, targetUrl, fixture);
+}
+
+function validatedLocalModelInventoryIdentity(identity, configuration, label) {
+  if (
+    identity === null
+    || typeof identity !== "object"
+    || Array.isArray(identity)
+    || Object.getPrototypeOf(identity) !== Object.prototype
+    || Object.keys(identity).sort().join(",") !== "digest,name"
+    || identity.name !== configuration.modelIdentifier
+    || !/^[a-f0-9]{64}$/u.test(identity.digest)
+  ) {
+    throw new Error(`The local model inventory ${label} identity is missing or invalid.`);
+  }
+  return {
+    name: identity.name,
+    digest: identity.digest,
+  };
+}
+
+function localModelInventoryBinding(
+  configuration,
+  localModelInventoryBefore,
+  localModelInventoryAfter,
+  localModelLoadedAfter,
+) {
+  if (configuration.provider !== "ollama") {
+    if (
+      (localModelInventoryBefore !== null && localModelInventoryBefore !== undefined)
+      || (localModelInventoryAfter !== null && localModelInventoryAfter !== undefined)
+      || (localModelLoadedAfter !== null && localModelLoadedAfter !== undefined)
+    ) {
+      throw new Error("A remote provider receipt must not contain a local model identity.");
+    }
+    return null;
+  }
+
+  const before = validatedLocalModelInventoryIdentity(
+    localModelInventoryBefore,
+    configuration,
+    "before",
+  );
+  const after = localModelInventoryAfter === null
+    ? null
+    : validatedLocalModelInventoryIdentity(localModelInventoryAfter, configuration, "after");
+  const loadedAfter = localModelLoadedAfter === null
+    ? null
+    : validatedLocalModelInventoryIdentity(localModelLoadedAfter, configuration, "loaded-after");
+  const stable = after !== null
+    && before.name === after.name
+    && before.digest === after.digest;
+  return {
+    before,
+    after,
+    loadedAfter,
+    stable,
+    executionBound: stable
+      && loadedAfter !== null
+      && before.name === loadedAfter.name
+      && before.digest === loadedAfter.digest,
+  };
 }
 
 export function createBrowserEvalReceipt({
@@ -335,36 +505,28 @@ export function createBrowserEvalReceipt({
   failurePhase,
   fixtureSha256,
   fixtureSummary,
-  localModelInventory,
+  localModelInventoryAfter,
+  localModelInventoryBefore,
+  localModelLoadedAfter,
   reports,
 }) {
-  let inventoryIdentity = null;
-  if (configuration.provider === "ollama") {
-    if (
-      localModelInventory === null
-      || typeof localModelInventory !== "object"
-      || Array.isArray(localModelInventory)
-      || Object.keys(localModelInventory).sort().join(",") !== "digest,name"
-      || localModelInventory.name !== configuration.modelIdentifier
-      || !/^[a-f0-9]{64}$/u.test(localModelInventory.digest)
-    ) {
-      throw new Error("The local model inventory identity is missing or invalid.");
-    }
-    inventoryIdentity = {
-      name: localModelInventory.name,
-      digest: localModelInventory.digest,
-    };
-  } else if (localModelInventory !== null && localModelInventory !== undefined) {
-    throw new Error("A remote provider receipt must not contain a local model inventory identity.");
-  }
-  const passed = failurePhase === null
+  const inventoryBinding = localModelInventoryBinding(
+    configuration,
+    localModelInventoryBefore,
+    localModelInventoryAfter,
+    localModelLoadedAfter,
+  );
+  const effectiveFailurePhase = failurePhase === null && inventoryBinding?.executionBound === false
+    ? "model-postflight"
+    : failurePhase;
+  const passed = effectiveFailurePhase === null
     && commandResult?.exitCode === 0
     && commandResult?.timedOut === false
     && evaluation?.browserConsoleErrorCount === 0
     && evaluation?.failCount === 0
     && evaluation?.errorCount === 0;
   return {
-    schema: "trusted-govuk-discovery.webmcp-evals-browser-receipt.v1",
+    schema: "trusted-govuk-discovery.webmcp-evals-browser-receipt.v2",
     createdAt,
     status: passed ? "passed" : "failed",
     runner: {
@@ -386,7 +548,7 @@ export function createBrowserEvalReceipt({
       presentationApproved: configuration.presentationApproved,
       remoteProviderApproved: configuration.remoteProviderApproved,
       credentialConfigured: configuration.providerClass === "remote",
-      localInventory: inventoryIdentity,
+      localInventory: inventoryBinding,
     },
     fixture: {
       path: "evals/webmcp-browser.json",
@@ -396,7 +558,7 @@ export function createBrowserEvalReceipt({
     execution: {
       target: "same-origin loopback build",
       command: commandResult,
-      failurePhase,
+      failurePhase: effectiveFailurePhase,
       evaluation,
     },
     reports,
@@ -422,7 +584,7 @@ export async function runWebmcpBrowserEvaluation(environment = process.env) {
   assertPinnedWebmcpEvalsVersion(webmcpEvalsPackage.version);
   const applicationPackage = JSON.parse(await readFile(join(repositoryRoot, "package.json"), "utf8"));
   const browserVersion = await installedChromeVersion();
-  const localModelInventory = await preflightOllamaModel(configuration);
+  const localModelInventoryBefore = await preflightOllamaModel(configuration);
 
   const createdAt = new Date().toISOString();
   const runDirectory = await createRunDirectory(createdAt);
@@ -438,6 +600,8 @@ export async function runWebmcpBrowserEvaluation(environment = process.env) {
   let evaluation = null;
   let failure = null;
   let failurePhase = "build";
+  let localModelInventoryAfter = null;
+  let localModelLoadedAfter = null;
   let reports = [];
   let server;
   try {
@@ -487,6 +651,18 @@ export async function runWebmcpBrowserEvaluation(environment = process.env) {
   } catch (error) {
     failure = error;
   } finally {
+    if (configuration.provider === "ollama") {
+      try {
+        localModelInventoryAfter = await preflightOllamaModel(configuration);
+      } catch {
+        localModelInventoryAfter = null;
+      }
+      try {
+        localModelLoadedAfter = await observeOllamaLoadedModel(configuration);
+      } catch {
+        localModelLoadedAfter = null;
+      }
+    }
     if (server) await server.close();
     await rm(isolatedHome, { recursive: true, force: true });
     if (reports.length === 0) reports = await reportFiles(runDirectory);
@@ -500,9 +676,21 @@ export async function runWebmcpBrowserEvaluation(environment = process.env) {
       failurePhase,
       fixtureSha256,
       fixtureSummary,
-      localModelInventory,
+      localModelInventoryAfter,
+      localModelInventoryBefore,
+      localModelLoadedAfter,
       reports,
     });
+    if (failure === null && receipt.execution.failurePhase === "model-postflight") {
+      failurePhase = receipt.execution.failurePhase;
+      failure = new Error(
+        localModelInventoryAfter === null
+          ? "The loopback Ollama model identity could not be observed after evaluation."
+          : localModelLoadedAfter === null
+            ? "The loopback Ollama model was not reported as loaded after evaluation."
+            : "The loopback Ollama model identity was not bound to the evaluated model.",
+      );
+    }
     await writeFile(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
     await chmod(receiptPath, 0o600);
     console.log(`WebMCP browser evaluation receipt: ${receiptPath}`);

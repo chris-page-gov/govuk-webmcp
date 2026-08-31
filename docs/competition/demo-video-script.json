@@ -1,10 +1,9 @@
 {
-  "schema": "trusted-govuk-discovery.demo-video-script.v2",
-  "title": "Evidence Trace: show your GOV.UK working",
+  "schema": "trusted-govuk-discovery.demo-video-script.v3",
+  "title": "Evidence Trace: your AI asks, you inspect",
   "language": "en-GB",
   "productUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
-  "productCommit": "9235ee5db4df637bdb2a12e87449e871614afe68",
-  "release": "v0.2.0-rc.1",
+  "release": "v0.3.0-rc.1",
   "narration": {
     "type": "synthetic-local-review",
     "engine": "macOS Speech Synthesis",
@@ -18,126 +17,138 @@
     "branding": "pending-human-review",
     "voicePublicationBasis": "pending-owner-review"
   },
-  "webmcpComparison": {
-    "answerId": "answer:new-child-starting-points",
-    "claimIds": [
+  "demonstrationInputs": {
+    "query": "housing",
+    "collections": [
+      "uk-living",
+      "ons",
+      "government-apis",
+      "land-registry"
+    ],
+    "limit": 8,
+    "reviewedAnswerId": "answer:new-child-starting-points",
+    "reviewedClaimIds": [
       "claim:register-a-birth",
-      "claim:check-child-benefit"
-    ]
+      "claim:check-parental-pay-and-leave"
+    ],
+    "excludedHostname": "legislation.gov.uk"
   },
-  "interactionCaptureReceipt": "docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json",
+  "interactionCaptureReceipt": "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json",
   "scenes": [
     {
       "id": "overview",
       "number": "01",
       "kind": "interaction",
       "eyebrow": "Evidence before answers",
-      "title": "Start with an inspectable analytical index",
+      "title": "Two evidence tiers, honestly labelled",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/demo-scene-01-overview-2026-08-30.mov",
+        "path": "output/demo-clips/v0.3.0-rc.1/01-overview.mov",
         "startSeconds": 0
       },
       "requiredActions": [
-        "load-public-release",
-        "open-analytical-index"
+        "load-exact-public-release",
+        "show-evidence-tier-counts"
       ],
       "cues": [
-        "See the evidence before the answer.",
-        "This independent prototype opens on an analytical index.",
-        "It packages eighty digest-bound records.",
-        "They cover GOV.UK content, public data and APIs.",
-        "The worked answer identifies three official starting points.",
-        "They cover what to check after a baby is born.",
-        "Observation times, scope and the main limitation stay visible."
+        "Evidence Trace puts evidence before answers.",
+        "This is an independent prototype, not a government service.",
+        "Eighty reviewed records retain item-level evidence receipts.",
+        "Another 58,652 records support wider governed discovery.",
+        "They come from 58,655 locked source rows.",
+        "Three standalone legislation rows remain quarantined."
       ]
     },
     {
-      "id": "trace",
+      "id": "federated-search",
       "number": "02",
       "kind": "interaction",
-      "eyebrow": "Evidence Trace",
-      "title": "Follow every labelled relationship",
+      "eyebrow": "Four-source discovery",
+      "title": "Search governed OKF snapshots together",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/demo-scene-02-evidence-trace-2026-08-30.mov",
+        "path": "output/demo-clips/v0.3.0-rc.1/02-federated-search.mov",
         "startSeconds": 0
       },
       "requiredActions": [
-        "select-answer",
-        "open-evidence-trace"
+        "select-four-federated-collections",
+        "search-housing",
+        "show-all-four-sources"
       ],
       "cues": [
-        "The Evidence Trace visualises the same deterministic material.",
-        "Follow a labelled path from answer to claim, source and transformation.",
-        "Then inspect its packaged SHA-two-five-six check and limitation.",
-        "Every relationship is text-labelled; colour never carries meaning alone."
+        "A person can search four governed OKF sources together.",
+        "They cover UK Living, ONS and the government API catalogue.",
+        "They also include metadata-only HM Land Registry discovery.",
+        "The fixed housing search returns every selected source.",
+        "Its ordering shows bounded relevance, not a trust score."
       ]
     },
     {
-      "id": "facets",
+      "id": "federated-record",
       "number": "03",
       "kind": "interaction",
-      "eyebrow": "Inspect one foundation",
-      "title": "Keep eight trust facets separate",
+      "eyebrow": "Inspect the source snapshot",
+      "title": "Keep origin, link role and limitations visible",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/demo-scene-03-foundation-facets-2026-08-30.mov",
+        "path": "output/demo-clips/v0.3.0-rc.1/03-federated-record.mov",
         "startSeconds": 0
       },
       "requiredActions": [
-        "select-foundation",
-        "inspect-eight-trust-facets"
+        "open-bound-federated-record",
+        "inspect-source-role-and-limitations"
       ],
       "cues": [
-        "Select one foundation to inspect authority and assertion.",
-        "Verification and freshness stay separate.",
-        "Integrity, access, rights and coverage stay separate too.",
-        "Nothing is collapsed into a trust score.",
-        "The authoritative page and limitations remain visible."
-      ]
-    },
-    {
-      "id": "comparison",
-      "number": "04",
-      "kind": "interaction",
-      "eyebrow": "Compare foundations",
-      "title": "Compare claims without declaring a winner",
-      "media": {
-        "type": "video",
-        "path": "output/demo-clips/demo-scene-04-comparison-2026-08-30.mov",
-        "startSeconds": 0
-      },
-      "requiredActions": [
-        "select-claim-register-a-birth",
-        "select-claim-check-child-benefit",
-        "open-comparison"
-      ],
-      "cues": [
-        "Compare two claims field by field.",
-        "Each keeps its official source, observation time and limitation.",
-        "The table declares no winner and makes no personal decision."
+        "This result keeps its collection and checksum-bound snapshot visible.",
+        "Its source link has the producer-declared-source role.",
+        "The destination hostname and limitations remain inspectable.",
+        "Source authority is not independently established.",
+        "This wider tier does not claim an item-level receipt."
       ]
     },
     {
       "id": "webmcp",
-      "number": "05",
+      "number": "04",
       "kind": "receipt-visualisation",
-      "eyebrow": "Supported-host receipt visualisation",
-      "title": "Five WebMCP tools, one deterministic receipt",
+      "eyebrow": "Observed supported-host receipt",
+      "title": "Five bounded tools over the same evidence",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/supported-host-webmcp-call-2026-08-30.mov",
+        "path": "output/demo-clips/v0.3.0-rc.1/04-supported-host-webmcp.mov",
         "startSeconds": 0
       },
-      "evidence": "docs/competition/evidence/supported-host-webmcp-capture-2026-08-30.json",
+      "evidence": "docs/competition/evidence/supported-host-webmcp-capture-v0.3.0-rc.1.json",
+      "mediaReceipt": "docs/competition/evidence/supported-host-webmcp-clip-v0.3.0-rc.1.json",
       "cues": [
-        "A supported Codex in-app browser receipt records five native page tools.",
-        "Three inspect verified data; two reversibly update the page.",
-        "All five were called against this exact public release.",
-        "The comparison used the same answer and claims as the human view.",
-        "Its canonical and displayed result digests match.",
-        "No provider, storage, catalogue or external state changed."
+        "This reconstruction names the host, version and observation time.",
+        "Its receipt records all five native page tools and their schemas.",
+        "Search uses the same housing query and four collections.",
+        "Record and provenance calls use the bound federated result.",
+        "Reviewed tools explore and compare separate evidence facets.",
+        "The page accepts no personal context field or hosted model."
+      ]
+    },
+    {
+      "id": "reviewed-foundations",
+      "number": "05",
+      "kind": "interaction",
+      "eyebrow": "Reviewed foundations",
+      "title": "Inspect facets without inventing a trust score",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.3.0-rc.1/05-reviewed-foundations.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "open-reviewed-foundation",
+        "compare-two-reviewed-claims"
+      ],
+      "cues": [
+        "Reviewed evidence supports a deeper, receipt-bound view.",
+        "People and agents can inspect one answer foundation.",
+        "They can compare authority, freshness, integrity and rights.",
+        "Access and coverage remain separate as well.",
+        "No combined score hides uncertainty or declares a winner."
       ]
     },
     {
@@ -148,41 +159,43 @@
       "title": "Follow the same evidence with VoiceOver",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
+        "path": "output/demo-clips/v0.3.0-rc.1/06-voiceover.mov",
         "startSeconds": 0
       },
-      "evidence": "docs/competition/evidence/manual-voiceover-journey-2026-08-30.json",
+      "evidence": "docs/competition/evidence/manual-voiceover-journey-v0.3.0-rc.1.json",
       "cues": [
-        "A manual Safari VoiceOver journey uses the same public release without WebMCP.",
-        "It covers headings, controls and selected foundations.",
-        "It also covers comparison, live status and source links.",
-        "Results and limitations are recorded.",
-        "This is not a Web Content Accessibility Guidelines conformance claim.",
-        "Final frames show the link’s accessible name and restored comparison focus."
+        "A fresh manual Safari and VoiceOver journey checks this release.",
+        "It follows headings, controls, search and the selected record.",
+        "It checks the source-link role, destination and authority label.",
+        "It also covers comparison, live status and focus restoration.",
+        "This bounded observation is not a WCAG conformance claim."
       ]
     },
     {
-      "id": "estate",
+      "id": "boundary",
       "number": "07",
       "kind": "interaction",
-      "eyebrow": "Scope and boundary",
-      "title": "Show what is admitted — and what is not",
+      "eyebrow": "Personal AI boundary",
+      "title": "Publish inspectable tools, not another chatbot",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/demo-scene-07-evidence-estate-2026-08-30.mov",
+        "path": "output/demo-clips/v0.3.0-rc.1/07-boundary.mov",
         "startSeconds": 0
       },
       "requiredActions": [
-        "open-evidence-estate"
+        "show-personal-ai-boundary",
+        "show-webmcp-diagnostics",
+        "show-legislation-exclusion"
       ],
       "cues": [
-        "The evidence estate makes scope explicit.",
-        "Two reviewed collections supply all eighty searchable records.",
-        "Eight others are described but not searchable.",
-        "A descriptor never admits a producer payload by itself.",
-        "Every result keeps an authoritative human link and limitations visible.",
-        "This is an independent prototype, not an official service.",
-        "It grants no access and is not a durable gateway."
+        "The page hosts no model and exposes no profile or conversation-history field.",
+        "A citizen-selected AI can send only the necessary declared arguments.",
+        "A remote provider may still receive the prompt, arguments and result.",
+        "This static path calls neither official APIs nor a model at runtime.",
+        "Land Registry remains metadata-only, with no personal rows.",
+        "No standalone legislation payload, index or result link is published.",
+        "Privacy, cost and accuracy benefits remain hypotheses to test.",
+        "Your AI asks. You inspect the evidence."
       ]
     }
   ]

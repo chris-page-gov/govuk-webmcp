@@ -19,6 +19,82 @@ const SHA256 = /^[a-f0-9]{64}$/u;
 const FEDERATED_SOURCE_RECORD_COUNT = 58_655;
 const FEDERATED_QUARANTINED_RECORD_COUNT = 3;
 const FEDERATED_SEARCHABLE_RECORD_COUNT = 58_652;
+const FEDERATED_COLLECTION_BINDINGS = Object.freeze([
+  Object.freeze({
+    admissionId: "corpus:uk-life-course",
+    collectionId: "uk-living",
+    sourceRecordCount: 9_757,
+    quarantinedRecordCount: 0,
+    recordCount: 9_757,
+  }),
+  Object.freeze({
+    admissionId: "corpus:ons-metadata",
+    collectionId: "ons",
+    sourceRecordCount: 5_097,
+    quarantinedRecordCount: 0,
+    recordCount: 5_097,
+  }),
+  Object.freeze({
+    admissionId: "corpus:uk-government-apis",
+    collectionId: "government-apis",
+    sourceRecordCount: 41_598,
+    quarantinedRecordCount: 0,
+    recordCount: 41_598,
+  }),
+  Object.freeze({
+    admissionId: "corpus:land-registry-metadata",
+    collectionId: "land-registry",
+    sourceRecordCount: 2_203,
+    quarantinedRecordCount: 3,
+    recordCount: 2_200,
+  }),
+]);
+const ADMISSION_SOURCE_COUNT_METRICS = Object.freeze(new Map([
+  ["corpus:uk-life-course", "concepts"],
+  ["corpus:ons-metadata", "records"],
+  ["corpus:uk-government-apis", "records"],
+  ["corpus:land-registry-metadata", "records"],
+]));
+const FEDERATED_ADMISSION_DISPLAY_CONTRACTS = Object.freeze(new Map([
+  ["corpus:uk-life-course", Object.freeze({
+    title: "UK life-course service families",
+    counts: Object.freeze([
+      Object.freeze({ metric: "concepts", count: 9_757 }),
+      Object.freeze({ metric: "service families", count: 293 }),
+      Object.freeze({ metric: "relationships", count: 15_810 }),
+      Object.freeze({ metric: "source assertions", count: 879 }),
+    ]),
+    completenessClaim: "Complete against the locked 9,757-record source snapshot only; 293 of those records are service families.",
+    limitation: "291 of 293 service families still require specialist review; search inclusion is not an item-level reviewed evidence receipt.",
+  })],
+  ["corpus:ons-metadata", Object.freeze({
+    title: "ONS metadata discovery",
+    counts: Object.freeze([
+      Object.freeze({ metric: "records", count: 5_097 }),
+      Object.freeze({ metric: "relationships", count: 19_735 }),
+    ]),
+    completenessClaim: "Complete only for the four declared adapter snapshots.",
+    limitation: "The deployed generated bundle is locked by observed bytes because the recorded commit alone does not reproduce its ignored Pages output; ELS rights remain not established.",
+  })],
+  ["corpus:uk-government-apis", Object.freeze({
+    title: "UK government API and data catalogue",
+    counts: Object.freeze([
+      Object.freeze({ metric: "records", count: 41_598 }),
+      Object.freeze({ metric: "relationships", count: 276_996 }),
+    ]),
+    completenessClaim: "Bounded to the observed 41,598-record publication snapshot; not a claim about every UK public API.",
+    limitation: "Licence and access evidence remain record-specific and may be missing or inferred; source-snapshot search does not make an endpoint live, public, authorised or safe to call.",
+  })],
+  ["corpus:land-registry-metadata", Object.freeze({
+    title: "HM Land Registry metadata",
+    counts: Object.freeze([
+      Object.freeze({ metric: "records", count: 2_203 }),
+      Object.freeze({ metric: "relationships", count: 22_267 }),
+    ]),
+    completenessClaim: "Bounded to the producer release manifest.",
+    limitation: "This metadata-only discovery tier excludes title-register, title-plan, ownership, address, polygon and personal rows; it is not property evidence or legal advice.",
+  })],
+]));
 
 if (
   federationLock.schema !== "govuk-webmcp.okf-federation-lock.v1" ||
@@ -38,6 +114,12 @@ const federationSourceRecordCount = federationLock.sources.reduce(
 );
 if (federationSourceRecordCount !== FEDERATED_SOURCE_RECORD_COUNT) {
   throw new Error("The OKF federation source lock no longer accounts for exactly 58,655 source records.");
+}
+for (const binding of FEDERATED_COLLECTION_BINDINGS) {
+  const sourceLock = federationLock.sources.find(({ id }) => id === binding.collectionId);
+  if (sourceLock?.population?.records !== binding.sourceRecordCount) {
+    throw new Error(`The ${binding.collectionId} source lock no longer matches its admitted population binding.`);
+  }
 }
 
 if (source.schema !== "govuk-webmcp.corpus-admission-source.v1") {
@@ -91,6 +173,33 @@ if (
 ) {
   throw new Error("The federated source-snapshot tier must contain only the four locked 58,655-record OKF collections.");
 }
+for (const binding of FEDERATED_COLLECTION_BINDINGS) {
+  const admission = federatedSnapshots.find(({ id }) => id === binding.admissionId);
+  const sourceCountMetric = ADMISSION_SOURCE_COUNT_METRICS.get(binding.admissionId);
+  const displayContract = FEDERATED_ADMISSION_DISPLAY_CONTRACTS.get(binding.admissionId);
+  const admittedSourceCount = admission?.counts.find(({ metric }) => metric === sourceCountMetric)?.count;
+  if (
+    admission?.population.denominator !== binding.sourceRecordCount ||
+    admittedSourceCount !== binding.sourceRecordCount ||
+    binding.sourceRecordCount !== binding.recordCount + binding.quarantinedRecordCount ||
+    admission.title !== displayContract?.title ||
+    admission.population.completenessClaim !== displayContract?.completenessClaim ||
+    admission.decision.limitations[0] !== displayContract?.limitation ||
+    canonicalJson(admission.counts) !== canonicalJson(displayContract?.counts)
+  ) {
+    throw new Error(`The ${binding.admissionId} admission no longer matches its population binding or validated display contract.`);
+  }
+}
+if (
+  FEDERATED_COLLECTION_BINDINGS.reduce((total, binding) => total + binding.sourceRecordCount, 0) !==
+    FEDERATED_SOURCE_RECORD_COUNT ||
+  FEDERATED_COLLECTION_BINDINGS.reduce((total, binding) => total + binding.quarantinedRecordCount, 0) !==
+    FEDERATED_QUARANTINED_RECORD_COUNT ||
+  FEDERATED_COLLECTION_BINDINGS.reduce((total, binding) => total + binding.recordCount, 0) !==
+    FEDERATED_SEARCHABLE_RECORD_COUNT
+) {
+  throw new Error("The per-collection federation bindings no longer match the admitted aggregate population.");
+}
 const legislation = source.collections.find(({ id }) => id === "corpus:uk-legislation");
 if (
   legislation?.admissionState !== "quarantined" || legislation.payloadState !== "quarantined" ||
@@ -116,6 +225,7 @@ const manifest = {
     sourceRecordCount: FEDERATED_SOURCE_RECORD_COUNT,
     quarantinedRecordCount: FEDERATED_QUARANTINED_RECORD_COUNT,
     recordCount: FEDERATED_SEARCHABLE_RECORD_COUNT,
+    collectionBindings: FEDERATED_COLLECTION_BINDINGS.map((binding) => ({ ...binding })),
   },
   collections: source.collections
     .map((admission) => ({ admission, entryDigest: sha256(canonicalJson(admission)) }))

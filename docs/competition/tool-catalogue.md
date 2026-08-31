@@ -34,6 +34,14 @@ contains no `legislation.gov.uk` result link. Twenty-eight source-authored
 cross-reference strings remain as inert, untrusted metadata in the four locked
 snapshots.
 
+The candidate binds each collection separately as
+source/quarantined/searchable records: 9,757/0/9,757 for A Life in the UK,
+5,097/0/5,097 for ONS, 41,598/0/41,598 for UK Government APIs and
+2,203/3/2,200 for HM Land Registry. The same executable contract validates each
+collection's title, ordered supplementary counts, completeness statement and
+first limitation before the human evidence-estate display uses them. A co-
+digested redistribution or contradictory population statement fails closed.
+
 WebMCP is progressive enhancement. The human interface remains usable when
 `document.modelContext` is absent, registration is blocked or registration
 fails. Instrumented browser tests prove the page contract and human-tool parity;
@@ -386,10 +394,28 @@ partial and stale-pending coverage. Focused security checks passed 119 of 119
 and the affected post-fix subset passed 23 of 23. The current research,
 build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
 smoke gates pass where recorded. The full unit command passed 173 of 173 in
-`17128.154916 ms`; the immutable post-fix rescan remains pending with protected
-CI, Pages, final tag and release, current-
-candidate supported-host capture, a passing fixed-model evaluation and a
-refreshed manual screen-reader journey.
+`17128.154916 ms` before the latest three engineering remediations. Immutable
+scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50 review
+items, dynamically reproduced mutable local-model identity, aggregate-only per-
+source population binding and cancellation-driven physical shard-work
+amplification, and classified zero as reportable vulnerabilities under attack-
+path policy. Working-tree remediations add exact per-source/display binding,
+4-active/32-queued/36-distinct physical work limits and model receipt v2. The
+exact post-remediation candidate now passes research 4 of 4; build/data
+validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
+quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
+shards; 190 of 190 prepared unit tests; frozen quality at mean nDCG@10
+`0.984698009`, Recall@20 `1`, cold/warm parity, no legislation collection and a
+rejected legislation request; 30 of 30 tests in both Chrome and Edge; six of
+six model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
+across 162 total dependencies; and a clean `git diff --check`. The immutable
+exact post-remediation security rescan, protected CI, Pages, final tag and
+release, current-candidate supported-host capture, a passing fixed-model
+evaluation, refreshed manual screen-reader journey and video remain pending.
+
+The final-candidate demonstration preflight correctly failed closed without a
+deployed commit and explicit overwrite approval. It did not start live capture,
+so no live host or video evidence is claimed.
 
 ## 8.7 Pinned local interoperability harnesses
 
@@ -466,7 +492,13 @@ wrapper requires an explicit provider-prefixed model and
 that the context-minimisation call contains exactly `query`, `collections` and
 `limit`, including `collections: ["deep-evidence"]` and no empty optional
 arrays. Only
-the `ollama:` route is preflighted on loopback without downloading a model. A
+the `ollama:` route is preflighted on loopback without downloading a model. For
+an otherwise-successful local run, receipt v2 must match the selected identity
+from `/api/tags` before and after evaluation to the daemon-reported loaded
+identity from `/api/ps` afterwards. This is daemon-reported post-run evidence,
+not cryptographic per-response proof. Redirects, mismatched `name`/`model`
+fields and `remote_model` or `remote_host` markers fail before evaluation; an
+Ollama-labelled cloud proxy must use the explicit remote-provider route. A
 remote route additionally requires `WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED=1` and
 the provider credential. Both local and remote commands must include the
 presentation approval, for example:
@@ -482,18 +514,34 @@ WEBMCP_EVAL_MODEL='openai:<exact-model>' \
 npm run webmcp:eval:browser
 ```
 
-The wrapper writes private, ignored reports and a sanitised receipt. Three local
+The wrapper writes private, ignored reports and a sanitised receipt. Five local
 attempts used Chrome 152, `webmcp-evals` 0.0.4, eight cases, three runs per case
 and exact loopback-only model `ollama:gpt-oss:20b`, inventory digest
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
-without remote credentials. Their results were 8 of 102 retry-expanded rows,
+with the first three using no remote credentials. Their first three results were 8 of 102 retry-expanded rows,
 then 33 of 33 upstream but 32 of 33 strict because one call added empty optional
 arrays, then 30 of 35 upstream after two malformed-then-corrected provenance
-IDs and one omitted comparison. All failed overall. Any later run must retain
+IDs and one omitted comparison. Receipt-v2 attempt 4 bound stable identity but
+retained a null evaluation after structural validation failed. Receipt-v2
+attempt 5 retained 30 pass and 6 fail across 36 reported rows and failed
+`verify-reports`. All failed overall. Any later run must retain
 these failures and record the exact model, provider boundary, fixture digest,
 run count and variance. The wrapper fails closed on any upstream console error
 or `pageerror`; acceptance records `browserConsoleErrorCount: 0` and
 `browserConsoleErrorsAccepted: false`.
+
+The first three historical attempts predate receipt v2 and are not upgraded by it.
+Privileged local-account, daemon or evidence-channel control remains outside
+the receipt trust boundary, as do tag changes between observations and a
+previously loaded model.
+
+The federated runtime independently limits physical shard work to 4 active
+loads, 32 queued loads and 36 distinct in-flight files. A file's 3-second
+deadline starts before queueing and its slot remains held until the underlying
+loader settles. Queue or immediate pre-loader deadline expiry returns the
+scheduler-busy result rather than a source-corruption result. Four non-
+cooperative loaders can therefore retain all slots and leave federated loading
+unavailable, but cancellation cannot amplify physical work beyond those four.
 
 `npm run webmcp:explorer:setup` separately checks out and builds Microsoft
 WebMCP Explorer 0.1.0 at commit

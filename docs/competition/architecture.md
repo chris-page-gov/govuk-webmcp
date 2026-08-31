@@ -102,6 +102,15 @@ inert, untrusted metadata: 6 in A Life in the UK, 3 in ONS, 2 in UK Government
 APIs and 17 in Land Registry. Literal source-byte exclusion is therefore not an
 architectural claim.
 
+The four collections are not trusted merely because their aggregate totals
+balance. One ordered executable contract binds source/quarantined/searchable
+counts as 9,757/0/9,757 for A Life in the UK, 5,097/0/5,097 for ONS,
+41,598/0/41,598 for UK Government APIs and 2,203/3/2,200 for HM Land Registry.
+The same validation boundary fixes each admission's title, ordered
+supplementary counts, completeness statement and first limitation before the
+human display uses them. A co-digested redistribution or contradictory display
+claim fails closed.
+
 ## Authored and generated boundaries
 
 The frozen pre-federation candidate has four source-lock registry entries. The
@@ -150,6 +159,16 @@ its bounded result. Every collection status reports deterministic
 `verifiedShardFiles` and `verifiedShardBytes` counters. A bad lazy shard marks
 that collection unavailable while the reviewed tier and other valid
 collections remain usable; no external or source-origin fallback is attempted.
+
+Logical calls and physical shard work have separate admission boundaries. At
+most 4 physical loads are active, 32 wait and 36 distinct files are in flight.
+The file's fixed 3-second deadline begins before queueing and its physical slot
+remains occupied until the underlying loader actually settles. Cancellation
+therefore cannot multiply physical work. Queue or immediate pre-loader deadline
+expiry returns a scheduler-busy result rather than a source-corruption result.
+If four non-cooperative loaders never
+settle, they can retain every slot and leave federation loading unavailable;
+the runtime fails closed rather than admitting a fifth load.
 
 ## Evidence-first interaction
 
@@ -236,9 +255,22 @@ observed separately: Chrome 152's native WebMCP panel completed all five valid
 calls and displayed a structured invalid-input result, while Chrome DevTools
 MCP 1.8.0 completed the same five-tool public journey with zero console errors.
 Both are deterministic host-execution evidence. Microsoft Explorer and a
-passing fixed-model selection result remain deliberately open. Three local
+passing fixed-model selection result remain deliberately open. Five local
 model attempts are retained separately as failed variance evidence rather than
-being inferred from deterministic host execution.
+being inferred from deterministic host execution. The first three predate
+receipt v2. Attempt 4 bound stable identity but retained a null evaluation after
+structural validation failed; attempt 5 retained 30 pass and 6 fail across 36
+reported rows and failed `verify-reports`.
+
+Attempts 4 and 5 used receipt v2: the exact
+selected identity from `/api/tags` before and after evaluation must match the
+daemon-reported loaded identity from `/api/ps` afterwards. That is post-run
+daemon evidence, not cryptographic proof that an individual response came from
+particular weights. Privileged local-account or model-service control remains
+outside the receipt's trust boundary, as do tag changes between observations
+and a model that was already loaded. Redirects, incomplete `name`/`model`
+identities and `remote_model` or `remote_host` markers fail before evaluation,
+so an Ollama-labelled cloud proxy must use the explicit remote-provider path.
 
 These harnesses operate only against the public synthetic fixture in an
 isolated browser profile with no unrelated tabs, saved credentials or personal
@@ -264,10 +296,25 @@ scan's mechanically partial and stale-pending coverage and the post-snapshot
 fix keep the immutable rescan open. The current research, build/data, lexical-
 quality, Chrome, Microsoft Edge and authorised model-free smoke gates pass
 where recorded; `npm run test:unit:prepared` passed 173 of 173 in
-`17128.154916 ms`. CI and Pages require the
-frozen nDCG@10 and Recall@20 gate after the complete suite; its current local
-result is mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm parity and
-legislation absent or rejected. CI, Pages, release tag and current-candidate
-supported-host capture remain pending. No pre-federation browser,
+`17128.154916 ms` before the latest three engineering remediations. Immutable
+scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50 review
+items, dynamically reproduced mutable model identity, aggregate-only
+per-source population binding and cancellation-driven physical-work
+amplification, and classified zero as reportable vulnerabilities after attack-
+path analysis. The defects have working-tree remediations nevertheless.
+The exact post-remediation local chain now passes research 4 of 4; build/data
+validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
+quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
+shards; 190 of 190 prepared unit tests; 30 of 30 tests in both Chrome and Edge;
+six of six model-free WebMCP smoke calls in real Chrome; zero npm-audit
+vulnerabilities across 162 total dependencies; and a clean `git diff --check`.
+The frozen lexical result is mean nDCG@10 `0.984698009`, Recall@20 `1`,
+cold/warm parity, no legislation collection and rejection of a legislation
+request. The immutable exact post-remediation security rescan, CI, Pages,
+release tag and current-candidate supported-host capture remain pending. No pre-federation browser,
 accessibility, video or host receipt is
 evidence that the expanded candidate passes those remaining gates.
+
+The final-candidate demonstration preflight correctly failed closed without a
+deployed commit and explicit overwrite approval. It did not start live capture
+and is not live-capture evidence.

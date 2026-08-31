@@ -6,122 +6,30 @@ import {
   mkdtemp,
   mkdir,
   readFile,
+  realpath,
   rename,
   rm,
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, relative, resolve, sep } from "node:path";
+import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
-const scriptPath = fileURLToPath(import.meta.url);
-const repositoryRoot = resolve(dirname(scriptPath), "..");
-const outputRoot = join(repositoryRoot, "output/demo-clips");
-const receiptPath = join(
+import {
+  bindReleaseConfig,
+  canonicalJson,
   repositoryRoot,
-  "docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json",
-);
+  validateConfig,
+} from "./build-demo-video.mjs";
+import {
+  fetchPublicDeploymentMetadata,
+  PUBLIC_CAPTURE_TARGET,
+} from "./lib/chrome-devtools-capture-target.mjs";
 
-const product = {
-  url: "https://chris-page-gov.github.io/govuk-webmcp/",
-  release: "v0.2.0-rc.1",
-  commit: "9235ee5db4df637bdb2a12e87449e871614afe68",
-};
-
-const answerId = "answer:new-child-starting-points";
-const claimIds = ["claim:register-a-birth", "claim:check-child-benefit"];
-const answerRoute = `#answer=${encodeURIComponent(answerId)}`;
-const sceneDurationMilliseconds = 36_000;
-
-const scenes = [
-  {
-    sceneId: "overview",
-    fileName: "demo-scene-01-overview-2026-08-30.mov",
-    route: answerRoute,
-    actions: ["load-public-release", "open-analytical-index"],
-    run: async (page) => {
-      await hold(page, 2_000);
-      await smoothScroll(page, "#answer-heading");
-      await hold(page, 1_500);
-      await smoothScroll(page, "#answer-basis");
-      await hold(page, 1_600);
-      await smoothScroll(page, "#analytical-index-heading");
-      await page.getByRole("link", { name: "Open authoritative source for claim 1" }).focus();
-      await hold(page, 2_400);
-    },
-  },
-  {
-    sceneId: "trace",
-    fileName: "demo-scene-02-evidence-trace-2026-08-30.mov",
-    route: answerRoute,
-    actions: ["select-answer", "open-evidence-trace"],
-    run: async (page) => {
-      await smoothScroll(page, "#trace-heading");
-      await hold(page, 2_000);
-      await page.getByRole("button", { name: "Show foundations for claim 1" }).click();
-      await hold(page, 1_600);
-      await smoothScroll(page, "#trace-diagram");
-      await hold(page, 2_400);
-      await smoothScroll(page, "#foundation-panel");
-      await hold(page, 2_000);
-    },
-  },
-  {
-    sceneId: "facets",
-    fileName: "demo-scene-03-foundation-facets-2026-08-30.mov",
-    route: answerRoute,
-    actions: ["select-foundation", "inspect-eight-trust-facets"],
-    run: async (page) => {
-      await smoothScroll(page, "#analytical-index-heading");
-      await page.getByRole("button", { name: "Show foundations for claim 2" }).focus();
-      await hold(page, 1_400);
-      await page.getByRole("button", { name: "Show foundations for claim 2" }).click();
-      await hold(page, 1_800);
-      await smoothScroll(page, "#foundation-panel");
-      await hold(page, 3_000);
-    },
-  },
-  {
-    sceneId: "comparison",
-    fileName: "demo-scene-04-comparison-2026-08-30.mov",
-    route: answerRoute,
-    actions: [
-      "select-claim-register-a-birth",
-      "select-claim-check-child-benefit",
-      "open-comparison",
-    ],
-    run: async (page) => {
-      await smoothScroll(page, "#analytical-index-heading");
-      const checkboxes = page.locator("#analytical-index input[type='checkbox']");
-      await checkboxes.nth(0).check();
-      await hold(page, 900);
-      await checkboxes.nth(1).check();
-      await hold(page, 1_200);
-      await page.getByRole("button", { name: "Compare 2 selected claims" }).click();
-      await page.locator("#comparison-panel").waitFor({ state: "visible" });
-      await hold(page, 1_700);
-      await smoothScroll(page, "#comparison-content");
-      await hold(page, 3_000);
-    },
-  },
-  {
-    sceneId: "estate",
-    fileName: "demo-scene-07-evidence-estate-2026-08-30.mov",
-    route: answerRoute,
-    actions: ["open-evidence-estate"],
-    run: async (page) => {
-      await smoothScroll(page, "#estate-heading");
-      await hold(page, 2_200);
-      await page.locator(".estate-table").focus();
-      await hold(page, 1_300);
-      await smoothScroll(page, "#estate-body tr:nth-child(6)");
-      await hold(page, 2_200);
-      await smoothScroll(page, "#federation-digest");
-      await hold(page, 2_000);
-    },
-  },
-];
+const scriptPath = fileURLToPath(import.meta.url);
+const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script.json");
+const sceneDurationMilliseconds = 32_000;
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -140,11 +48,16 @@ function run(command, args, capture = false) {
     stdio: capture ? ["ignore", "pipe", "pipe"] : "inherit",
   });
   if (result.error) throw new Error(`${command} could not start: ${result.error.message}`);
-  if (result.status !== 0) {
-    const detail = capture ? `\n${result.stderr || result.stdout}` : "";
-    throw new Error(`${command} failed with exit code ${result.status}${detail}`);
-  }
+  if (result.status !== 0) throw new Error(`${command} failed with exit code ${result.status}${capture ? `\n${result.stderr || result.stdout}` : ""}`);
   return result.stdout ?? "";
+}
+
+function sha256Text(value) {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+async function sha256File(path) {
+  return createHash("sha256").update(await readFile(path)).digest("hex");
 }
 
 async function pathExists(path) {
@@ -158,26 +71,20 @@ async function pathExists(path) {
 }
 
 function inside(parent, candidate) {
-  const path = relative(parent, candidate);
-  return path !== "" && path !== ".." && !path.startsWith(`..${sep}`) && !path.startsWith(sep);
+  const fromParent = relative(parent, candidate);
+  return fromParent !== "" && fromParent !== ".." && !fromParent.startsWith(`..${sep}`) && !isAbsolute(fromParent);
 }
 
-async function assertSafeExistingFile(path, label) {
-  if (!(await pathExists(path))) return;
-  const info = await lstat(path);
-  invariant(info.isFile() && !info.isSymbolicLink(), `${label} is not a regular non-symbolic file: ${path}`);
-}
-
-async function sha256File(path) {
-  return createHash("sha256").update(await readFile(path)).digest("hex");
+function repositoryPath(relativePath, label) {
+  invariant(typeof relativePath === "string" && relativePath.length > 0 && !isAbsolute(relativePath), `${label} must be repository-relative`);
+  const path = resolve(repositoryRoot, relativePath);
+  invariant(inside(repositoryRoot, path), `${label} resolves outside the repository`);
+  return path;
 }
 
 function probeDuration(path) {
   const value = Number(run("ffprobe", [
-    "-v", "error",
-    "-show_entries", "format=duration",
-    "-of", "default=noprint_wrappers=1:nokey=1",
-    path,
+    "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", path,
   ], true).trim());
   invariant(Number.isFinite(value) && value > 0, `Captured clip has no positive duration: ${path}`);
   return value;
@@ -191,33 +98,190 @@ async function smoothScroll(page, selector) {
   const locator = page.locator(selector).first();
   await locator.waitFor({ state: "visible" });
   await locator.evaluate((element) => element.scrollIntoView({ behavior: "smooth", block: "center" }));
-  await hold(page, 1_500);
+  await hold(page, 1_200);
+}
+
+function numberFromText(value, label) {
+  const parsed = Number(String(value).replaceAll(",", "").trim());
+  invariant(Number.isSafeInteger(parsed) && parsed >= 0, `${label} is not a non-negative integer`);
+  return parsed;
 }
 
 async function waitForVerifiedRuntime(page) {
-  await page.waitForFunction(() => {
-    const count = document.querySelector("#record-count")?.textContent?.trim();
-    const query = document.querySelector("#query");
-    const warning = document.querySelector("#route-warning");
-    return count === "80" && query instanceof HTMLInputElement && !query.disabled && warning?.hidden !== false;
-  });
+  await page.waitForFunction(() =>
+    document.documentElement.dataset.applicationState === "ready"
+      && document.querySelector("#record-count")?.textContent?.trim() === "80"
+      && document.querySelector("#federated-record-count")?.textContent?.trim() === "58,652"
+      && document.querySelector("#federated-source-record-count")?.textContent?.trim() === "58,655"
+      && document.querySelector("#federated-quarantined-count")?.textContent?.trim() === "3"
+      && document.querySelector("#query") instanceof HTMLInputElement
+      && !document.querySelector("#query").disabled
+      && document.querySelector("#route-warning")?.hidden !== false,
+  );
 }
 
-async function verifyPublicRelease() {
-  const response = await fetch(new URL("deployment.json", product.url), {
-    headers: { accept: "application/json" },
-    redirect: "error",
-  });
-  invariant(response.ok, `Deployment metadata returned HTTP ${response.status}`);
-  const metadata = await response.json();
-  invariant(metadata?.schema === "trusted-govuk-discovery.deployment.v1", "Deployment metadata schema is wrong");
-  invariant(metadata.repository === "chris-page-gov/govuk-webmcp", "Deployment metadata repository is wrong");
-  invariant(metadata.commit === product.commit, "Public deployment does not match the configured product commit");
-  invariant(metadata.runId === "33286771963", "Public deployment run does not match the verified release");
+async function selectOnlyCollections(page, selected) {
+  const wanted = new Set(selected);
+  for (const input of await page.locator("#collection-filter input[name='collection']").all()) {
+    await input.setChecked(wanted.has(await input.getAttribute("value")));
+  }
 }
 
-async function captureScene(browser, scene, work) {
-  const rawDirectory = join(work, `raw-${scene.sceneId}`);
+async function runFederatedSearch(page, inputs) {
+  const filters = page.locator("details.filters");
+  if (!(await filters.evaluate((element) => element.open))) await filters.locator("summary").click();
+  await page.getByLabel("Search term").fill(inputs.query);
+  await selectOnlyCollections(page, inputs.collections);
+  await page.getByLabel("Maximum results").selectOption(String(inputs.limit));
+  await page.getByRole("button", { name: "Search", exact: true }).click();
+  await page.locator("#results details.structured pre").waitFor({ state: "visible" });
+  const result = JSON.parse(await page.locator("#results details.structured pre").textContent());
+  invariant(result.ok === true && result.schema === "trusted-govuk-discovery.search-result.v2", "The deployed four-source search did not return the combined result contract");
+  invariant(JSON.stringify(result.selectedCollections) === JSON.stringify(inputs.collections), "The deployed search selected different collections");
+  invariant(result.returned === result.results.length && result.returned <= inputs.limit, "The deployed search returned count is inconsistent with its limit");
+  invariant(JSON.stringify([...new Set(result.results.map(({ collectionId }) => collectionId))].sort()) === JSON.stringify([...inputs.collections].sort()), "The deployed housing search did not return every selected collection");
+  invariant(result.collectionStatuses.length === inputs.collections.length && result.collectionStatuses.every(({ collectionId, evidenceTier, status }) => inputs.collections.includes(collectionId) && evidenceTier === "federated-source-snapshot" && status === "ready"), "The deployed housing search did not retain four ready federated collection states");
+  invariant(result.results.every(({ evidenceTier }) => evidenceTier === "federated-source-snapshot"), "The deployed four-source search returned the wrong evidence tier");
+  const excluded = result.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname);
+  invariant(excluded.length === 0, "The deployed housing search returned a legislation.gov.uk link");
+  return result;
+}
+
+function chooseFederatedRecord(result) {
+  const preferred = result.results.find(({ collectionId }) => collectionId === "land-registry") ?? result.results[0];
+  invariant(preferred && typeof preferred.recordId === "string", "The frozen search has no representative federated record");
+  return preferred.recordId;
+}
+
+function sceneDefinitions(config, state) {
+  const inputs = config.demonstrationInputs;
+  const answerRoute = `#answer=${encodeURIComponent(inputs.reviewedAnswerId)}`;
+  return [
+    {
+      sceneId: "overview",
+      route: "",
+      run: async (page) => {
+        await hold(page, 1_500);
+        await smoothScroll(page, ".catalogue-summary");
+        await smoothScroll(page, "#estate-heading");
+        return {
+          reviewedRecordCount: numberFromText(await page.locator("#record-count").textContent(), "Reviewed count"),
+          federatedSourceRecordCount: numberFromText(await page.locator("#federated-source-record-count").textContent(), "Federated source count"),
+          federatedRecordCount: numberFromText(await page.locator("#federated-record-count").textContent(), "Federated searchable count"),
+          federatedQuarantinedRecordCount: numberFromText(await page.locator("#federated-quarantined-count").textContent(), "Federated quarantine count"),
+          reviewedTierLabel: await page.locator(".catalogue-summary dt").nth(0).textContent(),
+          federatedTierLabel: await page.locator(".catalogue-summary dt").nth(1).textContent(),
+        };
+      },
+    },
+    {
+      sceneId: "federated-search",
+      route: "",
+      run: async (page) => {
+        await smoothScroll(page, "#search-heading");
+        const result = await runFederatedSearch(page, inputs);
+        state.searchResult = result;
+        state.federatedRecordId = chooseFederatedRecord(result);
+        await smoothScroll(page, `article.result[data-record-id="${state.federatedRecordId}"]`);
+        return {
+          query: inputs.query,
+          collections: inputs.collections,
+          limit: inputs.limit,
+          resultIds: result.results.map(({ recordId }) => recordId),
+          resultCollectionIds: result.results.map(({ collectionId }) => collectionId),
+          collectionStatuses: result.collectionStatuses.map(({ collectionId, evidenceTier, status }) => ({ collectionId, evidenceTier, status })),
+          excludedHostnameResultCount: result.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname).length,
+          canonicalResultDigest: sha256Text(canonicalJson(result)),
+        };
+      },
+    },
+    {
+      sceneId: "federated-record",
+      route: "",
+      run: async (page) => {
+        invariant(state.searchResult && state.federatedRecordId, "Federated record capture requires the frozen search observation first");
+        const repeated = await runFederatedSearch(page, inputs);
+        invariant(sha256Text(canonicalJson(repeated)) === sha256Text(canonicalJson(state.searchResult)), "The exact deployed search changed between search and record capture");
+        const article = page.locator(`article.result[data-record-id="${state.federatedRecordId}"]`);
+        await article.getByRole("button", { name: "View record and provenance" }).click();
+        await page.locator("#record-panel").waitFor({ state: "visible" });
+        const record = JSON.parse(await page.locator("#record-content details.structured pre").textContent());
+        const provenance = JSON.parse(await page.locator("#provenance-content details.structured pre").textContent());
+        invariant(record.record.id === state.federatedRecordId && provenance.recordId === state.federatedRecordId, "The visible record and provenance do not match the frozen search result");
+        await smoothScroll(page, "#record-content");
+        await smoothScroll(page, "#provenance-content");
+        return {
+          recordId: state.federatedRecordId,
+          collectionId: record.record.collectionId,
+          evidenceTier: record.evidenceTier,
+          sourceAuthority: record.record.sourceAuthority,
+          linkRole: record.record.linkRole,
+          linkHostname: record.record.canonicalHumanUrl ? new URL(record.record.canonicalHumanUrl).hostname : null,
+          itemLevelReview: record.boundaries.itemLevelReview,
+          evidenceReceiptAvailable: record.boundaries.evidenceReceiptAvailable,
+          limitationsCount: record.record.limitations.length,
+          recordResultDigest: sha256Text(canonicalJson(record)),
+          provenanceResultDigest: sha256Text(canonicalJson(provenance)),
+        };
+      },
+    },
+    {
+      sceneId: "reviewed-foundations",
+      route: answerRoute,
+      run: async (page) => {
+        const firstClaim = page.locator(`#analytical-index li[data-claim-id="${inputs.reviewedClaimIds[0]}"]`);
+        await firstClaim.getByRole("button", { name: /Show foundations/u }).click();
+        await page.locator("#foundation-panel").waitFor({ state: "visible" });
+        const facetLabels = await page.locator("#foundation-detail dt").allTextContents();
+        const wantedFacets = ["Authority", "Assertion", "Verification", "Freshness", "Integrity", "Access", "Rights", "Coverage"];
+        for (const claimId of inputs.reviewedClaimIds) await page.locator(`#analytical-index input[value="${claimId}"]`).check();
+        await page.getByRole("button", { name: "Compare 2 selected claims" }).click();
+        await page.locator("#comparison-panel").waitFor({ state: "visible" });
+        const comparisonRowCount = await page.locator("#comparison-content table tbody tr").count();
+        await smoothScroll(page, "#comparison-content");
+        return {
+          answerId: inputs.reviewedAnswerId,
+          claimIds: inputs.reviewedClaimIds,
+          foundationFacetLabels: wantedFacets.filter((label) => facetLabels.includes(label)),
+          comparisonRowCount,
+          trustScoreShown: (await page.locator("#foundation-panel, #comparison-panel").allTextContents()).some((text) => /trust score\s*[:=]\s*\d/iu.test(text)),
+        };
+      },
+    },
+    {
+      sceneId: "boundary",
+      route: "",
+      run: async (page, requestUrls) => {
+        invariant(state.searchResult, "Boundary capture requires the frozen search observation first");
+        await smoothScroll(page, "#webmcp-impact-heading");
+        await smoothScroll(page, "#webmcp-diagnostics");
+        await smoothScroll(page, "#estate-heading");
+        const bodyText = await page.locator("body").innerText();
+        const collectionValues = await page.locator("#collection-filter input[name='collection']").evaluateAll((inputs_) => inputs_.map((input) => input.value));
+        const origin = new URL(config.productUrl).origin;
+        const externalRequests = requestUrls.filter((url) => new URL(url).origin !== origin);
+        const storage = await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length, cookies: document.cookie }));
+        return {
+          sameOriginOnly: externalRequests.length === 0,
+          browserStorage: storage,
+          modelProviderRequestCount: externalRequests.filter((url) => /openai|anthropic|gemini|generativelanguage/iu.test(url)).length,
+          officialApiRequestCount: externalRequests.filter((url) => /(?:^|\.)gov\.uk$/u.test(new URL(url).hostname)).length,
+          landRegistryMetadataOnly: /HM Land Registry metadata/iu.test(bodyText) && /metadata-only/iu.test(bodyText),
+          standaloneLegislationCollection: collectionValues.some((value) => /legislation/iu.test(value)),
+          standaloneLegislationPayload: requestUrls.some((url) => /legislation.*(?:payload|records)/iu.test(url)),
+          standaloneLegislationIndex: requestUrls.some((url) => /legislation.*(?:index|postings)/iu.test(url)),
+          legislationRuntimeRequestCount: requestUrls.filter((url) => new URL(url).hostname === inputs.excludedHostname).length,
+          excludedHostnameResultLinkCount: state.searchResult.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname).length,
+          impactClaimsFramedAsHypotheses: /hypotheses to test, not guarantees/iu.test(bodyText),
+          remoteProviderDisclosureVisible: /remote AI provider may receive/iu.test(bodyText),
+        };
+      },
+    },
+  ];
+}
+
+async function captureScene(browser, config, sceneConfig, definition, work) {
+  const rawDirectory = resolve(work, `raw-${definition.sceneId}`);
   await mkdir(rawDirectory, { recursive: true });
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
@@ -227,7 +291,9 @@ async function captureScene(browser, scene, work) {
     colorScheme: "light",
     reducedMotion: "no-preference",
   });
-  const productOrigin = new URL(product.url).origin;
+  const productOrigin = new URL(config.productUrl).origin;
+  const requestUrls = [];
+  context.on("request", (request) => requestUrls.push(request.url()));
   await context.route("**/*", async (route) => {
     const requestUrl = new URL(route.request().url());
     if (requestUrl.origin === productOrigin) await route.continue();
@@ -237,67 +303,58 @@ async function captureScene(browser, scene, work) {
   const page = await context.newPage();
   const video = page.video();
   const recordStarted = Date.now();
-  const sourceUrl = `${product.url}${scene.route}`;
+  const sourceUrl = `${config.productUrl}${definition.route}`;
   await page.goto(sourceUrl, { waitUntil: "networkidle" });
   await waitForVerifiedRuntime(page);
   const contentReady = Date.now();
-  await scene.run(page);
+  const observation = await definition.run(page, requestUrls);
   const remaining = sceneDurationMilliseconds - (Date.now() - contentReady);
   if (remaining > 0) await hold(page, remaining);
   await context.close();
   const rawPath = await video.path();
   const trimSeconds = Math.max(0, (contentReady - recordStarted) / 1_000);
-  const preparedPath = join(work, scene.fileName);
+  const preparedPath = resolve(work, `${definition.sceneId}.mov`);
   run("ffmpeg", [
-    "-nostdin", "-hide_banner", "-y",
-    "-ss", trimSeconds.toFixed(3),
-    "-i", rawPath,
-    "-an",
-    "-vf", "fps=30,scale=1920:1080:flags=lanczos,setsar=1,format=yuv420p",
-    "-c:v", "libx264",
-    "-preset", "medium",
-    "-crf", "18",
-    "-movflags", "+faststart",
-    preparedPath,
+    "-nostdin", "-hide_banner", "-y", "-ss", trimSeconds.toFixed(3), "-i", rawPath,
+    "-an", "-vf", "fps=30,scale=1920:1080:flags=lanczos,setsar=1,format=yuv420p",
+    "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-movflags", "+faststart", preparedPath,
   ]);
   const durationSeconds = probeDuration(preparedPath);
-  invariant(durationSeconds >= 34 && durationSeconds <= 38, `${scene.sceneId} clip duration is outside the 34 to 38 second capture window`);
+  invariant(durationSeconds >= 30 && durationSeconds <= 34, `${definition.sceneId} clip duration is outside the 30 to 34 second capture window`);
   return {
-    sceneId: scene.sceneId,
+    sceneId: definition.sceneId,
     source: preparedPath,
-    destination: join(outputRoot, scene.fileName),
+    destination: repositoryPath(sceneConfig.media.path, `Scene ${definition.sceneId} output`),
     receipt: {
-      sceneId: scene.sceneId,
-      path: `output/demo-clips/${scene.fileName}`,
+      sceneId: definition.sceneId,
+      path: sceneConfig.media.path,
       sha256: await sha256File(preparedPath),
       durationSeconds,
       capturedAt: new Date(contentReady).toISOString(),
-      actions: scene.actions,
+      actions: sceneConfig.requiredActions,
       sourceUrl,
+      observation,
     },
   };
 }
 
-async function placeOutputs(entries, receiptSource, overwrite) {
-  const all = [
-    ...entries.map(({ source, destination }) => ({ source, destination })),
-    { source: receiptSource, destination: receiptPath },
-  ];
+async function placeOutputs(entries, receiptSource, receiptPath, overwrite) {
+  const all = [...entries.map(({ source, destination }) => ({ source, destination })), { source: receiptSource, destination: receiptPath }];
   for (const { destination } of all) {
-    invariant(
-      inside(repositoryRoot, destination),
-      `Capture destination is outside the repository: ${destination}`,
-    );
-    await assertSafeExistingFile(destination, "Capture destination");
-    invariant(overwrite || !(await pathExists(destination)), `Capture destination exists; review it and rerun with --overwrite: ${destination}`);
+    invariant(inside(repositoryRoot, destination), `Capture destination is outside the repository: ${destination}`);
+    if (await pathExists(destination)) {
+      const info = await lstat(destination);
+      invariant(info.isFile() && !info.isSymbolicLink(), `Capture destination is not a regular file: ${destination}`);
+      invariant(overwrite, `Capture destination exists; review it and rerun with --overwrite: ${destination}`);
+    }
   }
-
   const prepared = [];
   const backups = [];
   const committed = [];
   try {
     for (const { source, destination } of all) {
       await mkdir(dirname(destination), { recursive: true });
+      invariant(inside(await realpath(repositoryRoot), await realpath(dirname(destination))), `Capture destination parent resolves outside the repository: ${dirname(destination)}`);
       const temporary = `${destination}.pending-${process.pid}-${randomUUID()}`;
       await copyFile(source, temporary);
       prepared.push({ temporary, destination });
@@ -316,9 +373,7 @@ async function placeOutputs(entries, receiptSource, overwrite) {
     for (const { backup } of backups) await rm(backup, { force: true });
   } catch (error) {
     for (const destination of committed.reverse()) await rm(destination, { force: true });
-    for (const { destination, backup } of backups.reverse()) {
-      if (await pathExists(backup)) await rename(backup, destination);
-    }
+    for (const { destination, backup } of backups.reverse()) if (await pathExists(backup)) await rename(backup, destination);
     for (const { temporary } of prepared) await rm(temporary, { force: true });
     throw error;
   }
@@ -326,47 +381,46 @@ async function placeOutputs(entries, receiptSource, overwrite) {
 
 export async function main(argv = process.argv.slice(2)) {
   const options = parseArguments(argv);
-  await verifyPublicRelease();
+  const config = bindReleaseConfig(validateConfig(JSON.parse(await readFile(configPath, "utf8"))));
+  invariant(config.productUrl === PUBLIC_CAPTURE_TARGET, "Demo capture is restricted to the allowlisted public Pages URL");
+  const deployment = await fetchPublicDeploymentMetadata({ expectedCommit: config.productCommit });
+  invariant(deployment.metadata.runId === config.pagesRunId, "Public deployment run does not match GOVUK_WEBMCP_DEMO_PAGES_RUN_ID");
   run("ffmpeg", ["-version"], true);
   run("ffprobe", ["-version"], true);
-  const work = await mkdtemp(join(tmpdir(), "govuk-webmcp-live-capture-"));
+  const state = {};
+  const definitions = sceneDefinitions(config, state);
+  const configuredScenes = new Map(config.scenes.filter(({ kind }) => kind === "interaction").map((scene) => [scene.id, scene]));
+  invariant(definitions.every(({ sceneId }) => configuredScenes.has(sceneId)) && definitions.length === configuredScenes.size, "Capture definitions do not match the configured interaction scenes");
+  const work = await mkdtemp(resolve(tmpdir(), "govuk-webmcp-live-capture-"));
   let browser;
   try {
     browser = await chromium.launch({ headless: true });
     const browserVersion = browser.version();
     const results = [];
-    for (const scene of scenes) results.push(await captureScene(browser, scene, work));
+    for (const definition of definitions) results.push(await captureScene(browser, config, configuredScenes.get(definition.sceneId), definition, work));
     await browser.close();
     browser = undefined;
+    invariant(state.federatedRecordId, "Capture did not bind a federated record from the exact deployed search");
     const receipt = {
-      schema: "trusted-govuk-discovery.demo-live-interaction-capture.v1",
+      schema: "trusted-govuk-discovery.demo-live-interaction-capture.v2",
       capturedAt: new Date().toISOString(),
-      product,
+      page: { url: config.productUrl, release: config.release, productCommit: config.productCommit, pagesRunId: config.pagesRunId },
+      deployment: { metadataUrl: deployment.url, metadataSha256: deployment.sha256 },
+      demonstration: { ...config.demonstrationInputs, federatedRecordId: state.federatedRecordId },
       captureMethod: "playwright-public-site-interaction",
-      browser: {
-        name: "Playwright Chromium",
-        version: browserVersion,
-      },
-      reviews: {
-        privacy: "pending-agent-review",
-        branding: "pending-agent-review",
-        humanPublicationReview: "pending",
-      },
+      browser: { name: "Playwright Chromium", version: browserVersion },
+      reviews: { privacy: "pending-agent-review", branding: "pending-agent-review", humanPublicationReview: "pending" },
       noBrowserChrome: true,
       audioCaptured: false,
-      clips: results.map(({ receipt }) => receipt),
+      clips: results.map(({ receipt: clip }) => clip),
     };
-    const temporaryReceipt = join(work, "demo-live-interaction-capture-2026-08-30.json");
+    const temporaryReceipt = resolve(work, "demo-live-interaction-capture.json");
     await writeFile(temporaryReceipt, `${JSON.stringify(receipt, null, 2)}\n`, "utf8");
-    await placeOutputs(results, temporaryReceipt, options.overwrite);
-    process.stdout.write(`${JSON.stringify({
-      status: "captured",
-      product,
-      receipt: relative(repositoryRoot, receiptPath).split(sep).join("/"),
-      clips: receipt.clips,
-    }, null, 2)}\n`);
+    const receiptPath = repositoryPath(config.interactionCaptureReceipt, "Live interaction capture receipt");
+    await placeOutputs(results, temporaryReceipt, receiptPath, options.overwrite);
+    process.stdout.write(`${JSON.stringify({ status: "captured-pending-review", page: receipt.page, deployment: receipt.deployment, demonstration: receipt.demonstration, receipt: config.interactionCaptureReceipt, clips: receipt.clips }, null, 2)}\n`);
   } finally {
-    if (browser) await browser.close();
+    if (browser) await browser.close().catch(() => undefined);
     await rm(work, { recursive: true, force: true });
   }
 }

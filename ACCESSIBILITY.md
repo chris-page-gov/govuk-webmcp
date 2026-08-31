@@ -72,9 +72,12 @@ candidate or of WCAG conformance.
 - The federated interface and its partial-source status have not yet completed
   gate K against the exact `0.3.0-rc.1` release candidate.
 - Eight Low security remediations have focused test evidence where recorded.
-  The current Chrome and Microsoft Edge suites each pass 29 of 29, and the full
-  unit command passes 173 of 173. The immutable post-fix security rescan remains
+  The current Chrome and Microsoft Edge suites each pass 30 of 30, and the full
+  prepared unit command passes 190 of 190. The immutable post-fix security rescan remains
   pending.
+- The human live region distinguishes rejected input, a
+  `federated_runtime_busy` response and other failure rather than presenting
+  each as source unavailable. Focused regressions pass 11 of 11.
 - The page heading hierarchy was verified through Safari accessibility data,
   but a heading-rotor selection was not retained in the nine-frame sequence.
 - The live status text changed to `9 matching records; 8 shown.` while focus

@@ -243,6 +243,34 @@ test("human search exposes the reviewed and federated estate without WebMCP or s
   await expect(page.getByRole("heading", { name: "Analytical index of the answer" })).toBeVisible();
   await expect(page.locator("#analytical-index > li")).toHaveCount(3);
   await expect(page.locator("#estate-body > tr")).toHaveCount(10);
+  const landRegistryEstate = page.getByRole("row", { name: /HM Land Registry metadata/u });
+  await expect(landRegistryEstate).toContainText("2,203 source records; 3 quarantined; 2,200 searchable");
+  await expect(landRegistryEstate).toContainText("Counts are bound to the validated collection contract.");
+  await expect(landRegistryEstate).toContainText(
+    "Coverage is derived from the validated source, quarantine and searchable record counts.",
+  );
+  await expect(landRegistryEstate).toContainText("Bounded to the producer release manifest.");
+  await expect(landRegistryEstate).toContainText("Additional admitted measures: 22,267 relationships.");
+  await expect(landRegistryEstate).toContainText(
+    "This metadata-only discovery tier excludes title-register, title-plan, ownership, address, polygon and personal rows",
+  );
+  await expect(landRegistryEstate).not.toContainText("2,203 searchable metadata records");
+  const onsEstate = page.getByRole("row", { name: /ONS metadata discovery/u });
+  await expect(onsEstate).toContainText("5,097 source records; 0 quarantined; 5,097 searchable");
+  await expect(onsEstate).toContainText("Complete only for the four declared adapter snapshots.");
+  await expect(onsEstate).toContainText("Additional admitted measures: 19,735 relationships.");
+  const lifeCourseEstate = page.getByRole("row", { name: /UK life-course service families/u });
+  await expect(lifeCourseEstate).toContainText("9,757 source records; 0 quarantined; 9,757 searchable");
+  await expect(lifeCourseEstate).toContainText("293 of those records are service families.");
+  await expect(lifeCourseEstate).toContainText(
+    "Additional admitted measures: 293 service families; 15,810 relationships; 879 source assertions.",
+  );
+  const governmentApisEstate = page.getByRole("row", { name: /UK government API and data catalogue/u });
+  await expect(governmentApisEstate).toContainText("41,598 source records; 0 quarantined; 41,598 searchable");
+  await expect(governmentApisEstate).toContainText("not a claim about every UK public API.");
+  await expect(governmentApisEstate).toContainText("Additional admitted measures: 276,996 relationships.");
+  await expect(page.locator("#diagnostic-collections")).toContainText("3 source rows quarantined");
+  await expect(page.locator("#diagnostic-collections")).not.toContainText("legislation rows quarantined");
 
   await page.getByLabel("Search term").fill("flood API");
   await page.getByText("Filter results").click();
@@ -398,6 +426,35 @@ test("human and WebMCP searches retain exact parity across all four federated co
     });
     expect(pageResult, `${fixture.collectionId} human/tool parity`).toEqual(toolResult);
   }
+});
+
+test("the fixed housing demonstration returns every federated source at the human limit of 8", async ({ page }) => {
+  const collections = ["uk-living", "ons", "government-apis", "land-registry"];
+  await installModelContext(page);
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
+  await page.getByText("Filter results").click();
+  await page.getByLabel("Search term").fill("housing");
+  await selectOnlyCollections(page, collections);
+  await page.getByLabel("Maximum results").selectOption("8");
+  await page.getByRole("button", { name: "Search", exact: true }).click();
+
+  const human = JSON.parse(await page.locator("#results details.structured pre").textContent());
+  expect(human.returned).toBe(human.results.length);
+  expect(human.returned).toBeLessThanOrEqual(8);
+  expect([...new Set(human.results.map(({ collectionId }) => collectionId))].sort()).toEqual([...collections].sort());
+  expect(human.collectionStatuses).toHaveLength(4);
+  expect(human.collectionStatuses.every(({ evidenceTier, status }) =>
+    evidenceTier === "federated-source-snapshot" && status === "ready")).toBe(true);
+  expect(human.results.every(({ canonicalHumanUrl }) =>
+    !canonicalHumanUrl || new URL(canonicalHumanUrl).hostname !== "legislation.gov.uk")).toBe(true);
+
+  const tool = await executeTool(page, "search_government_knowledge", {
+    query: "housing",
+    collections,
+    limit: 8,
+  });
+  expect(tool).toEqual(human);
 });
 
 test("collection and resource filters remain closed and report federated lower-bound semantics", async ({ page }) => {

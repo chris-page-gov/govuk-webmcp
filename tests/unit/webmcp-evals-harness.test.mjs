@@ -15,6 +15,7 @@ import {
   EXPECTED_TOOL_NAMES,
   MAX_BROWSER_AGENT_STEPS,
   MAX_BROWSER_EVAL_RUNS,
+  observeOllamaLoadedModel,
   parseBrowserEvalConfiguration,
   PINNED_WEBMCP_EVALS_VERSION,
   preflightOllamaModel,
@@ -26,7 +27,10 @@ import {
   withoutProviderCredentials,
 } from "../../scripts/lib/webmcp-evals-harness.mjs";
 import {
+  assertBrowserReportByteLength,
   createBrowserEvalReceipt,
+  MAX_BROWSER_REPORT_BYTES,
+  MAX_BROWSER_REPORTED_STEPS_PER_CASE,
   validateBrowserEvaluationReport,
 } from "../../scripts/run-webmcp-evals-browser.mjs";
 import {
@@ -49,6 +53,7 @@ test("browser evals cover every tool, all four federated collections, privacy mi
     browserCases.slice(0, 3).map(({ name, expectedCall }) => ({ name, expectedCall })),
     smokeCases.map(({ name, expectedCall }) => ({ name, expectedCall })),
   );
+
   assert.equal(browserCases.filter(({ expectedCall }) => Array.isArray(expectedCall) && expectedCall.length > 1).length, 2);
   assert.equal(browserCases.filter(({ expectedCall }) => expectedCall === null).length, 1);
 
@@ -257,6 +262,13 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
     assert.match(runner, /process\.kill\(-child\.pid, signal\)/u);
     assert.match(runner, /timedOut/u);
   }
+  assert.equal(
+    [...browserEvalSource.matchAll(/preflightOllamaModel\(configuration\)/gu)].length,
+    2,
+  );
+  assert.match(browserEvalSource, /localModelInventoryAfter = await preflightOllamaModel/u);
+  assert.match(browserEvalSource, /localModelLoadedAfter = await observeOllamaLoadedModel/u);
+  assert.match(browserEvalSource, /receipt\.execution\.failurePhase === "model-postflight"/u);
   assert.match(browserEvalSource, /govuk-webmcp-browser-home-/u);
   assert.match(smokeSource, /govuk-webmcp-smoke-home-/u);
 });
@@ -441,14 +453,23 @@ test("Ollama is constrained to loopback and its exact model is preflighted witho
     OLLAMA_HOST: "http://127.0.0.1:11434",
   });
   let requestedUrl;
-  const inventoryIdentity = await preflightOllamaModel(configuration, async (url) => {
+  let requestedOptions;
+  const inventoryIdentity = await preflightOllamaModel(configuration, async (url, options) => {
     requestedUrl = url;
+    requestedOptions = options;
     return {
       ok: true,
-      json: async () => ({ models: [{ name: "qwen2.5:14b", digest: `sha256:${"A".repeat(64)}` }] }),
+      json: async () => ({
+        models: [{
+          name: "qwen2.5:14b",
+          model: "qwen2.5:14b",
+          digest: `sha256:${"A".repeat(64)}`,
+        }],
+      }),
     };
   });
   assert.equal(requestedUrl, "http://127.0.0.1:11434/api/tags");
+  assert.equal(requestedOptions.redirect, "error");
   assert.deepEqual(inventoryIdentity, { name: "qwen2.5:14b", digest: "a".repeat(64) });
   assert.equal(Object.isFrozen(inventoryIdentity), true);
   await assert.rejects(
@@ -461,7 +482,9 @@ test("Ollama is constrained to loopback and its exact model is preflighted witho
   await assert.rejects(
     preflightOllamaModel(configuration, async () => ({
       ok: true,
-      json: async () => ({ models: [{ name: "qwen2.5:14b", digest: "short" }] }),
+      json: async () => ({
+        models: [{ name: "qwen2.5:14b", model: "qwen2.5:14b", digest: "short" }],
+      }),
     })),
     /no validated inventory digest/u,
   );
@@ -470,12 +493,47 @@ test("Ollama is constrained to loopback and its exact model is preflighted witho
       ok: true,
       json: async () => ({
         models: [
-          { name: "qwen2.5:14b", digest: "a".repeat(64) },
-          { model: "qwen2.5:14b", digest: "b".repeat(64) },
+          { name: "qwen2.5:14b", model: "qwen2.5:14b", digest: "a".repeat(64) },
+          { name: "qwen2.5:14b", model: "qwen2.5:14b", digest: "b".repeat(64) },
         ],
       }),
     })),
     /ambiguous inventory identity/u,
+  );
+  await assert.rejects(
+    preflightOllamaModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({
+        models: [{
+          name: "qwen2.5:14b",
+          model: "different:14b",
+          digest: "a".repeat(64),
+        }],
+      }),
+    })),
+    /no validated inventory identity/u,
+  );
+  await assert.rejects(
+    preflightOllamaModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({
+        models: [{
+          name: "qwen2.5:14b",
+          model: "qwen2.5:14b",
+          digest: "a".repeat(64),
+          remote_model: "qwen2.5:14b",
+          remote_host: "https://ollama.com",
+        }],
+      }),
+    })),
+    /is remote-backed/u,
+  );
+  await assert.rejects(
+    preflightOllamaModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({ models: [], path: "/private/model" }),
+    })),
+    /not a bounded models array/u,
   );
   let remoteFetchCalled = false;
   const remoteConfiguration = parseBrowserEvalConfiguration({
@@ -485,6 +543,109 @@ test("Ollama is constrained to loopback and its exact model is preflighted witho
     OPENAI_API_KEY: "not-recorded",
   });
   assert.equal(await preflightOllamaModel(remoteConfiguration, async () => {
+    remoteFetchCalled = true;
+  }), null);
+  assert.equal(remoteFetchCalled, false);
+});
+
+test("Ollama loaded-model observation is exact, bounded and identity-only", async () => {
+  const configuration = parseBrowserEvalConfiguration({
+    WEBMCP_EVAL_MODEL: "ollama:qwen2.5:14b",
+    WEBMCP_EVAL_PRESENTATION_APPROVED: "1",
+  });
+  let requestedUrl;
+  let requestedOptions;
+  const loadedIdentity = await observeOllamaLoadedModel(configuration, async (url, options) => {
+    requestedUrl = url;
+    requestedOptions = options;
+    return {
+      ok: true,
+      json: async () => ({
+        models: [{
+          name: "qwen2.5:14b",
+          model: "qwen2.5:14b",
+          digest: `sha256:${"A".repeat(64)}`,
+          size: 1,
+          size_vram: 1,
+          expires_at: "2026-08-31T01:00:00Z",
+        }],
+      }),
+    };
+  });
+  assert.equal(requestedUrl, "http://127.0.0.1:11434/api/ps");
+  assert.equal(requestedOptions.redirect, "error");
+  assert.deepEqual(loadedIdentity, { name: "qwen2.5:14b", digest: "a".repeat(64) });
+  assert.equal(Object.isFrozen(loadedIdentity), true);
+  assert.deepEqual(Object.keys(loadedIdentity).sort(), ["digest", "name"]);
+
+  await assert.rejects(
+    observeOllamaLoadedModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({ models: [] }),
+    })),
+    /was not reported as loaded/u,
+  );
+  await assert.rejects(
+    observeOllamaLoadedModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({
+        models: [
+          { name: "qwen2.5:14b", model: "qwen2.5:14b", digest: "a".repeat(64) },
+          { name: "qwen2.5:14b", model: "qwen2.5:14b", digest: "b".repeat(64) },
+        ],
+      }),
+    })),
+    /ambiguous loaded identity/u,
+  );
+  for (const models of [
+    [{ name: "qwen2.5:14b", model: "qwen2.5:14b", digest: "short" }],
+    [{ name: "qwen2.5:14b", model: "different:14b", digest: "a".repeat(64) }],
+  ]) {
+    await assert.rejects(
+      observeOllamaLoadedModel(configuration, async () => ({
+        ok: true,
+        json: async () => ({ models }),
+      })),
+      /no validated loaded digest/u,
+    );
+  }
+  await assert.rejects(
+    observeOllamaLoadedModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({
+        models: [{
+          name: "qwen2.5:14b",
+          model: "qwen2.5:14b",
+          digest: "a".repeat(64),
+          remote_model: "qwen2.5:14b",
+        }],
+      }),
+    })),
+    /reported as remote-backed/u,
+  );
+  await assert.rejects(
+    observeOllamaLoadedModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({ models: [], path: "/private/model" }),
+    })),
+    /not a bounded models array/u,
+  );
+  await assert.rejects(
+    observeOllamaLoadedModel(configuration, async () => ({
+      ok: true,
+      json: async () => ({ models: Array.from({ length: 257 }, () => ({})) }),
+    })),
+    /not a bounded models array/u,
+  );
+
+  const remoteConfiguration = parseBrowserEvalConfiguration({
+    WEBMCP_EVAL_MODEL: "openai:gpt-5-mini",
+    WEBMCP_EVAL_PRESENTATION_APPROVED: "1",
+    WEBMCP_EVAL_REMOTE_PROVIDER_APPROVED: "1",
+    OPENAI_API_KEY: "not-recorded",
+  });
+  let remoteFetchCalled = false;
+  assert.equal(await observeOllamaLoadedModel(remoteConfiguration, async () => {
     remoteFetchCalled = true;
   }), null);
   assert.equal(remoteFetchCalled, false);
@@ -575,6 +736,7 @@ test("browser receipt records versions and report digests without credentials", 
     ],
   });
   assert.equal(receipt.status, "passed");
+  assert.equal(receipt.schema, "trusted-govuk-discovery.webmcp-evals-browser-receipt.v2");
   assert.equal(receipt.model.providerClass, "remote");
   assert.equal(receipt.model.localInventory, null);
   assert.equal(receipt.model.presentationApproved, true);
@@ -586,9 +748,36 @@ test("browser receipt records versions and report digests without credentials", 
   assert.equal(receipt.reports[0].sha256, "a".repeat(64));
   assert.equal(JSON.stringify(receipt).includes("must-not-appear"), false);
   assert.equal(JSON.stringify(receipt).includes("ANTHROPIC_API_KEY"), false);
+  assert.throws(
+    () => createBrowserEvalReceipt({
+      applicationPackage: { name: "govuk-webmcp", version: "0.2.0" },
+      browserVersion: "Google Chrome 152.0.7977.64",
+      fixtureSha256: "c".repeat(64),
+      commandResult: { exitCode: 0, signal: null, timedOut: false },
+      configuration,
+      createdAt: "2026-08-30T12:00:00.000Z",
+      evaluation: {
+        browserConsoleErrorCount: 0,
+        testCount: 12,
+        passCount: 18,
+        failCount: 0,
+        errorCount: 0,
+      },
+      failurePhase: null,
+      fixtureSummary: {
+        caseCount: 4,
+        expectedStepCount: 6,
+        noCallCaseCount: 1,
+        toolNames: [...EXPECTED_TOOL_NAMES].sort(),
+      },
+      localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+      reports: [],
+    }),
+    /remote provider receipt must not contain a local model identity/u,
+  );
 });
 
-test("browser receipt binds a validated local model inventory identity without local paths", () => {
+test("browser receipt binds stable before and after local model identities without local paths", () => {
   const configuration = parseBrowserEvalConfiguration({
     WEBMCP_EVAL_MODEL: "ollama:gpt-oss:20b",
     WEBMCP_EVAL_PRESENTATION_APPROVED: "1",
@@ -597,11 +786,17 @@ test("browser receipt binds a validated local model inventory identity without l
     applicationPackage: { name: "govuk-webmcp", version: "0.2.0" },
     browserVersion: "Google Chrome 152.0.7977.64",
     fixtureSha256: "c".repeat(64),
-    commandResult: { exitCode: 1, signal: null, timedOut: false },
+    commandResult: { exitCode: 0, signal: null, timedOut: false },
     configuration,
     createdAt: "2026-08-30T12:00:00.000Z",
-    evaluation: null,
-    failurePhase: "evaluate",
+    evaluation: {
+      browserConsoleErrorCount: 0,
+      testCount: 24,
+      passCount: 33,
+      failCount: 0,
+      errorCount: 0,
+    },
+    failurePhase: null,
     fixtureSummary: {
       caseCount: 8,
       expectedStepCount: 10,
@@ -612,26 +807,122 @@ test("browser receipt binds a validated local model inventory identity without l
   };
   const receipt = createBrowserEvalReceipt({
     ...base,
-    localModelInventory: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelLoadedAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
   });
+  assert.equal(receipt.status, "passed");
+  assert.equal(receipt.execution.failurePhase, null);
   assert.deepEqual(receipt.model.localInventory, {
-    name: "gpt-oss:20b",
-    digest: "1".repeat(64),
+    before: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    after: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    loadedAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    stable: true,
+    executionBound: true,
   });
   assert.equal(JSON.stringify(receipt).includes("/Users/"), false);
+
+  const changed = createBrowserEvalReceipt({
+    ...base,
+    localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryAfter: { name: "gpt-oss:20b", digest: "2".repeat(64) },
+    localModelLoadedAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+  });
+  assert.equal(changed.status, "failed");
+  assert.equal(changed.execution.failurePhase, "model-postflight");
+  assert.equal(changed.model.localInventory.stable, false);
+  assert.equal(changed.model.localInventory.executionBound, false);
+
+  const loadedMismatch = createBrowserEvalReceipt({
+    ...base,
+    localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelLoadedAfter: { name: "gpt-oss:20b", digest: "2".repeat(64) },
+  });
+  assert.equal(loadedMismatch.status, "failed");
+  assert.equal(loadedMismatch.execution.failurePhase, "model-postflight");
+  assert.equal(loadedMismatch.model.localInventory.stable, true);
+  assert.equal(loadedMismatch.model.localInventory.executionBound, false);
+
+  const unavailable = createBrowserEvalReceipt({
+    ...base,
+    localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryAfter: null,
+    localModelLoadedAfter: null,
+  });
+  assert.equal(unavailable.status, "failed");
+  assert.equal(unavailable.execution.failurePhase, "model-postflight");
+  assert.deepEqual(unavailable.model.localInventory.after, null);
+  assert.deepEqual(unavailable.model.localInventory.loadedAfter, null);
+  assert.equal(unavailable.model.localInventory.executionBound, false);
+
+  const notLoaded = createBrowserEvalReceipt({
+    ...base,
+    localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelLoadedAfter: null,
+  });
+  assert.equal(notLoaded.status, "failed");
+  assert.equal(notLoaded.execution.failurePhase, "model-postflight");
+  assert.equal(notLoaded.model.localInventory.stable, true);
+  assert.equal(notLoaded.model.localInventory.executionBound, false);
+
+  const failedRun = createBrowserEvalReceipt({
+    ...base,
+    commandResult: { exitCode: 1, signal: null, timedOut: false },
+    evaluation: null,
+    failurePhase: "evaluate",
+    localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    localModelInventoryAfter: null,
+    localModelLoadedAfter: null,
+  });
+  assert.equal(failedRun.status, "failed");
+  assert.equal(failedRun.execution.failurePhase, "evaluate");
+  assert.equal(failedRun.execution.command.exitCode, 1);
+  assert.equal(failedRun.model.localInventory.stable, false);
+
   assert.throws(
     () => createBrowserEvalReceipt({
       ...base,
-      localModelInventory: { name: "gpt-oss:20b", digest: "1".repeat(64), path: "/private/model" },
+      localModelInventoryBefore: {
+        name: "gpt-oss:20b",
+        digest: "1".repeat(64),
+        path: "/private/model",
+      },
+      localModelInventoryAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+      localModelLoadedAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
     }),
-    /inventory identity is missing or invalid/u,
+    /inventory before identity is missing or invalid/u,
   );
   assert.throws(
     () => createBrowserEvalReceipt({
       ...base,
-      localModelInventory: { name: "different:20b", digest: "1".repeat(64) },
+      localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+      localModelInventoryAfter: { name: "different:20b", digest: "1".repeat(64) },
+      localModelLoadedAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
     }),
-    /inventory identity is missing or invalid/u,
+    /inventory after identity is missing or invalid/u,
+  );
+  assert.throws(
+    () => createBrowserEvalReceipt({
+      ...base,
+      localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+      localModelLoadedAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+    }),
+    /inventory after identity is missing or invalid/u,
+  );
+  assert.throws(
+    () => createBrowserEvalReceipt({
+      ...base,
+      localModelInventoryBefore: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+      localModelInventoryAfter: { name: "gpt-oss:20b", digest: "1".repeat(64) },
+      localModelLoadedAfter: {
+        name: "gpt-oss:20b",
+        digest: "1".repeat(64),
+        path: "/private/model",
+      },
+    }),
+    /inventory loaded-after identity is missing or invalid/u,
   );
 });
 
@@ -675,6 +966,7 @@ test("browser report validation requires exact successful results and no-call be
   const baseReport = {
     config: {
       backend: "vercel",
+      maxSteps: MAX_BROWSER_AGENT_STEPS,
       model: configuration.model,
       runs: 1,
       url: "http://127.0.0.1:43210/",
@@ -695,12 +987,183 @@ test("browser report validation requires exact successful results and no-call be
       fixture,
     ),
     {
+      additionalStepCount: 0,
       browserConsoleErrorCount: 0,
       errorCount: 0,
+      expectedStepCount: 11,
       failCount: 0,
+      missingStepCount: 0,
       passCount: 11,
+      reportedStepCount: 11,
       testCount: 8,
     },
+  );
+
+  const terminalCaseError = structuredClone(baseReport);
+  terminalCaseError.results.results.splice(0, 3, {
+    test: structuredClone(fixture[0]),
+    response: null,
+    outcome: "error",
+    runIndex: 1,
+    stepIndex: 1,
+  });
+  terminalCaseError.results.passCount = 8;
+  terminalCaseError.results.errorCount = 1;
+  assert.deepEqual(
+    validateBrowserEvaluationReport(
+      terminalCaseError,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    {
+      additionalStepCount: 0,
+      browserConsoleErrorCount: 0,
+      errorCount: 1,
+      expectedStepCount: 11,
+      failCount: 0,
+      missingStepCount: 3,
+      passCount: 8,
+      reportedStepCount: 9,
+      testCount: 8,
+    },
+  );
+
+  const boundedRetryFailure = structuredClone(baseReport);
+  const failedExpectedStep = boundedRetryFailure.results.results[2];
+  failedExpectedStep.outcome = "fail";
+  failedExpectedStep.response = {
+    functionName: "show_provenance",
+    args: { recordId: "govuk-discovery:api:flood-" },
+    result: {
+      ok: false,
+      schema: "trusted-govuk-discovery.error.v1",
+      error: { code: "record_not_found", message: "Synthetic malformed identifier" },
+    },
+  };
+  const additionalRetry = structuredClone(failedExpectedStep);
+  additionalRetry.test.expectedCall = null;
+  additionalRetry.response = {
+    functionName: "show_provenance",
+    args: { recordId: "govuk-discovery:api:flood-monitoring" },
+    result: {
+      ok: true,
+      schema: EXPECTED_RESULT_SCHEMAS.show_provenance,
+    },
+  };
+  additionalRetry.stepIndex = 4;
+  boundedRetryFailure.results.results.splice(3, 0, additionalRetry);
+  boundedRetryFailure.results.passCount = 10;
+  boundedRetryFailure.results.failCount = 2;
+  assert.deepEqual(
+    validateBrowserEvaluationReport(
+      boundedRetryFailure,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    {
+      additionalStepCount: 1,
+      browserConsoleErrorCount: 0,
+      errorCount: 0,
+      expectedStepCount: 11,
+      failCount: 2,
+      missingStepCount: 0,
+      passCount: 10,
+      reportedStepCount: 12,
+      testCount: 8,
+    },
+  );
+
+  const dishonestOutcomeTotals = structuredClone(boundedRetryFailure);
+  dishonestOutcomeTotals.results.passCount = 12;
+  dishonestOutcomeTotals.results.failCount = 0;
+  assert.throws(
+    () => validateBrowserEvaluationReport(
+      dishonestOutcomeTotals,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    /outcome totals do not match/u,
+  );
+
+  const additionalPass = structuredClone(boundedRetryFailure);
+  additionalPass.results.results[3].outcome = "pass";
+  additionalPass.results.passCount = 11;
+  additionalPass.results.failCount = 1;
+  assert.throws(
+    () => validateBrowserEvaluationReport(
+      additionalPass,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    /invalid additional unrequested tool step outcome/u,
+  );
+
+  const nonTerminalError = structuredClone(baseReport);
+  nonTerminalError.results.results[1].outcome = "error";
+  nonTerminalError.results.results[1].response = null;
+  nonTerminalError.results.passCount = 10;
+  nonTerminalError.results.errorCount = 1;
+  assert.throws(
+    () => validateBrowserEvaluationReport(
+      nonTerminalError,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    /invalid non-terminal error result/u,
+  );
+
+  const wrongMaxSteps = structuredClone(baseReport);
+  wrongMaxSteps.config.maxSteps += 1;
+  assert.throws(
+    () => validateBrowserEvaluationReport(
+      wrongMaxSteps,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    /configuration does not match/u,
+  );
+
+  const excessiveCaseSteps = structuredClone(baseReport);
+  excessiveCaseSteps.results.results[2].outcome = "fail";
+  const excessiveRows = [];
+  for (let stepIndex = 4; stepIndex <= MAX_BROWSER_REPORTED_STEPS_PER_CASE + 1; stepIndex += 1) {
+    const extra = structuredClone(excessiveCaseSteps.results.results[2]);
+    extra.test.expectedCall = null;
+    extra.stepIndex = stepIndex;
+    excessiveRows.push(extra);
+  }
+  excessiveCaseSteps.results.results.splice(3, 0, ...excessiveRows);
+  excessiveCaseSteps.results.passCount = 10;
+  excessiveCaseSteps.results.failCount = excessiveRows.length + 1;
+  assert.throws(
+    () => validateBrowserEvaluationReport(
+      excessiveCaseSteps,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    /exceeds the bounded tool-step allowance/u,
+  );
+
+  const excessiveTrajectory = structuredClone(baseReport);
+  excessiveTrajectory.results.results[0].trajectory = Array.from(
+    { length: MAX_BROWSER_AGENT_STEPS + 1 },
+    () => ({}),
+  );
+  assert.throws(
+    () => validateBrowserEvaluationReport(
+      excessiveTrajectory,
+      configuration,
+      "http://127.0.0.1:43210/",
+      fixture,
+    ),
+    /exceeds the bounded agent trajectory/u,
   );
 
   const consoleFailure = structuredClone(baseReport);
@@ -762,6 +1225,16 @@ test("browser report validation requires exact successful results and no-call be
     ),
     /no-call case executed an unexpected page tool/u,
   );
+});
+
+test("browser report files have a fixed byte ceiling", () => {
+  assert.doesNotThrow(() => assertBrowserReportByteLength(MAX_BROWSER_REPORT_BYTES));
+  for (const byteLength of [-1, 1.5, Number.MAX_SAFE_INTEGER, MAX_BROWSER_REPORT_BYTES + 1]) {
+    assert.throws(
+      () => assertBrowserReportByteLength(byteLength),
+      /exceeds the bounded file-size allowance/u,
+    );
+  }
 });
 
 test("local static path resolution stays inside dist", () => {

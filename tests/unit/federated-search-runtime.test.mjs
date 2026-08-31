@@ -14,6 +14,7 @@ const {
 
 const COLLECTIONS = [
   {
+    admissionId: "corpus:uk-life-course",
     id: "uk-living",
     title: "A Life in the UK — life-course discovery corpus",
     sourceCount: 9_757,
@@ -27,6 +28,7 @@ const COLLECTIONS = [
     serviceFamilies: 293,
   },
   {
+    admissionId: "corpus:ons-metadata",
     id: "ons",
     title: "ONS data discovery OKF",
     sourceCount: 5_097,
@@ -39,6 +41,7 @@ const COLLECTIONS = [
     descriptorUrl: "https://chris-page-gov.github.io/okf-ons/okf-explorer.json",
   },
   {
+    admissionId: "corpus:uk-government-apis",
     id: "government-apis",
     title: "UK Government APIs OKF",
     sourceCount: 41_598,
@@ -51,6 +54,7 @@ const COLLECTIONS = [
     descriptorUrl: "https://chris-page-gov.github.io/okf-uk-government-apis/okf-explorer.json",
   },
   {
+    admissionId: "corpus:land-registry-metadata",
     id: "land-registry",
     title: "HM Land Registry public-estate OKF",
     sourceCount: 2_203,
@@ -288,7 +292,20 @@ function bindingFor(fixtureValue) {
     quarantinedRecordCount,
     recordCount,
   } = fixtureValue.manifest;
-  return { sourceLockSha256, sourceLockDigest, sourceRecordCount, quarantinedRecordCount, recordCount };
+  return {
+    sourceLockSha256,
+    sourceLockDigest,
+    sourceRecordCount,
+    quarantinedRecordCount,
+    recordCount,
+    collectionBindings: COLLECTIONS.map((collection) => ({
+      admissionId: collection.admissionId,
+      collectionId: collection.id,
+      sourceRecordCount: collection.sourceCount,
+      quarantinedRecordCount: collection.quarantinedCount,
+      recordCount: collection.count,
+    })),
+  };
 }
 
 async function waitFor(predicate, maximumMilliseconds = 500) {
@@ -422,7 +439,10 @@ test("rejects raw checksum, self-digest and fully co-digested manifest semantic 
   const countFixture = fixture();
   countFixture.manifest.collections[0].recordCount += 1;
   countFixture.refreshDigests();
-  await assert.rejects(runtimeFor(countFixture), /count or ordinal range has drifted/u);
+  await assert.rejects(
+    runtimeFor(countFixture),
+    /lazy collection does not match its admitted collection population binding|count or ordinal range has drifted/u,
+  );
 
   const traversalFixture = fixture();
   traversalFixture.manifest.collections[0].recordShards[0].path =
@@ -455,6 +475,27 @@ test("rejects a fully co-digested source-lock substitution against the separatel
     );
     assert.equal(calls.length, 0, "binding failure must occur before any lazy shard can load");
   }
+});
+
+test("rejects a co-digested lazy per-source population that disagrees with the admission binding", async () => {
+  const value = fixture();
+  const calls = [];
+  value.manifest.collections[2].sourceRecordCount -= 1;
+  value.manifest.collections[2].recordCount -= 1;
+  value.manifest.collections[3].sourceRecordCount += 1;
+  value.manifest.collections[3].recordCount += 1;
+  value.refreshDigests();
+
+  await assert.rejects(
+    createFederatedSearchRuntime(
+      manifestText(value.manifest),
+      `${sha256(manifestText(value.manifest))}  manifest.json\n`,
+      loaderFor(value, calls),
+      bindingFor(fixture()),
+    ),
+    /lazy collection does not match its admitted collection population binding/u,
+  );
+  assert.equal(calls.length, 0, "per-source population binding must fail before any lazy shard can load");
 });
 
 test("rejects a manifest whose worst valid query can exceed one collection budget", async () => {
@@ -703,6 +744,319 @@ test("one caller can cancel without cancelling another caller's shared in-flight
   assert.equal(collectionStatus(result, "ons").status, "ready");
 });
 
+test("removes an expired physical-fetch waiter without leaking a reserved slot", async () => {
+  const runtime = await runtimeFor(fixture());
+  const releases = [];
+  const activeDeadline = performance.now() + 1_000;
+  for (let index = 0; index < FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches; index += 1) {
+    releases.push(await runtime.acquirePhysicalFetch(activeDeadline));
+  }
+  assert.equal(runtime.activePhysicalFetches, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+
+  const queued = runtime.acquirePhysicalFetch(performance.now() + 30);
+  assert.equal(runtime.physicalFetchWaiters.length, 1);
+  await assert.rejects(
+    queued,
+    (error) => error instanceof Error && error.name === "FederatedPhysicalFetchSchedulingError" &&
+      /could not start the physical shard fetch before its fixed file deadline/u.test(error.message),
+  );
+  assert.equal(runtime.physicalFetchWaiters.length, 0);
+  assert.equal(runtime.activePhysicalFetches, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+
+  for (const release of releases) release();
+  assert.equal(runtime.activePhysicalFetches, 0);
+  assert.equal(runtime.physicalFetchWaiters.length, 0);
+});
+
+test("reports physical scheduler expiry as runtime busy rather than a source failure", async () => {
+  const scenarios = [
+    {
+      label: "search",
+      invoke: (runtime) => runtime.search({ query: "housing", collections: ["ons"], limit: 1 }),
+    },
+    {
+      label: "exact record",
+      invoke: (runtime) => runtime.getRecord({ recordId: "govuk-discovery:federated:ons:9757" }),
+    },
+  ];
+
+  for (const scenario of scenarios) {
+    const calls = [];
+    const runtime = await runtimeFor(fixture(), calls);
+    const releases = [];
+    const activeDeadline = performance.now() + 10_000;
+    for (let index = 0; index < FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches; index += 1) {
+      releases.push(await runtime.acquirePhysicalFetch(activeDeadline));
+    }
+
+    const pending = scenario.invoke(runtime);
+    assert.equal(await waitFor(() => runtime.physicalFetchWaiters.length === 1), true,
+      `${scenario.label} should wait behind the occupied physical slots`);
+    runtime.physicalFetchWaiters[0].deadline = performance.now() - 1;
+    releases.shift()();
+
+    const result = await pending;
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "federated_runtime_busy");
+    assert.match(result.error.message, /could not start the physical shard fetch before its fixed file deadline/u);
+    assert.equal(calls.length, 0, `${scenario.label} scheduler expiry must not be reported after calling the loader`);
+
+    for (const release of releases) release();
+    assert.equal(await waitFor(() => runtime.inFlight.size === 0), true);
+    assert.equal(runtime.activePhysicalFetches, 0);
+    assert.equal(runtime.physicalFetchWaiters.length, 0);
+  }
+});
+
+test("rechecks an absolute deadline after a queued physical slot is granted", async () => {
+  const calls = [];
+  const runtime = await runtimeFor(fixture(), calls);
+  const releases = [];
+  const activeDeadline = performance.now() + 10_000;
+  for (let index = 0; index < FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches; index += 1) {
+    releases.push(await runtime.acquirePhysicalFetch(activeDeadline));
+  }
+
+  const pending = runtime.search({ query: "housing", collections: ["ons"], limit: 1 });
+  assert.equal(await waitFor(() => runtime.physicalFetchWaiters.length === 1), true);
+  const queuedDeadline = runtime.physicalFetchWaiters[0].deadline;
+  const performancePrototype = Object.getPrototypeOf(performance);
+  const originalNow = performancePrototype.now;
+  releases.shift()();
+  performancePrototype.now = () => queuedDeadline + 1;
+  let result;
+  try {
+    // Keep the deterministic crossed deadline in place through both async
+    // grant continuations; no wall-clock scheduling race is involved.
+    result = await pending;
+  } finally {
+    performancePrototype.now = originalNow;
+  }
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, "federated_runtime_busy");
+  assert.equal(calls.length, 0, "an expired grant must never invoke the physical loader");
+
+  for (const release of releases) release();
+  assert.equal(await waitFor(() => runtime.inFlight.size === 0), true);
+  assert.equal(runtime.activePhysicalFetches, 0);
+  assert.equal(runtime.physicalFetchWaiters.length, 0);
+});
+
+test("retains physical slots for non-cooperative loaders and expires abandoned queued work", async () => {
+  const value = fixture();
+  const source = COLLECTIONS[2];
+  const collection = value.manifest.collections[2];
+  const prefixes = Array.from({ length: 8 }, (_, index) => `p${String(index)}`);
+  const targetPaths = new Set();
+  for (const prefix of prefixes) {
+    const token = `${prefix}probe`;
+    const path = `data/federated-search/postings/${source.id}/${prefix}-000.json`;
+    const postingsShard = {
+      schema: "govuk-webmcp.federated-postings-shard.v1",
+      collectionId: source.id,
+      prefix,
+      part: 0,
+      entries: { [token]: [[source.first, 1, 1]] },
+    };
+    const reference = {
+      collectionId: source.id,
+      path,
+      bytes: 1,
+      sha256: sha256("pending"),
+      tokenCount: 1,
+      postingCount: 1,
+    };
+    collection.postings[prefix] = [reference];
+    value.values.set(path, postingsShard);
+    value.references.set(path, reference);
+    value.refreshAsset(path);
+    targetPaths.add(path);
+  }
+  value.refreshDigests();
+
+  const calls = [];
+  const heldReleases = [];
+  let activePhysicalLoads = 0;
+  let peakPhysicalLoads = 0;
+  const runtime = await runtimeFor(value, calls, async (path, _options, original) => {
+    if (!targetPaths.has(path)) return undefined;
+    activePhysicalLoads += 1;
+    peakPhysicalLoads = Math.max(peakPhysicalLoads, activePhysicalLoads);
+    await new Promise((resolvePromise) => {
+      let settled = false;
+      heldReleases.push(() => {
+        if (settled) return;
+        settled = true;
+        activePhysicalLoads -= 1;
+        resolvePromise();
+      });
+    });
+    return new Uint8Array(original);
+  });
+
+  for (const [index, prefix] of prefixes.entries()) {
+    const controller = new AbortController();
+    const pending = runtime.search(
+      { query: `${prefix}probe`, collections: [source.id], limit: 1 },
+      { signal: controller.signal },
+    );
+    assert.equal(
+      await waitFor(() => runtime.inFlight.size === index + 1),
+      true,
+      `non-cooperative path ${index + 1} should enter the bounded in-flight set`,
+    );
+    controller.abort(new Error(`cancelled non-cooperative call ${index + 1}`));
+    await assert.rejects(pending, new RegExp(`cancelled non-cooperative call ${index + 1}`, "u"));
+  }
+
+  assert.equal(runtime.activeOperations, 0);
+  assert.equal(runtime.inFlight.size, prefixes.length);
+  assert.equal(runtime.activePhysicalFetches, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(runtime.physicalFetchWaiters.length,
+    prefixes.length - FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(activePhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(peakPhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(calls.filter(({ path }) => targetPaths.has(path)).length,
+    FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+
+  assert.equal(
+    await waitFor(
+      () => runtime.inFlight.size === FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches
+        && runtime.physicalFetchWaiters.length === 0,
+      FEDERATED_SEARCH_LIMITS.maximumFileMilliseconds + 1_500,
+    ),
+    true,
+    "queued work with no surviving caller should expire from the in-flight set",
+  );
+  assert.equal(runtime.activePhysicalFetches, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(activePhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(peakPhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(calls.filter(({ path }) => targetPaths.has(path)).length,
+    FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches,
+    "an expired queued path must never reach the non-cooperative loader");
+
+  for (const release of heldReleases) release();
+  assert.equal(await waitFor(() => runtime.inFlight.size === 0, 2_000), true);
+  assert.equal(runtime.activePhysicalFetches, 0);
+  assert.equal(runtime.physicalFetchWaiters.length, 0);
+  assert.equal(activePhysicalLoads, 0);
+  assert.equal(peakPhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.ok([...targetPaths].every((path) => !runtime.cache.has(path)),
+    "bytes returned after the file deadline must not enter the verified cache");
+});
+
+test("bounds physical shard fetches and distinct in-flight work under cancellation churn", async () => {
+  const value = fixture();
+  const source = COLLECTIONS[2];
+  const collection = value.manifest.collections[2];
+  const prefixes = Array.from({ length: 40 }, (_, index) =>
+    `${String.fromCharCode("k".charCodeAt(0) + Math.floor(index / 10))}${String(index % 10)}`);
+  const targetPaths = new Set();
+  for (const prefix of prefixes) {
+    const token = `${prefix}probe`;
+    const path = `data/federated-search/postings/${source.id}/${prefix}-000.json`;
+    const postingsShard = {
+      schema: "govuk-webmcp.federated-postings-shard.v1",
+      collectionId: source.id,
+      prefix,
+      part: 0,
+      entries: { [token]: [[source.first, 1, 1]] },
+    };
+    const reference = {
+      collectionId: source.id,
+      path,
+      bytes: 1,
+      sha256: sha256("pending"),
+      tokenCount: 1,
+      postingCount: 1,
+    };
+    collection.postings[prefix] = [reference];
+    value.values.set(path, postingsShard);
+    value.references.set(path, reference);
+    value.refreshAsset(path);
+    targetPaths.add(path);
+  }
+  value.refreshDigests();
+
+  const calls = [];
+  const heldReleases = [];
+  let holdPhysicalLoads = true;
+  let activePhysicalLoads = 0;
+  let peakPhysicalLoads = 0;
+  const runtime = await runtimeFor(value, calls, async (path, options, original) => {
+    if (!targetPaths.has(path)) return undefined;
+    activePhysicalLoads += 1;
+    peakPhysicalLoads = Math.max(peakPhysicalLoads, activePhysicalLoads);
+    try {
+      if (holdPhysicalLoads) {
+        await new Promise((resolvePromise, rejectPromise) => {
+          let settled = false;
+          const finish = (callback) => {
+            if (settled) return;
+            settled = true;
+            options.signal.removeEventListener("abort", onAbort);
+            callback();
+          };
+          const onAbort = () => finish(() => rejectPromise(
+            options.signal.reason ?? new DOMException("Shard fetch cancelled", "AbortError")));
+          options.signal.addEventListener("abort", onAbort, { once: true });
+          heldReleases.push(() => finish(resolvePromise));
+        });
+      }
+      return new Uint8Array(original);
+    } finally {
+      activePhysicalLoads -= 1;
+    }
+  });
+
+  for (const [index, prefix] of prefixes.slice(0, FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles).entries()) {
+    const controller = new AbortController();
+    const pending = runtime.search(
+      { query: `${prefix}probe`, collections: [source.id], limit: 1 },
+      { signal: controller.signal },
+    );
+    assert.equal(
+      await waitFor(() => runtime.inFlight.size === index + 1),
+      true,
+      `distinct manifest-backed path ${index + 1} should enter the bounded in-flight set`,
+    );
+    controller.abort(new Error(`cancelled churn call ${index + 1}`));
+    await assert.rejects(pending, new RegExp(`cancelled churn call ${index + 1}`, "u"));
+    assert.equal(runtime.activeOperations, 0, "caller cancellation should release the logical operation slot");
+    assert.ok(runtime.inFlight.size <= FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles);
+  }
+
+  assert.equal(runtime.inFlight.size, FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles);
+  assert.equal(runtime.activePhysicalFetches, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(runtime.physicalFetchWaiters.length, FEDERATED_SEARCH_LIMITS.maximumQueuedPhysicalFetches);
+  assert.equal(activePhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(peakPhysicalLoads, FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(calls.filter(({ path }) => targetPaths.has(path)).length,
+    FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+
+  for (const prefix of prefixes.slice(FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles)) {
+    const result = await runtime.search({ query: `${prefix}probe`, collections: [source.id], limit: 1 });
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "federated_runtime_busy");
+    assert.match(result.error.message, /maximum distinct in-flight shard files/u);
+    assert.equal(runtime.inFlight.size, FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles);
+  }
+  assert.equal(calls.filter(({ path }) => targetPaths.has(path)).length,
+    FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches,
+    "saturated distinct-path admission must not call or queue another physical loader");
+
+  holdPhysicalLoads = false;
+  for (const release of heldReleases) release();
+  assert.equal(await waitFor(() => runtime.inFlight.size === 0, 2_000), true);
+  assert.equal(runtime.activePhysicalFetches, 0);
+  assert.equal(runtime.physicalFetchWaiters.length, 0);
+  assert.equal(activePhysicalLoads, 0);
+  assert.ok(peakPhysicalLoads <= FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches);
+  assert.equal(calls.filter(({ path }) => targetPaths.has(path)).length,
+    FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles);
+});
+
 test("publishes fixed retrieval, cache and result-shard budgets", () => {
   assert.deepEqual(
     {
@@ -713,7 +1067,21 @@ test("publishes fixed retrieval, cache and result-shard budgets", () => {
       fetchFiles: FEDERATED_SEARCH_LIMITS.maximumFetchFilesPerOperation,
       activeOperations: FEDERATED_SEARCH_LIMITS.maximumConcurrentOperations,
       queuedOperations: FEDERATED_SEARCH_LIMITS.maximumQueuedOperations,
+      activePhysicalFetches: FEDERATED_SEARCH_LIMITS.maximumConcurrentPhysicalFetches,
+      queuedPhysicalFetches: FEDERATED_SEARCH_LIMITS.maximumQueuedPhysicalFetches,
+      distinctInFlightFiles: FEDERATED_SEARCH_LIMITS.maximumDistinctInFlightFiles,
     },
-    { query: 160, tokens: 12, results: 20, resultShards: 8, fetchFiles: 64, activeOperations: 4, queuedOperations: 32 },
+    {
+      query: 160,
+      tokens: 12,
+      results: 20,
+      resultShards: 8,
+      fetchFiles: 64,
+      activeOperations: 4,
+      queuedOperations: 32,
+      activePhysicalFetches: 4,
+      queuedPhysicalFetches: 32,
+      distinctInFlightFiles: 36,
+    },
   );
 });

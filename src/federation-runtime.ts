@@ -40,6 +40,15 @@ export interface FederatedSearchBinding extends JsonObject {
   sourceRecordCount: number;
   quarantinedRecordCount: number;
   recordCount: number;
+  collectionBindings: readonly FederatedCollectionBinding[];
+}
+
+export interface FederatedCollectionBinding extends JsonObject {
+  admissionId: string;
+  collectionId: string;
+  sourceRecordCount: number;
+  quarantinedRecordCount: number;
+  recordCount: number;
 }
 
 const SHA256 = /^[a-f0-9]{64}$/u;
@@ -50,7 +59,74 @@ const ROOT_KEYS = new Set([
   "schema", "generatedAt", "catalogueBundleDigest", "admissionSourceDigest", "federatedSearch", "collections", "manifestDigest",
 ]);
 const FEDERATED_SEARCH_KEYS = new Set([
-  "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount",
+  "sourceLockSha256", "sourceLockDigest", "sourceRecordCount", "quarantinedRecordCount", "recordCount", "collectionBindings",
+]);
+const FEDERATED_COLLECTION_BINDING_KEYS = new Set([
+  "admissionId", "collectionId", "sourceRecordCount", "quarantinedRecordCount", "recordCount",
+]);
+const EXPECTED_FEDERATED_COLLECTION_BINDINGS = Object.freeze([
+  Object.freeze({
+    admissionId: "corpus:uk-life-course",
+    collectionId: "uk-living",
+    admissionTitle: "UK life-course service families",
+    sourceRecordCount: 9_757,
+    quarantinedRecordCount: 0,
+    recordCount: 9_757,
+    sourceCountMetric: "concepts",
+    counts: Object.freeze([
+      Object.freeze({ metric: "concepts", count: 9_757 }),
+      Object.freeze({ metric: "service families", count: 293 }),
+      Object.freeze({ metric: "relationships", count: 15_810 }),
+      Object.freeze({ metric: "source assertions", count: 879 }),
+    ]),
+    completenessClaim: "Complete against the locked 9,757-record source snapshot only; 293 of those records are service families.",
+    limitation: "291 of 293 service families still require specialist review; search inclusion is not an item-level reviewed evidence receipt.",
+  }),
+  Object.freeze({
+    admissionId: "corpus:ons-metadata",
+    collectionId: "ons",
+    admissionTitle: "ONS metadata discovery",
+    sourceRecordCount: 5_097,
+    quarantinedRecordCount: 0,
+    recordCount: 5_097,
+    sourceCountMetric: "records",
+    counts: Object.freeze([
+      Object.freeze({ metric: "records", count: 5_097 }),
+      Object.freeze({ metric: "relationships", count: 19_735 }),
+    ]),
+    completenessClaim: "Complete only for the four declared adapter snapshots.",
+    limitation: "The deployed generated bundle is locked by observed bytes because the recorded commit alone does not reproduce its ignored Pages output; ELS rights remain not established.",
+  }),
+  Object.freeze({
+    admissionId: "corpus:uk-government-apis",
+    collectionId: "government-apis",
+    admissionTitle: "UK government API and data catalogue",
+    sourceRecordCount: 41_598,
+    quarantinedRecordCount: 0,
+    recordCount: 41_598,
+    sourceCountMetric: "records",
+    counts: Object.freeze([
+      Object.freeze({ metric: "records", count: 41_598 }),
+      Object.freeze({ metric: "relationships", count: 276_996 }),
+    ]),
+    completenessClaim: "Bounded to the observed 41,598-record publication snapshot; not a claim about every UK public API.",
+    limitation: "Licence and access evidence remain record-specific and may be missing or inferred; source-snapshot search does not make an endpoint live, public, authorised or safe to call.",
+  }),
+  Object.freeze({
+    admissionId: "corpus:land-registry-metadata",
+    collectionId: "land-registry",
+    admissionTitle: "HM Land Registry metadata",
+    sourceRecordCount: 2_203,
+    quarantinedRecordCount: 3,
+    recordCount: 2_200,
+    sourceCountMetric: "records",
+    counts: Object.freeze([
+      Object.freeze({ metric: "records", count: 2_203 }),
+      Object.freeze({ metric: "relationships", count: 22_267 }),
+    ]),
+    completenessClaim: "Bounded to the producer release manifest.",
+    limitation: "This metadata-only discovery tier excludes title-register, title-plan, ownership, address, polygon and personal rows; it is not property evidence or legal advice.",
+  }),
 ]);
 const ENTRY_KEYS = new Set(["admission", "entryDigest"]);
 const ADMISSION_KEYS = new Set(["id", "title", "domain", "repositoryUrl", "source", "producerState", "admissionState", "payloadState", "freshness", "population", "counts", "rights", "semantics", "delivery", "decision", "boundaries"]);
@@ -187,12 +263,54 @@ export async function createFederationRuntime(
   ) {
     throw new Error("The federated-search source-lock and population binding is invalid.");
   }
+  if (!Array.isArray(federatedSearchObject.collectionBindings) ||
+      federatedSearchObject.collectionBindings.length !== EXPECTED_FEDERATED_COLLECTION_BINDINGS.length) {
+    throw new Error("The federated-search collection population bindings are invalid.");
+  }
+  const collectionBindings = federatedSearchObject.collectionBindings.map((candidate, index) => {
+    const expected = EXPECTED_FEDERATED_COLLECTION_BINDINGS[index]!;
+    const binding = exactObject(
+      candidate,
+      FEDERATED_COLLECTION_BINDING_KEYS,
+      `Federated-search collection binding ${index}`,
+    );
+    for (const key of FEDERATED_COLLECTION_BINDING_KEYS) {
+      if (!(key in binding)) throw new Error(`Federated-search collection binding ${index} is missing ${key}.`);
+    }
+    if (
+      binding.admissionId !== expected.admissionId || binding.collectionId !== expected.collectionId ||
+      binding.sourceRecordCount !== expected.sourceRecordCount ||
+      binding.quarantinedRecordCount !== expected.quarantinedRecordCount ||
+      binding.recordCount !== expected.recordCount ||
+      Number(binding.sourceRecordCount) !== Number(binding.recordCount) + Number(binding.quarantinedRecordCount)
+    ) {
+      throw new Error(`The ${expected.collectionId} collection population binding is invalid.`);
+    }
+    return Object.freeze({
+      admissionId: expected.admissionId,
+      collectionId: expected.collectionId,
+      sourceRecordCount: expected.sourceRecordCount,
+      quarantinedRecordCount: expected.quarantinedRecordCount,
+      recordCount: expected.recordCount,
+    }) as FederatedCollectionBinding;
+  });
+  if (
+    collectionBindings.reduce((total, binding) => total + binding.sourceRecordCount, 0) !==
+      federatedSearchObject.sourceRecordCount ||
+    collectionBindings.reduce((total, binding) => total + binding.quarantinedRecordCount, 0) !==
+      federatedSearchObject.quarantinedRecordCount ||
+    collectionBindings.reduce((total, binding) => total + binding.recordCount, 0) !==
+      federatedSearchObject.recordCount
+  ) {
+    throw new Error("The federated-search collection bindings do not match the aggregate population binding.");
+  }
   const federatedSearch = Object.freeze({
     sourceLockSha256: federatedSearchObject.sourceLockSha256,
     sourceLockDigest: federatedSearchObject.sourceLockDigest,
     sourceRecordCount: Number(federatedSearchObject.sourceRecordCount),
     quarantinedRecordCount: Number(federatedSearchObject.quarantinedRecordCount),
     recordCount: Number(federatedSearchObject.recordCount),
+    collectionBindings: Object.freeze(collectionBindings),
   }) as FederatedSearchBinding;
 
   const identifiers = new Set<string>();
@@ -344,6 +462,23 @@ export async function createFederationRuntime(
       .every((id) => federatedIds.has(id))
   ) {
     throw new Error("The federation must expose exactly the four admitted OKF source snapshots.");
+  }
+  for (const [index, binding] of federatedSearch.collectionBindings.entries()) {
+    const expected = EXPECTED_FEDERATED_COLLECTION_BINDINGS[index]!;
+    const admission = federatedSnapshots.find(({ id }) => id === binding.admissionId);
+    const admittedSourceCount = admission?.counts.find(({ metric }) => metric === expected.sourceCountMetric)?.count;
+    if (
+      admission?.population.denominator !== binding.sourceRecordCount ||
+      admittedSourceCount !== binding.sourceRecordCount ||
+      admission.title !== expected.admissionTitle ||
+      admission.population.completenessClaim !== expected.completenessClaim ||
+      (admission.decision.limitations as unknown[])[0] !== expected.limitation ||
+      canonicalJson(admission.counts) !== canonicalJson(expected.counts)
+    ) {
+      throw new Error(
+        `The ${binding.admissionId} admission does not match the ${binding.collectionId} collection population binding or its validated display contract.`,
+      );
+    }
   }
   const federatedSourceRecordCount = federatedSnapshots.reduce((total, admission) => {
     if (!Number.isInteger(admission.population.denominator) || Number(admission.population.denominator) < 1) {
