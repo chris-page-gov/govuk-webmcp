@@ -71,9 +71,9 @@ candidate or of WCAG conformance.
 
 - The federated interface and its partial-source status have not yet completed
   gate K against the exact `0.3.0-rc.1` release candidate.
-- Eight Low security remediations have focused test evidence where recorded.
+- Nine Low security remediations have focused test evidence where recorded.
   The current Chrome and Microsoft Edge suites each pass 30 of 30, and the full
-  prepared unit command passes 190 of 190. The immutable post-fix security rescan remains
+  prepared unit command passes 193 of 193. The fresh immutable fixed-tree scan remains
   pending.
 - The human live region distinguishes rejected input, a
   `federated_runtime_busy` response and other failure rather than presenting

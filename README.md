@@ -31,8 +31,15 @@ availability defects and classified zero as reportable vulnerabilities after
 attack-path analysis. The defects are being fixed nevertheless. The exact post-
 remediation local research, build/data, unit, frozen-quality, Chrome, Microsoft
 Edge, model-free real-Chrome smoke, dependency-audit and diff-integrity gates
-now pass as recorded below. The exact security rescan remains pending alongside
-protected-main integration, CI, Pages deployment and release verification.
+now pass as recorded below. Exact-range scan
+`2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed all 55 review items and
+reported one High-confidence, Low-severity source-substitution defect
+(`csf_050a3c08c471d3176e0640c3`). All five admitted sources now have separately
+code-reviewed imported SHA-256 pins, and the standalone federated builder checks
+the reviewed lock bytes before parsing. The mutation regressions, production
+build and 193-test prepared suite pass; a fresh immutable fixed-tree scan
+remains pending alongside protected-main integration, CI, Pages deployment and
+release verification.
 
 ## Current implementation
 
@@ -144,7 +151,7 @@ churn from multiplying physical work. If up to four
 non-cooperative loaders never settle, the loader deliberately fails closed and
 federated search can remain unavailable; it does not admit more physical work.
 The third remediation strengthens local-model receipt identity as described
-below. The complete prepared unit suite passed 190 of 190;
+below. The complete prepared unit suite passed 193 of 193;
 the complete exact post-remediation local verification now also records research
 4 of 4; a successful build and data validation for 80 reviewed records, 80
 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows,
@@ -153,15 +160,15 @@ Recall@20 `1`, identical cold/warm results, no legislation collection and a
 rejected legislation request;
 30 of 30 browser tests in both installed Chrome and Microsoft Edge; 6 of 6
 model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
-across 162 total dependencies; and a clean `git diff --check`. The immutable
-exact security rescan remains open. These local results are not protected-main
+across 162 total dependencies; and a clean `git diff --check`. The fresh
+immutable fixed-tree scan remains open. These local results are not protected-main
 CI, Pages, supported-host, focused manual accessibility, passing model-backed,
 refreshed-video or release evidence.
 
 Combined and public WebMCP search preserve `federated_runtime_busy` rather than
 misclassifying that scheduler state as source unavailable. The human live region
 distinguishes rejected input, busy state and other failure. The correction
-passed the production build, 11 of 11 focused regressions and the 190-of-190
+passed the production build, 11 of 11 focused regressions and the 193-of-193
 prepared suite; the Chrome and Edge reruns each exited zero at 30 of 30.
 
 The final-candidate demonstration preflight correctly failed closed without a
@@ -288,7 +295,10 @@ or contract-only; descriptor inclusion does not admit their payloads to search.
 
 The frozen four reviewed source locks, plus the candidate federation lock, are
 recorded as 5 entries at this working-tree checkpoint in
-`app/data/sources/source-locks.json`. Generated files under `app/data/` must not
+`app/data/sources/source-locks.json`. Each registry digest must match its
+separately code-reviewed value in the executable release policy, and the
+federated builder directly checks the reviewed lock byte pin. Generated files
+under `app/data/` must not
 be edited by hand. Change the reviewed inputs under `app/data/sources/`, then
 run `npm run data:build` and `npm run data:validate`.
 

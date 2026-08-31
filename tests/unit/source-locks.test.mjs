@@ -8,6 +8,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import {
+  createSourceLockValidator,
   EXPECTED_SOURCE_LOCKS,
   SOURCE_LOCK_IDS,
   validateSourceLocks,
@@ -39,8 +40,10 @@ async function fixture(t) {
   t.after(() => rm(rootDir, { recursive: true, force: true }));
   const sources = [];
   const bytesById = new Map();
+  const expectedSourceLocks = [];
   for (const expected of EXPECTED_SOURCE_LOCKS) {
     const bytes = Buffer.from(`${JSON.stringify(sourceValue(expected))}\n`);
+    const importedSha256 = sha256(bytes);
     const absolutePath = resolve(rootDir, expected.importedPath);
     await mkdir(dirname(absolutePath), { recursive: true });
     await writeFile(absolutePath, bytes);
@@ -48,9 +51,10 @@ async function fixture(t) {
     sources.push({
       id: expected.id,
       importedPath: expected.importedPath,
-      importedSha256: sha256(bytes),
+      importedSha256,
       recordCount: expected.recordCount,
     });
+    expectedSourceLocks.push({ ...expected, importedSha256 });
   }
   const value = {
     rootDir,
@@ -61,9 +65,14 @@ async function fixture(t) {
       sources,
     },
     bytesById,
+    expectedSourceLocks,
   };
   await writeRegistry(value);
   return value;
+}
+
+function validateFixtureSourceLocks(value, expectedSourceLocks = value.expectedSourceLocks) {
+  return createSourceLockValidator(expectedSourceLocks)({ rootDir: value.rootDir });
 }
 
 async function runScript(script, cwd) {
@@ -82,10 +91,17 @@ async function runScript(script, cwd) {
 
 test("admits exactly the five expected regular source files and returns their verified bytes", async (t) => {
   const value = await fixture(t);
-  const admitted = await validateSourceLocks({ rootDir: value.rootDir });
+  const admitted = await validateFixtureSourceLocks(value);
   assert.deepEqual([...admitted.sourcesById.keys()], EXPECTED_SOURCE_LOCKS.map(({ id }) => id));
   for (const expected of EXPECTED_SOURCE_LOCKS) {
     assert.deepEqual(admitted.sourcesById.get(expected.id).bytes, value.bytesById.get(expected.id));
+  }
+});
+
+test("the tracked sources match all five code-reviewed imported SHA-256 pins", async () => {
+  const admitted = await validateSourceLocks({ rootDir: repositoryRoot });
+  for (const expected of EXPECTED_SOURCE_LOCKS) {
+    assert.equal(admitted.sourcesById.get(expected.id).lock.importedSha256, expected.importedSha256);
   }
 });
 
@@ -95,7 +111,7 @@ for (const expected of EXPECTED_SOURCE_LOCKS) {
     value.registry.sources = value.registry.sources.filter(({ id }) => id !== expected.id);
     await writeRegistry(value);
     await assert.rejects(
-      validateSourceLocks({ rootDir: value.rootDir }),
+      validateFixtureSourceLocks(value),
       /must contain exactly 5 admitted sources/u,
     );
   });
@@ -111,7 +127,7 @@ test("rejects an extra source lock", async (t) => {
   });
   await writeRegistry(value);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /must contain exactly 5 admitted sources/u,
   );
 });
@@ -121,7 +137,7 @@ test("rejects duplicate source-lock identifiers", async (t) => {
   value.registry.sources[1].id = value.registry.sources[0].id;
   await writeRegistry(value);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /identifier .* is duplicated/u,
   );
 });
@@ -131,7 +147,7 @@ test("rejects duplicate imported paths", async (t) => {
   value.registry.sources[1].importedPath = value.registry.sources[0].importedPath;
   await writeRegistry(value);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /path .* is duplicated/u,
   );
 });
@@ -144,7 +160,7 @@ for (const [index, expected] of EXPECTED_SOURCE_LOCKS.entries()) {
     value.registry.sources[index].importedPath = redirectedPath;
     await writeRegistry(value);
     await assert.rejects(
-      validateSourceLocks({ rootDir: value.rootDir }),
+      validateFixtureSourceLocks(value),
       new RegExp(`Source lock ${expected.id} must bind`, "u"),
     );
   });
@@ -157,7 +173,7 @@ test("rejects swapped paths even when IDs and paths remain individually complete
   value.registry.sources[1].importedPath = firstPath;
   await writeRegistry(value);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /must bind app\/data\/sources\/govuk-content-69\.lock\.json/u,
   );
 });
@@ -168,8 +184,24 @@ test("rejects a source whose bytes no longer match its SHA-256 lock", async (t) 
   const changed = Buffer.from(`${JSON.stringify(Array.from({ length: expected.recordCount }, (_, index) => ({ changed: index })))}\n`);
   await writeFile(resolve(value.rootDir, expected.importedPath), changed);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     new RegExp(`Source lock mismatch for ${expected.id}`, "u"),
+  );
+});
+
+test("rejects a same-count source and registry substitution even when both are co-digested", async (t) => {
+  const value = await fixture(t);
+  const expected = EXPECTED_SOURCE_LOCKS[0];
+  const changed = Buffer.from(`${JSON.stringify(Array.from(
+    { length: expected.recordCount },
+    (_, index) => ({ substituted: index }),
+  ))}\n`);
+  await writeFile(resolve(value.rootDir, expected.importedPath), changed);
+  value.registry.sources[0].importedSha256 = sha256(changed);
+  await writeRegistry(value);
+  await assert.rejects(
+    validateFixtureSourceLocks(value),
+    new RegExp(`Source lock ${expected.id} differs from its code-reviewed imported SHA-256 pin`, "u"),
   );
 });
 
@@ -180,8 +212,11 @@ test("rejects a locked source whose observed item count changed", async (t) => {
   await writeFile(resolve(value.rootDir, expected.importedPath), changed);
   value.registry.sources[0].importedSha256 = sha256(changed);
   await writeRegistry(value);
+  const reviewedChangedSource = value.expectedSourceLocks.map((source) => (
+    source.id === expected.id ? { ...source, importedSha256: sha256(changed) } : source
+  ));
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value, reviewedChangedSource),
     /does not match its authored item count/u,
   );
 });
@@ -191,7 +226,7 @@ test("rejects a lock that changes the release item count", async (t) => {
   value.registry.sources[0].recordCount -= 1;
   await writeRegistry(value);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /must declare exactly 69 authored items/u,
   );
 });
@@ -205,7 +240,7 @@ test("rejects a symlink even when its target bytes match the lock", async (t) =>
   await rm(lockedPath);
   await symlink(targetPath, lockedPath);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /must be a regular non-symlink file/u,
   );
 });
@@ -217,7 +252,7 @@ test("rejects a directory in place of a locked regular file", async (t) => {
   await rm(lockedPath);
   await mkdir(lockedPath);
   await assert.rejects(
-    validateSourceLocks({ rootDir: value.rootDir }),
+    validateFixtureSourceLocks(value),
     /must be a regular non-symlink file/u,
   );
 });

@@ -80,9 +80,9 @@ government page hosting a model or receiving a personal profile.
 
 The last complete pre-remediation checkpoint passed 144 of 144 unit tests and
 29 of 29 installed-Microsoft-Edge acceptance tests. Seven Low findings were
-remediated afterwards. The final-candidate local rerun now passes 190 of 190
+remediated afterwards. The final-candidate local rerun now passes 193 of 193
 prepared unit tests and 30 of 30 tests in both installed Chrome and Microsoft
-Edge. The exact-tree security rescan, exact deployment and host evidence remain
+Edge. The fresh immutable fixed-tree scan, exact deployment and host evidence remain
 required; neither the old checkpoint nor local checks replace them. The demo
 preflight correctly failed closed without a deployed commit and explicit
 overwrite approval, and no live capture started.

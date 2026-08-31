@@ -14,7 +14,7 @@
 10. Authoritative human links. *(Complete.)*
 11. Access/licence/assertion/observation/limitation fields. *(Complete, with eight separate Trace facets and no combined score.)*
 12. Source/record/bundle digests and receipt. *(Complete and extended to Evidence Trace and federation bindings.)*
-13. Fail-closed validation. *(Complete for the historical `v0.2` release's four artefact families and four exact source locks. The local federated candidate validates five source-lock registry entries, the additional manifest-first lazy plane, exact ordered per-source population bindings and collection display contracts; exact post-remediation build/data, unit, browser and smoke verification passes, while immutable security rescan and release binding remain open.)*
+13. Fail-closed validation. *(Complete for the historical `v0.2` release's four artefact families and four exact source locks. The local federated candidate validates five source-lock registry entries against separately code-reviewed imported SHA-256 pins, directly pins the federation-lock bytes in the standalone builder, and validates the additional manifest-first lazy plane plus exact ordered per-source population and display contracts. Same-count source-and-registry substitution now fails closed. Exact post-remediation build/data, unit, browser and smoke verification passes; a fresh immutable scan of the fixed tree and release binding remain open.)*
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests. *(Part complete: injection, unsafe URL, missing licence, no-match, deep-input and bounded-fragment cases pass; dedicated stale and conflicting-assertion fixtures remain.)*
 15. CSP, no storage, no external runtime request. *(Complete.)*
 16. ChatGPT/Chrome tests. *(Complete: instrumented WebMCP and installed Chrome and Edge contract checks passed, and `Codex In-app Browser` called all five tools on the historical tagged release. Corrected main is deployed; Chrome DevTools MCP completed all five public calls with zero console errors, while Chrome's native WebMCP panel recorded five valid `Completed` calls, the expected structured rejection for `limit: 21`, and visible-page parity for both presentation tools. Pull request 13 admitted the evidence and its tests; exact-main validation run `33327860583` passed. Five local fixed-model attempts are retained but all failed the strict gate; attempt 4 retained a null evaluation after structural validation failed and attempt 5 recovered after rejected malformed IDs but failed `verify-reports`. A passing model result and Microsoft WebMCP Explorer browser execution remain under Should 11.)*
@@ -100,7 +100,7 @@ fails closed.
    calls in real Chrome. Combined and public WebMCP search preserve
    `federated_runtime_busy`; the human live region distinguishes rejected input,
    busy state and other failure. The focused regression set passes 11 of 11 and
-   the prepared unit suite passes 190 of 190. Current-candidate supported-host
+   the prepared unit suite passes 193 of 193. Current-candidate supported-host
    evidence remains pending under gates E, F, G and H.)*
 6. Show collection availability, evidence tier, source snapshot, link role and
    limitations; isolate one source failure without an unverified fallback.
@@ -118,9 +118,10 @@ fails closed.
    checkpoint. The frozen nDCG@10 and Recall@20 fixture and runner are required
    by CI and Pages and now pass locally with mean nDCG@10 `0.984698009`,
    Recall@20 `1`, cold/warm parity and no admitted legislation result or
-   request. The exact post-remediation prepared unit suite passes 190 of 190,
-   including the per-source semantic-mutation and physical cancellation-churn
-   tests; immutable security rescan and release binding remain pending under
+   request. The exact post-remediation prepared unit suite passes 193 of 193,
+   including same-count source-and-registry substitution, direct builder lock
+   substitution, per-source semantic mutation and physical cancellation churn;
+   a fresh immutable fixed-tree scan and release binding remain pending under
    gates A–I.)*
 8. Run model-free four-source, parity, browser and accessibility journeys
    against one exact candidate. *(In verification: the exact post-remediation
@@ -129,7 +130,7 @@ fails closed.
    58,652 searchable rows, 120 record shards and 1,733 postings shards; the
    frozen lexical gate at mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
    parity, no legislation collection and rejection of a legislation request;
-   190 of 190 prepared unit tests; 30 Chrome tests; 30 Edge tests; six of six
+   193 of 193 prepared unit tests; 30 Chrome tests; 30 Edge tests; six of six
    model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
    across 162 total dependencies; and a clean `git diff --check`. Sealed
    scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed seven earlier Low
@@ -142,8 +143,11 @@ fails closed.
    evidence-integrity defects and classified zero as reportable vulnerabilities
    under attack-path policy. Exact per-source and display binding, physical-
    work bounds and model receipt v2 address them. The immutable exact post-
-   remediation security rescan, focused manual screen-reader journey and current-
-   candidate supported-host
+   remediation scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55 of 55
+   items and reported one Low co-digested source-substitution finding, now
+   remediated with separately code-reviewed source pins and direct builder lock
+   validation. A fresh immutable fixed-tree scan, focused manual screen-reader
+   journey and current-candidate supported-host
    capture remain pending under gates D–K.)*
 9. Run each synthetic fixed-model case at least three times, retain failures
    and variance, and compare whole-system costs under declared assumptions.
@@ -171,8 +175,10 @@ fails closed.
    privacy or quality benefit is claimed.)*
 10. Update lockstep evidence, integrate through protected review, verify exact
     public bytes and bind every released statement to the deployed candidate.
-    *(Documentation is in progress; CI, Pages, tag, release, deployed-byte and
-    supported-host evidence remain pending under gate M. The final-candidate
+    *(Documentation retains the sealed 55-item pre-remediation scan and its Low
+    finding alongside the implemented code-pin fix. The fresh fixed-tree scan,
+    CI, Pages, tag, release, deployed-byte and supported-host evidence remain
+    pending under gate M. The final-candidate
     demo preflight correctly failed closed without a deployed commit and
     explicit overwrite approval; it did not start live capture.)*
 

@@ -242,7 +242,7 @@ player review.
 The exact post-remediation candidate passes research 4 of 4; production
 build/data validation with 80 reviewed records and 80 receipts, 58,655 raw
 rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733
-postings shards; 190 of 190 prepared unit tests; and the frozen lexical gate at
+postings shards; 193 of 193 prepared unit tests; and the frozen lexical gate at
 mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm parity, no legislation
 collection and rejection of a legislation request. Installed Chrome and
 Microsoft Edge each pass 30 of 30, and six of six model-free WebMCP smoke calls
@@ -254,7 +254,11 @@ Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50
 review items, dynamically reproduced three engineering or evidence-integrity
 defects and classified zero as reportable vulnerabilities under attack-path
 policy. The defects have working-tree remediations and the exact local verification
-above exercises them. The immutable exact post-remediation security rescan,
+above exercises them. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
+then retained one High-confidence, Low-severity co-digested source-substitution
+finding. Separately code-reviewed pins for all five source files, a direct
+builder lock-byte check and mutation regressions remediate it. A fresh immutable
+fixed-tree scan,
 protected CI and merge, Pages, supported-host, accessibility, model-backed
 evaluation and refreshed video remain pending.
 
@@ -268,8 +272,9 @@ start live capture and supplies no submission-video evidence.
   the candidate.
 - [x] The installed Chrome acceptance suite passes 30 of 30 tests for the
   candidate.
-- [x] The full post-remediation prepared unit suite passes 190 of 190; the
-  historical 144-of-144 and 173-of-173 checkpoints remain separately labelled.
+- [x] The full post-remediation prepared unit suite passes 193 of 193; the
+  historical 144-of-144, 173-of-173 and 190-of-190 checkpoints remain
+  separately labelled.
 - [ ] A current supported host lists and completes all five WebMCP tools.
 - [ ] Human and tool routes return the same canonical fields for a fixed query.
 - [ ] The refreshed under-three-minute federated video is recorded from the
