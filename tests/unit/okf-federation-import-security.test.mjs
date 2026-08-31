@@ -40,6 +40,15 @@ function digestWithout(value, field) {
   return sha256(canonicalJson(copy));
 }
 
+test("deterministic gzip has one reviewed cross-platform byte representation", () => {
+  const source = Buffer.from("cross-platform deterministic gzip fixture\n", "utf8");
+  const compressed = deterministicGzip(source);
+
+  assert.equal(compressed[9], 0x13);
+  assert.equal(sha256(compressed), "bc896441cf794f3070c58e29bdfa32c5207d0d6a5d3feeb990c3621ab2e2f1cf");
+  assert.deepEqual(gunzipSync(compressed), source);
+});
+
 test("admits the reviewed artefact and rejects a valid same-count semantic mutation", async () => {
   const { lock } = await loadReviewedFederationLock({ rootDir: repositoryRoot });
   await assertSafeImportDestinations(repositoryRoot, lock);

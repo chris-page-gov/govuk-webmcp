@@ -37,7 +37,7 @@ reported one High-confidence, Low-severity source-substitution defect
 (`csf_050a3c08c471d3176e0640c3`). All five admitted sources now have separately
 code-reviewed imported SHA-256 pins, and the standalone federated builder checks
 the reviewed lock bytes before parsing. The mutation regressions, production
-build and 193-test prepared suite pass; a fresh immutable fixed-tree scan
+build and 194-test prepared suite pass; a fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` subsequently completed all 55 review
 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
 findings. Protected-main integration, CI, Pages deployment and release
@@ -85,14 +85,14 @@ redistribution or contradictory population statement fails closed.
 
 At this working-tree checkpoint, the generated files contain 6 searchable and
 4 non-searchable corpus admissions, 5 source-lock registry entries and 31
-closed JSON Schemas. Recompute these dynamic totals after the exact-tree rescan
-before binding them to a release. The 73 versioned gzip source artefacts total
+closed JSON Schemas. The 73 versioned gzip source artefacts total
 13,021,675 bytes. A deterministic build expands them to 1,853 shard files —
 120 record shards and 1,733 postings shards — plus the manifest and checksum
 sidecar: 1,855 ignored generated files and 127,747,020 bytes in total. The
 plane is copied into `dist` rather than committed. The federation lock and
-generated-manifest digests are cross-bound, but their final candidate values
-must be recorded after the exact-tree rescan and deterministic rebuild.
+generated-manifest digests are cross-bound. RFC 1952 operating-system byte 9 is
+normalised to reviewed value `19` so Mac and Linux validate one exact gzip
+representation.
 UK Government APIs records use the source-authored, collection-unique
 `concept_id` as their native identity. An endpoint URL can be shared and is
 therefore evidence, not a substitute identity.
@@ -153,7 +153,7 @@ churn from multiplying physical work. If up to four
 non-cooperative loaders never settle, the loader deliberately fails closed and
 federated search can remain unavailable; it does not admit more physical work.
 The third remediation strengthens local-model receipt identity as described
-below. The complete prepared unit suite passed 193 of 193;
+below. The complete prepared unit suite passed 194 of 194;
 the complete exact post-remediation local verification now also records research
 4 of 4; a successful build and data validation for 80 reviewed records, 80
 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows,

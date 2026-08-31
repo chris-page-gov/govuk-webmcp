@@ -100,7 +100,7 @@ fails closed.
    calls in real Chrome. Combined and public WebMCP search preserve
    `federated_runtime_busy`; the human live region distinguishes rejected input,
    busy state and other failure. The focused regression set passes 11 of 11 and
-   the prepared unit suite passes 193 of 193. Current-candidate supported-host
+   the prepared unit suite passes 194 of 194. Current-candidate supported-host
    evidence remains pending under gates E, F, G and H.)*
 6. Show collection availability, evidence tier, source snapshot, link role and
    limitations; isolate one source failure without an unverified fallback.
@@ -118,7 +118,7 @@ fails closed.
    checkpoint. The frozen nDCG@10 and Recall@20 fixture and runner are required
    by CI and Pages and now pass locally with mean nDCG@10 `0.984698009`,
    Recall@20 `1`, cold/warm parity and no admitted legislation result or
-   request. The exact post-remediation prepared unit suite passes 193 of 193,
+   request. The exact post-remediation prepared unit suite passes 194 of 194,
    including same-count source-and-registry substitution, direct builder lock
    substitution, per-source semantic mutation and physical cancellation churn;
    immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55
@@ -131,7 +131,7 @@ fails closed.
    58,652 searchable rows, 120 record shards and 1,733 postings shards; the
    frozen lexical gate at mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
    parity, no legislation collection and rejection of a legislation request;
-   193 of 193 prepared unit tests; 30 Chrome tests; 30 Edge tests; six of six
+   194 of 194 prepared unit tests; 30 Chrome tests; 30 Edge tests; six of six
    model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
    across 162 total dependencies; and a clean `git diff --check`. Sealed
    scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed seven earlier Low
@@ -180,8 +180,11 @@ fails closed.
     public bytes and bind every released statement to the deployed candidate.
     *(Documentation retains the sealed 55-item pre-remediation scan and its Low
     finding alongside the implemented code-pin fix and zero-finding fixed-tree
-    scan `040ad945-3723-4aef-9c03-1bb552630deb`. CI, Pages, tag, release,
-    deployed-byte and supported-host evidence remain
+    scan `040ad945-3723-4aef-9c03-1bb552630deb`. Pull request 16's first Linux
+    run `33354712509` exposed Node's host-specific RFC 1952 gzip header byte;
+    the correction pins byte 9 to reviewed value `19` and adds a fixed-vector
+    regression. Its CI rerun, Pages, tag, release, deployed-byte and supported-
+    host evidence remain
     pending under gate M. The final-candidate
     demo preflight correctly failed closed without a deployed commit and
     explicit overwrite approval; it did not start live capture.)*

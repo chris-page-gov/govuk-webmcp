@@ -24,13 +24,17 @@ and registry substitution when both were re-digested together. All five
 admitted source files are now bound to separately code-reviewed imported
 SHA-256 values, and the federated-search builder independently requires the
 reviewed federation-lock byte pin. The new mutation regressions, production
-build, source validation and 193-test prepared unit suite pass. A fresh
+build, source validation and 194-test prepared unit suite pass. A fresh
 immutable exact-range scan, `040ad945-3723-4aef-9c03-1bb552630deb`, then
 completed all 55 review items against fixed candidate
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-This is not
-yet a protected-main integration, CI result, Pages deployment, release or
-submission. The frozen
+Pull request 16 then exposed one cross-platform reproducibility defect in its
+first Linux validation run `33354712509`: RFC 1952 gzip header byte 9 retained
+Node's host operating-system value. The candidate now normalises that byte to
+the reviewed value `19`; source, compressed and lock digests remain unchanged,
+and a fixed-vector regression covers the representation. Protected CI has not
+yet revalidated that correction. This is not yet a protected-main integration,
+Pages deployment, release or submission. The frozen
 pre-federation baseline is annotated tag
 `v0.2.0-rc.2` at product commit
 `35fcedd39ed955278d3975a6dd80692fc6e32935`; its public pre-release is retained
@@ -211,7 +215,7 @@ The exact post-remediation local verification now records:
   records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652
   searchable rows, 120 record shards and 1,733 postings shards;
 - focused combined/public-search regressions: 11 of 11 passed;
-- prepared unit suite: 193 of 193 passed;
+- prepared unit suite: 194 of 194 passed;
 - frozen retrieval quality: mean nDCG@10 `0.984698009`, Recall@20 `1`, identical
   cold/warm results, no legislation collection and the legislation request
   rejected;
@@ -541,9 +545,9 @@ gated:
 ## Next safe task
 
 Finish the remaining A–M candidate matrix without weakening the four-source
-allowlist, evidence-tier distinction or fail-closed budgets. If the exact
-candidate passes, publish it through a protected pull request and verify required
-CI, merge without bypassing branch protection, deploy the exact main commit and
+allowlist, evidence-tier distinction or fail-closed budgets. Push the portable-
+gzip correction to pull request 16, require its exact Linux CI rerun to pass,
+merge without bypassing branch protection, deploy the exact main commit and
 bind the live artefact back to that commit before tagging or refreshing
 submission evidence.
 

@@ -138,13 +138,15 @@ searchable. At this working-tree checkpoint the manifest has 6 searchable
 admissions: 2 reviewed deep-evidence collections accounting for 80 records and
 4 federated source-snapshot collections accounting for 58,652 searchable
 records from 58,655 locked raw rows. Three Land Registry legislation rows are
-quarantined. The other 4 admissions remain non-searchable. Recompute admission
-and schema totals after the exact-tree rescan before release binding.
+quarantined. The other 4 admissions remain non-searchable. The candidate has 10
+admissions, 5 source-lock entries and 31 schemas.
 
 The four-source OKF lock binds exact collection identity, publication base,
 revision or observed deployment bytes, snapshot, descriptor, data and search
 manifests, artefacts, counts, digests, rights, access and resource budgets. Its
 73 versioned gzip artefacts total 13,021,675 bytes. The deterministic builder
+normalises RFC 1952 operating-system byte 9 to the reviewed value `19`, avoiding
+host-specific Mac/Linux output while retaining the checksum-bound snapshot. It
 creates 1,853 ignored shard files — 120 record shards and 1,733 postings shards
 — plus the manifest and checksum sidecar, for 1,855 files and 127,747,020 bytes
 in total. The plane is included in the validated Pages artefact and is not
@@ -305,7 +307,7 @@ path analysis. The defects have working-tree remediations nevertheless.
 The exact post-remediation local chain now passes research 4 of 4; build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
-shards; 193 of 193 prepared unit tests; 30 of 30 tests in both Chrome and Edge;
+shards; 194 of 194 prepared unit tests; 30 of 30 tests in both Chrome and Edge;
 six of six model-free WebMCP smoke calls in real Chrome; zero npm-audit
 vulnerabilities across 162 total dependencies; and a clean `git diff --check`.
 The frozen lexical result is mean nDCG@10 `0.984698009`, Recall@20 `1`,

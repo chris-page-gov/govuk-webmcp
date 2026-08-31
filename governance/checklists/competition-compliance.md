@@ -20,7 +20,7 @@ exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
 findings. The deployment, host and media gates below remain open.
 
 - [x] **Re-verified locally after remediation:** the current prepared unit
-  command passed 193 of 193; Chrome and installed Microsoft Edge each passed 30
+  command passed 194 of 194; Chrome and installed Microsoft Edge each passed 30
   of 30 on the current final-candidate tree.
 - [x] **Current final-candidate rerun recorded:** research passed 4 of 4, production
   build/data validation passed, the frozen lexical gate reported mean nDCG@10

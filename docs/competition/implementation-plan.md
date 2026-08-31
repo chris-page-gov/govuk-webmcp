@@ -52,7 +52,7 @@ reported one High-confidence, Low-severity source-substitution finding
 imported SHA-256 pins for all five admitted sources plus a direct federation-
 lock byte check in the standalone builder. The source, source-and-registry and
 direct-builder substitution regressions now fail closed; source validation,
-the production build and 193 of 193 prepared unit tests pass.
+the production build and 194 of 194 prepared unit tests pass.
 
 ## Completed pre-federation 1–10 plan
 
@@ -83,12 +83,12 @@ only the named gate against the exact candidate can do that.
 | 2 | Admit exactly four fixed source identities, descriptors, search manifests and mirrored artefact paths. | Federation 2 | A, B, C, I | Implemented and locally verified; release binding pending |
 | 3 | Define the two evidence tiers, common record/provenance shape, closed schemas and executable validation. | Federation 3 | B, F, H, I | Implemented, including exact ordered per-source population bindings and executable collection display contracts; the current contract count is recorded below |
 | 4 | Build deterministic, progressively loaded same-origin search with fixed byte, row, fan-out, memory and timeout budgets. | Federation 4 | C, D, I | Implemented with incremental exact-byte postings partitioning, aggregate build caps, streamed response caps, bounded generated-plane cleanup and separate 4-active/32-queued/36-distinct physical-fetch limits; each 3-second file deadline includes queue time and a slot is retained until loader settlement; exact local build/data and quality gates pass; release binding pending |
-| 5 | Extend the three discovery tools and accessible human controls through the shared action controller; retain the two presentation tools unchanged in scope. | Federation 5 | E, F, G, H | Implemented; combined and public WebMCP search preserve `federated_runtime_busy`, while the human live region distinguishes rejected input, busy state and other failure; focused tests pass 11 of 11, prepared unit 193 of 193 and both installed browsers 30 of 30 with exit 0 |
+| 5 | Extend the three discovery tools and accessible human controls through the shared action controller; retain the two presentation tools unchanged in scope. | Federation 5 | E, F, G, H | Implemented; combined and public WebMCP search preserve `federated_runtime_busy`, while the human live region distinguishes rejected input, busy state and other failure; focused tests pass 11 of 11, prepared unit 194 of 194 and both installed browsers 30 of 30 with exit 0 |
 | 6 | Surface collection status, tier, snapshot, source-link role and limitations; isolate partial source failures without a weak fallback. | Federation 6 | F, G, K | Implemented; a busy runtime is not misclassified as source unavailable, and all four genuine unavailable-source cases passed in Chrome and Edge; manual accessibility evidence pending |
 | 7 | Add tiny v1/v2 fixtures plus corruption, co-digested semantic mutation, ranking, duplicate, injection and resource-exhaustion tests. | Federation 7 | A–I | Implemented, including code-reviewed source pins, same-count source-and-registry substitution, direct federation-lock substitution, per-source co-digested population/display mutation and cancellation-churn cases; the exact post-remediation frozen quality gate passes at mean nDCG@10 0.984698009 and Recall@20 1 with cold/warm parity, no legislation collection and the legislation request rejected |
 | 8 | Run the four producer journeys, human/tool parity, accessibility and model-free browser/host checks against one candidate. | Federation 8 | D–K | In verification: exact final-candidate local Chrome and Edge each pass 30 of 30 and model-free WebMCP smoke passes 6 of 6 in real Chrome; focused manual accessibility and supported-host capture remain pending |
 | 9 | Run at least three fixed-model selections per synthetic case and the whole-system cost comparison, retaining failures and uncertainty. | Federation 9 | J, L | Five local attempts are retained and all failed the strict gate; attempt 4 bound receipt-v2 identity but retained a null evaluation after structural validation failed; attempt 5 retained 30 pass and 6 fail but failed `verify-reports`; cost study remains planned; hypotheses only |
-| 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Lockstep update records the sealed pre-remediation Low finding, its implemented code-pin fix and fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` with zero reportable findings; CI, Pages, tag, release and exact public evidence pending |
+| 10 | Update lockstep evidence, integrate through protected review, verify exact public bytes and bind every released claim to the deployed candidate. | Federation 10 | M | Lockstep update records the sealed pre-remediation Low finding, its implemented code-pin fix and fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` with zero reportable findings. Pull request 16's first Linux run `33354712509` exposed a host-specific gzip header byte; the portable fixed-byte correction and regression are implemented, with CI rerun, Pages, tag, release and exact public evidence pending |
 
 The approved federated population is 58,655 locked raw source rows:
 9,757 A Life in the UK records, including 293 service families; 5,097 ONS
@@ -189,7 +189,7 @@ byte or supported-host evidence.
 - Exact post-remediation local verification passed research 4 of 4; production
   build and data validation for 80 reviewed records, 80 receipts, 58,655 raw
   rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733
-  postings shards; 193 of 193 prepared unit tests; mean nDCG@10 `0.984698009`
+  postings shards; 194 of 194 prepared unit tests; mean nDCG@10 `0.984698009`
   and Recall@20 `1` with cold/warm parity, no legislation collection and the
   legislation request rejected; 30 of 30 tests in installed Chrome and 30 of 30
   in installed Microsoft Edge; 6 of 6 model-free WebMCP smoke calls in real
@@ -201,7 +201,7 @@ byte or supported-host evidence.
 - The post-review busy-state correction preserved `federated_runtime_busy`
   through combined/public WebMCP search, made the human live region distinguish
   rejected input, busy state and other failure, and passed the production build,
-  11 of 11 focused regressions and 193 of 193 prepared unit tests. Chrome and
+  11 of 11 focused regressions and 194 of 194 prepared unit tests. Chrome and
   Edge each exited zero with 30 of 30.
 - The final-candidate demonstration preflight correctly failed closed without a
   deployed commit and explicit overwrite approval. It did not start live capture
@@ -453,8 +453,9 @@ now:
    legibility fixture only through transparent machine identifiers; rerun the
    same fixed local model while retaining the five failed attempts and without
    inheriting pre-federation results.
-3. Complete protected CI and A–M release binding, then verify the exact deployed
-   bytes before describing the expanded experience as live.
+3. Revalidate pull request 16's portable-gzip correction in protected Linux CI,
+   complete A–M release binding, then verify the exact deployed bytes before
+   describing the expanded experience as live.
 4. Rebuild and review the demonstration video against that exact candidate,
    then complete owner privacy, branding, voice and caption decisions.
 5. Upload only an approved exact video digest, complete the Devpost form and
