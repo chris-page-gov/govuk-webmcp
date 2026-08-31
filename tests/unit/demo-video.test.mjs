@@ -78,7 +78,8 @@ test("v3 video script is an unbound seven-scene UK-English editorial plan", () =
   assert.equal(config.demonstrationInputs.query, "housing");
   assert.equal(config.demonstrationInputs.limit, 8);
   assert.deepEqual(config.demonstrationInputs.collections, ["uk-living", "ons", "government-apis", "land-registry"]);
-  assert.deepEqual(config.scenes.map(({ id }) => id), ["overview", "federated-search", "federated-record", "webmcp", "reviewed-foundations", "voiceover", "boundary"]);
+  assert.deepEqual(config.scenes.map(({ id }) => id), ["federated-search", "overview", "federated-record", "webmcp", "reviewed-foundations", "voiceover", "boundary"]);
+  assert.equal(config.reviews.rights, "pending-human-review");
   assert.equal(config.interactionCaptureReceipt, "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json");
   assert.ok(config.scenes.every(({ media }) => media.path.startsWith("output/demo-clips/v0.3.0-rc.1/")));
   assert.equal(config.scenes.find(({ id }) => id === "webmcp").mediaReceipt, "docs/competition/evidence/supported-host-webmcp-clip-v0.3.0-rc.1.json");
@@ -98,6 +99,12 @@ test("release binding fails closed without an exact commit and Pages run", () =>
   const historical = structuredClone(rawConfig);
   historical.schema = "trusted-govuk-discovery.demo-video-script.v2";
   assert.throws(() => validateConfig(historical), /wrong schema/u);
+  const missingRightsReview = structuredClone(rawConfig);
+  delete missingRightsReview.reviews.rights;
+  assert.throws(() => validateConfig(missingRightsReview), /Demo reviews is missing fields: rights/u);
+  const unknownReview = structuredClone(rawConfig);
+  unknownReview.reviews.editorial = "passed";
+  assert.throws(() => validateConfig(unknownReview), /Demo reviews has unknown fields: editorial/u);
 });
 
 test("release binding revalidates the exact public deployment commit and run", async () => {

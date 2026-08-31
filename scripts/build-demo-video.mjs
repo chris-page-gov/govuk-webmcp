@@ -624,7 +624,11 @@ export function validateConfig(config) {
   nonEmptyString(config.narration.voice, "Narration voice", 80);
   invariant(Number.isInteger(config.narration.speechRate) && config.narration.speechRate >= 140 && config.narration.speechRate <= 190, "Narration speech rate must be 140 to 190 words per minute");
   invariant(config.narration.publicationBasis === "pending-owner-review", "Narration publication basis must remain pending owner review");
-  invariant(config.reviews?.privacy === "pending-human-review" && config.reviews?.branding === "pending-human-review" && config.reviews?.voicePublicationBasis === "pending-owner-review", "Privacy, branding and voice-publication reviews must remain pending in the local build script");
+  exactKeys(config.reviews,
+    ["privacy", "branding", "rights", "voicePublicationBasis"],
+    ["privacy", "branding", "rights", "voicePublicationBasis"],
+    "Demo reviews");
+  invariant(config.reviews.privacy === "pending-human-review" && config.reviews.branding === "pending-human-review" && config.reviews.rights === "pending-human-review" && config.reviews.voicePublicationBasis === "pending-owner-review", "Privacy, branding, rights and voice-publication reviews must remain pending in the local build script");
   invariant(config.interactionCaptureReceipt === expectedInteractionCaptureReceipt, "Demo script must use the reviewed live-interaction capture receipt path");
   exactKeys(config.demonstrationInputs,
     ["query", "collections", "limit", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
@@ -674,7 +678,7 @@ export function validateConfig(config) {
   }
   invariant(config.scenes.filter(({ kind }) => kind === "receipt-visualisation").length === 1, "Demo must contain exactly one supported-host receipt visualisation");
   invariant(config.scenes.filter(({ kind }) => kind === "voiceover").length === 1, "Demo must contain exactly one VoiceOver scene");
-  invariant(sameValues(config.scenes.map(({ id }) => id), ["overview", "federated-search", "federated-record", "webmcp", "reviewed-foundations", "voiceover", "boundary"]), "Demo must contain the exact seven-scene federated story in order");
+  invariant(sameValues(config.scenes.map(({ id }) => id), ["federated-search", "overview", "federated-record", "webmcp", "reviewed-foundations", "voiceover", "boundary"]), "Demo must contain the exact seven-scene federated story in order");
   return config;
 }
 
@@ -933,6 +937,7 @@ function buildTranscript(config) {
     `- Demonstrated URL: <${config.productUrl}>`,
     `- Narration: original script synthesised locally with the installed macOS \`${config.narration.voice}\` voice at rate ${config.narration.speechRate}`,
     "- Narration publication basis: pending owner review",
+    "- Privacy, branding and rights review: pending human review",
     "- Source-clip audio: omitted from the edit",
     "- Music: none",
     "",
@@ -1043,7 +1048,7 @@ async function build(options, preflightResult) {
         supportedHostMedia: evidence.get("webmcp-media").summary,
         voiceOver: evidence.get("voiceover").summary,
       },
-      reviews: { privacy: "pending-human-review", branding: "pending-human-review", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },
+      reviews: { privacy: "pending-human-review", branding: "pending-human-review", rights: "pending-human-review", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },
       limitations: [
         "This record proves a bounded local review build, not public YouTube publication or signed-out playback.",
         "The installed macOS synthetic voice was used locally; its publication basis remains pending owner review.",

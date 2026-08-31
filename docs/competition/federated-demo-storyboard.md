@@ -1,11 +1,13 @@
 # Federated demonstration storyboard
 
-**Status: production plan only. No refreshed federated video is claimed.**
+**Status: exact-release production plan. The refreshed VoiceOver scene and final
+edit remain open.**
 
-Use this storyboard only after `v0.3.0-rc.1` is merged through protected
-`main`, deployed to the public Pages URL and verified byte for byte. Record the
-real deployment in one named, currently supported WebMCP host. Do not substitute
-a local build, mock result or earlier release without labelling it prominently.
+`v0.3.0-rc.1` is merged through protected `main`, deployed to the public Pages
+URL and verified byte for byte at commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. The current supported-host receipt
+is bound to that release. Do not substitute a local build, mock result or
+earlier release without labelling it prominently.
 
 Target running time: **2 minutes 45 seconds**. Maximum: **2 minutes 59
 seconds**, including title and closing cards.
@@ -21,27 +23,23 @@ government page hosting a model or receiving a personal profile.
 
 | Time | Picture and action | Narration or caption | Evidence to retain |
 | --- | --- | --- | --- |
-| 0:00–0:10 | Title card over the exact public URL and candidate version. Show “Independent experimental prototype”. | “Evidence Trace puts evidence before answers. This is an independent prototype, not a government service.” | Deployed commit, URL, host version and capture time. |
-| 0:10–0:27 | Show the estate summary: 80 receipt-bound reviewed records, 58,655 locked raw source rows, 58,652 searchable federated records and 3 quarantined rows. Keep both evidence-tier labels readable. | “There are two honest evidence tiers: 80 reviewed records with item receipts, and 58,652 wider searchable records from 58,655 locked source rows. Three standalone legislation rows are quarantined. Wider discovery does not pretend to have deeper proof.” | Screenshot or frame showing source, searchable and quarantine counts and tier labels. |
-| 0:27–0:49 | In the visible human interface, select UK Living, ONS, UK Government APIs and HM Land Registry. Search the fixed term `housing`. Pause on a balanced result set containing all four collections. | “A person can search four governed OKF sources together: UK Living, ONS, the UK Government API catalogue and metadata-only HM Land Registry.” | Exact human input, selected collections and returned canonical IDs. |
-| 0:49–1:08 | Open one federated result. Point to evidence tier, collection, snapshot integrity, producer-declared human source link, destination hostname and limitations. Show the explicit absence of an item receipt and the “Not independently established” authority label. | “Each result keeps its origin, checksum-bound snapshot, producer-declared link destination and limitations visible. It does not call the source official, and this source-snapshot record has no item-level receipt.” | Record ID, link role, destination hostname, authority label, digest fields and limitation text. Do not follow an external link during the recorded deterministic path unless separately planned. |
-| 1:08–1:28 | Open the supported host's WebMCP tool list. Show all five names and the closed search input contract. Briefly highlight that no `personalContext`, profile, postcode, account or free-form situation field exists. | “The page registers five bounded tools. It hosts no model and accepts no personal profile. A citizen's chosen AI can keep its private context and send only the declared query fields.” | Tool-list capture and exact input schema. |
-| 1:28–1:49 | Execute `search_government_knowledge` with the same `housing`, four-collection and limit inputs. Show the structured output beside, or immediately followed by, the unchanged visible results. | “WebMCP calls the same deterministic action as the human form. The structured result and visible page describe the same evidence, rather than two separate answers.” | Tool arguments, result IDs, canonical digest or parity assertion, and page state. |
-| 1:49–2:06 | Execute `get_resource_record` for the previously opened federated ID, then `show_provenance`. Keep the source link and “no item receipt” limitation visible. | “The agent can retrieve the exact record and its provenance progressively. It cannot turn a collection snapshot into an item receipt that does not exist.” | Both tool outputs and their parity with the human record. |
-| 2:06–2:24 | Switch to one reviewed record and briefly show `explore_answer_foundations` followed by `compare_evidence_foundations`. Keep separate facets visible; do not show a combined score. | “For the reviewed tier, people and agents can go deeper: inspect claim foundations and compare authority, freshness, integrity, rights and coverage without hiding uncertainty in one score.” | Tool calls, visible reversible page effect and restored page state. |
-| 2:24–2:37 | Show a concise boundary card: static site; no official API call; no model call; no browser storage; HM Land Registry metadata only; 3 legislation rows quarantined; no standalone legislation source and zero legislation result links. | “This static demonstration calls neither official APIs nor a model at runtime. Land Registry is metadata-only. Three standalone legislation rows are quarantined, and no legislation result link is published.” | Network capture or automated evidence supporting same-origin-only requests, no storage and the exclusion counters. |
-| 2:37–2:45 | Closing card: “Your AI asks. You inspect the evidence.” Add repository and live URLs. | “WebMCP makes the citizen's AI a client of inspectable public evidence — not the authority.” | Final frame and exact URLs. |
+| 0:00–0:22 | Start with the working human interface. Search `housing` across A Life in the UK, ONS, UK Government APIs and HM Land Registry, then pause on the balanced eight-result set. Keep “Independent experimental prototype” visible. | “Search housing across four locked OKF source snapshots. The results include A Life in the UK and ONS. They include UK Government APIs and metadata-only HM Land Registry. This is an independent prototype, not a government service.” | Exact human input, selected collections, returned canonical IDs and public release binding. |
+| 0:22–0:42 | Show the estate summary: 80 receipt-bound reviewed records, 58,655 locked raw source rows, 58,652 searchable federated records and 3 quarantined rows. Keep both evidence-tier labels readable. | “Evidence Trace puts evidence before answers. Eighty reviewed records retain item-level evidence receipts. Another 58,652 records support wider governed discovery.” | Frame showing source, searchable and quarantine counts and tier labels. |
+| 0:42–1:03 | Open the bound HM Land Registry result. Point to evidence tier, collection, snapshot integrity, recorded producer-declared source link, destination hostname and limitations. Show the explicit absence of an item receipt and the “Not independently established” authority label. | “This result keeps its collection and checksum-bound snapshot visible. Its source link has the producer-declared-source role. Source authority is not independently established.” | Record ID, link role, destination hostname, authority label, digest fields and limitation text. Do not follow an external link during the deterministic path. |
+| 1:03–1:29 | Show the supported-host receipt visualisation: all five tool names, closed schemas, the same search, the bound record and the two reviewed-foundation calls. Clearly label it as a reconstruction, not a host recording. | “Its receipt records all five native page tools and their schemas. The page accepts no personal-context field and hosts no model. This receipt proves host invocation; no model selected a tool.” | Exact supported-host receipt, media receipt, tool arguments, result IDs and parity digests. |
+| 1:29–1:52 | Switch to one reviewed record and show `explore_answer_foundations` followed by `compare_evidence_foundations`. Keep separate facets visible; do not show a combined score. | “People and agents can inspect one answer foundation and compare authority, freshness, integrity, rights, access and coverage. No combined score hides uncertainty or declares a winner.” | Visible reversible page effect, 8 facet labels, 11 comparison rows and restored page state. |
+| 1:52–2:14 | Show the refreshed nine-step Safari and VoiceOver screenshot sequence with the Caption Panel visible and the non-continuous-recording limitation retained. | “A fresh manual Safari and VoiceOver journey checks headings, controls, search, source-link context, comparison, live status and focus restoration. This is not a WCAG conformance claim.” | Exact nine-frame manifest, manual observation, clip digest and acknowledged limitations. |
+| 2:14–2:45 | Show the personal-AI boundary and close on “Your AI asks. You inspect the evidence.” Include the repository and live URLs. | “The page hosts no model. A citizen-selected AI sends only declared arguments. A remote provider may still receive the prompt, arguments and result. Privacy, cost and accuracy benefits remain hypotheses to test.” | Same-origin/no-storage observation, no model or official API requests, Land Registry metadata-only boundary, legislation exclusion counters and exact URLs. |
 
 ## Fixed demonstration inputs
 
 - Human and tool query: `housing`.
 - Collections: `uk-living`, `ons`, `government-apis` and `land-registry`.
-- Result limit: use the smallest tested limit that returns a representative
-  result from all four sources on the exact deployment; record it in the
-  receipt rather than assuming it in advance.
-- Record and reviewed-claim IDs: choose them only after the deployment is
-  frozen, then store the exact IDs and expected canonical fields with the video
-  receipt.
+- Result limit: `8`, the smallest tested human-interface value that returns a
+  representative result from all four sources on the exact deployment.
+- Federated record: `govuk-discovery:federated:land-registry:57845`.
+- Reviewed answer: `answer:new-child-starting-points`; claims:
+  `claim:register-a-birth` and `claim:check-parental-pay-and-leave`.
 - Personal-context negative check: show the published schema and, if included
   in the recording, one bounded rejection of an unknown `personalContext`
   property. Never enter real personal information.
@@ -52,7 +50,7 @@ government page hosting a model or receiving a personal profile.
   recorded host and model actually establish that stronger boundary.
 - Say the page receives no profile and exposes no personal-context input. Do
   not claim that a remote model provider receives no personal information.
-- Say **maintained human source link** or the exact recorded link role. Do not
+- Say **recorded producer-declared source link** or the exact recorded link role. Do not
   call every link an authoritative statement about the record.
 - Show the destination hostname and say **producer-declared**, not **official**,
   for federated links and assertions. Exact-record source authority is “Not
@@ -71,28 +69,28 @@ government page hosting a model or receiving a personal profile.
 
 ## Evidence still required before recording
 
-- [ ] Exact protected-main candidate commit and successful CI run.
-- [ ] Exact Pages deployment run, artefact identity and signed-out availability.
-- [ ] Current supported-host list and execution evidence for all five tools.
-- [ ] Recorded human/tool parity values for the fixed search and record.
-- [ ] Network and storage observation supporting the stated runtime boundary.
-- [ ] Reviewed final IDs and representative four-source result set.
+- [x] Exact protected-main release commit and successful CI run.
+- [x] Exact Pages deployment run, artefact identity and signed-out availability.
+- [x] Current supported-host list and execution evidence for all five tools.
+- [x] Recorded human/tool parity values for the fixed search and record.
+- [x] Network and storage observation supporting the stated runtime boundary.
+- [x] Reviewed final IDs and representative four-source result set.
 
 The last complete pre-remediation checkpoint passed 144 of 144 unit tests and
 29 of 29 installed-Microsoft-Edge acceptance tests. Seven Low findings were
-remediated afterwards. The final-candidate local rerun now passes 194 of 194
-prepared unit tests and 30 of 30 tests in both installed Chrome and Microsoft
-Edge. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb`
+remediated afterwards. The exact product release passes 194 of 194 prepared
+unit tests and 30 of 30 tests in both installed Chrome and Microsoft Edge. The
+evidence follow-up passes 195 of 195 locally and in protected pull-request run
+`33391552626`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb`
 completed 55 of 55 review items against exact commit
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Exact deployment, supported-host and focused manual accessibility evidence
-remain required; neither the old checkpoint nor local checks replace them. The
-demo preflight correctly failed closed without a deployed commit and explicit
-overwrite approval, and no live capture started.
+Exact deployment, supported-host and live-interaction evidence are complete.
+The refreshed VoiceOver sequence and final edit remain required. The guarded
+demo preflight continues to fail closed until those exact inputs exist.
 
 ## Evidence still required before publication
 
-- [ ] Capture uses the exact deployed candidate and follows this storyboard.
+- [ ] Final capture uses the exact deployed release and follows this storyboard.
 - [ ] Final duration is below three minutes.
 - [ ] Narration, captions and transcript agree and use British English.
 - [ ] Media, browser state, prompts, headers and results pass privacy and rights
@@ -100,7 +98,7 @@ overwrite approval, and no live capture started.
 - [ ] Claims match the retained host, CI, Pages, parity, network and integrity
   evidence.
 - [ ] Chris Page approves the complete cut, synthetic-voice basis, branding,
-  privacy and hypothesis wording.
+  privacy, rights and hypothesis wording.
 - [ ] Public playback works signed out with audible narration and captions.
 - [ ] The public URL and exact video checksum are retained before the final
   read-only Devpost compliance review.

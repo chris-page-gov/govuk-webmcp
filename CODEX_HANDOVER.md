@@ -344,7 +344,7 @@ historical failed model attempts predate v2 and remain failures.
 | Research pack | 4 of 4 passed |
 | Production build and generated-data validation | Passed: 80 reviewed records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings shards |
 | Focused combined/public-search regressions | 11 of 11 passed |
-| Prepared unit suite | 194 of 194 passed |
+| Prepared unit suite | 194 of 194 passed on the product release; the evidence follow-up passes 195 of 195 locally and in PR run `33391552626` |
 | Frozen retrieval-quality gate | Mean nDCG@10 `0.984698009`; Recall@20 `1`; identical cold/warm results; legislation collection absent and legislation request rejected |
 | Installed Google Chrome | 30 of 30 browser tests passed |
 | Installed Microsoft Edge | 30 of 30 browser tests passed |
@@ -420,7 +420,7 @@ refreshed video and submission remain open.
 | Public Chrome DevTools MCP 1.8.0 | exact corrected deployment discovered and completed all five calls with zero console errors |
 | Native Chrome WebMCP panel | five valid calls recorded `Completed`; `limit: 21` returned the expected structured rejection; both presentation tools updated the visible page, and the comparison's 11 facet rows and digest prefix agreed with the canonical result |
 | Video technical review | complete video/audio decode, 4,284 decoded frames and 38 caption cues passed; one non-fatal subtitle metadata warning retained; no audible content-parity or owner approval claimed |
-| Refreshed Devpost state | project `1406973` remained `Untitled`, blank and `submission_pre_draft` at `2026-08-30T17:57:48Z`; no form or submission mutation |
+| Refreshed Devpost state | project `1406973` remained `Untitled`, blank and `submission_pre_draft` at `2026-08-31T12:16:23Z`; no form or submission mutation |
 | Current dependency reinstall and audit | local `npm ci --ignore-scripts --no-audit` passed and `npm audit --json` reported zero vulnerabilities across 162 application dependencies; the integrated CI and Pages definitions use the same install boundary, and Pages installs the Python pins and runs semantic smoke before deployment |
 | Microsoft WebMCP Explorer build | exact commit built twice idempotently in isolated `.tools/webmcp-explorer-build/`; source checkout remained clean and the clean-output allow-list passed; source, lock and unpacked-extension file-manifest SHA-256 values recorded below |
 

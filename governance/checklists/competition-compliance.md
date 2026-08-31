@@ -23,9 +23,10 @@ findings. Exact-release deployment and supported-host gates are complete. A
 refreshed VoiceOver journey, final video and human publication checks remain
 open.
 
-- [x] **Re-verified locally after remediation:** the current prepared unit
-  command passed 194 of 194; Chrome and installed Microsoft Edge each passed 30
-  of 30 on the current final-candidate tree.
+- [x] **Re-verified locally after remediation:** the exact product release
+  passed 194 of 194 prepared unit tests; Chrome and installed Microsoft Edge
+  each passed 30 of 30. The evidence follow-up passes 195 of 195 locally and in
+  protected pull-request run `33391552626` without changing release bytes.
 - [x] **Current final-candidate rerun recorded:** research passed 4 of 4, production
   build/data validation passed, the frozen lexical gate reported mean nDCG@10
   `0.984698009`, Recall@20 `1`, cold/warm parity and legislation absent or
@@ -116,16 +117,16 @@ open.
   retained and corrected protected-main commit
   `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is deployed with its signed-out
   human fallback verified.
-- [x] **Confirmed in one supported host:** `Codex In-app Browser` discovered and
-  successfully called all five tools on the historical `v0.2.0-rc.1` public
-  deployment on 30 August 2026. The observation is specific to that host,
-  revision and time.
-- [x] **Confirmed in a named judging environment:** a disposable Chrome
+- [x] **Confirmed in one supported host for the historical release:** `Codex
+  In-app Browser` discovered and successfully called all five tools on the
+  `v0.2.0-rc.1` public deployment on 30 August 2026. The observation is specific
+  to that host, revision and time.
+- [x] **Confirmed historically in a named judging environment:** a disposable Chrome
   152.0.7977.64 profile with WebMCP testing enabled loaded the corrected public
   URL. Its native Application → WebMCP panel listed all five tools, completed
   all five valid calls and displayed the structured rejection for invalid
   `limit: 21`.
-- [x] **Confirmed independently on the same public revision:** Chrome DevTools
+- [x] **Confirmed historically and independently on the same public revision:** Chrome DevTools
   MCP 1.8.0 completed all five calls, rejected synthetic `personalContext` and
   recorded zero console errors. This is deterministic host execution, not
   model-selection evidence.

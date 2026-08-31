@@ -351,7 +351,7 @@ redistribution or contradictory display text.
 
 Digest validation proves that packaged bytes and declared relationships match.
 It does not prove official endorsement, current accuracy, access authority or
-an open licence. Every result therefore keeps its maintained human source link,
+an open licence. Every result therefore keeps its recorded producer-declared source link,
 explicit link role, assertion status and limitations visible. Source-derived
 text is untrusted data and is rendered as text rather than executable content.
 
