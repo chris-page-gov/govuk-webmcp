@@ -28,14 +28,28 @@ import {
 } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  fetchPublicDeploymentMetadata,
+  PUBLIC_CAPTURE_TARGET,
+} from "./lib/chrome-devtools-capture-target.mjs";
+
 const scriptPath = fileURLToPath(import.meta.url);
 export const repositoryRoot = resolve(dirname(scriptPath), "..");
 const defaultConfig = join(repositoryRoot, "docs/competition/demo-video-script.json");
-const defaultOutput = join(repositoryRoot, "output/govuk-webmcp-demo-2026-08-30.mp4");
+const defaultOutput = join(repositoryRoot, "output/govuk-webmcp-demo-v0.3.0-rc.1.mp4");
 const transcriptPath = join(repositoryRoot, "docs/competition/demo-transcript.md");
 const captionsPath = join(repositoryRoot, "docs/competition/demo-captions.en-GB.vtt");
-const verificationPath = join(repositoryRoot, "docs/competition/evidence/demo-video-build-2026-08-30.json");
-const expectedInteractionCaptureReceipt = "docs/competition/evidence/demo-live-interaction-capture-2026-08-30.json";
+const verificationPath = join(repositoryRoot, "docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json");
+const expectedInteractionCaptureReceipt = "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json";
+const COMMIT = /^[a-f0-9]{40}$/u;
+const RUN_ID = /^[1-9][0-9]*$/u;
+const SHA256 = /^[a-f0-9]{64}$/u;
+const FEDERATED_RECORD_ID = /^govuk-discovery:federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5})$/u;
+
+export const demoReleaseEnvironment = Object.freeze({
+  productCommit: "GOVUK_WEBMCP_DEMO_COMMIT",
+  pagesRunId: "GOVUK_WEBMCP_DEMO_PAGES_RUN_ID",
+});
 
 export const expectedToolNames = [
   "search_government_knowledge",
@@ -53,7 +67,7 @@ export const requiredVoiceOverJourneyIds = [
   "comparison-table",
   "live-status",
   "search-and-record",
-  "authoritative-links",
+  "source-link-role-and-destination",
   "focus-restoration",
 ];
 
@@ -67,6 +81,12 @@ function isObject(value) {
 
 function nonEmptyString(value, label, maximum = 1_000) {
   invariant(typeof value === "string" && value.length > 0 && value.length <= maximum, `${label} must be a non-empty string of at most ${maximum} characters`);
+  return value;
+}
+
+function hostname(value, label) {
+  nonEmptyString(value, label, 253);
+  invariant(/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/u.test(value), `${label} is not a lowercase ASCII hostname`);
   return value;
 }
 
@@ -167,25 +187,55 @@ function validObservedAt(value, label) {
 }
 
 function validatePageIdentity(page, config, label) {
-  invariant(isObject(page), `${label}.page must be an object`);
+  exactKeys(page, ["url", "release", "productCommit", "pagesRunId"], ["url", "release", "productCommit", "pagesRunId"], `${label}.page`);
   const expected = new URL(config.productUrl);
   const observed = new URL(page.url);
   invariant(observed.origin === expected.origin && observed.pathname === expected.pathname, `${label} page URL does not identify the configured product`);
   invariant(page.release === config.release, `${label} release does not match the script`);
   invariant(page.productCommit === config.productCommit, `${label} product commit does not match the script`);
+  invariant(page.pagesRunId === config.pagesRunId, `${label} Pages run does not match the script`);
 }
 
 function assertBoundary(boundaries, field, expected, label) {
   invariant(isObject(boundaries) && boundaries[field] === expected, `${label} must record ${field}=${JSON.stringify(expected)}`);
 }
 
-export function validateSupportedHostEvidence(evidence, config) {
-  invariant(evidence?.schema === "trusted-govuk-discovery.supported-host-webmcp-capture.v1", "Supported-host evidence has the wrong schema");
+export function validateSupportedHostEvidence(evidence, config, expectedFederatedRecordId) {
+  exactKeys(evidence,
+    ["schema", "capturedAt", "page", "host", "capture", "artefacts", "discovery", "calls", "rejectedCall", "finalPageObservation", "limitations"],
+    ["schema", "capturedAt", "page", "host", "capture", "artefacts", "discovery", "calls", "rejectedCall", "finalPageObservation", "limitations"],
+    "Supported-host evidence");
+  invariant(evidence?.schema === "trusted-govuk-discovery.supported-host-webmcp-capture.v2", "Supported-host evidence has the wrong schema");
   validObservedAt(evidence.capturedAt, "Supported-host capturedAt");
   validatePageIdentity(evidence.page, config, "Supported-host evidence");
-  invariant(evidence.host?.name === "Codex In-app Browser", "Supported-host evidence must name Codex In-app Browser");
-  invariant(evidence.host?.type === "iab" && evidence.host?.capabilities?.includes("webmcp"), "Supported-host evidence must record the native WebMCP capability");
-
+  exactKeys(evidence.host, ["name", "version", "capabilities"], ["name", "version", "capabilities"], "Supported-host identity");
+  nonEmptyString(evidence.host?.name, "Supported-host name", 120);
+  nonEmptyString(evidence.host?.version, "Supported-host version", 120);
+  invariant(Array.isArray(evidence.host.capabilities) && evidence.host.capabilities.includes("webmcp"), "Supported-host evidence must record the native WebMCP capability");
+  exactKeys(evidence.capture,
+    ["method", "hostOwnedSurfaceObserved", "hostRecordingCaptured", "modelSelected", "modelProviderCalled"],
+    ["method", "hostOwnedSurfaceObserved", "hostRecordingCaptured", "modelSelected", "modelProviderCalled"],
+    "Supported-host capture");
+  nonEmptyString(evidence.capture.method, "Supported-host capture method", 600);
+  invariant(typeof evidence.capture.hostOwnedSurfaceObserved === "boolean" && typeof evidence.capture.hostRecordingCaptured === "boolean", "Supported-host capture must state whether a host-owned surface and recording were observed");
+  invariant(evidence.capture.modelSelected === false && evidence.capture.modelProviderCalled === false, "Supported-host evidence must not imply a model-backed call when none was selected");
+  invariant(Array.isArray(evidence.artefacts) && evidence.artefacts.length > 0, "Supported-host evidence must bind at least one host artefact");
+  for (const artefact of evidence.artefacts) {
+    exactKeys(artefact,
+      ["path", "sha256", "kind", "hostOwnedSurface", "purpose", "limitation"],
+      ["path", "sha256", "kind", "hostOwnedSurface", "purpose", "limitation"],
+      "Supported-host artefact");
+    nonEmptyString(artefact.path, "Supported-host artefact path", 300);
+    invariant(SHA256.test(artefact.sha256), "Supported-host artefact SHA-256 is invalid");
+    invariant(["raw-receipt", "host-screenshot"].includes(artefact.kind), "Supported-host artefact kind is invalid");
+    invariant(typeof artefact.hostOwnedSurface === "boolean", "Supported-host artefact must state whether it shows a host-owned surface");
+    nonEmptyString(artefact.purpose, "Supported-host artefact purpose", 500);
+    nonEmptyString(artefact.limitation, "Supported-host artefact limitation", 500);
+  }
+  invariant(evidence.artefacts.some(({ kind }) => kind === "raw-receipt" || kind === "host-screenshot"), "Supported-host evidence lacks a raw receipt or host screenshot");
+  if (evidence.capture.hostOwnedSurfaceObserved) {
+    invariant(evidence.artefacts.some(({ kind, hostOwnedSurface }) => kind === "host-screenshot" && hostOwnedSurface === true), "A claimed host-owned surface must be bound to a host screenshot");
+  }
   const tools = evidence.discovery?.tools;
   invariant(evidence.discovery?.toolCount === expectedToolNames.length, "Supported-host evidence must record five discovered tools");
   invariant(sameSet(tools?.map(({ name }) => name), expectedToolNames), "Supported-host discovery does not contain the exact five tools");
@@ -199,7 +249,13 @@ export function validateSupportedHostEvidence(evidence, config) {
   for (const tool of tools) {
     invariant(tool.annotations?.readOnlyHint === expectedReadOnly.get(tool.name), `${tool.name} has the wrong readOnlyHint`);
     invariant(tool.annotations?.untrustedContentHint === true, `${tool.name} must retain untrustedContentHint=true`);
+    invariant(tool.inputSchema?.additionalProperties === false, `${tool.name} must retain a closed input schema`);
   }
+  const searchTool = tools.find(({ name }) => name === "search_government_knowledge");
+  invariant(sameSet(Object.keys(searchTool.inputSchema?.properties ?? {}), ["query", "resourceTypes", "publishers", "accessStatuses", "collections", "limit"]), "Search schema must expose exactly the six declared fields");
+  invariant(sameValues(searchTool.inputSchema?.required, ["query"]), "Search schema must require only query");
+  invariant(sameSet(searchTool.inputSchema?.$defs?.knowledgeCollection?.enum, ["deep-evidence", "uk-living", "ons", "government-apis", "land-registry"]), "Search schema must retain the exact five-value collection enum");
+  invariant(!Object.hasOwn(searchTool.inputSchema?.properties ?? {}, "personalContext"), "Search schema must not expose personalContext");
 
   const calls = evidence.calls;
   invariant(sameSet(calls?.map(({ name }) => name), expectedToolNames), "Supported-host evidence must contain one call for every fixed tool");
@@ -213,14 +269,51 @@ export function validateSupportedHostEvidence(evidence, config) {
     );
   }
 
-  for (const name of ["search_government_knowledge", "get_resource_record"]) {
-    const boundaries = byName.get(name).result.boundaries;
-    assertBoundary(boundaries, "providerCall", false, name);
-    assertBoundary(boundaries, "readOnly", true, name);
-  }
+  const search = byName.get("search_government_knowledge");
+  const inputs = config.demonstrationInputs;
+  invariant(search.input?.query === inputs.query, "Search call used the wrong fixed query");
+  invariant(sameValues(search.input?.collections, inputs.collections), "Search call did not use the exact four federated collections");
+  invariant(search.input?.limit === inputs.limit, "Search call used the wrong fixed result limit");
+  invariant(search.result?.schema === "trusted-govuk-discovery.search-result.v2", "Search call did not return the combined evidence-tier result");
+  invariant(sameValues(search.result?.selectedCollections, inputs.collections), "Search result selected the wrong collections");
+  invariant(search.result?.evidenceEstate?.reviewedRecordCount === 80, "Search result lost the reviewed evidence population");
+  invariant(search.result?.evidenceEstate?.federatedSourceRecordCount === 58_655 && search.result?.evidenceEstate?.federatedQuarantinedRecordCount === 3 && search.result?.evidenceEstate?.federatedRecordCount === 58_652, "Search result lost the exact federated source, quarantine or searchable population");
+  invariant(sameSet(search.result?.collectionStatuses?.map(({ collectionId }) => collectionId), inputs.collections), "Search result did not report all four federated collection states");
+  invariant(search.result.collectionStatuses.every(({ evidenceTier, status }) => evidenceTier === "federated-source-snapshot" && status === "ready"), "Search result did not retain four ready source-snapshot tiers");
+  invariant(sameSet([...new Set(search.result?.results?.map(({ collectionId }) => collectionId))], inputs.collections), "Search result limit did not return a representative result from every federated collection");
+  invariant(search.result.returned === search.result.results.length && search.result.returned <= inputs.limit, "Search result returned count is inconsistent with the captured result array or limit");
+  invariant(search.result.results.every(({ evidenceTier, canonicalHumanUrl }) => evidenceTier === "federated-source-snapshot" && (!canonicalHumanUrl || new URL(canonicalHumanUrl).hostname !== inputs.excludedHostname)), "Search results lost their federated tier or published an excluded legislation link");
+  assertBoundary(search.result.boundaries, "providerCall", false, "search_government_knowledge");
+  assertBoundary(search.result.boundaries, "personalContextAccepted", false, "search_government_knowledge");
+
+  assertBoundary(search.result.boundaries, "readOnly", true, "search_government_knowledge");
+  const record = byName.get("get_resource_record");
+  const provenanceCall = byName.get("show_provenance");
+  const demonstratedRecordId = record.input?.recordId;
+  invariant(FEDERATED_RECORD_ID.test(expectedFederatedRecordId), "Final preflight must supply the deployment-selected federated record ID");
+  invariant(demonstratedRecordId === expectedFederatedRecordId, "Exact-record call did not use the deployment-selected federated record");
+  invariant(search.result.results.some(({ recordId }) => recordId === demonstratedRecordId), "Exact-record call did not use a result from the fixed four-source search");
+  const demonstratedSummary = search.result.results.find(({ recordId }) => recordId === demonstratedRecordId);
+  invariant(record.result?.evidenceTier === "federated-source-snapshot" && record.result?.record?.id === demonstratedRecordId, "Exact-record call did not retain the federated source-snapshot tier");
+  invariant(record.result.record.collectionId === demonstratedSummary.collectionId, "Exact federated record collection does not match the fixed search result");
+  invariant(record.result.record.sourceAuthority === "Not independently established", "Exact federated record must retain the not-independently-established authority label");
+  invariant(record.result.record.linkRole === "producer-declared-source", "Exact federated record must retain the producer-declared-source link role");
+  invariant(record.result.record.canonicalHumanUrl === null || new URL(record.result.record.canonicalHumanUrl).hostname !== inputs.excludedHostname, "Exact federated record published an excluded legislation link");
+  invariant(record.result?.boundaries?.itemLevelReview === false && record.result?.boundaries?.evidenceReceiptAvailable === false, "Exact federated record must not claim item-level review or a receipt");
+  assertBoundary(record.result.boundaries, "readOnly", true, "get_resource_record");
+  assertBoundary(record.result.boundaries, "officialApiCall", false, "get_resource_record");
+  assertBoundary(record.result.boundaries, "accessAuthorityGranted", false, "get_resource_record");
+  invariant(provenanceCall.input?.recordId === demonstratedRecordId && provenanceCall.result?.recordId === demonstratedRecordId, "Provenance call did not use the demonstrated federated record");
+  invariant(provenanceCall.result?.collection?.id === demonstratedSummary.collectionId, "Federated provenance collection does not match the fixed search result");
+  invariant(provenanceCall.result?.evidenceTier === "federated-source-snapshot" && provenanceCall.result?.evidenceReceiptAvailable === false, "Federated provenance must retain its tier and no-item-receipt boundary");
+  invariant(provenanceCall.result?.authoritativeLink?.url === null || new URL(provenanceCall.result.authoritativeLink.url).hostname !== inputs.excludedHostname, "Federated provenance published an excluded legislation link");
   const provenance = byName.get("show_provenance").result.boundaries;
-  assertBoundary(provenance, "sourceWasNotRefetched", true, "show_provenance");
+  assertBoundary(provenance, "sameOriginSnapshotVerified", true, "show_provenance");
+  assertBoundary(provenance, "sourceWasNotRefetchedAtRuntime", true, "show_provenance");
+  assertBoundary(provenance, "itemLevelReview", false, "show_provenance");
+  assertBoundary(provenance, "evidenceReceiptAvailable", false, "show_provenance");
   assertBoundary(provenance, "cryptographicSignatureVerified", false, "show_provenance");
+  assertBoundary(provenance, "accessAuthorityGranted", false, "show_provenance");
 
   for (const name of ["explore_answer_foundations", "compare_evidence_foundations"]) {
     const boundaries = byName.get(name).result.boundaries;
@@ -231,21 +324,38 @@ export function validateSupportedHostEvidence(evidence, config) {
     assertBoundary(boundaries, "presentationEffect", "transient-local-selection", name);
   }
 
+  const exploration = byName.get("explore_answer_foundations");
+  invariant(exploration.input?.answerId === inputs.reviewedAnswerId && inputs.reviewedClaimIds.includes(exploration.input?.claimId), "Exploration call did not use the reviewed evidence-tier example");
   const comparison = byName.get("compare_evidence_foundations");
-  invariant(comparison.input?.answerId === config.webmcpComparison.answerId, "Comparison call used the wrong answer ID");
-  invariant(sameValues(comparison.input?.claimIds, config.webmcpComparison.claimIds), "Comparison call used the wrong claim IDs");
-  invariant(comparison.result?.answerId === config.webmcpComparison.answerId, "Comparison result used the wrong answer ID");
-  invariant(sameValues(comparison.result?.claimIds, config.webmcpComparison.claimIds), "Comparison result used the wrong claim IDs");
+  invariant(comparison.input?.answerId === inputs.reviewedAnswerId, "Comparison call used the wrong answer ID");
+  invariant(sameValues(comparison.input?.claimIds, inputs.reviewedClaimIds), "Comparison call used the wrong claim IDs");
+  invariant(comparison.result?.answerId === inputs.reviewedAnswerId, "Comparison result used the wrong answer ID");
+  invariant(sameValues(comparison.result?.claimIds, inputs.reviewedClaimIds), "Comparison result used the wrong claim IDs");
+
+  const rejected = evidence.rejectedCall;
+  exactKeys(rejected,
+    ["name", "rejectedField", "inputFieldNames", "result", "canonicalResultDigest"],
+    ["name", "rejectedField", "inputFieldNames", "result", "canonicalResultDigest"],
+    "Supported-host rejected call");
+  invariant(rejected?.name === "search_government_knowledge" && rejected.rejectedField === "personalContext", "Supported-host evidence must retain the rejected personalContext field name");
+  invariant(sameSet(rejected.inputFieldNames, ["query", "personalContext"]), "Rejected-call evidence must retain field names only");
+  invariant(rejected.result?.ok === false && rejected.result?.error?.code === "invalid_search_request", "personalContext must be rejected by executable validation");
+  invariant(rejected.canonicalResultDigest === sha256Text(canonicalJson(rejected.result)), "Rejected-call digest does not match its captured result");
 
   const observation = evidence.finalPageObservation;
   invariant(observation?.lastPresentationAction === "WebMCP: compare_evidence_foundations", "Final page observation does not record the comparison action");
-  invariant(sameValues(observation.selectedClaims, config.webmcpComparison.claimIds), "Final page observation selected the wrong claims");
+  invariant(sameValues(observation.selectedClaims, inputs.reviewedClaimIds), "Final page observation selected the wrong claims");
   invariant(observation.comparisonRowCount === 11, "Final page observation must record the 11-row comparison");
   const computedDigest = sha256Text(canonicalJson(comparison.result));
   invariant(/^[a-f0-9]{64}$/u.test(observation.displayResultDigest), "Displayed result digest is malformed");
   invariant(observation.canonicalCallResultDigest === computedDigest, "Recorded canonical call-result digest does not match the captured result");
   invariant(observation.displayResultDigest === computedDigest && observation.digestParity === true, "Displayed result digest does not match the canonical call result");
-  return { canonicalCallResultDigest: computedDigest };
+  return {
+    canonicalCallResultDigest: computedDigest,
+    demonstratedRecordId,
+    fourSourceResultCount: search.result.results.length,
+    host: evidence.host.name,
+  };
 }
 
 export function validateVoiceOverEvidence(evidence, config) {
@@ -273,11 +383,21 @@ export function validateVoiceOverEvidence(evidence, config) {
   const journeyIds = evidence.journey.map(({ id }) => id);
   invariant(sameSet(journeyIds, requiredVoiceOverJourneyIds), "VoiceOver journey IDs must be exactly the required journey");
   for (const item of evidence.journey) {
-    exactKeys(item, ["id", "result", "observation", "limitation"], ["id", "result", "observation"], `VoiceOver journey ${item.id}`);
+    exactKeys(item, ["id", "result", "observation", "limitation", "details"], ["id", "result", "observation"], `VoiceOver journey ${item.id}`);
     invariant(["pass", "limitation", "issue-observed"].includes(item.result), `VoiceOver journey result is invalid for ${item.id}`);
     nonEmptyString(item.observation, `VoiceOver observation ${item.id}`, 1_500);
     if (item.result === "pass") invariant(item.limitation === undefined, `Passing VoiceOver journey ${item.id} must not claim a limitation`);
     else nonEmptyString(item.limitation, `VoiceOver limitation acknowledgement ${item.id}`, 1_000);
+    if (item.id === "source-link-role-and-destination") {
+      exactKeys(item.details,
+        ["linkRole", "destinationHostname", "sourceAuthority"],
+        ["linkRole", "destinationHostname", "sourceAuthority"],
+        "VoiceOver source-link observation details");
+      invariant(item.details.linkRole === "producer-declared-source", "VoiceOver source-link observation must retain the producer-declared-source role");
+      hostname(item.details.destinationHostname, "VoiceOver source-link destination hostname");
+      invariant(item.details.destinationHostname !== config.demonstrationInputs.excludedHostname, "VoiceOver source-link observation must not use the excluded legislation hostname");
+      invariant(item.details.sourceAuthority === "Not independently established", "VoiceOver source-link observation must retain the not-independently-established authority label");
+    } else invariant(item.details === undefined, `VoiceOver journey ${item.id} must not claim unrelated source-link details`);
   }
   invariant(Array.isArray(evidence.limitations) && evidence.limitations.length > 0, "VoiceOver evidence must record at least one limitation");
   for (const limitation of evidence.limitations) nonEmptyString(limitation, "VoiceOver limitation", 1_000);
@@ -286,11 +406,14 @@ export function validateVoiceOverEvidence(evidence, config) {
   if (evidence.overallStatus === "completed") invariant(nonPassing.length === 0, "Completed VoiceOver evidence cannot contain limitations or observed issues");
   if (evidence.overallStatus === "completed-with-limitations") invariant(nonPassing.length > 0, "Completed-with-limitations VoiceOver evidence requires an acknowledged journey limitation or issue");
   exactKeys(evidence.media,
-    ["path", "sha256", "startSeconds", "endSeconds", "captureStartedAt", "captureEndedAt"],
-    ["path", "sha256", "startSeconds", "endSeconds", "captureStartedAt", "captureEndedAt"],
+    ["path", "sha256", "startSeconds", "endSeconds", "captureStartedAt", "captureEndedAt", "captureManifestPath", "captureManifestSha256"],
+    ["path", "sha256", "startSeconds", "endSeconds", "captureStartedAt", "captureEndedAt", "captureManifestPath", "captureManifestSha256"],
     "VoiceOver media binding");
   nonEmptyString(evidence.media.path, "VoiceOver media path", 300);
-  invariant(/^[a-f0-9]{64}$/u.test(evidence.media.sha256), "VoiceOver media SHA-256 is invalid");
+  invariant(SHA256.test(evidence.media.sha256), "VoiceOver media SHA-256 is invalid");
+  nonEmptyString(evidence.media.captureManifestPath, "VoiceOver capture manifest path", 300);
+  invariant(evidence.media.captureManifestPath.startsWith("output/voiceover-capture/") && evidence.media.captureManifestPath.endsWith(".json"), "VoiceOver capture manifest must stay beneath output/voiceover-capture");
+  invariant(SHA256.test(evidence.media.captureManifestSha256), "VoiceOver capture manifest SHA-256 is invalid");
   invariant(Number.isFinite(evidence.media.startSeconds) && evidence.media.startSeconds >= 0 && Number.isFinite(evidence.media.endSeconds) && evidence.media.endSeconds > evidence.media.startSeconds, "VoiceOver media time range is invalid");
   validObservedAt(evidence.media.captureStartedAt, "VoiceOver media capture start");
   validObservedAt(evidence.media.captureEndedAt, "VoiceOver media capture end");
@@ -306,14 +429,64 @@ export function validateVoiceOverMediaBinding(evidence, scene, media) {
   invariant(evidence.media.endSeconds <= media.durationSeconds, "VoiceOver evidence media range exceeds its configured clip");
 }
 
+export function validateHostMediaReceipt(receipt, config, scene, media, evidenceFile, artefactFiles) {
+  exactKeys(receipt,
+    ["schema", "builtAt", "page", "sourceEvidence", "sourceArtefacts", "rendering", "media"],
+    ["schema", "builtAt", "page", "sourceEvidence", "sourceArtefacts", "rendering", "media"],
+    "Supported-host media receipt");
+  invariant(receipt.schema === "trusted-govuk-discovery.supported-host-webmcp-clip.v1", "Supported-host media receipt has the wrong schema");
+  validObservedAt(receipt.builtAt, "Supported-host media build time");
+  validatePageIdentity(receipt.page, config, "Supported-host media receipt");
+  exactKeys(receipt.sourceEvidence, ["path", "sha256"], ["path", "sha256"], "Supported-host source evidence binding");
+  invariant(receipt.sourceEvidence.path === evidenceFile.relativePath && receipt.sourceEvidence.sha256 === evidenceFile.sha256, "Supported-host media receipt is not bound to the exact host evidence bytes");
+  invariant(Array.isArray(receipt.sourceArtefacts) && receipt.sourceArtefacts.length === artefactFiles.size, "Supported-host media receipt does not bind every host artefact");
+  for (const binding of receipt.sourceArtefacts) {
+    exactKeys(binding, ["path", "sha256"], ["path", "sha256"], "Supported-host source artefact binding");
+    const artefact = artefactFiles.get(binding.path);
+    invariant(artefact && binding.sha256 === artefact.sha256, `Supported-host media receipt artefact binding is wrong for ${String(binding.path)}`);
+  }
+  exactKeys(receipt.rendering,
+    ["kind", "hostRecordingEmbedded", "hostOwnedSurfaceEmbedded", "visibleLabel"],
+    ["kind", "hostRecordingEmbedded", "hostOwnedSurfaceEmbedded", "visibleLabel"],
+    "Supported-host media rendering boundary");
+  invariant(receipt.rendering.kind === "receipt-reconstruction" && receipt.rendering.hostRecordingEmbedded === false, "Supported-host media must remain a receipt reconstruction, not a host recording");
+  invariant(typeof receipt.rendering.hostOwnedSurfaceEmbedded === "boolean", "Supported-host media receipt must state whether a host-owned surface was embedded");
+  invariant(receipt.rendering.visibleLabel === "Receipt reconstruction — not a host recording", "Supported-host media must retain its exact reconstruction label");
+  exactKeys(receipt.media,
+    ["path", "sha256", "durationSeconds", "startSeconds", "endSeconds"],
+    ["path", "sha256", "durationSeconds", "startSeconds", "endSeconds"],
+    "Supported-host media binding");
+  invariant(receipt.media.path === scene.media.path && receipt.media.sha256 === media.sha256, "Supported-host media receipt path or SHA-256 does not match the configured clip");
+  invariant(receipt.media.startSeconds === scene.media.startSeconds && receipt.media.endSeconds <= media.durationSeconds, "Supported-host media receipt time range does not fit the configured clip");
+  invariant(Number.isFinite(receipt.media.durationSeconds) && Math.abs(receipt.media.durationSeconds - media.durationSeconds) <= 0.05, "Supported-host media receipt duration does not match the configured clip");
+  return {
+    kind: receipt.rendering.kind,
+    sourceArtefactCount: receipt.sourceArtefacts.length,
+    durationSeconds: receipt.media.durationSeconds,
+  };
+}
+
 export function validateInteractionCaptureEvidence(evidence, config, interactionScenes, mediaById) {
   exactKeys(evidence,
-    ["schema", "product", "captureMethod", "browser", "capturedAt", "reviews", "noBrowserChrome", "audioCaptured", "clips"],
-    ["schema", "product", "captureMethod", "browser", "capturedAt", "reviews", "noBrowserChrome", "audioCaptured", "clips"],
+    ["schema", "capturedAt", "page", "deployment", "demonstration", "captureMethod", "browser", "reviews", "noBrowserChrome", "audioCaptured", "clips"],
+    ["schema", "capturedAt", "page", "deployment", "demonstration", "captureMethod", "browser", "reviews", "noBrowserChrome", "audioCaptured", "clips"],
     "Live interaction capture receipt");
-  invariant(evidence.schema === "trusted-govuk-discovery.demo-live-interaction-capture.v1", "Live interaction capture receipt has the wrong schema");
-  exactKeys(evidence.product, ["url", "release", "commit"], ["url", "release", "commit"], "Live interaction capture product");
-  invariant(evidence.product.url === config.productUrl && evidence.product.release === config.release && evidence.product.commit === config.productCommit, "Live interaction capture receipt does not identify the configured release");
+  invariant(evidence.schema === "trusted-govuk-discovery.demo-live-interaction-capture.v2", "Live interaction capture receipt has the wrong schema");
+  validatePageIdentity(evidence.page, config, "Live interaction capture receipt");
+  exactKeys(evidence.deployment, ["metadataUrl", "metadataSha256"], ["metadataUrl", "metadataSha256"], "Live interaction capture deployment binding");
+  invariant(evidence.deployment.metadataUrl === new URL("deployment.json", config.productUrl).href, "Live interaction capture deployment metadata URL is wrong");
+  invariant(SHA256.test(evidence.deployment.metadataSha256), "Live interaction capture deployment metadata SHA-256 is invalid");
+  exactKeys(evidence.demonstration,
+    ["query", "collections", "limit", "federatedRecordId", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
+    ["query", "collections", "limit", "federatedRecordId", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
+    "Live interaction demonstration binding");
+  invariant(evidence.demonstration.query === config.demonstrationInputs.query, "Live interaction query does not match the script");
+  invariant(sameValues(evidence.demonstration.collections, config.demonstrationInputs.collections), "Live interaction collections do not match the script");
+  invariant(evidence.demonstration.limit === config.demonstrationInputs.limit, "Live interaction limit does not match the script");
+  invariant(FEDERATED_RECORD_ID.test(evidence.demonstration.federatedRecordId), "Live interaction federated record ID is not canonical");
+  invariant(evidence.demonstration.reviewedAnswerId === config.demonstrationInputs.reviewedAnswerId, "Live interaction reviewed answer does not match the script");
+  invariant(sameValues(evidence.demonstration.reviewedClaimIds, config.demonstrationInputs.reviewedClaimIds), "Live interaction reviewed claims do not match the script");
+  invariant(evidence.demonstration.excludedHostname === config.demonstrationInputs.excludedHostname, "Live interaction exclusion does not match the script");
   invariant(evidence.captureMethod === "playwright-public-site-interaction", "Live interaction capture receipt must record the public-site Playwright method");
   exactKeys(evidence.browser, ["name", "version"], ["name", "version"], "Live interaction capture browser");
   nonEmptyString(evidence.browser.name, "Live interaction capture browser name", 80);
@@ -326,7 +499,7 @@ export function validateInteractionCaptureEvidence(evidence, config, interaction
   const expectedIds = interactionScenes.map(({ id }) => id);
   invariant(sameSet(evidence.clips.map(({ sceneId }) => sceneId), expectedIds), "Live interaction capture receipt must contain exactly the configured interaction scenes");
   for (const clip of evidence.clips) {
-    exactKeys(clip, ["sceneId", "path", "sha256", "durationSeconds", "capturedAt", "actions", "sourceUrl"], ["sceneId", "path", "sha256", "durationSeconds", "capturedAt", "actions", "sourceUrl"], `Live interaction clip ${clip.sceneId}`);
+    exactKeys(clip, ["sceneId", "path", "sha256", "durationSeconds", "capturedAt", "actions", "sourceUrl", "observation"], ["sceneId", "path", "sha256", "durationSeconds", "capturedAt", "actions", "sourceUrl", "observation"], `Live interaction clip ${clip.sceneId}`);
     const scene = interactionScenes.find(({ id }) => id === clip.sceneId);
     const media = mediaById.get(clip.sceneId);
     invariant(scene && media, `Live interaction clip ${clip.sceneId} has no configured scene media`);
@@ -339,21 +512,109 @@ export function validateInteractionCaptureEvidence(evidence, config, interaction
     invariant(Array.isArray(clip.actions) && clip.actions.length > 0, `Live interaction clip ${clip.sceneId} must record actions`);
     invariant(sameValues(clip.actions, scene.requiredActions), `Live interaction clip ${clip.sceneId} actions do not match the required scene actions`);
   }
-  return { clipCount: evidence.clips.length, captureMethod: evidence.captureMethod };
+
+  const byId = new Map(evidence.clips.map((clip) => [clip.sceneId, clip]));
+  const overview = byId.get("overview")?.observation;
+  exactKeys(overview,
+    ["reviewedRecordCount", "federatedSourceRecordCount", "federatedRecordCount", "federatedQuarantinedRecordCount", "reviewedTierLabel", "federatedTierLabel"],
+    ["reviewedRecordCount", "federatedSourceRecordCount", "federatedRecordCount", "federatedQuarantinedRecordCount", "reviewedTierLabel", "federatedTierLabel"],
+    "Overview observation");
+  invariant(overview.reviewedRecordCount === 80 && overview.federatedSourceRecordCount === 58_655 && overview.federatedRecordCount === 58_652 && overview.federatedQuarantinedRecordCount === 3, "Overview observation lost the exact two-tier population counts");
+  invariant(overview.reviewedTierLabel === "Reviewed evidence" && overview.federatedTierLabel === "Federated discovery", "Overview observation lost the visible evidence-tier labels");
+
+  const search = byId.get("federated-search")?.observation;
+  exactKeys(search,
+    ["query", "collections", "limit", "resultIds", "resultCollectionIds", "collectionStatuses", "excludedHostnameResultCount", "canonicalResultDigest"],
+    ["query", "collections", "limit", "resultIds", "resultCollectionIds", "collectionStatuses", "excludedHostnameResultCount", "canonicalResultDigest"],
+    "Federated-search observation");
+  invariant(search.query === evidence.demonstration.query && sameValues(search.collections, evidence.demonstration.collections) && search.limit === evidence.demonstration.limit, "Federated-search observation does not retain the fixed input");
+  invariant(Array.isArray(search.resultIds) && search.resultIds.length > 0 && search.resultIds.length <= search.limit && new Set(search.resultIds).size === search.resultIds.length, "Federated-search result IDs are invalid");
+  invariant(search.resultIds.every((recordId) => FEDERATED_RECORD_ID.test(recordId)), "Federated-search result IDs are not canonical");
+  invariant(search.resultIds.includes(evidence.demonstration.federatedRecordId), "The selected federated record was not returned by the frozen deployment search");
+  invariant(Array.isArray(search.resultCollectionIds) && search.resultCollectionIds.length === search.resultIds.length, "Federated-search result collection IDs do not align with the returned IDs");
+  invariant(sameSet([...new Set(search.resultCollectionIds)], evidence.demonstration.collections), "Federated-search observation did not return at least one result from every selected collection");
+  invariant(Array.isArray(search.collectionStatuses) && sameSet(search.collectionStatuses.map(({ collectionId }) => collectionId), evidence.demonstration.collections), "Federated-search observation did not retain every collection status");
+  invariant(search.collectionStatuses.every(({ evidenceTier, status }) => evidenceTier === "federated-source-snapshot" && status === "ready"), "Federated-search observation did not retain four ready source-snapshot statuses");
+  invariant(search.excludedHostnameResultCount === 0, "Federated-search observation contains an excluded legislation result link");
+  invariant(SHA256.test(search.canonicalResultDigest), "Federated-search canonical result digest is invalid");
+
+  const record = byId.get("federated-record")?.observation;
+  exactKeys(record,
+    ["recordId", "collectionId", "evidenceTier", "sourceAuthority", "linkRole", "linkHostname", "itemLevelReview", "evidenceReceiptAvailable", "limitationsCount", "recordResultDigest", "provenanceResultDigest"],
+    ["recordId", "collectionId", "evidenceTier", "sourceAuthority", "linkRole", "linkHostname", "itemLevelReview", "evidenceReceiptAvailable", "limitationsCount", "recordResultDigest", "provenanceResultDigest"],
+    "Federated-record observation");
+  invariant(record.recordId === evidence.demonstration.federatedRecordId, "Federated-record observation used a different result from the frozen search");
+  invariant(evidence.demonstration.collections.includes(record.collectionId), "Federated-record observation used an unselected collection");
+  invariant(search.resultCollectionIds[search.resultIds.indexOf(record.recordId)] === record.collectionId, "Federated-record observation collection does not match the frozen search result");
+  invariant(record.evidenceTier === "federated-source-snapshot" && record.sourceAuthority === "Not independently established", "Federated-record observation overstates its evidence tier or authority");
+  nonEmptyString(record.linkRole, "Federated-record link role", 120);
+  hostname(record.linkHostname, "Federated-record link hostname");
+  invariant(record.linkRole === "producer-declared-source" && record.linkHostname !== evidence.demonstration.excludedHostname, "Federated-record observation lost the producer-declared-source role or published an excluded link");
+  invariant(record.itemLevelReview === false && record.evidenceReceiptAvailable === false, "Federated-record observation must retain the no-item-receipt boundary");
+  invariant(Number.isInteger(record.limitationsCount) && record.limitationsCount > 0, "Federated-record observation must retain visible limitations");
+  invariant(SHA256.test(record.recordResultDigest) && SHA256.test(record.provenanceResultDigest), "Federated-record result digests are invalid");
+
+  const reviewed = byId.get("reviewed-foundations")?.observation;
+  exactKeys(reviewed,
+    ["answerId", "claimIds", "foundationFacetLabels", "comparisonRowCount", "trustScoreShown"],
+    ["answerId", "claimIds", "foundationFacetLabels", "comparisonRowCount", "trustScoreShown"],
+    "Reviewed-foundations observation");
+  invariant(reviewed.answerId === evidence.demonstration.reviewedAnswerId && sameValues(reviewed.claimIds, evidence.demonstration.reviewedClaimIds), "Reviewed-foundations observation used the wrong answer or claims");
+  invariant(sameValues(reviewed.foundationFacetLabels, ["Authority", "Assertion", "Verification", "Freshness", "Integrity", "Access", "Rights", "Coverage"]), "Reviewed-foundations observation lost the eight separate facets");
+  invariant(reviewed.comparisonRowCount === 11 && reviewed.trustScoreShown === false, "Reviewed-foundations observation must retain the 11-row comparison and no-score boundary");
+
+  const boundary = byId.get("boundary")?.observation;
+  exactKeys(boundary,
+    ["sameOriginOnly", "browserStorage", "modelProviderRequestCount", "officialApiRequestCount", "landRegistryMetadataOnly", "standaloneLegislationCollection", "standaloneLegislationPayload", "standaloneLegislationIndex", "legislationRuntimeRequestCount", "excludedHostnameResultLinkCount", "impactClaimsFramedAsHypotheses", "remoteProviderDisclosureVisible"],
+    ["sameOriginOnly", "browserStorage", "modelProviderRequestCount", "officialApiRequestCount", "landRegistryMetadataOnly", "standaloneLegislationCollection", "standaloneLegislationPayload", "standaloneLegislationIndex", "legislationRuntimeRequestCount", "excludedHostnameResultLinkCount", "impactClaimsFramedAsHypotheses", "remoteProviderDisclosureVisible"],
+    "Boundary observation");
+  exactKeys(boundary.browserStorage, ["local", "session", "cookies"], ["local", "session", "cookies"], "Boundary browser storage observation");
+  invariant(boundary.sameOriginOnly === true && boundary.browserStorage.local === 0 && boundary.browserStorage.session === 0 && boundary.browserStorage.cookies === "", "Boundary observation must retain same-origin-only, storage-free execution");
+  invariant(boundary.modelProviderRequestCount === 0 && boundary.officialApiRequestCount === 0, "Boundary observation recorded a model-provider or official-API runtime request");
+  invariant(boundary.landRegistryMetadataOnly === true, "Boundary observation must retain the HM Land Registry metadata-only scope");
+  invariant(boundary.standaloneLegislationCollection === false && boundary.standaloneLegislationPayload === false && boundary.standaloneLegislationIndex === false && boundary.legislationRuntimeRequestCount === 0 && boundary.excludedHostnameResultLinkCount === 0, "Boundary observation lost the legislation.gov.uk exclusion");
+  invariant(boundary.impactClaimsFramedAsHypotheses === true && boundary.remoteProviderDisclosureVisible === true, "Boundary observation must retain the impact-hypothesis and remote-provider disclosure");
+
+  return {
+    clipCount: evidence.clips.length,
+    captureMethod: evidence.captureMethod,
+    demonstratedRecordId: evidence.demonstration.federatedRecordId,
+    searchResultDigest: search.canonicalResultDigest,
+  };
+}
+
+export function bindReleaseConfig(config, environment = process.env) {
+  const productCommit = environment[demoReleaseEnvironment.productCommit];
+  const pagesRunId = environment[demoReleaseEnvironment.pagesRunId];
+  invariant(
+    typeof productCommit === "string" && COMMIT.test(productCommit),
+    `${demoReleaseEnvironment.productCommit} must be the exact lowercase 40-character deployed commit`,
+  );
+  invariant(
+    typeof pagesRunId === "string" && RUN_ID.test(pagesRunId),
+    `${demoReleaseEnvironment.pagesRunId} must be the exact Pages deployment run ID`,
+  );
+  return Object.freeze({ ...config, productCommit, pagesRunId });
+}
+
+export async function verifyDemoDeployment(config, fetchImplementation = fetch) {
+  invariant(config.productUrl === PUBLIC_CAPTURE_TARGET, "Demo release is restricted to the allowlisted public Pages URL");
+  const deployment = await fetchPublicDeploymentMetadata({ expectedCommit: config.productCommit, fetchImplementation });
+  invariant(deployment.metadata.runId === config.pagesRunId, "Public deployment run does not match GOVUK_WEBMCP_DEMO_PAGES_RUN_ID");
+  return deployment;
 }
 
 export function validateConfig(config) {
   exactKeys(config,
-    ["schema", "title", "language", "productUrl", "productCommit", "release", "narration", "reviews", "webmcpComparison", "interactionCaptureReceipt", "scenes"],
-    ["schema", "title", "language", "productUrl", "productCommit", "release", "narration", "reviews", "webmcpComparison", "interactionCaptureReceipt", "scenes"],
+    ["schema", "title", "language", "productUrl", "release", "narration", "reviews", "demonstrationInputs", "interactionCaptureReceipt", "scenes"],
+    ["schema", "title", "language", "productUrl", "release", "narration", "reviews", "demonstrationInputs", "interactionCaptureReceipt", "scenes"],
     "Demo script");
-  invariant(config.schema === "trusted-govuk-discovery.demo-video-script.v2", "Demo script has the wrong schema");
+  invariant(config.schema === "trusted-govuk-discovery.demo-video-script.v3", "Demo script has the wrong schema");
   nonEmptyString(config.title, "Demo title", 100);
   invariant(config.language === "en-GB", "Demo language must be en-GB");
   const product = new URL(config.productUrl);
   invariant(product.protocol === "https:" && !product.username && !product.password, "Product URL must be credential-free HTTPS");
-  invariant(/^[a-f0-9]{40}$/u.test(config.productCommit), "Product commit must be a full Git commit ID");
-  nonEmptyString(config.release, "Release", 40);
+  invariant(config.release === "v0.3.0-rc.1", "Demo release must target v0.3.0-rc.1");
   exactKeys(config.narration,
     ["type", "engine", "voice", "locale", "speechRate", "publicationBasis"],
     ["type", "engine", "voice", "locale", "speechRate", "publicationBasis"],
@@ -365,14 +626,22 @@ export function validateConfig(config) {
   invariant(config.narration.publicationBasis === "pending-owner-review", "Narration publication basis must remain pending owner review");
   invariant(config.reviews?.privacy === "pending-human-review" && config.reviews?.branding === "pending-human-review" && config.reviews?.voicePublicationBasis === "pending-owner-review", "Privacy, branding and voice-publication reviews must remain pending in the local build script");
   invariant(config.interactionCaptureReceipt === expectedInteractionCaptureReceipt, "Demo script must use the reviewed live-interaction capture receipt path");
-  invariant(/^answer:/u.test(config.webmcpComparison?.answerId), "WebMCP comparison answer ID is invalid");
-  invariant(Array.isArray(config.webmcpComparison?.claimIds) && config.webmcpComparison.claimIds.length === 2 && new Set(config.webmcpComparison.claimIds).size === 2, "WebMCP comparison must contain two unique claim IDs");
+  exactKeys(config.demonstrationInputs,
+    ["query", "collections", "limit", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
+    ["query", "collections", "limit", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
+    "Demonstration inputs");
+  invariant(config.demonstrationInputs.query === "housing", "Demonstration query must be housing");
+  invariant(sameValues(config.demonstrationInputs.collections, ["uk-living", "ons", "government-apis", "land-registry"]), "Demonstration collections must name the exact four federated sources in order");
+  invariant(config.demonstrationInputs.limit === 8, "Demonstration result limit must be the smallest human-interface value, 8");
+  invariant(/^answer:/u.test(config.demonstrationInputs.reviewedAnswerId), "Reviewed demonstration answer ID is invalid");
+  invariant(Array.isArray(config.demonstrationInputs.reviewedClaimIds) && config.demonstrationInputs.reviewedClaimIds.length === 2 && new Set(config.demonstrationInputs.reviewedClaimIds).size === 2, "Reviewed demonstration comparison must contain two unique claim IDs");
+  invariant(config.demonstrationInputs.excludedHostname === "legislation.gov.uk", "Demonstration exclusion must name legislation.gov.uk");
   invariant(Array.isArray(config.scenes) && config.scenes.length > 0, "Demo script contains no scenes");
   const ids = new Set();
   const numbers = new Set();
   for (const scene of config.scenes) {
     exactKeys(scene,
-      ["id", "number", "kind", "eyebrow", "title", "media", "evidence", "requiredActions", "cues"],
+      ["id", "number", "kind", "eyebrow", "title", "media", "evidence", "mediaReceipt", "requiredActions", "cues"],
       ["id", "number", "kind", "eyebrow", "title", "media", "cues"],
       `Scene ${scene?.id ?? "unknown"}`);
     nonEmptyString(scene.id, "Scene ID", 40);
@@ -395,6 +664,8 @@ export function validateConfig(config) {
     }
     if (["receipt-visualisation", "voiceover"].includes(scene.kind)) nonEmptyString(scene.evidence, `Scene ${scene.id} evidence path`, 240);
     else invariant(scene.evidence === undefined, `Scene ${scene.id} must not claim unrelated evidence`);
+    if (scene.kind === "receipt-visualisation") nonEmptyString(scene.mediaReceipt, `Scene ${scene.id} media receipt path`, 240);
+    else invariant(scene.mediaReceipt === undefined, `Scene ${scene.id} must not claim an unrelated media receipt`);
     if (scene.kind === "interaction") {
       invariant(Array.isArray(scene.requiredActions) && scene.requiredActions.length > 0 && scene.requiredActions.length <= 8, `Scene ${scene.id} must name its required live-capture actions`);
       for (const action of scene.requiredActions) nonEmptyString(action, `Scene ${scene.id} required action`, 120);
@@ -403,6 +674,7 @@ export function validateConfig(config) {
   }
   invariant(config.scenes.filter(({ kind }) => kind === "receipt-visualisation").length === 1, "Demo must contain exactly one supported-host receipt visualisation");
   invariant(config.scenes.filter(({ kind }) => kind === "voiceover").length === 1, "Demo must contain exactly one VoiceOver scene");
+  invariant(sameValues(config.scenes.map(({ id }) => id), ["overview", "federated-search", "federated-record", "webmcp", "reviewed-foundations", "voiceover", "boundary"]), "Demo must contain the exact seven-scene federated story in order");
   return config;
 }
 
@@ -472,7 +744,8 @@ async function preflight(options) {
   try {
     const relativeConfig = posix.normalize(relative(repositoryRoot, options.config).split(sep).join("/"));
     configFile = await regularRepositoryFile(relativeConfig, "Demo config", [".json"], 256_000);
-    config = validateConfig(JSON.parse(await readFile(configFile.absolutePath, "utf8")));
+    config = bindReleaseConfig(validateConfig(JSON.parse(await readFile(configFile.absolutePath, "utf8"))));
+    await verifyDemoDeployment(config);
   } catch (error) { errors.push(error.message); }
 
   const tools = {};
@@ -515,9 +788,7 @@ async function preflight(options) {
         try {
           const file = await regularRepositoryFile(scene.evidence, `Scene ${scene.id} evidence`, [".json"], 10_000_000);
           const parsed = JSON.parse(await readFile(file.absolutePath, "utf8"));
-          const summary = scene.kind === "receipt-visualisation"
-            ? validateSupportedHostEvidence(parsed, config)
-            : validateVoiceOverEvidence(parsed, config);
+          const summary = scene.kind === "voiceover" ? validateVoiceOverEvidence(parsed, config) : null;
           evidence.set(scene.id, { ...file, parsed, summary });
           inputs.push(file);
         } catch (error) { errors.push(error.message); }
@@ -529,16 +800,49 @@ async function preflight(options) {
         const evidenceInput = evidence.get(scene.id);
         invariant(mediaInput && evidenceInput, `VoiceOver scene ${scene.id} must have both media and evidence before binding`);
         validateVoiceOverMediaBinding(evidenceInput.parsed, scene, mediaInput);
+        const manifestFile = await regularRepositoryFile(evidenceInput.parsed.media.captureManifestPath, `VoiceOver scene ${scene.id} capture manifest`, [".json"], 256_000);
+        manifestFile.sha256 = await sha256File(manifestFile.absolutePath);
+        invariant(manifestFile.sha256 === evidenceInput.parsed.media.captureManifestSha256, `VoiceOver scene ${scene.id} capture manifest SHA-256 has drifted`);
+        inputs.push(manifestFile);
       } catch (error) { errors.push(error.message); }
     }
+    let interactionSummary;
     try {
       const interactionCaptureFile = await regularRepositoryFile(config.interactionCaptureReceipt, "Live interaction capture receipt", [".json"], 10_000_000);
       const interactionCapture = JSON.parse(await readFile(interactionCaptureFile.absolutePath, "utf8"));
       const interactionScenes = config.scenes.filter(({ kind }) => kind === "interaction");
       const summary = validateInteractionCaptureEvidence(interactionCapture, config, interactionScenes, media);
+      interactionSummary = summary;
       evidence.set("live-interaction-capture", { ...interactionCaptureFile, parsed: interactionCapture, summary });
       inputs.push(interactionCaptureFile);
     } catch (error) { errors.push(error.message); }
+
+    for (const scene of config.scenes.filter(({ kind }) => kind === "receipt-visualisation")) {
+      try {
+        invariant(interactionSummary, "Supported-host evidence cannot be validated before the exact live interaction record is bound");
+        const hostEvidence = evidence.get(scene.id);
+        invariant(hostEvidence, `Scene ${scene.id} host evidence is unavailable`);
+        const hostSummary = validateSupportedHostEvidence(hostEvidence.parsed, config, interactionSummary.demonstratedRecordId);
+        hostEvidence.summary = hostSummary;
+        hostEvidence.sha256 = await sha256File(hostEvidence.absolutePath);
+
+        const artefactFiles = new Map();
+        for (const artefact of hostEvidence.parsed.artefacts) {
+          const file = await regularRepositoryFile(artefact.path, `Supported-host artefact ${artefact.path}`, [".json", ".png", ".jpg", ".jpeg", ".txt"], 50_000_000);
+          file.sha256 = await sha256File(file.absolutePath);
+          invariant(file.sha256 === artefact.sha256, `Supported-host artefact SHA-256 has drifted: ${artefact.path}`);
+          artefactFiles.set(file.relativePath, file);
+          inputs.push(file);
+        }
+
+        const receiptFile = await regularRepositoryFile(scene.mediaReceipt, `Scene ${scene.id} media receipt`, [".json"], 1_000_000);
+        receiptFile.sha256 = await sha256File(receiptFile.absolutePath);
+        const receipt = JSON.parse(await readFile(receiptFile.absolutePath, "utf8"));
+        const receiptSummary = validateHostMediaReceipt(receipt, config, scene, media.get(scene.id), hostEvidence, artefactFiles);
+        evidence.set(`${scene.id}-media`, { ...receiptFile, parsed: receipt, summary: receiptSummary });
+        inputs.push(receiptFile);
+      } catch (error) { errors.push(error.message); }
+    }
   }
 
   for (const destination of [options.output, captionsPath, transcriptPath, verificationPath]) {
@@ -642,7 +946,7 @@ function buildTranscript(config) {
   ].join("\n");
 }
 
-function validateFinalVideo(result) {
+export function validateFinalVideo(result) {
   const duration = durationOf(result, "Final video");
   invariant(duration < 180, `Final video duration ${duration} is not under 180 seconds`);
   const video = result.streams?.find(({ codec_type }) => codec_type === "video");
@@ -723,9 +1027,9 @@ async function build(options, preflightResult) {
     const duration = validateFinalVideo(finalProbe);
     const finalLoudness = parseLoudness(ffmpeg(["-i", finalVideo, "-af", "loudnorm=I=-16:LRA=7:TP=-1.5:print_format=json", "-f", "null", "-"], { capture: true }).stderr);
     const verification = {
-      schema: "trusted-govuk-discovery.demo-video-build.v2",
+      schema: "trusted-govuk-discovery.demo-video-build.v3",
       status: "local-review-build-not-published",
-      product: { url: config.productUrl, release: config.release, commit: config.productCommit },
+      product: { url: config.productUrl, release: config.release, commit: config.productCommit, pagesRunId: config.pagesRunId },
       environment: { node: process.version, platform: platform(), operatingSystemRelease: release(), architecture: arch(), tools },
       inputs: inputs.map(({ relativePath, sizeBytes, sha256 }) => ({ path: relativePath, sizeBytes, sha256 })).sort((a, b) => a.path.localeCompare(b.path, "en-GB")),
       video: { fileName: basename(options.output), sha256: await sha256File(finalVideo), durationSeconds: duration, streams: finalProbe.streams, publicUrl: null, signedOutPlaybackVerified: false },
@@ -736,6 +1040,7 @@ async function build(options, preflightResult) {
       evidence: {
         interactionCapture: evidence.get("live-interaction-capture").summary,
         supportedHost: evidence.get("webmcp").summary,
+        supportedHostMedia: evidence.get("webmcp-media").summary,
         voiceOver: evidence.get("voiceover").summary,
       },
       reviews: { privacy: "pending-human-review", branding: "pending-human-review", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },

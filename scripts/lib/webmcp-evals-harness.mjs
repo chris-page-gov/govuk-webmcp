@@ -349,6 +349,7 @@ export async function preflightOllamaModel(configuration, fetchImplementation = 
   try {
     response = await fetchImplementation(`${configuration.ollama.apiOrigin}/api/tags`, {
       headers: { Accept: "application/json" },
+      redirect: "error",
       signal: AbortSignal.timeout(5_000),
     });
   } catch {
@@ -363,12 +364,17 @@ export async function preflightOllamaModel(configuration, fetchImplementation = 
   } catch {
     throw new Error("The loopback Ollama model inventory was not valid JSON.");
   }
-  if (!plainObject(payload) || !Array.isArray(payload.models) || payload.models.length > 256) {
+  if (
+    !plainObject(payload)
+    || Object.keys(payload).join(",") !== "models"
+    || !Array.isArray(payload.models)
+    || payload.models.length > 256
+    || payload.models.some((entry) => !plainObject(entry))
+  ) {
     throw new Error("The loopback Ollama model inventory was not a bounded models array.");
   }
   const matchingEntries = payload.models.filter((entry) =>
-    plainObject(entry)
-      && [entry.name, entry.model].some((value) => value === configuration.modelIdentifier));
+    [entry.name, entry.model].some((value) => value === configuration.modelIdentifier));
   if (matchingEntries.length === 0) {
     throw new Error(
       `The exact Ollama model ${configuration.modelIdentifier} is not installed; the harness will not download it.`,
@@ -377,13 +383,100 @@ export async function preflightOllamaModel(configuration, fetchImplementation = 
   if (matchingEntries.length !== 1) {
     throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has an ambiguous inventory identity.`);
   }
-  const rawDigest = matchingEntries[0].digest;
+  const matchingEntry = matchingEntries[0];
+  if (
+    matchingEntry.name !== configuration.modelIdentifier
+    || matchingEntry.model !== configuration.modelIdentifier
+  ) {
+    throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has no validated inventory identity.`);
+  }
+  if (
+    Object.hasOwn(matchingEntry, "remote_model")
+    || Object.hasOwn(matchingEntry, "remote_host")
+  ) {
+    throw new Error(
+      `The exact Ollama model ${configuration.modelIdentifier} is remote-backed; select an installed local model or use an approved remote-provider route.`,
+    );
+  }
+  const rawDigest = matchingEntry.digest;
   if (typeof rawDigest !== "string") {
     throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has no validated inventory digest.`);
   }
   const digest = rawDigest.replace(/^sha256:/iu, "").toLowerCase();
   if (!/^[a-f0-9]{64}$/u.test(digest)) {
     throw new Error(`The exact Ollama model ${configuration.modelIdentifier} has no validated inventory digest.`);
+  }
+  return Object.freeze({
+    name: configuration.modelIdentifier,
+    digest,
+  });
+}
+
+export async function observeOllamaLoadedModel(configuration, fetchImplementation = fetch) {
+  if (configuration.provider !== "ollama") return null;
+  let response;
+  try {
+    response = await fetchImplementation(`${configuration.ollama.apiOrigin}/api/ps`, {
+      headers: { Accept: "application/json" },
+      redirect: "error",
+      signal: AbortSignal.timeout(5_000),
+    });
+  } catch {
+    throw new Error("The loopback Ollama loaded-model state could not be reached.");
+  }
+  if (!response.ok) {
+    throw new Error(`The loopback Ollama loaded-model state returned HTTP ${response.status}.`);
+  }
+  let payload;
+  try {
+    payload = await response.json();
+  } catch {
+    throw new Error("The loopback Ollama loaded-model state was not valid JSON.");
+  }
+  if (
+    !plainObject(payload)
+    || Object.keys(payload).join(",") !== "models"
+    || !Array.isArray(payload.models)
+    || payload.models.length > 256
+    || payload.models.some((entry) => !plainObject(entry))
+  ) {
+    throw new Error("The loopback Ollama loaded-model state was not a bounded models array.");
+  }
+  const matchingEntries = payload.models.filter((entry) =>
+    [entry.name, entry.model].some((value) => value === configuration.modelIdentifier));
+  if (matchingEntries.length === 0) {
+    throw new Error(
+      `The exact Ollama model ${configuration.modelIdentifier} was not reported as loaded after evaluation.`,
+    );
+  }
+  if (matchingEntries.length !== 1) {
+    throw new Error(
+      `The exact Ollama model ${configuration.modelIdentifier} has an ambiguous loaded identity.`,
+    );
+  }
+  const matchingEntry = matchingEntries[0];
+  if (
+    matchingEntry.name !== configuration.modelIdentifier
+    || matchingEntry.model !== configuration.modelIdentifier
+    || typeof matchingEntry.digest !== "string"
+  ) {
+    throw new Error(
+      `The exact Ollama model ${configuration.modelIdentifier} has no validated loaded digest.`,
+    );
+  }
+  if (
+    Object.hasOwn(matchingEntry, "remote_model")
+    || Object.hasOwn(matchingEntry, "remote_host")
+  ) {
+    throw new Error(
+      `The exact Ollama model ${configuration.modelIdentifier} was reported as remote-backed after evaluation.`,
+    );
+  }
+  const digest = matchingEntry.digest.replace(/^sha256:/iu, "").toLowerCase();
+  if (!/^[a-f0-9]{64}$/u.test(digest)) {
+    throw new Error(
+      `The exact Ollama model ${configuration.modelIdentifier} has no validated loaded digest.`,
+    );
   }
   return Object.freeze({
     name: configuration.modelIdentifier,

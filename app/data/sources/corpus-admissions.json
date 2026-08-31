@@ -289,7 +289,7 @@
         "maximumInitialBytes": 524288
       },
       "decision": {
-        "allowedClaims": ["The producer release exposes 2,203 searchable metadata records through a digest-bound lazy index."],
+        "allowedClaims": ["The producer release contains 2,203 source metadata records; 3 are quarantined and 2,200 are searchable through a digest-bound lazy index."],
         "forbiddenClaims": ["The build contains title, property or personal records, or has completed an independent legal audit."],
         "limitations": ["This metadata-only discovery tier excludes title-register, title-plan, ownership, address, polygon and personal rows; it is not property evidence or legal advice."]
       },

@@ -291,6 +291,33 @@ test("combined search rejects personal, arbitrary and invalid collection fields 
   assert.equal(calls.federatedSearch.length, 0);
 });
 
+test("combined search preserves a bounded federated-runtime busy result", async () => {
+  const federatedResult = {
+    schema: "govuk-webmcp.error.v1",
+    ok: false,
+    error: {
+      code: "federated_runtime_busy",
+      message: "The bounded federated runtime is busy. Try again.",
+      details: {},
+    },
+    limitations: [
+      "No substitute source was selected.",
+      "No official API, model provider or personal context was contacted.",
+    ],
+  };
+  const { combined } = runtimeStubs({ federatedResult });
+
+  const result = await combined.search({
+    query: "housing",
+    collections: ["land-registry"],
+  });
+
+  assert.deepEqual(result, {
+    ...federatedResult,
+    schema: "trusted-govuk-discovery.error.v1",
+  });
+});
+
 test("deep filters are forwarded exactly while federated filtered totals remain lower bounds", async () => {
   const matching = federatedRow("ons", 9_757, {
     resourceType: "dataset",

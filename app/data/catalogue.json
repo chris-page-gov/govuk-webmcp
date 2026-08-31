@@ -3,7 +3,7 @@
   "generatedAt": "2026-08-30T00:00:00Z",
   "profile": "trusted-govuk-discovery.profile.v1",
   "bundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
-  "sourceLocksDigest": "a0ee8a1daa65cba11e82eb29de590192c2249252009dad982f34832628ff3e80",
+  "sourceLocksDigest": "355ad6f6d7b1d4da0f5406d05d49bc8506a0532d37183411cef244d1f873a16b",
   "records": [
     {
       "id": "govuk-discovery:api-documentation:hmrc",

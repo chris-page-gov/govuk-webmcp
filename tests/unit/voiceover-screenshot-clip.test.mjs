@@ -4,7 +4,12 @@ import { createHash, randomUUID } from "node:crypto";
 import { copyFile, mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import test, { after, before } from "node:test";
 
-import { validateConfig } from "../../scripts/build-demo-video.mjs";
+import {
+  bindReleaseConfig,
+  demoReleaseEnvironment,
+  requiredVoiceOverJourneyIds,
+  validateConfig,
+} from "../../scripts/build-demo-video.mjs";
 import {
   buildVoiceOverFfmpegArguments,
   preflightCapture,
@@ -12,19 +17,26 @@ import {
   validateRenderedClip,
 } from "../../scripts/build-voiceover-screenshot-clip.mjs";
 
-const config = validateConfig(JSON.parse(await readFile("docs/competition/demo-video-script.json", "utf8")));
-const journeyIds = [
-  "page-title-and-headings",
-  "skip-link-and-main-focus",
-  "analytical-index-controls",
-  "selected-foundation",
-  "comparison-table",
-  "live-status",
-  "search-and-record",
-  "authoritative-links",
-  "focus-restoration",
-];
+const environment = {
+  [demoReleaseEnvironment.productCommit]: "a".repeat(40),
+  [demoReleaseEnvironment.pagesRunId]: "33333333333",
+};
+const config = bindReleaseConfig(
+  validateConfig(JSON.parse(await readFile("docs/competition/demo-video-script.json", "utf8"))),
+  environment,
+);
+const journeyIds = requiredVoiceOverJourneyIds;
 const unitDirectory = `output/voiceover-capture/unit-${process.pid}-${randomUUID()}`;
+const deploymentFetch = async () => ({
+  ok: true,
+  status: 200,
+  text: async () => JSON.stringify({
+    schema: "trusted-govuk-discovery.deployment.v1",
+    repository: "chris-page-gov/govuk-webmcp",
+    commit: config.productCommit,
+    runId: config.pagesRunId,
+  }),
+});
 
 function digest(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
@@ -42,6 +54,7 @@ function manifestFixture() {
       url: config.productUrl,
       release: config.release,
       productCommit: config.productCommit,
+      pagesRunId: config.pagesRunId,
     },
     captureMethod: "manual-safari-voiceover-screenshot-sequence",
     manual: true,
@@ -126,6 +139,10 @@ test("screenshot manifest rejects continuous-recording and unsafe path claims", 
   wrongCommit.page.productCommit = "f".repeat(40);
   assert.throws(() => validateCaptureManifest(wrongCommit, config), /product commit does not match/u);
 
+  const wrongRun = manifestFixture();
+  wrongRun.page.pagesRunId = "1";
+  assert.throws(() => validateCaptureManifest(wrongRun, config), /Pages run does not match/u);
+
   const continuous = manifestFixture();
   continuous.continuousRecording = true;
   assert.throws(() => validateCaptureManifest(continuous, config), /must not claim to be a continuous recording/u);
@@ -166,21 +183,21 @@ test("capture preflight verifies bytes and rejects hash drift, symlinks and weak
   for (const frame of valid.frames) frame.sha256 = digest(await readFile(frame.path));
   const validPath = `${unitDirectory}/valid.json`;
   await writeFile(validPath, `${JSON.stringify(valid, null, 2)}\n`, "utf8");
-  const result = await preflightCapture(resolveForRepository(validPath));
+  const result = await preflightCapture(resolveForRepository(validPath), environment, deploymentFetch);
   assert.equal(result.summary.frameCount, 9);
 
   const drift = structuredClone(valid);
   drift.frames[0].sha256 = "f".repeat(64);
   const driftPath = `${unitDirectory}/drift.json`;
   await writeFile(driftPath, `${JSON.stringify(drift, null, 2)}\n`, "utf8");
-  await assert.rejects(() => preflightCapture(resolveForRepository(driftPath)), /SHA-256 has drifted/u);
+  await assert.rejects(() => preflightCapture(resolveForRepository(driftPath), environment, deploymentFetch), /SHA-256 has drifted/u);
 
   const linked = structuredClone(valid);
   linked.frames[0].path = `${unitDirectory}/linked.png`;
   await symlink("frame-01.png", linked.frames[0].path);
   const linkedPath = `${unitDirectory}/linked.json`;
   await writeFile(linkedPath, `${JSON.stringify(linked, null, 2)}\n`, "utf8");
-  await assert.rejects(() => preflightCapture(resolveForRepository(linkedPath)), /must not be a symbolic link/u);
+  await assert.rejects(() => preflightCapture(resolveForRepository(linkedPath), environment, deploymentFetch), /must not be a symbolic link/u);
 
   const directoryTarget = `${unitDirectory}/directory-target`;
   const directoryLink = `${unitDirectory}/directory-link`;
@@ -192,7 +209,7 @@ test("capture preflight verifies bytes and rejects hash drift, symlinks and weak
   linkedDirectory.frames[0].sha256 = digest(await readFile(`${directoryTarget}/frame.png`));
   const linkedDirectoryPath = `${unitDirectory}/linked-directory.json`;
   await writeFile(linkedDirectoryPath, `${JSON.stringify(linkedDirectory, null, 2)}\n`, "utf8");
-  await assert.rejects(() => preflightCapture(resolveForRepository(linkedDirectoryPath)), /must not be a symbolic link/u);
+  await assert.rejects(() => preflightCapture(resolveForRepository(linkedDirectoryPath), environment, deploymentFetch), /must not be a symbolic link/u);
 
   const weak = structuredClone(valid);
   weak.frames[0].path = `${unitDirectory}/weak.png`;
@@ -203,5 +220,5 @@ test("capture preflight verifies bytes and rejects hash drift, symlinks and weak
   weak.frames[0].sha256 = digest(await readFile(weak.frames[0].path));
   const weakPath = `${unitDirectory}/weak.json`;
   await writeFile(weakPath, `${JSON.stringify(weak, null, 2)}\n`, "utf8");
-  await assert.rejects(() => preflightCapture(resolveForRepository(weakPath)), /weak or excessive file size|too small/u);
+  await assert.rejects(() => preflightCapture(resolveForRepository(weakPath), environment, deploymentFetch), /weak or excessive file size|too small/u);
 });

@@ -30,18 +30,16 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 
 import {
+  bindReleaseConfig,
   repositoryRoot,
   requiredVoiceOverJourneyIds,
   validateConfig,
+  verifyDemoDeployment,
 } from "./build-demo-video.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const captureRoot = resolve(repositoryRoot, "output/voiceover-capture");
 const defaultManifestPath = join(captureRoot, "capture-manifest.json");
-export const voiceOverScreenshotOutput = resolve(
-  repositoryRoot,
-  "output/demo-clips/demo-scene-06-voiceover-2026-08-30.mov",
-);
 const demoConfigPath = resolve(repositoryRoot, "docs/competition/demo-video-script.json");
 const requiredLimitation = "This screenshot sequence is not a continuous recording.";
 
@@ -184,10 +182,11 @@ export function validateCaptureManifest(manifest, config) {
     "VoiceOver screenshot capture manifest has the wrong schema",
   );
   const capturedAt = validTimestamp(manifest.capturedAt, "Capture manifest capturedAt");
-  exactKeys(manifest.page, ["url", "release", "productCommit"], ["url", "release", "productCommit"], "Capture manifest page");
+  exactKeys(manifest.page, ["url", "release", "productCommit", "pagesRunId"], ["url", "release", "productCommit", "pagesRunId"], "Capture manifest page");
   invariant(manifest.page.url === config.productUrl, "Capture manifest page URL does not match the exact public product URL");
   invariant(manifest.page.release === config.release, "Capture manifest release does not match the video script");
   invariant(manifest.page.productCommit === config.productCommit, "Capture manifest product commit does not match the video script");
+  invariant(manifest.page.pagesRunId === config.pagesRunId, "Capture manifest Pages run does not match the video script");
   invariant(manifest.captureMethod === "manual-safari-voiceover-screenshot-sequence", "Capture method must identify a manual Safari VoiceOver screenshot sequence");
   invariant(manifest.manual === true && manifest.assistiveTechnologyActuallyUsed === true, "Capture manifest must record genuine manual VoiceOver use");
   invariant(manifest.withoutWebMCP === true, "Capture manifest must record the human journey without WebMCP");
@@ -292,11 +291,16 @@ async function inspectFrame(frame) {
   }
 }
 
-export async function preflightCapture(manifestPath = defaultManifestPath) {
+export async function preflightCapture(manifestPath = defaultManifestPath, environment = process.env, fetchImplementation = fetch) {
   invariant(inside(captureRoot, manifestPath), "Capture manifest must stay beneath output/voiceover-capture");
   const relativeManifest = relative(repositoryRoot, manifestPath).split(sep).join("/");
   const manifestFile = await readRegularCaptureFile(relativeManifest, "Capture manifest", [".json"], 100, 256_000);
-  const config = validateConfig(JSON.parse(await readFile(demoConfigPath, "utf8")));
+  const config = bindReleaseConfig(validateConfig(JSON.parse(await readFile(demoConfigPath, "utf8"))), environment);
+  await verifyDemoDeployment(config, fetchImplementation);
+  const voiceOverScene = config.scenes.find(({ kind }) => kind === "voiceover");
+  invariant(voiceOverScene, "Demo config has no VoiceOver scene");
+  const outputPath = resolve(repositoryRoot, voiceOverScene.media.path);
+  invariant(inside(resolve(repositoryRoot, "output"), outputPath), "VoiceOver output must stay beneath output");
   const manifest = JSON.parse(manifestFile.bytes.toString("utf8"));
   const summary = validateCaptureManifest(manifest, config);
   const frames = [];
@@ -311,6 +315,8 @@ export async function preflightCapture(manifestPath = defaultManifestPath) {
     manifestFile: { ...manifestFile, sha256: sha256(manifestFile.bytes) },
     frames,
     summary,
+    voiceOverScene,
+    outputPath,
   };
 }
 
@@ -401,28 +407,28 @@ async function pathExists(path) {
   }
 }
 
-async function placeOutput(source, overwrite) {
-  await mkdir(dirname(voiceOverScreenshotOutput), { recursive: true });
-  const parentReal = await realpath(dirname(voiceOverScreenshotOutput));
+async function placeOutput(source, outputPath, overwrite) {
+  await mkdir(dirname(outputPath), { recursive: true });
+  const parentReal = await realpath(dirname(outputPath));
   invariant(inside(resolve(repositoryRoot, "output"), parentReal), "VoiceOver output directory resolves outside output");
-  if (await pathExists(voiceOverScreenshotOutput)) {
-    const info = await lstat(voiceOverScreenshotOutput);
+  if (await pathExists(outputPath)) {
+    const info = await lstat(outputPath);
     invariant(info.isFile() && !info.isSymbolicLink(), "Existing VoiceOver output must be a regular non-symbolic-link file");
     invariant(overwrite, "VoiceOver output exists; rerun with --overwrite after review");
   }
-  const pending = `${voiceOverScreenshotOutput}.pending-${process.pid}-${randomUUID()}`;
+  const pending = `${outputPath}.pending-${process.pid}-${randomUUID()}`;
   await copyFile(source, pending, fsConstants.COPYFILE_EXCL);
   let backup;
   try {
-    if (overwrite && await pathExists(voiceOverScreenshotOutput)) {
-      backup = `${voiceOverScreenshotOutput}.backup-${process.pid}-${randomUUID()}`;
-      await rename(voiceOverScreenshotOutput, backup);
+    if (overwrite && await pathExists(outputPath)) {
+      backup = `${outputPath}.backup-${process.pid}-${randomUUID()}`;
+      await rename(outputPath, backup);
     }
-    await rename(pending, voiceOverScreenshotOutput);
+    await rename(pending, outputPath);
     if (backup) await rm(backup);
   } catch (error) {
     await rm(pending, { force: true });
-    if (backup && await pathExists(backup)) await rename(backup, voiceOverScreenshotOutput);
+    if (backup && await pathExists(backup)) await rename(backup, outputPath);
     throw error;
   }
 }
@@ -455,11 +461,11 @@ async function build(preflight, overwrite) {
       preflight.summary.totalDurationSeconds,
     ));
     const media = validateRenderedClip(probe(moviePath), preflight.summary.totalDurationSeconds);
-    await placeOutput(moviePath, overwrite);
+    await placeOutput(moviePath, preflight.outputPath, overwrite);
     return {
       status: "built-local-screenshot-sequence-not-continuous-recording",
-      output: relative(repositoryRoot, voiceOverScreenshotOutput).split(sep).join("/"),
-      sha256: sha256(await readFile(voiceOverScreenshotOutput)),
+      output: relative(repositoryRoot, preflight.outputPath).split(sep).join("/"),
+      sha256: sha256(await readFile(preflight.outputPath)),
       ...media,
       manifest: {
         path: relative(repositoryRoot, preflight.manifestFile.path).split(sep).join("/"),

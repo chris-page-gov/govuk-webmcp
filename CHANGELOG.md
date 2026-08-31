@@ -45,6 +45,34 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Bound the four federated collections to one exact ordered population contract
+  across the source lock, corpus admissions, generated manifest and lazy search
+  manifest. The candidate now derives collection coverage from executable
+  source, quarantine and searchable counts and validates the human-facing title,
+  ordered supplementary counts, completeness statement and first limitation as
+  part of the same display contract. HM Land Registry is therefore stated
+  consistently as 2,203 raw source records, 3 quarantined records and 2,200
+  searchable records; standalone legislation remains excluded.
+- Added a separate physical shard-work boundary beneath logical request
+  concurrency: at most 4 physical loads can be active, 32 can wait and 36
+  distinct files can be in flight. A file's 3-second deadline includes time in
+  that queue, and a physical slot remains occupied until the underlying loader
+  actually settles. Queue-deadline expiry now returns the dedicated scheduler-
+  busy result rather than appearing to be source corruption, and the deadline
+  is checked again immediately before the loader is invoked. If as many as four
+  non-cooperative loaders never settle, federated loading fails closed and can
+  remain unavailable; later calls cannot amplify physical work beyond those
+  four.
+- Revised the local-model browser-evaluation receipt to v2. An otherwise-
+  successful Ollama run must bind the exact selected digest observed through
+  `/api/tags` before and after the run and the daemon-reported loaded-model
+  digest from `/api/ps` afterwards. This is post-run daemon evidence, not a
+  cryptographic binding between an individual model response and model weights;
+  a privileged local operator or compromised model service remains outside the
+  receipt's trust boundary. Inventory requests reject redirects, require both
+  the exact `name` and `model`, and reject `remote_model` or `remote_host`
+  markers so an Ollama-labelled cloud proxy cannot bypass explicit remote-
+  provider approval. Remote-provider receipts retain no local inventory details.
 - The in-progress candidate keeps the existing five page-scoped WebMCP tools
   and complete human journey while extending the three discovery tools to
   distinguish reviewed deep evidence from federated source-snapshot evidence.
@@ -76,7 +104,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   passes on the exact post-remediation tree.
 - Improved model legibility by publishing canonical machine identifiers,
   explicit collection tokens and omit-unused-field guidance in tool schemas,
-  descriptions and the eight-case browser fixture. Three preserved local
+  descriptions and the eight-case browser fixture. Five preserved local
   `webmcp-evals` attempts used Chrome 152 and the exact loopback-only
   `ollama:gpt-oss:20b` inventory digest
   `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
@@ -84,11 +112,49 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   upstream report passed 33 of 33 rows but the strict project verifier accepted
   only 32 because one call added empty optional arrays; the security-fixed
   third attempt passed 30 of 35 upstream rows after two malformed-then-
-  corrected provenance IDs and one omitted comparison. All three attempts
-  failed overall and remain variance evidence, not a model-backed pass.
+  corrected provenance IDs and one omitted comparison. Receipt-v2 attempt 4 at
+  01:53 on 31 August 2026 bound a stable exact model identity and exited zero,
+  but structural validation failed and its evaluation was null. Receipt-v2
+  attempt 5 at 02:13 ran eight cases three times, producing 36 rows for
+  33 expected rows: 30 passed, 6 failed, none errored or were missing, and no
+  console errors were observed. Each of the three provenance trajectories first
+  supplied a malformed canonical ID and then recovered with a correct successful
+  call. This demonstrates fail-closed input validation and recovery, not a
+  strict model pass; `verify-reports` failed. The fixture SHA-256 was
+  `ce0cb0264a836c26911b09b2fc1c362dcc70d979fb0aa1a49d6a94de0f4ee93f`;
+  the private JSON and HTML report SHA-256 values admitted to tracked evidence
+  are `4864596182a483b75cd966357e46fd8047a5bea08062132d574443ebf3ffcbfb`
+  and `3f7e27724abc9346820ef6ce293f9b416609d6f9a947423033e4045e52a252ff`.
+  Receipt v2 recorded stable matching pre-run, post-run and loaded digests with
+  `executionBound: true` for attempts 4 and 5. All five attempts failed overall and remain variance
+  evidence, not a model-backed pass.
+
+### Fixed
+
+- Preserved the `federated_runtime_busy` code through combined and public
+  WebMCP search results instead of misclassifying a busy runtime as an
+  unavailable source. The human live region now distinguishes rejected input,
+  a busy runtime and other failures. The post-review production build, focused
+  regression set (11 of 11), complete prepared unit suite (190 of 190), Chrome
+  acceptance (30 of 30, exit 0) and Microsoft Edge acceptance (30 of 30, exit
+  0) passed; the earlier 187-unit result remains a pre-fix checkpoint only.
+- Corrected judge-facing `collections` examples to use the executable closed-
+  schema tokens `uk-living`, `ons`, `government-apis` and `land-registry`
+  rather than provenance source IDs prefixed with `okf-`.
 
 ### Security
 
+- Completed immutable candidate scan
+  `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` over 50 of 50 review items. It
+  dynamically reproduced three candidates: a mutable local-model identity
+  receipt, aggregate-only federated population binding and cancellation-driven
+  physical shard-work amplification. Attack-path review classified zero as
+  reportable vulnerabilities because exploitation respectively requires
+  privileged loopback model-service control, repository/build or same-origin
+  write authority, or causes bounded self-availability impact only. The defects
+  nevertheless affect evidence integrity or engineering resilience, so all
+  three have working-tree remediations rather than being dismissed. The
+  immutable rescan of the complete post-remediation tree remains pending.
 - Implemented remediations for seven initial Low findings from the federated candidate
   scan: superlinear postings generation (`csf_d6045d8bfb6836f0a274850d`),
   unenforced Land Registry row limits (`csf_628dded1ed9a62431cf1f121`), mutable
@@ -140,6 +206,20 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Governance
 
+- Recorded the current official submission boundary: entries close at 1:00 pm
+  PDT on 3 September 2026; the entry must provide a public source repository
+  with a visibly detectable open-source licence, a public YouTube demonstration
+  under three minutes with audio, and the exact live project accessible through
+  ChatGPT's in-app browser or Chrome with WebMCP enabled. The repository, live
+  project and submission must remain frozen after the close. This records
+  requirements only; it does not claim registration, submission or a YouTube
+  upload.
+- Made the judge-facing technical boundary explicit: OKF exposes governed,
+  progressively retrievable evidence, while WebMCP lets a citizen-selected
+  personal AI invoke bounded page actions over that evidence. The static page
+  neither hosts an AI nor accepts an identity, profile or general personal-
+  context object. This is a contract and architecture statement, not proof of
+  end-to-end privacy, model quality or public-sector cost reduction.
 - Retained annotated tag `v0.2.0-rc.2` and its public pre-release as the frozen
   pre-federation baseline at product commit
   `35fcedd39ed955278d3975a6dd80692fc6e32935`. This is a project history
@@ -157,8 +237,23 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   sealed follow-up scan suppressed those seven and found one further Low URL-
   boundary bypass, which was fixed post-snapshot. Focused security checks
   passed 119 of 119 and the affected post-fix subset passed 23 of 23, but the
-  complete exact-tree suite and rescan, protected-main CI, Pages, current-host
-  capture, release tagging and submission remain pending.
+  complete exact-tree suite and rescan were still pending at that checkpoint.
+- Recorded the exact post-remediation local verification: research 4 of 4;
+  successful deterministic build and data validation for 80 reviewed records,
+  80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable
+  rows, 120 record shards and 1,733 postings shards; 190 of 190 prepared unit
+  tests; mean nDCG@10 `0.984698009`, Recall@20 `1`, identical cold/warm results,
+  no legislation collection and rejection of a legislation request; 30 of 30
+  tests in installed Chrome and
+  30 of 30 in installed Microsoft Edge; 6 of 6 model-free WebMCP smoke calls in
+  real Chrome; zero npm-audit vulnerabilities across 162 total dependencies;
+  and a clean `git diff --check`. The immutable exact security rescan,
+  protected-main CI and merge, Pages, current-host capture, focused manual
+  accessibility evidence, passing model-backed evaluation, refreshed video and
+  submission remain pending.
+- Recorded that the final-candidate demonstration preflight correctly failed
+  closed when no deployed commit and no explicit overwrite approval were
+  supplied. It did not start live capture and is not live-capture evidence.
 
 ## [0.2.0-rc.2] - 2026-08-30
 

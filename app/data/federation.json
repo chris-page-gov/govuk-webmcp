@@ -2,13 +2,43 @@
   "schema": "govuk-webmcp.corpus-admission.v1",
   "generatedAt": "2026-08-30T00:00:00Z",
   "catalogueBundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
-  "admissionSourceDigest": "d61f1cc58e851f1544efd43dcb22395e1338dae54b2b263ae8dc58cca0de2714",
+  "admissionSourceDigest": "e508693ca57615f4e988f9cd076f2d9183451303892f2ea59e40fef4fb25eaed",
   "federatedSearch": {
     "sourceLockSha256": "bcd0b2b3631aea744b802e8b0199672fea76e446abe4adf2332e9c4683302b10",
     "sourceLockDigest": "3bc8efc0fab22d7d1dec85539746027555c78c5ce7916a851dc62f00693f3f00",
     "sourceRecordCount": 58655,
     "quarantinedRecordCount": 3,
-    "recordCount": 58652
+    "recordCount": 58652,
+    "collectionBindings": [
+      {
+        "admissionId": "corpus:uk-life-course",
+        "collectionId": "uk-living",
+        "sourceRecordCount": 9757,
+        "quarantinedRecordCount": 0,
+        "recordCount": 9757
+      },
+      {
+        "admissionId": "corpus:ons-metadata",
+        "collectionId": "ons",
+        "sourceRecordCount": 5097,
+        "quarantinedRecordCount": 0,
+        "recordCount": 5097
+      },
+      {
+        "admissionId": "corpus:uk-government-apis",
+        "collectionId": "government-apis",
+        "sourceRecordCount": 41598,
+        "quarantinedRecordCount": 0,
+        "recordCount": 41598
+      },
+      {
+        "admissionId": "corpus:land-registry-metadata",
+        "collectionId": "land-registry",
+        "sourceRecordCount": 2203,
+        "quarantinedRecordCount": 3,
+        "recordCount": 2200
+      }
+    ]
   },
   "collections": [
     {
@@ -314,7 +344,7 @@
         },
         "decision": {
           "allowedClaims": [
-            "The producer release exposes 2,203 searchable metadata records through a digest-bound lazy index."
+            "The producer release contains 2,203 source metadata records; 3 are quarantined and 2,200 are searchable through a digest-bound lazy index."
           ],
           "forbiddenClaims": [
             "The build contains title, property or personal records, or has completed an independent legal audit."
@@ -328,7 +358,7 @@
           "runtimeOfficialApiCalls": false
         }
       },
-      "entryDigest": "2179ec51a1f623cdf298cb0921d432b52a0ce319859111b8c63d8df7a08cec23"
+      "entryDigest": "e98a5e7160a3f9847600892e6e3d0da4a7dfdf8fb6822da67e5044be8aa11816"
     },
     {
       "admission": {
@@ -794,5 +824,5 @@
       "entryDigest": "3af14b74c0ec05c2fa34c1b81524b8f3f0f606dc03e981e7d11a9b0900155bd4"
     }
   ],
-  "manifestDigest": "d2f9457a64d23220e737ff8b535aff747c9b0450e930bd4733ca8e28badc1080"
+  "manifestDigest": "3ed201a35733f2c3b1228d8e7c6d8e482efe606cf5cd6b106f20029ee6b3d7c2"
 }

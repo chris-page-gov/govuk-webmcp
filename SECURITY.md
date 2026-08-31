@@ -32,7 +32,8 @@ catalogue, 80 evidence receipts, one Evidence Trace collection, the 10-entry
 federation manifest and the lazy federated-search manifest. Each raw file must
 match its SHA-256 sidecar. Schemas, internal digests, record-to-receipt
 bindings, catalogue-to-trace bindings, catalogue-to-federation bindings and
-the federated record-count binding must also pass. A failure in any root family
+the exact ordered per-source federation population bindings must also pass. A
+failure in any root family
 leaves a human-readable failure state and prevents every tool registration; no
 partial tool set is accepted.
 
@@ -78,13 +79,33 @@ content is consumed. A source-authored cross-reference string remains inert
 data and cannot define a source or request.
 
 Raw checksums alone are insufficient. Tests must also reject co-digested changes
-to source identity, record count, snapshot, entry point, shard reference and
-cross-artefact binding. Fixed request, compressed-byte, decoded-byte, decoded-
+to source identity, aggregate or per-source record counts, admission ID,
+collection ID, snapshot, entry point, shard reference, collection display
+contract and cross-artefact binding. The four ordered population bindings are
+9,757 source/0 quarantined/9,757 searchable for A Life in the UK; 5,097/0/5,097
+for ONS; 41,598/0/41,598 for UK Government APIs; and 2,203/3/2,200 for HM Land
+Registry. The executable display contract also fixes each collection's title,
+ordered supplementary counts, completeness statement and first limitation, so
+valid self-digests cannot legitimise contradictory population text.
+
+Fixed request, compressed-byte, decoded-byte, decoded-
 row, retained-text, shard-fan-out, worker-lifetime and timeout budgets constrain
 progressive loading. A corrupt or unavailable lazy source must be reported as a
 partial source failure without becoming trusted through a fallback or disabling
 the validated 80-record tier. Root lock or manifest failure still prevents all
 tool registration.
+
+Physical work has a separate boundary from logical caller concurrency: 4 loads
+may be active, 32 may wait and no more than 36 distinct shard files may be in
+flight. The fixed 3-second file deadline starts before the physical queue, and
+an active slot remains held until the underlying loader settles even when its
+caller cancels or times out. This prevents cancellation churn from multiplying
+actual work. Queue-deadline expiry and a deadline reached immediately before a
+loader call return the dedicated scheduler-busy result instead of falsely
+labelling a source as corrupt. A non-cooperative loader is outside the browser
+runtime's ability to terminate: if four such loads never settle, they can occupy
+all four slots indefinitely and make federated search unavailable. The design
+fails closed and does not admit a fifth physical load.
 
 Same-origin response bodies are consumed incrementally under the fixed byte cap
 rather than buffered in full before checking. `Content-Length` is parsed
@@ -122,9 +143,38 @@ release security evidence. Gates A–I and M, the immutable exact-tree security
 rescan must pass against one exact release candidate
 before the findings are described as verified fixed for release. The exact
 research, build/data, lexical-quality, installed-Chrome, installed-Microsoft-
-Edge and authorised model-free smoke gates pass where separately recorded. The
-current `npm run test:unit:prepared` also passed 173 of 173 in
-`17128.154916 ms`.
+Edge and authorised model-free smoke gates pass where separately recorded. On
+the exact tree before the three later remediations,
+`npm run test:unit:prepared` passed 173 of 173 in `17128.154916 ms`.
+
+A later immutable scan,
+`4ab29c3e-0a96-4596-b930-5eccb9b63ebc`, completed 50 of 50 review items and
+dynamically reproduced three further candidates:
+
+| Candidate | Attack-path disposition | Engineering response |
+| --- | --- | --- |
+| Mutable local Ollama tag could leave a misleading model-identity receipt | Not reportable: substitution requires privileged control of the loopback model service or local account | Receipt v2 requires matching `/api/tags` identities before and after the run plus the daemon-reported `/api/ps` loaded digest afterwards |
+| Aggregate-only population totals permitted a co-digested per-source redistribution and contradictory display claim | Not reportable: the path requires repository/build or same-origin write authority | Exact ordered per-source population and executable display-contract bindings reject the mutation |
+| Cancellation churn could create more physical shard work than the logical concurrency cap implied | Not reportable: the observed impact is bounded self-availability, not a cross-user or trust-boundary compromise | Separate physical active, queue and distinct-file limits, a queue-inclusive deadline and settlement-bound slot lifetime constrain the work |
+
+Attack-path review therefore classified zero findings from this scan as
+reportable vulnerabilities. That disposition does not make the reproduced
+defects acceptable: they affect evidence fidelity or resilience and are being
+fixed. Exact post-remediation local verification passed research 4 of 4;
+production build and data validation for 80 reviewed records, 80 receipts,
+58,655 raw rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards
+and 1,733 postings shards; 190 of 190 prepared unit tests; the frozen quality
+gate at mean nDCG@10 `0.984698009` and Recall@20 `1` with cold/warm parity, no
+legislation collection and a rejected legislation request; 30 of 30 browser
+tests in installed Chrome and 30 of 30 in installed Microsoft Edge; 6 of 6
+model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
+across 162 total dependencies; and `git diff --check`. The immutable exact
+post-remediation security rescan remains pending; these results are not a
+release security claim.
+
+The final-candidate demonstration preflight also failed closed as intended when
+no deployed commit and no explicit overwrite approval were supplied. It did not
+start live capture and supplies no live-capture evidence.
 
 ## Action and input boundary
 
@@ -157,8 +207,9 @@ provider-authentication facility, persistent session, service operation or
 durable tool receipt, and it does not prove that a particular browser or agent
 host has discovered or called the tools.
 
-The page neither hosts a model nor asks for unrelated personal context. This is
-a page-contract property, not a security claim about a citizen-selected agent.
+The page neither hosts a model nor accepts an identity, profile or general
+personal-context object. This is a page-contract property, not a security claim
+about a citizen-selected agent.
 The browser host can observe tool definitions, inputs, outputs and visible page
 state. A remote model provider may also receive those items and relevant prompt
 context. A correctly configured local model can keep inference local, but the
@@ -203,17 +254,46 @@ final 15:53 BST rerun left that modification time unchanged. This observed
 boundary does not turn the privileged harness into an operating-system sandbox.
 The prepared model-backed browser-evaluation wrapper also rejects any upstream
 console error or `pageerror`, validates the diagnostic shape and records
-`browserConsoleErrorsAccepted: false`. Three local runs used Chrome 152,
+`browserConsoleErrorsAccepted: false`. Five local runs used Chrome 152,
 `webmcp-evals` 0.0.4, eight cases, three runs per case and exact loopback model
 `ollama:gpt-oss:20b`, inventory digest
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`,
-without remote credentials. The pre-legibility attempt passed 8 of 102 retry-
+with the first three using no remote credentials. The pre-legibility attempt passed 8 of 102 retry-
 expanded rows; attempt 2 passed 33 of 33 upstream rows but 32 of 33 under the
 strict verifier because one call added empty optional arrays; and attempt 3 on
 the security-fixed tree passed 30 of 35 upstream rows after two malformed-then-
-corrected provenance IDs and one omitted comparison. All three failed overall;
-their private reports remain failure and variance evidence, not a security or
-model-selection pass.
+corrected provenance IDs and one omitted comparison. Receipt-v2 attempt 4 bound
+stable exact identity and exited zero, but structural validation failed and its
+evaluation was null. Receipt-v2 attempt 5 reported 36 rows
+for 33 expected rows: 30 passed, 6 failed, none errored or were missing, and no
+console errors occurred. Each of three malformed provenance trajectories was
+rejected before a correct retry succeeded. This is useful fail-closed recovery
+evidence, but `verify-reports` failed. All five private reports remain failure
+and variance evidence, not a security or model-selection pass.
+
+The first three historical attempts used the earlier receipt contract. Attempts
+4 and 5 used receipt v2 and showed the same exact model name and digest in `/api/tags`
+before and after evaluation and as the daemon-reported loaded model in `/api/ps`
+after evaluation. The observations were stable and the receipt recorded
+`executionBound: true`. The fixture SHA-256 was
+`ce0cb0264a836c26911b09b2fc1c362dcc70d979fb0aa1a49d6a94de0f4ee93f`; the
+tracked JSON and HTML report SHA-256 values were
+`4864596182a483b75cd966357e46fd8047a5bea08062132d574443ebf3ffcbfb` and
+`3f7e27724abc9346820ef6ce293f9b416609d6f9a947423033e4045e52a252ff`.
+Absent, ambiguous or
+mismatched evidence fails the run without replacing an earlier failure reason.
+Inventory fetches reject redirects, require exact `name` and `model` values,
+and reject `remote_model` or `remote_host` markers before evaluation and in the
+post-run loaded state. Ollama's own [cloud-model documentation](https://docs.ollama.com/cloud)
+explains that cloud models can be accessed through its local API; this check
+prevents that proxy route using the local path without explicit remote-provider
+approval. The receipt rejects extra
+local identity or path fields, and remote-provider receipts contain no local
+inventory. This binds post-run evidence reported by the selected daemon; it is
+not cryptographic proof that a particular response was generated by particular
+weights, and it cannot defend against privileged control of the account, daemon
+or evidence channel, tag changes between observations or a model that was
+already loaded before evaluation.
 
 The native Chrome-panel capture used a separately named temporary Chrome app
 clone, a disposable profile, no extensions or sign-in, loopback-only remote
