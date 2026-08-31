@@ -146,8 +146,8 @@ partial and stale-pending rows, and the eighth fix postdates its snapshot. A
 focused security batch passed 119 of 119 and the affected post-fix subset
 passed 23 of 23. These are implemented candidate controls, not completed
 release security evidence. Gates A–I and M, the immutable exact-tree security
-rescan must pass against one exact release candidate
-before the findings are described as verified fixed for release. The exact
+rescan later passed against the fixed executable candidate as recorded below;
+gate M still requires protected integration and exact release binding. The exact
 research, build/data, lexical-quality, installed-Chrome, installed-Microsoft-
 Edge and authorised model-free smoke gates pass where separately recorded. On
 the exact tree before the three later remediations,
@@ -169,7 +169,7 @@ defects acceptable: they affect evidence fidelity or resilience and are being
 fixed. Exact post-remediation local verification passed research 4 of 4;
 production build and data validation for 80 reviewed records, 80 receipts,
 58,655 raw rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards
-and 1,733 postings shards; 193 of 193 prepared unit tests; the frozen quality
+and 1,733 postings shards; 194 of 194 prepared unit tests; the frozen quality
 gate at mean nDCG@10 `0.984698009` and Recall@20 `1` with cold/warm parity, no
 legislation collection and a rejected legislation request; 30 of 30 browser
 tests in installed Chrome and 30 of 30 in installed Microsoft Edge; 6 of 6
@@ -186,7 +186,12 @@ regressions were implemented after that immutable snapshot. Fresh immutable
 exact-range scan `040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of
 55 review items against fixed candidate
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. Its
-sealed report is retained under
+sealed scope predates the subsequent portability correction that normalises
+RFC 1952 gzip operating-system byte 9 to reviewed value `19`. That narrow delta
+does not change source, compressed-artefact or lock digests; a fixed-vector
+regression and the protected Linux rerun provide its release evidence rather
+than retroactively widening the sealed scan.
+The sealed report is retained under
 `docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/`. This is
 complete local candidate security evidence; protected CI, exact deployment and
 supported-host observations remain separate release claims.

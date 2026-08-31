@@ -149,7 +149,7 @@ self-availability impact. The defects have working-tree remediations anyway.
 The exact post-remediation local chain now passes research 4 of 4; build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
-shards; 193 of 193 prepared unit tests; frozen quality at mean nDCG@10
+shards; 194 of 194 prepared unit tests; frozen quality at mean nDCG@10
 `0.984698009`, Recall@20 `1`, cold/warm parity, no legislation collection and a
 rejected legislation request; 30 of 30 tests in both Chrome and Edge; six of
 six model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities

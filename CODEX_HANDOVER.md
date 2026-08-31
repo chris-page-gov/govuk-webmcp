@@ -76,8 +76,14 @@ and classified zero as reportable vulnerabilities under attack-path policy.
 All three defects have working-tree remediations nevertheless. The exact post-
 remediation research, build/data, unit, frozen-quality, Chrome, Microsoft Edge,
 model-free real-Chrome smoke, dependency-audit and diff-integrity gates now
-pass as recorded below. The exact security rescan, remaining A–M matrix,
-protected-main CI, Pages and release verification have not yet completed.
+pass as recorded below. Immutable fixed-tree scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
+`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
+Pull request 16's first Linux run `33354712509` then found a host-specific gzip
+header byte in the deterministic representation. The narrow correction pins
+RFC 1952 byte 9 to the reviewed value `19` and adds a fixed-vector regression;
+its protected rerun, remaining A–M matrix, Pages and release verification have
+not yet completed.
 
 The intended, closed population is:
 
@@ -339,7 +345,7 @@ historical failed model attempts predate v2 and remain failures.
 | Research pack | 4 of 4 passed |
 | Production build and generated-data validation | Passed: 80 reviewed records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings shards |
 | Focused combined/public-search regressions | 11 of 11 passed |
-| Prepared unit suite | 193 of 193 passed |
+| Prepared unit suite | 194 of 194 passed |
 | Frozen retrieval-quality gate | Mean nDCG@10 `0.984698009`; Recall@20 `1`; identical cold/warm results; legislation collection absent and legislation request rejected |
 | Installed Google Chrome | 30 of 30 browser tests passed |
 | Installed Microsoft Edge | 30 of 30 browser tests passed |
@@ -363,7 +369,7 @@ The normal build trusted a source digest supplied by the same mutable registry.
 All five admitted sources now have separately code-reviewed imported SHA-256
 pins, the standalone federated-search builder checks the reviewed federation-
 lock bytes before parsing, and same-count co-digested source/registry mutation
-tests fail closed. Source validation, the production build and 193 of 193
+tests fail closed. Source validation, the production build and 194 of 194
 prepared unit tests pass. Fresh immutable exact-range scan
 `040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of 55 review items
 against fixed candidate `9c6ed7d9a21574972ee564b333cbc49983058554`
@@ -677,11 +683,11 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-Close the remaining A–M matrix against the exact `0.3.0-rc.1` candidate. Open
-a protected pull request, require CI, merge through the protected
-path, deploy the exact main commit and verify the live artefact is bound to that
-commit before tagging or refreshing supported-host, video and submission
-evidence.
+Close the remaining A–M matrix against the exact `0.3.0-rc.1` candidate. Update
+pull request 16 with the portable-gzip correction, require its exact Linux CI
+rerun, merge through the protected path, deploy the exact main commit and
+verify the live artefact is bound to that commit before tagging or refreshing
+supported-host, video and submission evidence.
 
 Do not reuse the pre-federation video, host capture or Pages evidence as proof
 of the expanded candidate. Rebuild and review submission media only after the

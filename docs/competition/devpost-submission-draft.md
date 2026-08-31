@@ -242,7 +242,7 @@ player review.
 The exact post-remediation candidate passes research 4 of 4; production
 build/data validation with 80 reviewed records and 80 receipts, 58,655 raw
 rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733
-postings shards; 193 of 193 prepared unit tests; and the frozen lexical gate at
+postings shards; 194 of 194 prepared unit tests; and the frozen lexical gate at
 mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm parity, no legislation
 collection and rejection of a legislation request. Installed Chrome and
 Microsoft Edge each pass 30 of 30, and six of six model-free WebMCP smoke calls
@@ -273,7 +273,7 @@ start live capture and supplies no submission-video evidence.
   the candidate.
 - [x] The installed Chrome acceptance suite passes 30 of 30 tests for the
   candidate.
-- [x] The full post-remediation prepared unit suite passes 193 of 193; the
+- [x] The full post-remediation prepared unit suite passes 194 of 194; the
   historical 144-of-144, 173-of-173 and 190-of-190 checkpoints remain
   separately labelled.
 - [ ] A current supported host lists and completes all five WebMCP tools.

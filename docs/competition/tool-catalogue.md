@@ -294,6 +294,8 @@ tool, instruction or network request.
 
 The versioned input plane consists of 73 checksum-bound gzip artefacts under
 `app/data/sources/okf-federation/`, totalling 13,021,675 bytes. The deterministic
+gzip contract fixes RFC 1952 operating-system byte 9 to reviewed value `19`, so
+Mac and Linux builds verify one exact representation. The deterministic
 builder creates 1,853 ignored shard files — 120 record shards and 1,733
 postings shards — plus the manifest and checksum sidecar under
 `app/data/federated-search/`: 1,855 files and 127,747,020 bytes in total.
@@ -404,7 +406,7 @@ path policy. Working-tree remediations add exact per-source/display binding,
 exact post-remediation candidate now passes research 4 of 4; build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
-shards; 193 of 193 prepared unit tests; frozen quality at mean nDCG@10
+shards; 194 of 194 prepared unit tests; frozen quality at mean nDCG@10
 `0.984698009`, Recall@20 `1`, cold/warm parity, no legislation collection and a
 rejected legislation request; 30 of 30 tests in both Chrome and Edge; six of
 six model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities

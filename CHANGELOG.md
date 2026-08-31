@@ -131,11 +131,17 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Normalised RFC 1952 gzip header byte 9 to the reviewed value `19` when
+  producing locked federation artefacts. Node otherwise writes a host-specific
+  operating-system value, so the Mac-authored artefacts failed their exact-byte
+  deterministic check on the Linux Actions runner even though the source bytes
+  and DEFLATE stream were unchanged. A fixed-vector regression now binds the
+  portable byte representation.
 - Preserved the `federated_runtime_busy` code through combined and public
   WebMCP search results instead of misclassifying a busy runtime as an
   unavailable source. The human live region now distinguishes rejected input,
   a busy runtime and other failures. The post-review production build, focused
-  regression set (11 of 11), complete prepared unit suite (193 of 193), Chrome
+  regression set (11 of 11), complete prepared unit suite (194 of 194), Chrome
   acceptance (30 of 30, exit 0) and Microsoft Edge acceptance (30 of 30, exit
   0) passed; the earlier 187-unit result remains a pre-fix checkpoint only.
 - Corrected judge-facing `collections` examples to use the executable closed-
@@ -253,7 +259,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Recorded the exact post-remediation local verification: research 4 of 4;
   successful deterministic build and data validation for 80 reviewed records,
   80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable
-  rows, 120 record shards and 1,733 postings shards; 193 of 193 prepared unit
+  rows, 120 record shards and 1,733 postings shards; 194 of 194 prepared unit
   tests; mean nDCG@10 `0.984698009`, Recall@20 `1`, identical cold/warm results,
   no legislation collection and rejection of a legislation request; 30 of 30
   tests in installed Chrome and

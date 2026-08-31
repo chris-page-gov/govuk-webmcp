@@ -243,7 +243,13 @@ function sourceIdentity(source) {
 }
 
 export function deterministicGzip(value) {
-  return gzipSync(value, { level: 9, mtime: 0 });
+  const compressed = gzipSync(value, { level: 9, mtime: 0 });
+  // RFC 1952 byte 9 identifies the compressor's operating system. Node writes
+  // the host value, which made the reviewed Mac-authored bytes differ on the
+  // Linux release runner despite an identical DEFLATE stream. Retain the
+  // reviewed snapshot's explicit macOS value as part of this release contract.
+  compressed[9] = 0x13;
+  return compressed;
 }
 
 export function safeRelativePath(value, label = "Resource path") {

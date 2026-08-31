@@ -20,7 +20,7 @@ subsequently retained a ninth High-confidence Low source-substitution finding;
 its separately code-reviewed-pin remediation passed locally and was then
 covered by the fresh fixed-tree scan below.
 
-- [x] The current prepared unit command passed 193 of 193; Chrome and installed
+- [x] The current prepared unit command passed 194 of 194; Chrome and installed
   Microsoft Edge each passed 30 of 30 on the current final-candidate tree.
 - [x] The current final-candidate rerun records research 4 of 4, passing production
   build/data validation, mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
