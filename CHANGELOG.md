@@ -131,12 +131,18 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
-- Normalised RFC 1952 gzip header byte 9 to the reviewed value `19` when
-  producing locked federation artefacts. Node otherwise writes a host-specific
-  operating-system value, so the Mac-authored artefacts failed their exact-byte
-  deterministic check on the Linux Actions runner even though the source bytes
-  and DEFLATE stream were unchanged. A fixed-vector regression now binds the
-  portable byte representation.
+- Replaced host recompression equality with an exact reviewed-artefact contract.
+  Pull request 16 Linux run `33354712509` exposed a gzip byte mismatch; a first
+  correction normalised RFC 1952 operating-system byte 9, but rerun
+  `33355108429` proved that Linux and macOS zlib also emit different valid
+  DEFLATE streams. Import now preserves the exact reviewed stored gzip only
+  after validating its byte length and SHA-256, boundedly decompressing it,
+  validating the decoded source length and SHA-256, and matching the decoded
+  bytes to the freshly fetched source byte for byte. The builder independently
+  enforces the stored and decoded bindings without requiring the host
+  compressor to reproduce the reviewed stream. A co-digested semantic-mutation
+  regression covers the fetched-byte cross-binding. The final protected Linux
+  rerun remains pending.
 - Preserved the `federated_runtime_busy` code through combined and public
   WebMCP search results instead of misclassifying a busy runtime as an
   unavailable source. The human live region now distinguishes rejected input,

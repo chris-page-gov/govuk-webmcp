@@ -186,11 +186,14 @@ regressions were implemented after that immutable snapshot. Fresh immutable
 exact-range scan `040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of
 55 review items against fixed candidate
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. Its
-sealed scope predates the subsequent portability correction that normalises
-RFC 1952 gzip operating-system byte 9 to reviewed value `19`. That narrow delta
-does not change source, compressed-artefact or lock digests; a fixed-vector
-regression and the protected Linux rerun provide its release evidence rather
-than retroactively widening the sealed scan.
+sealed scope predates the subsequent narrow CI portability correction. That
+correction makes the exact reviewed stored bytes, their locked length and
+SHA-256 digest the compressed-artefact contract; bounded gunzip then validates
+the decoded source length and digest, while the importer cross-binds the decoded
+bytes to the newly fetched raw source bytes. It preserves the reviewed bytes
+without host recompression. Focused mutation regressions and the protected Linux
+rerun must evidence that delta separately rather than retroactively widening the
+sealed scan.
 The sealed report is retained under
 `docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/`. This is
 complete local candidate security evidence; protected CI, exact deployment and

@@ -117,7 +117,7 @@ test("URL resolution stays inside each exact credential-free source base", () =>
   );
 });
 
-test("the source lock and every deterministic gzip source artifact validate offline", async () => {
+test("the source lock binds every exact stored gzip artefact to its decoded source bytes", async () => {
   const lock = await sourceLock();
   const validated = await validateFederationLock(lock, { rootDir: ROOT });
   assert.equal(validated.aggregate.recordCount, FEDERATED_RECORD_COUNT);

@@ -4,17 +4,17 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { gunzipSync } from "node:zlib";
+import { gzipSync, gunzipSync } from "node:zlib";
 
 import {
   assertSafeImportDestinations,
   canonicalJson,
-  deterministicGzip,
   FEDERATION_LOCK_PATH,
   importOkfFederation,
   loadReviewedFederationLock,
   resolveAllowedUrl,
   sha256,
+  validateReviewedStoredArtifact,
   verifyFetchedArtifactAgainstPin,
 } from "../../scripts/import-okf-federation.mjs";
 
@@ -40,13 +40,44 @@ function digestWithout(value, field) {
   return sha256(canonicalJson(copy));
 }
 
-test("deterministic gzip has one reviewed cross-platform byte representation", () => {
-  const source = Buffer.from("cross-platform deterministic gzip fixture\n", "utf8");
-  const compressed = deterministicGzip(source);
+test("reviewed gzip is bound to the fetched source without host recompression", async () => {
+  const { lock } = await loadReviewedFederationLock({ rootDir: repositoryRoot });
+  const pin = lock.sources[0].recordArtifacts[0];
+  const compressed = await readFile(resolve(repositoryRoot, pin.storedPath));
+  const sourceBytes = gunzipSync(compressed);
+  const records = JSON.parse(sourceBytes);
 
-  assert.equal(compressed[9], 0x13);
-  assert.equal(sha256(compressed), "bc896441cf794f3070c58e29bdfa32c5207d0d6a5d3feeb990c3621ab2e2f1cf");
-  assert.deepEqual(gunzipSync(compressed), source);
+  const verified = verifyFetchedArtifactAgainstPin(sourceBytes, records, compressed, pin);
+  assert.strictEqual(verified, compressed);
+
+  const alternativeRepresentation = Buffer.from(compressed);
+  alternativeRepresentation[9] = alternativeRepresentation[9] === 3 ? 19 : 3;
+  assert.deepEqual(gunzipSync(alternativeRepresentation), sourceBytes);
+  const alternativePin = {
+    ...pin,
+    storedSha256: sha256(alternativeRepresentation),
+  };
+  assert.strictEqual(
+    verifyFetchedArtifactAgainstPin(sourceBytes, records, alternativeRepresentation, alternativePin),
+    alternativeRepresentation,
+  );
+  assert.throws(
+    () => validateReviewedStoredArtifact(alternativeRepresentation, pin),
+    /exact reviewed stored-byte pin/u,
+  );
+
+  const changedSource = Buffer.from(sourceBytes);
+  changedSource[0] ^= 1;
+  const changedCompressed = gzipSync(changedSource, { level: 9, mtime: 0 });
+  const changedStoredPin = {
+    ...pin,
+    storedBytes: changedCompressed.byteLength,
+    storedSha256: sha256(changedCompressed),
+  };
+  assert.throws(
+    () => verifyFetchedArtifactAgainstPin(sourceBytes, records, changedCompressed, changedStoredPin),
+    /decoded source differs from its reviewed byte or digest pin/u,
+  );
 });
 
 test("admits the reviewed artefact and rejects a valid same-count semantic mutation", async () => {
@@ -65,7 +96,7 @@ test("admits the reviewed artefact and rejects a valid same-count semantic mutat
   assert.equal(changedRecords.length, records.length);
   assert.equal(typeof changedRecords[0].concept_id, "string");
   const changedBytes = Buffer.from(JSON.stringify(changedRecords));
-  const changedCompressed = deterministicGzip(changedBytes);
+  const changedCompressed = gzipSync(changedBytes, { level: 9, mtime: 0 });
   assert.throws(
     () => verifyFetchedArtifactAgainstPin(changedBytes, changedRecords, changedCompressed, pin),
     /differs from its reviewed byte, digest or item-count pin/u,

@@ -293,11 +293,15 @@ retained source-authored cross-reference strings cannot define a collection,
 tool, instruction or network request.
 
 The versioned input plane consists of 73 checksum-bound gzip artefacts under
-`app/data/sources/okf-federation/`, totalling 13,021,675 bytes. The deterministic
-gzip contract fixes RFC 1952 operating-system byte 9 to reviewed value `19`, so
-Mac and Linux builds verify one exact representation. The deterministic
-builder creates 1,853 ignored shard files — 120 record shards and 1,733
-postings shards — plus the manifest and checksum sidecar under
+`app/data/sources/okf-federation/`, totalling 13,021,675 bytes. Their exact
+reviewed stored bytes, lengths and SHA-256 digests are pinned and preserved;
+neither import nor build recompresses them. Bounded gunzip validates each locked
+decoded length and SHA-256 digest, and import also requires those decoded bytes
+to equal the newly fetched raw source bytes. Mac and Linux therefore verify the
+same reviewed representation without requiring their compression output to be
+reproducible. The deterministic builder creates 1,853 ignored shard files —
+120 record shards and 1,733 postings shards — plus the manifest and checksum
+sidecar under
 `app/data/federated-search/`: 1,855 files and 127,747,020 bytes in total.
 Production builds validate and copy that plane to `dist` for Pages. The authored
 gzip bytes and generated projection stay distinct.
@@ -415,9 +419,12 @@ across 162 total dependencies; and a clean `git diff --check`. Exact-range scan
 substitution finding, now remediated with separately code-reviewed source pins,
 a direct builder lock-byte check and mutation regressions. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items with zero
-reportable findings. Protected CI, Pages, final tag and
-release, current-candidate supported-host capture, a passing fixed-model
-evaluation, refreshed manual screen-reader journey and video remain pending.
+reportable findings. Its sealed scope predates the narrow reviewed-gzip CI
+portability correction described above; focused mutation regressions and the
+protected Linux rerun must evidence that delta separately. Protected CI, Pages,
+final tag and release, current-candidate supported-host capture, a passing
+fixed-model evaluation, refreshed manual screen-reader journey and video remain
+pending.
 
 The final-candidate demonstration preflight correctly failed closed without a
 deployed commit and explicit overwrite approval. It did not start live capture,

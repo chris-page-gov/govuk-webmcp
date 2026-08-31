@@ -2,11 +2,8 @@ import { constants } from "node:fs";
 import { lstat, mkdir, open, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { gunzipSync } from "node:zlib";
-
 import {
   canonicalJson,
-  deterministicGzip,
   EXPECTED_FEDERATION_SOURCES,
   FEDERATION_AUTHORED_AT,
   FEDERATION_EVIDENCE_TIER,
@@ -19,6 +16,7 @@ import {
   REVIEWED_FEDERATION_LOCK_SHA256,
   safeRelativePath,
   sha256,
+  validateReviewedStoredArtifact,
 } from "./import-okf-federation.mjs";
 
 export const FEDERATED_SEARCH_DIRECTORY = "app/data/federated-search";
@@ -145,13 +143,19 @@ export function chargeFederatedGeneratedBytes(budget, bytes) {
   }
 }
 
-async function readRegularFile(path, label) {
+async function readRegularFile(path, label, maximumBytes = Number.MAX_SAFE_INTEGER) {
   const initial = await lstat(path);
   if (!initial.isFile() || initial.isSymbolicLink()) throw new Error(`${label} must be a regular non-symlink file.`);
+  if (!Number.isSafeInteger(maximumBytes) || maximumBytes < 1 || initial.size > maximumBytes) {
+    throw new Error(`${label} exceeds its reviewed byte limit.`);
+  }
   const handle = await open(path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
   try {
     const opened = await handle.stat();
-    if (!opened.isFile() || opened.dev !== initial.dev || opened.ino !== initial.ino) {
+    if (
+      !opened.isFile() || opened.dev !== initial.dev || opened.ino !== initial.ino ||
+      opened.size !== initial.size || opened.size > maximumBytes
+    ) {
       throw new Error(`${label} changed while being read.`);
     }
     return await handle.readFile();
@@ -375,23 +379,12 @@ function validateLockStructure(lock) {
 }
 
 async function loadArtifactRows(artifact, sourceId, rootDir) {
-  const stored = await readRegularFile(resolve(rootDir, artifact.storedPath), `${sourceId} stored artifact`);
-  if (stored.byteLength !== artifact.storedBytes || sha256(stored) !== artifact.storedSha256) {
-    throw new Error(`${sourceId} stored artifact digest mismatch.`);
-  }
-  let raw;
-  try {
-    raw = gunzipSync(stored, { maxOutputLength: MAX_SOURCE_BYTES });
-  } catch (error) {
-    throw new Error(`${sourceId} stored artifact cannot be safely decompressed.`, { cause: error });
-  }
-  if (raw.byteLength !== artifact.sourceBytes || sha256(raw) !== artifact.sourceSha256) {
-    throw new Error(`${sourceId} source artifact digest mismatch.`);
-  }
-  const deterministic = deterministicGzip(raw);
-  if (deterministic.byteLength !== stored.byteLength || !deterministic.equals(stored)) {
-    throw new Error(`${sourceId} stored artifact is not the deterministic gzip representation of its locked source bytes.`);
-  }
+  const label = `${sourceId} stored artifact`;
+  const stored = await readRegularFile(resolve(rootDir, artifact.storedPath), label, MAX_SOURCE_BYTES);
+  const raw = validateReviewedStoredArtifact(stored, artifact, label);
+  // The reviewed stored digest fixes the gzip representation, while the raw
+  // digest fixes its decoded meaning. Recompression is deliberately not a
+  // gate because conforming zlib versions can emit different DEFLATE streams.
   let value;
   try {
     value = JSON.parse(raw.toString("utf8"));
