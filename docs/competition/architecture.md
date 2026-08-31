@@ -313,8 +313,10 @@ cold/warm parity, no legislation collection and rejection of a legislation
 request. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55
 of 55 review items and retained one Low co-digested source-substitution finding.
 Separately code-reviewed pins for all five source files, a direct builder lock-
-byte check and mutation regressions remediate it; a fresh immutable fixed-tree
-scan, CI, Pages, release tag and current-candidate supported-host capture remain
+byte check and mutation regressions remediate it. Fresh immutable scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
+the fixed candidate with zero reportable findings. CI, Pages, release tag and
+current-candidate supported-host capture remain
 pending. No pre-federation browser,
 accessibility, video or host receipt is
 evidence that the expanded candidate passes those remaining gates.

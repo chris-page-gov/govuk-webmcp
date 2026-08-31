@@ -1,0 +1,90 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "branch_diff",
+  "openQuestions": [],
+  "scanId": "040ad945-3723-4aef-9c03-1bb552630deb",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "scripts/lib/source-locks.mjs",
+        "scripts/build-federated-search.mjs",
+        "scripts/import-okf-federation.mjs",
+        "scripts/build-federation.mjs",
+        "app/data/sources/source-locks.json",
+        "app/data/sources/okf-federation-lock.json"
+      ],
+      "id": "surface_source_build_supply_chain",
+      "label": "Source and build supply chain",
+      "notes": "All five tracked sources match separately code-reviewed pins; normal admission rejects registry drift before consumption; direct builder verifies reviewed lock bytes. Production co-digested mutation rejected and focused tests passed 33 of 33.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "src/federated-search-runtime.ts",
+        "src/federation-runtime.ts",
+        "src/combined-knowledge-runtime.ts",
+        "src/webmcp-tools.ts",
+        "app/main.ts"
+      ],
+      "id": "surface_federated_runtime",
+      "label": "Federated runtime, untrusted data and resource controls",
+      "notes": "Same-origin integrity, canonical URLs, inert rendering, physical work bounds and partial failure reviewed. Runtime tests passed 54 of 54, Chrome 6 of 6 and 58,652 records/122,533 URLs contained no unsafe or legislation result link.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "src/application-actions.ts",
+        "src/contracts.ts",
+        "src/combined-knowledge-runtime.ts",
+        "src/evidence-runtime.ts",
+        "src/webmcp-tools.ts",
+        "app/index.html",
+        "app/main.ts"
+      ],
+      "id": "surface_webmcp_privacy",
+      "label": "Five WebMCP tools, privacy and host boundaries",
+      "notes": "Closed bounded schemas, executable validation, effects, untrusted hints, registration rollback and no caller-controlled fetch reviewed. Focused tool/evidence tests passed 88 of 88.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "scripts/lib/webmcp-evals-harness.mjs",
+        "scripts/run-webmcp-evals-browser.mjs",
+        "scripts/capture-chrome-devtools-webmcp.mjs",
+        "scripts/capture-live-demo-clips.mjs",
+        "scripts/build-host-evidence-clip.mjs",
+        "scripts/build-demo-video.mjs"
+      ],
+      "id": "surface_release_evidence",
+      "label": "Evaluator, release evidence and demonstration authenticity",
+      "notes": "Credential allowlisting, loopback model boundary, exact release binding and reconstruction labelling reviewed. Pending observations are not claimed as current-candidate evidence.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "schemas",
+        "app/data/catalogue.json",
+        "app/data/federation.json",
+        "evals"
+      ],
+      "id": "surface_schemas_and_generated_contracts",
+      "label": "Published schemas and generated-data contracts",
+      "notes": "Closed schemas, generated bindings, quality fixtures and output envelopes reviewed and exercised through build and tests.",
+      "receiptRefs": []
+    }
+  ]
+}

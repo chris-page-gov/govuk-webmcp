@@ -73,8 +73,10 @@ candidate or of WCAG conformance.
   gate K against the exact `0.3.0-rc.1` release candidate.
 - Nine Low security remediations have focused test evidence where recorded.
   The current Chrome and Microsoft Edge suites each pass 30 of 30, and the full
-  prepared unit command passes 193 of 193. The fresh immutable fixed-tree scan remains
-  pending.
+  prepared unit command passes 193 of 193. Fresh immutable exact-range scan
+  `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items with
+  zero reportable findings; the focused current-candidate manual accessibility
+  observation remains pending.
 - The human live region distinguishes rejected input, a
   `federated_runtime_busy` response and other failure rather than presenting
   each as source unavailable. Focused regressions pass 11 of 11.

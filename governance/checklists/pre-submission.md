@@ -11,12 +11,14 @@ acceptance tests. Seven initial Low security findings were remediated afterwards
 A sealed scan suppressed those seven and found an eighth High-confidence Low
 URL-boundary bypass, which was fixed post-snapshot. Current research,
 build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
-smoke gates pass where recorded; the fresh immutable fixed-tree scan,
-CI, Pages, current-host and refreshed-video evidence remain separate and
-unchecked. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
+smoke gates pass where recorded. Fresh immutable fixed-tree scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
+exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
+findings. CI, Pages, current-host and refreshed-video evidence remain separate
+and unchecked. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
 subsequently retained a ninth High-confidence Low source-substitution finding;
-its separately code-reviewed-pin remediation passes locally, but needs the
-fresh fixed-tree scan below.
+its separately code-reviewed-pin remediation passed locally and was then
+covered by the fresh fixed-tree scan below.
 
 - [x] The current prepared unit command passed 193 of 193; Chrome and installed
   Microsoft Edge each passed 30 of 30 on the current final-candidate tree.
@@ -24,8 +26,11 @@ fresh fixed-tree scan below.
   build/data validation, mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
   parity, legislation absent or rejected, and 30 of 30 in both installed Chrome
   and Microsoft Edge. The full unit result is recorded above.
-- [ ] The fresh immutable fixed-tree security scan verifies all nine Low
+- [x] The fresh immutable fixed-tree security scan verifies all nine prior Low
   findings as fixed and retains their IDs, dispositions, commands and failures.
+  Scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items
+  against exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` and
+  recorded zero reportable findings.
   Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
   and found `csf_a2d9e030fda789ecd1cb0e41`, but its coverage is mechanically
   partial and stale-pending and the eighth fix postdates its snapshot. Scan
@@ -73,7 +78,10 @@ fresh fixed-tree scan below.
   `33323152751`). The `v0.2.0-rc.1` evidence remains bound to its earlier commit.
 - [x] Lock files are honoured; the post-tag evidence working tree and 14-commit
   history passed separate gitleaks scans.
-- [ ] Re-scan the exact final evidence commit before submission.
+- [x] Exact fixed candidate commit
+  `9c6ed7d9a21574972ee564b333cbc49983058554` was re-scanned in scan
+  `040ad945-3723-4aef-9c03-1bb552630deb`: 55 of 55 review items completed with
+  zero reportable findings.
 - [x] Corpus and source locks rebuild deterministically; every required digest verifies.
 - [x] Generated catalogue, Evidence Trace, federation manifest, schemas, records,
   receipts, notices and checksums are synchronised for the exact product commit;

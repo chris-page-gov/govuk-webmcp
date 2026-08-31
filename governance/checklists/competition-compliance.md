@@ -14,9 +14,10 @@ seven and found an eighth High-confidence Low URL-boundary bypass, which was
 fixed post-snapshot. The current research, build/data, lexical-quality, Chrome,
 Microsoft Edge and authorised model-free smoke gates pass where recorded. A
 55-item exact-range scan retained a ninth Low source-substitution finding; its
-code-reviewed-pin remediation passes locally, while the fresh immutable fixed-
-tree scan remains open, as do the
-deployment, host and media gates below.
+code-reviewed-pin remediation passes locally. Fresh immutable fixed-tree scan
+`040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
+exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
+findings. The deployment, host and media gates below remain open.
 
 - [x] **Re-verified locally after remediation:** the current prepared unit
   command passed 193 of 193; Chrome and installed Microsoft Edge each passed 30
@@ -26,9 +27,12 @@ deployment, host and media gates below.
   `0.984698009`, Recall@20 `1`, cold/warm parity and legislation absent or
   rejected, and installed Chrome and Microsoft Edge each passed 30 of 30. The
   full unit result is recorded above.
-- [ ] **Re-scan the fixed tree:** all nine Low findings are verified
+- [x] **Re-scan the fixed tree:** all nine prior Low findings are verified
   fixed against one immutable candidate; retain their IDs, dispositions,
-  commands and failures. Sealed scan
+  commands and failures. Scan `040ad945-3723-4aef-9c03-1bb552630deb`
+  completed 55 of 55 review items against exact candidate
+  `9c6ed7d9a21574972ee564b333cbc49983058554` and recorded zero reportable
+  findings. Sealed scan
   `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven and found
   `csf_a2d9e030fda789ecd1cb0e41`, but has mechanically partial and stale-pending
   coverage and predates the eighth fix. Exact-range scan

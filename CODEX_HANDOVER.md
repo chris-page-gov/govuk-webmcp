@@ -364,8 +364,10 @@ All five admitted sources now have separately code-reviewed imported SHA-256
 pins, the standalone federated-search builder checks the reviewed federation-
 lock bytes before parsing, and same-count co-digested source/registry mutation
 tests fail closed. Source validation, the production build and 193 of 193
-prepared unit tests pass. A fresh immutable scan of the fixed tree remains
-pending. These are local candidate results, not protected-main CI or merge,
+prepared unit tests pass. Fresh immutable exact-range scan
+`040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of 55 review items
+against fixed candidate `9c6ed7d9a21574972ee564b333cbc49983058554`
+with zero reportable findings. These are local candidate results, not protected-main CI or merge,
 Pages, supported-host, focused manual accessibility, passing model-backed,
 refreshed-video or release evidence.
 
@@ -613,10 +615,11 @@ origin response bodies are streamed
 under the fixed byte cap with strict declared-length, missing-body and empty-
 body checks. Generated-plane cleanup has bounded retries for Finder metadata;
 static copying filters `.DS_Store`, and `dist` is cleaned before compilation.
-Do not mark the candidate security review complete until a fresh immutable
-scan of the code-reviewed-pin remediation and the complete verification suite
-pass. Retain the sealed pre-remediation scan and its Low finding as evidence;
-do not rewrite it as a no-finding result.
+The complete fixed-candidate scan is
+`040ad945-3723-4aef-9c03-1bb552630deb`; it reviewed 55 of 55 items and reported
+zero findings. Retain the sealed pre-remediation scan and its Low finding as
+evidence; do not rewrite it as a no-finding result. Protected CI and exact
+deployed-byte binding remain separate release gates.
 
 ## Residual limitations
 
@@ -674,10 +677,8 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-Run the fresh immutable fixed-tree security scan, then close the remaining A–M
-matrix against the exact
-`0.3.0-rc.1` candidate. If it
-passes, open a protected pull request, require CI, merge through the protected
+Close the remaining A–M matrix against the exact `0.3.0-rc.1` candidate. Open
+a protected pull request, require CI, merge through the protected
 path, deploy the exact main commit and verify the live artefact is bound to that
 commit before tagging or refreshing supported-host, video and submission
 evidence.

@@ -25,7 +25,10 @@ admitted source files are now bound to separately code-reviewed imported
 SHA-256 values, and the federated-search builder independently requires the
 reviewed federation-lock byte pin. The new mutation regressions, production
 build, source validation and 193-test prepared unit suite pass. A fresh
-immutable scan of that fixed tree remains pending. This is not
+immutable exact-range scan, `040ad945-3723-4aef-9c03-1bb552630deb`, then
+completed all 55 review items against fixed candidate
+`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
+This is not
 yet a protected-main integration, CI result, Pages deployment, release or
 submission. The frozen
 pre-federation baseline is annotated tag
@@ -229,9 +232,11 @@ start live capture, so no live-capture result is claimed.
 
 The first immutable exact-range scan of the candidate completed 55 of 55 review
 items and retained one Low source-substitution finding. Its code-reviewed-pin
-remediation and focused bypass review pass, but the immutable scan of the fixed
-tree remains open. These local results are not protected-main CI, Pages,
-current supported-host, focused manual
+remediation and focused bypass review pass. The fresh immutable full-range scan
+`040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of 55 review items
+against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
+These local results are not protected-main CI, Pages, current supported-host,
+focused manual
 accessibility, passing model-backed, refreshed-video or release evidence.
 
 Five model-backed attempts are preserved as local variance evidence. They used
@@ -535,8 +540,7 @@ gated:
 
 ## Next safe task
 
-Complete the fresh immutable fixed-tree security scan, then finish the remaining
-A–M candidate matrix without weakening the four-source
+Finish the remaining A–M candidate matrix without weakening the four-source
 allowlist, evidence-tier distinction or fail-closed budgets. If the exact
 candidate passes, publish it through a protected pull request and verify required
 CI, merge without bypassing branch protection, deploy the exact main commit and
