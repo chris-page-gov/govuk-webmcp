@@ -124,7 +124,12 @@ classified zero as reportable vulnerabilities because the paths require
 privileged loopback model-service control, repository/build or same-origin
 write authority, or produce bounded self-availability impact. All three remain
 engineering or evidence-integrity defects and have working-tree remediations. The
-immutable exact post-remediation security rescan and release binding remain
+next exact-range scan, `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`, completed 55
+of 55 review items and retained one High-confidence, Low-severity co-digested
+source-substitution finding (`csf_050a3c08c471d3176e0640c3`). Separately code-
+reviewed pins for all five admitted source files, a direct federation-lock byte
+check in the standalone builder and two mutation regressions now remediate that
+path. A fresh immutable fixed-tree security scan and release binding remain
 pending; the deterministic local portions of gates A–I now have exact post-
 remediation observations.
 
@@ -133,7 +138,7 @@ and Pages after `npm test`. On the exact post-remediation candidate, the
 research pack passes 4 of 4; production build/data validation passes with 80
 reviewed records and 80 receipts, 58,655 raw rows, 3 quarantined rows, 58,652
 searchable rows, 120 record shards and 1,733 postings shards; and the prepared
-unit suite passes 190 of 190. The frozen runner passes with mean nDCG@10
+unit suite passes 193 of 193. The frozen runner passes with mean nDCG@10
 `0.984698009`, Recall@20 `1`, identical cold/warm results, no legislation
 collection and rejection of a legislation request. Installed Chrome and
 Microsoft Edge each pass 30 of 30, six of six model-free WebMCP smoke calls pass

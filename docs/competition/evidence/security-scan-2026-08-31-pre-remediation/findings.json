@@ -1,0 +1,88 @@
+{
+  "documentType": "codex-security.findings",
+  "findings": [
+    {
+      "attackPath": {
+        "counterevidence": {
+          "summary": "No runtime caller-controlled file or URL reaches this path; external producer and network changes are blocked; protected main and manual deployment reduce likelihood."
+        },
+        "dataflow": {
+          "summary": "Alter vendored bytes -> recompute embedded pins -> recompute registry importedSha256 -> normal validation and build accept -> Pages publishes altered provenance-labelled result."
+        },
+        "reachability": {
+          "summary": "Reachable only through a committed repository data mutation followed by review/merge, normal CI/build and Pages deployment."
+        }
+      },
+      "confidence": {
+        "level": "high",
+        "rationale": "Static dataflow and a dynamic same-count co-digested mutation both reproduced acceptance on the exact scanned commit."
+      },
+      "findingId": "csf_050a3c08c471d3176e0640c3",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:4a94719494a4cdf109d04f0f03c58a3677b56366854f52d845cbe9fd84ad742f"
+      },
+      "identity": {
+        "anchor": "normal-build-accepts-co-digested-source-lock-substitution"
+      },
+      "locations": [
+        {
+          "endLine": 149,
+          "path": "scripts/lib/source-locks.mjs",
+          "role": "root_control",
+          "startLine": 91
+        },
+        {
+          "endLine": 403,
+          "path": "scripts/build-federated-search.mjs",
+          "role": "sink",
+          "startLine": 231
+        },
+        {
+          "endLine": 627,
+          "path": "scripts/import-okf-federation.mjs",
+          "role": "evidence",
+          "startLine": 605
+        }
+      ],
+      "occurrenceId": "occ_5f6a6302ed2db31d6066984d",
+      "preventiveControls": [
+        "Exact paths, counts and schemas",
+        "Manual importer code-reviewed byte pin",
+        "Protected main and Pages workflow",
+        "Same-origin deterministic runtime validation"
+      ],
+      "provenance": {
+        "candidateId": "candidate-c8efb6f9c0cf64a0",
+        "source": "local_plugin"
+      },
+      "remediation": "Add separately code-reviewed imported SHA-256 values for every admitted source to executable release policy; require the registry digest to match before trusting bytes; directly require the reviewed federation-lock byte pin in its standalone builder; add a same-count co-digested source-and-registry mutation regression test.",
+      "remediationTests": [
+        "Normal production source validation passes exact pins",
+        "Same-count source and registry co-mutation fails before content consumption",
+        "Federated builder rejects any federation lock whose raw bytes differ from the reviewed pin"
+      ],
+      "rootCause": {
+        "summary": "The code-reviewed release policy binds source identifiers, paths and counts, while the expected byte digest is read from source-locks.json alongside the data it is meant to authenticate. The independent federation-lock byte pin is not exercised by normal build admission."
+      },
+      "ruleId": "supply-chain.co-digested-source-lock",
+      "severity": {
+        "level": "low",
+        "rationale": "Successful exploitation can publish forged source-derived records under the project's provenance claims, but requires merged repository write authority and cannot be triggered by a page visitor or upstream network attacker."
+      },
+      "summary": "The normal source admission path validates imported source bytes against a digest supplied by the same mutable registry. A repository-level change can therefore replace same-count source data, recompute all nested and registry digests, and publish altered records under checksum-bound provenance claims without changing a separately admitted release identity.",
+      "taxonomy": {
+        "category": "supply-chain-integrity",
+        "cwe": [
+          "CWE-345"
+        ]
+      },
+      "title": "Normal build accepts co-digested source-lock substitution",
+      "validation": {
+        "summary": "A same-count federation-lock mutation with recomputed entry, aggregate and lock digests was accepted by the production semantic validator; code inspection confirms normal source admission trusts the registry's co-mutable digest."
+      }
+    }
+  ],
+  "scanId": "2b3097c7-6f9f-45fb-baee-ee8b2d125a3a",
+  "schemaVersion": "1.0"
+}

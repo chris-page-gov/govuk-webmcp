@@ -11,21 +11,26 @@ acceptance tests. Seven initial Low security findings were remediated afterwards
 A sealed scan suppressed those seven and found an eighth High-confidence Low
 URL-boundary bypass, which was fixed post-snapshot. Current research,
 build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
-smoke gates pass where recorded; the immutable post-fix rescan,
+smoke gates pass where recorded; the fresh immutable fixed-tree scan,
 CI, Pages, current-host and refreshed-video evidence remain separate and
-unchecked.
+unchecked. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
+subsequently retained a ninth High-confidence Low source-substitution finding;
+its separately code-reviewed-pin remediation passes locally, but needs the
+fresh fixed-tree scan below.
 
-- [x] The current prepared unit command passed 190 of 190; Chrome and installed
+- [x] The current prepared unit command passed 193 of 193; Chrome and installed
   Microsoft Edge each passed 30 of 30 on the current final-candidate tree.
 - [x] The current final-candidate rerun records research 4 of 4, passing production
   build/data validation, mean nDCG@10 `0.984698009`, Recall@20 `1`, cold/warm
   parity, legislation absent or rejected, and 30 of 30 in both installed Chrome
   and Microsoft Edge. The full unit result is recorded above.
-- [ ] The immutable exact-tree security rescan verifies all eight Low
+- [ ] The fresh immutable fixed-tree security scan verifies all nine Low
   findings as fixed and retains their IDs, dispositions, commands and failures.
   Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
   and found `csf_a2d9e030fda789ecd1cb0e41`, but its coverage is mechanically
-  partial and stale-pending and the eighth fix postdates its snapshot.
+  partial and stale-pending and the eighth fix postdates its snapshot. Scan
+  `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` retained ninth finding
+  `csf_050a3c08c471d3176e0640c3`; its fix postdates that snapshot.
 - [ ] Protected-main CI passes for the exact candidate commit, including
   deterministic source import, generated projection, schema, integrity, unit,
   browser, frozen nDCG@10/Recall@20 quality and security checks.

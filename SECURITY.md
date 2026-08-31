@@ -39,8 +39,13 @@ partial tool set is accepted.
 
 The frozen reviewed evidence estate is derived from four exact source locks;
 the current working candidate adds a separate federation lock through the
-registry. Recompute the exact registry, admission and schema totals after the
-exact-tree rescan. Integrity checks bind the packaged bytes and declared relationships. They are not
+registry. Each of the five registry entries must match a separately code-
+reviewed imported SHA-256 value before its bytes are trusted. The standalone
+federated-search builder additionally requires the reviewed federation-lock
+byte pin before parsing, so replacing source bytes and re-digesting the mutable
+registry cannot create an admitted release identity. Recompute the exact
+registry, admission and schema totals after the exact-tree rescan. Integrity
+checks bind the packaged bytes and declared relationships. They are not
 signatures from a government body and do not prove official endorsement,
 current accuracy, access authority or an open licence.
 
@@ -120,7 +125,7 @@ assertion to official status. Exact-record output reports source authority as
 “Not independently established”, retains a producer-declared link role and
 shows the recorded destination hostname in the human interface.
 
-Eight Low findings have implemented remediations:
+Nine Low findings have implemented remediations:
 
 | Finding | Remediation state |
 | --- | --- |
@@ -132,6 +137,7 @@ Eight Low findings have implemented remediations:
 | The constructor token can crash the federated build (`csf_5b3f067459df708770da0536`) | Prototype-safe token maps implemented |
 | Concurrent WebMCP calls amplify uncached shard work (`csf_afca5f27e901f0db4b730cc7`) | Per-runtime in-flight fetch sharing implemented |
 | Trailing-dot and secondary legislation URLs bypass the excluded-host boundary (`csf_a2d9e030fda789ecd1cb0e41`) | Generator and runtime canonical-host checks cover primary and secondary URLs, including trailing-dot forms |
+| Normal build accepts a co-digested source-lock substitution (`csf_050a3c08c471d3176e0640c3`) | All five source digests are separately pinned in executable release policy, the direct federated builder checks the reviewed lock bytes and same-count source/registry mutation tests fail closed |
 
 Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
 findings and identified the eighth with High confidence and Low severity. It
@@ -163,14 +169,22 @@ defects acceptable: they affect evidence fidelity or resilience and are being
 fixed. Exact post-remediation local verification passed research 4 of 4;
 production build and data validation for 80 reviewed records, 80 receipts,
 58,655 raw rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards
-and 1,733 postings shards; 190 of 190 prepared unit tests; the frozen quality
+and 1,733 postings shards; 193 of 193 prepared unit tests; the frozen quality
 gate at mean nDCG@10 `0.984698009` and Recall@20 `1` with cold/warm parity, no
 legislation collection and a rejected legislation request; 30 of 30 browser
 tests in installed Chrome and 30 of 30 in installed Microsoft Edge; 6 of 6
 model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
-across 162 total dependencies; and `git diff --check`. The immutable exact
-post-remediation security rescan remains pending; these results are not a
-release security claim.
+across 162 total dependencies; and `git diff --check`.
+
+Immutable exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` then
+completed 55 of 55 review items against `d9a8eb116652d32fb705f7e597c267359119fe93`
+and reported the ninth finding above with High confidence and Low severity.
+The sealed report is retained under
+`docs/competition/evidence/security-scan-2026-08-31-pre-remediation/`.
+The separately code-reviewed source pins, direct builder check and mutation
+regressions were implemented after that immutable snapshot. A fresh immutable
+scan of the fixed tree remains pending; neither the earlier scan nor the local
+remediation tests are a release security claim.
 
 The final-candidate demonstration preflight also failed closed as intended when
 no deployed commit and no explicit overwrite approval were supplied. It did not

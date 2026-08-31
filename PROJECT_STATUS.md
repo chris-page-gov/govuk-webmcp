@@ -16,8 +16,16 @@ and classified zero as reportable vulnerabilities after attack-path analysis.
 All three have working-tree remediations nevertheless. The exact post-
 remediation research, build/data, unit, frozen-quality, Chrome, Microsoft Edge,
 model-free real-Chrome smoke, dependency-audit and diff-integrity gates now
-pass as recorded below. The immutable exact security rescan remains pending.
-This is not
+pass as recorded below. Immutable exact-range scan
+`2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` then completed all 55 review items and
+reported one High-confidence, Low-severity provenance-integrity defect
+(`csf_050a3c08c471d3176e0640c3`): the normal build accepted a same-count source
+and registry substitution when both were re-digested together. All five
+admitted source files are now bound to separately code-reviewed imported
+SHA-256 values, and the federated-search builder independently requires the
+reviewed federation-lock byte pin. The new mutation regressions, production
+build, source validation and 193-test prepared unit suite pass. A fresh
+immutable scan of that fixed tree remains pending. This is not
 yet a protected-main integration, CI result, Pages deployment, release or
 submission. The frozen
 pre-federation baseline is annotated tag
@@ -82,7 +90,10 @@ in aggregate. Its exact ordered source/quarantined/searchable values are
 Executable validation also binds each collection's title, ordered supplementary
 counts, completeness statement and first limitation before they can be shown.
 A co-digested per-source redistribution or contradictory display claim therefore
-fails closed.
+fails closed. Source identity is additionally bound outside the mutable
+registry: every admitted source digest must match executable release policy
+before its bytes are trusted, and the standalone federated-search builder
+checks the reviewed federation-lock bytes before parsing them.
 
 The candidate keeps five fixed, page-scoped tools and the complete accessible
 human equivalent over one common deterministic result. OKF supplies governed,
@@ -197,7 +208,7 @@ The exact post-remediation local verification now records:
   records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652
   searchable rows, 120 record shards and 1,733 postings shards;
 - focused combined/public-search regressions: 11 of 11 passed;
-- prepared unit suite: 190 of 190 passed;
+- prepared unit suite: 193 of 193 passed;
 - frozen retrieval quality: mean nDCG@10 `0.984698009`, Recall@20 `1`, identical
   cold/warm results, no legislation collection and the legislation request
   rejected;
@@ -216,8 +227,11 @@ The final-candidate demonstration preflight correctly failed closed because no
 deployed commit and no explicit overwrite approval were supplied. It did not
 start live capture, so no live-capture result is claimed.
 
-The immutable exact post-remediation security rescan remains open. These local
-results are not protected-main CI, Pages, current supported-host, focused manual
+The first immutable exact-range scan of the candidate completed 55 of 55 review
+items and retained one Low source-substitution finding. Its code-reviewed-pin
+remediation and focused bypass review pass, but the immutable scan of the fixed
+tree remains open. These local results are not protected-main CI, Pages,
+current supported-host, focused manual
 accessibility, passing model-backed, refreshed-video or release evidence.
 
 Five model-backed attempts are preserved as local variance evidence. They used
@@ -521,7 +535,7 @@ gated:
 
 ## Next safe task
 
-Complete the immutable exact-tree security rescan, then finish the remaining
+Complete the fresh immutable fixed-tree security scan, then finish the remaining
 A–M candidate matrix without weakening the four-source
 allowlist, evidence-tier distinction or fail-closed budgets. If the exact
 candidate passes, publish it through a protected pull request and verify required

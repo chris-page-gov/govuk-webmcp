@@ -12,24 +12,28 @@ unit tests and 29 of 29 installed-Microsoft-Edge acceptance tests. Seven initial
 security findings were remediated afterwards. A sealed scan suppressed those
 seven and found an eighth High-confidence Low URL-boundary bypass, which was
 fixed post-snapshot. The current research, build/data, lexical-quality, Chrome,
-Microsoft Edge and authorised model-free smoke gates pass where recorded; the
-immutable post-fix security rescan remains open, as do the
+Microsoft Edge and authorised model-free smoke gates pass where recorded. A
+55-item exact-range scan retained a ninth Low source-substitution finding; its
+code-reviewed-pin remediation passes locally, while the fresh immutable fixed-
+tree scan remains open, as do the
 deployment, host and media gates below.
 
 - [x] **Re-verified locally after remediation:** the current prepared unit
-  command passed 190 of 190; Chrome and installed Microsoft Edge each passed 30
+  command passed 193 of 193; Chrome and installed Microsoft Edge each passed 30
   of 30 on the current final-candidate tree.
 - [x] **Current final-candidate rerun recorded:** research passed 4 of 4, production
   build/data validation passed, the frozen lexical gate reported mean nDCG@10
   `0.984698009`, Recall@20 `1`, cold/warm parity and legislation absent or
   rejected, and installed Chrome and Microsoft Edge each passed 30 of 30. The
   full unit result is recorded above.
-- [ ] **Re-scan the exact tree:** all eight Low findings are verified
+- [ ] **Re-scan the fixed tree:** all nine Low findings are verified
   fixed against one immutable candidate; retain their IDs, dispositions,
   commands and failures. Sealed scan
   `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven and found
   `csf_a2d9e030fda789ecd1cb0e41`, but has mechanically partial and stale-pending
-  coverage and predates the eighth fix.
+  coverage and predates the eighth fix. Exact-range scan
+  `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` retained ninth finding
+  `csf_050a3c08c471d3176e0640c3`; its code-pin fix postdates that snapshot.
 - [ ] **Verify in CI:** protected-main checks pass for the exact candidate,
   including deterministic source import and generation, semantic and checksum
   failure cases, schemas, tests, the frozen nDCG@10/Recall@20 quality gate and

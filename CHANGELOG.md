@@ -135,7 +135,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   WebMCP search results instead of misclassifying a busy runtime as an
   unavailable source. The human live region now distinguishes rejected input,
   a busy runtime and other failures. The post-review production build, focused
-  regression set (11 of 11), complete prepared unit suite (190 of 190), Chrome
+  regression set (11 of 11), complete prepared unit suite (193 of 193), Chrome
   acceptance (30 of 30, exit 0) and Microsoft Edge acceptance (30 of 30, exit
   0) passed; the earlier 187-unit result remains a pre-fix checkpoint only.
 - Corrected judge-facing `collections` examples to use the executable closed-
@@ -144,6 +144,16 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+- Bound all five admitted source files to code-reviewed imported SHA-256 values
+  before their bytes are trusted. The federated-search builder now also
+  requires the reviewed federation-lock byte pin directly, so same-count,
+  co-digested source and registry substitutions fail closed. This remediates
+  High-confidence, Low-severity finding `csf_050a3c08c471d3176e0640c3` from
+  immutable 55-item scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`; its sealed
+  pre-remediation evidence is retained rather than rewritten. Source-lock and
+  direct-builder mutation regressions, source validation, the production build
+  and all 193 prepared unit tests pass; a fresh immutable fixed-tree scan
+  remains pending.
 - Completed immutable candidate scan
   `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` over 50 of 50 review items. It
   dynamically reproduced three candidates: a mutable local-model identity
@@ -241,13 +251,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Recorded the exact post-remediation local verification: research 4 of 4;
   successful deterministic build and data validation for 80 reviewed records,
   80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable
-  rows, 120 record shards and 1,733 postings shards; 190 of 190 prepared unit
+  rows, 120 record shards and 1,733 postings shards; 193 of 193 prepared unit
   tests; mean nDCG@10 `0.984698009`, Recall@20 `1`, identical cold/warm results,
   no legislation collection and rejection of a legislation request; 30 of 30
   tests in installed Chrome and
   30 of 30 in installed Microsoft Edge; 6 of 6 model-free WebMCP smoke calls in
   real Chrome; zero npm-audit vulnerabilities across 162 total dependencies;
-  and a clean `git diff --check`. The immutable exact security rescan,
+  and a clean `git diff --check`. The fresh immutable fixed-tree scan,
   protected-main CI and merge, Pages, current-host capture, focused manual
   accessibility evidence, passing model-backed evaluation, refreshed video and
   submission remain pending.

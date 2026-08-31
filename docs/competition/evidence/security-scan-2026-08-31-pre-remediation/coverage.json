@@ -1,0 +1,69 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "branch_diff",
+  "openQuestions": [],
+  "scanId": "2b3097c7-6f9f-45fb-baee-ee8b2d125a3a",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "reported",
+      "files": [
+        "scripts/lib/source-locks.mjs",
+        "scripts/build-federated-search.mjs",
+        "scripts/import-okf-federation.mjs",
+        "app/data/sources/source-locks.json"
+      ],
+      "id": "surface_source_build_supply_chain",
+      "label": "Source and build supply chain",
+      "notes": "One low-severity co-digested source-substitution provenance defect reproduced.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "src/federated-search-runtime.ts",
+        "src/combined-knowledge-runtime.ts",
+        "src/webmcp-tools.ts"
+      ],
+      "id": "surface_federated_runtime",
+      "label": "Federated runtime and resource controls",
+      "notes": "Integrity, same-origin loading, cancellation, concurrency, queue and partial-failure controls reviewed; bounded residuals retained.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "src/combined-knowledge-runtime.ts",
+        "src/evidence-runtime.ts",
+        "src/webmcp-tools.ts",
+        "app/main.ts",
+        "app/index.html"
+      ],
+      "id": "surface_webmcp_untrusted_content",
+      "label": "WebMCP inputs, outputs and untrusted content",
+      "notes": "All five tools, executable validation, inert rendering, HTTPS link checks and privacy boundary reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "files": [
+        "scripts/lib/webmcp-evals-harness.mjs",
+        "scripts/run-webmcp-evals-browser.mjs",
+        "scripts/build-host-evidence-clip.mjs",
+        "scripts/build-demo-video.mjs"
+      ],
+      "id": "surface_release_evidence",
+      "label": "Release evidence and evaluator",
+      "notes": "Credential allowlisting and exact-commit evidence binding reviewed; pending real observations are not claimed.",
+      "receiptRefs": []
+    }
+  ]
+}

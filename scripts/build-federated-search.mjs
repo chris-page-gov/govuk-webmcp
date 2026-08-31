@@ -16,6 +16,7 @@ import {
   MAX_AGGREGATE_SOURCE_BYTES,
   MAX_AGGREGATE_STORED_BYTES,
   MAX_SOURCE_BYTES,
+  REVIEWED_FEDERATION_LOCK_SHA256,
   safeRelativePath,
   sha256,
 } from "./import-okf-federation.mjs";
@@ -948,6 +949,9 @@ async function buildCollection(source, firstOrdinal, rootDir, outputRoot, budget
 export async function buildFederatedSearch({ rootDir = process.cwd(), outputDirectory } = {}) {
   const root = resolve(rootDir);
   const lockBytes = await readRegularFile(resolve(root, FEDERATION_LOCK_PATH), "Federation source lock");
+  if (sha256(lockBytes) !== REVIEWED_FEDERATION_LOCK_SHA256) {
+    throw new Error("Federation source lock differs from its code-reviewed byte pin.");
+  }
   let lock;
   try {
     lock = JSON.parse(lockBytes.toString("utf8"));

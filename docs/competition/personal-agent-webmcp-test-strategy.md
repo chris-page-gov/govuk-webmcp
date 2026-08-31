@@ -118,7 +118,7 @@ Federated links and assertions must remain producer-declared rather than
 official; exact-record output reports source authority as “Not independently
 established”, and the human route displays the recorded destination hostname.
 
-The working tree contains remediations for eight Low security findings. Sealed
+The working tree contains remediations for nine Low security findings. Sealed
 scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed seven earlier findings
 and found one further High-confidence Low trailing-dot and secondary
 legislation-URL bypass (`csf_a2d9e030fda789ecd1cb0e41`), which was fixed after
@@ -130,6 +130,12 @@ authorised model-free smoke gates pass where recorded. The full unit command
 passed 173 of 173 in `17128.154916 ms` before the latest three engineering
 remediations.
 
+Immutable scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` later completed 55 of
+55 review items and reported the ninth, High-confidence Low co-digested source-
+substitution finding (`csf_050a3c08c471d3176e0640c3`). Separately code-
+reviewed source pins, a direct builder lock-byte check and mutation regressions
+now remediate it; a fresh immutable scan of that fixed tree remains required.
+
 Immutable scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` subsequently completed
 50 of 50 review items and dynamically reproduced mutable local-model identity
 evidence, aggregate-only per-source population binding and cancellation-driven
@@ -140,12 +146,16 @@ self-availability impact. The defects have working-tree remediations anyway.
 The exact post-remediation local chain now passes research 4 of 4; build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
-shards; 190 of 190 prepared unit tests; frozen quality at mean nDCG@10
+shards; 193 of 193 prepared unit tests; frozen quality at mean nDCG@10
 `0.984698009`, Recall@20 `1`, cold/warm parity, no legislation collection and a
 rejected legislation request; 30 of 30 tests in both Chrome and Edge; six of
 six model-free WebMCP smoke calls in real Chrome; zero npm-audit vulnerabilities
 across 162 total dependencies; and a clean `git diff --check`. The immutable
-exact post-remediation security rescan and the protected, deployed, manual,
+scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` completed 55 of 55 items and
+retained one Low co-digested source-substitution finding. Separately code-
+reviewed pins for all five sources, a direct builder lock-byte check and
+mutation regressions remediate it; a fresh immutable fixed-tree scan and the
+protected, deployed, manual,
 supported-host, model-backed and refreshed-video evidence remain prerequisites
 for the corresponding submission claims.
 

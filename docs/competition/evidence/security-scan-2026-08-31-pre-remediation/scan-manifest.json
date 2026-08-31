@@ -1,0 +1,94 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "dd0c88c8574028a71b4f09c6cae0b7949baac4a83d63f13653f9488355134dd0"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "9c2b61d485edc7f68c3d77ee79c30a5e56c121fd537217b500137af271003ef0"
+      }
+    ],
+    "completedAt": "2026-08-31T03:04:55.868744Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "2b3097c7-6f9f-45fb-baee-ee8b2d125a3a",
+    "preservedSources": {
+      "checkpoints/063904f5b23cb4b14ca12dad24430cf7e733582f5bcacc79b107ef787cb8e416.json": "063904f5b23cb4b14ca12dad24430cf7e733582f5bcacc79b107ef787cb8e416",
+      "checkpoints/f0455ed842aeef949abdbe11eb16fcd6bdcf80b004082a6e20a329403267addc.json": "5848e6293c16dad6ba6a4801404b6828b43184f98f665daec58e97e172a21173"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "55 of 55 prepared review items",
+        "Source import/admission/build pipeline",
+        "Federated and combined browser runtimes",
+        "Five WebMCP tools and schemas",
+        "DOM rendering, CSP, evaluator and demo evidence pipeline"
+      ],
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "No third-party penetration test",
+        "Supported-host and assistive-technology release observations remained pending",
+        "Repository-write exploitation depends on merge authority"
+      ],
+      "runtimeStatus": "Deterministic local build/unit/browser/evaluation suites were green; focused runtime/security tests passed 51 of 51.",
+      "summary": "Complete exact-range review of the 55 security-relevant changed-file inventory from v0.2.0-rc.2 to d9a8eb1.",
+      "validationMode": "Exact commit-range static review plus focused dynamic mutation and 51-test runtime/security counterevidence suite."
+    },
+    "sealedAt": "2026-08-31T03:04:55.868744Z",
+    "startedAt": "2026-08-31T02:52:44.663501Z",
+    "status": "completed",
+    "target": {
+      "baseRevision": "35fcedd39ed955278d3975a6dd80692fc6e32935",
+      "displayName": "govuk-webmcp",
+      "headRevision": "d9a8eb116652d32fb705f7e597c267359119fe93",
+      "kind": "git_diff",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:e6f9c8ac28324c2b3761585121cbd6981a839503cf4f6a6f6d23ac19b153d21b",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "assets": [
+        "Integrity and provenance of four OKF source snapshots and 58,652 searchable records",
+        "Citizen trust in human and WebMCP result parity",
+        "Browser origin, credentials and availability",
+        "Release and supported-host evidence"
+      ],
+      "assumptions": [
+        "Protected-main and Pages workflow remain enforced",
+        "Native browser fetch honours AbortSignal",
+        "GitHub and the authenticated user account are outside application scope"
+      ],
+      "attackerCapabilities": [
+        "Supply altered source or metadata bytes upstream",
+        "Submit or merge a repository change under the applicable collaboration controls",
+        "Provide hostile free-text query or source-authored strings",
+        "Invoke WebMCP tools repeatedly within schema bounds"
+      ],
+      "securityObjectives": [
+        "Reject unreviewed source identities before generation",
+        "Keep runtime fetching same-origin, credential-free and bounded",
+        "Keep source text inert and visibly untrusted",
+        "Expose deterministic human/tool parity with explicit limitations"
+      ],
+      "summary": "A public static Pages application builds checksum-labelled government discovery data from repository-vendored OKF source snapshots and exposes five read-only WebMCP tools. Primary risks are source substitution, untrusted-content execution, cross-origin retrieval, resource exhaustion, privacy leakage and release-evidence spoofing.",
+      "trustBoundaries": [
+        "Repository-authored source locks into deterministic build",
+        "Same-origin static assets into browser runtime",
+        "Untrusted source text into structured tool output and DOM text nodes",
+        "Host or evaluator around the page's WebMCP registration"
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

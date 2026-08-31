@@ -339,7 +339,7 @@ historical failed model attempts predate v2 and remain failures.
 | Research pack | 4 of 4 passed |
 | Production build and generated-data validation | Passed: 80 reviewed records, 80 receipts, 58,655 raw federated rows, 3 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings shards |
 | Focused combined/public-search regressions | 11 of 11 passed |
-| Prepared unit suite | 190 of 190 passed |
+| Prepared unit suite | 193 of 193 passed |
 | Frozen retrieval-quality gate | Mean nDCG@10 `0.984698009`; Recall@20 `1`; identical cold/warm results; legislation collection absent and legislation request rejected |
 | Installed Google Chrome | 30 of 30 browser tests passed |
 | Installed Microsoft Edge | 30 of 30 browser tests passed |
@@ -356,10 +356,18 @@ The final-candidate demonstration preflight correctly failed closed because no
 deployed commit and no explicit overwrite approval were supplied. It did not
 start live capture and must not be described as live-capture evidence.
 
-The immutable exact post-remediation security rescan remains pending. These are
-local candidate results, not protected-main CI or merge, Pages, supported-host,
-focused manual accessibility, passing model-backed, refreshed-video or release
-evidence.
+Immutable exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
+completed 55 of 55 review items and reported one High-confidence,
+Low-severity source-substitution finding (`csf_050a3c08c471d3176e0640c3`).
+The normal build trusted a source digest supplied by the same mutable registry.
+All five admitted sources now have separately code-reviewed imported SHA-256
+pins, the standalone federated-search builder checks the reviewed federation-
+lock bytes before parsing, and same-count co-digested source/registry mutation
+tests fail closed. Source validation, the production build and 193 of 193
+prepared unit tests pass. A fresh immutable scan of the fixed tree remains
+pending. These are local candidate results, not protected-main CI or merge,
+Pages, supported-host, focused manual accessibility, passing model-backed,
+refreshed-video or release evidence.
 
 ## Release assurance observed on 30 August 2026
 
@@ -605,8 +613,10 @@ origin response bodies are streamed
 under the fixed byte cap with strict declared-length, missing-body and empty-
 body checks. Generated-plane cleanup has bounded retries for Finder metadata;
 static copying filters `.DS_Store`, and `dist` is cleaned before compilation.
-Do not mark the candidate security review complete until an immutable exact-
-tree rescan and the complete verification suite pass.
+Do not mark the candidate security review complete until a fresh immutable
+scan of the code-reviewed-pin remediation and the complete verification suite
+pass. Retain the sealed pre-remediation scan and its Low finding as evidence;
+do not rewrite it as a no-finding result.
 
 ## Residual limitations
 
@@ -664,7 +674,7 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-Run the immutable exact-tree security rescan, then close the remaining A–M
+Run the fresh immutable fixed-tree security scan, then close the remaining A–M
 matrix against the exact
 `0.3.0-rc.1` candidate. If it
 passes, open a protected pull request, require CI, merge through the protected

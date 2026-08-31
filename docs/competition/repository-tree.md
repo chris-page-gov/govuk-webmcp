@@ -144,7 +144,7 @@ govuk-webmcp/
 │   └── lib/
 │       ├── deterministic-json.mjs
 │       ├── webmcp-evals-harness.mjs # validated fixture, server and receipt helpers
-│       └── source-locks.mjs       # exact path and regular-file checks
+│       └── source-locks.mjs       # exact path, file and code-reviewed digest pins
 ├── tests/
 │   ├── unit/
 │   │   ├── knowledge-runtime.test.mjs
@@ -273,12 +273,16 @@ snapshots do not create a fifth federated source.
 Federated trust is not promoted by producer wording. Public links retain
 producer-declared roles, exact-record authority is “Not independently
 established”, and the human interface displays the recorded destination
-hostname. Eight Low security findings have implemented remediations. Sealed
+hostname. Nine Low security findings have implemented remediations. Sealed
 scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven and found
 `csf_a2d9e030fda789ecd1cb0e41`, fixed post-snapshot; its coverage is
 mechanically partial and stale-pending. Focused checks passed 119 of 119 then 23
 of 23 for the affected post-fix subset. The full unit command passed 173 of 173
-in `17128.154916 ms`; the immutable post-fix rescan remains pending.
+in `17128.154916 ms`. Exact-range scan
+`2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` later retained ninth finding
+`csf_050a3c08c471d3176e0640c3`; separately code-reviewed pins for all five
+sources, a direct builder lock-byte check and mutation regressions remediate
+it. The fresh immutable fixed-tree scan remains pending.
 
 The repository also pins `jsonschema` 4.26.0 and each mandatory or
 Python-version-conditional runtime dependency in `requirements-dev.txt`;

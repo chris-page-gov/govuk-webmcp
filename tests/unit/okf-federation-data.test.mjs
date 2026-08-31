@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile, readdir } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import test from "node:test";
 
 import {
@@ -144,6 +144,21 @@ test("co-digested semantic count, snapshot, revision and path mutations fail clo
       );
     });
   }
+});
+
+test("the offline builder rejects a co-digested federation-lock substitution before reading artefacts", async (t) => {
+  const root = await mkdtemp(join(os.tmpdir(), "govuk-webmcp-federation-lock-substitution-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const changed = structuredClone(await sourceLock());
+  changed.sources[0].recordArtifacts[0].sourceSha256 = "0".repeat(64);
+  redigest(changed);
+  const lockPath = resolve(root, FEDERATION_LOCK_PATH);
+  await mkdir(dirname(lockPath), { recursive: true });
+  await writeFile(lockPath, `${JSON.stringify(changed, null, 2)}\n`);
+  await assert.rejects(
+    buildFederatedSearch({ rootDir: root, outputDirectory: resolve(root, "output") }),
+    /Federation source lock differs from its code-reviewed byte pin/u,
+  );
 });
 
 test("the offline build is byte-idempotent and emits isolated bounded digest-bound collections", async () => {

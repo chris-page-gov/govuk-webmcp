@@ -15,26 +15,31 @@ export const EXPECTED_SOURCE_LOCKS = Object.freeze([
   Object.freeze({
     id: SOURCE_LOCK_IDS.GOVUK_CONTENT,
     importedPath: "app/data/sources/govuk-content-69.lock.json",
+    importedSha256: "3777086d570663e358d36be256b8fc590ac7f6909eacd2216904a7fab9d7a6bc",
     recordCount: 69,
   }),
   Object.freeze({
     id: SOURCE_LOCK_IDS.CURATED_API_DATA,
     importedPath: "app/data/sources/curated-api-data.json",
+    importedSha256: "f09b76edd88c7981059b596c9c381f25ac8e1a6cb47a45d675e8972519bed794",
     recordCount: 11,
   }),
   Object.freeze({
     id: SOURCE_LOCK_IDS.ANSWER_PACKS,
     importedPath: "app/data/sources/answer-packs.json",
+    importedSha256: "ea00549f465ef4d7fc65c9e5853ee2b78ab6d9823d25e9268516d7b955d70f1f",
     recordCount: 1,
   }),
   Object.freeze({
     id: SOURCE_LOCK_IDS.CORPUS_ADMISSIONS,
     importedPath: "app/data/sources/corpus-admissions.json",
+    importedSha256: "e508693ca57615f4e988f9cd076f2d9183451303892f2ea59e40fef4fb25eaed",
     recordCount: 10,
   }),
   Object.freeze({
     id: SOURCE_LOCK_IDS.OKF_FEDERATION,
     importedPath: "app/data/sources/okf-federation-lock.json",
+    importedSha256: "bcd0b2b3631aea744b802e8b0199672fea76e446abe4adf2332e9c4683302b10",
     recordCount: 4,
   }),
 ]);
@@ -88,7 +93,7 @@ function itemCount(value) {
   return undefined;
 }
 
-export async function validateSourceLocks({ rootDir = process.cwd() } = {}) {
+async function validateSourceLocksAgainstExpected(expectedSourceLocks, { rootDir = process.cwd() } = {}) {
   const repositoryRoot = resolve(rootDir);
   const registryBytes = await readRegularFile(
     resolve(repositoryRoot, REGISTRY_PATH),
@@ -103,11 +108,11 @@ export async function validateSourceLocks({ rootDir = process.cwd() } = {}) {
   ) {
     throw new Error("The source-lock registry is malformed.");
   }
-  if (registry.sources.length !== EXPECTED_SOURCE_LOCKS.length) {
-    throw new Error(`The source-lock registry must contain exactly ${EXPECTED_SOURCE_LOCKS.length} admitted sources.`);
+  if (registry.sources.length !== expectedSourceLocks.length) {
+    throw new Error(`The source-lock registry must contain exactly ${expectedSourceLocks.length} admitted sources.`);
   }
 
-  const expectedById = new Map(EXPECTED_SOURCE_LOCKS.map((source) => [source.id, source]));
+  const expectedById = new Map(expectedSourceLocks.map((source) => [source.id, source]));
   const locksById = new Map();
   const importedPaths = new Set();
   for (const source of registry.sources) {
@@ -125,15 +130,18 @@ export async function validateSourceLocks({ rootDir = process.cwd() } = {}) {
     if (source.recordCount !== expected.recordCount) {
       throw new Error(`Source lock ${source.id} must declare exactly ${expected.recordCount} authored items.`);
     }
+    if (!SHA256.test(source.importedSha256) || source.importedSha256 !== expected.importedSha256) {
+      throw new Error(`Source lock ${source.id} differs from its code-reviewed imported SHA-256 pin.`);
+    }
     locksById.set(source.id, source);
     importedPaths.add(source.importedPath);
   }
-  for (const expected of EXPECTED_SOURCE_LOCKS) {
+  for (const expected of expectedSourceLocks) {
     if (!locksById.has(expected.id)) throw new Error(`Required source lock ${expected.id} is missing.`);
   }
 
   const sourcesById = new Map();
-  for (const expected of EXPECTED_SOURCE_LOCKS) {
+  for (const expected of expectedSourceLocks) {
     const lock = locksById.get(expected.id);
     const bytes = await readRegularFile(
       resolve(repositoryRoot, expected.importedPath),
@@ -151,3 +159,23 @@ export async function validateSourceLocks({ rootDir = process.cwd() } = {}) {
 
   return Object.freeze({ registry, registryBytes, sourcesById });
 }
+
+export function createSourceLockValidator(expectedSourceLocks = EXPECTED_SOURCE_LOCKS) {
+  if (!Array.isArray(expectedSourceLocks) || expectedSourceLocks.length !== EXPECTED_SOURCE_LOCKS.length) {
+    throw new TypeError(`Expected source locks must contain exactly ${EXPECTED_SOURCE_LOCKS.length} entries.`);
+  }
+  const reviewedSourceLocks = expectedSourceLocks.map((source, index) => {
+    const admitted = EXPECTED_SOURCE_LOCKS[index];
+    if (
+      source === null || typeof source !== "object" || Array.isArray(source) ||
+      source.id !== admitted.id || source.importedPath !== admitted.importedPath ||
+      source.recordCount !== admitted.recordCount || !SHA256.test(source.importedSha256)
+    ) {
+      throw new TypeError(`Expected source lock ${admitted.id} has an invalid reviewed identity or SHA-256 pin.`);
+    }
+    return Object.freeze({ ...source });
+  });
+  return (options) => validateSourceLocksAgainstExpected(reviewedSourceLocks, options);
+}
+
+export const validateSourceLocks = createSourceLockValidator();
