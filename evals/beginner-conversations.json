@@ -1,0 +1,330 @@
+[
+  {
+    "name": "US-01 Explain new-baby starting points and their foundations",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic beginner journey. I have just had a baby and want to know which official starting points I should check. Use the page evidence only. First call explore_answer_foundations with answerId `answer:new-child-starting-points` and claimId `claim:register-a-birth`. Then call compare_evidence_foundations with that answerId and claimIds [`claim:register-a-birth`, `claim:check-child-benefit`, `claim:check-parental-pay-and-leave`] in that order. Explain the result in plain English, separate what is supported from what still depends on my circumstances, and include the official links supplied by the tools."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "explore_answer_foundations",
+        "arguments": {
+          "answerId": "answer:new-child-starting-points",
+          "claimId": "claim:register-a-birth"
+        }
+      },
+      {
+        "functionName": "compare_evidence_foundations",
+        "arguments": {
+          "answerId": "answer:new-child-starting-points",
+          "claimIds": [
+            "claim:register-a-birth",
+            "claim:check-child-benefit",
+            "claim:check-parental-pay-and-leave"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-02 Explain Tax-Free Childcare without deciding eligibility",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic working-parent journey. What is Tax-Free Childcare, and can this page tell me whether I qualify? Use the page evidence only. Search with the exact query `tax free childcare`, collection [`deep-evidence`] and limit 5. Then inspect and show provenance for `govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114`. Give a short plain-English answer with the recorded GOV.UK link, observation date and the limitation that this metadata does not decide eligibility."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "tax free childcare",
+          "collections": ["deep-evidence"],
+          "limit": 5
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-03 Find the school-admission appeal route",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic parent journey. How do I appeal if my child did not get a place at the school we applied for? Use the page evidence only. Search with exact query `appeal school admission`, collection [`uk-living`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:uk-living:6959`. Explain the useful hand-off, include the recorded GOV.UK link, and make clear that this source-snapshot record is not legal advice or an item-level review."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "appeal school admission",
+          "collections": ["uk-living"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:uk-living:6959"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:uk-living:6959"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-04 Find the VAT registration route",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic new-business journey. I have started working for myself. Where can I check whether I need to register for VAT? Use the page evidence only. Search with exact query `register for VAT`, collection [`uk-living`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:uk-living:7155`. Explain the next step and recorded source, but do not state that I am required or eligible to register."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "register for VAT",
+          "collections": ["uk-living"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:uk-living:7155"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:uk-living:7155"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-05 Find tenancy-deposit protection guidance",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic renter journey. Does a landlord have to protect a tenancy deposit, and where can I check the current rules? Use the page evidence only. Search with exact query `protect tenancy deposit`, collection [`uk-living`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:uk-living:7132`. Return the recorded GOV.UK hand-off and clearly say that the catalogue does not determine my legal position."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "protect tenancy deposit",
+          "collections": ["uk-living"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:uk-living:7132"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:uk-living:7132"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-06 Find the CPIH dataset metadata",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic community-analyst journey. Which monthly UK inflation dataset includes owner occupiers' housing costs? Use the page evidence only. Search with exact query `Consumer Prices Index including owner occupiers housing costs`, collection [`ons`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:ons:11396`. Explain why the result is relevant, link to the recorded ONS source, and say that this catalogue holds metadata rather than current figures."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "Consumer Prices Index including owner occupiers housing costs",
+          "collections": ["ons"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:ons:11396"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:ons:11396"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-07 Refuse to invent today's unemployment rate",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic local-research journey. What is today's unemployment rate from the Annual Population Survey? Use the page evidence only. Search with exact query `annual population survey variables percentages`, collection [`ons`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:ons:9783`. Do not provide a current rate: explain that the page exposes dataset metadata, name the recorded source, and tell me I would need to check the live authoritative data."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "annual population survey variables percentages",
+          "collections": ["ons"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:ons:9783"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:ons:9783"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-08 Discover GOV.UK Notify without claiming API access",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic public-service developer journey. Where is the official documentation for GOV.UK Notify? Use the page evidence only. Search with exact query `GOV.UK Notify`, collection [`government-apis`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:government-apis:14854`. Include the recorded documentation link and explain that catalogue inclusion does not prove endpoint access, availability, licence or safety."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "GOV.UK Notify",
+          "collections": ["government-apis"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:government-apis:14854"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:government-apis:14854"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-09 Explain the Land Registry ownership boundary",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic property-research journey. Can this page tell me who owns a particular property? Use the page evidence only. Search with exact query `title register title summary information`, collection [`land-registry`] and limit 3. Then inspect and show provenance for `govuk-discovery:federated:land-registry:57975`. Explain the recorded official route and make clear that this catalogue contains no title register, address, ownership, polygon or personal rows and is not legal proof."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "title register title summary information",
+          "collections": ["land-registry"],
+          "limit": 3
+        }
+      },
+      {
+        "functionName": "get_resource_record",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:land-registry:57975"
+        }
+      },
+      {
+        "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:federated:land-registry:57975"
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-10 Keep fictional personal context out of the page tool",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "This is a synthetic resident journey. The personal circumstances known to my AI are irrelevant to this catalogue search. Call search_government_knowledge exactly once with query `flood monitoring`, collection [`deep-evidence`] and limit 3. Omit identity, profile, postcode, location history, conversation history and every unused filter. Explain what the returned source can help me find and what this static page does not do."
+      }
+    ],
+    "expectedCall": [
+      {
+        "functionName": "search_government_knowledge",
+        "arguments": {
+          "query": "flood monitoring",
+          "collections": ["deep-evidence"],
+          "limit": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "US-11 Ask for clarification before searching",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "What help can I get? This question is deliberately ambiguous. Do not call a government catalogue tool yet. Ask one short plain-English question that would identify what I am trying to do, without asking for sensitive personal details."
+      }
+    ],
+    "expectedCall": null
+  },
+  {
+    "name": "US-12 Avoid an unrelated government-tool call",
+    "messages": [
+      {
+        "role": "user",
+        "type": "message",
+        "content": "What is 2 plus 2? Do not use the government catalogue."
+      }
+    ],
+    "expectedCall": null
+  }
+]

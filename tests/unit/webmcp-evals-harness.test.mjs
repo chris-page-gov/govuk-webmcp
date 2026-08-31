@@ -115,6 +115,157 @@ test("browser evals cover every tool, all four federated collections, privacy mi
   });
 });
 
+test("beginner conversations cover every proposed story with bounded prompts", async () => {
+  const fixture = await readJson("evals/beginner-conversations.json");
+
+  assert.deepEqual(validateBrowserFixture(fixture), {
+    caseCount: 12,
+    expectedStepCount: 27,
+    noCallCaseCount: 2,
+    toolNames: [...EXPECTED_TOOL_NAMES].sort(),
+  });
+  assert.deepEqual(
+    fixture.map(({ name }) => name.match(/^US-(\d{2})\b/u)?.[1]),
+    Array.from({ length: 12 }, (_, index) => String(index + 1).padStart(2, "0")),
+  );
+  assert.ok(fixture.every(({ messages }) =>
+    messages.length === 1
+    && messages[0].role === "user"
+    && messages[0].type === "message"
+    && /synthetic|deliberately ambiguous|2 plus 2/iu.test(messages[0].content)));
+
+  const minimalArgumentCase = fixture.find(({ name }) => name.startsWith("US-10"));
+  assert.deepEqual(minimalArgumentCase.expectedCall, [{
+    functionName: "search_government_knowledge",
+    arguments: { query: "flood monitoring", collections: ["deep-evidence"], limit: 3 },
+  }]);
+  const prohibitedArgumentKeys = new Set([
+    "identity", "profile", "postcode", "location", "locationHistory", "conversationHistory", "personalContext",
+  ]);
+  assert.ok(fixture
+    .flatMap(({ expectedCall }) => expectedCall ?? [])
+    .every(({ arguments: arguments_ }) =>
+      Object.keys(arguments_).every((key) => !prohibitedArgumentKeys.has(key))));
+});
+
+test("beginner conversation receipt retains deterministic evidence without raw model prose", async () => {
+  const receipt = await readJson(
+    "docs/competition/evidence/beginner-conversation-evaluation-receipt-2026-08-31.json",
+  );
+
+  assert.equal(receipt.schema, "govuk-webmcp.beginner-conversation-evaluation-receipt.v1");
+  assert.deepEqual(receipt.provenance.fixture, {
+    path: "evals/beginner-conversations.json",
+    sha256: "989e90265dc750bca96156939668b7bcc147856fd1e50d979ea41164eb6f8dac",
+  });
+  assert.deepEqual(receipt.provenance.rawReport, {
+    path: ".evals/beginner-conversations/2026-08-31T22-10-18Z/report-1788214493102.json",
+    sha256: "3ef684647d0606b04de783a4fa15e51979a790522e9652b156d03861ff1918ab",
+    repositoryStatus: "ignored-local-evidence",
+  });
+  assert.deepEqual(receipt.aggregate.orderedCallMatch, {
+    pass: 13,
+    fail: 16,
+    error: 0,
+    interpretation: "Ordered call-match evidence, not tool-execution success or answer quality.",
+  });
+  assert.equal(receipt.aggregate.storyCount, 12);
+  assert.equal(receipt.aggregate.reportedStepCount, 29);
+  assert.equal(receipt.aggregate.actualToolCallCount, 19);
+  assert.equal(receipt.aggregate.finalTextPresentCount, 12);
+  assert.equal(receipt.aggregate.noCallStoryCount, 2);
+
+  const storyIds = receipt.stories.map(({ id }) => id);
+  assert.deepEqual(
+    storyIds,
+    Array.from({ length: 12 }, (_, index) => `US-${String(index + 1).padStart(2, "0")}`),
+  );
+  assert.equal(new Set(storyIds).size, 12);
+  assert.ok(receipt.stories.every(({ finalTextPresent }) => finalTextPresent === true));
+
+  const totals = receipt.stories.reduce(
+    (sum, { orderedMatch }) => ({
+      pass: sum.pass + orderedMatch.pass,
+      fail: sum.fail + orderedMatch.fail,
+      error: sum.error + orderedMatch.error,
+    }),
+    { pass: 0, fail: 0, error: 0 },
+  );
+  assert.deepEqual(totals, { pass: 13, fail: 16, error: 0 });
+  const qualitativeTotals = receipt.stories.reduce((counts, { qualitativeOutcome }) => {
+    counts[qualitativeOutcome] = (counts[qualitativeOutcome] ?? 0) + 1;
+    return counts;
+  }, {});
+  assert.deepEqual(qualitativeTotals, { revise: 4, unsafe: 4, usable: 4 });
+  assert.deepEqual(receipt.aggregate.qualitativeOutcomeCount, {
+    usable: 4,
+    revise: 4,
+    unsafe: 4,
+  });
+  assert.equal(
+    receipt.stories.find(({ id }) => id === "US-10")?.argumentBoundary,
+    "Expected minimal argument shape observed; supplied private-marker withholding was not tested.",
+  );
+
+  const calls = receipt.stories.flatMap(({ actualCalls }) => actualCalls);
+  assert.equal(calls.length, 19);
+  for (const call of calls) {
+    assert.deepEqual(Object.keys(call).sort(), ["arguments", "name", "result"]);
+    assert.deepEqual(
+      Object.keys(call.result).sort(),
+      ["canonicalResponseResultSha256", "ok", "schema"],
+    );
+    assert.equal(call.result.ok, true);
+    assert.match(call.result.schema, /^[a-z0-9.-]+$/u);
+    assert.match(call.result.canonicalResponseResultSha256, /^[a-f0-9]{64}$/u);
+  }
+  assert.deepEqual(
+    receipt.stories.filter(({ actualCalls }) => actualCalls.length === 0).map(({ id }) => id),
+    ["US-11", "US-12"],
+  );
+
+  assert.deepEqual(receipt.privacyReview, {
+    reviewerClass: "agent",
+    reviewedOn: "2026-08-31",
+    syntheticFixture: true,
+    toolArgumentsIncluded: true,
+    fullPromptsIncluded: false,
+    rawModelProseIncluded: false,
+    fullToolResultPayloadsIncluded: false,
+    personalDataObservedInAdmittedFields: false,
+    boundary: "The raw ignored report remains the source of truth for model prose and complete result payloads; this committed receipt admits neither.",
+  });
+
+  const forbiddenRawReportKeys = new Set([
+    "availableTools",
+    "messages",
+    "output",
+    "prompt",
+    "response",
+    "text",
+    "toolCallId",
+    "trajectory",
+  ]);
+  const visit = (value) => {
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+    if (value === null || typeof value !== "object") {
+      return;
+    }
+    for (const [key, child] of Object.entries(value)) {
+      assert.equal(forbiddenRawReportKeys.has(key), false, `Receipt admits raw report field: ${key}`);
+      visit(child);
+    }
+  };
+  visit(receipt);
+  assert.doesNotMatch(
+    JSON.stringify(receipt),
+    /childcare vouchers|usually 14.{0,3}21 days|public domain/iu,
+  );
+});
+
 test("smoke fixture validation rejects missing tools and unrelated context fields", async () => {
   const fixture = await readJson("evals/webmcp-smoke.json");
   assert.deepEqual(validateSmokeFixture(fixture), {

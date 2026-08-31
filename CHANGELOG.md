@@ -8,6 +8,25 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A documentation-only beginner trust pathway: a five-question evidence-
+  checking guide, discovery PRD, four synthetic personas, 12 representative
+  user stories and an exact question-to-released-corpus coverage matrix. The
+  questions are labelled hypotheses rather than frequency claims, and the
+  current public interface remains unchanged pending Technical review and user
+  research.
+- A 12-story guided WebMCP conversation fixture and unit contract covering all
+  five tools, reviewed and four-source federated evidence, context
+  minimisation requirements, an expected task-minimal argument shape,
+  clarification and unrelated no-call behaviour. The first diagnostic supplied
+  no private markers and therefore makes no privacy-withholding claim.
+- A reviewed 31 August 2026 `ollama:gpt-oss:20b` diagnostic over the 12 stories.
+  The ordered matcher reported 13 of 29 steps, but eight prompt trajectories
+  completed through a successful direct provenance call rather than the hidden
+  record-then-provenance expectation. Qualitative review classified four final
+  answers unsafe because of material unsupported or rights-inaccurate details;
+  no model, usability or interface acceptance pass is claimed. A
+  privacy-reviewed machine receipt retains each actual call and result digest
+  without prompts, model prose or full tool-result payloads.
 - An authenticated, read-only Devpost status receipt for `v0.3.0-rc.1`,
   confirming at 31 August 2026 that project `1406973` remained an untitled,
   unsubmitted pre-draft with no tagline, description or video. The receipt
@@ -50,6 +69,11 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Extended the source, evaluation and risk registers with official GOV.UK Chat
+  design and evaluation research, the exact local guided-model result and a
+  beginner-overtrust risk. The records explicitly distinguish representative
+  questions from a ranked frequency dataset and tool-call matching from answer
+  quality.
 - Reordered the exact-release demonstration so the four-source `housing`
   search appears before the architecture summary, corrected source naming and
   personal-AI boundary wording, and added a fail-closed human rights-review
@@ -82,6 +106,15 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   a prior evidence checkpoint rather than validation of the current uncommitted
   diff, and the local technical compliance review remains distinct from the
   final live-rules and form refresh.
+
+### Governance
+
+- Recorded a contradiction in the exact admitted A Life in the UK evidence:
+  the federation lock says two of 293 service families had named specialist
+  acceptance, while the producer's exact-revision AI-consumer contract records
+  zero accepted reviews, two not requiring review and 291 requiring review.
+  Beginner material makes no positive specialist-acceptance claim. Correcting
+  the released source contract remains a separate implementation gate.
 
 ## [0.3.0-rc.1] - 2026-08-31
 

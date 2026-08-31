@@ -32,7 +32,9 @@ evidence are complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0
 receipt also binds five completed WebMCP calls to the exact release. Owner
 review, public upload and player verification, the optional fixed-model gate,
 final live-rules and form review, and Devpost submission remain separate and
-open.
+open. The tree below also includes the current documentation-only beginner
+discovery files and guided fixture; those files do not describe a released UI
+change.
 
 ## 20.2 Implemented tree
 
@@ -89,6 +91,7 @@ govuk-webmcp/
 ├── evals/
 │   ├── webmcp-smoke.json          # model-free concrete five-tool calls
 │   ├── webmcp-browser.json        # prepared model-selection and no-call cases
+│   ├── beginner-conversations.json # 12 guided beginner stories and no-call cases
 │   └── federated-search-quality.json # frozen authored lexical-quality fixture
 ├── src/
 │   ├── contracts.ts
@@ -184,9 +187,15 @@ govuk-webmcp/
 │   │   ├── 0002-evidence-first-federation-and-presentation-tools.md
 │   │   ├── 0003-citizen-selected-agent-and-independent-assurance.md
 │   │   └── 0004-okf-federated-discovery-and-evidence-tiers.md
+│   ├── beginners/
+│   │   └── index.md               # evidence-before-answer learning pathway
+│   ├── product/
+│   │   └── beginner-trust-pathway-prd.md # discovery PRD; no implemented UI
 │   └── competition/
 │       ├── architecture.md
 │       ├── tool-catalogue.md
+│       ├── beginner-question-coverage.md
+│       ├── beginner-conversation-evaluation-2026-08-31.md
 │       ├── demo-storyboard.md
 │       ├── federated-demo-storyboard.md
 │       ├── demo-video-script.json
@@ -213,6 +222,7 @@ govuk-webmcp/
 │           ├── evidence-first-overview-2026-08-30.png
 │           ├── evidence-foundation-comparison-2026-08-30.png
 │           ├── challenge-provenance.json
+│           ├── beginner-conversation-evaluation-receipt-2026-08-31.json
 │           ├── supported-host-webmcp-capture-2026-08-30.json
 │           ├── supported-host-webmcp-capture-v0.3.0-rc.1.json
 │           ├── supported-host-webmcp-clip-v0.3.0-rc.1.json

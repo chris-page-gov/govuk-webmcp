@@ -395,6 +395,57 @@ pinned assurance harness through protected `main`. Pages run `33323152751`
 deployed exact commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`; the earlier
 tag and its evidence remain unchanged.
 
+## Beginner trust pathway — discovery and evaluation 1–10 plan
+
+This is a documentation and research slice mapped to **Beginner 1–10** in the
+backlog. It does not authorise an interface, schema, tool or deployment change.
+
+1. **Establish the evidence and frequency boundary.** *(Complete: official GDS
+   research and the fork-local GOV.UK Chat comparator are registered. No ranked
+   question-frequency dataset was found, so the selected questions are called
+   representative hypotheses.)*
+2. **Map the exact product coverage.** *(Complete: 80 reviewed and 58,652
+   searchable source-snapshot records are mapped to 21 balanced GOV.UK Chat
+   cases and wider ONS, API, Land Registry and life-course discovery questions.
+   Discoverability is kept separate from answerability.)*
+3. **Define beginner personas and user stories.** *(Complete as four synthetic
+   personas and US-01 to US-12. They span family, small-business, housing,
+   statistical, API, property, privacy, ambiguity and no-call needs.)*
+4. **Define the learning and trust model.** *(Complete: the beginner guide and
+   PRD use Explain–Inspect–Do–Check–Reflect and five questions about claim,
+   source, AI additions, limitations and safe next action. No combined trust
+   score is proposed.)*
+5. **Freeze an executable guided fixture.** *(Complete: 12 cases, 27 expected
+   tool calls, two explicit no-call decisions, every WebMCP tool and all four
+   federated collections. A unit contract validates story order, tool coverage
+   and the expected task-minimal US-10 arguments. The first diagnostic did not
+   supply private marker values, so it is not privacy-withholding evidence.)*
+6. **Select and bind an actually tested model client.** *(Complete with
+   limitations: local `ollama:gpt-oss:20b` digest `17052f91…` ran once per case
+   in Chrome 152 through `webmcp-evals` 0.0.4. Non-model Codex In-app Browser
+   and DevTools observations were not relabelled as AI-client evidence. A
+   privacy-reviewed receipt admits actual calls, arguments and result digests
+   without full prompts, model prose or result payloads.)*
+7. **Review trajectories and final answers separately.** *(Complete for the
+   diagnostic run: the ordered matcher reported 13/29, but eight prompts
+   ambiguously asked to inspect provenance while silently expecting two calls.
+   Every case produced final text. Qualitative review found four materially
+   unsafe answers, so no acceptance pass is claimed.)*
+8. **Reconcile discovered source-contract conflicts.** *(Open: the A Life in
+   the UK lock says two named specialist acceptances, while its exact-revision
+   AI-consumer contract says zero accepted, two not required and 291 required.
+   Do not surface a positive acceptance count until authored, generated, test
+   and release evidence agree.)*
+9. **Perform the Technical review and specify the beginner UI.** *(Open: assess
+   the current page as a future Technical review view; compare clearer
+   choreography with a deterministic combined record-evidence action; specify
+   progressive disclosure, AI-added-statement visibility, accessibility and
+   complete human parity before implementation.)*
+10. **Run formative and repeated evaluation.** *(Open: use natural prompts,
+    at least three runs per story, hard unsafe-answer failures and separately
+    authorised host/model comparison; then test source, limitation and next-
+    check comprehension with non-technical and assistive-technology users.)*
+
 ## Backlog status
 
 | Backlog range | Status and evidence |
@@ -414,6 +465,7 @@ tag and its evidence remain unchanged.
 | Must 17 | Complete: MIT licence and notices are published. PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`; the annotated tag and pre-release are `v0.3.0-rc.1`. Earlier releases remain separately recorded. |
 | Must 18 | Part complete: current-release human interaction clips, supported-host receipt and receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second local review video and its completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. Owner synthetic-voice, privacy, branding, rights and continuous-playback review, public YouTube upload and authorised submission remain open. No registration, submission or upload claim is made. |
 | Federation 1–10 | Released as `v0.3.0-rc.1`: exact final-candidate verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 194 prepared unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. PR #16, protected main and Pages passed; all 1,879 deployed files matched artefact `9745316971`; the current supported host completed all five tools with fixed-query parity; and current VoiceOver and local-video technical evidence are complete with limitations. Five fixed-model attempts are retained and all failed. Owner and public submission-media review remains open. |
+| Beginner 1–10 | Discovery steps 1–7 complete on the current documentation branch; steps 8–10 remain open. Exact coverage, synthetic personas, user stories, beginner guide, PRD, fixture, unit contract and one reviewed model diagnostic are present. The public UI is unchanged. A factual source-lock contradiction, Technical review, natural repeated model evaluation and formative user research remain hard gates. |
 
 ## Implemented Should and Could work
 
