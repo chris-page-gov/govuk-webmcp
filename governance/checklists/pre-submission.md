@@ -2,10 +2,10 @@
 
 ## `v0.3.0-rc.1` federated candidate evidence gate
 
-The checked evidence below belongs to the earlier 80-record release unless it
-explicitly names the federated candidate. None of it can be carried forward as
-proof for `v0.3.0-rc.1`. Complete this section against one exact public commit
-before changing any item to checked. The last complete pre-remediation
+Historical evidence below remains bound to the revision it names. Public
+`v0.3.0-rc.1` is separately bound to exact release commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; do not carry earlier observations
+forward as current proof. The last complete pre-remediation
 checkpoint passed 144 of 144 unit tests and 29 of 29 installed-Microsoft-Edge
 acceptance tests. Seven initial Low security findings were remediated afterwards.
 A sealed scan suppressed those seven and found an eighth High-confidence Low
@@ -14,8 +14,9 @@ build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
 smoke gates pass where recorded. Fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
 exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
-findings. CI, Pages, current-host and refreshed-video evidence remain separate
-and unchecked. Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
+findings. Protected CI, Pages, exact public-byte comparison and current-host
+evidence are now complete. Refreshed VoiceOver and video evidence remain open.
+Exact-range scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`
 subsequently retained a ninth High-confidence Low source-substitution finding;
 its separately code-reviewed-pin remediation passed locally and was then
 covered by the fresh fixed-tree scan below.
@@ -36,21 +37,26 @@ covered by the fresh fixed-tree scan below.
   partial and stale-pending and the eighth fix postdates its snapshot. Scan
   `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` retained ninth finding
   `csf_050a3c08c471d3176e0640c3`; its fix postdates that snapshot.
-- [ ] Protected-main CI passes for the exact candidate commit, including
+- [x] Protected-main CI passes for the exact candidate commit, including
   deterministic source import, generated projection, schema, integrity, unit,
-  browser, frozen nDCG@10/Recall@20 quality and security checks.
-- [ ] GitHub Pages deploys the exact candidate commit and its federated assets;
+  browser, frozen nDCG@10/Recall@20 quality and security checks. PR validation
+  `33356087333` and exact-main validation `33356272534` passed for PR #16 and
+  merged commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`.
+- [x] GitHub Pages deploys the exact candidate commit and its federated assets;
   the public bytes, source locks and generated manifest match the retained
   evidence, including 58,655 raw rows, 3 quarantined rows, 58,652 searchable
-  records and zero `legislation.gov.uk` result links.
-- [ ] A currently supported host lists and completes all five WebMCP tools on
+  records and zero `legislation.gov.uk` result links. Pages run `33356452048`
+  deployed the release; all 1,879 regular files, totalling 128,548,215 bytes,
+  returned HTTP 200 and matched Pages artefact `9745316971`.
+- [x] A currently supported host lists and completes all five WebMCP tools on
   that deployment, including the four-source search, exact record and
-  provenance calls; record host, version, time and arguments.
-- [ ] The fixed human and WebMCP journeys produce the same canonical evidence
+  provenance calls. The receipt records Browser plugin 26.825.32147, time and
+  arguments; no model selected the tools.
+- [x] The fixed human and WebMCP journeys produce the same canonical evidence
   fields, and the page shows evidence tier, producer-declared source link,
   destination hostname, “Not independently established” source authority,
   integrity and limitations without inventing a federated item receipt or
-  official status.
+  official status. The canonical and displayed 11-row comparison digests match.
 - [ ] A refreshed video shorter than three minutes is captured from the exact
   deployed federated candidate, accurately shows all four sources and the
   human/tool parity journey, and has reviewed captions and a transcript.
@@ -82,10 +88,14 @@ covered by the fresh fixed-tree scan below.
   `9c6ed7d9a21574972ee564b333cbc49983058554` was re-scanned in scan
   `040ad945-3723-4aef-9c03-1bb552630deb`: 55 of 55 review items completed with
   zero reportable findings.
+- [x] PR #16 passed validation run `33356087333`, merged as release commit
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main validation run
+  `33356272534` and deployed through Pages run `33356452048`.
 - [x] Corpus and source locks rebuild deterministically; every required digest verifies.
 - [x] Generated catalogue, Evidence Trace, federation manifest, schemas, records,
   receipts, notices and checksums are synchronised for the exact product commit;
-  all 20 deployed files match the Pages artefact.
+  all 1,879 regular deployed files, totalling 128,548,215 bytes, match Pages
+  artefact `9745316971` and returned HTTP 200.
 - [ ] **Optional release assurance:** produce a release-platform SBOM or
   attestation. The retained CycloneDX file is explicitly a local macOS ARM64
   dependency view; this is not a current official submission requirement.
@@ -98,29 +108,33 @@ covered by the fresh fixed-tree scan below.
   admission rather than being silently inferred.
 - [x] Demonstration inputs fail closed on preview-path substitution, receipt or
   media hash drift, unrelated VoiceOver media and incomplete manual journeys.
-- [x] `npm run demo:preflight -- --overwrite` passes with the genuine VoiceOver
-  clip, manual journey record and exact media/evidence binding.
-- [x] The local video build receipt binds the 142.920-second MP4, captions,
-  transcript, script and every evidence input. It is a local review receipt,
-  not public-player evidence.
+- [ ] The refreshed current-release VoiceOver clip, nine-step manual journey
+  record and exact media/evidence binding pass
+  `npm run demo:preflight -- --overwrite`. This remains open pending the macOS
+  capture environment and makes no WCAG conformance claim.
+- [ ] The refreshed local video build receipt binds the under-three-minute MP4,
+  captions, transcript, script and every current-release evidence input. The
+  historical 142.920-second receipt does not satisfy this gate.
 
 ## Human and agent acceptance
 
 - [x] Search, exact record and provenance work in the tested human keyboard and pointer journey; touch remains an observational gap.
 - [ ] **Inclusive-design follow-up, not an official submission blocker:** finish
   the unproved screen-reader heading-rotor and automatic live-status checks.
-- [x] The VoiceOver record covers every exact journey checkpoint, records two
-  retained limitations, and binds the actual Safari scene by path, SHA-256 and
-  capture interval without claiming WCAG conformance.
-- [x] All nine screenshot-sequence frames were reviewed against the manual
-  Safari and VoiceOver observation, the non-continuous label remains visible
-  throughout, and the builder's declared metadata is not treated as independent
-  proof of assistive-technology use.
+- [ ] The refreshed VoiceOver record covers every exact journey checkpoint,
+  records all retained limitations, and binds the actual Safari scene by path,
+  SHA-256 and capture interval without claiming WCAG conformance.
+- [ ] All nine refreshed screenshot-sequence frames are reviewed against the
+  manual Safari and VoiceOver observation, the non-continuous label remains
+  visible throughout, and the builder's declared metadata is not treated as
+  independent proof of assistive-technology use.
 - [x] Narrow-screen reflow, forced-colours, reduced-motion and automated contrast rules pass; manual zoom remains an observational gap.
-- [x] `Codex In-app Browser` discovered and successfully called all five tools
-  against the historical `v0.2.0-rc.1` public deployment on 30 August 2026. The
-  final comparison's canonical and displayed result digests matched; this does
-  not establish support in another host or revision.
+- [x] Codex In-app Browser plugin 26.825.32147 discovered and successfully
+  called all five tools against public `v0.3.0-rc.1`. The fixed four-source
+  search returned eight results, the unrelated `personalContext` key was
+  rejected, and the final comparison's canonical and displayed 11-row result
+  digests matched. This does not prove model-led selection or universal host
+  support.
 - [x] One rules-named judging route is recorded against the exact published
   URL: native Chrome 152's WebMCP panel listed all five tools, completed all five
   valid calls and showed the safe `limit: 21` rejection. This does not establish
@@ -133,20 +147,22 @@ covered by the fresh fixed-tree scan below.
   credentials on the authorised outside-socket-sandbox rerun. The first in-
   sandbox attempt failed with the expected loopback `EPERM`. This is execution
   evidence, not model-selection evidence.
-- [x] Three failed local-model attempts are retained with Chrome 152,
+- [x] Five failed local-model attempts are retained with Chrome 152,
   `webmcp-evals` 0.0.4, eight cases, three runs per case, no remote credential
   and exact `ollama:gpt-oss:20b` inventory digest
   `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
   Results were 8 of 102 retry-expanded rows, 32 of 33 strict rows despite 33 of
-  33 upstream, and 30 of 35 upstream. This records improved legibility and
-  variance, not a model-backed pass.
+  33 upstream, and 30 of 35 upstream. Attempt 4 retained a null evaluation after
+  structural validation failed; attempt 5 retained 30 pass and 6 fail across 36
+  rows and failed `verify-reports`. This records improved legibility and fail-
+  closed recovery, not a model-backed pass.
 - [ ] **Optional assurance:** Microsoft WebMCP Explorer is run from its pinned source revision in a
   fresh profile, first in Tools/Agent Step mode, with the exact provider class,
   model and extension digest recorded and no credential retained in evidence.
 - [ ] **Optional assurance:** obtain a strict passing browser-selection result
   with one fixed explicitly local or remote model; no-call, context-
   minimisation, variance and valid alternate trajectories are reported without
-  hiding the three failed local attempts.
+  hiding the five failed local attempts.
 - [x] The unsupported-host manual fallback was recorded against the deployed
   `v0.2.0-rc.1` site in a signed-out Chromium session where
   `document.modelContext` was absent.
@@ -166,10 +182,9 @@ covered by the fresh fixed-tree scan below.
 
 ## Public evidence
 
-- [x] The live URL resolves without authentication and serves exact corrected
-  product commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`, Pages run
-  `33323152751`, and matching catalogue, receipt, Evidence Trace and federation
-  bytes.
+- [x] The live URL resolves without authentication and serves exact release
+  commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, Pages run `33356452048`,
+  and matching catalogue, receipt, Evidence Trace and federation bytes.
 - [x] Public repository resolves without authentication; the MIT licence is visible and detectable.
 - [x] All 161 unique admitted official URLs returned a 2xx or 3xx response to the bounded 30 August 2026 HEAD audit; this does not prove future availability or rights.
 - [ ] Video is publicly visible on YouTube, under three minutes, audible and
@@ -179,9 +194,10 @@ covered by the fresh fixed-tree scan below.
 - [ ] Chris Page approves the installed `Daniel` synthetic voice for public use
   and verifies final playback, embedded captions and public-player captions.
 - [ ] Devpost text contains no production-readiness, official-endorsement, comprehensive-coverage or guaranteed-accuracy claim.
-- [x] Final read-only compliance review reconciles the live form requirements, project
-  `1406973`, named judging environments, public-YouTube boundary and all human
-  attestations without treating the local cut as submission evidence.
+- [ ] Final read-only compliance review reconciles the live form requirements,
+  project `1406973`, named judging environments, public-YouTube boundary and
+  all human attestations without treating the local cut as submission evidence.
+  The historical review must be refreshed after the final video is approved.
 - [ ] Final project title, tagline (one-line description) and full project
   description are entered and checked in the live form.
 - [ ] Live and repository URLs are entered in the live form and verified signed
@@ -201,7 +217,9 @@ covered by the fresh fixed-tree scan below.
   deployed product commit without rebuilding different product bytes.
 - [x] SHA-256 hashes are retained for the Pages artefact, all deployed site
   files, corpus files, package lock, schemas and dated evidence.
-- [x] Retain SHA-256 freeze evidence for the local final video, captions,
+- [x] Retain SHA-256 freeze evidence for the historical local review video,
+  captions, transcript and build receipt.
+- [ ] Retain SHA-256 freeze evidence for the refreshed final video, captions,
   transcript and build receipt.
 - [ ] Retain SHA-256 freeze evidence for the final submitted text when it
   exists.

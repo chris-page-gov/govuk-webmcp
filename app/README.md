@@ -90,5 +90,7 @@ Run `npm run serve`, then open `http://127.0.0.1:4173/` for manual use. Do not o
 file directly: the startup watchdog explains that modules and same-origin data
 require HTTP.
 
-These instructions do not assert that the `0.3.0-rc.1` working candidate has
-passed final tests, been merged, deployed or submitted to Devpost.
+The `0.3.0-rc.1` product bytes have passed protected-main validation, been
+merged and deployed. These instructions do not claim that the refreshed manual
+VoiceOver evidence or demonstration video has passed its human publication
+review, or that a Devpost submission has been performed.

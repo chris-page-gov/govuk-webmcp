@@ -1,0 +1,219 @@
+{
+  "schema": "trusted-govuk-discovery.demo-live-interaction-capture.v2",
+  "capturedAt": "2026-08-31T04:35:13.448Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.3.0-rc.1",
+    "productCommit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+    "pagesRunId": "33356452048"
+  },
+  "deployment": {
+    "metadataUrl": "https://chris-page-gov.github.io/govuk-webmcp/deployment.json",
+    "metadataSha256": "a7b1f8e2f2c99da7051a091bb72a7948379af53c826a9c66d3bc98f89c67f728"
+  },
+  "demonstration": {
+    "query": "housing",
+    "collections": [
+      "uk-living",
+      "ons",
+      "government-apis",
+      "land-registry"
+    ],
+    "limit": 8,
+    "reviewedAnswerId": "answer:new-child-starting-points",
+    "reviewedClaimIds": [
+      "claim:register-a-birth",
+      "claim:check-parental-pay-and-leave"
+    ],
+    "excludedHostname": "legislation.gov.uk",
+    "federatedRecordId": "govuk-discovery:federated:land-registry:57845"
+  },
+  "captureMethod": "playwright-public-site-interaction",
+  "browser": {
+    "name": "Playwright Chromium",
+    "version": "151.0.7922.34"
+  },
+  "reviews": {
+    "privacy": "agent-reviewed-pass",
+    "branding": "agent-reviewed-pass",
+    "humanPublicationReview": "pending"
+  },
+  "noBrowserChrome": true,
+  "audioCaptured": false,
+  "clips": [
+    {
+      "sceneId": "overview",
+      "path": "output/demo-clips/v0.3.0-rc.1/01-overview.mov",
+      "sha256": "c6a93eece50493ecc54ae9f3913d3c60b677ab4d227624430cf9e4dc266ef228",
+      "durationSeconds": 31.866667,
+      "capturedAt": "2026-08-31T04:32:00.506Z",
+      "actions": [
+        "load-exact-public-release",
+        "show-evidence-tier-counts"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "observation": {
+        "reviewedRecordCount": 80,
+        "federatedSourceRecordCount": 58655,
+        "federatedRecordCount": 58652,
+        "federatedQuarantinedRecordCount": 3,
+        "reviewedTierLabel": "Reviewed evidence",
+        "federatedTierLabel": "Federated discovery"
+      }
+    },
+    {
+      "sceneId": "federated-search",
+      "path": "output/demo-clips/v0.3.0-rc.1/02-federated-search.mov",
+      "sha256": "0719f5899b0d940795e9c732473d2e64dbf336a8af7cad7906e40850632b4080",
+      "durationSeconds": 31.9,
+      "capturedAt": "2026-08-31T04:32:38.980Z",
+      "actions": [
+        "select-four-federated-collections",
+        "search-housing",
+        "show-all-four-sources"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "observation": {
+        "query": "housing",
+        "collections": [
+          "uk-living",
+          "ons",
+          "government-apis",
+          "land-registry"
+        ],
+        "limit": 8,
+        "resultIds": [
+          "govuk-discovery:federated:uk-living:7060",
+          "govuk-discovery:federated:ons:11777",
+          "govuk-discovery:federated:government-apis:19737",
+          "govuk-discovery:federated:land-registry:57845",
+          "govuk-discovery:federated:uk-living:7589",
+          "govuk-discovery:federated:ons:11778",
+          "govuk-discovery:federated:government-apis:19738",
+          "govuk-discovery:federated:land-registry:57983"
+        ],
+        "resultCollectionIds": [
+          "uk-living",
+          "ons",
+          "government-apis",
+          "land-registry",
+          "uk-living",
+          "ons",
+          "government-apis",
+          "land-registry"
+        ],
+        "collectionStatuses": [
+          {
+            "collectionId": "uk-living",
+            "evidenceTier": "federated-source-snapshot",
+            "status": "ready"
+          },
+          {
+            "collectionId": "ons",
+            "evidenceTier": "federated-source-snapshot",
+            "status": "ready"
+          },
+          {
+            "collectionId": "government-apis",
+            "evidenceTier": "federated-source-snapshot",
+            "status": "ready"
+          },
+          {
+            "collectionId": "land-registry",
+            "evidenceTier": "federated-source-snapshot",
+            "status": "ready"
+          }
+        ],
+        "excludedHostnameResultCount": 0,
+        "canonicalResultDigest": "cb363a29933c19d4e949cd56635b18c9059762b750a0c7765af191aa2683ce61"
+      }
+    },
+    {
+      "sceneId": "federated-record",
+      "path": "output/demo-clips/v0.3.0-rc.1/03-federated-record.mov",
+      "sha256": "c9b0d5cd90619692a4fa918c46daec38a8f4b9ad864d0ade79a9da83e9ad29ba",
+      "durationSeconds": 31.933333,
+      "capturedAt": "2026-08-31T04:33:17.560Z",
+      "actions": [
+        "open-bound-federated-record",
+        "inspect-source-role-and-limitations"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "observation": {
+        "recordId": "govuk-discovery:federated:land-registry:57845",
+        "collectionId": "land-registry",
+        "evidenceTier": "federated-source-snapshot",
+        "sourceAuthority": "Not independently established",
+        "linkRole": "producer-declared-source",
+        "linkHostname": "www.gov.uk",
+        "itemLevelReview": false,
+        "evidenceReceiptAvailable": false,
+        "limitationsCount": 5,
+        "recordResultDigest": "f73c70818dd34f1c3f46019333ee82c06a502915f1e94b70c2120ebeb3d31879",
+        "provenanceResultDigest": "c06ef640fcd77b29cd8870c72dd2b4db215c32567b183111106ec5e15594dc45"
+      }
+    },
+    {
+      "sceneId": "reviewed-foundations",
+      "path": "output/demo-clips/v0.3.0-rc.1/05-reviewed-foundations.mov",
+      "sha256": "a9108e4ddaa9503b03770bc8f76a1b0f7764250908cb7c651c1ceabc359bb7e5",
+      "durationSeconds": 31.9,
+      "capturedAt": "2026-08-31T04:33:56.689Z",
+      "actions": [
+        "open-reviewed-foundation",
+        "compare-two-reviewed-claims"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points",
+      "observation": {
+        "answerId": "answer:new-child-starting-points",
+        "claimIds": [
+          "claim:register-a-birth",
+          "claim:check-parental-pay-and-leave"
+        ],
+        "foundationFacetLabels": [
+          "Authority",
+          "Assertion",
+          "Verification",
+          "Freshness",
+          "Integrity",
+          "Access",
+          "Rights",
+          "Coverage"
+        ],
+        "comparisonRowCount": 11,
+        "trustScoreShown": false
+      }
+    },
+    {
+      "sceneId": "boundary",
+      "path": "output/demo-clips/v0.3.0-rc.1/07-boundary.mov",
+      "sha256": "5bb9c2f6b3f396585b274c8886c51e8f6a61cbebe6527c4781611b0f0d43d7f2",
+      "durationSeconds": 31.933333,
+      "capturedAt": "2026-08-31T04:34:35.627Z",
+      "actions": [
+        "show-personal-ai-boundary",
+        "show-webmcp-diagnostics",
+        "show-legislation-exclusion"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "observation": {
+        "sameOriginOnly": true,
+        "browserStorage": {
+          "local": 0,
+          "session": 0,
+          "cookies": ""
+        },
+        "modelProviderRequestCount": 0,
+        "officialApiRequestCount": 0,
+        "landRegistryMetadataOnly": true,
+        "standaloneLegislationCollection": false,
+        "standaloneLegislationPayload": false,
+        "standaloneLegislationIndex": false,
+        "legislationRuntimeRequestCount": 0,
+        "excludedHostnameResultLinkCount": 0,
+        "impactClaimsFramedAsHypotheses": true,
+        "remoteProviderDisclosureVisible": true
+      }
+    }
+  ]
+}

@@ -12,19 +12,23 @@ The evidence-first extension was first retained as the annotated
 at commit `9235ee5db4df637bdb2a12e87449e871614afe68`. The corrected public
 product was integrated through [pull request
 12](https://github.com/chris-page-gov/govuk-webmcp/pull/12) at protected-main
-commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Exact-main validation run
-`33323068982` and Pages run `33323152751` passed. The live site is
-<https://chris-page-gov.github.io/govuk-webmcp/>. Competition registration is
-complete. Devpost project `1406973` remains an unpublished pre-submission draft
-and has not been submitted.
+commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Historical exact-main validation run
+`33323068982` and Pages run `33323152751` passed. Those observations remain
+historical. Competition registration is complete. Devpost project `1406973`
+remains an unpublished pre-submission draft and has not been submitted.
 
-Package version `0.3.0-rc.1` identifies the current working candidate. It keeps
-the frozen release history and adds four checksum-bound federated source
+Package version `0.3.0-rc.1` identifies the current released federated product.
+It keeps the frozen release history and adds four checksum-bound federated source
 snapshots totalling 58,655 locked raw rows. Three standalone Land Registry
 legislation rows are quarantined, leaving 58,652 searchable federated records,
-separately from the 80 reviewed records and receipts. The tree below records
-that working shape; it does not claim final candidate tests, protected-main
-integration, release or deployment.
+separately from the 80 reviewed records and receipts. Pull-request validation
+run `33356087333`, protected-main run `33356272534` and exact-commit Pages run
+`33356452048` passed for product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, which is retained as annotated tag
+`v0.3.0-rc.1` and deployed at
+<https://chris-page-gov.github.io/govuk-webmcp/>. The tree below records that
+released shape. Current VoiceOver, final-video, owner-review, public-player,
+fixed-model and Devpost gates remain separate and open.
 
 ## 20.2 Implemented tree
 
@@ -59,7 +63,7 @@ govuk-webmcp/
 │       ├── receipts.json.sha256
 │       ├── evidence-traces.json        # 1 Evidence Trace
 │       ├── evidence-traces.json.sha256
-│       ├── federation.json             # candidate admission projection; recount before release
+│       ├── federation.json             # released 10-admission projection
 │       ├── federation.json.sha256
 │       ├── federated-search/           # ignored generated plane; copied to dist
 │       │   ├── manifest.json
@@ -67,7 +71,7 @@ govuk-webmcp/
 │       │   ├── records/                # generated record shards
 │       │   └── postings/               # generated lazy-search shards
 │       └── sources/
-│           ├── source-locks.json       # candidate registry; recount before release
+│           ├── source-locks.json       # released five-entry registry
 │           ├── govuk-content-69.lock.json
 │           ├── curated-api-data.json
 │           ├── answer-packs.json       # 1 authored answer pack
@@ -92,7 +96,7 @@ govuk-webmcp/
 │   ├── combined-knowledge-runtime.ts # common reviewed and federated results
 │   ├── application-actions.ts     # shared human and WebMCP controller
 │   └── webmcp-tools.ts            # 5 fixed imperative registrations
-├── schemas/                        # closed JSON Schemas; recount before release
+├── schemas/                        # 31 released closed JSON Schemas
 │   ├── catalogue.schema.json
 │   ├── evidence-receipt.schema.json
 │   ├── evidence-trace.schema.json
@@ -204,6 +208,9 @@ govuk-webmcp/
 │           ├── evidence-foundation-comparison-2026-08-30.png
 │           ├── challenge-provenance.json
 │           ├── supported-host-webmcp-capture-2026-08-30.json
+│           ├── supported-host-webmcp-capture-v0.3.0-rc.1.json
+│           ├── supported-host-webmcp-clip-v0.3.0-rc.1.json
+│           ├── supported-host-webmcp-raw-receipt-v0.3.0-rc.1.json
 │           ├── supported-host-webmcp-runtime-summary-2026-08-30.jpg
 │           ├── supported-host-webmcp-full-page-2026-08-30.jpg
 │           ├── chrome-devtools-mcp-2026-08-30-edd4ce6.json
@@ -211,7 +218,9 @@ govuk-webmcp/
 │           ├── native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg
 │           ├── native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg
 │           ├── public-deployment-verification-2026-08-30-edd4ce6.md
+│           ├── public-deployment-verification-v0.3.0-rc.1.md
 │           ├── demo-live-interaction-capture-2026-08-30.json
+│           ├── demo-live-interaction-capture-v0.3.0-rc.1.json
 │           ├── manual-voiceover-journey-2026-08-30.json
 │           ├── demo-video-build-2026-08-30.json
 │           ├── demo-video-technical-review-2026-08-30.json
@@ -224,6 +233,7 @@ govuk-webmcp/
 │           ├── demo-scene-07-evidence-estate-2026-08-30.jpg
 │           ├── live-artifact-verification-2026-08-30.json
 │           ├── live-artifact-verification-2026-08-30-edd4ce6.json
+│           ├── live-artifact-verification-v0.3.0-rc.1.json
 │           ├── live-deployment-metadata-2026-08-30.json
 │           ├── live-deployment-metadata-2026-08-30-edd4ce6.json
 │           ├── public-live-search-2026-08-30.png
@@ -243,7 +253,7 @@ govuk-webmcp/
         └── pages.yml
 ```
 
-At this working-tree checkpoint, `app/data/sources/source-locks.json` contains
+In released `v0.3.0-rc.1`, `app/data/sources/source-locks.json` contains
 five registry entries. Four retain the frozen reviewed inputs; the fifth binds the project-authored
 `okf-federation-lock.json`. That federation lock allows exactly four publication
 identities and 73 versioned gzip artefacts under
@@ -259,10 +269,10 @@ validated plane into `dist` for publication. Do not regenerate an authored lock 
 edit a vendored source artefact by hand or treat generated normalisation as a
 new licence for producer material.
 
-At this working-tree checkpoint, the 10-entry corpus federation manifest records
+The released 10-entry corpus federation manifest records
 6 searchable admissions—2 reviewed deep-evidence collections and 4 federated
-source snapshots—and 4 non-searchable admissions. Recompute the exact registry,
-admission and schema totals after the exact-tree rescan. UK Legislation remains
+source snapshots—and 4 non-searchable admissions. The release has 5 registry
+entries and 31 closed schemas. UK Legislation remains
 an explicitly quarantined descriptor with no standalone collection, payload,
 index or runtime request. Exactly three standalone Land Registry legislation
 rows are quarantined, and the searchable projection exposes zero
@@ -283,7 +293,11 @@ in `17128.154916 ms`. Exact-range scan
 `csf_050a3c08c471d3176e0640c3`; separately code-reviewed pins for all five
 sources, a direct builder lock-byte check and mutation regressions remediate
 it. Fresh immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55
-of 55 review items against the fixed candidate with zero reportable findings.
+of 55 review items against exact fixed-tree commit
+`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. Its
+scope predates the later reviewed-gzip and referenced import-deadline
+corrections; focused checks and the protected release workflows evidence those
+later deltas separately.
 
 The repository also pins `jsonschema` 4.26.0 and each mandatory or
 Python-version-conditional runtime dependency in `requirements-dev.txt`;
@@ -295,7 +309,9 @@ reused `.venv` can retain unrelated packages, so the environment is not clean
 or fully reproducible. The CI and Pages definitions use
 `npm ci --ignore-scripts --no-audit`; Pages also installs these Python
 requirements and runs semantic WebMCP smoke before deployment. These workflow
-paths passed for the protected integration and corrected Pages deployment.
+paths passed for the historical corrected deployment and again for public
+`v0.3.0-rc.1`: pull-request validation `33356087333`, protected-main validation
+`33356272534` and Pages run `33356452048` passed.
 
 `chrome-devtools-mcp` 1.8.0 and `webmcp-evals` 0.0.4 are exact development
 dependencies. `npm run webmcp:devtools:capture` and
@@ -306,11 +322,14 @@ deletes the raw rows and retains counts plus a results digest. It forwards no
 provider credential environment variables and gives the child an isolated
 `HOME`, but the child retains the operating-system filesystem access of the
 invoking user. The tracked fixtures live under `evals/`; the eight-case browser
-fixture has been executed three times with Chrome 152, `webmcp-evals` 0.0.4 and
+fixture has been executed five times with Chrome 152, `webmcp-evals` 0.0.4 and
 exact loopback-only `ollama:gpt-oss:20b`, inventory digest
 `17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
-All attempts failed: 8 of 102 retry-expanded rows; 33 of 33 upstream but 32 of
-33 strict; then 30 of 35 upstream. These
+All attempts failed the strict gate. The first three reported 8 of 102 retry-
+expanded rows; 33 of 33 upstream but 32 of 33 strict; then 30 of 35 upstream.
+Attempt 4 retained a null evaluation after structural validation failed;
+attempt 5 retained 30 pass and 6 fail across 36 reported rows and failed
+`verify-reports`. These
 harnesses exercise the corrected candidate, whose tool callbacks now
 tolerate an omitted execution-options argument. The unchanged, checksum-bound `v0.2.0-rc.1`
 tag predates that fix; the corrected protected-main deployment contains it.
@@ -350,49 +369,43 @@ not receipts created by tool calls.
 
 ## 20.4 Published evidence and remaining gaps
 
-The corrected public product has the following evidence:
+Public `v0.3.0-rc.1` is bound to product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. Pull-request validation
+`33356087333`, protected-main validation `33356272534` and exact-commit Pages
+run `33356452048` passed. The annotated tag peels to that commit. All 1,879
+regular files in Pages artefact `9745316971`, totalling 128,548,215 bytes,
+returned HTTP 200 and matched the public deployment byte for byte.
 
-- pull request 12 passed 95 unit, 20 Chrome and 20 installed-Microsoft-Edge
-  checks before integration;
-- exact-main run `33323068982` passed its complete validation workflow;
-- Pages run `33323152751` rebuilt and retested the same commit;
-- every one of the 20 deployed files returned HTTP 200 and matched the Pages
-  artefact byte for byte.
+Codex In-app Browser (Browser plugin `26.825.32147`) discovered and executed all
+five tools against that public release, rejected an unrelated `personalContext`
+field and produced a comparison whose canonical and displayed digests matched.
+No model selected a tool and no model provider was called. The paired motion
+scene is explicitly a receipt reconstruction, not a host-owned recording. Five
+genuine, silent public-page interaction clips are also bound to the exact
+release; agent privacy and branding review passed, while owner publication
+review remains open.
 
-The earlier `v0.2.0-rc.1` evidence separately records 58 unit, 19 Chromium and
-19 installed-Microsoft-Edge checks plus a signed-out live human journey. On
-30 August 2026, `Codex In-app Browser` discovered and successfully called all
-five tools on that historical public deployment; the final comparison's
-canonical and displayed result digests matched. Chrome 152's native WebMCP
-panel later listed and completed all five tools on the corrected public
-deployment and retained a structured invalid-input result; Chrome DevTools MCP
-1.8.0 independently completed all five calls with zero console errors. Five
-genuine public-page interaction clips and their consolidated receipt are also
-complete. The supported-host motion scene is a labelled receipt visualisation,
-not host-owned video. A separate fail-closed builder can turn nine operator-
-declared, hash-bound Safari and VoiceOver frames under ignored
-`output/voiceover-capture/` into the existing VoiceOver scene path; it labels
-the result as a screenshot sequence, not a continuous recording, and renders
-only immutable verified bytes without network access. The manual Safari 26.5.2
-and VoiceOver 10 journey is now retained separately as completed with
-limitations; the evidence record states that no VoiceOver speech audio was
-captured, a heading-rotor selection was not retained and the automatic spoken
-wording of the live search status was not proven. The Caption Panel and
-VoiceOver were turned off afterwards. This does not establish WCAG conformance.
+The fresh current-release Safari and VoiceOver Caption Panel journey is not yet
+admitted as completed evidence. Its manual record and non-continuous clip, the
+final under-three-minute video, technical review, owner playback, privacy,
+branding, synthetic-voice and caption approval, public-player verification and
+Devpost submission all remain open. Microsoft Explorer, a passing fixed-model
+evaluation and a release-platform SBOM or attestation remain optional assurance
+work. Competition registration is complete; the last authenticated read-only
+Devpost observation still records project `1406973` as `Untitled`, blank and
+`submission_pre_draft`.
 
-The guarded pipeline subsequently produced a 142.920-second local review MP4,
-separate en-GB captions, a transcript and a machine build receipt. The video has
-H.264 video, AAC synthetic narration and an embedded English caption track; its
-SHA-256 is
-`efcacef9d063539435e10f12158a05267d13630cec9743c3e4d3dc33c3301d0a`.
-A later technical review completed the video/audio decode, counted 4,284 video
-frames and matched all 38 caption cues, while retaining one non-fatal subtitle
-metadata warning and explicitly excluding audible content-parity or owner
-approval. Synthetic-voice publication, privacy, branding, final playback,
-public video upload and Devpost submission remain pending. Microsoft Explorer,
-a passing fixed-model evaluation and a release-platform SBOM or attestation
-remain optional assurance work. Competition registration is complete; the refreshed
-Devpost project remains `Untitled`, blank and `submission_pre_draft`.
+The older evidence remains historical and revision-specific. The earlier
+`v0.2.0-rc.1` evidence records 58 unit, 19 Chromium and 19 installed-Microsoft-
+Edge checks, a signed-out live human journey and a five-tool Codex In-app
+Browser observation. Pull request 12, exact-main run `33323068982`, Pages run
+`33323152751`, the 20-file public comparison, Chrome 152 native-panel and Chrome
+DevTools MCP 1.8.0 observations belong to corrected commit
+`edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. The completed-with-limitations
+Safari 26.5.2 and VoiceOver 10 sequence and the technically reviewed
+142.920-second local video also remain evidence only for their named
+pre-federation revision; neither is carried forward as current-release proof or
+public YouTube evidence.
 
 Protected pull request 13 admitted the post-deployment evidence, evidence tests
 and lockstep documentation as repository commit

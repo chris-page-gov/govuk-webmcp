@@ -1,11 +1,11 @@
-# 8. Implemented baseline and federated WebMCP candidate
+# 8. Implemented baseline and released federated WebMCP
 
 ## 8.1 Human-agent shared page
 
-The published `v0.2.0-rc.1` release is an 80-record, 80-receipt static
-application. Its
-primary view is a worked evidence-first answer, not a search box or a generated
-narrative. The page presents:
+The current public `v0.3.0-rc.1` release is a static application that retains
+80 reviewed records and their 80 item-level receipts, then adds a separately
+labelled federated discovery tier. Its primary view is a worked evidence-first
+answer, not a search box or a generated narrative. The page presents:
 
 1. an independent-prototype banner and verified artefact summary;
 2. a text-first analytical index for the one packaged Evidence Trace;
@@ -13,15 +13,16 @@ narrative. The page presents:
 4. a selected-foundation view with eight separate facets;
 5. a score-free comparison of two to four exact claims;
 6. an evidence-estate table for 10 corpus admissions; and
-7. the 80-record catalogue search, record and provenance journey.
+7. the combined reviewed and federated search, record and provenance journey.
 
 The eight facets are authority, assertion status, verification, freshness,
 integrity, access, rights and coverage. They remain separate in the index,
 trace, selected-foundation view and comparison. The application does not
 calculate or imply a combined trust score.
 
-Package version `0.3.0-rc.1` is an implemented local extension, not a released
-host observation. It keeps the 80 reviewed records and adds a distinct
+Package version `0.3.0-rc.1` is released at product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf` through Pages run `33356452048`.
+It keeps the 80 reviewed records and adds a distinct
 `federated-source-snapshot` tier from exactly four locked OKF publications:
 9,757 A Life in the UK records, including 293 service families; 5,097 ONS
 metadata records; 41,598 UK Government APIs records; and 2,203 HM Land
@@ -34,7 +35,7 @@ contains no `legislation.gov.uk` result link. Twenty-eight source-authored
 cross-reference strings remain as inert, untrusted metadata in the four locked
 snapshots.
 
-The candidate binds each collection separately as
+The release binds each collection separately as
 source/quarantined/searchable records: 9,757/0/9,757 for A Life in the UK,
 5,097/0/5,097 for ONS, 41,598/0/41,598 for UK Government APIs and
 2,203/3/2,200 for HM Land Registry. The same executable contract validates each
@@ -44,8 +45,10 @@ digested redistribution or contradictory population statement fails closed.
 
 WebMCP is progressive enhancement. The human interface remains usable when
 `document.modelContext` is absent, registration is blocked or registration
-fails. Instrumented browser tests prove the page contract and human-tool parity;
-they do not prove discovery or execution by a live agent host.
+fails. Instrumented browser tests prove the page contract and human-tool parity.
+A separate exact-release observation records all five tools being discovered
+and called in Codex In-app Browser plugin 26.825.32147; that observation is
+specific to that host, version and time and did not use a model.
 
 ## 8.2 Five fixed tools
 
@@ -61,7 +64,7 @@ All five tools have `untrustedContentHint: true`, closed input schemas and fixed
 names, titles and descriptions. Source-derived strings never become tool names
 or instructions.
 
-The candidate does not add a general question-answering tool. It extends
+The release does not add a general question-answering tool. It extends
 `search_government_knowledge`, `get_resource_record` and `show_provenance` over
 the fixed evidence tiers while leaving the two Evidence Trace presentation
 tools within their existing answer-pack scope. Search can name one to five
@@ -348,35 +351,29 @@ digest, graph, URL, source-lock or admission failure blocks registration rather
 than manufacturing an unverified substitute.
 
 The unchanged, checksum-bound `v0.2.0-rc.1` evidence remains bound to commit
-`9235ee5db4df637bdb2a12e87449e871614afe68`. The corrected public deployment is
-protected-main commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`: exact-main
-validation run `33323068982` and Pages run `33323152751` passed, and all 20 live
-files matched the downloaded Pages artefact byte for byte. The release tree
-also passed the installed Microsoft Edge suite before integration. The browser
-suites include instrumented
-five-tool registration, parity, cancellation, rollback, integrity failure,
-bounded hash routes, inert source text, keyboard, reflow, forced-colour,
-reduced-motion and axe smoke checks. On 30 August 2026, `Codex In-app Browser`
-discovered and successfully called all five tools on the historical
-`v0.2.0-rc.1` public deployment; the final comparison's canonical and displayed
-result digests matched. This is a time-, revision- and host-specific
-observation, not a general support claim. Manual
-Safari and VoiceOver observation is separately recorded as completed with
-limitations; it does not establish WCAG conformance or support in another
-WebMCP host. On the corrected public deployment, Chrome 152's native Application
-→ WebMCP panel separately listed all five tools, recorded five completed valid
-calls and showed the structured `invalid_search_request` result for `limit: 21`.
-The exploration and comparison calls updated the visible deterministic state;
-the comparison rendered 11 facet rows and the displayed result digest matched
-the canonical digest prefix. Chrome DevTools MCP 1.8.0 also completed all five
-public-page calls and recorded zero console errors. Neither path selected or
-contacted a model.
+`9235ee5db4df637bdb2a12e87449e871614afe68`. Public `v0.3.0-rc.1` is separately
+bound to release commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` through
+pull-request validation run `33356087333`, protected-main run `33356272534`
+and Pages run `33356452048`. All 1,879 regular deployed files, totalling
+128,548,215 bytes, returned HTTP 200 and matched Pages artefact `9745316971`
+byte for byte.
 
-Those observations predate the federated candidate. They must not be cited as
-evidence that the four new source snapshots load, rank, fail partially, remain
-accessible or work through a supported host. The candidate requires fresh
-model-free tests, repeated fixed-model runs and exact release binding under the
-A–M plan.
+The browser suites include instrumented five-tool registration, parity,
+cancellation, rollback, integrity failure, bounded hash routes, inert source
+text, keyboard, reflow, forced-colour, reduced-motion and axe smoke checks.
+Against the exact current release, Codex In-app Browser plugin 26.825.32147
+discovered and completed all five tools for the fixed four-source journey,
+rejected an unrelated `personalContext` key and produced a final comparison
+whose canonical result digest matched the displayed 11-row comparison. The
+host, version, time, arguments and result digests are retained. No model
+selected a tool and no model provider was called, so this is not model-selection
+evidence or a general browser-support claim.
+
+Historical Chrome 152 native-panel, Chrome DevTools MCP 1.8.0 and manual Safari
+and VoiceOver observations remain bound to the earlier revisions they name.
+The fresh current-release VoiceOver journey is still open and will retain its
+observed limitations; neither the historical nor refreshed observation is a
+WCAG conformance claim.
 
 The last complete pre-remediation `0.3.0-rc.1` checkpoint included a successful
 production build, a byte-idempotent reconstruction of the federated plane, 144
@@ -421,14 +418,16 @@ a direct builder lock-byte check and mutation regressions. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items with zero
 reportable findings. Its sealed scope predates the reviewed-gzip and referenced
 import-deadline CI portability corrections; focused mutation and deadline
-regressions plus the protected Linux rerun must evidence those deltas
-separately. Protected CI, Pages, final tag and release, current-candidate
-supported-host capture, a passing fixed-model evaluation, refreshed manual
-screen-reader journey and video remain pending.
+regressions and the protected Linux rerun evidence those deltas separately.
+Protected CI, Pages, final tag, release and current-release supported-host
+capture are complete. A passing fixed-model evaluation, refreshed manual
+screen-reader journey and refreshed video remain open.
 
-The final-candidate demonstration preflight correctly failed closed without a
-deployed commit and explicit overwrite approval. It did not start live capture,
-so no live host or video evidence is claimed.
+An earlier demonstration preflight correctly failed closed without a deployed
+commit and explicit overwrite approval. The current release now has five
+silent public-page interaction clips and a supported-host receipt
+reconstruction; final video assembly, technical review and owner publication
+review remain open.
 
 ## 8.7 Pinned local interoperability harnesses
 

@@ -20,9 +20,9 @@ default, the AI will always ask better questions, or the design has already
 saved public money. Provenance quality, retrieval quality, context
 minimisation, user comprehension and whole-system cost require separate tests.
 
-## Candidate boundary
+## Released product boundary
 
-The candidate keeps two evidence tiers visibly separate:
+Released `v0.3.0-rc.1` keeps two evidence tiers visibly separate:
 
 | Evidence tier | Population | What is admitted | What is not established |
 | --- | ---: | --- | --- |
@@ -100,7 +100,7 @@ boundaries.
 
 The deterministic and browser gates run before any model-backed evaluation.
 An observed claim is released only when its named evidence is bound to the
-same candidate commit.
+same product commit.
 
 Eight Low findings from the federated candidate scans now have implemented
 remediations: the seven covering aggregate build complexity, Land Registry row
@@ -123,7 +123,7 @@ cancellation-driven physical shard-work amplification. Attack-path review
 classified zero as reportable vulnerabilities because the paths require
 privileged loopback model-service control, repository/build or same-origin
 write authority, or produce bounded self-availability impact. All three remain
-engineering or evidence-integrity defects and have working-tree remediations. The
+engineering or evidence-integrity defects and were remediated. The
 next exact-range scan, `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a`, completed 55
 of 55 review items and retained one High-confidence, Low-severity co-digested
 source-substitution finding (`csf_050a3c08c471d3176e0640c3`). Separately code-
@@ -132,11 +132,12 @@ check in the standalone builder and two mutation regressions now remediate that
 path. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb`
 completed 55 of 55 review items against exact commit
 `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Release binding remains pending; the deterministic local portions of gates
-A–I now have exact post-remediation observations.
+Its sealed scope predates the reviewed-gzip and referenced import-deadline CI
+portability corrections; focused regressions and the protected release path
+evidence those later deltas separately.
 
 The frozen authored lexical-quality runner is implemented and required by CI
-and Pages after `npm test`. On the exact post-remediation candidate, the
+and Pages after `npm test`. On the exact post-remediation product, the
 research pack passes 4 of 4; production build/data validation passes with 80
 reviewed records and 80 receipts, 58,655 raw rows, 3 quarantined rows, 58,652
 searchable rows, 120 record shards and 1,733 postings shards; and the prepared
@@ -145,21 +146,30 @@ unit suite passes 194 of 194. The frozen runner passes with mean nDCG@10
 collection and rejection of a legislation request. Installed Chrome and
 Microsoft Edge each pass 30 of 30, six of six model-free WebMCP smoke calls pass
 in real Chrome, `npm audit` reports zero vulnerabilities across 162 total
-dependencies, and `git diff --check` is clean. Gate D still requires release
-binding; these bounded fixture metrics are not model-quality or corpus-wide-
-recall evidence. Protected CI and integration, Pages, supported-host,
-accessibility, model-backed and refreshed-video evidence remain pending.
+dependencies, and `git diff --check` is clean. These bounded fixture metrics
+are now release-bound but are not model-quality or corpus-wide-recall evidence.
+Pull-request validation `33356087333`, protected-main
+validation `33356272534` and Pages run `33356452048` passed for product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; the annotated tag is
+`v0.3.0-rc.1`. The complete public-byte comparison matched all 1,879 regular
+files to Pages artefact `9745316971`. Codex In-app Browser (Browser plugin
+`26.825.32147`) then discovered and executed all five tools, rejected an
+unrelated `personalContext` field and matched the displayed comparison digest.
+No model selected a tool and no model provider was called. The refreshed
+current-release VoiceOver journey, a passing fixed-model evaluation, final
+video, owner review, public-player verification and Devpost submission remain
+open.
 
-The final-candidate demonstration preflight correctly failed closed without a
-deployed commit and explicit overwrite approval. It did not start live capture,
-so it contributes no gate M live-capture evidence.
+An earlier final-candidate demonstration preflight correctly failed closed
+without a deployed commit and explicit overwrite approval. It did not start
+live capture, so it contributes no gate M live-capture evidence.
 
 | Gate | Proposition | Method | Pass condition | Claim unlocked |
 | --- | --- | --- | --- | --- |
-| A — source allowlist | Only the four approved OKF publications can contribute results | Validate exact collection IDs, canonical HTTPS origins, paths, snapshots, counts and source-lock digests; try unknown origins, credentials, explicit ports, redirects, traversal, a standalone legislation source or request and apex, trailing-dot, subdomain or secondary legislation result links while retaining the 28 inert source-authored cross-references | Exactly four sources and 58,655 raw rows validate; exactly 3 known rows are quarantined and 58,652 are searchable; every undeclared route fails closed before consumption; no legislation collection, request or result link is created | The candidate is scoped to four named OKF source snapshots |
+| A — source allowlist | Only the four approved OKF publications can contribute results | Validate exact collection IDs, canonical HTTPS origins, paths, snapshots, counts and source-lock digests; try unknown origins, credentials, explicit ports, redirects, traversal, a standalone legislation source or request and apex, trailing-dot, subdomain or secondary legislation result links while retaining the 28 inert source-authored cross-references | Exactly four sources and 58,655 raw rows validate; exactly 3 known rows are quarantined and 58,652 are searchable; every undeclared route fails closed before consumption; no legislation collection, request or result link is created | The release is scoped to four named OKF source snapshots |
 | B — snapshot integrity | A self-consistent checksum is not enough to establish semantic integrity | Test raw-byte corruption and co-digested changes to aggregate and per-source counts, admission/collection identity, display contract, snapshot, entry point, shard reference and cross-artefact binding | Every mutation is rejected or marks only that source unavailable; no altered value or contradictory population statement enters a result or display | Admitted bytes and their declared meaning are checked against the local source lock and exact collection contract |
 | C — progressive delivery | Broad discovery does not require hydrating 58,652 searchable records at start-up or for one bounded query | Record initial and query-time requests, transferred bytes, decoded rows, retained text, heap, worker lifetime and time against committed per-source and aggregate budgets; exercise 4 active, 32 queued and 36 distinct in-flight physical-file limits | Start-up loads no full corpus; one query fetches only declared search assets and selected record chunks; the 3-second file deadline includes queue time; a slot is retained until loader settlement; every budget is enforced | The static publication is progressively retrievable within declared limits |
-| D — deterministic search | Search is reproducible and honest about partial or capped postings | Use exact-ID, exact-title, publisher, topic, multi-token, ambiguous, no-match and cross-source duplicate cases; report nDCG@10, Recall@20 and prohibited-route failures on a frozen fixture | Same candidate and input produce the same ordered results and digest; approximate counts remain labelled; no result is invented | The page provides deterministic bounded discovery, not model-generated ranking |
+| D — deterministic search | Search is reproducible and honest about partial or capped postings | Use exact-ID, exact-title, publisher, topic, multi-token, ambiguous, no-match and cross-source duplicate cases; report nDCG@10, Recall@20 and prohibited-route failures on a frozen fixture | Same product commit and input produce the same ordered results and digest; approximate counts remain labelled; no result is invented | The page provides deterministic bounded discovery, not model-generated ranking |
 | E — four source journeys | Every included producer is genuinely searchable and retains its own boundary | Run a synthetic life-course situation, an ONS metadata query, an API rights/access query and a Land Registry metadata query against frozen expected routes | At least one expected source-native route from each collection is returned with its producer-declared link, destination hostname, “Not independently established” authority and collection-specific limitation | All four approved source snapshots contribute usable discovery results without asserting official status |
 | F — common evidence shape | Normalisation does not erase source-native identity or upgrade assurance | Validate every result's collection ID, tier, native route and ID, snapshot, digest state, source URL and destination hostname, producer-declared assertion/derivation, freshness, access, rights, coverage and limitations | Required fields survive the human and tool paths; missing remains missing; producer text never promotes a link or assertion to official; grouped duplicates preserve every source membership | A person and an agent can compare results without treating all evidence as equivalent |
 | G — parity and partial failure | One source failure remains visible without disabling verified evidence | Compare human and WebMCP result digests; fail each source in turn; repeat without WebMCP | Human and tool results agree; an affected source is labelled unavailable; unaffected federated sources and the 80-record tier still work; no unverified fallback is substituted | Failure is isolated, visible and does not silently weaken assurance |
@@ -168,7 +178,7 @@ so it contributes no gate M live-capture evidence.
 | J — independent agent selection | Tool execution and model tool choice are separate claims | Run model-free WebMCP smoke first; then use one exact fixed local tool-calling model for at least three runs per case through `webmcp-evals`; for a local Ollama run bind pre/post `/api/tags` and post-run `/api/ps` identity in receipt v2; repeat representative calls in Microsoft WebMCP Explorer Agent Step | Deterministic smoke passes before model use; every model run, alternate valid trajectory, failure and variance is retained; local identity evidence is exact and stable; an unrelated case makes no government-tool call | A named model in a named host selected the bounded tools under the recorded conditions, with daemon-reported post-run identity evidence rather than cryptographic per-response proof |
 | K — accessibility and fallback | Federated status and provenance remain understandable without an agent | Test keyboard, 320 CSS-pixel reflow, forced colours, reduced motion and axe; run a focused manual screen-reader journey over collection status, results, source and limitations | The complete human journey works without WebMCP; source failures and evidence tiers have meaningful names and announcements; barriers are recorded | The federated journey has an accessible manual equivalent in the tested environments |
 | L — whole-system cost | Moving inference away from the page may change, rather than remove, cost | Compare matched tasks against a defined government-hosted-assistant baseline; measure government-origin requests, bytes, static hosting, model compute, operations, assurance, maintenance, support, citizen/provider cost, latency and outcome quality | Assumptions and all cost transfers are reported; source quality and task outcomes are comparable; uncertainty is retained | Only a completed reviewed study can support a bounded cost statement |
-| M — release binding | Local success does not prove the public candidate | Bind source locks, built files, schemas, evaluation fixtures, test reports, deployed commit, live bytes, browser/host/model versions and observation dates in receipts | The exact deployed candidate matches the passing artefact; signed-out human and supported-host journeys pass; planned checks remain labelled planned | Claims are traceable to an exact public candidate and observation |
+| M — release binding | Local success does not prove the public release | Bind source locks, built files, schemas, evaluation fixtures, test reports, deployed commit, live bytes, browser/host/model versions and observation dates in receipts | The exact deployed release matches the passing artefact; signed-out human and supported-host journeys pass; planned checks remain labelled planned | Claims are traceable to an exact public release and observation |
 
 The physical-work condition deliberately prefers a bounded outage to hidden
 amplification. If up to four non-cooperative loaders never settle, they can keep
@@ -304,7 +314,7 @@ recorded model and prompt; it does not guarantee future agent behaviour.
 ## Earlier OKF evidence and its exact limits
 
 The design reuses tested ideas from OKF Explorer, but those results are not
-evidence that this candidate has passed:
+evidence that this release has passed:
 
 - The [AI usage guide](https://github.com/chris-page-gov/okf-explorer/blob/main/docs/ai-okf-usage.md)
   defines descriptor-first progressive loading and requires source routes,
@@ -374,7 +384,7 @@ The evidence should map cleanly to the four equally weighted judging criteria:
 - **Execution:** source locks, integrity checks, progressive budgets, partial-
   failure status, accessibility, human/tool parity and exact release receipts
   make the limits observable rather than hiding them.
-- **Potential impact:** the candidate demonstrates how a public body could
+- **Potential impact:** the release demonstrates how a public body could
   publish static evidence for a citizen-selected AI instead of operating a
   general-purpose assistant. Savings, privacy improvement and better questions
   remain measured hypotheses.

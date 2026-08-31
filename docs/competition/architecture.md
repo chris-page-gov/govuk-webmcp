@@ -1,4 +1,4 @@
-# Static competition architecture and federated candidate
+# Static competition architecture and federated release
 
 The first diagram records the frozen pre-federation architecture through
 `v0.2.0-rc.2`. Annotated tag `v0.2.0-rc.2` resolves to product commit
@@ -42,9 +42,13 @@ One shared action controller
 Person and agent inspect the same deterministic evidence and authoritative links
 ```
 
-Version `0.3.0-rc.1` implements the federated architecture locally. Its
-protected integration, exact public deployment and current-candidate host
-evidence remain pending:
+Version `0.3.0-rc.1` implements the federated architecture in released product
+commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. Pull-request validation run
+`33356087333`, protected-main run `33356272534` and exact-commit Pages run
+`33356452048` passed. The complete public-byte comparison matched all 1,879
+regular files to Pages artefact `9745316971`. One current supported host then
+discovered and executed all five page tools; no model selected a tool and no
+model provider was called:
 
 ```text
 80 reviewed deep-evidence records       Four locked OKF source snapshots
@@ -113,8 +117,8 @@ claim fails closed.
 
 ## Authored and generated boundaries
 
-The frozen pre-federation candidate has four source-lock registry entries. The
-current candidate has five: the same four reviewed inputs plus
+The frozen pre-federation release has four source-lock registry entries. The
+federated release has five: the same four reviewed inputs plus
 `okf-federation:public-pages-2026-08-30`, which binds the project-authored
 four-publication federation lock. A registry entry binds an expected
 identifier to one exact repository path, item count and SHA-256 value. The
@@ -134,11 +138,11 @@ The corpus-admission manifest records `sourceOkfCore` separately from
 `targetOkfCore`. The target is OKF core 0.2 for every admission; the source may
 be 0.1, 0.2 or undeclared. A crosswalk or descriptor records an assessed
 relationship only. It does not by itself admit, copy or make a producer payload
-searchable. At this working-tree checkpoint the manifest has 6 searchable
+searchable. The released manifest has 6 searchable
 admissions: 2 reviewed deep-evidence collections accounting for 80 records and
 4 federated source-snapshot collections accounting for 58,652 searchable
 records from 58,655 locked raw rows. Three Land Registry legislation rows are
-quarantined. The other 4 admissions remain non-searchable. The candidate has 10
+quarantined. The other 4 admissions remain non-searchable. The release has 10
 admissions, 5 source-lock entries and 31 schemas.
 
 The four-source OKF lock binds exact collection identity, publication base,
@@ -193,7 +197,7 @@ state.
 ## Runtime and service boundary
 
 The page makes no runtime call to GOV.UK, an OKF producer, an operational data
-provider or a model provider. The federated candidate loads only generated
+provider or a model provider. The federated release loads only generated
 same-origin static search assets from the fixed
 `data/federated-search/` namespace, with credentials omitted and redirects
 rejected. Response bodies are consumed incrementally under the fixed byte cap;
@@ -255,7 +259,7 @@ Chrome DevTools MCP tests an independent automation path; model-free
 `webmcp-evals` smoke tests check deterministic browser execution; and a
 separately identified model-backed run can test tool selection.
 
-For the corrected public deployment, the first and third layers are now
+For the historical corrected public deployment, the first and third layers were
 observed separately: Chrome 152's native WebMCP panel completed all five valid
 calls and displayed a structured invalid-input result, while Chrome DevTools
 MCP 1.8.0 completed the same five-tool public journey with zero console errors.
@@ -265,7 +269,12 @@ model attempts are retained separately as failed variance evidence rather than
 being inferred from deterministic host execution. The first three predate
 receipt v2. Attempt 4 bound stable identity but retained a null evaluation after
 structural validation failed; attempt 5 retained 30 pass and 6 fail across 36
-reported rows and failed `verify-reports`.
+reported rows and failed `verify-reports`. Separately, Codex In-app Browser
+(Browser plugin `26.825.32147`) discovered and executed all five tools against
+public `v0.3.0-rc.1`, rejected an unrelated `personalContext` field and matched
+the displayed comparison digest. This is current deterministic host-invocation
+evidence, not a host-owned recording, a model-selection result or a general
+compatibility claim.
 
 Attempts 4 and 5 used receipt v2: the exact
 selected identity from `/api/tags` before and after evaluation must match the
@@ -298,15 +307,15 @@ findings were remediated; sealed scan
 further High-confidence Low URL bypass, fixed post-snapshot. Focused security
 checks passed 119 of 119 and the affected post-fix subset passed 23 of 23. The
 scan's mechanically partial and stale-pending coverage and the post-snapshot
-fix keep the immutable rescan open. The current research, build/data, lexical-
-quality, Chrome, Microsoft Edge and authorised model-free smoke gates pass
-where recorded; `npm run test:unit:prepared` passed 173 of 173 in
+fix kept the immutable rescan open at that checkpoint. The later research,
+build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
+smoke gates pass where recorded; `npm run test:unit:prepared` passed 173 of 173 in
 `17128.154916 ms` before the latest three engineering remediations. Immutable
 scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50 review
 items, dynamically reproduced mutable model identity, aggregate-only
 per-source population binding and cancellation-driven physical-work
 amplification, and classified zero as reportable vulnerabilities after attack-
-path analysis. The defects have working-tree remediations nevertheless.
+path analysis. The defects were remediated nevertheless.
 The exact post-remediation local chain now passes research 4 of 4; build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
@@ -322,12 +331,16 @@ byte check and mutation regressions remediate it. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
 the fixed candidate with zero reportable findings. Its sealed scope predates
 the reviewed-gzip and referenced import-deadline CI portability corrections;
-focused mutation and deadline regressions plus the protected Linux rerun must
-evidence those deltas separately. CI, Pages, release tag and current-candidate
-supported-host capture remain pending. No pre-federation browser,
-accessibility, video or host receipt is
-evidence that the expanded candidate passes those remaining gates.
+focused mutation and deadline regressions plus the protected release path
+evidence those deltas separately. Pull-request validation `33356087333`,
+protected-main validation `33356272534` and Pages run `33356452048` passed,
+and the annotated `v0.3.0-rc.1` tag and current five-tool supported-host
+observation bind the released product. A passing fixed-model evaluation, the
+refreshed current-release VoiceOver journey, final video, owner review,
+public-player verification and Devpost submission remain open. No historical
+pre-federation browser, accessibility, video or host receipt is carried
+forward as proof of those open gates.
 
-The final-candidate demonstration preflight correctly failed closed without a
-deployed commit and explicit overwrite approval. It did not start live capture
-and is not live-capture evidence.
+An earlier final-candidate demonstration preflight correctly failed closed
+without a deployed commit and explicit overwrite approval. It did not start
+live capture and is not live-capture evidence.

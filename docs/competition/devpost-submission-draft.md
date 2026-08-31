@@ -4,11 +4,12 @@
 remains an unpublished `submission_pre_draft` in the last authenticated
 read-only observation. No submission action is authorised by this document.
 
-This draft describes the `v0.3.0-rc.1` federated candidate. Do not enter it as
-final submission copy until the candidate is on the public deployment, its
-current host and accessibility evidence is complete, Chris Page has approved
-the refreshed video, and every live Devpost field and human attestation has
-been reviewed again.
+This draft describes the public `v0.3.0-rc.1` federated release. Protected CI,
+Pages, exact public-byte comparison and current supported-host execution are
+complete. Do not enter it as final submission copy until the refreshed
+VoiceOver evidence is complete, Chris Page has approved the final video, its
+public YouTube playback works signed out, and every live Devpost field and
+human attestation has been reviewed again.
 
 ## Project title
 
@@ -37,10 +38,10 @@ following remains preparation copy only.
 | Organisation name (`28251`, conditional) | Complete only if the organisation route is selected. |
 | App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing OKF design lineage and this repository's separately evidenced competition-period WebMCP implementation. |
 | Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement the five-tool WebMCP product, evidence interface, tests and deployment. |
-| Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — verify that the exact federated candidate is deployed before entry. |
+| Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — exact public release commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; verify it again signed out before final entry. |
 | Testing instructions (`28255`, optional) | After deployment, open the live URL in a currently supported WebMCP host. Confirm five tools, run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`, then inspect one returned record and its provenance. Repeat the query in the visible human interface and compare the structured fields. No account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Tested agents or clients (`28257`) | Historical release evidence includes Chrome's native WebMCP panel, Chrome DevTools MCP and Codex In-app Browser observations described below. Replace this text only after all five tools have been called on the exact public `v0.3.0-rc.1` candidate; do not imply that a model selected a tool unless that was separately observed. |
+| Tested agents or clients (`28257`) | Codex In-app Browser plugin 26.825.32147 completed all five tools on exact public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Historical Chrome native-panel and Chrome DevTools MCP evidence remains separately labelled. Do not imply that a model selected a tool. |
 | AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
 | Learning level (`28259`) | **Owner assessment required:** select `None`, `Moderate` or `Significant`. |
 | Career value (`28260`) | **Owner assessment required:** select `Yes` or `No`. |
@@ -214,10 +215,10 @@ does not upgrade the three historical failures. Redirects and remote-backed
 Ollama identities fail the local route; explicit remote-provider approval is
 still required for a cloud model.
 
-## Historical release and submission observations
+## Release and submission observations
 
-The existing public evidence relates to the earlier 80-record product, not the
-federated candidate. Protected-main commit
+The historical public evidence relates to the earlier 80-record product.
+Protected-main commit
 `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` passed exact-main run
 `33323068982` and Pages run `33323152751`; 20 public files matched Pages
 artefact `9735478602`. The checksum-bound
@@ -227,15 +228,31 @@ remains historical evidence.
 On 30 August 2026, Chrome 152's native WebMCP panel and Chrome DevTools MCP
 1.8.0 each completed the five earlier tools on the corrected public release.
 Codex In-app Browser completed five calls on the earlier tagged release. These
-observations do not prove execution against `v0.3.0-rc.1`, model-led tool
-selection, ChatGPT desktop support or universal browser support.
+observations do not prove model-led tool selection, ChatGPT desktop support or
+universal browser support.
+
+Pull request 16 passed validation run `33356087333` and merged public
+`v0.3.0-rc.1` as commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. Exact-main run `33356272534`
+and Pages run `33356452048` passed. The annotated tag and public pre-release
+bind that commit. A byte-for-byte check compared all 1,879 regular deployed
+files, totalling 128,548,215 bytes, with Pages artefact `9745316971`: every
+request returned HTTP 200 and no file differed.
+
+Codex In-app Browser plugin 26.825.32147 then completed all five WebMCP tools
+on the exact public release. Its four-source `housing` query returned eight
+bounded results; exact record, provenance, exploration and comparison calls
+completed; unrelated `personalContext` was rejected; and the canonical and
+displayed 11-row comparison digests matched. This is supported-host execution
+and human/display parity evidence. No model selected the tools.
 
 The previous 142.920-second local review MP4, captions, transcript, receipts and
 manual Safari and VoiceOver evidence remain evidence for the pre-federation
 journey. That video was not approved for publication, uploaded or submitted and
 must not be presented as the federated demonstration. A refreshed video must be
-recorded from the exact deployed candidate and pass owner and signed-out public
-player review.
+recorded from the exact deployed release and pass owner and signed-out public
+player review. The refreshed VoiceOver journey and video build remain open
+pending the macOS capture environment; no WCAG conformance is claimed.
 
 ## `v0.3.0-rc.1` submission evidence gate
 
@@ -260,15 +277,21 @@ finding. Separately code-reviewed pins for all five source files, a direct
 builder lock-byte check and mutation regressions remediate it. Immutable fixed-
 tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review
 items against exact commit `9c6ed7d9a21574972ee564b333cbc49983058554` with
-zero reportable findings. Protected CI and merge, Pages, supported-host,
-accessibility, model-backed evaluation and refreshed video remain pending.
+zero reportable findings. Protected CI and merge, Pages, exact public-byte
+comparison and current supported-host execution are complete. Refreshed
+VoiceOver evidence, a model-backed pass and the final video remain open.
 
-The final-candidate demonstration preflight correctly failed closed because no
-deployed commit and no explicit overwrite approval were supplied. It did not
-start live capture and supplies no submission-video evidence.
+The earlier final-candidate demonstration preflight correctly failed closed
+because no deployed commit and no explicit overwrite approval were supplied.
+After deployment, guarded current-release human and supported-host captures
+completed. The refreshed VoiceOver and final video build are still in progress,
+so they do not yet supply submission-video evidence.
 
-- [ ] Protected-main CI passes for the exact candidate commit.
-- [ ] GitHub Pages serves that exact commit and its federated artefacts.
+- [x] Protected-main CI passes for exact release commit
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` in run `33356272534` after PR
+  validation run `33356087333`.
+- [x] GitHub Pages run `33356452048` serves that exact commit and its federated
+  artefacts; all 1,879 regular files match artefact `9745316971`.
 - [x] The installed Microsoft Edge acceptance suite passes 30 of 30 tests for
   the candidate.
 - [x] The installed Chrome acceptance suite passes 30 of 30 tests for the
@@ -276,8 +299,12 @@ start live capture and supplies no submission-video evidence.
 - [x] The full post-remediation prepared unit suite passes 194 of 194; the
   historical 144-of-144, 173-of-173 and 190-of-190 checkpoints remain
   separately labelled.
-- [ ] A current supported host lists and completes all five WebMCP tools.
-- [ ] Human and tool routes return the same canonical fields for a fixed query.
+- [x] Codex In-app Browser plugin 26.825.32147 lists and completes all five
+  WebMCP tools on public `v0.3.0-rc.1`; no model-selection claim is made.
+- [x] Human and tool routes return the same canonical fields for the fixed
+  query, including a matching displayed 11-row comparison digest.
+- [ ] The refreshed nine-step Safari and VoiceOver journey is completed and
+  reviewed with its limitations and without a WCAG conformance claim.
 - [ ] The refreshed under-three-minute federated video is recorded from the
   deployed candidate and includes accurate captions and a transcript.
 - [ ] Chris Page approves the cut, synthetic-voice basis, privacy, branding and

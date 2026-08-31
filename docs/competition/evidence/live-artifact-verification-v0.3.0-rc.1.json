@@ -1,0 +1,26 @@
+{
+  "schema": "govuk-webmcp.live-pages-verification.v1",
+  "observedAt": "2026-08-31T04:20:45.247Z",
+  "repository": "chris-page-gov/govuk-webmcp",
+  "baseUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+  "commit": "b0bd634579a3abf82bdd1fc83ff688535e0db0bf",
+  "runId": "33356452048",
+  "artifact": {
+    "id": 9745316971,
+    "apiDigest": "sha256:3d7a7eb777d3b99504c9fb0533b89cb37ffc2d66dcad7a000e86ca6674e5727d",
+    "tarSha256": "872384696f587572d794de3a4e07485aee7d2816598c86546ed178cd5aa03bf2"
+  },
+  "fileCount": 1879,
+  "byteCount": 128548215,
+  "manifestSha256": "4b2336a8927d34951c94008703dec27ed79f1ad87a318526c6807eeaa4bc0183",
+  "statusCounts": {
+    "200": 1879
+  },
+  "mismatches": [],
+  "boundaries": {
+    "comparedEveryRegularArtifactFile": true,
+    "followedRedirects": false,
+    "cacheBustingQueryUsed": true,
+    "browserJourneyObserved": false
+  }
+}

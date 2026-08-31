@@ -2,22 +2,26 @@
 
 Status values: **confirmed**, **verify**, **approval required**, **blocker**.
 
-## `v0.3.0-rc.1` federated candidate compliance gate
+## `v0.3.0-rc.1` federated public-release compliance gate
 
 Existing confirmations below preserve historical observations for the earlier
-80-record release. They do not establish compliance of the federated candidate.
-Complete this section against one exact public commit before using the candidate
-in a submission. The last complete pre-remediation checkpoint passed 144 of 144
-unit tests and 29 of 29 installed-Microsoft-Edge acceptance tests. Seven initial Low
-security findings were remediated afterwards. A sealed scan suppressed those
-seven and found an eighth High-confidence Low URL-boundary bypass, which was
-fixed post-snapshot. The current research, build/data, lexical-quality, Chrome,
+80-record release. They do not by themselves establish compliance of the
+federated public release. The exact public release is commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; pull-request, protected-main and
+Pages runs are recorded below. The last complete pre-remediation checkpoint
+passed 144 of 144 unit tests and 29 of 29 installed-Microsoft-Edge acceptance
+tests. Seven initial Low security findings were remediated afterwards. A sealed
+scan suppressed those seven and found an eighth High-confidence Low
+URL-boundary bypass, which was fixed post-snapshot. The current research,
+build/data, lexical-quality, Chrome,
 Microsoft Edge and authorised model-free smoke gates pass where recorded. A
 55-item exact-range scan retained a ninth Low source-substitution finding; its
 code-reviewed-pin remediation passes locally. Fresh immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items against
 exact candidate `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable
-findings. The deployment, host and media gates below remain open.
+findings. Exact-release deployment and supported-host gates are complete. A
+refreshed VoiceOver journey, final video and human publication checks remain
+open.
 
 - [x] **Re-verified locally after remediation:** the current prepared unit
   command passed 194 of 194; Chrome and installed Microsoft Edge each passed 30
@@ -38,32 +42,41 @@ findings. The deployment, host and media gates below remain open.
   coverage and predates the eighth fix. Exact-range scan
   `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` retained ninth finding
   `csf_050a3c08c471d3176e0640c3`; its code-pin fix postdates that snapshot.
-- [ ] **Verify in CI:** protected-main checks pass for the exact candidate,
-  including deterministic source import and generation, semantic and checksum
-  failure cases, schemas, tests, the frozen nDCG@10/Recall@20 quality gate and
-  publication boundaries.
-- [ ] **Verify on Pages:** the exact candidate commit, five-tool contracts, 80
-  reviewed records, 58,655 locked raw source rows, 3 quarantined rows and 58,652
-  searchable federated records are served with matching hashes; there is no
-  standalone legislation collection or request and no `legislation.gov.uk`
-  result link.
-- [ ] **Verify in a current supported host:** list and complete all five WebMCP
-  calls on the deployed candidate, record exact host details, and do not claim
-  model selection unless separately observed.
-- [ ] **Verify parity and privacy boundary:** the fixed human and tool journeys
+- [x] **Verified in CI:** pull-request run `33356087333` passed on the
+  merge-equivalent candidate tree; protected-main run `33356272534` passed for
+  exact release commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`.
+  Together they covered deterministic source import and generation, semantic
+  and checksum failure cases, schemas, tests, the frozen nDCG@10/Recall@20
+  quality gate and publication boundaries.
+- [x] **Verified on Pages:** Pages run `33356452048` published the exact release
+  commit. All 1,879 regular deployed files matched the retained Pages artefact
+  byte for byte. The five-tool contracts, 80 reviewed records, 58,655 locked raw
+  source rows, 3 quarantined rows and 58,652 searchable federated records are
+  served with matching hashes; there is no standalone legislation collection
+  or request and no `legislation.gov.uk` result link.
+- [x] **Verified in a current supported host:** Codex In-app Browser discovered
+  and completed all five WebMCP calls on exact deployed release
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. The retained observation records
+  the host and call receipts. No model was selected and this is not evidence of
+  model-driven tool selection.
+- [x] **Verified parity and privacy boundary:** the fixed human and tool journeys
   return the same canonical fields; no tool accepts a personal profile or
   `personalContext`; the federated tier does not claim an item receipt or
   official status; links and assertions remain producer-declared; exact-record
   source authority is “Not independently
   established”; and the human view shows each recorded destination hostname.
-- [ ] **Produce refreshed evidence:** record a federated demonstration shorter
-  than three minutes from the exact deployment, with all four sources, accurate
-  narration, captions, transcript and retained build evidence.
-- [ ] **Owner approval required:** Chris Page approves the final candidate,
+- [ ] **Capture refreshed assistive-technology evidence:** complete and retain
+  the nine-step Safari and VoiceOver journey, with the Caption Panel visible,
+  against the exact public release. Record limitations without making a WCAG
+  conformance claim.
+- [ ] **Produce the refreshed final video:** record a federated demonstration
+  shorter than three minutes from the exact deployment, with all four sources,
+  accurate narration, captions, transcript and retained build evidence.
+- [ ] **Owner approval required:** Chris Page approves the exact release,
   synthetic-voice basis, media, privacy, branding, rights, statements about
   WebMCP impact and the explicit hypothesis boundaries.
 - [ ] **Verify public video:** the approved URL plays signed out with audio and
-  captions and identifies the exact candidate shown.
+  captions and identifies the exact release shown.
 - [ ] **Final review required:** repeat the live Devpost and rules review,
   reconcile every field and URL with current evidence, and retain the result
   without submitting.
@@ -134,12 +147,12 @@ findings. The deployment, host and media gates below remain open.
   variance without discarding the three failed attempts.
 - [x] **Confirmed by controlled Chrome test:** page provides the manual journey when WebMCP is unavailable.
 - [x] **Confirmed by test for the historical release:** five fixed tools
-  register after its four artefact families validate. The federated candidate
-  adds the lazy search manifest as a fifth logical root family and still
-  registers no tool until all five validate. The three catalogue query tools
-  are read-only; the two evidence tools declare their reversible in-memory
-  page-presentation effect with `readOnlyHint: false`. No tool has a runtime
-  provider-call, storage or credential path.
+  register after its four artefact families validate. The federated public
+  release adds the lazy search manifest as a fifth logical root family and
+  still registers no tool until all five validate. The three catalogue query
+  tools are read-only; the two evidence tools declare their reversible
+  in-memory page-presentation effect with `readOnlyHint: false`. No tool has a
+  runtime provider-call, storage or credential path.
 - [x] **Confirmed by schema and browser tests:** all 80 records have authoritative human-validation links.
 - [x] **Confirmed by test and copy review:** catalogue inclusion is not described as access authority.
 - [x] **Confirmed for the corrected protected-main deployment:** pull request
@@ -147,27 +160,46 @@ findings. The deployment, host and media gates below remain open.
   `33323068982` and Pages run `33323152751` rebuilt and tested product commit
   `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`, and all 20 live files matched
   artefact `9735478602`. The earlier `v0.2.0-rc.1` evidence remains historical.
+- [x] **Confirmed for the federated public release:** pull-request run
+  `33356087333` passed on the merge-equivalent candidate tree before integration
+  through protected `main`; protected-main run `33356272534` and Pages run
+  `33356452048` rebuilt, tested and published exact release commit
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. All 1,879 regular deployed files
+  matched the retained Pages artefact byte for byte.
+- [x] **Confirmed in one supported host for the federated public release:**
+  Codex In-app Browser discovered and completed all five WebMCP calls against
+  exact deployed commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`.
+  The observation retained exact call receipts and an invalid
+  `personalContext` rejection. No model was selected; this does not prove
+  model-driven tool selection.
 
 ## Required artefacts
 
 - [x] Public source repository with all source/assets/instructions and visible licence.
-- [x] Public live deployment of exact corrected product commit
-  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` at
+- [x] Historical public live deployment evidence for exact corrected
+  `v0.2.0-rc.1` product commit
+  `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is retained.
+- [x] Public live deployment of exact `v0.3.0-rc.1` release commit
+  `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` at
   <https://chris-page-gov.github.io/govuk-webmcp/>; no demo account is required.
-- [x] Five genuine page-only interaction clips are bound to the exact public
-  release, required actions, durations and SHA-256 values; agent privacy and
-  branding review passed.
+- [x] The five genuine page-only interaction clips for the earlier release
+  remain bound to its exact public revision, required actions, durations and
+  SHA-256 values; agent privacy and branding review passed. This is historical
+  media evidence and does not replace the refreshed `v0.3.0-rc.1` video.
 - [ ] Chris Page completes the human publication review of every retained clip
   and the final edit.
-- [x] Genuine manual VoiceOver journey record and scene media exist with exact
-  path, SHA-256, capture-time and journey-step binding, with two retained
-  limitations and no WCAG conformance claim.
-- [x] The nine actual Safari and VoiceOver frames were reviewed and the
-  resulting scene stays visibly labelled as a screenshot sequence, not a
-  continuous recording; manifest declarations alone do not satisfy this gate.
-- [x] Guarded video preflight passes and the local build receipt binds the
+- [x] Historical manual VoiceOver journey evidence and scene media exist for
+  the earlier release with exact path, SHA-256, capture-time and journey-step
+  binding, retained limitations and no WCAG conformance claim.
+- [ ] Capture and review the refreshed nine-step Safari and VoiceOver journey
+  for exact `v0.3.0-rc.1`, with the Caption Panel visible. Label any resulting
+  scene as a screenshot sequence rather than a continuous recording; manifest
+  declarations alone do not satisfy this gate.
+- [x] Historical guarded-video preflight and build evidence bind the earlier
   142.920-second MP4, captions, transcript, script and evidence inputs. This is
-  not public-player evidence.
+  not current-release or public-player evidence.
+- [ ] Build and technically review the final `v0.3.0-rc.1` video, captions and
+  transcript against the exact deployment and retained evidence inputs.
 - [ ] Chris Page approves the synthetic-voice publication basis and verifies the
   final audible playback, captions, transcript, privacy and branding.
 - [ ] Publicly visible YouTube video shorter than three minutes, with audio that
@@ -178,12 +210,15 @@ findings. The deployment, host and media gates below remain open.
   hashes, challenge provenance, local macOS ARM64 SBOM and notices are retained.
 - [ ] **Optional release assurance:** produce a release-platform SBOM or signed
   attestation; this is not a current official submission requirement.
-- [x] Final read-only Devpost compliance review checks every current required field and
-  records the named-host, local-video/public-YouTube and human-attestation
-  boundaries without submitting.
-- [x] Post-deployment compliance review refreshed after the corrected exact
-  commit was deployed and the Chrome native-panel and DevTools MCP reports were
-  privacy-reviewed.
+- [x] Historical read-only Devpost compliance review checked the fields known
+  for the earlier release and recorded the named-host, local-video/public-YouTube
+  and human-attestation boundaries without submitting.
+- [x] Historical post-deployment compliance review was refreshed after the
+  corrected exact commit was deployed and the Chrome native-panel and DevTools
+  MCP reports were privacy-reviewed.
+- [ ] Complete a final read-only Devpost and rules compliance review for exact
+  `v0.3.0-rc.1`, its approved public video and every current form field and URL,
+  without submitting.
 - [ ] Enter and verify the final project title, tagline (one-line description)
   and full project description in Devpost.
 - [ ] Enter and verify the public live URL and public repository URL in the

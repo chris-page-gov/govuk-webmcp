@@ -127,6 +127,13 @@ async function selectOnlyCollections(page, selected) {
   }
 }
 
+export async function waitForRenderedSearchResult(page) {
+  await page.locator("#results article.result").first().waitFor({ state: "visible" });
+  const structuredResult = page.locator("#results details.structured pre");
+  await structuredResult.waitFor({ state: "attached" });
+  return structuredResult;
+}
+
 async function runFederatedSearch(page, inputs) {
   const filters = page.locator("details.filters");
   if (!(await filters.evaluate((element) => element.open))) await filters.locator("summary").click();
@@ -134,8 +141,8 @@ async function runFederatedSearch(page, inputs) {
   await selectOnlyCollections(page, inputs.collections);
   await page.getByLabel("Maximum results").selectOption(String(inputs.limit));
   await page.getByRole("button", { name: "Search", exact: true }).click();
-  await page.locator("#results details.structured pre").waitFor({ state: "visible" });
-  const result = JSON.parse(await page.locator("#results details.structured pre").textContent());
+  const structuredResult = await waitForRenderedSearchResult(page);
+  const result = JSON.parse(await structuredResult.textContent());
   invariant(result.ok === true && result.schema === "trusted-govuk-discovery.search-result.v2", "The deployed four-source search did not return the combined result contract");
   invariant(JSON.stringify(result.selectedCollections) === JSON.stringify(inputs.collections), "The deployed search selected different collections");
   invariant(result.returned === result.results.length && result.returned <= inputs.limit, "The deployed search returned count is inconsistent with its limit");

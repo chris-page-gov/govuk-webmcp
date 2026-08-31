@@ -1,86 +1,54 @@
 # Project status and hard gates
 
-**Status:** version `0.3.0-rc.1` is an in-progress federated-discovery
-candidate. A pre-remediation checkpoint passed the local production build,
-complete 144-test unit suite and 29-test Chrome and Microsoft Edge acceptance
-suites. Seven initial Low security findings were remediated, then sealed scan
-`9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed those seven and found one
-further High-confidence Low URL-boundary bypass. That eighth issue was fixed
-after the scanned snapshot. The exact research, build/data, lexical-quality,
-Chrome, Microsoft Edge and authorised model-free smoke gates now pass where
-recorded. `npm run test:unit:prepared` also passed 173 of 173 in
-`17128.154916 ms` before the latest three engineering remediations. Immutable
-scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50 review
-items, dynamically reproduced three evidence-integrity or availability defects
-and classified zero as reportable vulnerabilities after attack-path analysis.
-All three have working-tree remediations nevertheless. The exact post-
-remediation research, build/data, unit, frozen-quality, Chrome, Microsoft Edge,
-model-free real-Chrome smoke, dependency-audit and diff-integrity gates now
-pass as recorded below. Immutable exact-range scan
-`2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` then completed all 55 review items and
-reported one High-confidence, Low-severity provenance-integrity defect
-(`csf_050a3c08c471d3176e0640c3`): the normal build accepted a same-count source
-and registry substitution when both were re-digested together. All five
-admitted source files are now bound to separately code-reviewed imported
-SHA-256 values, and the federated-search builder independently requires the
-reviewed federation-lock byte pin. The new mutation regressions, production
-build, source validation and 194-test prepared unit suite pass. A fresh
-immutable exact-range scan, `040ad945-3723-4aef-9c03-1bb552630deb`, then
-completed all 55 review items against fixed candidate
-`9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Pull request 16 then exposed a cross-platform reproducibility defect in Linux
-validation run `33354712509`. A first correction normalised RFC 1952 operating-
-system byte 9, but rerun `33355108429` proved that the Linux and macOS zlib
-implementations also produced different valid DEFLATE streams. The header-only
-explanation and correction were therefore insufficient. The final candidate
-does not reproduce reviewed gzip bytes with the current host compressor: it
-preserves the exact reviewed stored representation after validating its byte
-length and SHA-256, boundedly decompresses it and validates the decoded source
-length and SHA-256, and requires the importer to match those decoded bytes to
-the freshly fetched source byte for byte. The builder independently enforces
-the stored and decoded bindings. Protected run `33355787295` cleared that
-build gate, then exposed a later timer-liveness defect: Node could finish an
-isolated pending import test before an unreferenced `AbortSignal.timeout`
-fired. The import-wide deadline now uses an explicitly referenced timer that is
-cleared in `finally`, and its focused macOS and Linux regressions pass.
-Protected CI has not yet revalidated this final timer correction. This is not
-yet a protected-main integration, Pages deployment, release or submission. The
-frozen
-pre-federation baseline is annotated tag
-`v0.2.0-rc.2` at product commit
-`35fcedd39ed955278d3975a6dd80692fc6e32935`; its public pre-release is retained
-and must not be moved or rewritten. GitHub's release API does not currently
-mark that pre-release platform-immutable.
+**Status:** version `0.3.0-rc.1` is released from protected-main product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. Annotated tag object
+`8278c580df4767491ef0808516dd90cc3423cb9d` peels to that commit. Pull request
+16 passed validation run `33356087333`; protected `main` passed run
+`33356272534`; and exact-commit Pages run `33356452048` deployed the same
+commit. The public site is <https://chris-page-gov.github.io/govuk-webmcp/>.
 
-Corrected main commit
-`edd4ce6b60c38c3c9fbac86408d6b58d1495671f` is the current public Pages
-deployment from run `33323152751`. Pull request 12 integrated the optional-
-execution-options correction and pinned assurance harness through protected
-`main`. Competition registration is complete. Devpost project `1406973`
-remains `Untitled`, blank and `submission_pre_draft`, with no video URL,
-publication timestamp or submission timestamp at the read-only
-`2026-08-30T17:57:48Z` observation.
+The complete Pages artefact comparison observed on 31 August 2026 fetched all
+1,879 regular files and 128,548,215 bytes. Every request returned HTTP 200 and
+matched Pages artefact `9745316971` byte for byte. The downloaded artefact tar
+has SHA-256
+`872384696f587572d794de3a4e07485aee7d2816598c86546ed178cd5aa03bf2`;
+the canonical live comparison manifest has SHA-256
+`4b2336a8927d34951c94008703dec27ed79f1ad87a318526c6807eeaa4bc0183`.
+This proves the exact deployment identity, not factual completeness, official
+certification, current-source accuracy, open licensing or future availability.
 
-Pull request 13 subsequently admitted the corrected public-host, video-review
-and read-only Devpost evidence plus its tests and lockstep documentation as
-repository commit `5f2295f5f55dfb4f6c089019c53c32c22c3ae86a`. Exact-main
-validation run `33327860583` passed. That evidence-only integration did not
-dispatch Pages or change the public application bytes, so the deployment
-identity above remains `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+The current evidence follow-up is separate from the released product. Codex
+In-app Browser (Browser plugin `26.825.32147`) discovered and executed all five
+WebMCP tools on the exact public release, rejected an unrelated
+`personalContext` field and produced a comparison whose canonical and displayed
+digests matched. This is machine evidence from a host capability interface, not
+a host-owned recording and not evidence that a model selected a tool. Five
+silent public-page interaction clips are also captured with agent privacy and
+branding review complete. A fresh nine-step Safari 26.5.2 and VoiceOver 10
+Caption Panel journey is paused pending macOS unlock; it and the final under-
+three-minute demonstration video are still in progress. Do not describe either
+as complete, owner-approved, published or submitted.
 
-The tagged `v0.2.0-rc.1` release at
-`9235ee5db4df637bdb2a12e87449e871614afe68` and its earlier verification remain
-historical evidence; the tag has not been moved to the corrected deployment.
+The release retains the full correction history rather than rewriting it.
+Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` reviewed 55 of
+55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero
+reportable findings. The exact reviewed-gzip and referenced import-deadline
+corrections exposed by earlier Linux runs were subsequently validated through
+the passing protected release path above. The frozen pre-federation baseline is
+annotated tag `v0.2.0-rc.2` at product commit
+`35fcedd39ed955278d3975a6dd80692fc6e32935`; it remains historical and must not
+be moved or rewritten. Historical release and deployment observations below
+remain evidence for their named commits only.
 
-Version `0.2.0-rc.2` is the repository checkpoint that freezes the corrected
-host-compatibility implementation and subsequently integrated evidence before
-the multi-corpus OKF federation work. It does not rewrite `v0.2.0-rc.1` or
-claim a new Pages product deployment; the deployed application identity remains
-the separately recorded `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`.
+Competition registration is complete. The last authenticated read-only Devpost
+observation, at `2026-08-30T17:57:48Z`, showed project `1406973` as `Untitled`,
+blank and `submission_pre_draft`, with no video URL, publication timestamp or
+submission timestamp. No Devpost submission or public YouTube upload is
+claimed.
 
-## In-progress `0.3.0-rc.1` federated boundary
+## Released `0.3.0-rc.1` federated boundary
 
-The current working slice extends discovery without weakening the assurance of
+The released slice extends discovery without weakening the assurance of
 the existing reviewed catalogue:
 
 | Evidence tier | Declared population | Boundary |
@@ -113,7 +81,7 @@ registry: every admitted source digest must match executable release policy
 before its bytes are trusted, and the standalone federated-search builder
 checks the reviewed federation-lock bytes before parsing them.
 
-The candidate keeps five fixed, page-scoped tools and the complete accessible
+The release keeps five fixed, page-scoped tools and the complete accessible
 human equivalent over one common deterministic result. OKF supplies governed,
 progressively retrievable evidence; WebMCP lets a citizen-selected AI invoke
 bounded page actions over it. The page hosts no model and its closed schemas
@@ -122,11 +90,12 @@ establish end-to-end privacy: a remote model provider may receive prompts, tool
 metadata, arguments and results, and the static host may observe ordinary or
 query-derived asset requests.
 
-The current generated files record 6 searchable and 4 non-searchable corpus
-admissions, 5 source-lock registry entries and 31 closed JSON Schemas. These
-working-tree totals must be recomputed after the exact-tree remediation rescan;
-they are not release-bound counts. The stable reproducibility boundary is 73
-versioned, reviewed gzip source artefacts totalling 13,021,675 bytes. Their
+The released files record 6 searchable and 4 non-searchable corpus admissions,
+5 source-lock registry entries and 31 closed JSON Schemas. These are
+release-bound counts for product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. The stable reproducibility
+boundary is 73 versioned, reviewed gzip source artefacts totalling 13,021,675
+bytes. Their
 exact stored byte lengths and SHA-256 values bind the reviewed representations;
 bounded decompression plus decoded lengths and SHA-256 values bind their source
 meaning. Import preserves those reviewed bytes only after matching each decoded
@@ -134,9 +103,8 @@ payload to the freshly fetched source byte for byte. The deterministic builder
 expands those inputs to 1,853 shard files — 120 record shards and 1,733 postings
 shards — plus the manifest and checksum sidecar: 1,855 ignored generated files
 and 127,747,020 bytes in total. The production build copies that same-origin
-plane into `dist`. The federation lock and generated-manifest digests are cross-
-bound, but their final candidate values must be recorded after the exact-tree
-rescan and deterministic rebuild.
+plane into `dist`. The federation lock and generated-manifest digests are
+cross-bound and were validated in the protected release path.
 UK Government APIs records use their source-authored, collection-unique
 `concept_id`; shared endpoint URLs are not used as record identity.
 
@@ -153,19 +121,19 @@ controls any later claim about source admission, integrity, progressive
 delivery, ranking, producer coverage, evidence parity, partial failure,
 context minimisation, safety, model choice, accessibility, cost or release
 binding. Cost reduction, privacy improvement, better questions and answer
-quality remain testable hypotheses. Only the focused checks recorded below are
-observed; their results do not complete the A–M matrix.
+quality remain testable hypotheses. The exact build, protected integration,
+deployment and live-byte identity gates are closed; the model-backed, fresh
+accessibility, refreshed-video and submission gates remain open.
 
 The frozen lexical retrieval-quality gate is implemented and required by CI
 and Pages after `npm test`. It measures bounded nDCG@10 and Recall@20 cases,
-cold/warm determinism and prohibited-legislation behaviour. The exact tree
-before the latest three remediations passed locally at mean nDCG@10
-`0.984698009` and Recall@20 `1`, with
-identical cold/warm results and legislation absent or rejected. This bounded
-lexical result does not establish model quality or corpus-wide recall; CI and
-Pages release binding remain pending.
+cold/warm determinism and prohibited-legislation behaviour. The release tree
+passed at mean nDCG@10 `0.984698009` and Recall@20 `1`, with identical cold/warm
+results and legislation absent or rejected, including through protected CI and
+Pages. This bounded lexical result does not establish model quality or corpus-
+wide recall.
 
-## Candidate assurance observed locally
+## Release-candidate assurance chronology
 
 The following is the last complete pre-remediation checkpoint, not a result for
 the exact current tree:
@@ -182,7 +150,7 @@ the exact current tree:
 - installed Microsoft Edge Playwright suite: 29 of 29 passed in a
   loopback-only run after the expected sandbox socket restriction.
 
-The working tree contains remediations for eight earlier Low findings: the seven
+The release contains remediations for eight earlier Low findings: the seven
 initial issues covering postings complexity, Land Registry row admission,
 mutable-source revision claims, partial-source isolation, producer trust self-
 promotion, prototype-key tokens and concurrent shard work, plus the later
@@ -213,7 +181,7 @@ physical shard-work amplification. Attack-path review found zero reportable
 vulnerabilities because the respective paths require privileged loopback-model
 control, repository/build or same-origin write authority, or have bounded self-
 availability impact. The issues are still real engineering or evidence-
-integrity defects. The working candidate addresses them through exact ordered
+integrity defects. The release addresses them through exact ordered
 per-source and display-contract validation; a physical boundary of 4 active,
 32 queued and 36 distinct in-flight shard files; a queue-inclusive 3-second
 file deadline with slots held until actual loader settlement; and local-model
@@ -254,9 +222,12 @@ items and retained one Low source-substitution finding. Its code-reviewed-pin
 remediation and focused bypass review pass. The fresh immutable full-range scan
 `040ad945-3723-4aef-9c03-1bb552630deb` then completed 55 of 55 review items
 against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-These local results are not protected-main CI, Pages, current supported-host,
-focused manual
-accessibility, passing model-backed, refreshed-video or release evidence.
+Those results were pre-release local checkpoints. Pull-request validation
+`33356087333`, protected-main validation `33356272534`, Pages run `33356452048`,
+the complete live-byte comparison and exact-release supported-host capture now
+provide their respective release evidence. Fresh manual accessibility evidence,
+a passing model-backed evaluation, the refreshed video and submission remain
+open.
 
 Five model-backed attempts are preserved as local variance evidence. They used
 Chrome 152, `webmcp-evals` 0.0.4, eight cases, three runs per case and the exact
@@ -297,45 +268,39 @@ cloud proxy from using the local path without explicit remote-provider approval.
 All five attempts failed overall. Gate J and a strict model-backed pass remain
 open.
 
-No protected-main CI, federated Pages deployment, exact live-host binding or
-`0.3.0-rc.1` tag is claimed.
-
 ## Current release boundary
 
 The public repository is
 [`chris-page-gov/govuk-webmcp`](https://github.com/chris-page-gov/govuk-webmcp).
-`main` is protected. The retained public pre-release is
-[`v0.2.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1),
-at product commit `9235ee5db4df637bdb2a12e87449e871614afe68`.
-The later
-[`v0.2.0-rc.2`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.2)
-repository checkpoint preserves the complete pre-federation main state without
-changing that historical product tag.
-<https://chris-page-gov.github.io/govuk-webmcp/> now serves corrected main
-commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`; its `deployment.json` binds
-that commit to Pages run `33323152751`. All 20 public files matched Pages
-artefact `9735478602` byte for byte. GitHub secret scanning and push protection
-are enabled.
+`main` is protected. Public pre-release
+[`v0.3.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.3.0-rc.1)
+and <https://chris-page-gov.github.io/govuk-webmcp/> resolve to product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, deployed by Pages run
+`33356452048`. All 1,879 regular files matched the Pages artefact byte for byte.
+GitHub secret scanning and push protection remain enabled.
 
 The release contains:
 
-- 80 searchable records and 80 evidence receipts;
-- four exact authored source locks;
+- 80 item-reviewed searchable records with 80 evidence receipts;
+- 58,652 searchable source-snapshot records from 58,655 locked raw rows across
+  UK Living, ONS, UK Government APIs and HM Land Registry, with three standalone
+  legislation records quarantined;
+- five source-lock registry entries and 73 reviewed gzip artefacts;
 - one digest-bound Evidence Trace over three selected GOV.UK records;
-- a 10-entry corpus admission manifest, with two searchable and eight
-  non-searchable entries;
+- a 10-entry corpus admission manifest, with 6 searchable and 4 non-searchable
+  entries;
 - an analytical-index-first human interface with a text-labelled Evidence
   Trace, separate foundation facets and claim comparison without a trust score;
 - five imperative WebMCP tools over one deterministic action controller; and
-- 20 closed JSON Schemas plus catalogue, receipt, Trace and federation raw-byte
-  checksums.
+- 31 closed JSON Schemas plus catalogue, receipt, Trace, federation and lazy-
+  search integrity bindings.
 
 The three catalogue query tools are read-only. The two exploration tools have a
 truthfully declared reversible in-memory page-presentation effect and therefore
 use `readOnlyHint: false`. Neither class writes storage, changes canonical
 metadata, calls a provider or changes external state.
 
-## Assurance observed for the release
+## Historical pre-federation assurance retained
 
 - `npm run test:unit`: 58 passed;
 - installed Google Chrome Playwright suite: 19 passed;
@@ -504,8 +469,8 @@ and must use a revocable low-limit key and no personal context.
 ## Mandatory source and claim boundaries
 
 - The frozen `v0.2.0-rc.2` baseline searches only the 69-record GOV.UK
-  collection and 11-record curated companion collection. The in-progress
-  `0.3.0-rc.1` candidate adds exactly four locked federated source snapshots
+  collection and 11-record curated companion collection. Released
+  `v0.3.0-rc.1` adds exactly four locked federated source snapshots
   totalling 58,655 raw rows, of which 58,652 are searchable and 3 standalone
   Land Registry legislation rows are quarantined, separately from those 80
   reviewed records. No other
@@ -539,9 +504,9 @@ No `gis-ai-go` or OKF source repository has been modified.
 
 Chris Page's recorded assurance resolves personal ownership, resource-use,
 outside-interest and original-code licence questions for this repository.
-Public branch/PR publication, branch protection, the historical annotated pre-
-release and corrected Pages deployment are complete. The following remain
-gated:
+Public branch and pull-request publication, branch protection, the historical
+pre-releases, protected `v0.3.0-rc.1` release and exact Pages deployment are
+complete. The following remain gated:
 
 - treat 1:00 pm PDT on 3 September 2026 as the official close; require a public
   repository with a visibly detectable open-source licence, a public YouTube
@@ -559,16 +524,15 @@ gated:
 
 ## Next safe task
 
-Finish the remaining A–M candidate matrix without weakening the four-source
-allowlist, evidence-tier distinction or fail-closed budgets. Push the exact-
-reviewed-gzip, decoded-source cross-binding and referenced import-deadline
-corrections to pull request 16, require its exact Linux CI rerun to pass, merge
-without bypassing branch protection, deploy the exact main commit and bind the
-live artefact back to that commit before tagging or refreshing submission
-evidence.
+Complete the evidence follow-up against the unchanged exact `v0.3.0-rc.1`
+deployment. Resume the fresh nine-step Safari and VoiceOver Caption Panel
+journey when the Mac is unlocked, finish and hash-bind all observations, then
+turn the Caption Panel and VoiceOver off. Build the final demonstration from
+the exact-release clips, perform the technical and owner playback, privacy,
+branding, voice and caption reviews, and verify any public video while signed
+out before the final Devpost compliance review.
 
-Until that work is complete, do not describe federated behaviour as released,
-deployed, CI-validated or observed in a live WebMCP host. The existing video,
-public-upload and Devpost gates remain open and must be reassessed against the
-exact federated release candidate rather than inherited from the frozen
-pre-federation baseline.
+Do not move the `v0.3.0-rc.1` tag or substitute historical pre-federation
+accessibility, host or video evidence. The strict model-backed gate, public
+YouTube upload and Devpost submission remain open; upload and submission are
+separate explicit actions.
