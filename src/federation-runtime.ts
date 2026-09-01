@@ -80,7 +80,7 @@ const EXPECTED_FEDERATED_COLLECTION_BINDINGS = Object.freeze([
       Object.freeze({ metric: "source assertions", count: 879 }),
     ]),
     completenessClaim: "Complete against the locked 9,757-record source snapshot only; 293 of those records are service families.",
-    limitation: "291 of 293 service families still require specialist review; search inclusion is not an item-level reviewed evidence receipt.",
+    limitation: "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required. Search inclusion is not an item-level reviewed evidence receipt.",
   }),
   Object.freeze({
     admissionId: "corpus:ons-metadata",

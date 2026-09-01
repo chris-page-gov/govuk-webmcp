@@ -21,8 +21,9 @@ WebMCP tools, data contracts or visual design. The companion
 [beginner evidence interface specification](beginner-interface-specification.md)
 assesses the current interface, proposes a testable information architecture
 and preserves it as the **Technical review** view. The proposal remains gated
-by source-contract correction, low-fidelity prototyping and user research; it
-does not approve an implemented or public redesign.
+from claims of completed prototyping or user research. The source-contract
+correction is complete for the current candidate; this discovery PRD does not
+itself describe an implemented or released redesign.
 
 ## 2. Product proposition
 
@@ -627,8 +628,8 @@ matrix against FR-01 to FR-22, AR-01 to AR-10 and AC-01 to AC-14. It:
    and
 6. provides a sequenced hand-off with explicit governance gates.
 
-The companion approves a proposed semantic order, component responsibility and
-page hierarchy for low-fidelity testing only. It does not approve a visual
-treatment, production implementation or public rollout. Those decisions must
-follow the source-contract gate and be tested with representative users rather
-than inferred from the synthetic personas.
+The companion records the semantic order, component responsibility and page
+hierarchy selected for the separately authorised experimental candidate. The
+source-contract gate is complete. This PRD still provides no evidence of
+formative usability or accessibility outcomes; those must be observed with
+representative users rather than inferred from the synthetic personas.

@@ -11,7 +11,7 @@ export const FEDERATION_EVIDENCE_TIER = "federated-source-snapshot";
 export const FEDERATION_LOCK_PATH = "app/data/sources/okf-federation-lock.json";
 export const FEDERATION_SOURCE_DIRECTORY = "app/data/sources/okf-federation";
 export const FEDERATION_AUTHORED_AT = "2026-08-30T00:00:00Z";
-export const REVIEWED_FEDERATION_LOCK_SHA256 = "bcd0b2b3631aea744b802e8b0199672fea76e446abe4adf2332e9c4683302b10";
+export const REVIEWED_FEDERATION_LOCK_SHA256 = "35cfebb22c680d0c0522753f376fcedd1976b89e3fd519522044fd08ae56625e";
 export const MAX_SOURCE_BYTES = 16 * 1024 * 1024;
 export const MAX_AGGREGATE_SOURCE_BYTES = 450 * 1024 * 1024;
 export const MAX_AGGREGATE_STORED_BYTES = 32 * 1024 * 1024;
@@ -197,7 +197,7 @@ const SOURCE_DEFINITIONS = Object.freeze([
     }),
     limitations: Object.freeze([
       "The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.",
-      "Only 2 of 293 service families had named specialist acceptance at publication time.",
+      "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required.",
       "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice.",
     ]),
   }),

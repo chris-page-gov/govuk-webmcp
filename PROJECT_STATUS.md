@@ -72,15 +72,15 @@ starts instead with five questions: what is being claimed, which source
 supports it, what the AI added, what is missing and what safe check comes next.
 
 The companion `docs/product/beginner-interface-specification.md` completes the
-documentation review and proposes a second **Guided evidence** view over the
+documentation review and specifies a second **Evidence answer** view over the
 same action controller and canonical results. It defines semantic page order,
 bounded URL and state contracts, reviewed, federated, boundary and failure
 states, deterministic evidence summaries, an honest AI-prose boundary, exact
 accepted-input display, accessible progressive disclosure, all 12 story
-outcomes, proposed module ownership and verification gates. It specifies
-`present_resource_evidence` as a candidate display action for evaluation, not
-an approved or implemented sixth tool. No UI, schema, tool, data or deployment
-changed.
+outcomes, proposed module ownership and verification gates. The user has
+authorised experimental implementation of `present_resource_evidence`; it is
+not yet implemented, released or supported by accepted host evidence. No UI,
+schema, tool, data or deployment changed in the documentation-only baseline.
 
 The discovery pack now contains four synthetic personas, 12 representative
 user stories, a plain English full learning pathway and an exact coverage
@@ -105,13 +105,14 @@ privacy-reviewed machine receipt admits the 19 actual calls, arguments, result
 digests and review labels without committing full prompts, model prose or tool
 payloads.
 
-A separate factual gate is open. The admitted A Life in the UK federation lock
-states that two of 293 service families had named specialist acceptance. The
-producer's exact-revision AI-consumer contract states zero accepted reviews,
-two families not requiring review and 291 requiring review. Beginner material
-makes no positive acceptance claim. Do not implement or publish that claim in
-a redesigned interface until the authored lock, generated display contracts,
-tests and release evidence are corrected together.
+The separate A Life in the UK factual gate is closed for the current candidate.
+The authored federation lock, closed schema, corpus admission, generated
+display contract, executable runtime boundary and tests now match the producer's
+exact-revision AI-consumer contract: 0 accepted specialist reviews, 2 service
+families where specialist review is not required and 291 where it is required.
+No positive specialist-acceptance claim is admitted. Historical
+`v0.3.0-rc.1` receipts retain the earlier wording as immutable evidence for
+their named release bytes; they are not current candidate truth.
 
 ## Released `0.3.0-rc.1` federated boundary
 
@@ -623,13 +624,14 @@ complete. The following remain gated:
 ## Next safe task
 
 For the beginner product lane, the documentation review and proposed dual-view
-specification are complete. First reconcile the A Life in the UK specialist-
-review contradiction through the full authored/generated/test contract. Then
-create a low-fidelity Guided evidence prototype from GE-01 to GE-10 and run the
-specified formative and accessibility research before changing production UI
-or tool contracts. Preserve the complete human journey, current Technical
-review behaviour, source and limitation parity, and the honest boundary that
-the page cannot inspect the AI host's final prose.
+specification are complete and the A Life in the UK specialist-review contract
+is reconciled for the current candidate. The next task is the separately
+authorised Evidence answer implementation and sixth presentation action,
+followed by deterministic, accessibility and cross-host evaluation. Formative
+research remains required evidence after this experimental candidate and must
+not be claimed before it occurs. Preserve the complete human journey, current
+Technical review behaviour, source and limitation parity, and the honest
+boundary that the page cannot inspect the AI host's final prose.
 
 The competition-submission lane remains separate and more time-sensitive:
 complete Chris Page's continuous audible playback, privacy, branding, rights,

@@ -1,16 +1,18 @@
 # Beginner evidence interface specification
 
-**Status:** proposed implementation specification; documentation only
+**Status:** accepted implementation specification; candidate implementation authorised
 
 **Date:** 1 September 2026
 
 **Companion requirements:**
 [Beginner trust pathway product requirements](beginner-trust-pathway-prd.md)
 
-**Authorisation boundary:** this document specifies a future interface. It does
-not change the application, WebMCP tools, schemas, data, release or deployment.
-Implementation remains gated by the source-contract correction, prototype
-review and formative user research described below.
+**Authorisation boundary:** the user has authorised the experimental candidate
+implementation described here. This source-contract correction does not itself
+change the application, WebMCP tools, schemas, release or deployment. Release
+acceptance and formative user research remain separately evidenced work and
+must not be claimed before they occur. The source-contract correction is complete
+for the current candidate.
 
 ## 1. Outcome
 
@@ -40,7 +42,7 @@ that usability research has already approved a visual design.
 
 | ID | Decision |
 | --- | --- |
-| DS-01 | After an authorised implementation, an empty URL opens **Guided evidence**, the beginner view. |
+| DS-01 | In the authorised candidate, an empty URL opens **Evidence answer**, the beginner view. |
 | DS-02 | **Technical review** preserves the current analytical index, Evidence Trace, comparison, full record, provenance, estate and WebMCP diagnostics. It is not deleted or reduced. |
 | DS-03 | Both views use the same action controller, validated artefacts, result objects and limitations. There is no beginner-only copy of a source record. |
 | DS-04 | The guided view presents deterministic page evidence, not a generated answer. Model-generated prose stays in the AI host and remains non-canonical. |
@@ -50,7 +52,7 @@ that usability research has already approved a visual design.
 | DS-08 | A text-first evidence path is canonical. Any diagram is an alternative rendering of the same labelled relationships and has an equivalent ordered list or table. |
 | DS-09 | There is no overall trust, confidence or quality score, traffic-light verdict or “trusted” badge. Authority, integrity, currentness, access, rights and coverage remain separate questions. |
 | DS-10 | Search and task text, action origin and the accepted-input activity copy remain in memory only. A validated, bounded, non-personal evidence identifier may also become canonical selection state in the fragment, including when the same identifier was an accepted action argument, but only after explicit human selection or view navigation. A WebMCP call does not mutate the URL or browser history. No other accepted value enters the URL, persistent storage, analytics or canonical metadata. |
-| DS-11 | The existing five tools remain unchanged for compatibility in the first prototype. A candidate display tool is specified separately and cannot be implemented without a schema, security and WebMCP contract review. |
+| DS-11 | The existing five tools remain unchanged for compatibility. The sixth display tool is authorised for experimental implementation only with its closed schema, executable validation, security review and WebMCP contract tests; implementation does not itself establish release or host acceptance. |
 | DS-12 | Visual treatment, component styling and success thresholds remain research decisions. Semantic order, content responsibilities, states and acceptance evidence are specified here. |
 
 ## 3. Current-interface review
@@ -91,21 +93,21 @@ Both views use this semantic order:
 6. the existing independent-status, accessibility, privacy, security and source
    links in the footer.
 
-The view navigation is a two-item list of links labelled **Guided evidence**
+The view navigation is a two-item list of links labelled **Evidence answer**
 and **Technical review**. The active link uses `aria-current="page"`. Switching
 views preserves the selected answer, claim, comparison or record and moves
 focus to the new view's `h1`. It must not rerun a search or send a tool call.
 
-### 4.2 Guided evidence
+### 4.2 Evidence answer
 
-Guided evidence is the future default for an empty URL. It is task-led, uses
+Evidence answer is the candidate default for an empty URL. It is task-led, uses
 plain English first and exposes technical evidence in context.
 
 Its `h1` is **Check the evidence behind government information**. Its
 introduction says that the page is independent, contains no AI and helps a
 person check a saved record and its recorded link before acting.
 
-When a two-to-four-claim comparison is selected, Guided evidence retains the
+When a two-to-four-claim comparison is selected, Evidence answer retains the
 claim IDs but shows the answer overview and a notice: **A detailed foundation
 comparison is selected. Open Technical review to inspect it.** Switching back
 restores the exact comparison. The guided view does not turn the comparison
@@ -156,7 +158,7 @@ The future router admits only bounded fragment parameters:
 #view=technical&answer=<canonical-answer-id>&compare=<two-to-four-claim-ids>
 ```
 
-- An empty fragment opens Guided evidence after the future authorised rollout.
+- An empty fragment opens Evidence answer in the authorised candidate.
 - A legacy fragment with `record`, `answer`, `claim` or `compare` but no `view`
   opens Technical review so existing evidence links keep their meaning.
 - Unknown, duplicated, oversized or incompatible parameters fail closed to the
@@ -167,9 +169,9 @@ The future router admits only bounded fragment parameters:
 - Back and forward navigation restore the view and evidence selection without
   repeating a search or tool call.
 
-These routes are proposed contracts, not current behaviour.
+These routes are accepted candidate contracts, not current released behaviour.
 
-## 5. Guided-evidence page regions
+## 5. Evidence answer page regions
 
 The following regions define content and semantic order. They do not prescribe
 columns, colours, illustrations or animation.
@@ -493,7 +495,8 @@ For every other record, `primaryLimitation` is `null`. The guided result shows
 **Limits to check** with the complete `allLimitations` list before a source
 action; it does not promote the first array entry as “most important”. The map
 must not contain or imply a positive A Life in the UK specialist-acceptance
-count while the source-contract conflict remains open.
+count. The corrected current-candidate contract records zero accepted reviews,
+two service families where review is not required and 291 where it is required.
 
 ## 7. Result and system states
 
@@ -512,7 +515,7 @@ evidence.
 | Unsupported decision | State the boundary, show relevant metadata only if available and identify the current official check. |
 | Invalid input | Explain the permitted correction. State that no action was executed and do not echo rejected nested values. |
 | Artefact validation failure | Keep all tools and search disabled. Explain that the evidence could not be verified. |
-| WebMCP unavailable or blocked | Keep the human journey fully usable. Put browser diagnostics in Technical review and use a short optional explanation in Guided evidence. |
+| WebMCP unavailable or blocked | Keep the human journey fully usable. Put browser diagnostics in Technical review and use a short optional explanation in Evidence answer. |
 | Presentation tool rejected | Keep the previous view unchanged, announce the rejection once and state that no source, storage or external state changed. |
 | Clarification needed | This is a host outcome, not a page result. The host asks only for the minimum topic, nation or outcome before a bounded call. |
 | Unrelated request | No government tool call and no page mutation is the successful outcome. |
@@ -527,7 +530,7 @@ human control or fixed WebMCP tool
   -> same-origin canonical action
   -> reviewed or federated runtime
   -> deterministic result and digest
-  -> Guided evidence projector or Technical review renderer
+  -> Evidence answer projector or Technical review renderer
 ```
 
 The model's final explanation is outside this flow. It may consume a tool
@@ -576,8 +579,8 @@ as `get_resource_record`. On success, the action obtains the exact record and
 provenance through the shared runtime, creates the deterministic presentation
 object in section 6, updates the selected page view and returns that same
 object. Its annotation cannot claim read-only behaviour because it changes the
-reversible in-memory display selection. It performs no storage, network,
-catalogue or external-state write.
+reversible in-memory display selection. It performs no storage, catalogue or
+external-state write and makes no external network request.
 
 Its required annotations are exactly
 `{ "readOnlyHint": false, "untrustedContentHint": true }`: the display change
@@ -591,8 +594,9 @@ The human equivalent is **Show evidence for this result** and must call the
 same application action. The action performs no storage, catalogue or external-
 state write and makes no official-service or model-provider request. A
 federated selection may still lazily read checksum-bound same-origin manifest,
-posting and record shards under the existing budgets. This candidate is not an
-implemented or approved sixth tool. Before adoption it requires:
+posting and record shards under the existing budgets. The tool is authorised
+for experimental implementation but is not yet implemented, released or
+supported by accepted host evidence. Before release acceptance it requires:
 
 1. input and output schemas;
 2. executable validation and tamper tests;
@@ -600,9 +604,11 @@ implemented or approved sixth tool. Before adoption it requires:
 4. exact page/result digest-parity tests;
 5. host discovery and execution evidence;
 6. accessibility observations for the resulting display change;
-7. security review of the accepted-input display; and
-8. user research comparing it with the current two-call record and provenance
-   path.
+7. security review of the accepted-input display.
+
+Formative user research comparing it with the current two-call record and
+provenance path remains required after the experimental candidate and must not
+be represented as completed release evidence.
 
 If the evaluation finds no comprehension or reliability benefit, retain the
 five-tool contract and use the combined action only inside the human interface.
@@ -636,17 +642,17 @@ does not have to be rebuilt when beginner copy is revised.
 | --- | --- |
 | `src/beginner-presentation.ts` | Pure, model-free projection from validated action results to the closed presentation object. No DOM and no source fetch. |
 | `src/beginner-presentation-copy.ts` | Fixed en-GB labels, explanations and safe next-check templates. No source-derived markup. |
-| `src/application-actions.ts` | Continue to own shared action execution; a future accepted-input field must contain only post-validation canonical values. |
-| `src/webmcp-tools.ts` | Keep five tools stable; add the candidate presentation tool only after its separate contract review. |
+| `src/application-actions.ts` | Continue to own shared action execution; the accepted-input field must contain only post-validation canonical values. |
+| `src/webmcp-tools.ts` | Keep five tools stable and add the authorised presentation tool only with its separate closed contract and verification. |
 | `app/view-routing.ts` | Parse the bounded view and evidence fragment, preserve legacy links and reject incompatible state. |
-| `app/guided-view.ts` | Render GE-01 to GE-10 from presentation objects and shared application state. |
-| `app/technical-view.ts` | Retain the current renderer and diagnostics without semantic loss. |
+| `app/evidence-answer-view.ts` | Render GE-01 to GE-10 from presentation objects and shared application state. |
+| Existing technical renderer | Retain the current renderer and diagnostics without semantic loss; do not refactor it solely for this release. |
 | `app/main.ts` | Verify artefacts, create one action controller, coordinate views and registration, and own no business copy. |
 | `app/index.html` | Shared landmarks, view navigation and empty semantic mount points. |
 | `app/style.css` | Shared tokens, visible focus, reflow, forced-colour and reduced-motion treatment; no meaning by colour alone. |
-| `schemas/beginner-presentation.schema.json` | Closed presentation contract if implementation is authorised. |
-| `schemas/present-resource-evidence-input.schema.json` | Candidate tool input contract if authorised. |
-| `schemas/present-resource-evidence-output.schema.json` | Candidate deterministic result union if authorised. |
+| `schemas/beginner-presentation.schema.json` | Closed authorised presentation contract. |
+| `schemas/present-resource-evidence-input.schema.json` | Closed authorised tool input contract. |
+| `schemas/present-resource-evidence-output.schema.json` | Closed deterministic result union for the authorised tool. |
 | `tests/unit/beginner-presentation.test.mjs` | Projection, primary-limit, source-role, unknown-state and inert-text tests. |
 | `tests/browser/beginner-knowledge.spec.mjs` | Guided human flow, view parity, routing, focus, status and WebMCP presentation tests. |
 | `evals/beginner-conversations.json` | Natural host/tool-selection cases after the current guided fixture is revised. |
@@ -724,7 +730,7 @@ None of these checks alone establishes WCAG conformance or beginner usability.
   for display.
 - The page uses no storage, analytics or runtime model-provider request.
 - A remote AI provider may receive the conversation, tool definitions,
-  arguments and results. Guided evidence must not imply otherwise.
+  arguments and results. Evidence answer must not imply otherwise.
 - Local inference can change the provider boundary but does not make the page
   responsible for, or able to inspect, the AI's wider context.
 - Source-derived descriptions and model output remain untrusted content. Only
@@ -860,7 +866,7 @@ expected tools were called.
 
 ### 14.4 Formative comprehension research
 
-Compare the current Technical review view with the proposed Guided evidence
+Compare the current Technical review view with the Evidence answer
 prototype. Ask participants, in their own words:
 
 1. what the page supports;
@@ -876,12 +882,12 @@ do not treat increased reported trust as success.
 
 ## 15. Demonstration and submission flow
 
-If implementation is separately authorised and passes the gates, a later
-demonstration should show one complete story in both routes:
+The authorised release demonstration must show at least one complete story in
+both routes after the candidate passes its verification gates:
 
 1. ask a natural question through a supported AI host;
 2. show the bounded tool arguments;
-3. show the deterministic Guided evidence selection on the page;
+3. show the deterministic Evidence answer selection on the page;
 4. identify the source and main limitation;
 5. switch to Technical review at the same record and digest;
 6. use the human control to reproduce the same result;
@@ -889,22 +895,25 @@ demonstration should show one complete story in both routes:
 8. show an ambiguous or unrelated question where no call is the correct result.
 
 The demonstration must label host-owned footage, receipt reconstruction and
-human interaction accurately. This specification does not authorise a new
-video, publication, deployment or Devpost change.
+human interaction accurately. The user has authorised candidate video and
+publication work; this specification does not claim that either has occurred
+and does not authorise the separate Devpost submission action.
 
 ## 16. Gates and sequenced hand-off
 
-No interface implementation starts from this document alone.
+The user has authorised the experimental implementation, subject to these
+sequenced verification and release gates.
 
-1. **Correct the source contract.** Reconcile the A Life in the UK specialist-
-   review contradiction through authored lock, schema, generated contract,
-   tests, release notes and public evidence. Until then, show no positive
-   specialist-acceptance count.
-2. **Approve a low-fidelity prototype brief.** Prototype GE-01 to GE-10 with
-   representative fixtures only. Do not change production tools or data.
-3. **Review the candidate presentation action.** Compare the proposed sixth
-   display action with a five-tool human-only combined action; approve neither
-   by default.
+1. **Correct the source contract — complete for the current candidate.** The A
+   Life in the UK authored lock, schema, generated contract, tests and release
+   notes record zero accepted reviews, two service families where review is not
+   required and 291 where it is required. Historical release receipts are not
+   rewritten.
+2. **Freeze the candidate contract — authorised.** Implement GE-01 to GE-10
+   over the same validated data and preserve the current Technical review.
+3. **Implement the reviewed presentation action — authorised.** Add the sixth
+   display action only with the closed, bounded and non-personal contract in
+   section 8.3 and the stated parity, cancellation and security tests.
 4. **Run accessibility and formative research.** Include non-technical AI
    sceptics, disabled people and low-digital-confidence participants. Publish
    negative and inconclusive findings.
@@ -915,8 +924,9 @@ No interface implementation starts from this document alone.
    existing deep links and deterministic tests.
 7. **Verify and release separately.** Run complete unit, Chrome, Edge,
    accessibility, host, security, manifest, protected-main and exact Pages
-   verification before making Guided evidence the default.
+   verification before making Evidence answer the default.
 
-The next immediate work is gate 1, followed by a low-fidelity prototype and
-formative review. This branch stops at the specification and documentation
-contract.
+Gate 1 is complete. The next work is the separately authorised experimental
+Evidence answer implementation and its deterministic, accessibility and
+cross-host evaluation. Formative review follows the candidate and remains an
+explicit evidence gap until real participants take part.

@@ -102,6 +102,20 @@ test("the exact four public OKF source identities are fixed in display order", (
   }
 });
 
+test("the admitted life-course review state never implies specialist acceptance", async () => {
+  const expected =
+    "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required.";
+  const authored = EXPECTED_FEDERATION_SOURCES.find(({ id }) => id === "uk-living");
+  assert.ok(authored);
+  assert.equal(authored.limitations[1], expected);
+
+  const lock = await sourceLock();
+  const admitted = lock.sources.find(({ id }) => id === "uk-living");
+  assert.ok(admitted);
+  assert.equal(admitted.limitations[1], expected);
+  assert.ok(admitted.limitations.every((limitation) => !/had named specialist acceptance/iu.test(limitation)));
+});
+
 test("URL resolution stays inside each exact credential-free source base", () => {
   const source = EXPECTED_FEDERATION_SOURCES[0];
   assert.equal(resolveAllowedUrl(source.baseUrl, source.descriptor.path), `${source.baseUrl}${source.descriptor.path}`);
@@ -132,6 +146,9 @@ test("co-digested semantic count, snapshot, revision and path mutations fail clo
     ["snapshot", (lock) => { lock.sources[0].snapshot = "substituted-snapshot"; }],
     ["revision", (lock) => { lock.sources[0].revision = "0".repeat(40); }],
     ["path", (lock) => { lock.sources[0].descriptor.path = "substituted/okf-explorer.json"; }],
+    ["legacy specialist-review claim", (lock) => {
+      lock.sources[0].limitations[1] = "Only 2 of 293 service families had named specialist acceptance at publication time.";
+    }],
   ];
   for (const [label, mutate] of cases) {
     await t.test(label, async () => {

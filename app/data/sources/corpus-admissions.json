@@ -185,7 +185,7 @@
       "decision": {
         "allowedClaims": ["The locked producer snapshot exposes 9,757 searchable concepts, including 293 service families, through a digest-bound lazy index."],
         "forbiddenClaims": ["The collection determines eligibility or provides sufficient legal, medical or financial evidence."],
-        "limitations": ["291 of 293 service families still require specialist review; search inclusion is not an item-level reviewed evidence receipt."]
+        "limitations": ["The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required. Search inclusion is not an item-level reviewed evidence receipt."]
       },
       "boundaries": { "officialEndorsement": false, "runtimeOfficialApiCalls": false }
     },

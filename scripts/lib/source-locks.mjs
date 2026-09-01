@@ -33,13 +33,13 @@ export const EXPECTED_SOURCE_LOCKS = Object.freeze([
   Object.freeze({
     id: SOURCE_LOCK_IDS.CORPUS_ADMISSIONS,
     importedPath: "app/data/sources/corpus-admissions.json",
-    importedSha256: "e508693ca57615f4e988f9cd076f2d9183451303892f2ea59e40fef4fb25eaed",
+    importedSha256: "513de5866b047e2f4905a38766b4b4a5aebc8e8e1dad9279f5dfb5dfcfb7098b",
     recordCount: 10,
   }),
   Object.freeze({
     id: SOURCE_LOCK_IDS.OKF_FEDERATION,
     importedPath: "app/data/sources/okf-federation-lock.json",
-    importedSha256: "bcd0b2b3631aea744b802e8b0199672fea76e446abe4adf2332e9c4683302b10",
+    importedSha256: "35cfebb22c680d0c0522753f376fcedd1976b89e3fd519522044fd08ae56625e",
     recordCount: 4,
   }),
 ]);
