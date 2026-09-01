@@ -174,6 +174,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Kept the two awaited live-Pages safety deadline handles referenced until
+  their operations settle. The first PR #20 validation run `33552638564`
+  exposed the Linux event-loop difference: 270 tests passed but the logical
+  tar-byte deadline and stalled-response deadline were cancelled when their
+  unreferenced timers were the only remaining work. The existing tests now
+  exercise those fail-closed deadlines consistently across environments.
 - Updated guarded public Chrome evidence admission to require the current
   `govuk-webmcp.live-pages-verification.v2` receipt emitted by the hardened
   live verifier. A regression prevents the capture path from silently drifting
