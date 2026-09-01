@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:present-resource-evidence-input:v1",
+  "title": "present_resource_evidence input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["recordId"],
+  "properties": {
+    "recordId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 160,
+      "pattern": "^govuk-discovery:(?:(?!federated:)[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$"
+    }
+  }
+}

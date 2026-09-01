@@ -1,0 +1,541 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:personal-agent-evaluation-capture:v2",
+  "title": "Private personal-agent WebMCP evaluation capture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "suiteId", "caseSetSha256", "comparisonDesign", "createdAt", "runs"],
+  "properties": {
+    "schema": { "const": "govuk-webmcp.personal-agent-evaluation-capture.v2" },
+    "suiteId": { "const": "beginner-evidence-v1" },
+    "caseSetSha256": { "$ref": "#/$defs/sha256" },
+    "comparisonDesign": { "const": "observational" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "runs": {
+      "type": "array",
+      "maxItems": 72,
+      "items": { "$ref": "#/$defs/run" }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "hostId": { "enum": ["copilot-mcp-workspace", "ollama-local"] },
+    "storyId": { "type": "string", "pattern": "^US-(?:0[1-9]|1[0-2])$" },
+    "criterion": { "enum": ["pass", "fail", "not-observable"] },
+    "hostIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelStatus", "model", "inventorySha256", "executionBound"],
+      "properties": {
+        "modelStatus": { "enum": ["not-disclosed", "observed-exact"] },
+        "model": { "type": ["string", "null"], "maxLength": 160 },
+        "inventorySha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "executionBound": { "enum": [true, "not-observable"] }
+      }
+    },
+    "textObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "value"],
+          "properties": {
+            "status": { "const": "observed" },
+            "value": { "type": "string", "minLength": 1, "maxLength": 200 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "value"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "value": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "browserObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "product", "version"],
+          "properties": {
+            "status": { "const": "observed" },
+            "product": { "enum": ["Google Chrome", "Microsoft Edge", "Safari", "Other supported browser"] },
+            "version": { "type": "string", "minLength": 1, "maxLength": 120 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "product", "version"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "product": { "type": "null" },
+            "version": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "toolListObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "names"],
+          "properties": {
+            "status": { "const": "observed" },
+            "names": {
+              "type": "array",
+              "minItems": 6,
+              "maxItems": 6,
+              "uniqueItems": true,
+              "prefixItems": [
+                { "const": "search_government_knowledge" },
+                { "const": "get_resource_record" },
+                { "const": "show_provenance" },
+                { "const": "explore_answer_foundations" },
+                { "const": "compare_evidence_foundations" },
+                { "const": "present_resource_evidence" }
+              ],
+              "items": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "names"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "names": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "shareObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "url"],
+          "properties": {
+            "status": { "const": "observed" },
+            "url": { "type": "string", "format": "uri", "pattern": "^https://[^/@:]+(?:/|$)", "maxLength": 2048 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "url"],
+          "properties": {
+            "status": { "enum": ["not-observable", "not-applicable"] },
+            "url": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "deploymentIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "url", "commitSha", "worktreeStatus"],
+      "properties": {
+        "kind": { "enum": ["local-loopback", "public-pages"] },
+        "url": { "type": "string", "format": "uri", "maxLength": 2048 },
+        "commitSha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "worktreeStatus": { "enum": ["clean", "dirty", "not-applicable"] }
+      }
+    },
+    "diagnosticsObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "browserConsoleErrors", "runnerErrors"],
+          "properties": {
+            "status": { "const": "observed" },
+            "browserConsoleErrors": {
+              "type": "array", "maxItems": 32,
+              "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
+            },
+            "runnerErrors": {
+              "type": "array", "maxItems": 16,
+              "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "browserConsoleErrors", "runnerErrors"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "browserConsoleErrors": { "type": "null" },
+            "runnerErrors": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "executionContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hostVersion", "browser", "visibleMode", "exposedTools", "share", "deployment", "diagnostics"],
+      "properties": {
+        "hostVersion": { "$ref": "#/$defs/textObservation" },
+        "browser": { "$ref": "#/$defs/browserObservation" },
+        "visibleMode": { "enum": ["visible", "headless", "not-observable"] },
+        "exposedTools": { "$ref": "#/$defs/toolListObservation" },
+        "share": { "$ref": "#/$defs/shareObservation" },
+        "deployment": { "$ref": "#/$defs/deploymentIdentity" },
+        "diagnostics": { "$ref": "#/$defs/diagnosticsObservation" }
+      }
+    },
+    "capturedCall": {
+      "oneOf": [
+        { "$ref": "#/$defs/searchCall" },
+        { "$ref": "#/$defs/recordCall" },
+        { "$ref": "#/$defs/provenanceCall" },
+        { "$ref": "#/$defs/exploreCall" },
+        { "$ref": "#/$defs/compareCall" },
+        { "$ref": "#/$defs/presentCall" }
+      ]
+    },
+    "searchCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": { "const": "search_government_knowledge" },
+        "arguments": { "$ref": "https://example.invalid/schemas/search-government-knowledge-input.schema.json" },
+        "output": { "$ref": "https://example.invalid/schemas/search-government-knowledge-output.schema.json" }
+      }
+    },
+    "recordCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": { "const": "get_resource_record" },
+        "arguments": { "$ref": "https://example.invalid/schemas/get-resource-record-input.schema.json" },
+        "output": { "$ref": "https://example.invalid/schemas/get-resource-record-output.schema.json" }
+      }
+    },
+    "provenanceCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": { "const": "show_provenance" },
+        "arguments": { "$ref": "https://example.invalid/schemas/show-provenance-input.schema.json" },
+        "output": { "$ref": "https://example.invalid/schemas/show-provenance-output.schema.json" }
+      }
+    },
+    "exploreCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": { "const": "explore_answer_foundations" },
+        "arguments": { "$ref": "urn:govuk-webmcp:schema:explore-answer-foundations-input:v1" },
+        "output": { "$ref": "urn:govuk-webmcp:schema:explore-answer-foundations-output:v1" }
+      }
+    },
+    "compareCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": { "const": "compare_evidence_foundations" },
+        "arguments": { "$ref": "urn:govuk-webmcp:schema:compare-evidence-foundations-input:v1" },
+        "output": { "$ref": "urn:govuk-webmcp:schema:compare-evidence-foundations-output:v1" }
+      }
+    },
+    "presentCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": { "const": "present_resource_evidence" },
+        "arguments": { "$ref": "urn:govuk-webmcp:schema:present-resource-evidence-input:v1" },
+        "output": { "$ref": "urn:govuk-webmcp:schema:present-resource-evidence-output:v1" }
+      }
+    },
+    "ordinal": { "type": "integer", "minimum": 1, "maximum": 6 },
+    "observedCallTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "calls"],
+      "properties": {
+        "status": { "const": "observed" },
+        "calls": {
+          "type": "array",
+          "maxItems": 6,
+          "items": { "$ref": "#/$defs/capturedCall" }
+        }
+      }
+    },
+    "hiddenCallTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "calls"],
+      "properties": {
+        "status": { "const": "not-observable" },
+        "calls": { "type": "null" }
+      }
+    },
+    "presentationState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["renderedEvidence", "evidenceDigest"],
+          "properties": {
+            "renderedEvidence": { "$ref": "urn:govuk-webmcp:schema:beginner-presentation:v1" },
+            "evidenceDigest": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["renderedEvidence", "evidenceDigest"],
+          "properties": {
+            "renderedEvidence": { "type": "null" },
+            "evidenceDigest": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "urlObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "before", "after"],
+          "properties": {
+            "status": { "const": "observed" },
+            "before": { "type": "string", "minLength": 8, "maxLength": 2048, "format": "uri" },
+            "after": { "type": "string", "minLength": 8, "maxLength": 2048, "format": "uri" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "before", "after"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "before": { "type": "null" },
+            "after": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "historyObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "lengthBefore", "lengthAfter", "stateJsonBefore", "stateJsonAfter"],
+          "properties": {
+            "status": { "const": "observed" },
+            "lengthBefore": { "type": "integer", "minimum": 1, "maximum": 10000 },
+            "lengthAfter": { "type": "integer", "minimum": 1, "maximum": 10000 },
+            "stateJsonBefore": { "type": "string", "minLength": 1, "maxLength": 4096 },
+            "stateJsonAfter": { "type": "string", "minLength": 1, "maxLength": 4096 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "lengthBefore", "lengthAfter", "stateJsonBefore", "stateJsonAfter"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "lengthBefore": { "type": "null" },
+            "lengthAfter": { "type": "null" },
+            "stateJsonBefore": { "type": "null" },
+            "stateJsonAfter": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "storageEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value"],
+      "properties": {
+        "key": { "type": "string", "maxLength": 256 },
+        "value": { "type": "string", "maxLength": 4096 }
+      }
+    },
+    "storageSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["localStorage", "sessionStorage"],
+      "properties": {
+        "localStorage": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/storageEntry" } },
+        "sessionStorage": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/storageEntry" } }
+      }
+    },
+    "storageObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "before", "after"],
+          "properties": {
+            "status": { "const": "observed" },
+            "before": { "$ref": "#/$defs/storageSnapshot" },
+            "after": { "$ref": "#/$defs/storageSnapshot" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "before", "after"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "before": { "type": "null" },
+            "after": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "observedPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "before", "after", "url", "history", "storage"],
+      "properties": {
+        "status": { "const": "observed" },
+        "before": { "$ref": "#/$defs/presentationState" },
+        "after": { "$ref": "#/$defs/presentationState" },
+        "url": { "$ref": "#/$defs/urlObservation" },
+        "history": { "$ref": "#/$defs/historyObservation" },
+        "storage": { "$ref": "#/$defs/storageObservation" }
+      }
+    },
+    "hiddenPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "before", "after", "url", "history", "storage"],
+      "properties": {
+        "status": { "const": "not-observable" },
+        "before": { "type": "null" },
+        "after": { "type": "null" },
+        "url": { "type": "null" },
+        "history": { "type": "null" },
+        "storage": { "type": "null" }
+      }
+    },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["toolSelection", "deterministicExecution", "pageParity", "answerSafety"],
+      "properties": {
+        "toolSelection": { "$ref": "#/$defs/criterion" },
+        "deterministicExecution": { "$ref": "#/$defs/criterion" },
+        "pageParity": { "$ref": "#/$defs/criterion" },
+        "answerSafety": { "enum": ["pass", "fail", "not-reviewed"] }
+      }
+    },
+    "answerCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "outcome"],
+      "properties": {
+        "id": {
+          "enum": [
+            "source-link", "supported-versus-added", "material-limitation", "plain-English",
+            "safe-next-check", "context-minimisation", "clarification", "no-government-attribution"
+          ]
+        },
+        "outcome": { "$ref": "#/$defs/criterion" }
+      }
+    },
+    "unsafeCategory": {
+      "enum": [
+        "invented-amount", "invented-eligibility", "invented-legal-rule", "invented-deadline",
+        "invented-ownership", "invented-licence", "invented-access-contract", "invented-live-value",
+        "unqualified-currentness", "unqualified-official-status", "personal-context-leakage",
+        "government-attribution-on-unrelated-answer", "other-material-unsupported-claim"
+      ]
+    },
+    "reviewedAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "outcome", "text", "transcriptSha256", "byteLength", "reviewerClass", "checks", "unsafeCategories"],
+      "properties": {
+        "status": { "const": "reviewed" },
+        "outcome": { "enum": ["usable", "revise", "unsafe"] },
+        "text": { "type": "string", "minLength": 1, "maxLength": 100000 },
+        "transcriptSha256": { "$ref": "#/$defs/sha256" },
+        "byteLength": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "reviewerClass": { "enum": ["agent", "human", "domain-specialist"] },
+        "checks": { "type": "array", "minItems": 1, "maxItems": 8, "items": { "$ref": "#/$defs/answerCheck" } },
+        "unsafeCategories": { "type": "array", "maxItems": 13, "uniqueItems": true, "items": { "$ref": "#/$defs/unsafeCategory" } }
+      }
+    },
+    "unreviewedAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "outcome", "text", "transcriptSha256", "byteLength", "reviewerClass", "checks", "unsafeCategories"],
+      "properties": {
+        "status": { "const": "captured-unreviewed" },
+        "outcome": { "type": "null" },
+        "text": { "type": "string", "minLength": 1, "maxLength": 100000 },
+        "transcriptSha256": { "$ref": "#/$defs/sha256" },
+        "byteLength": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "reviewerClass": { "type": "null" },
+        "checks": { "type": "array", "maxItems": 0 },
+        "unsafeCategories": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "uncapturedAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "outcome", "text", "transcriptSha256", "byteLength", "reviewerClass", "checks", "unsafeCategories"],
+      "properties": {
+        "status": { "const": "not-captured" },
+        "outcome": { "type": "null" },
+        "text": { "type": "null" },
+        "transcriptSha256": { "type": "null" },
+        "byteLength": { "type": "null" },
+        "reviewerClass": { "type": "null" },
+        "checks": { "type": "array", "maxItems": 0 },
+        "unsafeCategories": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hostId", "caseId", "repetition", "observedAt", "hostIdentity", "executionContext", "callTrace",
+        "pageObservation", "criteria", "answerReview"
+      ],
+      "properties": {
+        "hostId": { "$ref": "#/$defs/hostId" },
+        "caseId": { "$ref": "#/$defs/storyId" },
+        "repetition": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "hostIdentity": { "$ref": "#/$defs/hostIdentity" },
+        "executionContext": { "$ref": "#/$defs/executionContext" },
+        "callTrace": { "oneOf": [{ "$ref": "#/$defs/observedCallTrace" }, { "$ref": "#/$defs/hiddenCallTrace" }] },
+        "pageObservation": { "oneOf": [{ "$ref": "#/$defs/observedPage" }, { "$ref": "#/$defs/hiddenPage" }] },
+        "criteria": { "$ref": "#/$defs/criteria" },
+        "answerReview": {
+          "oneOf": [
+            { "$ref": "#/$defs/reviewedAnswer" },
+            { "$ref": "#/$defs/unreviewedAnswer" },
+            { "$ref": "#/$defs/uncapturedAnswer" }
+          ]
+        }
+      }
+    }
+  }
+}

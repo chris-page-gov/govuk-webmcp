@@ -1,0 +1,239 @@
+{
+  "schema": "govuk-webmcp.demo-video-script.v4",
+  "title": "Evidence answer: your AI asks, you inspect",
+  "language": "en-GB",
+  "productUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+  "release": "v0.4.0-rc.1",
+  "delivery": {
+    "maximumDurationSeconds": 180,
+    "audioRequired": true,
+    "captionsRequired": true,
+    "captionLanguage": "en-GB"
+  },
+  "narration": {
+    "type": "synthetic-local-review",
+    "engine": "macOS Speech Synthesis",
+    "voice": "Daniel",
+    "locale": "en-GB",
+    "speechRate": 170,
+    "publicationBasis": "pending-owner-review"
+  },
+  "reviews": {
+    "privacy": "pending-human-review",
+    "branding": "pending-human-review",
+    "rights": "pending-human-review",
+    "voicePublicationBasis": "pending-owner-review",
+    "personalAgentCapturePublication": "pending-capture-and-human-review",
+    "finalHumanPlayback": "pending"
+  },
+  "demonstrationInputs": {
+    "query": "housing",
+    "collections": [
+      "uk-living",
+      "ons",
+      "government-apis",
+      "land-registry"
+    ],
+    "limit": 8,
+    "reviewedAnswerId": "answer:new-child-starting-points",
+    "reviewedClaimIds": [
+      "claim:register-a-birth",
+      "claim:check-parental-pay-and-leave"
+    ],
+    "excludedHostname": "legislation.gov.uk"
+  },
+  "interactionCaptureReceipt": "docs/competition/evidence/demo-live-interaction-capture-v0.4.0-rc.1.json",
+  "scenes": [
+    {
+      "id": "evidence-answer",
+      "number": "01",
+      "kind": "interaction",
+      "eyebrow": "Evidence before interpretation",
+      "title": "Start with an honest empty Evidence answer",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/01-evidence-answer.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "load-bare-public-url",
+        "show-default-evidence-view",
+        "show-no-ai-action-state"
+      ],
+      "cues": [
+        "The public page starts with an Evidence answer, not another chatbot.",
+        "At first it says that no AI action was presented to this page.",
+        "Your private circumstances stay with the personal AI you choose."
+      ]
+    },
+    {
+      "id": "present-evidence",
+      "number": "02",
+      "kind": "interaction",
+      "eyebrow": "One shared action",
+      "title": "Present complete evidence for a selected result",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/02-present-evidence.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "open-technical-review",
+        "search-four-federated-collections",
+        "show-evidence-for-selected-result"
+      ],
+      "cues": [
+        "A human control and the sixth Site tool use the same page action.",
+        "The page then shows what is supported, its source and every limit.",
+        "The exact Evidence answer digest is calculated outside the answer."
+      ]
+    },
+    {
+      "id": "comparison-guide",
+      "number": "03",
+      "kind": "interaction",
+      "eyebrow": "Check the AI's wording",
+      "title": "Compare page evidence with a personal AI answer",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/03-comparison-guide.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "open-bound-evidence-answer",
+        "show-source-and-limitations",
+        "show-three-part-comparison-guide"
+      ],
+      "cues": [
+        "The Evidence answer separates the page's evidence from the AI's prose.",
+        "It tells people what to check carefully before relying on an answer.",
+        "Dates, amounts, eligibility and legal steps remain explicit checks."
+      ]
+    },
+    {
+      "id": "copilot-personal-ai",
+      "number": "04",
+      "kind": "personal-agent-capture",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-09",
+      "repetition": 1,
+      "eyebrow": "Cloud personal AI",
+      "title": "Watch Copilot call the page's Site tools",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/04-copilot-personal-ai.mov",
+        "startSeconds": 0
+      },
+      "evidence": ".evals/personal-agent-media/v0.4.0-rc.1/copilot-video-capture.json",
+      "cues": [
+        "In Edge MCP Workspace, personal Copilot calls this page's Site tools.",
+        "Only bounded tool arguments reach the page, not the person's private context.",
+        "The same call updates the Evidence answer for an independent check."
+      ]
+    },
+    {
+      "id": "webmcp",
+      "number": "05",
+      "kind": "receipt-visualisation",
+      "eyebrow": "Observed supported-host receipt",
+      "title": "Six bounded Site tools use the same evidence",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/04-supported-host-webmcp.mov",
+        "startSeconds": 0
+      },
+      "evidence": "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json",
+      "mediaReceipt": "docs/competition/evidence/supported-host-webmcp-clip-v0.4.0-rc.1.json",
+      "cues": [
+        "A supported host discovers six closed, bounded Site tools.",
+        "The presentation tool accepts only a validated public record ID.",
+        "It changes the page display, but not storage or government systems.",
+        "This receipt names the host and whether a model selected the calls."
+      ]
+    },
+    {
+      "id": "technical-review",
+      "number": "06",
+      "kind": "interaction",
+      "eyebrow": "Inspect the machinery",
+      "title": "Open Technical review without losing evidence",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/05-technical-review.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "open-technical-review-with-legacy-link",
+        "compare-two-reviewed-claims",
+        "show-six-tool-diagnostics"
+      ],
+      "cues": [
+        "Technical review keeps the search, provenance and comparison detail.",
+        "Legacy evidence links still open this view and remain shareable.",
+        "People can inspect separate evidence facets without a trust score."
+      ]
+    },
+    {
+      "id": "ollama-local",
+      "number": "07",
+      "kind": "personal-agent-capture",
+      "hostId": "ollama-local",
+      "caseId": "US-09",
+      "repetition": 1,
+      "eyebrow": "Local personal AI",
+      "title": "Run the same story through local Ollama",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/07-ollama-local.mov",
+        "startSeconds": 0
+      },
+      "evidence": ".evals/personal-agent-media/v0.4.0-rc.1/ollama-video-capture.json",
+      "cues": [
+        "The same story also runs through the pinned local Ollama model.",
+        "Its exact model digest and complete call trace are bound to the receipt.",
+        "This is an observed host comparison, not a claim about model causation."
+      ]
+    },
+    {
+      "id": "voiceover",
+      "number": "08",
+      "kind": "voiceover",
+      "eyebrow": "Manual accessibility observation",
+      "title": "Follow both views with Safari and VoiceOver",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/06-voiceover.mov",
+        "startSeconds": 0
+      },
+      "evidence": "docs/competition/evidence/manual-voiceover-journey-v0.4.0-rc.1.json",
+      "cues": [
+        "A fresh manual Safari and VoiceOver journey checks this release.",
+        "It covers both persistent views, the source and all recorded limits.",
+        "The bounded observation is not a claim of WCAG conformance."
+      ]
+    },
+    {
+      "id": "boundary",
+      "number": "09",
+      "kind": "interaction",
+      "eyebrow": "Personal AI boundary",
+      "title": "Publish evidence and tools, not another chatbot",
+      "media": {
+        "type": "video",
+        "path": "output/demo-clips/v0.4.0-rc.1/07-boundary.mov",
+        "startSeconds": 0
+      },
+      "requiredActions": [
+        "show-personal-ai-boundary",
+        "show-six-tool-diagnostics",
+        "show-four-source-and-legislation-boundary"
+      ],
+      "cues": [
+        "The page hosts no model, profile or personal chat history.",
+        "A cloud personal AI or pinned local model can use the same page tools.",
+        "The page makes no official API call and stores no personal context.",
+        "Land Registry remains metadata-only and legislation stays excluded."
+      ]
+    }
+  ]
+}

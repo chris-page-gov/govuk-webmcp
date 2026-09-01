@@ -139,13 +139,14 @@ test("catalogue schema and runtime reject a coherently re-digested 79-record rel
   );
 });
 
-test("all five registered input contracts stay in lockstep with the published schemas", async () => {
+test("all six registered input contracts stay in lockstep with the published schemas", async () => {
   const files = {
     search_government_knowledge: "search-government-knowledge-input.schema.json",
     get_resource_record: "get-resource-record-input.schema.json",
     show_provenance: "show-provenance-input.schema.json",
     explore_answer_foundations: "explore-answer-foundations-input.schema.json",
     compare_evidence_foundations: "compare-evidence-foundations-input.schema.json",
+    present_resource_evidence: "present-resource-evidence-input.schema.json",
   };
   for (const [name, filename] of Object.entries(files)) {
     const published = JSON.parse(await readFile(new URL(`../../schemas/${filename}`, import.meta.url), "utf8"));
@@ -170,6 +171,7 @@ test("search schema and tool descriptions teach exact machine identifiers withou
   assert.match(TOOL_DESCRIPTIONS.show_provenance, /canonical govuk-discovery: record ID exactly/u);
   assert.match(TOOL_DESCRIPTIONS.explore_answer_foundations, /canonical answer:.*claim: IDs exactly/u);
   assert.match(TOOL_DESCRIPTIONS.compare_evidence_foundations, /canonical answer:.*claim: IDs exactly/u);
+  assert.match(TOOL_DESCRIPTIONS.present_resource_evidence, /canonical govuk-discovery: record ID exactly/u);
   assert.ok(Object.values(TOOL_DESCRIPTIONS).every((description) => /not (?:a )?display label|rather than.*display labels/u.test(description)));
 });
 

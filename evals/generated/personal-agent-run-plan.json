@@ -1,0 +1,524 @@
+{
+  "schema": "govuk-webmcp.personal-agent-run-plan.v1",
+  "suiteId": "beginner-evidence-v1",
+  "caseSetSha256": "9fe430cee9d09090247c857078129623753e229cdab063772a59d881d6d9e0ad",
+  "captureContract": {
+    "schema": "govuk-webmcp.personal-agent-evaluation-capture.v2",
+    "path": "schemas/personal-agent-evaluation-capture.schema.json",
+    "sha256": "0657fdeff05787203c9c7eddfda5c84c78498293b09f54ff9c3e679a49d25011",
+    "privateCapture": true,
+    "copilotImportSlots": 36,
+    "localRunnerSlots": 36
+  },
+  "comparisonDesign": "observational",
+  "plannedRunCount": 72,
+  "observedRunCount": 0,
+  "evidenceStatus": "planned-unrun",
+  "boundary": "These are evaluation slots, not completed host observations or evidence.",
+  "slots": [
+    {
+      "runKey": "copilot-mcp-workspace/US-01/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-01",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-01/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-01",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-01/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-01",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-02/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-02",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-02/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-02",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-02/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-02",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-03/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-03",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-03/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-03",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-03/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-03",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-04/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-04",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-04/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-04",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-04/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-04",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-05/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-05",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-05/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-05",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-05/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-05",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-06/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-06",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-06/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-06",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-06/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-06",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-07/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-07",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-07/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-07",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-07/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-07",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-08/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-08",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-08/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-08",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-08/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-08",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-09/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-09",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-09/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-09",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-09/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-09",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-10/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-10",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-10/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-10",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-10/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-10",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-11/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-11",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-11/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-11",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-11/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-11",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-12/1",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-12",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-12/2",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-12",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "copilot-mcp-workspace/US-12/3",
+      "hostId": "copilot-mcp-workspace",
+      "caseId": "US-12",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-01/1",
+      "hostId": "ollama-local",
+      "caseId": "US-01",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-01/2",
+      "hostId": "ollama-local",
+      "caseId": "US-01",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-01/3",
+      "hostId": "ollama-local",
+      "caseId": "US-01",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-02/1",
+      "hostId": "ollama-local",
+      "caseId": "US-02",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-02/2",
+      "hostId": "ollama-local",
+      "caseId": "US-02",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-02/3",
+      "hostId": "ollama-local",
+      "caseId": "US-02",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-03/1",
+      "hostId": "ollama-local",
+      "caseId": "US-03",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-03/2",
+      "hostId": "ollama-local",
+      "caseId": "US-03",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-03/3",
+      "hostId": "ollama-local",
+      "caseId": "US-03",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-04/1",
+      "hostId": "ollama-local",
+      "caseId": "US-04",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-04/2",
+      "hostId": "ollama-local",
+      "caseId": "US-04",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-04/3",
+      "hostId": "ollama-local",
+      "caseId": "US-04",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-05/1",
+      "hostId": "ollama-local",
+      "caseId": "US-05",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-05/2",
+      "hostId": "ollama-local",
+      "caseId": "US-05",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-05/3",
+      "hostId": "ollama-local",
+      "caseId": "US-05",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-06/1",
+      "hostId": "ollama-local",
+      "caseId": "US-06",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-06/2",
+      "hostId": "ollama-local",
+      "caseId": "US-06",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-06/3",
+      "hostId": "ollama-local",
+      "caseId": "US-06",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-07/1",
+      "hostId": "ollama-local",
+      "caseId": "US-07",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-07/2",
+      "hostId": "ollama-local",
+      "caseId": "US-07",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-07/3",
+      "hostId": "ollama-local",
+      "caseId": "US-07",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-08/1",
+      "hostId": "ollama-local",
+      "caseId": "US-08",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-08/2",
+      "hostId": "ollama-local",
+      "caseId": "US-08",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-08/3",
+      "hostId": "ollama-local",
+      "caseId": "US-08",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-09/1",
+      "hostId": "ollama-local",
+      "caseId": "US-09",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-09/2",
+      "hostId": "ollama-local",
+      "caseId": "US-09",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-09/3",
+      "hostId": "ollama-local",
+      "caseId": "US-09",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-10/1",
+      "hostId": "ollama-local",
+      "caseId": "US-10",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-10/2",
+      "hostId": "ollama-local",
+      "caseId": "US-10",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-10/3",
+      "hostId": "ollama-local",
+      "caseId": "US-10",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-11/1",
+      "hostId": "ollama-local",
+      "caseId": "US-11",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-11/2",
+      "hostId": "ollama-local",
+      "caseId": "US-11",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-11/3",
+      "hostId": "ollama-local",
+      "caseId": "US-11",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-12/1",
+      "hostId": "ollama-local",
+      "caseId": "US-12",
+      "repetition": 1,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-12/2",
+      "hostId": "ollama-local",
+      "caseId": "US-12",
+      "repetition": 2,
+      "observationStatus": "planned-unrun"
+    },
+    {
+      "runKey": "ollama-local/US-12/3",
+      "hostId": "ollama-local",
+      "caseId": "US-12",
+      "repetition": 3,
+      "observationStatus": "planned-unrun"
+    }
+  ]
+}

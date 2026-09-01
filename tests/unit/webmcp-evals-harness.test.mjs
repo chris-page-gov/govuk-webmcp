@@ -24,6 +24,7 @@ import {
   validateBrowserFixture,
   validateSmokeEvaluation,
   validateSmokeFixture,
+  V0_3_TOOL_NAMES,
   withoutProviderCredentials,
 } from "../../scripts/lib/webmcp-evals-harness.mjs";
 import {
@@ -66,6 +67,10 @@ test("browser evals cover every tool, all four federated collections, privacy mi
   }]);
   assert.equal(EXPECTED_RESULT_SCHEMAS.search_government_knowledge, "trusted-govuk-discovery.search-result.v2");
   assert.equal(
+    EXPECTED_RESULT_SCHEMAS.present_resource_evidence,
+    "govuk-webmcp.present-resource-evidence-result.v1",
+  );
+  assert.equal(
     JSON.stringify(privacyCase.expectedCall[0].arguments).match(/postcode|location|email|preference/giu),
     null,
   );
@@ -99,7 +104,10 @@ test("browser evals cover every tool, all four federated collections, privacy mi
   assert.ok(directedArguments.every((arguments_) =>
     Object.keys(arguments_).every((key) => !prohibitedArgumentKeys.has(key))));
   assert.ok(directedArguments.every(({ collections }) => !collections.includes("legislation")));
-  assert.match(browserCases[0].messages[0].content, /search_government_knowledge.*get_resource_record.*show_provenance/u);
+  assert.match(
+    browserCases[0].messages[0].content,
+    /search_government_knowledge.*get_resource_record.*show_provenance.*present_resource_evidence/u,
+  );
   assert.match(browserCases[1].messages[0].content, /explore_answer_foundations.*compare_evidence_foundations/u);
   for (const evalCase of browserCases.slice(2, 7)) {
     const expected = evalCase.expectedCall[0];
@@ -109,7 +117,7 @@ test("browser evals cover every tool, all four federated collections, privacy mi
   }
   assert.deepEqual(validateBrowserFixture(browserCases), {
     caseCount: 8,
-    expectedStepCount: 10,
+    expectedStepCount: 11,
     noCallCaseCount: 1,
     toolNames: [...EXPECTED_TOOL_NAMES].sort(),
   });
@@ -118,11 +126,15 @@ test("browser evals cover every tool, all four federated collections, privacy mi
 test("beginner conversations cover every proposed story with bounded prompts", async () => {
   const fixture = await readJson("evals/beginner-conversations.json");
 
-  assert.deepEqual(validateBrowserFixture(fixture), {
+  assert.throws(
+    () => validateBrowserFixture(fixture),
+    /does not exercise: present_resource_evidence/u,
+  );
+  assert.deepEqual(validateBrowserFixture(fixture, { expectedToolNames: V0_3_TOOL_NAMES }), {
     caseCount: 12,
     expectedStepCount: 27,
     noCallCaseCount: 2,
-    toolNames: [...EXPECTED_TOOL_NAMES].sort(),
+    toolNames: [...V0_3_TOOL_NAMES].sort(),
   });
   assert.deepEqual(
     fixture.map(({ name }) => name.match(/^US-(\d{2})\b/u)?.[1]),
@@ -270,13 +282,20 @@ test("smoke fixture validation rejects missing tools and unrelated context field
   const fixture = await readJson("evals/webmcp-smoke.json");
   assert.deepEqual(validateSmokeFixture(fixture), {
     caseCount: 3,
-    expectedStepCount: 6,
+    expectedStepCount: 7,
     toolNames: [...EXPECTED_TOOL_NAMES].sort(),
   });
 
   const missing = structuredClone(fixture);
   missing[1].expectedCall.pop();
   assert.throws(() => validateSmokeFixture(missing), /does not exercise: compare_evidence_foundations/u);
+
+  const missingPresentation = structuredClone(fixture);
+  missingPresentation[0].expectedCall.pop();
+  assert.throws(
+    () => validateSmokeFixture(missingPresentation),
+    /does not exercise: present_resource_evidence/u,
+  );
 
   const unrelated = structuredClone(fixture);
   unrelated[2].expectedCall[0].arguments.postcode = "TEST 1AA";
@@ -302,7 +321,7 @@ test("smoke semantic validation rejects structured error envelopes that upstream
       },
     })),
   };
-  assert.equal(validateSmokeEvaluation(evaluation, fixture).passCount, 6);
+  assert.equal(validateSmokeEvaluation(evaluation, fixture).passCount, 7);
 
   const structuredFailure = structuredClone(evaluation);
   structuredFailure.results[0].result = {
@@ -387,6 +406,12 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
   assert.match(targetSource, /receiptName: "chrome-devtools-mcp\.json"/u);
   assert.match(targetSource, /receiptName: "chrome-devtools-mcp-public\.json"/u);
   assert.match(source, /captureTarget\.receiptName/u);
+  assert.match(source, /chrome-devtools-mcp-v0\.4\.0-rc\.1\.json/u);
+  assert.match(source, /live-artifact-verification-v0\.4\.0-rc\.1\.json/u);
+  assert.match(source, /govuk-webmcp\.live-pages-verification\.v2/u);
+  assert.doesNotMatch(source, /govuk-webmcp\.live-pages-verification\.v1/u);
+  assert.match(source, /name: "present_resource_evidence"/u);
+  assert.match(source, /schema: "govuk-webmcp\.present-resource-evidence-result\.v1"/u);
   assert.match(source, /--admit-public-evidence/u);
   assert.match(source, /--overwrite-reviewed-evidence/u);
   assert.match(source, /comparedEveryRegularArtifactFile/u);
@@ -956,7 +981,7 @@ test("browser receipt binds stable before and after local model identities witho
     failurePhase: null,
     fixtureSummary: {
       caseCount: 8,
-      expectedStepCount: 10,
+      expectedStepCount: 11,
       noCallCaseCount: 1,
       toolNames: [...EXPECTED_TOOL_NAMES].sort(),
     },
@@ -1147,17 +1172,17 @@ test("browser report validation requires exact successful results and no-call be
       additionalStepCount: 0,
       browserConsoleErrorCount: 0,
       errorCount: 0,
-      expectedStepCount: 11,
+      expectedStepCount: 12,
       failCount: 0,
       missingStepCount: 0,
-      passCount: 11,
-      reportedStepCount: 11,
+      passCount: 12,
+      reportedStepCount: 12,
       testCount: 8,
     },
   );
 
   const terminalCaseError = structuredClone(baseReport);
-  terminalCaseError.results.results.splice(0, 3, {
+  terminalCaseError.results.results.splice(0, 4, {
     test: structuredClone(fixture[0]),
     response: null,
     outcome: "error",
@@ -1177,9 +1202,9 @@ test("browser report validation requires exact successful results and no-call be
       additionalStepCount: 0,
       browserConsoleErrorCount: 0,
       errorCount: 1,
-      expectedStepCount: 11,
+      expectedStepCount: 12,
       failCount: 0,
-      missingStepCount: 3,
+      missingStepCount: 4,
       passCount: 8,
       reportedStepCount: 9,
       testCount: 8,
@@ -1187,10 +1212,10 @@ test("browser report validation requires exact successful results and no-call be
   );
 
   const boundedRetryFailure = structuredClone(baseReport);
-  const failedExpectedStep = boundedRetryFailure.results.results[2];
+  const failedExpectedStep = boundedRetryFailure.results.results[3];
   failedExpectedStep.outcome = "fail";
   failedExpectedStep.response = {
-    functionName: "show_provenance",
+    functionName: "present_resource_evidence",
     args: { recordId: "govuk-discovery:api:flood-" },
     result: {
       ok: false,
@@ -1201,16 +1226,16 @@ test("browser report validation requires exact successful results and no-call be
   const additionalRetry = structuredClone(failedExpectedStep);
   additionalRetry.test.expectedCall = null;
   additionalRetry.response = {
-    functionName: "show_provenance",
+    functionName: "present_resource_evidence",
     args: { recordId: "govuk-discovery:api:flood-monitoring" },
     result: {
       ok: true,
-      schema: EXPECTED_RESULT_SCHEMAS.show_provenance,
+      schema: EXPECTED_RESULT_SCHEMAS.present_resource_evidence,
     },
   };
-  additionalRetry.stepIndex = 4;
-  boundedRetryFailure.results.results.splice(3, 0, additionalRetry);
-  boundedRetryFailure.results.passCount = 10;
+  additionalRetry.stepIndex = 5;
+  boundedRetryFailure.results.results.splice(4, 0, additionalRetry);
+  boundedRetryFailure.results.passCount = 11;
   boundedRetryFailure.results.failCount = 2;
   assert.deepEqual(
     validateBrowserEvaluationReport(
@@ -1223,17 +1248,17 @@ test("browser report validation requires exact successful results and no-call be
       additionalStepCount: 1,
       browserConsoleErrorCount: 0,
       errorCount: 0,
-      expectedStepCount: 11,
+      expectedStepCount: 12,
       failCount: 2,
       missingStepCount: 0,
-      passCount: 10,
-      reportedStepCount: 12,
+      passCount: 11,
+      reportedStepCount: 13,
       testCount: 8,
     },
   );
 
   const dishonestOutcomeTotals = structuredClone(boundedRetryFailure);
-  dishonestOutcomeTotals.results.passCount = 12;
+  dishonestOutcomeTotals.results.passCount = 13;
   dishonestOutcomeTotals.results.failCount = 0;
   assert.throws(
     () => validateBrowserEvaluationReport(
@@ -1246,8 +1271,8 @@ test("browser report validation requires exact successful results and no-call be
   );
 
   const additionalPass = structuredClone(boundedRetryFailure);
-  additionalPass.results.results[3].outcome = "pass";
-  additionalPass.results.passCount = 11;
+  additionalPass.results.results[4].outcome = "pass";
+  additionalPass.results.passCount = 12;
   additionalPass.results.failCount = 1;
   assert.throws(
     () => validateBrowserEvaluationReport(
@@ -1262,7 +1287,7 @@ test("browser report validation requires exact successful results and no-call be
   const nonTerminalError = structuredClone(baseReport);
   nonTerminalError.results.results[1].outcome = "error";
   nonTerminalError.results.results[1].response = null;
-  nonTerminalError.results.passCount = 10;
+  nonTerminalError.results.passCount = 11;
   nonTerminalError.results.errorCount = 1;
   assert.throws(
     () => validateBrowserEvaluationReport(
@@ -1287,16 +1312,16 @@ test("browser report validation requires exact successful results and no-call be
   );
 
   const excessiveCaseSteps = structuredClone(baseReport);
-  excessiveCaseSteps.results.results[2].outcome = "fail";
+  excessiveCaseSteps.results.results[3].outcome = "fail";
   const excessiveRows = [];
-  for (let stepIndex = 4; stepIndex <= MAX_BROWSER_REPORTED_STEPS_PER_CASE + 1; stepIndex += 1) {
-    const extra = structuredClone(excessiveCaseSteps.results.results[2]);
+  for (let stepIndex = 5; stepIndex <= MAX_BROWSER_REPORTED_STEPS_PER_CASE + 1; stepIndex += 1) {
+    const extra = structuredClone(excessiveCaseSteps.results.results[3]);
     extra.test.expectedCall = null;
     extra.stepIndex = stepIndex;
     excessiveRows.push(extra);
   }
-  excessiveCaseSteps.results.results.splice(3, 0, ...excessiveRows);
-  excessiveCaseSteps.results.passCount = 10;
+  excessiveCaseSteps.results.results.splice(4, 0, ...excessiveRows);
+  excessiveCaseSteps.results.passCount = 11;
   excessiveCaseSteps.results.failCount = excessiveRows.length + 1;
   assert.throws(
     () => validateBrowserEvaluationReport(
@@ -1410,14 +1435,14 @@ test("receipt is machine-readable and states the smoke boundary", () => {
     stderrSha256: "b".repeat(64),
     timedOut: false,
     errorCount: 0,
-    passCount: 6,
-    totalExpectedSteps: 6,
+    passCount: 7,
+    totalExpectedSteps: 7,
   };
   const receipt = createSmokeReceipt({
     createdAt: "2026-08-30T12:00:00.000Z",
     browserVersion: "Google Chrome 152.0.7977.64",
     fixtureSha256: "c".repeat(64),
-    fixtureSummary: { caseCount: 3, expectedStepCount: 6, toolNames: [...EXPECTED_TOOL_NAMES].sort() },
+    fixtureSummary: { caseCount: 3, expectedStepCount: 7, toolNames: [...EXPECTED_TOOL_NAMES].sort() },
     buildResult: result,
     smokeResult: result,
   });

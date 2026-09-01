@@ -53,12 +53,144 @@ The frozen `v0.2.0-rc.2` pre-federation baseline remains at product commit
 historical evidence for their named commits only. No `gis-ai-go` or OKF source
 repository was changed.
 
-## Beginner trust-pathway discovery handover
+## In-progress `0.4.0-rc.1` candidate handover
 
-The current branch is a documentation, research and evaluation slice. It does
-not implement or deploy a beginner interface. The existing public interface is
-specified as the retained **Technical review** view; it has not been
-redesignated or changed in executable code.
+The working branch now identifies package version `0.4.0-rc.1`, but no
+`v0.4.0-rc.1` tag, release, deployment or public-host receipt exists. Keep the
+released five-tool `v0.3.0-rc.1` identity and evidence above unchanged.
+
+Visible candidate implementation currently includes:
+
+- a pure `BeginnerPresentation` projection for reviewed answers, reviewed
+  records and the four admitted federated collections, with complete limits,
+  cannot-decide boundaries and canonical source-result digests;
+- closed presentation and `present_resource_evidence` input/output schemas,
+  executable validation and a composite record-then-provenance action that
+  returns no partial presentation;
+- a sixth imperative WebMCP registration named
+  `present_resource_evidence`, marked `readOnlyHint: false` and
+  `untrustedContentHint: true` because it has a reversible page-presentation
+  effect;
+- persistent native-link **Evidence answer** and **Technical review**
+  navigation, bounded canonical view routes and legacy-fragment handling; and
+- a DOM-only Evidence answer renderer that keeps source-derived text inert,
+  admits only validated recorded HTTPS source destinations and exposes the
+  source, material limit, next check, cannot-decide boundary, accepted input
+  and comparison guide without a trust score.
+- a guarded full Pages artefact verifier that binds an exact successful manual
+  Pages run to protected main, checks archive and deployment identity and
+  compares every regular artefact file with the live site before public evidence
+  can be admitted; and
+- a separate versioned `v0.4.0-rc.1` nine-scene demo configuration and
+  capture/build validators for the Evidence answer, sixth tool, both views,
+  genuine private Copilot and Ollama inputs, explicit redaction gates and nine
+  candidate VoiceOver checkpoints. Historical `v0.3.0-rc.1` evidence and
+  its original demo configuration remain unchanged;
+- one controller-owned latest-started sequence across all three Evidence answer
+  actions, so an older direct or asynchronous reviewed projection cannot
+  replace a newer selection;
+- a privacy-minimised evaluation summary and claim gate that requires the
+  freshly authenticated clean live Pages observation, binds all 72 runs to its
+  exact commit and deployment boundary, requires byte-identical local `dist`
+  and keeps unrestricted version text in private mode-`0600` captures only;
+- production replay of each exact captured call sequence against a fresh
+  receipt-bound runtime, with page parity derived from replay; strict Edge MCP
+  Workspace and Copilot share-link binding; and encoded/Unicode privacy-marker
+  detection; and
+- pre-extraction validation and counting of every Pages tar member, including
+  directories, aliases and entry-type/listing agreement, plus fixed archive,
+  file, directory, byte, concurrency and deadline budgets in receipt schema v2.
+
+This is an implementation checkpoint, not release acceptance. Focused checks
+completed on the uncommitted candidate on 1 September 2026:
+
+- `npm run build` passed and projected all 80 reviewed and 58,652 federated
+  records through the production Evidence answer contract;
+- `node --test tests/unit/view-routing.test.mjs tests/unit/beginner-presentation.test.mjs tests/unit/evidence-federation.test.mjs tests/unit/federated-search-runtime.test.mjs tests/unit/evidence-answer-view.test.mjs`
+  passed before the final remediation, and the complete prepared unit suite now
+  passes 272 of 272;
+- `npx playwright test tests/browser/evidence-answer.spec.mjs` passed 12 of 12
+  in installed Chrome with the loopback bind permitted;
+- `node --test tests/unit/demo-video.test.mjs tests/unit/voiceover-screenshot-clip.test.mjs tests/unit/live-pages-verifier.test.mjs`
+  passed for the candidate release and media guards;
+- the complete browser suite passes 43 of 43 in installed Chrome and 43 of 43
+  in installed Microsoft Edge, including the cross-tool race, automated
+  accessibility scan, keyboard, reflow, forced-colour and reduced-motion cases;
+- the frozen retrieval gate retains mean nDCG@10 `0.984698009` and Recall@20
+  `1`, with cold/warm parity and the legislation collection absent and rejected;
+- the model-free WebMCP smoke passes 7 of 7 result envelopes and `npm audit`
+  reports zero vulnerabilities across 162 dependencies; and
+- two complete 1,883-file builds have the same aggregate SHA-256
+  `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`
+  and each contains 128,646,550 bytes.
+
+The first `npm test` browser start was blocked by the restricted sandbox's
+loopback-bind policy after every preceding stage, including all 272 unit tests,
+had passed. The explicitly authorised Chrome and Edge reruns both passed; do
+not misreport that environmental start failure as an application failure.
+
+The focused browser checks prove background WebMCP preservation of the active
+Technical review record, durable navigation to the new Evidence answer,
+latest-started human routing, complete mapped limitations, representative
+evidence tiers and the tested reflow cases. They do not replace the complete
+unit, Chrome, Edge, accessibility, security, host or model gates. A WebMCP
+presentation must not move the active view, URL, history, focus or scroll; an
+explicit human selection may create bounded history only if its presentation
+actually committed.
+
+The first exhaustive security-diff review of the frozen candidate patch
+completed with zero reportable vulnerabilities. Dynamic validation and
+independent follow-up nevertheless exposed release-blocking stale human route
+effects, captured-output substitution, encoded-marker bypasses, shaped receipt
+forgery, incomplete cloud-host binding, privacy-revealing public hashes and
+archive resource-exhaustion gaps. They are corrected with focused regressions,
+fresh receipt authentication, receipt-bound production replay and fixed work
+budgets. Frozen code-snapshot scan
+`aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
+`codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
+completed 36 of 36 items, ran 102 focused tests, found zero findings and
+concluded that there is no security release blocker.
+
+Before integration, run `npm run build:verify-deterministic`; it must leave
+tracked source inputs unchanged and record matching complete `dist` manifests
+only in the ignored mode-`0600`
+`.evals/deterministic-build-verification.json` receipt.
+
+After protected-main validation and the manual Pages workflow complete, use a
+clean checkout at the exact deployed commit. Run the live verifier first without
+admission, review its ignored mode-`0600` receipt and confirm the checkout stayed
+clean before and after replay. Admit reviewed evidence only through the separate
+post-deployment evidence change:
+
+```sh
+WEBMCP_EXPECTED_COMMIT='<exact 40-character protected-main commit>' \
+GOVUK_WEBMCP_PAGES_RUN_ID='<exact successful Pages run ID>' \
+npm run deployment:verify-live
+
+WEBMCP_EXPECTED_COMMIT='<same commit>' \
+GOVUK_WEBMCP_PAGES_RUN_ID='<same run ID>' \
+npm run deployment:verify-live -- --admit-public-evidence
+```
+
+Do not use `--overwrite-reviewed-evidence` unless an existing candidate receipt
+has first been reviewed and replacement is explicitly intended. Candidate live
+capture and video commands additionally require
+`GOVUK_WEBMCP_DEMO_COMMIT` and `GOVUK_WEBMCP_DEMO_PAGES_RUN_ID` to match that
+verified deployment. The current video pipeline validates a supported-host
+receipt reconstruction; it does not substitute for the required redacted
+Copilot recording or the local Ollama comparison.
+
+The repository-local optional guided-build workflow has also been repaired by
+adding state and a `docs/hackathon-build/` bridge to the established project
+documents. Its recorded submission status is `not-started`; the repair did not
+register, update or submit anything on Devpost.
+
+## Beginner trust-pathway discovery and candidate handover
+
+The earlier branch checkpoint was a documentation, research and evaluation
+slice. The current working tree now implements the first `0.4.0-rc.1`
+dual-view candidate while the existing public interface remains the released
+**Technical review** evidence. No deployment has changed.
 
 The slice adds:
 
@@ -70,9 +202,8 @@ The slice adds:
   page, defines the Evidence answer candidate and retained Technical review views,
   semantic regions GE-01 to GE-10, deterministic presentation and URL
   contracts, result and failure states, honest AI and accepted-input
-  boundaries, an authorised but not yet implemented or released
-  `present_resource_evidence` action,
-  proposed modules, accessibility requirements, story mapping and verification
+  boundaries, the candidate `present_resource_evidence` action,
+  implemented module boundaries, accessibility requirements, story mapping and verification
   gates;
 - `docs/competition/beginner-question-coverage.md`, which maps 21 balanced
   fork-local GOV.UK Chat cases and wider representative discovery questions to
@@ -816,19 +947,24 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-For the beginner product lane, the A Life in the UK specialist-review contract
-is reconciled and the documentation review and proposed dual-view specification
-are complete. Implement the separately authorised Evidence answer candidate and
-sixth presentation action, then run the deterministic, accessibility and
-cross-host evaluation. Formative comprehension evidence remains unobserved and
-must not be inferred from the synthetic personas or automated tests. The page
-must not claim to inspect the AI host's final prose.
+For the beginner product lane, integrate the locally verified and security-
+reviewed candidate through a protected pull request.
+After protected-main validation, deploy that exact commit, authenticate the live
+Pages receipt and execute all six tools against those bytes. Follow with the
+manual Safari and VoiceOver journey and the repeated Copilot and Ollama matrix.
+Formative
+comprehension evidence remains unobserved and must not be inferred from the
+synthetic personas or automated tests. The page must not claim to inspect the
+AI host's final prose.
 
-For the separate competition-submission lane, Chris Page should complete
-continuous audible playback, privacy, branding, rights, synthetic-voice and
-caption review of the exact 156.023-second local candidate. If approved,
-publish that exact digest to public YouTube and verify sound and captions while
-signed out, then perform the final read-only rules and Devpost-form refresh.
+For the separate competition-submission lane, use only the exact authenticated
+`v0.4.0-rc.1` release. Capture its Safari, VoiceOver and Caption Panel journey,
+turn both assistive features off, complete both 36-run host matrices, then build
+a new redacted under-three-minute video showing the personal AI call, Evidence
+answer comparison, Technical review and local Ollama alternative. Complete
+audible playback, privacy, branding, rights and caption review on that new cut
+and verify any public player signed out before the final read-only rules and
+Devpost-form refresh. The 156.023-second `v0.3.0-rc.1` video remains historical.
 
 Do not move the `v0.3.0-rc.1` tag or reuse pre-federation accessibility, host or
 video evidence as proof of the expanded release. Public YouTube upload and

@@ -19,11 +19,11 @@ const outputPath = resolve(repositoryRoot, ".evals", captureTarget.receiptName);
 const outputDirectory = dirname(outputPath);
 const reviewedEvidencePath = resolve(
   repositoryRoot,
-  "docs/competition/evidence/chrome-devtools-mcp-v0.3.0-rc.1.json",
+  "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
 );
 const liveVerificationPath = resolve(
   repositoryRoot,
-  "docs/competition/evidence/live-artifact-verification-v0.3.0-rc.1.json",
+  "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
 );
 const portText = process.env.WEBMCP_DEVTOOLS_PORT ?? "4231";
 const port = Number(portText);
@@ -84,6 +84,12 @@ const expectedTools = [
       claimIds: ["claim:register-a-birth", "claim:check-child-benefit"],
     },
     schema: "trusted-govuk-discovery.evidence-comparison-result.v1",
+  },
+  {
+    name: "present_resource_evidence",
+    readOnly: false,
+    input: { recordId: "govuk-discovery:api:flood-monitoring" },
+    schema: "govuk-webmcp.present-resource-evidence-result.v1",
   },
 ];
 
@@ -441,7 +447,7 @@ try {
     }
     const liveVerificationBytes = await readFile(liveVerificationPath);
     const liveVerification = JSON.parse(liveVerificationBytes.toString("utf8"));
-    if (liveVerification.schema !== "govuk-webmcp.live-pages-verification.v1" ||
+    if (liveVerification.schema !== "govuk-webmcp.live-pages-verification.v2" ||
         liveVerification.baseUrl !== targetUrl ||
         liveVerification.commit !== publicDeployment.metadata.commit ||
         String(liveVerification.runId) !== publicDeployment.metadata.runId ||
@@ -467,7 +473,7 @@ try {
         pagesArtifactId: liveVerification.artifact.id,
         artifactApiDigest: liveVerification.artifact.apiDigest,
         artifactTarSha256: liveVerification.artifact.tarSha256,
-        liveArtifactVerification: "docs/competition/evidence/live-artifact-verification-v0.3.0-rc.1.json",
+        liveArtifactVerification: "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
         liveArtifactVerificationSha256: sha256(liveVerificationBytes),
         comparedFileCount: liveVerification.fileCount,
         comparedByteCount: liveVerification.byteCount,
@@ -511,7 +517,7 @@ try {
         types: receipt.console.types,
       },
       limitations: [
-        "This time-bound capture proves browser-native WebMCP discovery and deterministic execution in Chrome DevTools MCP 1.8.0 against exact public release v0.3.0-rc.1; it is not a general compatibility claim.",
+        "This time-bound capture proves browser-native WebMCP discovery and deterministic execution in Chrome DevTools MCP 1.8.0 against exact public release v0.4.0-rc.1; it is not a general compatibility claim.",
         "Chrome DevTools MCP did not select or evaluate a model, and no model provider was contacted.",
         "The static page tools are page-scoped progressive enhancement, not a durable government MCP service.",
         "Source-derived content remains untrusted; this capture did not refetch or independently certify the cited sources.",

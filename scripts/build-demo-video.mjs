@@ -32,15 +32,29 @@ import {
   fetchPublicDeploymentMetadata,
   PUBLIC_CAPTURE_TARGET,
 } from "./lib/chrome-devtools-capture-target.mjs";
+import {
+  EXPECTED_RUN_COUNT,
+  LOCAL_MODEL,
+  LOCAL_MODEL_INVENTORY_SHA256,
+  loadAndValidateCaseSet,
+} from "./prepare-personal-agent-evals.mjs";
+import {
+  summariseEvaluationCapture,
+  validateLiveReleaseReceipt,
+} from "./verify-personal-agent-evals.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 export const repositoryRoot = resolve(dirname(scriptPath), "..");
-const defaultConfig = join(repositoryRoot, "docs/competition/demo-video-script.json");
-const defaultOutput = join(repositoryRoot, "output/govuk-webmcp-demo-v0.3.0-rc.1.mp4");
-const transcriptPath = join(repositoryRoot, "docs/competition/demo-transcript.md");
-const captionsPath = join(repositoryRoot, "docs/competition/demo-captions.en-GB.vtt");
-const verificationPath = join(repositoryRoot, "docs/competition/evidence/demo-video-build-v0.3.0-rc.1.json");
-const expectedInteractionCaptureReceipt = "docs/competition/evidence/demo-live-interaction-capture-v0.3.0-rc.1.json";
+const defaultConfig = join(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
+const defaultOutput = join(repositoryRoot, "output/govuk-webmcp-demo-v0.4.0-rc.1.mp4");
+const transcriptPath = join(repositoryRoot, "docs/competition/demo-transcript-v0.4.0-rc.1.md");
+const captionsPath = join(repositoryRoot, "docs/competition/demo-captions.v0.4.0-rc.1.en-GB.vtt");
+const verificationPath = join(repositoryRoot, "docs/competition/evidence/demo-video-build-v0.4.0-rc.1.json");
+const expectedInteractionCaptureReceipt = "docs/competition/evidence/demo-live-interaction-capture-v0.4.0-rc.1.json";
+const expectedPrivateEvaluationCapture = ".evals/personal-agent-media/v0.4.0-rc.1/private-capture.json";
+const expectedPrivateLiveReleaseReceipt = ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json";
+const expectedPrivateAuthenticatedSummary = ".evals/personal-agent-media/v0.4.0-rc.1/authenticated-summary.json";
+const MAXIMUM_VIDEO_DURATION_SECONDS = 180;
 const COMMIT = /^[a-f0-9]{40}$/u;
 const RUN_ID = /^[1-9][0-9]*$/u;
 const SHA256 = /^[a-f0-9]{64}$/u;
@@ -57,19 +71,43 @@ export const expectedToolNames = [
   "show_provenance",
   "explore_answer_foundations",
   "compare_evidence_foundations",
+  "present_resource_evidence",
 ];
 
 export const requiredVoiceOverJourneyIds = [
   "page-title-and-headings",
   "skip-link-and-main-focus",
-  "analytical-index-controls",
-  "selected-foundation",
-  "comparison-table",
-  "live-status",
-  "search-and-record",
+  "persistent-view-navigation",
+  "evidence-presentation-action",
+  "evidence-answer-sections",
   "source-link-role-and-destination",
+  "comparison-guide",
+  "technical-review-controls",
   "focus-restoration",
 ];
+
+export const personalAgentSceneContracts = Object.freeze({
+  "copilot-personal-ai": Object.freeze({
+    hostId: "copilot-mcp-workspace",
+    arrangement: "cloud-personal-ai",
+    product: "Microsoft Copilot MCP Workspace",
+    caseId: "US-09",
+    repetition: 1,
+    mediaPath: "output/demo-clips/v0.4.0-rc.1/04-copilot-personal-ai.mov",
+    evidencePath: ".evals/personal-agent-media/v0.4.0-rc.1/copilot-video-capture.json",
+    captureMethod: "manual-visible-screen-recording",
+  }),
+  "ollama-local": Object.freeze({
+    hostId: "ollama-local",
+    arrangement: "local-personal-ai",
+    product: "Ollama through webmcp-evals",
+    caseId: "US-09",
+    repetition: 1,
+    mediaPath: "output/demo-clips/v0.4.0-rc.1/07-ollama-local.mov",
+    evidencePath: ".evals/personal-agent-media/v0.4.0-rc.1/ollama-video-capture.json",
+    captureMethod: "operator-recorded-local-evaluation",
+  }),
+});
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -205,7 +243,7 @@ export function validateSupportedHostEvidence(evidence, config, expectedFederate
     ["schema", "capturedAt", "page", "host", "capture", "artefacts", "discovery", "calls", "rejectedCall", "finalPageObservation", "limitations"],
     ["schema", "capturedAt", "page", "host", "capture", "artefacts", "discovery", "calls", "rejectedCall", "finalPageObservation", "limitations"],
     "Supported-host evidence");
-  invariant(evidence?.schema === "trusted-govuk-discovery.supported-host-webmcp-capture.v2", "Supported-host evidence has the wrong schema");
+  invariant(evidence?.schema === "govuk-webmcp.supported-host-webmcp-capture.v3", "Supported-host evidence has the wrong schema");
   validObservedAt(evidence.capturedAt, "Supported-host capturedAt");
   validatePageIdentity(evidence.page, config, "Supported-host evidence");
   exactKeys(evidence.host, ["name", "version", "capabilities"], ["name", "version", "capabilities"], "Supported-host identity");
@@ -218,7 +256,8 @@ export function validateSupportedHostEvidence(evidence, config, expectedFederate
     "Supported-host capture");
   nonEmptyString(evidence.capture.method, "Supported-host capture method", 600);
   invariant(typeof evidence.capture.hostOwnedSurfaceObserved === "boolean" && typeof evidence.capture.hostRecordingCaptured === "boolean", "Supported-host capture must state whether a host-owned surface and recording were observed");
-  invariant(evidence.capture.modelSelected === false && evidence.capture.modelProviderCalled === false, "Supported-host evidence must not imply a model-backed call when none was selected");
+  invariant(typeof evidence.capture.modelSelected === "boolean" && typeof evidence.capture.modelProviderCalled === "boolean", "Supported-host evidence must state whether a model selected or received the calls");
+  invariant(!evidence.capture.modelSelected || evidence.capture.modelProviderCalled, "A model-selected host call must record that the model provider received the bounded host exchange");
   invariant(Array.isArray(evidence.artefacts) && evidence.artefacts.length > 0, "Supported-host evidence must bind at least one host artefact");
   for (const artefact of evidence.artefacts) {
     exactKeys(artefact,
@@ -237,14 +276,15 @@ export function validateSupportedHostEvidence(evidence, config, expectedFederate
     invariant(evidence.artefacts.some(({ kind, hostOwnedSurface }) => kind === "host-screenshot" && hostOwnedSurface === true), "A claimed host-owned surface must be bound to a host screenshot");
   }
   const tools = evidence.discovery?.tools;
-  invariant(evidence.discovery?.toolCount === expectedToolNames.length, "Supported-host evidence must record five discovered tools");
-  invariant(sameSet(tools?.map(({ name }) => name), expectedToolNames), "Supported-host discovery does not contain the exact five tools");
+  invariant(evidence.discovery?.toolCount === expectedToolNames.length, "Supported-host evidence must record six discovered tools");
+  invariant(sameSet(tools?.map(({ name }) => name), expectedToolNames), "Supported-host discovery does not contain the exact six tools");
   const expectedReadOnly = new Map([
     ["search_government_knowledge", true],
     ["get_resource_record", true],
     ["show_provenance", true],
     ["explore_answer_foundations", false],
     ["compare_evidence_foundations", false],
+    ["present_resource_evidence", false],
   ]);
   for (const tool of tools) {
     invariant(tool.annotations?.readOnlyHint === expectedReadOnly.get(tool.name), `${tool.name} has the wrong readOnlyHint`);
@@ -332,6 +372,12 @@ export function validateSupportedHostEvidence(evidence, config, expectedFederate
   invariant(comparison.result?.answerId === inputs.reviewedAnswerId, "Comparison result used the wrong answer ID");
   invariant(sameValues(comparison.result?.claimIds, inputs.reviewedClaimIds), "Comparison result used the wrong claim IDs");
 
+  const presentation = byName.get("present_resource_evidence");
+  invariant(presentation.input?.recordId === demonstratedRecordId, "Evidence presentation did not use the demonstrated federated record");
+  invariant(presentation.result?.schema === "govuk-webmcp.present-resource-evidence-result.v1", "Evidence presentation returned the wrong result contract");
+  invariant(presentation.result?.evidence?.selectionId === demonstratedRecordId, "Evidence presentation selected a different record");
+  invariant(SHA256.test(presentation.result?.evidenceDigest), "Evidence presentation digest is malformed");
+
   const rejected = evidence.rejectedCall;
   exactKeys(rejected,
     ["name", "rejectedField", "inputFieldNames", "result", "canonicalResultDigest"],
@@ -343,13 +389,16 @@ export function validateSupportedHostEvidence(evidence, config, expectedFederate
   invariant(rejected.canonicalResultDigest === sha256Text(canonicalJson(rejected.result)), "Rejected-call digest does not match its captured result");
 
   const observation = evidence.finalPageObservation;
-  invariant(observation?.lastPresentationAction === "WebMCP: compare_evidence_foundations", "Final page observation does not record the comparison action");
-  invariant(sameValues(observation.selectedClaims, inputs.reviewedClaimIds), "Final page observation selected the wrong claims");
-  invariant(observation.comparisonRowCount === 11, "Final page observation must record the 11-row comparison");
-  const computedDigest = sha256Text(canonicalJson(comparison.result));
-  invariant(/^[a-f0-9]{64}$/u.test(observation.displayResultDigest), "Displayed result digest is malformed");
-  invariant(observation.canonicalCallResultDigest === computedDigest, "Recorded canonical call-result digest does not match the captured result");
-  invariant(observation.displayResultDigest === computedDigest && observation.digestParity === true, "Displayed result digest does not match the canonical call result");
+  exactKeys(observation,
+    ["lastPresentationAction", "selectedRecordId", "displayEvidenceDigest", "toolEvidenceDigest", "digestParity"],
+    ["lastPresentationAction", "selectedRecordId", "displayEvidenceDigest", "toolEvidenceDigest", "digestParity"],
+    "Supported-host final page observation");
+  invariant(observation.lastPresentationAction === "WebMCP: present_resource_evidence", "Final page observation does not record the Evidence answer action");
+  invariant(observation.selectedRecordId === demonstratedRecordId, "Final page observation selected the wrong record");
+  invariant(SHA256.test(observation.displayEvidenceDigest), "Displayed Evidence answer digest is malformed");
+  invariant(observation.toolEvidenceDigest === presentation.result.evidenceDigest, "Recorded tool Evidence answer digest does not match the captured result");
+  invariant(observation.displayEvidenceDigest === presentation.result.evidenceDigest && observation.digestParity === true, "Displayed Evidence answer digest does not match the tool result");
+  const computedDigest = sha256Text(canonicalJson(presentation.result));
   return {
     canonicalCallResultDigest: computedDigest,
     demonstratedRecordId,
@@ -466,12 +515,207 @@ export function validateHostMediaReceipt(receipt, config, scene, media, evidence
   };
 }
 
+function validatePersonalAgentRunMatrix(capture) {
+  invariant(capture?.schema === "govuk-webmcp.personal-agent-evaluation-capture.v2", "Personal-agent source capture has the wrong schema");
+  invariant(capture.suiteId === "beginner-evidence-v1" && capture.comparisonDesign === "observational", "Personal-agent source capture has the wrong suite or comparison design");
+  invariant(SHA256.test(capture.caseSetSha256), "Personal-agent source capture has an invalid case-set digest");
+  invariant(Array.isArray(capture.runs) && capture.runs.length === EXPECTED_RUN_COUNT, "Personal-agent source capture must contain the complete 72-run matrix");
+  const keys = capture.runs.map(({ hostId, caseId, repetition }) => `${hostId}/${caseId}/${repetition}`);
+  invariant(new Set(keys).size === EXPECTED_RUN_COUNT, "Personal-agent source capture contains duplicate run identities");
+  for (const hostId of ["copilot-mcp-workspace", "ollama-local"]) {
+    invariant(capture.runs.filter((run) => run.hostId === hostId).length === EXPECTED_RUN_COUNT / 2, `Personal-agent source capture must contain 36 ${hostId} runs`);
+  }
+}
+
+function authenticatedClaimGate(summary) {
+  const criteria = Object.values(summary.criteria ?? {});
+  const criterionFailure = criteria.some((counts) => (counts.fail ?? 0) > 0);
+  const criterionUnknown = criteria.some((counts) => (counts["not-observable"] ?? 0) > 0 || (counts["not-reviewed"] ?? 0) > 0);
+  const privacy = Object.entries(summary.privacyChecks ?? {}).filter(([field]) => field !== "publicSummary");
+  const privacyFailure = privacy.some(([, counts]) => (counts.fail ?? 0) > 0);
+  const privacyUnknown = privacy.some(([, counts]) => (counts["not-observable"] ?? 0) > 0 || (counts.missing ?? 0) > 0);
+  return summary.matrixComplete === true
+    && !criterionFailure
+    && !criterionUnknown
+    && !privacyFailure
+    && !privacyUnknown
+    && summary.executionContext?.incomplete === 0
+    && summary.answerOutcomes?.unsafe === 0
+    && summary.answerOutcomes?.["not-reviewed"] === 0
+    && summary.reviewerClasses?.agent === 0
+    && summary.reviewerClasses?.["not-reviewed"] === 0;
+}
+
+export function validateAuthenticatedPersonalAgentSummary(authenticated, structural, config, sourceCapture, liveRelease) {
+  const keys = [
+    "schema", "suiteId", "caseSetSha256", "comparisonDesign", "causalClaimSupported", "evidenceStatus",
+    "plannedRunCount", "observedRunCount", "missingRunCount", "missingRunKeys", "matrixComplete",
+    "observationWindow", "hosts", "liveReleaseBinding", "executionContext", "criteria", "answerOutcomes",
+    "reviewerClasses", "unsafeCategoryCounts", "privacyChecks", "claimGatePassed",
+  ];
+  exactKeys(authenticated, keys, keys, "Authenticated personal-agent summary");
+  invariant(authenticated.schema === "govuk-webmcp.personal-agent-evaluation-summary.v2" && authenticated.suiteId === "beginner-evidence-v1" && authenticated.comparisonDesign === "observational" && authenticated.causalClaimSupported === false, "Authenticated personal-agent summary has the wrong identity or causal boundary");
+  invariant(authenticated.caseSetSha256 === sourceCapture.caseSetSha256 && authenticated.plannedRunCount === EXPECTED_RUN_COUNT && authenticated.observedRunCount === EXPECTED_RUN_COUNT && authenticated.missingRunCount === 0 && authenticated.missingRunKeys.length === 0 && authenticated.matrixComplete === true, "Authenticated personal-agent summary does not bind the complete source matrix");
+  invariant(authenticated.liveReleaseBinding?.status === "authenticated" && authenticated.liveReleaseBinding.repository === liveRelease.repository && authenticated.liveReleaseBinding.baseUrl === config.productUrl && authenticated.liveReleaseBinding.commit === config.productCommit && authenticated.liveReleaseBinding.runId === config.pagesRunId && authenticated.liveReleaseBinding.manifestSha256 === liveRelease.manifestSha256, "Authenticated personal-agent summary does not bind the configured live release");
+  const expected = structuredClone(structural);
+  expected.liveReleaseBinding.status = "authenticated";
+  expected.evidenceStatus = expected.observedRunCount === 0 ? "planned-unrun" : expected.matrixComplete ? "complete" : "partial";
+  expected.claimGatePassed = authenticatedClaimGate(expected);
+  invariant(canonicalJson(authenticated) === canonicalJson(expected), "Authenticated personal-agent summary does not match a fresh structural replay of the exact source capture");
+  return Object.freeze({
+    status: "authenticated",
+    claimGatePassed: authenticated.claimGatePassed,
+    caseSetSha256: authenticated.caseSetSha256,
+  });
+}
+
+function validatePersonalAgentExecutionContext(run, config, contract) {
+  const context = run.executionContext;
+  invariant(context?.hostVersion?.status === "observed", `${contract.product} version must have been observed in the private capture`);
+  invariant(context?.browser?.status === "observed", `${contract.product} browser identity must have been observed in the private capture`);
+  invariant(context?.exposedTools?.status === "observed" && sameValues(context.exposedTools.names, expectedToolNames), `${contract.product} must expose the exact six Site tools`);
+  invariant(context.visibleMode === "visible" || (contract.hostId === "ollama-local" && context.visibleMode === "headless"), `${contract.product} has the wrong visible-mode observation`);
+  invariant(context.deployment?.commitSha === config.productCommit, `${contract.product} is not bound to the configured release commit`);
+  if (contract.hostId === "copilot-mcp-workspace") {
+    invariant(context.browser.product === "Microsoft Edge" && context.visibleMode === "visible", "Copilot media must show a visible Microsoft Edge MCP Workspace run");
+    invariant(context.deployment.kind === "public-pages" && context.deployment.url === config.productUrl && context.deployment.worktreeStatus === "not-applicable", "Copilot media must bind the canonical public Pages deployment");
+    invariant(context.share?.status === "observed" && /^https:\/\/copilot\.microsoft\.com\/shares\/[A-Za-z0-9]{16,80}$/u.test(context.share.url), "Copilot media must bind an observed canonical private share link");
+    invariant(run.hostIdentity?.modelStatus === "not-disclosed" && run.hostIdentity.model === null && run.hostIdentity.inventorySha256 === null && run.hostIdentity.executionBound === "not-observable", "Copilot media must retain the undisclosed model boundary");
+  } else {
+    const deploymentUrl = new URL(context.deployment?.url);
+    invariant(context.deployment.kind === "local-loopback" && context.deployment.worktreeStatus === "clean", "Ollama media must bind a clean local-loopback deployment");
+    invariant(deploymentUrl.protocol === "http:" && deploymentUrl.hostname === "127.0.0.1" && deploymentUrl.port !== "" && deploymentUrl.pathname === "/" && deploymentUrl.search === "" && deploymentUrl.hash === "" && deploymentUrl.href === context.deployment.url, "Ollama media must use an exact credential-free loopback root URL");
+    invariant(run.hostIdentity?.modelStatus === "observed-exact" && run.hostIdentity.model === LOCAL_MODEL && run.hostIdentity.inventorySha256 === LOCAL_MODEL_INVENTORY_SHA256 && run.hostIdentity.executionBound === true, "Ollama media must bind the exact pinned local model and inventory digest");
+  }
+}
+
+export function validatePersonalAgentCaptureEvidence(
+  receipt,
+  config,
+  scene,
+  media,
+  sourceCaptureFile,
+  sourceCapture,
+  authenticatedSummaryFile,
+  authenticatedSummaryBinding,
+  liveReleaseFile,
+  liveRelease,
+) {
+  const contract = personalAgentSceneContracts[scene.id];
+  invariant(contract, `Scene ${scene.id} has no personal-agent media contract`);
+  exactKeys(receipt,
+    ["schema", "capturedAt", "release", "host", "sourceEvaluation", "liveRelease", "capture", "reviews", "media", "limitations"],
+    ["schema", "capturedAt", "release", "host", "sourceEvaluation", "liveRelease", "capture", "reviews", "media", "limitations"],
+    `Personal-agent capture ${scene.id}`);
+  invariant(receipt.schema === "govuk-webmcp.personal-agent-video-capture.v1", `Personal-agent capture ${scene.id} has the wrong schema`);
+  validObservedAt(receipt.capturedAt, `Personal-agent capture ${scene.id} timestamp`);
+  validatePageIdentity(receipt.release, config, `Personal-agent capture ${scene.id}`);
+
+  exactKeys(receipt.host, ["id", "arrangement", "product"], ["id", "arrangement", "product"], `Personal-agent host ${scene.id}`);
+  invariant(receipt.host.id === contract.hostId && receipt.host.arrangement === contract.arrangement && receipt.host.product === contract.product, `Personal-agent capture ${scene.id} has the wrong host identity`);
+
+  exactKeys(receipt.sourceEvaluation,
+    ["path", "sha256", "schema", "suiteId", "caseSetSha256", "caseId", "repetition", "authenticatedSummaryPath", "authenticatedSummarySha256", "claimGatePassed"],
+    ["path", "sha256", "schema", "suiteId", "caseSetSha256", "caseId", "repetition", "authenticatedSummaryPath", "authenticatedSummarySha256", "claimGatePassed"],
+    `Personal-agent evaluation binding ${scene.id}`);
+  invariant(receipt.sourceEvaluation.path === expectedPrivateEvaluationCapture && sourceCaptureFile.relativePath === expectedPrivateEvaluationCapture, `Personal-agent capture ${scene.id} must use the fixed private evaluation path`);
+  invariant(receipt.sourceEvaluation.sha256 === sourceCaptureFile.sha256, `Personal-agent capture ${scene.id} is not bound to the exact private evaluation bytes`);
+  invariant(receipt.sourceEvaluation.schema === "govuk-webmcp.personal-agent-evaluation-capture.v2" && receipt.sourceEvaluation.suiteId === "beginner-evidence-v1", `Personal-agent capture ${scene.id} has the wrong source evaluation identity`);
+  invariant(receipt.sourceEvaluation.caseSetSha256 === sourceCapture.caseSetSha256, `Personal-agent capture ${scene.id} has the wrong case-set digest`);
+  invariant(receipt.sourceEvaluation.caseId === contract.caseId && receipt.sourceEvaluation.repetition === contract.repetition, `Personal-agent capture ${scene.id} selects the wrong evaluation run`);
+  invariant(receipt.sourceEvaluation.authenticatedSummaryPath === expectedPrivateAuthenticatedSummary && authenticatedSummaryFile.relativePath === expectedPrivateAuthenticatedSummary && receipt.sourceEvaluation.authenticatedSummarySha256 === authenticatedSummaryFile.sha256, `Personal-agent capture ${scene.id} is not bound to the exact authenticated evaluation summary`);
+  invariant(authenticatedSummaryBinding.status === "authenticated" && receipt.sourceEvaluation.claimGatePassed === authenticatedSummaryBinding.claimGatePassed, `Personal-agent capture ${scene.id} does not retain the authenticated evaluation claim status`);
+  validatePersonalAgentRunMatrix(sourceCapture);
+
+  exactKeys(receipt.liveRelease, ["path", "sha256", "schema"], ["path", "sha256", "schema"], `Personal-agent live-release binding ${scene.id}`);
+  invariant(receipt.liveRelease.path === expectedPrivateLiveReleaseReceipt && liveReleaseFile.relativePath === expectedPrivateLiveReleaseReceipt, `Personal-agent capture ${scene.id} must use the fixed private live-release receipt path`);
+  invariant(receipt.liveRelease.sha256 === liveReleaseFile.sha256 && receipt.liveRelease.schema === "govuk-webmcp.live-pages-verification.v2", `Personal-agent capture ${scene.id} is not bound to the exact live-release receipt`);
+  invariant(liveRelease.commit === config.productCommit && liveRelease.runId === config.pagesRunId && liveRelease.baseUrl === config.productUrl, `Personal-agent capture ${scene.id} does not match the configured live release`);
+
+  const selectedRuns = sourceCapture.runs.filter(({ hostId, caseId, repetition }) =>
+    hostId === contract.hostId && caseId === contract.caseId && repetition === contract.repetition);
+  invariant(selectedRuns.length === 1, `Personal-agent capture ${scene.id} does not identify one exact evaluation run`);
+  const [run] = selectedRuns;
+  validObservedAt(run.observedAt, `Personal-agent run ${scene.id} timestamp`);
+  validatePersonalAgentExecutionContext(run, config, contract);
+  invariant(["observed", "not-observable"].includes(run.callTrace?.status), `Personal-agent capture ${scene.id} has an invalid call-trace state`);
+  const callTraceObserved = run.callTrace.status === "observed";
+  invariant(callTraceObserved || contract.hostId === "copilot-mcp-workspace", `Personal-agent capture ${scene.id} requires a complete observable call trace`);
+  invariant(callTraceObserved ? Array.isArray(run.callTrace.calls) && run.callTrace.calls.length > 0 : run.callTrace.calls === null, `Personal-agent capture ${scene.id} has an inconsistent call trace`);
+  const toolCallNames = callTraceObserved ? run.callTrace.calls.map(({ name }) => name) : null;
+  if (callTraceObserved) {
+    invariant(new Set(toolCallNames).size === toolCallNames.length && toolCallNames.every((name) => expectedToolNames.includes(name)), `Personal-agent capture ${scene.id} contains an invalid or repeated Site tool call`);
+    invariant(toolCallNames.includes("present_resource_evidence"), `Personal-agent capture ${scene.id} did not call the Evidence answer presentation tool`);
+  }
+  invariant(run.pageObservation?.status === "observed" && run.pageObservation.after?.renderedEvidence !== null, `Personal-agent capture ${scene.id} did not observe an Evidence answer update`);
+  exactKeys(run.criteria, ["toolSelection", "deterministicExecution", "pageParity", "answerSafety"], ["toolSelection", "deterministicExecution", "pageParity", "answerSafety"], `Personal-agent criteria ${scene.id}`);
+  invariant(run.criteria.deterministicExecution === "pass" && run.criteria.pageParity === "pass" && run.criteria.answerSafety === "pass", `Personal-agent capture ${scene.id} has a material evaluation criterion that did not pass`);
+  invariant(run.criteria.toolSelection === (callTraceObserved ? "pass" : "not-observable"), `Personal-agent capture ${scene.id} overstates its tool-selection observation`);
+  invariant(run.answerReview?.status === "reviewed" && run.answerReview.outcome === "usable" && ["human", "domain-specialist"].includes(run.answerReview.reviewerClass), `Personal-agent capture ${scene.id} requires a usable human-reviewed answer`);
+
+  exactKeys(receipt.capture,
+    ["method", "genuineScreenRecording", "hostSurfaceVisible", "siteToolsVisible", "siteToolInvocationVisible", "evidenceAnswerUpdateVisible", "reconstructed", "sourceAudioIncluded", "browserChromeIncluded", "accountEmailVisible", "avatarVisible", "unrelatedBrowserContentVisible", "redactionsApplied", "callTraceStatus", "toolCallNames", "selectedRecordId", "evidenceDigest"],
+    ["method", "genuineScreenRecording", "hostSurfaceVisible", "siteToolsVisible", "siteToolInvocationVisible", "evidenceAnswerUpdateVisible", "reconstructed", "sourceAudioIncluded", "browserChromeIncluded", "accountEmailVisible", "avatarVisible", "unrelatedBrowserContentVisible", "redactionsApplied", "callTraceStatus", "toolCallNames", "selectedRecordId", "evidenceDigest"],
+    `Personal-agent recording boundary ${scene.id}`);
+  invariant(receipt.capture.method === contract.captureMethod, `Personal-agent capture ${scene.id} has the wrong recording method`);
+  invariant(receipt.capture.genuineScreenRecording === true && receipt.capture.hostSurfaceVisible === true && receipt.capture.siteToolsVisible === true && receipt.capture.siteToolInvocationVisible === true && receipt.capture.evidenceAnswerUpdateVisible === true && receipt.capture.reconstructed === false, `Personal-agent capture ${scene.id} must be a genuine visible recording, not a reconstruction`);
+  invariant(receipt.capture.sourceAudioIncluded === false, `Personal-agent capture ${scene.id} must omit source audio from the final edit`);
+  invariant(typeof receipt.capture.browserChromeIncluded === "boolean" && (contract.hostId !== "copilot-mcp-workspace" || receipt.capture.browserChromeIncluded === true), `Copilot capture ${scene.id} must visibly identify Microsoft Edge MCP Workspace`);
+  invariant(receipt.capture.accountEmailVisible === false && receipt.capture.avatarVisible === false && receipt.capture.unrelatedBrowserContentVisible === false, `Personal-agent capture ${scene.id} exposes an account email, avatar or unrelated browser content`);
+  invariant(Array.isArray(receipt.capture.redactionsApplied) && new Set(receipt.capture.redactionsApplied).size === receipt.capture.redactionsApplied.length && receipt.capture.redactionsApplied.every((redaction) => ["account-email", "profile-image", "unrelated-browser-content"].includes(redaction)), `Personal-agent capture ${scene.id} has an invalid redaction record`);
+  if (contract.hostId === "copilot-mcp-workspace") invariant(sameSet(receipt.capture.redactionsApplied, ["account-email", "profile-image", "unrelated-browser-content"]), `Copilot capture ${scene.id} must record all three required privacy redactions`);
+  invariant(receipt.capture.callTraceStatus === run.callTrace.status, `Personal-agent capture ${scene.id} call-trace status does not match the exact private run`);
+  invariant(callTraceObserved ? sameValues(receipt.capture.toolCallNames, toolCallNames) : receipt.capture.toolCallNames === null, `Personal-agent capture ${scene.id} tool-call names do not match the exact private run`);
+  const after = run.pageObservation.after;
+  invariant(receipt.capture.selectedRecordId === after.renderedEvidence.selectionId && FEDERATED_RECORD_ID.test(receipt.capture.selectedRecordId), `Personal-agent capture ${scene.id} selected the wrong Evidence answer record`);
+  invariant(receipt.capture.evidenceDigest === after.evidenceDigest && SHA256.test(receipt.capture.evidenceDigest), `Personal-agent capture ${scene.id} has the wrong Evidence answer digest`);
+
+  exactKeys(receipt.reviews,
+    ["privacy", "branding", "content", "reviewerClass", "reviewedAt"],
+    ["privacy", "branding", "content", "reviewerClass", "reviewedAt"],
+    `Personal-agent clip reviews ${scene.id}`);
+  invariant(receipt.reviews.privacy === "human-reviewed-redaction-pass" && receipt.reviews.branding === "human-reviewed-contextual-use-pass" && receipt.reviews.content === "owner-reviewed-pass" && receipt.reviews.reviewerClass === "owner-human", `Personal-agent capture ${scene.id} has not passed every clip-level human review gate`);
+  validObservedAt(receipt.reviews.reviewedAt, `Personal-agent clip review ${scene.id}`);
+
+  exactKeys(receipt.media,
+    ["path", "sha256", "durationSeconds", "startSeconds", "endSeconds", "captureStartedAt", "captureEndedAt"],
+    ["path", "sha256", "durationSeconds", "startSeconds", "endSeconds", "captureStartedAt", "captureEndedAt"],
+    `Personal-agent media binding ${scene.id}`);
+  invariant(receipt.media.path === scene.media.path && receipt.media.sha256 === media.sha256, `Personal-agent capture ${scene.id} does not bind the exact configured clip`);
+  invariant(Number.isFinite(receipt.media.durationSeconds) && Math.abs(receipt.media.durationSeconds - media.durationSeconds) <= 0.05, `Personal-agent capture ${scene.id} duration does not match its clip`);
+  invariant(receipt.media.startSeconds === scene.media.startSeconds && receipt.media.endSeconds > receipt.media.startSeconds && receipt.media.endSeconds <= media.durationSeconds, `Personal-agent capture ${scene.id} has an invalid media range`);
+  validObservedAt(receipt.media.captureStartedAt, `Personal-agent capture ${scene.id} media start`);
+  validObservedAt(receipt.media.captureEndedAt, `Personal-agent capture ${scene.id} media end`);
+  const captureStart = Date.parse(receipt.media.captureStartedAt);
+  const captureEnd = Date.parse(receipt.media.captureEndedAt);
+  invariant(captureEnd >= captureStart && Date.parse(receipt.capturedAt) >= captureStart && Date.parse(receipt.capturedAt) <= captureEnd && Date.parse(run.observedAt) >= captureStart && Date.parse(run.observedAt) <= captureEnd, `Personal-agent capture ${scene.id} timestamps do not bind the recorded run`);
+  invariant(Date.parse(receipt.reviews.reviewedAt) >= captureEnd, `Personal-agent capture ${scene.id} was marked reviewed before recording ended`);
+  invariant(Array.isArray(receipt.limitations) && receipt.limitations.length > 0, `Personal-agent capture ${scene.id} must state its limitations`);
+  for (const limitation of receipt.limitations) nonEmptyString(limitation, `Personal-agent limitation ${scene.id}`, 1_000);
+  invariant(receipt.limitations.some((limitation) => /observational/iu.test(limitation) && /causal/iu.test(limitation)), `Personal-agent capture ${scene.id} must retain the observational, non-causal comparison boundary`);
+  if (!callTraceObserved) invariant(receipt.limitations.some((limitation) => /call trace/iu.test(limitation) && /not observable/iu.test(limitation)), `Personal-agent capture ${scene.id} must disclose that its exact call trace was not observable`);
+  if (!authenticatedSummaryBinding.claimGatePassed) invariant(receipt.limitations.some((limitation) => /claim gate/iu.test(limitation) && /did not pass/iu.test(limitation)), `Personal-agent capture ${scene.id} must disclose that the authenticated evaluation claim gate did not pass`);
+
+  return {
+    hostId: contract.hostId,
+    caseId: contract.caseId,
+    repetition: contract.repetition,
+    callTraceStatus: run.callTrace.status,
+    toolCallNames,
+    selectionId: receipt.capture.selectedRecordId,
+    evidenceDigest: receipt.capture.evidenceDigest,
+    evaluationClaimGatePassed: authenticatedSummaryBinding.claimGatePassed,
+    genuineScreenRecording: true,
+    clipLevelHumanReviewsPassed: true,
+  };
+}
+
 export function validateInteractionCaptureEvidence(evidence, config, interactionScenes, mediaById) {
   exactKeys(evidence,
     ["schema", "capturedAt", "page", "deployment", "demonstration", "captureMethod", "browser", "reviews", "noBrowserChrome", "audioCaptured", "clips"],
     ["schema", "capturedAt", "page", "deployment", "demonstration", "captureMethod", "browser", "reviews", "noBrowserChrome", "audioCaptured", "clips"],
     "Live interaction capture receipt");
-  invariant(evidence.schema === "trusted-govuk-discovery.demo-live-interaction-capture.v2", "Live interaction capture receipt has the wrong schema");
+  invariant(evidence.schema === "govuk-webmcp.demo-live-interaction-capture.v3", "Live interaction capture receipt has the wrong schema");
   validatePageIdentity(evidence.page, config, "Live interaction capture receipt");
   exactKeys(evidence.deployment, ["metadataUrl", "metadataSha256"], ["metadataUrl", "metadataSha256"], "Live interaction capture deployment binding");
   invariant(evidence.deployment.metadataUrl === new URL("deployment.json", config.productUrl).href, "Live interaction capture deployment metadata URL is wrong");
@@ -508,65 +752,53 @@ export function validateInteractionCaptureEvidence(evidence, config, interaction
     validObservedAt(clip.capturedAt, `Live interaction clip ${clip.sceneId} capture timestamp`);
     const configuredUrl = new URL(config.productUrl);
     const sourceUrl = new URL(clip.sourceUrl);
-    invariant(sourceUrl.origin === configuredUrl.origin && sourceUrl.pathname === configuredUrl.pathname && sourceUrl.search === "" && (!sourceUrl.hash || /^#(?:answer|claim|record|foundation|compare)=[A-Za-z0-9%:,_-]+(?:&(?:answer|claim|record|foundation|compare)=[A-Za-z0-9%:,_-]+)*$/u.test(sourceUrl.hash)), `Live interaction clip ${clip.sceneId} source URL does not identify the configured release`);
+    invariant(sourceUrl.origin === configuredUrl.origin && sourceUrl.pathname === configuredUrl.pathname && sourceUrl.search === "" && (!sourceUrl.hash || /^#(?:view|answer|claim|record|foundation|compare)=[A-Za-z0-9%:,_-]+(?:&(?:view|answer|claim|record|foundation|compare)=[A-Za-z0-9%:,_-]+)*$/u.test(sourceUrl.hash)), `Live interaction clip ${clip.sceneId} source URL does not identify the configured release`);
     invariant(Array.isArray(clip.actions) && clip.actions.length > 0, `Live interaction clip ${clip.sceneId} must record actions`);
     invariant(sameValues(clip.actions, scene.requiredActions), `Live interaction clip ${clip.sceneId} actions do not match the required scene actions`);
   }
 
   const byId = new Map(evidence.clips.map((clip) => [clip.sceneId, clip]));
-  const overview = byId.get("overview")?.observation;
-  exactKeys(overview,
-    ["reviewedRecordCount", "federatedSourceRecordCount", "federatedRecordCount", "federatedQuarantinedRecordCount", "reviewedTierLabel", "federatedTierLabel"],
-    ["reviewedRecordCount", "federatedSourceRecordCount", "federatedRecordCount", "federatedQuarantinedRecordCount", "reviewedTierLabel", "federatedTierLabel"],
-    "Overview observation");
-  invariant(overview.reviewedRecordCount === 80 && overview.federatedSourceRecordCount === 58_655 && overview.federatedRecordCount === 58_652 && overview.federatedQuarantinedRecordCount === 3, "Overview observation lost the exact two-tier population counts");
-  invariant(overview.reviewedTierLabel === "Reviewed evidence" && overview.federatedTierLabel === "Federated discovery", "Overview observation lost the visible evidence-tier labels");
+  const initial = byId.get("evidence-answer")?.observation;
+  exactKeys(initial,
+    ["activeView", "heading", "activity", "presentationState"],
+    ["activeView", "heading", "activity", "presentationState"],
+    "Initial Evidence answer observation");
+  invariant(initial.activeView === "guided" && initial.heading === "Evidence answer", "Bare URL did not open the Evidence answer view");
+  invariant(initial.activity === "No AI action was presented to this page." && initial.presentationState === "empty", "Initial Evidence answer overstates an action or selection");
 
-  const search = byId.get("federated-search")?.observation;
-  exactKeys(search,
-    ["query", "collections", "limit", "resultIds", "resultCollectionIds", "collectionStatuses", "excludedHostnameResultCount", "canonicalResultDigest"],
-    ["query", "collections", "limit", "resultIds", "resultCollectionIds", "collectionStatuses", "excludedHostnameResultCount", "canonicalResultDigest"],
-    "Federated-search observation");
-  invariant(search.query === evidence.demonstration.query && sameValues(search.collections, evidence.demonstration.collections) && search.limit === evidence.demonstration.limit, "Federated-search observation does not retain the fixed input");
-  invariant(Array.isArray(search.resultIds) && search.resultIds.length > 0 && search.resultIds.length <= search.limit && new Set(search.resultIds).size === search.resultIds.length, "Federated-search result IDs are invalid");
-  invariant(search.resultIds.every((recordId) => FEDERATED_RECORD_ID.test(recordId)), "Federated-search result IDs are not canonical");
-  invariant(search.resultIds.includes(evidence.demonstration.federatedRecordId), "The selected federated record was not returned by the frozen deployment search");
-  invariant(Array.isArray(search.resultCollectionIds) && search.resultCollectionIds.length === search.resultIds.length, "Federated-search result collection IDs do not align with the returned IDs");
-  invariant(sameSet([...new Set(search.resultCollectionIds)], evidence.demonstration.collections), "Federated-search observation did not return at least one result from every selected collection");
-  invariant(Array.isArray(search.collectionStatuses) && sameSet(search.collectionStatuses.map(({ collectionId }) => collectionId), evidence.demonstration.collections), "Federated-search observation did not retain every collection status");
-  invariant(search.collectionStatuses.every(({ evidenceTier, status }) => evidenceTier === "federated-source-snapshot" && status === "ready"), "Federated-search observation did not retain four ready source-snapshot statuses");
-  invariant(search.excludedHostnameResultCount === 0, "Federated-search observation contains an excluded legislation result link");
-  invariant(SHA256.test(search.canonicalResultDigest), "Federated-search canonical result digest is invalid");
+  const presented = byId.get("present-evidence")?.observation;
+  exactKeys(presented,
+    ["query", "collections", "limit", "selectedRecordId", "resultKind", "evidenceDigest", "sourceCount", "limitationCount", "routeView"],
+    ["query", "collections", "limit", "selectedRecordId", "resultKind", "evidenceDigest", "sourceCount", "limitationCount", "routeView"],
+    "Presented Evidence answer observation");
+  invariant(presented.query === evidence.demonstration.query && sameValues(presented.collections, evidence.demonstration.collections) && presented.limit === evidence.demonstration.limit, "Presented Evidence answer does not retain the fixed search input");
+  invariant(presented.selectedRecordId === evidence.demonstration.federatedRecordId && FEDERATED_RECORD_ID.test(presented.selectedRecordId), "Presented Evidence answer used the wrong record");
+  invariant(presented.resultKind === "resource-record" && SHA256.test(presented.evidenceDigest), "Presented Evidence answer lost its result kind or digest");
+  invariant(Number.isInteger(presented.sourceCount) && presented.sourceCount > 0 && Number.isInteger(presented.limitationCount) && presented.limitationCount > 0, "Presented Evidence answer must retain a source and limitation");
+  invariant(presented.routeView === "guided", "Human presentation did not navigate to Evidence answer");
 
-  const record = byId.get("federated-record")?.observation;
-  exactKeys(record,
-    ["recordId", "collectionId", "evidenceTier", "sourceAuthority", "linkRole", "linkHostname", "itemLevelReview", "evidenceReceiptAvailable", "limitationsCount", "recordResultDigest", "provenanceResultDigest"],
-    ["recordId", "collectionId", "evidenceTier", "sourceAuthority", "linkRole", "linkHostname", "itemLevelReview", "evidenceReceiptAvailable", "limitationsCount", "recordResultDigest", "provenanceResultDigest"],
-    "Federated-record observation");
-  invariant(record.recordId === evidence.demonstration.federatedRecordId, "Federated-record observation used a different result from the frozen search");
-  invariant(evidence.demonstration.collections.includes(record.collectionId), "Federated-record observation used an unselected collection");
-  invariant(search.resultCollectionIds[search.resultIds.indexOf(record.recordId)] === record.collectionId, "Federated-record observation collection does not match the frozen search result");
-  invariant(record.evidenceTier === "federated-source-snapshot" && record.sourceAuthority === "Not independently established", "Federated-record observation overstates its evidence tier or authority");
-  nonEmptyString(record.linkRole, "Federated-record link role", 120);
-  hostname(record.linkHostname, "Federated-record link hostname");
-  invariant(record.linkRole === "producer-declared-source" && record.linkHostname !== evidence.demonstration.excludedHostname, "Federated-record observation lost the producer-declared-source role or published an excluded link");
-  invariant(record.itemLevelReview === false && record.evidenceReceiptAvailable === false, "Federated-record observation must retain the no-item-receipt boundary");
-  invariant(Number.isInteger(record.limitationsCount) && record.limitationsCount > 0, "Federated-record observation must retain visible limitations");
-  invariant(SHA256.test(record.recordResultDigest) && SHA256.test(record.provenanceResultDigest), "Federated-record result digests are invalid");
+  const guide = byId.get("comparison-guide")?.observation;
+  exactKeys(guide,
+    ["selectedRecordId", "evidenceDigest", "guideHeadings", "sourceLinkCount", "limitationCount"],
+    ["selectedRecordId", "evidenceDigest", "guideHeadings", "sourceLinkCount", "limitationCount"],
+    "Evidence comparison-guide observation");
+  invariant(guide.selectedRecordId === presented.selectedRecordId && guide.evidenceDigest === presented.evidenceDigest, "Comparison guide does not show the same deterministic Evidence answer");
+  invariant(sameValues(guide.guideHeadings, ["From this page", "From your AI", "Check carefully"]), "Comparison guide lost one of its three plain-English perspectives");
+  invariant(guide.sourceLinkCount > 0 && guide.limitationCount > 0, "Comparison guide capture lost source or limitation evidence");
 
-  const reviewed = byId.get("reviewed-foundations")?.observation;
-  exactKeys(reviewed,
-    ["answerId", "claimIds", "foundationFacetLabels", "comparisonRowCount", "trustScoreShown"],
-    ["answerId", "claimIds", "foundationFacetLabels", "comparisonRowCount", "trustScoreShown"],
-    "Reviewed-foundations observation");
-  invariant(reviewed.answerId === evidence.demonstration.reviewedAnswerId && sameValues(reviewed.claimIds, evidence.demonstration.reviewedClaimIds), "Reviewed-foundations observation used the wrong answer or claims");
-  invariant(sameValues(reviewed.foundationFacetLabels, ["Authority", "Assertion", "Verification", "Freshness", "Integrity", "Access", "Rights", "Coverage"]), "Reviewed-foundations observation lost the eight separate facets");
-  invariant(reviewed.comparisonRowCount === 11 && reviewed.trustScoreShown === false, "Reviewed-foundations observation must retain the 11-row comparison and no-score boundary");
+  const technical = byId.get("technical-review")?.observation;
+  exactKeys(technical,
+    ["activeView", "answerId", "claimIds", "comparisonRowCount", "expectedToolCount", "trustScoreShown", "legacyRoutePreserved"],
+    ["activeView", "answerId", "claimIds", "comparisonRowCount", "expectedToolCount", "trustScoreShown", "legacyRoutePreserved"],
+    "Technical review observation");
+  invariant(technical.activeView === "technical" && technical.legacyRoutePreserved === true, "Legacy evidence route did not preserve Technical review");
+  invariant(technical.answerId === evidence.demonstration.reviewedAnswerId && sameValues(technical.claimIds, evidence.demonstration.reviewedClaimIds), "Technical review used the wrong reviewed answer or claims");
+  invariant(technical.comparisonRowCount === 11 && technical.expectedToolCount === 6 && technical.trustScoreShown === false, "Technical review lost comparison, six-tool or no-score behaviour");
 
   const boundary = byId.get("boundary")?.observation;
   exactKeys(boundary,
-    ["sameOriginOnly", "browserStorage", "modelProviderRequestCount", "officialApiRequestCount", "landRegistryMetadataOnly", "standaloneLegislationCollection", "standaloneLegislationPayload", "standaloneLegislationIndex", "legislationRuntimeRequestCount", "excludedHostnameResultLinkCount", "impactClaimsFramedAsHypotheses", "remoteProviderDisclosureVisible"],
-    ["sameOriginOnly", "browserStorage", "modelProviderRequestCount", "officialApiRequestCount", "landRegistryMetadataOnly", "standaloneLegislationCollection", "standaloneLegislationPayload", "standaloneLegislationIndex", "legislationRuntimeRequestCount", "excludedHostnameResultLinkCount", "impactClaimsFramedAsHypotheses", "remoteProviderDisclosureVisible"],
+    ["sameOriginOnly", "browserStorage", "modelProviderRequestCount", "officialApiRequestCount", "landRegistryMetadataOnly", "standaloneLegislationCollection", "standaloneLegislationPayload", "standaloneLegislationIndex", "legislationRuntimeRequestCount", "excludedHostnameResultLinkCount", "impactClaimsFramedAsHypotheses", "remoteProviderDisclosureVisible", "expectedToolCount", "reviewedRecordCount", "federatedSourceRecordCount", "federatedRecordCount", "federatedQuarantinedRecordCount"],
+    ["sameOriginOnly", "browserStorage", "modelProviderRequestCount", "officialApiRequestCount", "landRegistryMetadataOnly", "standaloneLegislationCollection", "standaloneLegislationPayload", "standaloneLegislationIndex", "legislationRuntimeRequestCount", "excludedHostnameResultLinkCount", "impactClaimsFramedAsHypotheses", "remoteProviderDisclosureVisible", "expectedToolCount", "reviewedRecordCount", "federatedSourceRecordCount", "federatedRecordCount", "federatedQuarantinedRecordCount"],
     "Boundary observation");
   exactKeys(boundary.browserStorage, ["local", "session", "cookies"], ["local", "session", "cookies"], "Boundary browser storage observation");
   invariant(boundary.sameOriginOnly === true && boundary.browserStorage.local === 0 && boundary.browserStorage.session === 0 && boundary.browserStorage.cookies === "", "Boundary observation must retain same-origin-only, storage-free execution");
@@ -574,12 +806,14 @@ export function validateInteractionCaptureEvidence(evidence, config, interaction
   invariant(boundary.landRegistryMetadataOnly === true, "Boundary observation must retain the HM Land Registry metadata-only scope");
   invariant(boundary.standaloneLegislationCollection === false && boundary.standaloneLegislationPayload === false && boundary.standaloneLegislationIndex === false && boundary.legislationRuntimeRequestCount === 0 && boundary.excludedHostnameResultLinkCount === 0, "Boundary observation lost the legislation.gov.uk exclusion");
   invariant(boundary.impactClaimsFramedAsHypotheses === true && boundary.remoteProviderDisclosureVisible === true, "Boundary observation must retain the impact-hypothesis and remote-provider disclosure");
+  invariant(boundary.expectedToolCount === 6, "Boundary observation must retain the six-tool contract");
+  invariant(boundary.reviewedRecordCount === 80 && boundary.federatedSourceRecordCount === 58_655 && boundary.federatedRecordCount === 58_652 && boundary.federatedQuarantinedRecordCount === 3, "Boundary observation lost the exact evidence population");
 
   return {
     clipCount: evidence.clips.length,
     captureMethod: evidence.captureMethod,
     demonstratedRecordId: evidence.demonstration.federatedRecordId,
-    searchResultDigest: search.canonicalResultDigest,
+    presentationDigest: presented.evidenceDigest,
   };
 }
 
@@ -606,15 +840,20 @@ export async function verifyDemoDeployment(config, fetchImplementation = fetch) 
 
 export function validateConfig(config) {
   exactKeys(config,
-    ["schema", "title", "language", "productUrl", "release", "narration", "reviews", "demonstrationInputs", "interactionCaptureReceipt", "scenes"],
-    ["schema", "title", "language", "productUrl", "release", "narration", "reviews", "demonstrationInputs", "interactionCaptureReceipt", "scenes"],
+    ["schema", "title", "language", "productUrl", "release", "delivery", "narration", "reviews", "demonstrationInputs", "interactionCaptureReceipt", "scenes"],
+    ["schema", "title", "language", "productUrl", "release", "delivery", "narration", "reviews", "demonstrationInputs", "interactionCaptureReceipt", "scenes"],
     "Demo script");
-  invariant(config.schema === "trusted-govuk-discovery.demo-video-script.v3", "Demo script has the wrong schema");
+  invariant(config.schema === "govuk-webmcp.demo-video-script.v4", "Demo script has the wrong schema");
   nonEmptyString(config.title, "Demo title", 100);
   invariant(config.language === "en-GB", "Demo language must be en-GB");
   const product = new URL(config.productUrl);
   invariant(product.protocol === "https:" && !product.username && !product.password, "Product URL must be credential-free HTTPS");
-  invariant(config.release === "v0.3.0-rc.1", "Demo release must target v0.3.0-rc.1");
+  invariant(config.release === "v0.4.0-rc.1", "Demo release must target v0.4.0-rc.1");
+  exactKeys(config.delivery,
+    ["maximumDurationSeconds", "audioRequired", "captionsRequired", "captionLanguage"],
+    ["maximumDurationSeconds", "audioRequired", "captionsRequired", "captionLanguage"],
+    "Demo delivery contract");
+  invariant(config.delivery.maximumDurationSeconds === MAXIMUM_VIDEO_DURATION_SECONDS && config.delivery.audioRequired === true && config.delivery.captionsRequired === true && config.delivery.captionLanguage === "en-GB", "Demo delivery must remain under 180 seconds with English audio and captions");
   exactKeys(config.narration,
     ["type", "engine", "voice", "locale", "speechRate", "publicationBasis"],
     ["type", "engine", "voice", "locale", "speechRate", "publicationBasis"],
@@ -625,10 +864,10 @@ export function validateConfig(config) {
   invariant(Number.isInteger(config.narration.speechRate) && config.narration.speechRate >= 140 && config.narration.speechRate <= 190, "Narration speech rate must be 140 to 190 words per minute");
   invariant(config.narration.publicationBasis === "pending-owner-review", "Narration publication basis must remain pending owner review");
   exactKeys(config.reviews,
-    ["privacy", "branding", "rights", "voicePublicationBasis"],
-    ["privacy", "branding", "rights", "voicePublicationBasis"],
+    ["privacy", "branding", "rights", "voicePublicationBasis", "personalAgentCapturePublication", "finalHumanPlayback"],
+    ["privacy", "branding", "rights", "voicePublicationBasis", "personalAgentCapturePublication", "finalHumanPlayback"],
     "Demo reviews");
-  invariant(config.reviews.privacy === "pending-human-review" && config.reviews.branding === "pending-human-review" && config.reviews.rights === "pending-human-review" && config.reviews.voicePublicationBasis === "pending-owner-review", "Privacy, branding, rights and voice-publication reviews must remain pending in the local build script");
+  invariant(config.reviews.privacy === "pending-human-review" && config.reviews.branding === "pending-human-review" && config.reviews.rights === "pending-human-review" && config.reviews.voicePublicationBasis === "pending-owner-review" && config.reviews.personalAgentCapturePublication === "pending-capture-and-human-review" && config.reviews.finalHumanPlayback === "pending", "Privacy, branding, rights, personal-agent capture, voice-publication and final-playback reviews must remain pending in the local build script");
   invariant(config.interactionCaptureReceipt === expectedInteractionCaptureReceipt, "Demo script must use the reviewed live-interaction capture receipt path");
   exactKeys(config.demonstrationInputs,
     ["query", "collections", "limit", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
@@ -645,7 +884,7 @@ export function validateConfig(config) {
   const numbers = new Set();
   for (const scene of config.scenes) {
     exactKeys(scene,
-      ["id", "number", "kind", "eyebrow", "title", "media", "evidence", "mediaReceipt", "requiredActions", "cues"],
+      ["id", "number", "kind", "hostId", "caseId", "repetition", "eyebrow", "title", "media", "evidence", "mediaReceipt", "requiredActions", "cues"],
       ["id", "number", "kind", "eyebrow", "title", "media", "cues"],
       `Scene ${scene?.id ?? "unknown"}`);
     nonEmptyString(scene.id, "Scene ID", 40);
@@ -653,7 +892,7 @@ export function validateConfig(config) {
     ids.add(scene.id);
     invariant(/^\d{2}$/u.test(scene.number) && !numbers.has(scene.number), `Scene ${scene.id} has an invalid or duplicate number`);
     numbers.add(scene.number);
-    invariant(["interaction", "receipt-visualisation", "voiceover", "context"].includes(scene.kind), `Scene ${scene.id} has an invalid kind`);
+    invariant(["interaction", "receipt-visualisation", "personal-agent-capture", "voiceover", "context"].includes(scene.kind), `Scene ${scene.id} has an invalid kind`);
     nonEmptyString(scene.eyebrow, `Scene ${scene.id} eyebrow`, 80);
     nonEmptyString(scene.title, `Scene ${scene.id} title`, 100);
     exactKeys(scene.media, ["type", "path", "startSeconds"], ["type", "path", "startSeconds"], `Scene ${scene.id} media`);
@@ -666,7 +905,7 @@ export function validateConfig(config) {
       invariant(!cue.includes("-->") && !/[\r\n]/u.test(cue), `Scene ${scene.id} has unsafe WebVTT cue text`);
       wrapCaption(cue);
     }
-    if (["receipt-visualisation", "voiceover"].includes(scene.kind)) nonEmptyString(scene.evidence, `Scene ${scene.id} evidence path`, 240);
+    if (["receipt-visualisation", "personal-agent-capture", "voiceover"].includes(scene.kind)) nonEmptyString(scene.evidence, `Scene ${scene.id} evidence path`, 240);
     else invariant(scene.evidence === undefined, `Scene ${scene.id} must not claim unrelated evidence`);
     if (scene.kind === "receipt-visualisation") nonEmptyString(scene.mediaReceipt, `Scene ${scene.id} media receipt path`, 240);
     else invariant(scene.mediaReceipt === undefined, `Scene ${scene.id} must not claim an unrelated media receipt`);
@@ -675,10 +914,19 @@ export function validateConfig(config) {
       for (const action of scene.requiredActions) nonEmptyString(action, `Scene ${scene.id} required action`, 120);
       invariant(new Set(scene.requiredActions).size === scene.requiredActions.length, `Scene ${scene.id} required actions must be unique`);
     } else invariant(scene.requiredActions === undefined, `Scene ${scene.id} must not claim unrelated live-capture actions`);
+    if (scene.kind === "personal-agent-capture") {
+      const contract = personalAgentSceneContracts[scene.id];
+      invariant(contract, `Scene ${scene.id} is not one of the two fixed personal-agent scenes`);
+      invariant(scene.hostId === contract.hostId && scene.caseId === contract.caseId && scene.repetition === contract.repetition, `Scene ${scene.id} has the wrong fixed personal-agent run identity`);
+      invariant(scene.media.path === contract.mediaPath && scene.evidence === contract.evidencePath, `Scene ${scene.id} has the wrong future clip or receipt path`);
+    } else {
+      invariant(scene.hostId === undefined && scene.caseId === undefined && scene.repetition === undefined, `Scene ${scene.id} must not claim an unrelated personal-agent run`);
+    }
   }
   invariant(config.scenes.filter(({ kind }) => kind === "receipt-visualisation").length === 1, "Demo must contain exactly one supported-host receipt visualisation");
+  invariant(config.scenes.filter(({ kind }) => kind === "personal-agent-capture").length === 2, "Demo must contain exactly two genuine personal-agent captures");
   invariant(config.scenes.filter(({ kind }) => kind === "voiceover").length === 1, "Demo must contain exactly one VoiceOver scene");
-  invariant(sameValues(config.scenes.map(({ id }) => id), ["federated-search", "overview", "federated-record", "webmcp", "reviewed-foundations", "voiceover", "boundary"]), "Demo must contain the exact seven-scene federated story in order");
+  invariant(sameValues(config.scenes.map(({ id }) => id), ["evidence-answer", "present-evidence", "comparison-guide", "copilot-personal-ai", "webmcp", "technical-review", "ollama-local", "voiceover", "boundary"]), "Demo must contain the exact nine-scene Evidence answer story in order");
   return config;
 }
 
@@ -704,7 +952,7 @@ async function regularRepositoryFile(value, label, extensions, maximumBytes) {
   const rootReal = await realpath(repositoryRoot);
   const candidateReal = await realpath(candidate);
   invariant(inside(rootReal, candidateReal), `${label} resolves outside the repository`);
-  return { absolutePath: candidateReal, relativePath: value, sizeBytes: info.size };
+  return { absolutePath: candidateReal, relativePath: value, sizeBytes: info.size, mode: info.mode & 0o777 };
 }
 
 function parseArguments(argv) {
@@ -791,12 +1039,64 @@ async function preflight(options) {
       if (scene.evidence) {
         try {
           const file = await regularRepositoryFile(scene.evidence, `Scene ${scene.id} evidence`, [".json"], 10_000_000);
+          if (scene.kind === "personal-agent-capture") file.publiclyReportable = false;
           const parsed = JSON.parse(await readFile(file.absolutePath, "utf8"));
           const summary = scene.kind === "voiceover" ? validateVoiceOverEvidence(parsed, config) : null;
           evidence.set(scene.id, { ...file, parsed, summary });
           inputs.push(file);
         } catch (error) { errors.push(error.message); }
       }
+    }
+    try {
+      const personalAgentScenes = config.scenes.filter(({ kind }) => kind === "personal-agent-capture");
+      if (personalAgentScenes.length > 0) {
+        const loadedCaseSet = await loadAndValidateCaseSet();
+        const sourceCaptureFile = await regularRepositoryFile(expectedPrivateEvaluationCapture, "Private personal-agent evaluation capture", [".json"], 64 * 1024 * 1024);
+        sourceCaptureFile.sha256 = await sha256File(sourceCaptureFile.absolutePath);
+        sourceCaptureFile.publiclyReportable = false;
+        invariant(sourceCaptureFile.mode === 0o600, "Private personal-agent evaluation capture must have mode 0600");
+        const sourceCapture = JSON.parse(await readFile(sourceCaptureFile.absolutePath, "utf8"));
+
+        const liveReleaseFile = await regularRepositoryFile(expectedPrivateLiveReleaseReceipt, "Private live Pages verification receipt", [".json"], 1_000_000);
+        liveReleaseFile.sha256 = await sha256File(liveReleaseFile.absolutePath);
+        liveReleaseFile.publiclyReportable = false;
+        invariant(liveReleaseFile.mode === 0o600, "Private live Pages verification receipt must have mode 0600");
+        const liveRelease = validateLiveReleaseReceipt(JSON.parse(await readFile(liveReleaseFile.absolutePath, "utf8")));
+        invariant(liveRelease.commit === config.productCommit && liveRelease.runId === config.pagesRunId && liveRelease.baseUrl === config.productUrl, "Private live Pages verification receipt does not match the configured release");
+
+        const authenticatedSummaryFile = await regularRepositoryFile(expectedPrivateAuthenticatedSummary, "Private authenticated personal-agent summary", [".json"], 8 * 1024 * 1024);
+        authenticatedSummaryFile.sha256 = await sha256File(authenticatedSummaryFile.absolutePath);
+        authenticatedSummaryFile.publiclyReportable = false;
+        invariant(authenticatedSummaryFile.mode === 0o600, "Private authenticated personal-agent summary must have mode 0600");
+        const authenticatedSummary = JSON.parse(await readFile(authenticatedSummaryFile.absolutePath, "utf8"));
+        const structuralSummary = await summariseEvaluationCapture(sourceCapture, loadedCaseSet, liveRelease);
+        const authenticatedSummaryBinding = validateAuthenticatedPersonalAgentSummary(authenticatedSummary, structuralSummary, config, sourceCapture, liveRelease);
+        inputs.push(sourceCaptureFile, liveReleaseFile, authenticatedSummaryFile);
+
+        for (const scene of personalAgentScenes) {
+          try {
+            const receiptInput = evidence.get(scene.id);
+            const mediaInput = media.get(scene.id);
+            invariant(receiptInput && mediaInput, `Personal-agent scene ${scene.id} must have both an exact receipt and clip`);
+            invariant(receiptInput.mode === 0o600, `Personal-agent receipt ${scene.id} must have mode 0600`);
+            receiptInput.sha256 = await sha256File(receiptInput.absolutePath);
+            receiptInput.summary = validatePersonalAgentCaptureEvidence(
+              receiptInput.parsed,
+              config,
+              scene,
+              mediaInput,
+              sourceCaptureFile,
+              sourceCapture,
+              authenticatedSummaryFile,
+              authenticatedSummaryBinding,
+              liveReleaseFile,
+              liveRelease,
+            );
+          } catch (error) { errors.push(error.message); }
+        }
+      }
+    } catch (error) {
+      errors.push(error.message);
     }
     for (const scene of config.scenes.filter(({ kind }) => kind === "voiceover")) {
       try {
@@ -941,7 +1241,7 @@ function buildTranscript(config) {
     "- Source-clip audio: omitted from the edit",
     "- Music: none",
     "",
-    "The reviewed live-interaction clips are paired with an original British-English script. The supported-host scene is a local visualisation of its machine receipt, not a host recording. The VoiceOver evidence record, not the synthetic soundtrack, is the basis for the bounded assistive-technology observation.",
+    "The reviewed live-interaction clips are paired with an original British-English script. The Copilot and Ollama scenes must be genuine, exact-release recordings with clip-level privacy, branding and owner review; they cannot be reconstructed. The supported-host scene is a separate local visualisation of its machine receipt, not a host recording. The VoiceOver evidence record, not the synthetic soundtrack, is the basis for the bounded assistive-technology observation.",
     "",
     ...config.scenes.flatMap((scene) => [`## ${scene.number}. ${scene.title}`, "", scene.cues.join(" "), ""]),
     "## Boundary",
@@ -953,7 +1253,7 @@ function buildTranscript(config) {
 
 export function validateFinalVideo(result) {
   const duration = durationOf(result, "Final video");
-  invariant(duration < 180, `Final video duration ${duration} is not under 180 seconds`);
+  invariant(duration < MAXIMUM_VIDEO_DURATION_SECONDS, `Final video duration ${duration} is not under 180 seconds`);
   const video = result.streams?.find(({ codec_type }) => codec_type === "video");
   const audio = result.streams?.find(({ codec_type }) => codec_type === "audio");
   const subtitle = result.streams?.find(({ codec_type }) => codec_type === "subtitle");
@@ -1032,25 +1332,30 @@ async function build(options, preflightResult) {
     const duration = validateFinalVideo(finalProbe);
     const finalLoudness = parseLoudness(ffmpeg(["-i", finalVideo, "-af", "loudnorm=I=-16:LRA=7:TP=-1.5:print_format=json", "-f", "null", "-"], { capture: true }).stderr);
     const verification = {
-      schema: "trusted-govuk-discovery.demo-video-build.v3",
+      schema: "govuk-webmcp.demo-video-build.v4",
       status: "local-review-build-not-published",
       product: { url: config.productUrl, release: config.release, commit: config.productCommit, pagesRunId: config.pagesRunId },
       environment: { node: process.version, platform: platform(), operatingSystemRelease: release(), architecture: arch(), tools },
-      inputs: inputs.map(({ relativePath, sizeBytes, sha256 }) => ({ path: relativePath, sizeBytes, sha256 })).sort((a, b) => a.path.localeCompare(b.path, "en-GB")),
+      inputs: inputs.filter(({ publiclyReportable }) => publiclyReportable !== false).map(({ relativePath, sizeBytes, sha256 }) => ({ path: relativePath, sizeBytes, sha256 })).sort((a, b) => a.path.localeCompare(b.path, "en-GB")),
+      privateInputs: { verifiedCount: inputs.filter(({ publiclyReportable }) => publiclyReportable === false).length, pathsAndDigestsPublished: false },
       video: { fileName: basename(options.output), sha256: await sha256File(finalVideo), durationSeconds: duration, streams: finalProbe.streams, publicUrl: null, signedOutPlaybackVerified: false },
-      captions: { path: "docs/competition/demo-captions.en-GB.vtt", sha256: await sha256File(tempCaptions), language: config.language, embeddedTrack: true, publicPlayerTrackVerified: false },
-      transcript: { path: "docs/competition/demo-transcript.md", sha256: await sha256File(tempTranscript) },
-      script: { path: "docs/competition/demo-video-script.json", sha256: await sha256File(preflightResult.configFile.absolutePath) },
+      captions: { path: "docs/competition/demo-captions.v0.4.0-rc.1.en-GB.vtt", sha256: await sha256File(tempCaptions), language: config.language, embeddedTrack: true, publicPlayerTrackVerified: false },
+      transcript: { path: "docs/competition/demo-transcript-v0.4.0-rc.1.md", sha256: await sha256File(tempTranscript) },
+      script: { path: "docs/competition/demo-video-script-v0.4.0-rc.1.json", sha256: await sha256File(preflightResult.configFile.absolutePath) },
       narration: { type: config.narration.type, engine: config.narration.engine, voice: config.narration.voice, locale: config.narration.locale, speechRate: config.narration.speechRate, publicationBasis: config.narration.publicationBasis, sourceClipAudioIncluded: false, backgroundMusic: false, measuredOutput: finalLoudness },
       evidence: {
         interactionCapture: evidence.get("live-interaction-capture").summary,
+        personalAgentCaptures: Object.fromEntries(config.scenes
+          .filter(({ kind }) => kind === "personal-agent-capture")
+          .map((scene) => [scene.hostId, evidence.get(scene.id).summary])),
         supportedHost: evidence.get("webmcp").summary,
         supportedHostMedia: evidence.get("webmcp-media").summary,
         voiceOver: evidence.get("voiceover").summary,
       },
-      reviews: { privacy: "pending-human-review", branding: "pending-human-review", rights: "pending-human-review", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },
+      reviews: { privacy: "pending-human-review", branding: "pending-human-review", rights: "pending-human-review", personalAgentClipReviews: "passed", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },
       limitations: [
         "This record proves a bounded local review build, not public YouTube publication or signed-out playback.",
+        "The personal-agent scenes are observational host captures and do not support a causal comparison between models.",
         "The installed macOS synthetic voice was used locally; its publication basis remains pending owner review.",
         "Source-clip audio is omitted. The retained VoiceOver record, not this soundtrack, supports the manual accessibility observation.",
       ],
@@ -1072,7 +1377,7 @@ export async function main(argv = process.argv.slice(2)) {
   const options = parseArguments(argv);
   const result = await preflight(options);
   if (options.preflightOnly) {
-    process.stdout.write(`${JSON.stringify({ status: "preflight-passed", inputs: result.inputs.map(({ relativePath, sha256 }) => ({ path: relativePath, sha256 })), tools: result.tools }, null, 2)}\n`);
+    process.stdout.write(`${JSON.stringify({ status: "preflight-passed", inputs: result.inputs.filter(({ publiclyReportable }) => publiclyReportable !== false).map(({ relativePath, sha256 }) => ({ path: relativePath, sha256 })), privateInputs: { verifiedCount: result.inputs.filter(({ publiclyReportable }) => publiclyReportable === false).length, pathsAndDigestsPublished: false }, tools: result.tools }, null, 2)}\n`);
     return;
   }
   process.stdout.write(`${JSON.stringify(await build(options, result), null, 2)}\n`);

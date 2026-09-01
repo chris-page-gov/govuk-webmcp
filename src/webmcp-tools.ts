@@ -137,7 +137,7 @@ function safePublicUrl(value: unknown, label = "URL"): string {
     url.hostname.endsWith(".gov.uk") ||
     url.hostname === "data.police.uk";
   if (
-    url.protocol !== "https:" || url.username || url.password || !officialHost ||
+    url.protocol !== "https:" || url.username || url.password || url.port || !officialHost ||
     url.toString() !== value || /%(?![a-fA-F0-9]{2})/u.test(value)
   ) {
     throw new Error(`${label} must be a credential-free HTTPS URL on an admitted official host.`);
@@ -979,6 +979,20 @@ const recordInputSchema: JsonObject = {
   required: ["recordId"],
 };
 
+const presentationInputSchema: JsonObject = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    recordId: {
+      type: "string",
+      minLength: 3,
+      maxLength: 160,
+      pattern: "^govuk-discovery:(?:(?!federated:)[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$",
+    },
+  },
+  required: ["recordId"],
+};
+
 const answerInputSchema: JsonObject = {
   type: "object",
   additionalProperties: false,
@@ -1011,6 +1025,7 @@ export const TOOL_INPUT_SCHEMAS: Readonly<Record<string, JsonObject>> = Object.f
   show_provenance: recordInputSchema,
   explore_answer_foundations: answerInputSchema,
   compare_evidence_foundations: comparisonInputSchema,
+  present_resource_evidence: presentationInputSchema,
 });
 
 export type RegistrationState = "registered" | "unavailable" | "blocked" | "failed";
@@ -1029,6 +1044,7 @@ const EXPECTED_TOOL_NAMES = [
   "show_provenance",
   "explore_answer_foundations",
   "compare_evidence_foundations",
+  "present_resource_evidence",
 ] as const;
 
 export const TOOL_DESCRIPTIONS: Readonly<Record<(typeof EXPECTED_TOOL_NAMES)[number], string>> = Object.freeze({
@@ -1037,6 +1053,7 @@ export const TOOL_DESCRIPTIONS: Readonly<Record<(typeof EXPECTED_TOOL_NAMES)[num
   show_provenance: "Inspect provenance using the canonical govuk-discovery: record ID exactly, not a display label. Returns either an item-level reviewed receipt or the file, snapshot and manifest bindings for a federated record. It does not refetch or independently certify an official source.",
   explore_answer_foundations: "Use canonical answer: and optional claim: IDs exactly, not display labels, to select one bounded evidence-first answer or claim and update this page's analytical index and Evidence Trace. The only effect is reversible in-memory presentation; no source, storage or external state changes.",
   compare_evidence_foundations: "Use one canonical answer: ID and two to four canonical claim: IDs exactly, not display labels, to update this page's accessible comparison. It does not rank sources or change catalogue, storage, network or external state.",
+  present_resource_evidence: "Use one canonical govuk-discovery: record ID exactly, not a display label, to update this page's Evidence answer with the same closed, deterministic evidence object returned by the tool. The reversible presentation effect changes no URL, history, focus, scroll, storage, catalogue or external state and accepts no personal context.",
 });
 
 function webMcpActionOptions(
@@ -1090,6 +1107,14 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
       annotations: { readOnlyHint: false, ...untrusted },
       execute: (input, options) => actions.run("compare_evidence_foundations", input, webMcpActionOptions(true, options)),
     },
+    {
+      name: "present_resource_evidence",
+      title: "Present evidence for a government resource",
+      description: TOOL_DESCRIPTIONS.present_resource_evidence,
+      inputSchema: presentationInputSchema,
+      annotations: { readOnlyHint: false, ...untrusted },
+      execute: (input, options) => actions.run("present_resource_evidence", input, webMcpActionOptions(true, options)),
+    },
   ];
 }
 
@@ -1130,7 +1155,7 @@ async function registerTools(actions: KnowledgeActionController): Promise<Regist
       state: "registered",
       expectedNames,
       registeredNames,
-      reason: "All five fixed tools registered after reviewed evidence, admissions and the lazy federated-search manifest validated.",
+      reason: "All six fixed tools registered after reviewed evidence, admissions and the lazy federated-search manifest validated.",
       dispose: () => lifetime.abort(),
     };
   } catch (error) {

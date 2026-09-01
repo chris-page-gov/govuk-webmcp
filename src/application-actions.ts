@@ -1,25 +1,42 @@
 import type { JsonObject } from "./contracts.js";
 import type { EvidenceRuntime } from "./evidence-runtime.js";
 import { canonicalJson, sha256Hex } from "./integrity.js";
+import {
+  executePresentResourceEvidence,
+  type RecordPresentationSupport,
+} from "./present-resource-evidence.js";
 
 export type KnowledgeActionName =
   | "search_government_knowledge"
   | "get_resource_record"
   | "show_provenance"
   | "explore_answer_foundations"
-  | "compare_evidence_foundations";
+  | "compare_evidence_foundations"
+  | "present_resource_evidence";
 
 export interface ActionPresentation {
   action: KnowledgeActionName;
-  origin: "human" | "webmcp";
+  origin: "human" | "webmcp" | "restore";
   inputDigest: string | null;
   resultDigest: string;
   result: JsonObject;
+  /** Validated source results for the Technical review renderer; never returned by a page tool. */
+  support: RecordPresentationSupport | null;
+  /**
+   * Internal liveness check for asynchronous render work. A later-started
+   * Evidence-answer action makes this return false before that later action
+   * has to finish.
+   */
+  isCurrentEvidencePresentation: () => boolean;
 }
 
 export interface ActionOptions {
-  origin: "human" | "webmcp";
+  origin: "human" | "webmcp" | "restore";
   present: boolean;
+  /** False only when rebuilding presentation from a deep link or history entry. */
+  actionWasAccepted?: boolean;
+  /** Internal acknowledgement that this request, rather than a stale request, committed its presentation. */
+  onPresentationCommit?: () => void;
   signal?: AbortSignal;
 }
 
@@ -32,6 +49,12 @@ interface PureKnowledgeRuntime {
 
 export interface KnowledgeActionController {
   run(action: KnowledgeActionName, input: unknown, options: ActionOptions): Promise<JsonObject>;
+}
+
+function changesEvidencePresentation(action: KnowledgeActionName): boolean {
+  return action === "explore_answer_foundations" ||
+    action === "compare_evidence_foundations" ||
+    action === "present_resource_evidence";
 }
 
 function throwIfAborted(signal: AbortSignal | undefined): void {
@@ -128,11 +151,18 @@ export function createKnowledgeActionController(
   runtime: PureKnowledgeRuntime,
   commitPresentation?: (presentation: ActionPresentation) => void,
 ): KnowledgeActionController {
+  let latestEvidencePresentation = 0;
   return {
     async run(action, input, options): Promise<JsonObject> {
       throwIfAborted(options.signal);
+      const evidencePresentationSequence = options.present && changesEvidencePresentation(action)
+        ? ++latestEvidencePresentation
+        : null;
+      const isCurrentEvidencePresentation = (): boolean =>
+        evidencePresentationSequence === null || evidencePresentationSequence === latestEvidencePresentation;
       const diagnosticInput = admittedDiagnosticInput(input);
       let result: JsonObject;
+      let support: RecordPresentationSupport | null = null;
       if (exceedsRootInputBudget(input)) {
         result = inputBudgetError();
       } else {
@@ -153,6 +183,17 @@ export function createKnowledgeActionController(
           case "compare_evidence_foundations":
             result = await runtime.evidence.compare(input);
             break;
+          case "present_resource_evidence": {
+            const execution = await executePresentResourceEvidence(runtime, input, {
+              ...runtimeOptions,
+              ...(options.actionWasAccepted === undefined
+                ? {}
+                : { actionWasAccepted: options.actionWasAccepted }),
+            });
+            result = execution.result;
+            support = execution.support;
+            break;
+          }
         }
       }
       throwIfAborted(options.signal);
@@ -162,7 +203,20 @@ export function createKnowledgeActionController(
           : null;
         const resultDigest = await sha256Hex(canonicalJson(normaliseForJsonDigest(result)));
         throwIfAborted(options.signal);
-        commitPresentation?.({ action, origin: options.origin, inputDigest, resultDigest, result });
+        if (isCurrentEvidencePresentation()) {
+          if (commitPresentation) {
+            commitPresentation({
+              action,
+              origin: options.origin,
+              inputDigest,
+              resultDigest,
+              result,
+              support,
+              isCurrentEvidencePresentation,
+            });
+            options.onPresentationCommit?.();
+          }
+        }
       }
       return result;
     },

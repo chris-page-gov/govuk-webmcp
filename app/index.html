@@ -12,9 +12,9 @@
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <header>
       <p class="phase">Independent experimental prototype</p>
-      <h1>Trusted government knowledge discovery</h1>
+      <p class="site-title">Government evidence for your AI</p>
       <p class="lede">Find government knowledge through reviewed evidence and governed OKF snapshots. Every result keeps its source, assurance tier and limitations visible.</p>
-      <dl class="catalogue-summary" aria-label="Verified knowledge summary">
+      <dl class="catalogue-summary" aria-label="Knowledge evidence summary">
         <div><dt>Reviewed evidence</dt><dd><span id="record-count">Verifying…</span> records</dd></div>
         <div><dt>Federated discovery</dt><dd><span id="federated-record-count">Verifying…</span> searchable records from <span id="federated-source-record-count">Verifying…</span> locked source rows; <span id="federated-quarantined-count">Verifying…</span> legislation rows quarantined</dd></div>
         <div><dt>Bundle</dt><dd><code id="bundle-digest">Verifying…</code></dd></div>
@@ -22,8 +22,33 @@
         <div><dt>Runtime</dt><dd id="tool-status">Verifying…</dd></div>
       </dl>
     </header>
+    <nav class="view-navigation" aria-label="Evidence views">
+      <ul>
+        <li><a id="view-evidence-link" href="#view=guided" aria-current="page">Evidence answer</a></li>
+        <li><a id="view-technical-link" href="#view=technical">Technical review</a></li>
+      </ul>
+    </nav>
+    <p id="status" class="application-status" role="status">Loading and verifying the packaged evidence…</p>
     <main id="main-content" tabindex="-1">
       <p id="route-warning" class="warning" hidden></p>
+      <section id="evidence-answer-view" aria-labelledby="evidence-answer-heading">
+        <p class="eyebrow">Evidence before answers</p>
+        <h1 id="evidence-answer-heading" tabindex="-1">Evidence answer</h1>
+        <p class="lede">Your AI can interpret your circumstances. This page supplies bounded government evidence without needing those private circumstances, so you can inspect what supports the answer before acting.</p>
+        <p id="evidence-answer-activity" class="plain-status">No AI action was presented to this page.</p>
+        <div id="evidence-answer-content">
+          <section class="answer-card" aria-labelledby="evidence-answer-empty-heading">
+            <h2 id="evidence-answer-empty-heading">Ask your AI to find government evidence</h2>
+            <p>The page will show the exact evidence it can support, its recorded source, what remains unknown and the next appropriate check.</p>
+            <p class="warning"><strong>This page does not see your AI's final wording.</strong> Compare its dates, amounts, eligibility decisions and instructions with the evidence shown here.</p>
+            <p><a href="#view=technical">Search the catalogue in Technical review</a></p>
+          </section>
+        </div>
+      </section>
+
+      <section id="technical-review-view" aria-labelledby="technical-review-heading" hidden>
+      <p class="eyebrow">Detailed assurance interface</p>
+      <h1 id="technical-review-heading" tabindex="-1">Technical review: government knowledge evidence</h1>
       <section id="answer-panel" aria-labelledby="answer-heading">
         <p class="eyebrow">Worked evidence-first answer</p>
         <h2 id="answer-heading">Check an answer before relying on it</h2>
@@ -108,7 +133,6 @@
             </div>
           </details>
         </form>
-        <p id="status" role="status">Loading and verifying the local catalogue and receipts…</p>
       </section>
       <section aria-labelledby="results-heading">
         <div class="section-heading">
@@ -138,7 +162,7 @@
       <section class="webmcp-impact" aria-labelledby="webmcp-impact-heading">
         <p class="eyebrow">Why WebMCP matters</p>
         <h2 id="webmcp-impact-heading">Publish evidence and tools, not another government chatbot</h2>
-        <p>This page hosts no AI model. It exposes five bounded page tools over static, source-linked evidence. A citizen-selected AI can use what it already knows about the citizen to choose a tool, then send only the necessary search terms or record identifier. The page does not accept a profile, conversation history, personal context or arbitrary URL.</p>
+        <p>This page hosts no AI model. It exposes six bounded page tools over static, source-linked evidence. A citizen-selected AI can use what it already knows about the citizen to choose a tool, then send only the necessary search terms or record identifier. No tool exposes a dedicated profile, conversation-history, location-history or arbitrary-URL field.</p>
         <ol class="impact-flow">
           <li><strong>The citizen’s AI understands the situation.</strong> Personal context stays outside the government tool input.</li>
           <li><strong>WebMCP exposes a small, inspectable action.</strong> Closed schemas and executable validation bound every call.</li>
@@ -157,12 +181,13 @@
           <div><dt>Collection state</dt><dd id="diagnostic-collections">Verifying…</dd></div>
           <div><dt>Last federated read</dt><dd id="diagnostic-federated-read">No federated shard loaded</dd></div>
           <div><dt>Registration</dt><dd id="diagnostic-registration">Checking…</dd></div>
-          <div><dt>Expected tools</dt><dd id="diagnostic-tools">5 fixed tools</dd></div>
-          <div><dt>Presentation effect</dt><dd>Two exploration tools may change reversible in-memory display selection. They do not change catalogue, storage, network or external state.</dd></div>
+          <div><dt>Expected tools</dt><dd id="diagnostic-tools">6 fixed tools</dd></div>
+          <div><dt>Presentation effect</dt><dd>Two exploration tools and the Evidence answer presentation tool may change reversible in-memory display selection. They do not change catalogue, storage or external state.</dd></div>
           <div><dt>Last presentation action</dt><dd id="diagnostic-last-action">None</dd></div>
           <div><dt>Input digest</dt><dd><code id="diagnostic-input-digest">Not available</code></dd></div>
           <div><dt>Result/display parity</dt><dd id="diagnostic-parity">Not tested yet</dd></div>
         </dl>
+      </section>
       </section>
     </main>
     <footer>

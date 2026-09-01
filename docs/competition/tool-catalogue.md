@@ -1,4 +1,4 @@
-# 8. Implemented baseline and released federated WebMCP
+# 8. Released WebMCP and in-progress Evidence answer candidate
 
 ## 8.1 Human-agent shared page
 
@@ -50,7 +50,18 @@ A separate exact-release observation records all five tools being discovered
 and called in Codex In-app Browser plugin 26.825.32147; that observation is
 specific to that host, version and time and did not use a model.
 
-## 8.2 Five fixed tools
+The unreleased `0.4.0-rc.1` working candidate keeps that five-tool release
+contract and adds a sixth bounded presentation action. It also adds persistent
+**Evidence answer** and **Technical review** views over one action controller
+and one closed deterministic presentation object. Nothing in this catalogue
+turns the five-tool host receipts into six-tool evidence: candidate build,
+full-corpus and automated browser checks now pass locally. Frozen code-snapshot
+security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items,
+ran 102 focused tests, found zero findings and concluded that there is no
+security release blocker. Manual
+accessibility, protected release and host acceptance remain pending.
+
+## 8.2 Five released tools
 
 | Tool | Purpose | Input bound | Page effect | `readOnlyHint` |
 |---|---|---|---|---:|
@@ -201,13 +212,60 @@ comparison and selects the matching trace paths.
 
 **Human equivalent:** select claim checkboxes, then **Compare selected claims**.
 
+### Candidate Tool 6 — `present_resource_evidence`
+
+**Title:** Present evidence for a government resource
+
+**Candidate description:** Use one canonical `govuk-discovery:` record ID
+exactly, not a display label, to update this page's Evidence answer with the
+same closed deterministic evidence object returned by the tool. The reversible
+presentation effect changes no URL, history, focus, scroll, storage, catalogue
+or external state and accepts no personal context.
+
+**Input:** one required `recordId` and no other field. Executable validation
+accepts only the same bounded reviewed or four-collection federated identifier
+pattern used for exact record lookup. Unknown fields, accessors, malformed IDs
+and unrelated personal-context fields fail closed and are not copied into the
+presentation.
+
+**Output:** `govuk-webmcp.present-resource-evidence-result.v1` contains one
+closed `govuk-webmcp.beginner-presentation.v1` object plus its canonical
+SHA-256 digest. The action resolves the exact record first, then its provenance,
+cross-checks their ID, tier and bindings and returns no partial presentation on
+failure. The object keeps evidence tier, source role, limitations, accepted
+input, cannot-decide boundaries and underlying result digests separate.
+Execution has an eight-second deadline. Cancellation, timeout or a superseding
+presentation cannot commit a partial or stale answer; the previous Evidence
+answer remains visible.
+
+**Why `readOnlyHint` is false:** a successful call may update the reversible
+Evidence answer selection. It does not change the active view, fragment,
+history, focus or scroll and does not write storage, mutate evidence or call an
+official service or model provider.
+
+**Human equivalent:** **Show evidence for this result** uses the same action.
+An explicit human selection may navigate to Evidence answer and add the
+validated record ID to bounded history; a WebMCP call may not.
+
+This tool is implemented only in the worktree candidate. It has no public
+release or accepted host observation.
+
 ## 8.3 Registration and shared execution
 
-At this working-tree checkpoint the repository publishes 31 closed JSON
-Schemas; recompute the exact contract count after the exact-tree rescan. The current search input and
-successful v2 output, reviewed and federated record summaries, federated
-manifest and shards, and reviewed/federated exact-record and provenance unions
-are all checked against their executable counterparts.
+Released `v0.3.0-rc.1` publishes 31 closed JSON Schemas. The worktree contains
+36 schema files after adding the beginner presentation, presentation input and
+output, personal-agent case-set and private evaluation-capture candidate
+contracts. The current prepared unit suite passes 272 of 272, while the complete
+candidate browser suites pass 43 of 43 in installed Chrome and 43 of 43 in
+installed Edge. The offline double build passes for 1,883 files and 128,646,550
+bytes at aggregate SHA-256
+`3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
+These automated observations do not replace candidate-specific manual
+accessibility, protected deployment or six-tool host evidence. The current search
+input and successful v2
+output, reviewed and federated record summaries, federated manifest and shards,
+and reviewed/federated exact-record and provenance unions are all checked
+against their executable counterparts.
 
 The page registers tools imperatively with `document.modelContext.registerTool`
 only after five same-origin artefact families have validated:
@@ -225,18 +283,24 @@ only after five same-origin artefact families have validated:
    searchable records, source-lock digest and every declared postings and
    record-shard identity.
 
-The application registers all five fixed definitions or none. Local definition
-checks reject duplicate names or an open schema. Registration has a three-second
+The released application registers all five fixed definitions or none. The
+candidate registers all six definitions or none. Local definition checks
+reject duplicate names or an open schema. Registration has a three-second
 timeout and a failed or blocked attempt withdraws the partial registration
 lifetime while leaving the verified human interface available.
 
 Human controls and tool callbacks call the same `KnowledgeActionController`.
 The controller applies a cheap root-input budget before action-specific
 validation, honours cancellation, hashes only admitted diagnostic input and
-commits a presentation result only when the action allows it. This keeps the
-structured tool result and the visible deterministic result aligned.
+uses one latest-started sequence for explored answers, comparisons and record
+presentations. An older call can return its deterministic result, but neither
+its direct commit nor a delayed reviewed projection can replace a newer page
+selection. A human route is changed only after that commit. A background WebMCP presentation
+updates the Evidence answer and its durable link without replacing the active
+Technical review record or changing view, URL, history, focus or scroll. This
+keeps the structured tool result and the visible deterministic result aligned.
 
-The candidate's build admission adds the fifth source-lock registry entry for
+Released `v0.3.0-rc.1` added the fifth source-lock registry entry for
 the digest-bound four-publication federation lock. The browser does not fetch
 that authored lock: it receives the validated same-origin lazy-search manifest
 as the fifth start-up artefact family. A start-up checksum, manifest, schema or
@@ -267,17 +331,17 @@ closed output schemas for validation, but it does not register a non-standard
 The historical `v0.2` generation starts from four exact source-lock registry
 entries: 69 GOV.UK content records, 11 curated government data and API records,
 1 answer pack and 10 corpus-admission decisions. At this working-tree
-checkpoint the candidate requires a fifth entry binding the exact four-
-publication OKF federation lock. Registry
+checkpoint the released data plane retains a fifth entry binding the exact
+four-publication OKF federation lock. Registry
 validation binds exact IDs, paths, item counts and SHA-256 values and rejects
 symbolic links, non-regular files, path swaps and changed file identity.
 
 The historical federation manifest contains 10 admissions: 2 searchable
 deep-evidence collections and 8 that were described-only, conditional,
-quarantined or contract-only. At this working-tree checkpoint the 10-entry
-manifest has 6 searchable admissions — the same 2 reviewed collections and 4
-federated source snapshots — and 4 non-searchable admissions. Recompute the
-exact admission, lock and schema totals after the exact-tree rescan.
+quarantined or contract-only. Released `v0.3.0-rc.1` has 6 searchable
+admissions — the same 2 reviewed collections and 4 federated source snapshots
+— and 4 non-searchable admissions. The `0.4.0-rc.1` presentation candidate does
+not change those admissions or source locks.
 `sourceOkfCore` records the producer
 declaration separately from the `targetOkfCore` 0.2 mapping. A descriptor or
 crosswalk does not by itself admit, redistribute or make a producer payload
@@ -472,16 +536,19 @@ Python requirements and runs semantic WebMCP smoke before deployment. These
 paths passed for the protected integration and corrected Pages deployment.
 
 `webmcp:devtools:capture` uses the exactly pinned `chrome-devtools-mcp` 1.8.0
-with Chrome 150 or later. It builds and serves the candidate on loopback, starts
-an isolated Chrome profile with an exact origin allow-list, calls
+with Chrome 150 or later. The current harness expects the complete six-tool
+`0.4.0-rc.1` definition set, including `present_resource_evidence`; it should
+fail closed against the five-tool public release. Historical five-tool receipts
+remain readable evidence; this six-tool harness does not rerun them. The harness
+builds and serves on loopback, starts an isolated Chrome profile with an exact origin allow-list, calls
 `list_webmcp_tools` with the selected `pageId`, then calls
-`execute_webmcp_tool` with a JSON input for all five tools. The fail-closed
+`execute_webmcp_tool` with a JSON input for all six candidate tools. The fail-closed
 wrapper checks each completion status and output schema and writes the complete
 local result to ignored `.evals/chrome-devtools-mcp.json`. It also submits one
 synthetic unrelated personal-context field and requires a closed error result.
 It does not use a
 model, contact a model provider or establish that the same fix is deployed. The
-final hardened run at 15:53 BST on 30 August 2026 used Chrome 152.0.7977.64,
+historical five-tool hardened run at 15:53 BST on 30 August 2026 used Chrome 152.0.7977.64,
 checked the closed schemas and annotations, completed all five calls, rejected
 `personalContext` and recorded zero console errors. The runner sets
 `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`; an earlier pre-hardening run wrote
@@ -504,7 +571,8 @@ raw response remains ignored and private.
 By default, the current public-target capture also remains ignored under
 `.evals`. After human review, `--admit-public-evidence` writes the reviewed
 exact-release receipt only for the allowlisted public target, binds it to the
-complete live-byte verification and omits local page identifiers. It fails
+complete `govuk-webmcp.live-pages-verification.v2` live-byte receipt and omits
+local page identifiers. It fails
 closed if the reviewed receipt already exists unless
 `--overwrite-reviewed-evidence` is explicit. This guarded path admitted the
 current `b0bd634` / Pages `33356452048` Chrome receipt after the first attempt
@@ -513,8 +581,9 @@ stable `invalid_search_request` code and rerunning produced five completed
 calls, one closed-input rejection and zero console errors.
 
 `webmcp:eval:smoke` uses the exactly pinned `webmcp-evals` 0.0.4 and
-`evals/webmcp-smoke.json`. Three synthetic cases make six concrete calls that
-cover all five tools. The wrapper builds the application, serves only the
+`evals/webmcp-smoke.json`. The candidate fixture now contains three synthetic
+cases and seven concrete calls covering all six definitions. It has not yet
+been run as accepted `0.4.0-rc.1` evidence. The wrapper builds the application, serves only the
 same-origin candidate, selects installed stable Chrome, gives the third-party
 child process a small operating environment with an isolated `HOME` and no
 forwarded provider credential environment variables. The child nevertheless

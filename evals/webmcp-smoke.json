@@ -5,7 +5,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "Search only the reviewed deep-evidence collection for the flood-monitoring API, inspect its exact resource record, then show the packaged provenance for that record."
+        "content": "Search only the reviewed deep-evidence collection for the flood-monitoring API, inspect its exact resource record, show the packaged provenance, then present the closed Evidence answer for that record."
       }
     ],
     "expectedCall": [
@@ -30,6 +30,12 @@
       },
       {
         "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:api:flood-monitoring"
+        }
+      },
+      {
+        "functionName": "present_resource_evidence",
         "arguments": {
           "recordId": "govuk-discovery:api:flood-monitoring"
         }

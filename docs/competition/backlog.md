@@ -5,12 +5,12 @@
 1. Entrant/ownership/outside-interest decision.
 2. Baseline, rights and attribution manifests.
 3. 30–80 record reviewed corpus. *(Complete: 80 records and receipts.)*
-4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas and public `v0.3.0-rc.1` with 31 closed schemas. Source-native and target OKF states remain separate.)*
-5. Accessible search, results, record and provenance UI. *(Complete for the bounded automated Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The refreshed current-release Safari and VoiceOver journey is complete with two retained limitations and no WCAG conformance claim; the pre-federation observation remains historical.)*
+4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas and public `v0.3.0-rc.1` with 31 closed schemas. The `0.4.0-rc.1` worktree adds five candidate contracts, bringing the total to 36; their exact release validation is pending. Source-native and target OKF states remain separate.)*
+5. Accessible search, results, record and provenance UI. *(Complete for the bounded released Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The refreshed `v0.3.0-rc.1` Safari and VoiceOver journey is complete with two retained limitations and no WCAG conformance claim. Candidate Evidence answer structure is implemented and its automated Chrome and Edge suites pass, but it has no candidate-specific manual browser or assistive-technology observation.)*
 6. `search_government_knowledge`. *(Complete.)*
 7. `get_resource_record`. *(Complete.)*
 8. `show_provenance`. *(Complete.)*
-9. Shared execution functions and UI/tool parity. *(Complete for five tools through one action controller.)*
+9. Shared execution functions and UI/tool parity. *(Complete for five released tools through one action controller. The worktree routes the sixth candidate action through the same controller and presentation object, and local automated Chrome and Edge parity tests pass; exact deployed-byte and live supported-host parity remain pending.)*
 10. Authoritative human links. *(Complete.)*
 11. Access/licence/assertion/observation/limitation fields. *(Complete, with eight separate Trace facets and no combined score.)*
 12. Source/record/bundle digests and receipt. *(Complete and extended to Evidence Trace and federation bindings.)*
@@ -19,7 +19,7 @@
 15. CSP, no storage, no external runtime request. *(Complete.)*
 16. ChatGPT/Chrome tests. *(Part complete for host execution: instrumented WebMCP and installed Chrome and Edge contract checks passed, and Codex In-app Browser completed all five tools on public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Separately, isolated Chrome 152 with browser-native WebMCP enabled completed all five exact-release calls through Chrome DevTools MCP 1.8.0, rejected `personalContext` by stable error code and recorded zero console errors. This closes the rules-named Chrome gate for that host, version, release and time only. Five local fixed-model attempts are retained but all failed the strict gate; attempt 4 retained a null evaluation after structural validation failed and attempt 5 recovered after rejected malformed IDs but failed `verify-reports`. No model-selection claim is made; a passing model result and Microsoft WebMCP Explorer browser execution remain under Should 11.)*
 17. Public deployment, MIT licence and notices. *(Complete: PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`. Annotated tag and public pre-release `v0.3.0-rc.1` bind that commit; earlier release identities remain unchanged.)*
-18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: guarded build tooling, current-release human interaction clips, supported-host and isolated-Chrome receipts, receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, current read-only Devpost receipt, exact public-release hashes and tag `v0.3.0-rc.1` are complete. The 31 August local technical compliance review is complete through `2026-08-31T18:49:38.356Z`, but the final live-rules and Devpost-form refresh remains open. The final script opens with the working four-source search and fails closed on privacy, branding, rights and synthetic-voice review. The historical 142.920-second review video and completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. Owner review, public YouTube upload and Devpost form submission remain open. No WCAG conformance, registration, submission or upload claim is made.)*
+18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: guarded build tooling, current-release human interaction clips, supported-host and isolated-Chrome receipts, receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, current read-only Devpost receipt, exact public-release hashes and tag `v0.3.0-rc.1` are complete. The unreleased `0.4.0-rc.1` worktree adds a guarded full Pages artefact verifier and a separate versioned nine-scene Evidence answer capture/build plan requiring genuine private Copilot and Ollama inputs plus explicit redaction gates, without rewriting those historical files. It has not yet produced candidate live-byte, personal-AI, Ollama, VoiceOver, video, owner-review or public-player evidence. The 31 August local technical compliance review is complete through `2026-08-31T18:49:38.356Z`, but the final live-rules and Devpost-form refresh remains open. Owner review, public YouTube upload and Devpost form submission remain open. No WCAG conformance, candidate release, registration, submission or upload claim is made.)*
 
 The current official submission boundary closes at 1:00 pm PDT on 3 September
 2026. It requires a public source repository with a visibly detectable open-
@@ -112,8 +112,9 @@ fails closed.
    explicit unavailable status. Busy runtime is not misclassified as source
    unavailable. The exact post-remediation candidate passes
    all 30 Chrome and all 30 Edge tests, including the fail-each-source matrix;
-   current-candidate manual accessibility evidence is complete with two
-   retained limitations under gates F, G and K.)*
+   historical `v0.3.0-rc.1` manual accessibility evidence is complete with two
+   retained limitations under gates F, G and K; candidate-specific manual
+   accessibility evidence remains pending.)*
 7. Add tiny v1/v2 fixtures and raw-corruption, co-digested semantic mutation,
    search-quality, duplicate, injection and exhaustion tests. *(Implemented for
    contracts, corruption, semantic mutation, deterministic ranking,
@@ -213,9 +214,10 @@ evidence.
 
 ## Beginner trust pathway — discovery and evaluation slice
 
-This sequenced backlog defines the documentation-first route from the released
-technical interface to a testable beginner experience. It does not authorise UI
-implementation or deployment.
+This sequenced backlog began as the documentation-first route from the released
+technical interface to a testable beginner experience. Experimental
+implementation is now authorised and in progress; deployment, host evidence,
+formative acceptance and Devpost submission remain separate gates.
 
 1. **Evidence and frequency boundary — complete.** Register official GOV.UK
    Chat/user-needs research and the fork-local comparator. Call the questions
@@ -251,16 +253,13 @@ implementation or deployment.
    zero accepted specialist reviews, two service families where review is not
    required and 291 where it is required. Historical `v0.3.0-rc.1` evidence is
    retained unchanged.
-9. **Technical review and UI specification — documentation review complete;
-   experimental evaluation-candidate implementation authorised.** The companion interface
-   specification assesses the existing page as the retained Technical review
-   view and defines an Evidence answer view, progressive disclosure,
-   evidence summary, honest AI-addition boundary, accepted-input display,
-   deterministic human equivalent, complete state model and candidate combined
-   record-presentation action. Source reconciliation is complete; implement the
-   separately approved Evidence answer release without claiming completed
-   formative research or general usability.
-10. **Formative and repeated evaluation — pending step 9.** Freeze natural
+9. **Technical review and UI specification — implementation candidate in
+   progress.** The worktree now contains the closed projection, sixth
+   `present_resource_evidence` action, bounded persistent two-view navigation
+   and Evidence answer renderer while retaining Technical review. Complete the
+   deterministic, browser, accessibility, security and host gates before
+   proposing release; do not claim formative research or general usability.
+10. **Formative and repeated evaluation — pending candidate verification.** Freeze natural
     prompts without tool names or record IDs; run at least three times per
     story; retain variance and hard unsafe failures; then test comprehension
     with non-technical and assistive-technology users before implementation
@@ -273,6 +272,43 @@ The corresponding evidence and detailed status are in
 and [`../product/beginner-trust-pathway-prd.md`](../product/beginner-trust-pathway-prd.md).
 The proposed dual-view contract is in
 [`../product/beginner-interface-specification.md`](../product/beginner-interface-specification.md).
+
+### `0.4.0-rc.1` Evidence answer implementation checklist
+
+1. **Closed projection — focused verification complete; acceptance pending.**
+   The build-integrated audit passes all 80 reviewed and 58,652 admitted
+   federated records against the production projector and closed presentation
+   schema. `npm run build:verify-deterministic` confirms two complete 1,883-file,
+   128,646,550-byte builds at aggregate SHA-256
+   `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`;
+   272 unit tests pass. Protected integration and exact public-byte gates remain
+   open.
+2. **Sixth tool — implementation and focused verification complete; acceptance
+   pending.** Closed input, cancellation, timeout, no partial presentation and
+   all-or-none registration tests pass. One latest-started sequence now spans
+   all three presentation actions, with a cross-tool unit and Chrome race
+   regression; exact public-host acceptance remains open.
+3. **Persistent views — focused browser verification complete; acceptance
+   pending.** Empty, explicit, legacy and invalid route unit checks pass;
+   complete 43-test Chrome and Edge suites verify heading focus,
+   sticky-navigation clearance, cross-tool latest-started routing and
+   inactive-view preservation. Manual checks remain open.
+4. **Evidence answer rendering — focused verification complete; acceptance
+   pending.** Focused unit and Chrome checks cover inert rendering, validated
+   links, mapped primary plus all other limitations, unknowns, next checks,
+   accepted fields, Technical review parity and inactive-view updates without
+   view, URL, history, focus or scroll mutation.
+5. **Complete assurance and publication — in progress.** The first exhaustive
+   candidate security-diff review completed with zero reportable
+   vulnerabilities; the release-hardening defects it exposed now have targeted
+   regressions. Deterministic build, 272 unit, 43 Chrome, 43 Edge, frozen
+   retrieval, seven-envelope smoke and dependency-audit gates pass. Final
+   code-snapshot security scan `aedf88e3-6a77-46af-be6b-2c672001dd46`
+   completed 36 of 36 items, ran 102 focused tests, found zero findings and
+   concluded that there is no security release blocker. Complete manual
+   accessibility and six-tool host checks
+   before exact deployment, tag, media or submission work. Historical five-tool
+   evidence is not a substitute.
 
 ## Should
 

@@ -124,7 +124,7 @@ function safeOfficialUrl(value: unknown): string {
   }
   const officialHost = url.hostname === "gov.uk" || url.hostname.endsWith(".gov.uk") || url.hostname === "data.police.uk";
   if (
-    url.protocol !== "https:" || url.username || url.password || !officialHost ||
+    url.protocol !== "https:" || url.username || url.password || url.port || !officialHost ||
     url.toString() !== text || /%(?![a-fA-F0-9]{2})/u.test(text)
   ) {
     throw new Error("An Evidence Trace source URL is not an admitted credential-free official HTTPS URL.");

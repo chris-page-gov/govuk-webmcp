@@ -21,6 +21,7 @@ const expectedToolNames = [
   "show_provenance",
   "explore_answer_foundations",
   "compare_evidence_foundations",
+  "present_resource_evidence",
 ];
 const representativeFederatedSearches = [
   {
@@ -230,10 +231,10 @@ test("human search exposes the reviewed and federated estate without WebMCP or s
   page.on("request", (request) => requests.push(request.url()));
   page.on("response", (response) => { if (!response.ok()) failedResponses.push(`${response.status()} ${response.url()}`); });
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
-  await page.goto("/");
+  await page.goto("/#view=technical");
 
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("heading", { name: "Trusted government knowledge discovery" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Technical review: government knowledge evidence" })).toBeVisible();
   await expect(page.locator("#record-count")).toHaveText("80");
   await expect(page.locator("#federated-record-count")).toHaveText("58,652");
   await expect(page.locator("#federated-source-record-count")).toHaveText("58,655");
@@ -282,7 +283,7 @@ test("human search exposes the reviewed and federated estate without WebMCP or s
   await expect(result.getByRole("link", { name: "Flood-monitoring API" }))
     .toHaveAttribute("href", "https://www.api.gov.uk/ea/flood-monitoring/");
   await expect(result).toContainText("Open Government Licence v3.0");
-  await expect(page).toHaveURL(`${testOrigin}/`);
+  await expect(page).toHaveURL(`${testOrigin}/#view=technical`);
 
   expect(requests.every((url) => new URL(url).origin === testOrigin)).toBe(true);
   expect(failedResponses).toEqual([]);
@@ -299,20 +300,21 @@ test("direct file opening replaces the apparent verification hang with HTTP guid
   await expect(page.locator("#tool-status")).toHaveText("Unavailable");
 });
 
-test("registers five closed tools with truthful effects and deterministic page parity", async ({ page }) => {
+test("registers six closed tools with truthful effects and deterministic page parity", async ({ page }) => {
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
   const registrations = await registeredTools(page);
   expect(registrations.map(({ name }) => name)).toEqual(expectedToolNames);
   expect(registrations.map(({ inputSchema }) => inputSchema.additionalProperties)).toEqual([
-    false, false, false, false, false,
+    false, false, false, false, false, false,
   ]);
   expect(registrations.map(({ annotations }) => annotations)).toEqual([
     { readOnlyHint: true, untrustedContentHint: true },
     { readOnlyHint: true, untrustedContentHint: true },
     { readOnlyHint: true, untrustedContentHint: true },
+    { readOnlyHint: false, untrustedContentHint: true },
     { readOnlyHint: false, untrustedContentHint: true },
     { readOnlyHint: false, untrustedContentHint: true },
   ]);
@@ -327,7 +329,7 @@ test("registers five closed tools with truthful effects and deterministic page p
     }
   });
   expect(duplicateError).toMatchObject({ name: "InvalidStateError" });
-  expect(await registeredTools(page)).toHaveLength(5);
+  expect(await registeredTools(page)).toHaveLength(6);
 
   await page.getByLabel("Search term").fill("companies house");
   await page.getByText("Filter results").click();
@@ -362,16 +364,40 @@ test("registers five closed tools with truthful effects and deterministic page p
   const toolProvenance = await executeTool(page, "show_provenance", { recordId });
   const pageProvenance = JSON.parse(await page.locator("#provenance-content details.structured pre").textContent());
   expect(pageProvenance).toEqual(toolProvenance);
-  await expect(page).toHaveURL(/#record=govuk-discovery%3Aapi%3Acompanies-house$/u);
+  const beforePresentation = await page.evaluate(() => ({
+    href: location.href,
+    historyLength: history.length,
+    activeId: document.activeElement?.id ?? null,
+    scrollX,
+    scrollY,
+  }));
+  const toolPresentation = await executeTool(page, "present_resource_evidence", { recordId });
+  expect(toolPresentation).toMatchObject({
+    schema: "govuk-webmcp.present-resource-evidence-result.v1",
+    ok: true,
+    evidence: { selectionId: recordId, acceptedInput: { action: "present_resource_evidence", recordId } },
+  });
+  expect(toolPresentation.evidenceDigest).toBe(sha256(canonicalJson(toolPresentation.evidence)));
+  expect(JSON.parse(await page.locator("#evidence-answer-content .evidence-answer__structured-result pre").textContent()))
+    .toEqual(toolPresentation.evidence);
+  await expect(page.locator("#evidence-answer-view")).toHaveAttribute("data-evidence-digest", toolPresentation.evidenceDigest);
+  expect(await page.evaluate(() => ({
+    href: location.href,
+    historyLength: history.length,
+    activeId: document.activeElement?.id ?? null,
+    scrollX,
+    scrollY,
+  }))).toEqual(beforePresentation);
+  await expect(page).toHaveURL(/#view=technical&record=govuk-discovery%3Aapi%3Acompanies-house$/u);
   await page.getByRole("button", { name: "Close record" }).click();
   await expect(inspectRecord).toBeFocused();
 });
 
 test("human and WebMCP searches retain exact parity across all four federated collections", async ({ page }) => {
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
   await page.getByText("Filter results").click();
 
   for (const fixture of representativeFederatedSearches) {
@@ -431,7 +457,7 @@ test("human and WebMCP searches retain exact parity across all four federated co
 test("the fixed housing demonstration returns every federated source at the human limit of 8", async ({ page }) => {
   const collections = ["uk-living", "ons", "government-apis", "land-registry"];
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await page.getByText("Filter results").click();
   await page.getByLabel("Search term").fill("housing");
@@ -459,7 +485,7 @@ test("the fixed housing demonstration returns every federated source at the huma
 
 test("collection and resource filters remain closed and report federated lower-bound semantics", async ({ page }) => {
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await page.getByText("Filter results").click();
   await page.getByLabel("Search term").fill("census");
@@ -528,7 +554,7 @@ test("exact federated record and provenance expose source evidence without claim
   });
   expect(pageProvenance.fieldAssertions[0].note).toContain("no item-level evidence receipt is claimed");
 
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
   expect(pageRecord).toEqual(await executeTool(page, "get_resource_record", { recordId: fixture.recordId }));
   expect(pageProvenance).toEqual(await executeTool(page, "show_provenance", { recordId: fixture.recordId }));
 });
@@ -537,7 +563,7 @@ test("federated shards load lazily from same-origin without legislation or exter
   const requests = [];
   page.on("request", (request) => requests.push(request.url()));
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
 
   expect(requests.some((url) => /\/federated-search\/(?:postings|records)\//u.test(url))).toBe(false);
@@ -561,7 +587,7 @@ for (const unavailableCollection of ["uk-living", "ons", "government-apis", "lan
     await page.route(`**/data/federated-search/postings/${unavailableCollection}/**`, (route) =>
       route.fulfill({ status: 503, body: "Source unavailable in the acceptance fixture." }));
     await installModelContext(page);
-    await page.goto("/");
+    await page.goto("/#view=technical");
     await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
     const result = await executeTool(page, "search_government_knowledge", {
       query: "housing",
@@ -590,9 +616,9 @@ for (const unavailableCollection of ["uk-living", "ons", "government-apis", "lan
 
 test("WebMCP exploration and comparison update only the matching visible deterministic result", async ({ page }) => {
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
   await page.getByLabel("Search term").focus();
 
   const explore = await executeTool(page, "explore_answer_foundations", { answerId, claimId: claimIds[0] });
@@ -621,9 +647,9 @@ test("WebMCP exploration and comparison update only the matching visible determi
 
 test("WebMCP callbacks tolerate hosts that omit execution options", async ({ page }) => {
   await installModelContext(page, { omitExecutionOptions: true });
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
 
   const recordId = "govuk-discovery:api:companies-house";
   const calls = [
@@ -672,9 +698,9 @@ test("a deeply nested rejected WebMCP input remains a bounded displayed error", 
   await installModelContext(page);
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
   const originalSummary = await page.locator("#answer-summary").textContent();
   const result = await page.evaluate(async () => {
     let nested = { leaf: true };
@@ -697,7 +723,7 @@ test("a deeply nested rejected WebMCP input remains a bounded displayed error", 
   await expect(page).toHaveURL(/&compare=/u);
   await page.getByRole("button", { name: "Close comparison" }).click();
   await expect(humanCompare).toBeFocused();
-  await expect(page).toHaveURL(new RegExp(`#answer=${encodeURIComponent(answerId)}$`, "u"));
+  await expect(page).toHaveURL(new RegExp(`#view=technical&answer=${encodeURIComponent(answerId)}$`, "u"));
 
   const recovered = await executeTool(page, "explore_answer_foundations", { answerId, claimId: claimIds[0] });
   expect(recovered.ok).toBe(true);
@@ -708,13 +734,13 @@ test("a deeply nested rejected WebMCP input remains a bounded displayed error", 
 });
 
 test("human Evidence Trace controls support comparison, direct links and focus restoration", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   const exploreClaim = page.getByRole("button", { name: "Show foundations for claim 2" });
   await exploreClaim.click();
   await expect(page.locator(`.trace-node[data-node-id="${claimIds[1]}"]`).first()).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#foundation-detail")).toContainText("Child Benefit guidance");
-  await expect(page).toHaveURL(new RegExp(`#answer=${encodeURIComponent(answerId)}&claim=${encodeURIComponent(claimIds[1])}$`, "u"));
+  await expect(page).toHaveURL(new RegExp(`#view=technical&answer=${encodeURIComponent(answerId)}&claim=${encodeURIComponent(claimIds[1])}$`, "u"));
   await expect(page.getByRole("link", { name: "Open authoritative source for claim 2" }))
     .toHaveAttribute("href", /^https:\/\/(?:www\.)?gov\.uk\//u);
 
@@ -729,7 +755,7 @@ test("human Evidence Trace controls support comparison, direct links and focus r
   await expect(page.locator("#comparison-content table")).toContainText("Limitations");
   await page.getByRole("button", { name: "Close comparison" }).click();
   await expect(compare).toBeFocused();
-  await expect(page).toHaveURL(new RegExp(`#answer=${encodeURIComponent(answerId)}$`, "u"));
+  await expect(page).toHaveURL(new RegExp(`#view=technical&answer=${encodeURIComponent(answerId)}$`, "u"));
   await page.goBack();
   await expect(page.locator("#comparison-panel")).toBeVisible();
   await page.goForward();
@@ -743,11 +769,11 @@ test("human Evidence Trace controls support comparison, direct links and focus r
 
 test("an already-cancelled WebMCP call rejects without changing the display", async ({ page }) => {
   await installModelContext(page);
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.getByRole("status")).toContainText("5 WebMCP tools are ready");
+  await expect(page.getByRole("status")).toContainText("6 WebMCP tools are ready");
   const diagnostic = page.locator("#diagnostic-last-action");
-  await expect(diagnostic).toHaveText("Human: explore_answer_foundations");
+  await expect(diagnostic).toHaveText("Restored view: explore_answer_foundations");
   const before = await diagnostic.textContent();
   const cancellation = await page.evaluate(async ({ selectedAnswer, selectedClaim }) => {
     const registered = (await document.modelContext.getTools())
@@ -771,13 +797,13 @@ test("an already-cancelled WebMCP call rejects without changing the display", as
 
 test("a registration exception rolls back earlier registrations and leaves human search ready", async ({ page }) => {
   await installModelContext(page, { failureTool: "explore_answer_foundations", failureName: "InvalidStateError" });
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.getByRole("status")).toContainText("human interface is ready");
   await expect(page.getByRole("status")).toContainText("registration failed");
   await expect(page.getByLabel("Search term")).toBeEnabled();
   expect(await registeredTools(page)).toEqual([]);
-  await expect(page.locator("#diagnostic-tools")).toContainText("0 registered of 5 expected");
+  await expect(page.locator("#diagnostic-tools")).toContainText("0 registered of 6 expected");
   await page.getByLabel("Search term").fill("child benefit");
   await page.getByRole("button", { name: "Search" }).click();
   await expect(page.locator("article.result").first()).toBeVisible();
@@ -785,7 +811,7 @@ test("a registration exception rolls back earlier registrations and leaves human
 
 test("a browser policy rejection is diagnosed without disabling the human interface", async ({ page }) => {
   await installModelContext(page, { failureTool: "search_government_knowledge", failureName: "NotAllowedError" });
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.getByRole("status")).toContainText("registration was blocked by the browser or policy");
   await expect(page.getByLabel("Search term")).toBeEnabled();
@@ -794,16 +820,14 @@ test("a browser policy rejection is diagnosed without disabling the human interf
 
 test("a non-settling registration cannot hold the verified human interface", async ({ page }) => {
   await installModelContext(page, { hangTool: "show_provenance" });
-  await page.goto("/");
+  await page.goto("/#view=technical");
 
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready", { timeout: 5000 });
   await expect(page.getByLabel("Search term")).toBeEnabled({ timeout: 5000 });
-  await expect(page.getByRole("status")).toContainText("human interface is ready while WebMCP registration is checked");
-
   await expect(page.getByRole("status")).toContainText("registration timed out after 3 seconds", { timeout: 5000 });
   await expect(page.getByLabel("Search term")).toBeEnabled();
   expect(await registeredTools(page)).toEqual([]);
-  await expect(page.locator("#diagnostic-tools")).toContainText("0 registered of 5 expected");
+  await expect(page.locator("#diagnostic-tools")).toContainText("0 registered of 6 expected");
 });
 
 for (const integrityFailure of [
@@ -821,7 +845,7 @@ for (const integrityFailure of [
     await installModelContext(page);
     await page.route(`**/data/${integrityFailure.checksum}`, (route) =>
       route.fulfill({ body: `${"0".repeat(64)}  ${integrityFailure.checksum.split("/").at(-1).replace(".sha256", "")}\n`, contentType: "text/plain" }));
-    await page.goto("/");
+    await page.goto("/#view=technical");
     await expect(page.getByRole("status")).toContainText(integrityFailure.message);
     await expect(page.getByLabel("Search term")).toBeDisabled();
     expect(await registeredTools(page)).toEqual([]);
@@ -845,7 +869,7 @@ test("source-derived markup remains inert text in search and record views", asyn
     if (!(filename in routes)) return route.continue();
     return route.fulfill({ body: routes[filename], contentType: filename.endsWith(".json") ? "application/json" : "text/plain" });
   });
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await page.getByLabel("Search term").fill("bank holidays");
   await page.getByRole("button", { name: "Search" }).click();
@@ -877,12 +901,12 @@ test("oversized and malformed hash comparisons fail closed without disabling the
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await expect(page.locator("#route-warning")).toBeVisible();
   await expect(page.locator("#route-warning")).toContainText("too large to process safely");
-  await expect(page).toHaveURL(`${testOrigin}/`);
+  await expect(page).toHaveURL(`${testOrigin}/#view=technical`);
   await expect(page.locator("#analytical-index > li")).toHaveCount(3);
 
   await page.goto(`/#answer=${encodeURIComponent(answerId)}&compare=${encodeURIComponent(`${claimIds[0]},,${claimIds[1]}`)}`);
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
-  await expect(page.locator("#comparison-panel .error")).toContainText("two to four exact claim identifiers");
+  await expect(page.locator("#route-warning")).toContainText("two to four different claim references");
 
   await page.goto(`/#answer=${encodeURIComponent(answerId)}&compare=${encodeURIComponent(claimIds.join(","))}`);
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
@@ -892,7 +916,7 @@ test("oversized and malformed hash comparisons fail closed without disabling the
 });
 
 test("axe WCAG 2.2 scan finds no serious or critical violations in the expanded journey", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   await page.getByRole("button", { name: "Show foundations for claim 1" }).click();
   const selectors = page.locator("#analytical-index input[type='checkbox']");
@@ -914,7 +938,7 @@ test("axe WCAG 2.2 scan finds no serious or critical violations in the expanded 
 test("keyboard, 320px reflow, forced colours and reduced motion retain evidence and search", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce", forcedColors: "active" });
   await page.setViewportSize({ width: 320, height: 720 });
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
   expect(await page.evaluate(() => ({
     reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -930,7 +954,7 @@ test("keyboard, 320px reflow, forced colours and reduced motion retain evidence 
   // The skip link intentionally starts a hash navigation. Settle a fresh base
   // route before the separate Trace and search keyboard checks so its route
   // render cannot replace the focused node under test.
-  await page.goto("/");
+  await page.goto("/#view=technical");
   await expect(page.locator("html")).toHaveAttribute("data-application-state", "ready");
 
   const traceNode = page.locator(".trace-node").first();

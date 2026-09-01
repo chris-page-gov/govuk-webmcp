@@ -28,7 +28,7 @@ import {
 } from "./build-demo-video.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
-const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script.json");
+const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
 const reconstructionLabel = "Receipt reconstruction — not a host recording";
 
 function invariant(condition, message) {
@@ -103,6 +103,7 @@ function pageHtml(evidence) {
   const search = evidence.calls.find(({ name }) => name === "search_government_knowledge");
   const record = evidence.calls.find(({ name }) => name === "get_resource_record");
   const compare = evidence.calls.find(({ name }) => name === "compare_evidence_foundations");
+  const present = evidence.calls.find(({ name }) => name === "present_resource_evidence");
   const tools = evidence.discovery.tools.map(({ name }) => name);
   const observed = new Intl.DateTimeFormat("en-GB", {
     dateStyle: "medium",
@@ -122,7 +123,7 @@ function pageHtml(evidence) {
     .eyebrow{margin:20px 0 5px;color:#006853;font-size:21px;font-weight:850;text-transform:uppercase;letter-spacing:.07em}
     h1{font-size:44px;line-height:1.02;margin:8px 0 14px}.host{font-size:21px;margin:0 0 18px}
     .tools{display:grid;gap:8px}.tool{border-left:9px solid #7d8a90;background:#f1f3f3;padding:9px 12px;font:700 17px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;animation:pulse 7s ease-in-out infinite}
-    .tool:nth-child(2){animation-delay:1s}.tool:nth-child(3){animation-delay:2s}.tool:nth-child(4){animation-delay:3s}.tool:nth-child(5){animation-delay:4s}
+    .tool:nth-child(2){animation-delay:1s}.tool:nth-child(3){animation-delay:2s}.tool:nth-child(4){animation-delay:3s}.tool:nth-child(5){animation-delay:4s}.tool:nth-child(6){animation-delay:5s}
     h2{font-size:31px;margin:0 0 12px}.card{border-left:10px solid #006853;background:#e6f4ea;padding:15px 18px;margin:0 0 15px}
     .card.warning{border-color:#b58800;background:#fff2cc}.card strong{display:block;margin-bottom:5px}.mono{font:17px/1.34 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
     ul{margin:8px 0 0;padding-left:27px}.digest{font-size:15px}.progress{position:fixed;left:0;bottom:0;height:7px;width:100%;background:#006853;transform-origin:left;animation:progress 40s linear both}
@@ -135,7 +136,7 @@ function pageHtml(evidence) {
     <section>
       <div class="label">${escapeHtml(reconstructionLabel)}</div>
       <p class="eyebrow">Observed supported-host receipt</p>
-      <h1>Five bounded WebMCP tools</h1>
+      <h1>Six bounded WebMCP tools</h1>
       <p class="host">Receipt from <strong>${escapeHtml(evidence.host.name)} ${escapeHtml(evidence.host.version)}</strong><br>observed ${escapeHtml(observed)}</p>
       <div class="tools">${tools.map((tool) => `<div class="tool">${escapeHtml(tool)}</div>`).join("")}</div>
     </section>
@@ -144,6 +145,7 @@ function pageHtml(evidence) {
       <div class="card"><strong>Four-source search</strong><span class="mono">${escapeHtml(search.input.query)} · limit ${escapeHtml(search.input.limit)}<br>${escapeHtml(search.input.collections.join(" · "))}</span></div>
       <div class="card"><strong>Bound federated record and provenance</strong><span class="mono">${escapeHtml(record.input.recordId)}</span><br>${escapeHtml(record.result.record.sourceAuthority)} · no item receipt</div>
       <div class="card"><strong>Reviewed evidence comparison</strong>${escapeHtml(compare.input.claimIds.join(" · "))}<br><span class="mono digest">SHA-256 ${escapeHtml(compare.canonicalResultDigest)}</span></div>
+      <div class="card"><strong>Evidence answer presentation</strong><span class="mono">${escapeHtml(present.input.recordId)}</span><br><span class="mono digest">Evidence SHA-256 ${escapeHtml(present.result.evidenceDigest)}</span></div>
       <div class="card warning"><strong>Personal-AI boundary</strong>The closed search schema has no personal-context field. The executable check rejected <span class="mono">personalContext</span>; only field names and the deterministic error are retained.</div>
       <div class="card warning"><strong>What this visual proves</strong>It reconstructs an exact host receipt. It does not embed or imitate a host-owned recording and does not claim support in any other host.</div>
     </section>

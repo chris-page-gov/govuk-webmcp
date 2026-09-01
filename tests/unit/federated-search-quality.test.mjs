@@ -157,8 +157,12 @@ test("package scripts clean before compilation and expose the frozen quality gat
   const packageValue = await readJson("package.json");
   assert.equal(packageValue.scripts["dist:clean"], "node scripts/clean-dist.mjs");
   assert.equal(
+    packageValue.scripts["evidence:presentation:audit"],
+    "node scripts/audit-beginner-presentations.mjs",
+  );
+  assert.equal(
     packageValue.scripts.build,
-    "npm run data:build && npm run data:validate && npm run dist:clean && tsc && node scripts/copy-static.mjs",
+    "npm run data:build && npm run data:validate && npm run dist:clean && tsc && npm run evidence:presentation:audit && node scripts/copy-static.mjs",
   );
   assert.equal(
     packageValue.scripts["okf-federation:quality:prepared"],

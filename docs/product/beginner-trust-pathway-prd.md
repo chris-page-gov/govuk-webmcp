@@ -1,12 +1,12 @@
 # Beginner trust pathway product requirements
 
-**Status:** discovery PRD with companion proposed interface specification;
-documentation only
+**Status:** accepted requirements baseline; experimental `0.4.0-rc.1`
+implementation candidate in progress
 
 **Date:** 31 August 2026
 
-**Product boundary:** a possible successor experience to public
-`v0.3.0-rc.1`; not a description of an implemented interface
+**Product boundary:** an unreleased presentation successor to public five-tool
+`v0.3.0-rc.1`; implementation is not release or usability evidence
 
 ## 1. Purpose
 
@@ -16,14 +16,15 @@ The pathway should make calibrated doubt useful: it should help someone
 distinguish what is supported, what is merely recorded, what is missing and
 which current official source they can check.
 
-This slice changes documentation only. It does not change the application,
-WebMCP tools, data contracts or visual design. The companion
+This PRD began as a documentation-only discovery slice. The separately
+authorised `0.4.0-rc.1` worktree now implements its first deterministic
+presentation candidate without changing the public deployment. The companion
 [beginner evidence interface specification](beginner-interface-specification.md)
 assesses the current interface, proposes a testable information architecture
-and preserves it as the **Technical review** view. The proposal remains gated
-from claims of completed prototyping or user research. The source-contract
-correction is complete for the current candidate; this discovery PRD does not
-itself describe an implemented or released redesign.
+and preserves it as the **Technical review** view. The candidate remains gated
+from claims of completed browser, accessibility, host, model or user research.
+The source-contract correction is complete; this PRD still does not describe a
+released or accepted redesign.
 
 ## 2. Product proposition
 
@@ -515,6 +516,9 @@ this government-evidence product.
 
 ## 11. Acceptance criteria for a future implementation
 
+These criteria now govern the in-progress candidate; “future” refers to
+acceptance and release, not absence of worktree code.
+
 1. **AC-01 — story coverage:** US-01 to US-12 each has a deterministic fixture,
    expected source boundary, expected limitation and human-observable outcome.
 2. **AC-02 — five-stage loop:** every in-scope successful discovery allows a
@@ -547,13 +551,15 @@ this government-evidence product.
     must be set before evaluative testing; this PRD does not invent one.
 13. **AC-13 — independent identity:** the experience remains visibly an
     independent prototype and does not use GOV.UK branding to borrow authority.
-14. **AC-14 — no implementation in this slice:** the present change is accepted
-    only as documentation. Any interface, schema, tool or data change requires
-    a separately authorised implementation, tests and lockstep documentation.
+14. **AC-14 — governed candidate boundary:** interface, schema and tool changes
+    remain separately versioned, tested and documented; implementation does not
+    itself establish release, host, accessibility, model or submission
+    acceptance.
 
 ## 12. Non-goals
 
-- Implementing or deploying the proposed interface in this slice.
+- Treating the implemented candidate as deployed, host-observed or accepted
+  before its named gates pass.
 - Generating a personalised government answer or deciding eligibility.
 - Providing legal, financial, tax, housing, school admission or property advice.
 - Returning live statistics or calling official APIs at runtime.
@@ -630,6 +636,10 @@ matrix against FR-01 to FR-22, AR-01 to AR-10 and AC-01 to AC-14. It:
 
 The companion records the semantic order, component responsibility and page
 hierarchy selected for the separately authorised experimental candidate. The
-source-contract gate is complete. This PRD still provides no evidence of
-formative usability or accessibility outcomes; those must be observed with
-representative users rather than inferred from the synthetic personas.
+source-contract gate is complete and the worktree now contains the core
+projection, sixth action, bounded two-view routing and Evidence answer renderer.
+The next hand-off is exact-candidate integration and deterministic, browser,
+accessibility, security and host verification. This PRD still provides no
+evidence of formative usability or accessibility outcomes; those must be
+observed with representative users rather than inferred from the synthetic
+personas.

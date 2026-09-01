@@ -40,7 +40,7 @@ import {
 const scriptPath = fileURLToPath(import.meta.url);
 const captureRoot = resolve(repositoryRoot, "output/voiceover-capture");
 const defaultManifestPath = join(captureRoot, "capture-manifest.json");
-const demoConfigPath = resolve(repositoryRoot, "docs/competition/demo-video-script.json");
+const demoConfigPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
 const requiredLimitation = "This screenshot sequence is not a continuous recording.";
 
 function invariant(condition, message) {

@@ -204,6 +204,7 @@ test("evidence validation fails closed for raw tampering and rebound source URL 
 
   for (const mutateUrl of [
     (url) => url.replace("https://www.gov.uk/", "https://www.gov.uk:443/"),
+    (url) => url.replace("https://www.gov.uk/", "https://www.gov.uk:444/"),
     (url) => `${url}%`,
   ]) {
     const [alteredText, alteredChecksum] = reboundEvidence((trace) => {
@@ -609,6 +610,138 @@ test("presentation actions honour cancellation and commit a successful result on
   );
 });
 
+test("concurrent record presentations commit only the latest-started request", async () => {
+  const base = await fullActionRuntime();
+  const earlierRecordId = "govuk-discovery:api:flood-monitoring";
+  const laterRecordId = "govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114";
+  let markEarlierStarted;
+  const earlierStarted = new Promise((resolve) => { markEarlierStarted = resolve; });
+  let releaseEarlier;
+  const earlierGate = new Promise((resolve) => { releaseEarlier = resolve; });
+  const runtime = {
+    search: (...args) => base.search(...args),
+    async getRecord(input, options) {
+      if (input.recordId === earlierRecordId) {
+        markEarlierStarted();
+        await earlierGate;
+      }
+      return base.getRecord(input, options);
+    },
+    showProvenance: (...args) => base.showProvenance(...args),
+    evidence: base.evidence,
+  };
+  const presentations = [];
+  const actions = createKnowledgeActionController(runtime, (value) => presentations.push(value));
+  let earlierCommitted = false;
+  let laterCommitted = false;
+
+  const earlier = actions.run(
+    "present_resource_evidence",
+    { recordId: earlierRecordId },
+    {
+      origin: "human",
+      present: true,
+      onPresentationCommit: () => { earlierCommitted = true; },
+    },
+  );
+  await earlierStarted;
+  const later = await actions.run(
+    "present_resource_evidence",
+    { recordId: laterRecordId },
+    {
+      origin: "human",
+      present: true,
+      onPresentationCommit: () => { laterCommitted = true; },
+    },
+  );
+
+  assert.equal(later.ok, true);
+  assert.equal(laterCommitted, true);
+  assert.equal(later.evidence.selectionId, laterRecordId);
+  assert.equal(presentations.length, 1);
+  assert.equal(presentations[0].result.evidence.selectionId, laterRecordId);
+  assert.equal(presentations[0].isCurrentEvidencePresentation(), true);
+  releaseEarlier();
+
+  const stale = await earlier;
+  assert.equal(stale.ok, true, "the earlier caller still receives its valid result");
+  assert.equal(earlierCommitted, false, "a stale caller must not navigate after its presentation was suppressed");
+  assert.equal(stale.evidence.selectionId, earlierRecordId);
+  assert.equal(presentations.length, 1, "the stale completion must not commit a second presentation");
+  assert.equal(presentations[0].result.evidence.selectionId, laterRecordId);
+});
+
+test("one latest-started sequence spans all three Evidence-answer actions and async render work", async () => {
+  const base = await fullActionRuntime();
+  const delayedRecordId = "govuk-discovery:api:flood-monitoring";
+  let markRecordStarted;
+  const recordStarted = new Promise((resolve) => { markRecordStarted = resolve; });
+  let releaseRecord;
+  const recordGate = new Promise((resolve) => { releaseRecord = resolve; });
+  const runtime = {
+    search: (...args) => base.search(...args),
+    async getRecord(input, options) {
+      if (input.recordId === delayedRecordId) {
+        markRecordStarted();
+        await recordGate;
+      }
+      return base.getRecord(input, options);
+    },
+    showProvenance: (...args) => base.showProvenance(...args),
+    evidence: base.evidence,
+  };
+  const presentations = [];
+  const actions = createKnowledgeActionController(runtime, (value) => presentations.push(value));
+  let delayedCommitted = false;
+
+  const delayed = actions.run(
+    "present_resource_evidence",
+    { recordId: delayedRecordId },
+    {
+      origin: "webmcp",
+      present: true,
+      onPresentationCommit: () => { delayedCommitted = true; },
+    },
+  );
+  await recordStarted;
+
+  const answerId = base.evidence.defaultAnswerId;
+  const claimIds = ["claim:register-a-birth", "claim:check-child-benefit"];
+  const explored = await actions.run(
+    "explore_answer_foundations",
+    { answerId, claimId: claimIds[0] },
+    { origin: "webmcp", present: true },
+  );
+  assert.equal(explored.ok, true);
+  assert.equal(presentations.length, 1);
+  const exploredPresentation = presentations[0];
+  assert.equal(exploredPresentation.action, "explore_answer_foundations");
+  assert.equal(exploredPresentation.isCurrentEvidencePresentation(), true);
+
+  const compared = await actions.run(
+    "compare_evidence_foundations",
+    { answerId, claimIds },
+    { origin: "webmcp", present: true },
+  );
+  assert.equal(compared.ok, true);
+  assert.equal(presentations.length, 2);
+  const comparedPresentation = presentations[1];
+  assert.equal(comparedPresentation.action, "compare_evidence_foundations");
+  assert.equal(
+    exploredPresentation.isCurrentEvidencePresentation(),
+    false,
+    "an asynchronous renderer holding the earlier presentation must see it become stale",
+  );
+  assert.equal(comparedPresentation.isCurrentEvidencePresentation(), true);
+
+  releaseRecord();
+  const delayedResult = await delayed;
+  assert.equal(delayedResult.ok, true, "a stale caller must still receive its deterministic result");
+  assert.equal(delayedCommitted, false);
+  assert.equal(presentations.length, 2, "the older record action must not overwrite the later comparison");
+  assert.equal(comparedPresentation.isCurrentEvidencePresentation(), true);
+});
+
 test("all action paths reject deeply nested unknown input without hashing caller-owned values", async () => {
   const runtime = await fullActionRuntime();
   const presentations = [];
@@ -622,6 +755,7 @@ test("all action paths reject deeply nested unknown input without hashing caller
     "show_provenance",
     "explore_answer_foundations",
     "compare_evidence_foundations",
+    "present_resource_evidence",
   ];
 
   const results = [];

@@ -5,7 +5,7 @@
       {
         "role": "user",
         "type": "message",
-        "content": "Use these exact tools and machine values in order. First call search_government_knowledge with query `flood monitoring`, resourceTypes [`api`], collections [`deep-evidence`] and limit 3; omit publishers and accessStatuses. Then call get_resource_record with recordId `govuk-discovery:api:flood-monitoring`. Finally call show_provenance with that same canonical recordId."
+        "content": "Use these exact tools and machine values in order. First call search_government_knowledge with query `flood monitoring`, resourceTypes [`api`], collections [`deep-evidence`] and limit 3; omit publishers and accessStatuses. Then call get_resource_record with recordId `govuk-discovery:api:flood-monitoring`. Next call show_provenance with that same canonical recordId. Finally call present_resource_evidence with that recordId so the page displays the closed Evidence answer."
       }
     ],
     "expectedCall": [
@@ -30,6 +30,12 @@
       },
       {
         "functionName": "show_provenance",
+        "arguments": {
+          "recordId": "govuk-discovery:api:flood-monitoring"
+        }
+      },
+      {
+        "functionName": "present_resource_evidence",
         "arguments": {
           "recordId": "govuk-discovery:api:flood-monitoring"
         }

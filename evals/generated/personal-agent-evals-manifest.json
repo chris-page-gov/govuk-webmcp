@@ -1,0 +1,48 @@
+{
+  "schema": "govuk-webmcp.personal-agent-evals-manifest.v1",
+  "suiteId": "beginner-evidence-v1",
+  "authored": {
+    "caseSet": {
+      "path": "evals/personal-agent-cases.json",
+      "bytes": 32546,
+      "sha256": "9fe430cee9d09090247c857078129623753e229cdab063772a59d881d6d9e0ad"
+    },
+    "schema": {
+      "path": "schemas/personal-agent-case-set.schema.json",
+      "bytes": 17085,
+      "sha256": "736695f4b62de7f6a94cad07970079c4efc89f1b6d48951791c9965c5eaa33f6"
+    },
+    "captureSchema": {
+      "path": "schemas/personal-agent-evaluation-capture.schema.json",
+      "bytes": 20584,
+      "sha256": "0657fdeff05787203c9c7eddfda5c84c78498293b09f54ff9c3e679a49d25011"
+    }
+  },
+  "generated": [
+    {
+      "path": "evals/generated/personal-agent-webmcp-evals.json",
+      "bytes": 13226,
+      "sha256": "54bbc192b7b0c7b28a8ae38ff2b4228925dbe02980fd869b20e30b1d51a05f93"
+    },
+    {
+      "path": "evals/generated/personal-agent-oracle.json",
+      "bytes": 49242,
+      "sha256": "86ac5d6e9795f08c9569d00956f367b453631f43a2480109422e253a99ca1cdc"
+    },
+    {
+      "path": "evals/generated/personal-agent-run-plan.json",
+      "bytes": 14066,
+      "sha256": "6633b6537e04011dde64c3d2dc47df24300db4a2f79985824c64df66f5f7b2d4"
+    }
+  ],
+  "counts": {
+    "storyCount": 12,
+    "hostCount": 2,
+    "runsPerStoryPerHost": 3,
+    "plannedRunCount": 72,
+    "observedRunCount": 0
+  },
+  "evidenceStatus": "planned-unrun",
+  "comparisonDesign": "observational",
+  "causalClaimsAllowed": false
+}
