@@ -38,12 +38,17 @@ complete rules or live service response needed for most personal decisions.
 Until an approved, privacy-preserving GOV.UK Chat sample is available, use
 **representative question**, not **most common question**.
 
-## Exact released evidence estate
+## Exact evidence estate and candidate correction
 
-| Evidence tier | Released range | What it supports | What it does not support |
+The population and source snapshots below are those released in
+`v0.3.0-rc.1`. The A Life in the UK review-status sentence is the corrected
+current-candidate contract and is not presented as part of that historical
+release.
+
+| Evidence tier | Released population | What it supports | What it does not support |
 | --- | --- | --- | --- |
 | Reviewed deep evidence | 80 receipt-bound records: 69 GOV.UK metadata records about having a new child, plus 11 reviewed API and data-discovery records | Exact page or catalogue discovery with item-level receipt, source URL, dates, access, rights and limitations | Full GOV.UK page content, personal eligibility, current amounts, deadlines, transactions or endpoint execution |
-| A Life in the UK | 9,757 searchable records, including 293 service families across 24 life-course domains | Broad route and service-family discovery, jurisdiction hand-offs and supporting concepts | A decision for a person; legal, clinical, safeguarding or financial advice; complete current rules. Do not claim specialist acceptance: the admitted lock and source evaluation contract conflict, as recorded below |
+| A Life in the UK | 9,757 searchable records, including 293 service families across 24 life-course domains | Broad route and service-family discovery, jurisdiction hand-offs and supporting concepts | A decision for a person; legal, clinical, safeguarding or financial advice; complete current rules. The corrected candidate contract records no accepted specialist reviews |
 | ONS | 5,097 searchable metadata records: 3,035 ONS geography, 1,617 Nomis, 337 ONS dataset and 108 Explore Local Statistics indicator records | Discovering and distinguishing candidate statistical datasets and their recorded source links | Current observations, statistical accuracy, complete ONS coverage, current endpoint access or fitness for a particular analysis |
 | UK Government APIs | 41,598 searchable metadata records: 31,717 endpoints, 6,728 data products, 2,320 capability documents, 455 contracts, 245 API products, 93 schemas, 38 operations and 2 provider portals | Discovering a recorded API, dataset, contract, schema or documentation route | Proof that an endpoint is live, public, authorised, safe or openly licensed; credentials or API calls |
 | HM Land Registry | 2,200 searchable metadata records: news, statistics, guidance, corporate material, repositories, forms, 17 APIs, 14 datasets and 11 services | Discovering recorded HMLR guidance, publications, datasets, services, APIs and repositories | Title-register, title-plan, ownership, address, charge, polygon, transaction or personal rows; proof of ownership; legal advice. Three standalone legislation rows are quarantined |
@@ -53,15 +58,14 @@ quarantine. These are source rows before cross-source deduplication, not a count
 of unique services, datasets, APIs or official records. There is no standalone
 UK Legislation collection and no searchable `legislation.gov.uk` result link.
 
-### Known review-status wording conflict
+### Reconciled review-status wording
 
-The admitted federation lock says that 2 of 293 A Life in the UK service
-families had named specialist acceptance. The AI-consumer contract at the exact
-admitted source revision instead records **zero** accepted specialist reviews,
-2 families where specialist review was not required and 291 where it was
-required. These statements are not equivalent. Until the source and admitted
-lock are reconciled, neither the beginner interface nor an AI response should
-present a positive specialist-acceptance count.
+The current candidate's authored federation lock and generated display
+contract match the AI-consumer contract at the exact admitted source revision:
+**zero** accepted specialist reviews, 2 service families where specialist
+review was not required and 291 where it was required. No positive specialist-
+acceptance count is admitted. Historical `v0.3.0-rc.1` receipts preserve the
+earlier wording only as evidence for that release's exact bytes.
 
 ## GOV.UK Chat comparator matrix
 

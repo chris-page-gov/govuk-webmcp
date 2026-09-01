@@ -190,7 +190,7 @@
       },
       "limitations": [
         "The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.",
-        "Only 2 of 293 service families had named specialist acceptance at publication time.",
+        "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required.",
         "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."
       ],
       "boundaries": {
@@ -198,7 +198,7 @@
         "personalContextAccepted": false,
         "sourceDerivedContentIsUntrusted": true
       },
-      "entryDigest": "efd71bfc2d8eea499bb2242e8cd1262f99fe140d81b06e4fbe5b86196c58f845"
+      "entryDigest": "21a0e8d710c6ace0701fb9fc9a6061bbd40294a267d547414e015297215980d8"
     },
     {
       "id": "ons",
@@ -1072,5 +1072,5 @@
       "entryDigest": "ada84b4fa29506fa63debf3a57080cef16331af449fe104d7c98554a7b472e66"
     }
   ],
-  "lockDigest": "3bc8efc0fab22d7d1dec85539746027555c78c5ce7916a851dc62f00693f3f00"
+  "lockDigest": "79fca31f213798c073b9159dfb47cbc12a45694a10519d30cc92fea96fe5dabd"
 }

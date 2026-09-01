@@ -196,7 +196,7 @@
             "budgets": { "const": { "maximumResourceBytes": 16777216, "maximumDecodedBytes": 22734659, "maximumStoredBytes": 692870, "maximumArtifacts": 11 } },
             "rights": { "const": { "status": "source-specific", "statement": "Repository-authored structures and summaries use the producer notice; upstream content remains link-only." } },
             "access": { "const": { "status": "public-static-metadata", "statement": "Discovery routes only; jurisdiction, eligibility and provider decisions remain with the linked current authority." } },
-            "limitations": { "const": ["The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.", "Only 2 of 293 service families had named specialist acceptance at publication time.", "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."] }
+            "limitations": { "const": ["The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.", "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required.", "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."] }
           }
         }
       ]

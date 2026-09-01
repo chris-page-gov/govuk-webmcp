@@ -67,10 +67,11 @@ The slice adds:
   the Explain–Inspect–Do–Check–Reflect loop, US-01 to US-12, functional and
   accessibility requirements, acceptance criteria and non-goals;
 - `docs/product/beginner-interface-specification.md`, which reviews the current
-  page, defines proposed Guided evidence and retained Technical review views,
+  page, defines the Evidence answer candidate and retained Technical review views,
   semantic regions GE-01 to GE-10, deterministic presentation and URL
   contracts, result and failure states, honest AI and accepted-input
-  boundaries, a candidate but unapproved `present_resource_evidence` action,
+  boundaries, an authorised but not yet implemented or released
+  `present_resource_evidence` action,
   proposed modules, accessibility requirements, story mapping and verification
   gates;
 - `docs/competition/beginner-question-coverage.md`, which maps 21 balanced
@@ -111,13 +112,14 @@ because it is large, duplicates complete tool payloads and contains unreviewed
 model prose. The committed receipt makes the bounded trajectory evidence
 reviewable while retaining that exclusion.
 
-One data-contract contradiction was found and deliberately not hidden. The
-admitted A Life in the UK lock says two of 293 service families had named
-specialist acceptance; the producer's AI-consumer contract at exact admitted
-revision `4bc010eab3c9c072f68960393c1458a772aa700b` says zero accepted, two not
-requiring review and 291 requiring it. The beginner documents make no positive
-acceptance claim. Correct this through the authored source lock, generated
-display contracts, tests and release evidence before a UI uses the claim.
+The A Life in the UK data-contract contradiction is corrected for the current
+candidate. The authored lock, closed schema, corpus admission, generated
+display contract, executable runtime boundary and tests now match the producer's
+AI-consumer contract at exact admitted revision
+`4bc010eab3c9c072f68960393c1458a772aa700b`: zero accepted specialist reviews,
+two service families where review is not required and 291 where it is required.
+Historical `v0.3.0-rc.1` receipts retain their original bytes and wording; do
+not use them as the current candidate claim.
 
 Validation completed for this slice:
 
@@ -814,14 +816,13 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-For the beginner product lane, first reconcile the A Life in the UK specialist-
-review contradiction. The documentation review and proposed dual-view
-specification are now complete. After reconciliation, create a low-fidelity
-Guided evidence prototype from the specification, evaluate the candidate
-record-presentation action against the five-tool alternative, and run the
-specified formative comprehension and accessibility research before
-authorising implementation. The page must not claim to inspect the AI host's
-final prose.
+For the beginner product lane, the A Life in the UK specialist-review contract
+is reconciled and the documentation review and proposed dual-view specification
+are complete. Implement the separately authorised Evidence answer candidate and
+sixth presentation action, then run the deterministic, accessibility and
+cross-host evaluation. Formative comprehension evidence remains unobserved and
+must not be inferred from the synthetic personas or automated tests. The page
+must not claim to inspect the AI host's final prose.
 
 For the separate competition-submission lane, Chris Page should complete
 continuous audible playback, privacy, branding, rights, synthetic-voice and

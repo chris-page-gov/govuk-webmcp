@@ -432,19 +432,21 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
    ambiguously asked to inspect provenance while silently expecting two calls.
    Every case produced final text. Qualitative review found four materially
    unsafe answers, so no acceptance pass is claimed.)*
-8. **Reconcile discovered source-contract conflicts.** *(Open: the A Life in
-   the UK lock says two named specialist acceptances, while its exact-revision
-   AI-consumer contract says zero accepted, two not required and 291 required.
-   Do not surface a positive acceptance count until authored, generated, test
-   and release evidence agree.)*
+8. **Reconcile discovered source-contract conflicts.** *(Complete for the
+   current candidate: the authored A Life in the UK lock, closed schema, corpus
+   admission, generated display contract, executable runtime boundary and
+   tests now agree with its exact-revision AI-consumer contract — zero accepted,
+   two not required and 291 required. Historical `v0.3.0-rc.1` receipts remain
+   unchanged release evidence.)*
 9. **Perform the technical review and specify the beginner UI.**
    *(Documentation review and proposed specification complete: the current page
-   is retained as Technical review and the companion specification defines a
-   Guided evidence view, deterministic presentation contract, progressive
+   is retained as Technical review and the companion specification defines an
+   Evidence answer view, deterministic presentation contract, progressive
    disclosure, honest AI-addition boundary, accepted-input display,
    accessibility, complete human parity and a candidate combined
-   record-evidence action. The action and UI are not implemented. Low-fidelity
-   prototyping and runtime work remain gated by step 8 and formative research.)*
+   record-evidence action. The action and UI are not implemented. The source-
+   contract prerequisite in step 8 is closed; the separately authorised
+   experimental evaluation-candidate implementation is next.)*
 10. **Run formative and repeated evaluation.** *(Open: use natural prompts,
     at least three runs per story, hard unsafe-answer failures and separately
     authorised host/model comparison; then test source, limitation and next-
@@ -469,7 +471,7 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
 | Must 17 | Complete: MIT licence and notices are published. PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`; the annotated tag and pre-release are `v0.3.0-rc.1`. Earlier releases remain separately recorded. |
 | Must 18 | Part complete: current-release human interaction clips, supported-host receipt and receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second local review video and its completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. Owner synthetic-voice, privacy, branding, rights and continuous-playback review, public YouTube upload and authorised submission remain open. No registration, submission or upload claim is made. |
 | Federation 1–10 | Released as `v0.3.0-rc.1`: exact final-candidate verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 194 prepared unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. PR #16, protected main and Pages passed; all 1,879 deployed files matched artefact `9745316971`; the current supported host completed all five tools with fixed-query parity; and current VoiceOver and local-video technical evidence are complete with limitations. Five fixed-model attempts are retained and all failed. Owner and public submission-media review remains open. |
-| Beginner 1–10 | Discovery steps 1–7 and the documentation review/specification part of step 9 are complete on the current documentation branch; source reconciliation in step 8, prototyping and step 10 remain open. Exact coverage, synthetic personas, user stories, beginner guide, PRD, dual-view interface specification, fixture, documentation and evaluator unit contracts, privacy-reviewed receipt and one reviewed model diagnostic are present. The public UI is unchanged. A factual source-lock contradiction, low-fidelity/formative review and natural repeated model evaluation remain hard gates. |
+| Beginner 1–10 | Discovery steps 1–8 and the documentation review/specification part of step 9 are complete for the current candidate. Exact coverage, synthetic personas, user stories, beginner guide, PRD, dual-view interface specification, fixture, documentation and evaluator unit contracts, privacy-reviewed receipt and one reviewed model diagnostic are present. The public UI is unchanged. The Evidence answer implementation is separately authorised; formative review and natural repeated model evaluation remain unobserved and cannot support usability or model-safety claims. |
 
 ## Implemented Should and Could work
 

@@ -10,19 +10,20 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - A documentation-only beginner evidence interface specification that reviews
   the current page, retains it as the proposed **Technical review** view and
-  defines a future **Guided evidence** view over the same deterministic actions
+  defines a future **Evidence answer** view over the same deterministic actions
   and data. It specifies semantic page order, URL and state contracts, result
   and failure states, human/WebMCP choreography, accessible progressive
-  disclosure, exact accepted-input boundaries, a candidate but unapproved
+  disclosure, exact accepted-input boundaries, a candidate presentation
   record-presentation tool, module ownership, 12-story and primary-limitation
   mappings, verification and source/research/release gates. No UI, schema, tool
-  or deployment changed.
+  or deployment changed in that documentation-only slice. The experimental
+  implementation is now authorised but is not yet implemented or released.
 - A unit documentation contract for the companion beginner PRD, interface
   specification and learning guide. It checks the two-view and
   documentation-only boundaries, structurally exact DS-01 to DS-12, GE-01 to
   GE-10, US-01 to US-12, the 46 requirement-trace rows, the 12-story primary-
-  limitation map, the unresolved source gate and the absence of an approved
-  sixth tool.
+  limitation map, the reconciled source contract and the boundary between an
+  authorised sixth-tool implementation and release acceptance.
 - A documentation-only beginner trust pathway: a five-question evidence-
   checking guide, discovery PRD, four synthetic personas, 12 representative
   user stories and an exact question-to-released-corpus coverage matrix. The
@@ -115,6 +116,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Reconciled the A Life in the UK specialist-review contract with the exact
+  admitted producer revision. The authored federation lock, closed schema,
+  corpus admission, generated display contract, executable runtime boundary
+  and regression tests now record 0 accepted reviews, 2 service families where
+  review is not required and 291 where it is required. Historical
+  `v0.3.0-rc.1` receipts remain unchanged evidence for their named release
+  bytes and are not presented as current candidate truth.
 - Updated the evidence-chronology regression so the top-level evidence window
   ends with the current `v0.3.0-rc.1` release observation while the historical
   Devpost receipt remains bound to its own 30 August timestamp.
@@ -130,12 +138,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Governance
 
-- Recorded a contradiction in the exact admitted A Life in the UK evidence:
-  the federation lock says two of 293 service families had named specialist
-  acceptance, while the producer's exact-revision AI-consumer contract records
-  zero accepted reviews, two not requiring review and 291 requiring review.
-  Beginner material makes no positive specialist-acceptance claim. Correcting
-  the released source contract remains a separate implementation gate.
+- Closed the specialist-review wording gate for the current candidate without
+  rewriting the released `v0.3.0-rc.1` chronology. No positive specialist-
+  acceptance claim is admitted; source-snapshot search remains distinct from
+  item-level reviewed evidence.
+- Reconciled the evidence-manifest registry with the merged beginner-pathway
+  receipt so the regenerated evidence manifest validates the documented set.
 
 ## [0.3.0-rc.1] - 2026-08-31
 

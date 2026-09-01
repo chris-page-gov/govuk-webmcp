@@ -88,7 +88,7 @@ test("the compiled runtime meets the frozen diagnostic gate and rejects legislat
   assert.equal(report.judgedCaseCount, 7);
   assert.equal(report.metrics.meanNdcgAt10, 0.984698009);
   assert.equal(report.metrics.meanRecallAt20, 1);
-  assert.equal(report.resultDigest, "6dc5b5a2170feccaf9c2fc359a0a1d9c92e24826f3da60d3a6d25c8b18e1965c");
+  assert.equal(report.resultDigest, "122c504561bf09094d67ce38170c7c55fb2f9bf16acc671477d68da33b646b87");
   assert.equal(report.deterministicColdWarmMatch, true);
   assert.deepEqual(report.prohibitedLegislation, {
     collectionAbsent: true,

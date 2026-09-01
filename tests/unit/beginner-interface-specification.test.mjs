@@ -18,16 +18,16 @@ function sequence(length) {
   return Array.from({ length }, (_, index) => String(index + 1).padStart(2, "0"));
 }
 
-test("beginner interface specification closes the documentation contract without approving implementation", async () => {
+test("beginner interface specification records the authorised candidate without claiming implementation", async () => {
   const [specification, requirements, guide] = await Promise.all([
     readFile("docs/product/beginner-interface-specification.md", "utf8"),
     readFile("docs/product/beginner-trust-pathway-prd.md", "utf8"),
     readFile("docs/beginners/index.md", "utf8"),
   ]);
 
-  assert.match(specification, /Status:\*\* proposed implementation specification; documentation only/u);
-  assert.match(specification, /does\s+not change the application, WebMCP tools, schemas, data, release or deployment/u);
-  assert.match(specification, /Guided evidence/u);
+  assert.match(specification, /Status:\*\* accepted implementation specification; candidate implementation authorised/u);
+  assert.match(specification, /does not itself\s+change the application, WebMCP tools, schemas, release or deployment/u);
+  assert.match(specification, /Evidence answer/u);
   assert.match(specification, /Technical review/u);
   assert.match(specification, /same action controller, validated artefacts, result objects and limitations/u);
   assert.match(specification, /cannot automatically know what an AI added to its final answer/u);
@@ -54,15 +54,15 @@ test("beginner interface specification closes the documentation contract without
   assert.match(specification, /For every other record, `primaryLimitation` is `null`/u);
   assert.match(specification, /`acceptedInput` \| Closed successful validated action input[\s\S]+or `null` when a deep link/u);
   assert.match(specification, /no overall trust, confidence or quality score/u);
-  assert.match(specification, /source-contract correction/u);
+  assert.match(specification, /source-contract correction is complete/u);
   assert.match(specification, /A Life in the UK specialist-/u);
-  assert.match(specification, /not an\s+implemented or approved sixth tool/u);
+  assert.match(specification, /authorised\s+for experimental implementation but is not yet implemented, released or\s+supported by accepted host evidence/u);
   assert.match(specification, /\{ "readOnlyHint": false, "untrustedContentHint": true \}/u);
   assert.match(specification, /"additionalProperties": false/u);
-  assert.match(specification, /This specification does not authorise a new\s+video, publication, deployment or Devpost change/u);
+  assert.match(specification, /does not authorise the separate Devpost submission action/u);
 
   const decisions = sectionBetween(specification, "## 2. Decisions and non-decisions", "## 3. Current-interface review");
-  const regions = sectionBetween(specification, "## 5. Guided-evidence page regions", "## 6. Deterministic presentation contract");
+  const regions = sectionBetween(specification, "## 5. Evidence answer page regions", "## 6. Deterministic presentation contract");
   const storyMapping = sectionBetween(specification, "## 9. Story-to-interface mapping", "## 10. Proposed implementation structure");
   const primaryLimitations = sectionBetween(specification, "### 6.4 First-prototype primary-limitation map", "## 7. Result and system states");
   const traceability = sectionBetween(specification, "### 14.1 Requirement traceability", "### 14.2 Deterministic tests");

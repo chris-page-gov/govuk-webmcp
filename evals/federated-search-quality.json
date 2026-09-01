@@ -1,7 +1,7 @@
 {
   "schema": "govuk-webmcp.federated-search-quality.v1",
   "evaluationProfile": "frozen-authored-lexical-relevance-v1",
-  "manifestDigest": "1894390575cfab372bf8d84b66063873b9e252fce43be842b855ae83f9911952",
+  "manifestDigest": "0263d828575c4fdd2bcc7c5a34cec402332fca68a9ab5edd882838898caa0954",
   "cutoffs": {
     "ndcg": 10,
     "recall": 20
@@ -10,7 +10,7 @@
     "minimumMeanNdcgAt10": 0.95,
     "minimumMeanRecallAt20": 1
   },
-  "expectedResultDigest": "6dc5b5a2170feccaf9c2fc359a0a1d9c92e24826f3da60d3a6d25c8b18e1965c",
+  "expectedResultDigest": "122c504561bf09094d67ce38170c7c55fb2f9bf16acc671477d68da33b646b87",
   "cases": [
     {
       "id": "exact-source-native-id",
