@@ -1,9 +1,10 @@
 # Application workspace
 
-This directory contains the static TypeScript prototype. Its primary human view
-is an analytical index of one digest-bound worked answer. A progressive visual
-Evidence Trace, an accessible claim comparison and catalogue search all use the
-same deterministic action path.
+This directory contains the static TypeScript prototype. The unreleased
+`0.4.0-rc.1` candidate opens with an accessible **Evidence answer** and keeps
+the existing analytical index, progressive Evidence Trace, claim comparison
+and catalogue search together as **Technical review**. Both views use the same
+deterministic action path and evidence state.
 
 The packaged evidence estate contains:
 
@@ -18,8 +19,9 @@ The packaged evidence estate contains:
   API records, one answer pack, 10 admission decisions and the four-source OKF
   federation lock.
 
-The lock, admission and schema totals above are working-tree observations;
-recompute them after the exact-tree rescan before release binding.
+These lock and admission counts, and the schema total below, are working-tree
+observations; recompute them after the exact-tree rescan before release
+binding.
 
 The four federated populations sum to 58,655 raw rows before cross-source
 deduplication. Exactly three standalone HM Land Registry legislation rows are
@@ -34,10 +36,12 @@ metadata.
 
 The runtime loads and validates five registration-root artefact families:
 catalogue, receipts, Evidence Trace collection, corpus federation manifest and
-federated-search manifest. Each root has a raw-byte SHA-256 sidecar. Their 31
-published schemas, internal digests and cross-bindings must validate before any
-WebMCP registration starts. Lazily requested federated record and postings
-shards are separately checked against the validated manifest.
+federated-search manifest. Each root has a raw-byte SHA-256 sidecar. The
+candidate has 36 published schemas: the 31 schemas released with
+`v0.3.0-rc.1` plus 5 closed Evidence answer and evaluation contracts. Their
+internal digests and cross-bindings must validate before any WebMCP
+registration starts. Lazily requested federated record and postings shards are
+separately checked against the validated manifest.
 
 ## Authored, imported and generated data
 
@@ -59,20 +63,30 @@ ordinary rebuilding uses `npm run data:build` followed by
 
 ## Page tools
 
-The page registers five fixed tools when a compatible secure host provides
+The candidate page registers six fixed tools when a compatible secure host provides
 `document.modelContext`:
 
 - `search_government_knowledge`, `get_resource_record` and `show_provenance`
   query packaged data only and declare `readOnlyHint: true`;
 - `explore_answer_foundations` and `compare_evidence_foundations` change only a
   reversible, transient page selection and declare `readOnlyHint: false` to
-  describe that visible presentation effect accurately.
+  describe that visible presentation effect accurately; and
+- `present_resource_evidence` validates one canonical record identifier,
+  returns the exact closed Evidence answer object rendered by the page and
+  changes only reversible in-memory presentation, so it also declares
+  `readOnlyHint: false`.
+
+The five `v0.3.0-rc.1` tool contracts remain unchanged. The sixth tool is an
+unreleased candidate until protected integration and live supported-host
+verification complete.
 
 The tools are page-scoped progressive enhancement, not a durable MCP gateway.
 The human interface works without them. Human and WebMCP actions use the same
 controller, input budget and executable validation. Rejected input is not
 included in a diagnostic input digest, and bounded URL fragments restore only
-exact record, answer, claim or comparison selections.
+an explicit view and exact record, answer, claim or comparison selections.
+An empty URL opens Evidence answer; a legacy evidence fragment without a view
+retains its Technical review meaning.
 
 The page treats source-derived text as untrusted, renders it inertly and keeps
 maintained source URLs, their conservative producer-declared roles and
@@ -90,7 +104,8 @@ Run `npm run serve`, then open `http://127.0.0.1:4173/` for manual use. Do not o
 file directly: the startup watchdog explains that modules and same-origin data
 require HTTP.
 
-The `0.3.0-rc.1` product bytes have passed protected-main validation, been
-merged and deployed. These instructions do not claim that the refreshed manual
-VoiceOver evidence or demonstration video has passed its human publication
-review, or that a Devpost submission has been performed.
+The `v0.3.0-rc.1` product bytes have passed protected-main validation, been
+merged and deployed. The six-tool `0.4.0-rc.1` worktree is not yet a release,
+deployment or supported-host observation. Candidate manual VoiceOver and
+Caption Panel evidence, personal-agent evaluation, demonstration video, owner
+publication review and Devpost submission remain separate gates.

@@ -1,4 +1,4 @@
-# Static competition architecture and federated release
+# Static competition architecture, federated release and Evidence answer candidate
 
 The first diagram records the frozen pre-federation architecture through
 `v0.2.0-rc.2`. Annotated tag `v0.2.0-rc.2` resolves to product commit
@@ -127,6 +127,97 @@ supplementary counts, completeness statement and first limitation before the
 human display uses them. A co-digested redistribution or contradictory display
 claim fails closed.
 
+## Unreleased `0.4.0-rc.1` presentation overlay
+
+The candidate changes presentation and page-tool choreography without adding a
+model, source, runtime official-API call, catalogue copy or storage layer:
+
+```text
+validated reviewed or federated action result
+                    |
+                    v
+pure BeginnerPresentation projection
+  |-- closed evidence tier and source role
+  |-- supported statement and complete limitations
+  |-- cannot-decide and next-check boundaries
+  |-- canonical accepted input or null on restoration
+  `-- underlying result digests
+           |                         |
+           | same object             | same object
+           v                         v
+Evidence answer renderer       present_resource_evidence result
+  |-- DOM and textContent only        sixth imperative page tool
+  |-- validated recorded link         readOnlyHint: false
+  `-- no AI transcript                untrustedContentHint: true
+           |
+           v
+persistent Evidence answer <-> Technical review navigation
+```
+
+The persistent switch uses ordinary links rather than an ARIA tab widget. This
+follows GOV.UK guidance that tabs are not page navigation and may hide content,
+uses the service-navigation pattern only as semantic guidance, and keeps sticky
+navigation from obscuring keyboard focus in line with WCAG 2.2 Focus Not
+Obscured (Minimum). [G22; G23; A03]
+
+The empty candidate route selects Evidence answer. A legacy record, answer,
+claim or comparison fragment selects Technical review so released deep links
+retain their meaning. A WebMCP presentation updates the deterministic Evidence
+answer in place but must not change the active view, fragment, history, focus or
+scroll, and it does not replace the Technical review's currently rendered
+record or provenance. An explicit human result selection updates bounded
+history only after that presentation wins the latest-started transaction and
+commits. One sequence covers explored answers, comparisons and record
+presentations, including reviewed projection work that finishes asynchronously.
+An older call may still receive its deterministic return value, but cannot
+replace the latest page selection. The composite action has an eight-second
+deadline; timeout, failure or cancellation retains the previous answer and
+cannot expose partial evidence.
+
+The current worktree contains this projection, composite action, sixth tool,
+bounded router, renderer, shared mounts and controller integration. The build
+audits all 80 reviewed and 58,652 federated records using production result
+builders, the production projector and the closed presentation schema. The
+prepared unit suite passes 272 of 272, and the complete candidate browser suites
+pass 43 of 43 in installed Chrome and 43 of 43 in installed Edge. The offline
+double build passes at 1,883 files, 128,646,550 bytes and aggregate SHA-256
+`3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
+Frozen code-snapshot security scan `aedf88e3-6a77-46af-be6b-2c672001dd46`
+completed 36 of 36 items, ran 102 focused tests, found zero findings and
+concluded that there is no security release blocker. Candidate-specific manual visual, Safari, VoiceOver and Caption
+Panel observations and host verification remain pending. Automated checks do
+not establish WCAG conformance. The diagram is not release evidence.
+
+Personal-agent captures are untrusted observations, not their own execution
+oracle. When an exact call trace is observable, the verifier copies the
+receipt-bound `dist` bytes into a private, manifest-verified snapshot, loads the
+compiled production runtime under a unique module identity and confines replay
+caches to that one validation. Captured outputs must equal the replayed outputs,
+and page parity is derived from the replay rather than from a captured
+self-digest. The snapshot, working build and clean exact Git identity are
+rechecked after replay. Marker checks
+decode bounded percent and HTML representations, normalise Unicode, fold case
+and ignore separator variation. The public summary retains counts and fixed
+product classes but neither free-text host or browser values nor hashes of
+those values. It may retain safe observation dates, fixed product classes,
+bounded Chromium versions, fixed tool-name sequences and deterministic
+selection/digest pairs. A Copilot observation must bind visible Microsoft Edge
+and an observed canonical Copilot share link; the link remains private. A
+claimable answer judgement requires human or domain-specialist review. Page
+observations require literal `null` history state and empty local and session
+storage; local runs additionally require the exact credential-free loopback root
+URL with no query or fragment.
+
+Release authentication is also separate from structural receipt validation. A
+raw receipt-shaped object cannot open the evaluation claim gate. The verifier
+must freshly re-observe the named GitHub Pages artefact and every live byte,
+then bind an exact clean checkout and local `dist` manifest to the same commit.
+Receipt v2 fixes the work budget at a 256 MiB archive, 4,096 regular files, 512
+directories, 192 MiB of regular-file data, 8 MiB per file, 8 concurrent live
+fetches, 60 seconds per file and 10 minutes for the whole comparison. These
+controls are implemented and unit-tested locally; protected integration and an
+authenticated candidate deployment remain unobserved.
+
 ## Authored and generated boundaries
 
 The frozen pre-federation release has four source-lock registry entries. The
@@ -145,6 +236,13 @@ the 10 initial same-origin files — five roots and five SHA-256 sidecars — th
 checks their closed structure, internal digests and bindings. An initial-root
 failure leaves the human fallback error visible and prevents all five tools
 from registering.
+
+The candidate adds five closed schema files for beginner presentation,
+presentation input/output, personal-agent cases and private evaluation captures
+without changing the five runtime root artefact families. If the same roots and
+their semantic bindings validate, the candidate registers six fixed tool
+definitions or none. The schema count and focused registration path pass local
+candidate checks; complete release verification remains open.
 
 The corpus-admission manifest records `sourceOkfCore` separately from
 `targetOkfCore`. The target is OKF core 0.2 for every admission; the source may
@@ -193,7 +291,7 @@ the runtime fails closed rather than admitting a fifth load.
 
 ## Evidence-first interaction
 
-The worked answer opens on a text-first analytical index. The visual Evidence
+In released `v0.3.0-rc.1`, the worked answer opens on a text-first analytical index. The visual Evidence
 Trace is a progressive explanation of the same data. Each node keeps eight
 facets separate: authority, assertion status, verification, freshness,
 integrity, access, rights and coverage. Comparison preserves those fields and
@@ -205,6 +303,13 @@ comparison have `readOnlyHint: false` because they can update the page's
 current selection and comparison. That effect is reversible and held only in
 memory: it does not change the catalogue, browser storage, network or external
 state.
+
+In the `0.4.0-rc.1` candidate, Evidence answer becomes the bare-route view and
+Technical review retains that released analytical interface. Both consume the
+same controller results. The sixth action has the same reversible-presentation
+boundary as the two exploration actions, while the three discovery queries
+remain read-only. The page still cannot inspect or validate the host AI's final
+prose.
 
 ## Runtime and service boundary
 

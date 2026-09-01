@@ -1,0 +1,341 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:beginner-presentation:v1",
+  "title": "Evidence answer presentation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "ok", "selectionId", "resultKind", "evidenceTier", "evidenceTierLabel", "heading",
+    "foundations", "primaryLimitation", "allLimitations", "boundaries", "nextCheck", "cannotDecide",
+    "acceptedInput", "sourceResultDigests"
+  ],
+  "properties": {
+    "schema": { "const": "govuk-webmcp.beginner-presentation.v1" },
+    "ok": { "const": true },
+    "selectionId": {
+      "oneOf": [
+        { "$ref": "#/$defs/answerId" },
+        { "$ref": "#/$defs/claimId" },
+        { "$ref": "#/$defs/recordId" }
+      ]
+    },
+    "resultKind": { "enum": ["reviewed-answer", "reviewed-record", "federated-record"] },
+    "evidenceTier": { "enum": ["reviewed-deep-evidence", "federated-source-snapshot"] },
+    "evidenceTierLabel": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "heading": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "foundations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/foundation" }
+    },
+    "primaryLimitation": {
+      "oneOf": [
+        { "type": "string", "minLength": 1, "maxLength": 1000 },
+        { "type": "null" }
+      ]
+    },
+    "allLimitations": { "$ref": "#/$defs/limitations" },
+    "boundaries": { "$ref": "#/$defs/boundaries" },
+    "nextCheck": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "cannotDecide": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "statement"],
+        "properties": {
+          "kind": {
+            "enum": [
+              "personalised-applicability", "currentness", "eligibility", "item-level-authority",
+              "access-and-rights", "live-value", "legal-effect", "ownership"
+            ]
+          },
+          "statement": { "type": "string", "minLength": 1, "maxLength": 500 }
+        }
+      }
+    },
+    "acceptedInput": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action", "answerId", "claimId"],
+          "properties": {
+            "action": { "const": "explore_answer_foundations" },
+            "answerId": { "$ref": "#/$defs/answerId" },
+            "claimId": {
+              "oneOf": [
+                { "$ref": "#/$defs/claimId" },
+                { "type": "null" }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action", "answerId", "claimIds"],
+          "properties": {
+            "action": { "const": "compare_evidence_foundations" },
+            "answerId": { "$ref": "#/$defs/answerId" },
+            "claimIds": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/claimId" }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action", "recordId"],
+          "properties": {
+            "action": { "const": "present_resource_evidence" },
+            "recordId": { "$ref": "#/$defs/recordId" }
+          }
+        }
+      ]
+    },
+    "sourceResultDigests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidenceTrace", "recordResult", "provenanceResult"],
+      "properties": {
+        "evidenceTrace": { "$ref": "#/$defs/nullableSha256" },
+        "recordResult": { "$ref": "#/$defs/nullableSha256" },
+        "provenanceResult": { "$ref": "#/$defs/nullableSha256" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "evidenceTier": { "const": "reviewed-deep-evidence" } }, "required": ["evidenceTier"] },
+      "then": {
+        "properties": {
+          "resultKind": { "enum": ["reviewed-answer", "reviewed-record"] },
+          "evidenceTierLabel": { "const": "Reviewed evidence in this prototype" },
+          "boundaries": {
+            "type": "object",
+            "properties": {
+              "itemLevelReview": { "const": true },
+              "evidenceReceiptAvailable": { "const": true }
+            }
+          },
+          "foundations": {
+            "type": "array",
+            "items": { "type": "object", "properties": { "sourceRole": { "const": "official-source" } } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "evidenceTier": { "const": "federated-source-snapshot" } }, "required": ["evidenceTier"] },
+      "then": {
+        "properties": {
+          "resultKind": { "const": "federated-record" },
+          "evidenceTierLabel": { "const": "Wider catalogue source snapshot" },
+          "boundaries": {
+            "type": "object",
+            "properties": {
+              "itemLevelReview": { "const": false },
+              "evidenceReceiptAvailable": { "const": false }
+            }
+          },
+          "foundations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourceRole": { "enum": ["producer-declared-source", "producer-record", "no-direct-authority-link"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "resultKind": { "enum": ["reviewed-record", "federated-record"] } }, "required": ["resultKind"] },
+      "then": {
+        "properties": {
+          "foundations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": { "type": "object", "properties": { "claimId": { "type": "null" } } }
+          },
+          "sourceResultDigests": {
+            "type": "object",
+            "properties": {
+              "evidenceTrace": { "type": "null" },
+              "recordResult": { "$ref": "#/$defs/sha256" },
+              "provenanceResult": { "$ref": "#/$defs/sha256" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "resultKind": { "const": "reviewed-answer" } }, "required": ["resultKind"] },
+      "then": {
+        "properties": {
+          "foundations": {
+            "type": "array",
+            "items": { "type": "object", "properties": { "claimId": { "$ref": "#/$defs/claimId" } } }
+          },
+          "sourceResultDigests": {
+            "type": "object",
+            "properties": {
+              "evidenceTrace": { "$ref": "#/$defs/sha256" },
+              "recordResult": { "type": "null" },
+              "provenanceResult": { "type": "null" }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nullableSha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+    "answerId": { "type": "string", "maxLength": 96, "pattern": "^answer:[a-z0-9][a-z0-9-]{2,88}$" },
+    "claimId": { "type": "string", "maxLength": 96, "pattern": "^claim:[a-z0-9][a-z0-9-]{2,89}$" },
+    "recordId": {
+      "type": "string",
+      "maxLength": 160,
+      "pattern": "^govuk-discovery:(?:(?!federated:)[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$"
+    },
+    "httpsUrl": { "type": "string", "format": "uri", "pattern": "^https://[^/@:]+(?:/|$)" },
+    "nullableUrl": { "oneOf": [{ "$ref": "#/$defs/httpsUrl" }, { "type": "null" }] },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 40,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1200 }
+    },
+    "foundation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claimId", "supportedStatement", "publisher", "resourceDetails", "sourceTitle", "sourceAuthority",
+        "sourceRole", "sourceUrl", "sourceHostname", "assertionStatus", "observedAt", "integrityBasis",
+        "access", "rights", "coverage", "primaryLimitation", "allLimitations"
+      ],
+      "properties": {
+        "claimId": { "oneOf": [{ "$ref": "#/$defs/claimId" }, { "type": "null" }] },
+        "supportedStatement": { "type": "string", "minLength": 1, "maxLength": 1200 },
+        "publisher": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "resourceDetails": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recordId", "resourceType", "collectionId", "sourceNativeId", "snapshot", "revision"],
+          "properties": {
+            "recordId": { "oneOf": [{ "$ref": "#/$defs/recordId" }, { "type": "null" }] },
+            "resourceType": { "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 80 }, { "type": "null" }] },
+            "collectionId": { "oneOf": [{ "enum": ["deep-evidence", "uk-living", "ons", "government-apis", "land-registry"] }, { "type": "null" }] },
+            "sourceNativeId": { "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 500 }, { "type": "null" }] },
+            "snapshot": { "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 200 }, { "type": "null" }] },
+            "revision": { "oneOf": [{ "type": "string", "pattern": "^[a-f0-9]{40}$" }, { "type": "null" }] }
+          }
+        },
+        "sourceTitle": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "sourceAuthority": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "sourceRole": { "enum": ["official-source", "producer-declared-source", "producer-record", "no-direct-authority-link"] },
+        "sourceUrl": { "$ref": "#/$defs/nullableUrl" },
+        "sourceHostname": { "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 253 }, { "type": "null" }] },
+        "assertionStatus": { "enum": ["official-source", "producer-declared", "normalised", "inferred", "model-derived", "unclassified", "not-established"] },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "integrityBasis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "digest", "note"],
+          "properties": {
+            "status": { "enum": ["sha256-bound", "snapshot-file-integrity"] },
+            "digest": { "$ref": "#/$defs/sha256" },
+            "note": { "type": "string", "minLength": 1, "maxLength": 500 }
+          }
+        },
+        "access": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "note"],
+          "properties": {
+            "status": { "enum": ["public", "restricted", "authentication-required", "access-not-established", "not-applicable"] },
+            "note": { "type": "string", "minLength": 1, "maxLength": 1000 }
+          }
+        },
+        "rights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "title", "url", "note"],
+          "properties": {
+            "status": { "enum": ["confirmed", "missing", "conflicting", "not-applicable"] },
+            "title": { "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 300 }, { "type": "null" }] },
+            "url": { "$ref": "#/$defs/nullableUrl" },
+            "note": { "type": "string", "minLength": 1, "maxLength": 1000 }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "note"],
+          "properties": {
+            "status": { "enum": ["one-record", "one-source-snapshot-record", "not-applicable"] },
+            "note": { "type": "string", "minLength": 1, "maxLength": 1000 }
+          }
+        },
+        "primaryLimitation": {
+          "oneOf": [{ "type": "string", "minLength": 1, "maxLength": 1000 }, { "type": "null" }]
+        },
+        "allLimitations": { "$ref": "#/$defs/limitations" }
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "presentationEffect", "pageScoped", "sameOriginStaticReads", "modelHostedByPage", "aiAnswerObserved",
+        "providerCall", "officialApiCall", "sourceRefetchedAtRuntime", "catalogueMutation", "storageWrite",
+        "externalStateChange", "personalContextAccepted", "durableReceiptCreated", "accessAuthorityGranted",
+        "itemLevelReview", "evidenceReceiptAvailable", "cryptographicSignatureVerified",
+        "sourceDerivedContentIsUntrusted", "singleTrustScore", "personalisedDecision", "eligibilityDecision",
+        "legalDecision", "liveValueProvided", "ownershipRecordProvided"
+      ],
+      "properties": {
+        "presentationEffect": { "const": "transient-local-selection" },
+        "pageScoped": { "const": true },
+        "sameOriginStaticReads": { "const": true },
+        "modelHostedByPage": { "const": false },
+        "aiAnswerObserved": { "const": false },
+        "providerCall": { "const": false },
+        "officialApiCall": { "const": false },
+        "sourceRefetchedAtRuntime": { "const": false },
+        "catalogueMutation": { "const": false },
+        "storageWrite": { "const": false },
+        "externalStateChange": { "const": false },
+        "personalContextAccepted": { "const": false },
+        "durableReceiptCreated": { "const": false },
+        "accessAuthorityGranted": { "const": false },
+        "itemLevelReview": { "type": "boolean" },
+        "evidenceReceiptAvailable": { "type": "boolean" },
+        "cryptographicSignatureVerified": { "const": false },
+        "sourceDerivedContentIsUntrusted": { "const": true },
+        "singleTrustScore": { "const": false },
+        "personalisedDecision": { "const": false },
+        "eligibilityDecision": { "const": false },
+        "legalDecision": { "const": false },
+        "liveValueProvided": { "const": false },
+        "ownershipRecordProvided": { "const": false }
+      }
+    }
+  }
+}

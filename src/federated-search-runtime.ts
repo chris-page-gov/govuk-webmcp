@@ -128,6 +128,11 @@ export interface FederatedProvenanceResult extends JsonObject {
   boundaries: JsonObject;
 }
 
+export type FederatedRecordVisitor = (
+  record: FederatedRecordResult,
+  provenance: FederatedProvenanceResult,
+) => void | Promise<void>;
+
 export interface FederatedErrorResult extends JsonObject {
   schema: "govuk-webmcp.federated-error.v1";
   ok: false;
@@ -334,6 +339,12 @@ interface FederatedRecord extends JsonObject {
   extractionMethod: string;
   limitations: string[];
   recordDigest: string;
+}
+
+interface ResolvedFederatedRecord {
+  readonly collection: ValidatedCollection;
+  readonly reference: RecordShardReference;
+  readonly record: FederatedRecord;
 }
 
 interface RankedCandidate {
@@ -1105,6 +1116,87 @@ function presentedRecord(record: FederatedRecord, collection: ValidatedCollectio
   };
 }
 
+function federatedRecordResult(
+  resolved: ResolvedFederatedRecord,
+  manifest: ValidatedManifest,
+): FederatedRecordResult {
+  const { collection, reference, record } = resolved;
+  return deepFreeze({
+    schema: "govuk-webmcp.federated-resource-record-result.v1",
+    ok: true,
+    evidenceTier: "federated-source-snapshot",
+    verificationStatus: "snapshot-file-integrity",
+    record: presentedRecord(record, collection, manifest.generatedAt),
+    relatedRecords: [],
+    integrity: {
+      manifestDigest: manifest.manifestDigest,
+      sourceLockDigest: manifest.sourceLockDigest,
+      recordShard: { path: reference.path, bytes: reference.bytes, sha256: reference.sha256 },
+      recordDigest: record.recordDigest,
+      recordDigestScope: "Closed stored item-specific record excluding recordDigest; shard, collection and manifest digests bind inherited fields.",
+    },
+    boundaries: {
+      pageScoped: true,
+      readOnly: true,
+      officialApiCall: false,
+      accessAuthorityGranted: false,
+      itemLevelReview: false,
+      evidenceReceiptAvailable: false,
+      sourceDerivedContentIsUntrusted: true,
+    },
+  });
+}
+
+function federatedProvenanceResult(
+  resolved: ResolvedFederatedRecord,
+  manifest: ValidatedManifest,
+): FederatedProvenanceResult {
+  const { collection, record } = resolved;
+  return deepFreeze({
+    schema: "govuk-webmcp.federated-provenance-result.v1",
+    ok: true,
+    evidenceTier: "federated-source-snapshot",
+    recordId: record.id,
+    status: "federated-source-linked",
+    observationDate: record.observedAt,
+    sourceLock: manifest.sourceLockDigest,
+    sourceDigest: record.sourceSha256,
+    recordDigest: record.recordDigest,
+    bundleDigest: manifest.manifestDigest,
+    snapshot: collection.metadata.snapshot,
+    revision: collection.metadata.revision,
+    sourcePath: record.sourcePath,
+    sourceFileDigest: record.sourceSha256,
+    evidenceReceiptAvailable: false,
+    collection: {
+      id: collection.metadata.id,
+      title: collection.metadata.title,
+      descriptorUrl: collection.metadata.descriptorUrl,
+      snapshot: collection.metadata.snapshot,
+      revision: collection.metadata.revision,
+      deploymentId: collection.metadata.deploymentId,
+      sourceNativeId: record.sourceNativeId,
+      sourceNativeIdSha256: record.sourceNativeIdSha256,
+    },
+    authoritativeLink: record.authoritativeLink,
+    fieldAssertions: [{
+      field: "record",
+      status: record.assertionStatus,
+      note: "Producer-derived source-snapshot assertion; no item-level evidence receipt is claimed.",
+    }],
+    limitations: record.limitations,
+    boundaries: {
+      sameOriginSnapshotVerified: true,
+      sourceWasNotRefetchedAtRuntime: true,
+      itemLevelReview: false,
+      evidenceReceiptAvailable: false,
+      cryptographicSignatureVerified: false,
+      accessAuthorityGranted: false,
+      sourceDerivedContentIsUntrusted: true,
+    },
+  });
+}
+
 /**
  * A validated lazy runtime. Construct it with `createFederatedSearchRuntime` so
  * the manifest checksum and all semantic locks are checked first.
@@ -1709,12 +1801,7 @@ export class FederatedSearchRuntime {
   private async exactRecordWithinOperation(
     input: unknown,
     options: { readonly signal?: AbortSignal | undefined },
-  ): Promise<{
-    readonly request: ReturnType<typeof parseRecordInput>;
-    readonly collection: ValidatedCollection;
-    readonly reference: RecordShardReference;
-    readonly record: FederatedRecord;
-  } | FederatedErrorResult> {
+  ): Promise<(ResolvedFederatedRecord & { readonly request: ReturnType<typeof parseRecordInput> }) | FederatedErrorResult> {
     let request: ReturnType<typeof parseRecordInput>;
     try {
       request = parseRecordInput(input);
@@ -1745,12 +1832,7 @@ export class FederatedSearchRuntime {
   private async exactRecord(
     input: unknown,
     options: { readonly signal?: AbortSignal | undefined },
-  ): Promise<{
-    readonly request: ReturnType<typeof parseRecordInput>;
-    readonly collection: ValidatedCollection;
-    readonly reference: RecordShardReference;
-    readonly record: FederatedRecord;
-  } | FederatedErrorResult> {
+  ): Promise<(ResolvedFederatedRecord & { readonly request: ReturnType<typeof parseRecordInput> }) | FederatedErrorResult> {
     let release: (() => void) | undefined;
     try {
       release = await this.acquireOperation(options.signal);
@@ -1766,38 +1848,57 @@ export class FederatedSearchRuntime {
     }
   }
 
+  /**
+   * Visit every checksum-validated stored record once using the same result
+   * builders as the public exact-record methods. Intended for deterministic
+   * build assurance; it makes no network or provider call beyond the supplied
+   * same-origin shard loader.
+   */
+  async visitValidatedRecords(
+    visitor: FederatedRecordVisitor,
+    options: { readonly signal?: AbortSignal | undefined } = {},
+  ): Promise<number> {
+    if (typeof visitor !== "function") throw new TypeError("A federated record visitor is required.");
+    let release: (() => void) | undefined;
+    let visited = 0;
+    try {
+      release = await this.acquireOperation(options.signal);
+      for (const collection of this.manifest.collections) {
+        for (const reference of collection.recordShards) {
+          const budget = new OperationBudget(options.signal);
+          const records = await this.loadRecordShard(collection, reference, budget);
+          const visits: Promise<void>[] = [];
+          for (let ordinal = reference.firstOrdinal; ordinal <= reference.lastOrdinal; ordinal += 1) {
+            budget.checkTime();
+            const record = records.get(ordinal);
+            if (!record) throw new Error(`${collection.metadata.id} record shard omitted ordinal ${ordinal}.`);
+            const resolved = { collection, reference, record };
+            visits.push(Promise.resolve(visitor(
+              federatedRecordResult(resolved, this.manifest),
+              federatedProvenanceResult(resolved, this.manifest),
+            )));
+          }
+          await Promise.all(visits);
+          visited += visits.length;
+          budget.checkTime();
+        }
+      }
+      if (visited !== this.manifest.recordCount) {
+        throw new Error("The federated visitor did not cover the complete manifest population.");
+      }
+      return visited;
+    } finally {
+      release?.();
+    }
+  }
+
   async getRecord(
     input: unknown,
     options: { readonly signal?: AbortSignal | undefined } = {},
   ): Promise<FederatedRecordResult | FederatedErrorResult> {
     const resolved = await this.exactRecord(input, options);
     if ("ok" in resolved) return resolved;
-    const { collection, reference, record } = resolved;
-    const result: FederatedRecordResult = {
-      schema: "govuk-webmcp.federated-resource-record-result.v1",
-      ok: true,
-      evidenceTier: "federated-source-snapshot",
-      verificationStatus: "snapshot-file-integrity",
-      record: presentedRecord(record, collection, this.manifest.generatedAt),
-      relatedRecords: [],
-      integrity: {
-        manifestDigest: this.manifest.manifestDigest,
-        sourceLockDigest: this.manifest.sourceLockDigest,
-        recordShard: { path: reference.path, bytes: reference.bytes, sha256: reference.sha256 },
-        recordDigest: record.recordDigest,
-        recordDigestScope: "Closed stored item-specific record excluding recordDigest; shard, collection and manifest digests bind inherited fields.",
-      },
-      boundaries: {
-        pageScoped: true,
-        readOnly: true,
-        officialApiCall: false,
-        accessAuthorityGranted: false,
-        itemLevelReview: false,
-        evidenceReceiptAvailable: false,
-        sourceDerivedContentIsUntrusted: true,
-      },
-    };
-    return deepFreeze(result);
+    return federatedRecordResult(resolved, this.manifest);
   }
 
   async showProvenance(
@@ -1806,51 +1907,7 @@ export class FederatedSearchRuntime {
   ): Promise<FederatedProvenanceResult | FederatedErrorResult> {
     const resolved = await this.exactRecord(input, options);
     if ("ok" in resolved) return resolved;
-    const { collection, reference, record } = resolved;
-    const result: FederatedProvenanceResult = {
-      schema: "govuk-webmcp.federated-provenance-result.v1",
-      ok: true,
-      evidenceTier: "federated-source-snapshot",
-      recordId: record.id,
-      status: "federated-source-linked",
-      observationDate: record.observedAt,
-      sourceLock: this.manifest.sourceLockDigest,
-      sourceDigest: record.sourceSha256,
-      recordDigest: record.recordDigest,
-      bundleDigest: this.manifest.manifestDigest,
-      snapshot: collection.metadata.snapshot,
-      revision: collection.metadata.revision,
-      sourcePath: record.sourcePath,
-      sourceFileDigest: record.sourceSha256,
-      evidenceReceiptAvailable: false,
-      collection: {
-        id: collection.metadata.id,
-        title: collection.metadata.title,
-        descriptorUrl: collection.metadata.descriptorUrl,
-        snapshot: collection.metadata.snapshot,
-        revision: collection.metadata.revision,
-        deploymentId: collection.metadata.deploymentId,
-        sourceNativeId: record.sourceNativeId,
-        sourceNativeIdSha256: record.sourceNativeIdSha256,
-      },
-      authoritativeLink: record.authoritativeLink,
-      fieldAssertions: [{
-        field: "record",
-        status: record.assertionStatus,
-        note: "Producer-derived source-snapshot assertion; no item-level evidence receipt is claimed.",
-      }],
-      limitations: record.limitations,
-      boundaries: {
-        sameOriginSnapshotVerified: true,
-        sourceWasNotRefetchedAtRuntime: true,
-        itemLevelReview: false,
-        evidenceReceiptAvailable: false,
-        cryptographicSignatureVerified: false,
-        accessAuthorityGranted: false,
-        sourceDerivedContentIsUntrusted: true,
-      },
-    };
-    return deepFreeze(result);
+    return federatedProvenanceResult(resolved, this.manifest);
   }
 }
 

@@ -205,13 +205,99 @@ The final-candidate demonstration preflight also failed closed as intended when
 no deployed commit and no explicit overwrite approval were supplied. It did not
 start live capture and supplies no live-capture evidence.
 
+For the current Evidence answer tree, frozen code-snapshot scan
+`aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
+`codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
+completed 36 of 36 items, ran 102 focused tests, found zero findings and
+concluded that there is no security release blocker. Candidate deployment,
+host, accessibility, personal-agent and media claims remain separately gated.
+
+Residual operational boundaries remain explicit. Removing networked npm
+configuration is not operating-system isolation; some local media and evaluation
+subprocesses do not have process-group-wide hard deadlines; media still depends
+on private receipts plus human review; and the deterministic double build is a
+local release check rather than a CI-enforced step.
+
+The standalone deterministic verifier runs the normal production build twice
+with networked npm configuration removed. It inventories tracked source inputs
+before and after each build, compares every regular non-link `dist` path, size
+and SHA-256 value and writes an ignored mode-`0600` receipt only after equality.
+It does not make the working tree a trusted release: protected integration,
+authenticated Pages artefact and live-byte comparison still bind the deployable
+commit.
+
 ## Action and input boundary
 
-The human interface and all five WebMCP tools use one deterministic action
-controller. Three tools only query verified packaged data and declare
-`readOnlyHint: true`. The two evidence exploration tools change reversible,
-transient presentation state and therefore declare `readOnlyHint: false`; they
-do not change sources, browser storage, the network or external state.
+The released human interface and all five released WebMCP tools use one
+deterministic action controller. Three tools only query verified packaged data
+and declare `readOnlyHint: true`. The two evidence exploration tools change
+reversible, transient presentation state and therefore declare
+`readOnlyHint: false`; they do not change sources, browser storage, the network
+or external state.
+
+The unreleased `0.4.0-rc.1` candidate adds
+`present_resource_evidence` through that controller. Its one-field input is
+closed and executable validation accepts only a canonical reviewed or admitted
+federated record identifier. It resolves the exact record before provenance,
+cross-checks their identifier, tier and digest bindings, and returns no partial
+presentation if either stage or the projection fails. Its
+`readOnlyHint: false` annotation is required because it can update reversible
+page presentation. It does not grant authority, fetch an official API, mutate
+the catalogue, write storage or create a durable receipt.
+
+Candidate Evidence answer rendering uses DOM creation and `textContent`, not
+source-derived HTML. A source link is created only for a credential-free HTTPS
+URL whose hostname equals the separately validated recorded hostname; missing
+or rejected destinations remain visible as text. The candidate route parser
+rejects unknown, duplicate, incompatible, malformed and oversized fragment
+state. One controller-owned latest-started sequence covers all three actions
+that can update Evidence answer. A stale action can return to its caller but
+cannot commit, complete an older asynchronous projection or announce a stale
+failure over the newer answer. These code boundaries still require
+candidate-specific browser and security verification before release.
+
+The candidate Pages verifier validates the downloaded archive digest and then
+checks every tar member path and entry type before extraction. Directory and
+regular-file aliases share one duplicate namespace; traversal, absolute paths,
+links, special files and mismatched path/type listings fail closed. Receipt
+schema v2 binds a 256 MiB downloaded-archive cap, 4,096 regular files, 512
+directory entries, 192 MiB aggregate regular-file payload and 8 MiB per file.
+The logical tar payload is measured before extraction and must equal the
+post-extraction total. Live comparison uses at most eight concurrent fetches, a
+60-second per-file deadline and one ten-minute whole-comparison deadline.
+Post-extraction real-path, symbolic-link and exact listed-file checks remain in
+force.
+
+The personal-agent claim gate accepts only an in-process authenticated live
+Pages receipt. Authentication freshly repeats the GitHub artefact and live-byte
+observation, compares every binding except the new observation time, verifies a
+clean unchanged checkout at the exact commit and checks local `dist` file count,
+byte count, manifest and `deployment.json`. Authentication is mutation-sensitive:
+changing a branded receipt closes the gate. A raw but well-shaped receipt is
+reported only as `structurally-valid`.
+
+Every observable call trajectory is replayed in order through a private,
+manifest-verified snapshot of receipt-bound `dist`, loaded under a unique module
+identity; captured outputs must equal the replay, and page parity derives from
+replayed output. Replay caches are scoped to one validation. The authenticated
+receipt is immutable, and the snapshot, working `dist` and clean exact Git
+identity are rechecked after replay. Public Copilot runs
+must bind the canonical deployment, visible Microsoft Edge MCP Workspace and an
+observed canonical Copilot share link. The link and exact free-text host/browser
+values remain private. The public summary contains no hashes of those values and
+publishes a browser version only when it has the bounded Chromium form
+`major.0.build.patch`. Synthetic markers
+are checked across nested percent-encoded, numeric-entity, Unicode-normalised,
+case-folded and punctuation-insensitive forms. Fixed search stories admit only
+their exact generated canonical query string, so reordered, separator-only,
+encoded, hashed or otherwise unrelated additions fail the minimal-argument
+criterion.
+
+The claim gate accepts answer-safety judgements only when every reviewed answer
+was reviewed by a human or domain specialist; an agent-only review remains
+recordable but non-claimable. An admitted page observation must retain literal
+`null` history state and exact empty local and session storage. A local host URL
+must be a credential-free HTTP loopback root with no query or fragment.
 
 Tool schemas are closed and bounded, and executable code revalidates every
 input. Before dispatch, the shared input budget accepts at most 16 plain root
@@ -224,13 +310,16 @@ instead.
 
 Human URL-fragment routing is also bounded. Raw fragments over 1,024 characters
 are discarded, comparison values are length-limited, and comparison accepts
-only two to four exact claim identifiers. Malformed routes fail closed to the
-default evidence view.
+only two to four exact claim identifiers. Candidate routes also admit only the
+fixed `guided` and `technical` views and fail closed on unknown, duplicate or
+incompatible parameters.
 
 ## WebMCP boundary
 
-The five tools are registered imperatively into the current page when a
-compatible secure host exposes `document.modelContext`. This page-scoped
+The five released tools are registered imperatively into the current page when
+a compatible secure host exposes `document.modelContext`. The candidate
+definition set contains six tools and still registers all or none only after
+the same artefact validation succeeds. This page-scoped
 integration is not an independently callable or durable MCP gateway. It has no
 provider-authentication facility, persistent session, service operation or
 durable tool receipt, and it does not prove that a particular browser or agent
@@ -244,6 +333,10 @@ state. A remote model provider may also receive those items and relevant prompt
 context. A correctly configured local model can keep inference local, but the
 host, model runner and browser can still log data. Only bounded, action-specific
 inputs belong in page-tool calls.
+
+No public-host or independent-harness observation has yet discovered or called
+the six-tool `0.4.0-rc.1` set. The retained five-tool observations are release-
+specific and cannot be used as candidate security or compatibility evidence.
 
 ## Independent harness security
 

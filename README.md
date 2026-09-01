@@ -33,20 +33,70 @@ video technical review are complete with explicit limitations. Owner approval,
 public-video publication, final live-rules and form review, and submission
 remain separate gates and are not implied by the product release.
 
+## In-progress Evidence answer candidate
+
+The working tree now identifies an unreleased `0.4.0-rc.1` candidate. It does
+not replace the public release described above. The candidate adds a persistent
+two-view interface:
+
+- **Evidence answer** presents a plain English, deterministic evidence result
+  with its recorded source, material limitation, unknowns and next check; and
+- **Technical review** retains the existing analytical index, Evidence Trace,
+  full record, provenance, search and diagnostics.
+
+Both views consume the same validated action results. The candidate also adds
+`present_resource_evidence` as a sixth bounded WebMCP tool so a compatible
+personal AI can ask the page to present one exact record. It accepts only a
+canonical record ID, not a personal profile. Its reversible display effect is
+not labelled read-only, and source-derived output remains untrusted text.
+One latest-started sequence spans all three actions that can update Evidence
+answer, so an older asynchronous call can return to its caller but cannot
+replace a newer page selection.
+
+The 72-run personal-agent claim gate is fail-closed until every run is bound to
+a freshly re-observed clean live Pages artefact and public-byte comparison for
+the exact protected-main commit and canonical public URL. Authentication also
+requires a clean unchanged checkout and a local `dist` manifest identical to
+that receipt, then executes from a private manifest-verified snapshot and
+rechecks both builds afterwards. Public summaries contain neither unrestricted
+host/browser text nor hashes of it; a browser version is published only when it
+has the bounded Chromium form `major.0.build.patch`. Safe observation dates, fixed
+tool-name sequences and deterministic selection/digest pairs are retained for
+public inspection. Exact values, arguments, outputs and the Copilot share link
+remain in private mode-`0600` captures. A passed answer claim also requires
+human or domain-specialist review. The Pages verifier validates and counts every
+archive member, including directories, and enforces receipt-bound extraction
+and live-comparison work budgets.
+
+No model is embedded in the page. The page cannot see or validate the AI
+host's final wording; Evidence answer therefore shows what the page supports
+and asks the person to compare the AI's dates, amounts, eligibility statements
+and instructions against that evidence. This candidate has no public tag,
+deployment, six-tool host observation, new demonstration video or Devpost
+submission. Complete build, browser, accessibility, security and evaluation
+acceptance remains pending. Local research, production build, full-corpus
+projection, 272 unit tests, 43 Chrome tests, 43 Edge tests, frozen retrieval,
+seven model-free smoke envelopes and dependency audit pass. Frozen code-snapshot
+security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items,
+ran 102 focused tests, found zero findings and concluded that there is no
+security release blocker. Candidate-specific manual Safari/VoiceOver, live-host
+and repeated-model evidence remain open.
+
 ## Beginner documentation
 
 Start with [Evidence before answers](docs/beginners/index.md) if you are new to
 AI-assisted government information. It explains how to separate an AI answer,
 its recorded evidence and a decision that depends on your circumstances.
 
-The proposed beginner experience is documented, not implemented. Its
+The beginner experience is specified and its first experimental candidate is
+implemented in the working tree, but it is not released or accepted. Its
 [product requirements](docs/product/beginner-trust-pathway-prd.md),
 [interface specification](docs/product/beginner-interface-specification.md),
 [question and coverage matrix](docs/competition/beginner-question-coverage.md)
 and [guided model evaluation](docs/competition/beginner-conversation-evaluation-2026-08-31.md)
-define a future Guided evidence view while retaining the current public
-interface as Technical review. The specification is a testable proposal, not
-an implemented redesign. The 12 questions are synthetic representative
+define Evidence answer while retaining the current public interface as
+Technical review. The specification remains the acceptance contract rather
+than evidence of usability. The 12 questions are synthetic representative
 hypotheses, not a ranked list of the most common GOV.UK Chat questions or
 completed user research.
 
@@ -78,7 +128,8 @@ identified above.
 
 ## Current implementation
 
-The current public implementation is a static TypeScript application with:
+The current public `v0.3.0-rc.1` implementation is a static TypeScript
+application with:
 
 - 80 digest-bound catalogue records and 80 matching evidence receipts;
 - one digest-bound Evidence Trace for a worked answer;
@@ -304,6 +355,7 @@ public YouTube-upload claim.
    npm run test:browser:edge
    npm run okf-federation:quality
    npm run webmcp:eval:smoke
+   npm run build:verify-deterministic
    ```
 
    The integrated CI and Pages workflow definitions also use
@@ -311,7 +363,13 @@ public YouTube-upload claim.
    pinned Python requirements, run the frozen federated retrieval-quality gate
    after the complete suite and run semantic WebMCP smoke before deployment.
    Those definitions ran in the protected integration and corrected Pages
-   deployment path.
+   deployment path. For the current working candidate, the standalone
+   deterministic verifier runs the normal build twice without networked npm
+   configuration, proves that tracked source inputs remained unchanged and
+   writes an ignored mode-`0600` receipt only after the complete `dist`
+   manifests match. The verified checkpoint contains 1,883 files and
+   128,646,550 bytes at aggregate SHA-256
+   `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
 
 7. Start the verified build for manual browser use:
 
@@ -341,8 +399,8 @@ admissions. The candidate admits four more collections only to the separate
 federated tier, leaving four entries described-only, conditional, quarantined
 or contract-only; descriptor inclusion does not admit their payloads to search.
 
-The frozen four reviewed source locks, plus the candidate federation lock, are
-recorded as 5 entries at this working-tree checkpoint in
+The frozen four reviewed source locks, plus the released federation lock, are
+recorded as 5 entries in
 `app/data/sources/source-locks.json`. Each registry digest must match its
 separately code-reviewed value in the executable release policy, and the
 federated builder directly checks the reviewed lock byte pin. Generated files
@@ -365,7 +423,7 @@ validates the current contract set and copies the ignored generated search
 plane into `dist`; source inputs and the deterministic builder remain the
 versioned reproducibility boundary.
 
-The candidate also validates an exact ordered population binding for each of
+The released federation also validates an exact ordered population binding for each of
 the four collections across the admission and lazy search planes. Collection
 coverage shown to people is derived from those structured source, quarantine
 and searchable counts, while the collection-specific title, supplementary
@@ -392,7 +450,7 @@ page tools use the same action controller and deterministic runtime:
   declare `readOnlyHint: false` even though they do not change a source,
   browser storage or external state.
 
-For the `0.3.0-rc.1` candidate, the three discovery tools accept the fixed
+For the released `0.3.0-rc.1` application, the three discovery tools accept the fixed
 collection allowlist and return either reviewed deep evidence or federated
 source-snapshot evidence. Human search and WebMCP use the same action
 controller and common deterministic result. The two presentation tools retain
@@ -400,11 +458,18 @@ their existing Evidence Trace boundary. One federated source failure is
 reported explicitly without silently removing the source, weakening integrity
 or disabling unaffected evidence.
 
-All five tools have closed, bounded input schemas and repeat validation in
+All five released tools have closed, bounded input schemas and repeat validation in
 executable code. A shared input budget rejects broad roots and accessors before
 dispatch. Rejected input is not hashed or retained in the diagnostic input
 digest. URL-fragment routes are length-bounded and comparison is limited to two
 to four exact claim identifiers.
+
+The `0.4.0-rc.1` worktree adds
+`present_resource_evidence` as a sixth closed action. Its only field is a
+canonical record ID. It obtains the exact record and provenance sequentially,
+projects one closed Evidence answer and returns the same presentation object
+shown by the page. It declares `readOnlyHint: false` because it can change
+reversible display selection. No six-tool public-host observation is claimed.
 
 These tools are registered imperatively on the current page when a compatible
 secure browser host exposes `document.modelContext`. They are available only in
@@ -433,11 +498,13 @@ npm run webmcp:explorer:setup
 `webmcp:devtools:capture` uses `chrome-devtools-mcp` 1.8.0 and Chrome 150 or
 later. It builds the application, starts an isolated Chrome profile restricted
 to the loopback origin, calls `list_webmcp_tools` with the selected `pageId`,
-then calls `execute_webmcp_tool` for each of the five fixed tools. Its full local
+then calls `execute_webmcp_tool` for each of the six candidate tools. Its full local
 receipt also records a synthetic unrelated-context field failing closed. It is
 written to the ignored `.evals/chrome-devtools-mcp.json` path and may
 contain source-derived tool output, so review it before copying any part into
-release evidence. The final hardened local run at 15:53 BST on 30 August 2026
+release evidence. This six-tool expectation applies to the unreleased candidate
+and should fail closed against the five-tool public release. The historical
+hardened local run at 15:53 BST on 30 August 2026
 used Chrome 152.0.7977.64, discovered and executed all five tools, verified the
 closed schemas and annotations, rejected `personalContext` and recorded no
 console error. The runner sets `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`. An
@@ -612,6 +679,11 @@ access or permission to reuse linked material.
 - `src/federated-search-runtime.ts` — progressively loaded federated search,
   exact-record and provenance runtime.
 - `src/evidence-runtime.ts` — Evidence Trace validation and exploration.
+- `src/beginner-presentation.ts` and
+  `src/beginner-presentation-copy.ts` — candidate closed projection and fixed
+  en-GB explanation copy.
+- `src/present-resource-evidence.ts` — candidate sequential exact-record and
+  provenance presentation action.
 - `src/federation-runtime.ts` — corpus-admission validation.
 - `src/okf-federated-contracts.ts` — fixed four-source snapshot and resource-
   budget contract for the released federation.
@@ -620,6 +692,21 @@ access or permission to reuse linked material.
   federation search files are ignored and not hand-edited.
 - `app/data/sources/` — reviewed source locks and authored inputs.
 - `app/data/` — deterministic generated artefacts and checksum sidecars.
+- `app/view-routing.ts` and `app/evidence-answer-view.ts` — candidate bounded
+  view state and DOM/text-only Evidence answer rendering.
+- `scripts/verify-live-pages-artifact.mjs` — candidate exact-run verifier for
+  the downloaded Pages artefact, deployment identity and every public file; it
+  writes ignored local evidence by default and requires a separate admission
+  flag for a reviewed receipt.
+- `scripts/verify-deterministic-build.mjs` — candidate offline double-build
+  verifier; it checks stable source inputs and complete `dist` byte identity,
+  then writes an ignored local receipt.
+- `docs/competition/demo-video-script-v0.4.0-rc.1.json` and the demo scripts —
+  unreleased nine-scene Evidence answer capture/build contract. Genuine private
+  Copilot and Ollama inputs and explicit redaction, privacy, branding, rights,
+  voice and playback gates are required. Candidate
+  clips, Copilot and Ollama observations, VoiceOver frames and video do not yet
+  exist; retained `v0.3.0-rc.1` media evidence is not reused as candidate proof.
 - `schemas/` — closed input, output and generated-artefact schemas.
 - `SECURITY.md`, `PRIVACY.md` and `ACCESSIBILITY.md` — public operating
   boundaries and known limitations.

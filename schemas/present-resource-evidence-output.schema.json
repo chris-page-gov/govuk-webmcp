@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:present-resource-evidence-output:v1",
+  "title": "present_resource_evidence output",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "ok", "evidence", "evidenceDigest"],
+      "properties": {
+        "schema": { "const": "govuk-webmcp.present-resource-evidence-result.v1" },
+        "ok": { "const": true },
+        "evidence": { "$ref": "urn:govuk-webmcp:schema:beginner-presentation:v1" },
+        "evidenceDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
+  ]
+}

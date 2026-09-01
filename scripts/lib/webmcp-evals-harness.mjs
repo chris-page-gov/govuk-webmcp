@@ -10,12 +10,16 @@ export const DEFAULT_BROWSER_EVAL_RUNS = 3;
 export const MAX_BROWSER_EVAL_RUNS = 10;
 export const MAX_BROWSER_AGENT_STEPS = 6;
 export const BROWSER_EVAL_REPORTERS = Object.freeze(["console", "json", "html"]);
-export const EXPECTED_TOOL_NAMES = Object.freeze([
+export const V0_3_TOOL_NAMES = Object.freeze([
   "search_government_knowledge",
   "get_resource_record",
   "show_provenance",
   "explore_answer_foundations",
   "compare_evidence_foundations",
+]);
+export const EXPECTED_TOOL_NAMES = Object.freeze([
+  ...V0_3_TOOL_NAMES,
+  "present_resource_evidence",
 ]);
 export const EXPECTED_RESULT_SCHEMAS = Object.freeze({
   search_government_knowledge: "trusted-govuk-discovery.search-result.v2",
@@ -23,6 +27,7 @@ export const EXPECTED_RESULT_SCHEMAS = Object.freeze({
   show_provenance: "trusted-govuk-discovery.provenance-result.v1",
   explore_answer_foundations: "trusted-govuk-discovery.evidence-exploration-result.v1",
   compare_evidence_foundations: "trusted-govuk-discovery.evidence-comparison-result.v1",
+  present_resource_evidence: "govuk-webmcp.present-resource-evidence-result.v1",
 });
 
 const ALLOWED_ARGUMENTS = Object.freeze({
@@ -38,6 +43,7 @@ const ALLOWED_ARGUMENTS = Object.freeze({
   show_provenance: new Set(["recordId"]),
   explore_answer_foundations: new Set(["answerId", "claimId"]),
   compare_evidence_foundations: new Set(["answerId", "claimIds"]),
+  present_resource_evidence: new Set(["recordId"]),
 });
 
 const MIME_TYPES = Object.freeze({
@@ -59,11 +65,11 @@ function canonicalJson(value) {
     `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
 }
 
-function validateCall(call, caseName, stepIndex) {
+function validateCall(call, caseName, stepIndex, admittedToolNames = EXPECTED_TOOL_NAMES) {
   if (!plainObject(call) || typeof call.functionName !== "string") {
     throw new Error(`${caseName} step ${stepIndex} must be a function-call object.`);
   }
-  if (!EXPECTED_TOOL_NAMES.includes(call.functionName)) {
+  if (!admittedToolNames.includes(call.functionName)) {
     throw new Error(`${caseName} step ${stepIndex} names an unsupported tool.`);
   }
   if (!plainObject(call.arguments)) {
@@ -161,7 +167,10 @@ export function validateSmokeEvaluation(evaluation, fixture) {
   };
 }
 
-export function validateBrowserFixture(value) {
+export function validateBrowserFixture(
+  value,
+  { expectedToolNames = EXPECTED_TOOL_NAMES } = {},
+) {
   if (!Array.isArray(value) || value.length === 0) {
     throw new Error("The browser fixture must contain at least one case.");
   }
@@ -186,12 +195,12 @@ export function validateBrowserFixture(value) {
       throw new Error(`${evalCase.name} must contain a required call or an explicit null no-call expectation.`);
     }
     for (const [stepIndex, call] of evalCase.expectedCall.entries()) {
-      validateCall(call, evalCase.name, stepIndex + 1);
+      validateCall(call, evalCase.name, stepIndex + 1, expectedToolNames);
       toolNames.add(call.functionName);
       expectedStepCount += 1;
     }
   }
-  const missingTools = EXPECTED_TOOL_NAMES.filter((name) => !toolNames.has(name));
+  const missingTools = expectedToolNames.filter((name) => !toolNames.has(name));
   if (missingTools.length > 0) {
     throw new Error(`The browser fixture does not exercise: ${missingTools.join(", ")}.`);
   }

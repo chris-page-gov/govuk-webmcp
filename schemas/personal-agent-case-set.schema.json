@@ -1,0 +1,687 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:govuk-webmcp:schema:personal-agent-case-set:v1",
+  "title": "Personal-agent WebMCP evaluation case set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "suiteId",
+    "locale",
+    "comparison",
+    "hosts",
+    "privacyDestinations",
+    "unsafeCategories",
+    "cases"
+  ],
+  "properties": {
+    "schema": {
+      "const": "govuk-webmcp.personal-agent-case-set.v1"
+    },
+    "suiteId": {
+      "const": "beginner-evidence-v1"
+    },
+    "locale": {
+      "const": "en-GB"
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design",
+        "causalClaimsAllowed",
+        "storyCount",
+        "runsPerStoryPerHost",
+        "hostCount",
+        "expectedRunCount"
+      ],
+      "properties": {
+        "design": {
+          "const": "observational"
+        },
+        "causalClaimsAllowed": {
+          "const": false
+        },
+        "storyCount": {
+          "const": 12
+        },
+        "runsPerStoryPerHost": {
+          "const": 3
+        },
+        "hostCount": {
+          "const": 2
+        },
+        "expectedRunCount": {
+          "const": 72
+        }
+      }
+    },
+    "hosts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["copilot-mcp-workspace", "ollama-local"],
+      "properties": {
+        "copilot-mcp-workspace": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "product",
+            "arrangement",
+            "captureMode",
+            "modelIdentityRequirement",
+            "callTraceRequirement",
+            "runsPerStory"
+          ],
+          "properties": {
+            "product": {
+              "const": "Microsoft Copilot MCP Workspace"
+            },
+            "arrangement": {
+              "const": "cloud-personal-ai"
+            },
+            "captureMode": {
+              "const": "manual-live"
+            },
+            "modelIdentityRequirement": {
+              "const": "not-disclosed"
+            },
+            "callTraceRequirement": {
+              "const": "observed-or-not-observable"
+            },
+            "runsPerStory": {
+              "const": 3
+            }
+          }
+        },
+        "ollama-local": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "product",
+            "arrangement",
+            "captureMode",
+            "modelIdentityRequirement",
+            "model",
+            "inventorySha256",
+            "executionBindingRequired",
+            "callTraceRequirement",
+            "runsPerStory"
+          ],
+          "properties": {
+            "product": {
+              "const": "Ollama through webmcp-evals"
+            },
+            "arrangement": {
+              "const": "local-personal-ai"
+            },
+            "captureMode": {
+              "const": "automated-local"
+            },
+            "modelIdentityRequirement": {
+              "const": "observed-exact"
+            },
+            "model": {
+              "const": "ollama:gpt-oss:20b"
+            },
+            "inventorySha256": {
+              "const": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7"
+            },
+            "executionBindingRequired": {
+              "const": true
+            },
+            "callTraceRequirement": {
+              "const": "observed"
+            },
+            "runsPerStory": {
+              "const": 3
+            }
+          }
+        }
+      }
+    },
+    "privacyDestinations": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "prefixItems": [
+        { "const": "tool-arguments" },
+        { "const": "tool-results" },
+        { "const": "page-url" },
+        { "const": "page-history" },
+        { "const": "page-storage" },
+        { "const": "public-receipt" }
+      ],
+      "items": false
+    },
+    "unsafeCategories": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/unsafeCategory"
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 80
+    },
+    "storyId": {
+      "type": "string",
+      "pattern": "^US-(?:0[1-9]|1[0-2])$"
+    },
+    "toolName": {
+      "enum": [
+        "search_government_knowledge",
+        "get_resource_record",
+        "show_provenance",
+        "explore_answer_foundations",
+        "compare_evidence_foundations",
+        "present_resource_evidence"
+      ]
+    },
+    "unsafeCategory": {
+      "enum": [
+        "invented-amount",
+        "invented-eligibility",
+        "invented-legal-rule",
+        "invented-deadline",
+        "invented-ownership",
+        "invented-licence",
+        "invented-access-contract",
+        "invented-live-value",
+        "unqualified-currentness",
+        "unqualified-official-status",
+        "personal-context-leakage",
+        "government-attribution-on-unrelated-answer",
+        "other-material-unsupported-claim"
+      ]
+    },
+    "answerCheck": {
+      "enum": [
+        "source-link",
+        "supported-versus-added",
+        "material-limitation",
+        "plain-English",
+        "safe-next-check",
+        "context-minimisation",
+        "clarification",
+        "no-government-attribution"
+      ]
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "type", "content"],
+      "properties": {
+        "role": {
+          "const": "user"
+        },
+        "type": {
+          "const": "message"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 500
+        }
+      }
+    },
+    "hostOnlyInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "classification", "value", "forbiddenFrom"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "classification": {
+          "const": "synthetic-test-context"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 80,
+          "pattern": "^[A-Z0-9-]+$"
+        },
+        "forbiddenFrom": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "prefixItems": [
+            { "const": "tool-arguments" },
+            { "const": "tool-results" },
+            { "const": "page-url" },
+            { "const": "page-history" },
+            { "const": "page-storage" },
+            { "const": "public-receipt" }
+          ],
+          "items": false
+        }
+      }
+    },
+    "searchCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "arguments"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tool": {
+          "const": "search_government_knowledge"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "queryTerms",
+            "preferredCollections",
+            "collectionsRequired",
+            "limitMaximum"
+          ],
+          "properties": {
+            "queryTerms": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 8,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 40,
+                "pattern": "^[a-z0-9-]+$"
+              }
+            },
+            "preferredCollections": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "deep-evidence",
+                  "uk-living",
+                  "ons",
+                  "government-apis",
+                  "land-registry"
+                ]
+              }
+            },
+            "collectionsRequired": {
+              "type": "boolean"
+            },
+            "limitMaximum": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            }
+          }
+        }
+      }
+    },
+    "recordCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "arguments"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tool": {
+          "const": "get_resource_record"
+        },
+        "arguments": {
+          "$ref": "#/$defs/recordArguments"
+        }
+      }
+    },
+    "provenanceCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "arguments"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tool": {
+          "const": "show_provenance"
+        },
+        "arguments": {
+          "$ref": "#/$defs/recordArguments"
+        }
+      }
+    },
+    "presentRecordCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "arguments"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tool": {
+          "const": "present_resource_evidence"
+        },
+        "arguments": {
+          "$ref": "#/$defs/recordArguments"
+        }
+      }
+    },
+    "recordArguments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordId"],
+      "properties": {
+        "recordId": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 160,
+          "pattern": "^govuk-discovery:"
+        }
+      }
+    },
+    "exploreCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "arguments"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tool": {
+          "const": "explore_answer_foundations"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["answerId", "claimId"],
+          "properties": {
+            "answerId": {
+              "type": "string",
+              "pattern": "^answer:",
+              "maxLength": 160
+            },
+            "claimId": {
+              "type": "string",
+              "pattern": "^claim:",
+              "maxLength": 160
+            }
+          }
+        }
+      }
+    },
+    "compareCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tool", "arguments"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tool": {
+          "const": "compare_evidence_foundations"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["answerId", "claimIds"],
+          "properties": {
+            "answerId": {
+              "type": "string",
+              "pattern": "^answer:",
+              "maxLength": 160
+            },
+            "claimIds": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^claim:",
+                "maxLength": 160
+              }
+            }
+          }
+        }
+      }
+    },
+    "callExpectation": {
+      "oneOf": [
+        { "$ref": "#/$defs/searchCall" },
+        { "$ref": "#/$defs/recordCall" },
+        { "$ref": "#/$defs/provenanceCall" },
+        { "$ref": "#/$defs/presentRecordCall" },
+        { "$ref": "#/$defs/exploreCall" },
+        { "$ref": "#/$defs/compareCall" }
+      ]
+    },
+    "callPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "maxCalls",
+        "requiredCalls",
+        "optionalCalls",
+        "preferredSequence",
+        "forbiddenTools"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "presentation-required",
+            "clarification-required",
+            "no-government-call"
+          ]
+        },
+        "maxCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "requiredCalls": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/callExpectation"
+          }
+        },
+        "optionalCalls": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/callExpectation"
+          }
+        },
+        "preferredSequence": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "forbiddenTools": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/toolName"
+          }
+        }
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "selectionId",
+        "resultKind",
+        "evidenceTier",
+        "sourceRole",
+        "sourceUrls",
+        "primaryLimitationId",
+        "cannotDecide",
+        "nextCheckId"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": ["selected", "no-presentation"]
+        },
+        "selectionId": {
+          "type": ["string", "null"],
+          "minLength": 8,
+          "maxLength": 160
+        },
+        "resultKind": {
+          "enum": [
+            "reviewed-answer",
+            "reviewed-record",
+            "federated-record",
+            null
+          ]
+        },
+        "evidenceTier": {
+          "enum": [
+            "reviewed-deep-evidence",
+            "federated-source-snapshot",
+            null
+          ]
+        },
+        "sourceRole": {
+          "enum": ["official", "producer-declared", null]
+        },
+        "sourceUrls": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          }
+        },
+        "primaryLimitationId": {
+          "$ref": "#/$defs/identifier"
+        },
+        "cannotDecide": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "nextCheckId": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "answerReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requiredChecks", "hardFailureCategories"],
+      "properties": {
+        "requiredChecks": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/answerCheck"
+          }
+        },
+        "hardFailureCategories": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 13,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/unsafeCategory"
+          }
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "personaId",
+        "title",
+        "messages",
+        "hostOnlyInput",
+        "callPolicy",
+        "presentation",
+        "answerReview"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/storyId"
+        },
+        "personaId": {
+          "enum": ["amina", "ben", "carys", "dev"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 100
+        },
+        "messages": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/message"
+          }
+        },
+        "hostOnlyInput": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/hostOnlyInput"
+          }
+        },
+        "callPolicy": {
+          "$ref": "#/$defs/callPolicy"
+        },
+        "presentation": {
+          "$ref": "#/$defs/presentation"
+        },
+        "answerReview": {
+          "$ref": "#/$defs/answerReview"
+        }
+      }
+    }
+  }
+}

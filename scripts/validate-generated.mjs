@@ -29,6 +29,9 @@ const combinedSearchResultSchema = await readJson("schemas/combined-search-resul
 const searchOutputSchema = await readJson("schemas/search-government-knowledge-output.schema.json");
 const recordOutputSchema = await readJson("schemas/get-resource-record-output.schema.json");
 const provenanceOutputSchema = await readJson("schemas/show-provenance-output.schema.json");
+const beginnerPresentationSchema = await readJson("schemas/beginner-presentation.schema.json");
+const presentResourceEvidenceInputSchema = await readJson("schemas/present-resource-evidence-input.schema.json");
+const presentResourceEvidenceOutputSchema = await readJson("schemas/present-resource-evidence-output.schema.json");
 ajv.addSchema(profileSchema);
 ajv.addSchema(evidenceTraceSchema);
 ajv.addSchema(corpusAdmissionSourceSchema);
@@ -46,6 +49,7 @@ for (const schema of [
   federatedErrorResultSchema,
   combinedReviewedRecordSummarySchema,
   combinedSearchResultSchema,
+  beginnerPresentationSchema,
 ]) ajv.addSchema(schema);
 const validateCatalogue = ajv.compile(catalogueSchema);
 const validateReceipt = ajv.getSchema(receiptSchema.$id);
@@ -57,6 +61,7 @@ const validateFederatedSearchManifest = ajv.getSchema(federatedSearchManifestSch
 const validateFederatedRecordShard = ajv.getSchema(federatedRecordShardSchema.$id);
 const validateFederatedPostingsShard = ajv.getSchema(federatedPostingsShardSchema.$id);
 for (const schema of [searchOutputSchema, recordOutputSchema, provenanceOutputSchema]) ajv.compile(schema);
+for (const schema of [presentResourceEvidenceInputSchema, presentResourceEvidenceOutputSchema]) ajv.compile(schema);
 const catalogue = await readJson("app/data/catalogue.json");
 const receipts = await readJson("app/data/receipts.json");
 const answerPackSource = await readJson("app/data/sources/answer-packs.json");

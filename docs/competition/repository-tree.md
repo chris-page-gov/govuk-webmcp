@@ -32,11 +32,14 @@ evidence are complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0
 receipt also binds five completed WebMCP calls to the exact release. Owner
 review, public upload and player verification, the optional fixed-model gate,
 final live-rules and form review, and Devpost submission remain separate and
-open. The tree below also includes the current documentation-only beginner
-discovery files and guided fixture; those files do not describe a released UI
-change.
+open. The tree below distinguishes the released implementation from the
+unreleased `0.4.0-rc.1` Evidence answer overlay now present in the worktree.
 
-## 20.2 Implemented tree
+## 20.2 Released tree and candidate overlay
+
+Candidate-only paths and changed responsibilities are labelled below. Their
+presence does not establish a passing build, protected review, Pages
+deployment, host observation, tag, media publication or Devpost submission.
 
 ```text
 govuk-webmcp/
@@ -50,6 +53,7 @@ govuk-webmcp/
 ├── ACCESSIBILITY.md
 ├── PRIVACY.md
 ├── SECURITY.md
+├── .devpost-hackathon-state.json # local guided-build state; submission not started
 ├── SEED-MANIFEST.sha256
 ├── package.json
 ├── package-lock.json
@@ -57,8 +61,10 @@ govuk-webmcp/
 ├── tsconfig.json
 ├── playwright.config.mjs
 ├── app/
-│   ├── index.html                 # analytical-index-first interface
-│   ├── main.ts                    # accessible rendering and bounded hash routes
+│   ├── index.html                 # shared shell for the two candidate views
+│   ├── main.ts                    # accessible rendering, transactions and bounded routes
+│   ├── evidence-answer-view.ts    # candidate DOM/text-only guided renderer
+│   ├── view-routing.ts            # candidate bounded guided/technical routes
 │   ├── style.css
 │   ├── startup-watchdog.js
 │   ├── favicon.svg
@@ -92,6 +98,8 @@ govuk-webmcp/
 │   ├── webmcp-smoke.json          # model-free concrete five-tool calls
 │   ├── webmcp-browser.json        # prepared model-selection and no-call cases
 │   ├── beginner-conversations.json # 12 guided beginner stories and no-call cases
+│   ├── personal-agent-cases.json  # candidate natural cross-host evaluation contract
+│   ├── generated/                  # deterministic 72-slot candidate run plan
 │   └── federated-search-quality.json # frozen authored lexical-quality fixture
 ├── src/
 │   ├── contracts.ts
@@ -101,9 +109,12 @@ govuk-webmcp/
 │   ├── okf-federated-contracts.ts # fixed four-source and resource-budget contract
 │   ├── federated-search-runtime.ts # lazy checksum-bound source-snapshot search
 │   ├── combined-knowledge-runtime.ts # common reviewed and federated results
-│   ├── application-actions.ts     # shared human and WebMCP controller
-│   └── webmcp-tools.ts            # 5 fixed imperative registrations
-├── schemas/                        # 31 released closed JSON Schemas
+│   ├── beginner-presentation-copy.ts # fixed candidate en-GB presentation copy
+│   ├── beginner-presentation.ts   # pure closed candidate projection
+│   ├── present-resource-evidence.ts # candidate composite record presentation
+│   ├── application-actions.ts     # shared human and WebMCP controller; candidate sixth action
+│   └── webmcp-tools.ts            # 5 released; 6 candidate imperative registrations
+├── schemas/                        # 31 released; 36 files in candidate worktree
 │   ├── catalogue.schema.json
 │   ├── evidence-receipt.schema.json
 │   ├── evidence-trace.schema.json
@@ -127,6 +138,11 @@ govuk-webmcp/
 │   ├── federated-search-manifest.schema.json
 │   ├── federated-search-result.schema.json
 │   ├── okf-federation-lock.schema.json
+│   ├── beginner-presentation.schema.json # candidate
+│   ├── personal-agent-case-set.schema.json # candidate evaluation
+│   ├── personal-agent-evaluation-capture.schema.json # private closed capture
+│   ├── present-resource-evidence-input.schema.json # candidate
+│   ├── present-resource-evidence-output.schema.json # candidate
 │   └── error-result.schema.json
 ├── scripts/
 │   ├── validate-authored-sources.mjs
@@ -137,12 +153,19 @@ govuk-webmcp/
 │   ├── import-okf-federation.mjs  # controlled exact-source acquisition
 │   ├── build-federated-search.mjs # deterministic ignored search projection
 │   ├── validate-generated.mjs
+│   ├── audit-beginner-presentations.mjs # production-shared complete projection audit
+│   ├── prepare-personal-agent-evals.mjs # candidate fixture normaliser
+│   ├── run-personal-agent-evals.mjs # pinned 36-run local Ollama adapter
+│   ├── import-copilot-personal-agent-capture.mjs # strict two-host merge
+│   ├── verify-personal-agent-evals.mjs # production replay and authenticated claim gate
 │   ├── copy-static.mjs
 │   ├── audit-catalogue-links.mjs
 │   ├── sanitise-sbom.mjs
 │   ├── write-deployment-metadata.mjs
+│   ├── verify-deterministic-build.mjs # offline two-build source/dist identity verifier
+│   ├── verify-live-pages-artifact.mjs # budgeted exact-run authentication and byte guard
 │   ├── verify-research-pack.sh    # exact jsonschema gate and seed verifier
-│   ├── capture-chrome-devtools-webmcp.mjs # guarded isolated five-tool MCP capture and evidence admission
+│   ├── capture-chrome-devtools-webmcp.mjs # guarded version-bound MCP capture and evidence admission
 │   ├── run-webmcp-evals-smoke.mjs # model-free pinned browser smoke wrapper
 │   ├── run-webmcp-evals-browser.mjs # explicit-model, private browser eval wrapper
 │   ├── setup-webmcp-explorer.sh # pinned isolated Explorer source and build
@@ -170,11 +193,19 @@ govuk-webmcp/
 │   │   ├── voiceover-screenshot-clip.test.mjs
 │   │   ├── python-test-environment.test.mjs
 │   │   ├── beginner-interface-specification.test.mjs
+│   │   ├── beginner-presentation.test.mjs
+│   │   ├── evidence-answer-view.test.mjs
+│   │   ├── view-routing.test.mjs
+│   │   ├── guided-build-state.test.mjs
+│   │   ├── personal-agent-evals.test.mjs
+│   │   ├── live-pages-verifier.test.mjs
+│   │   ├── deterministic-build.test.mjs
 │   │   ├── webmcp-evals-harness.test.mjs
 │   │   ├── post-deployment-evidence.test.mjs
 │   │   └── release-evidence.test.mjs
 │   └── browser/
-│       └── knowledge.spec.mjs
+│       ├── knowledge.spec.mjs
+│       └── evidence-answer.spec.mjs # candidate dual-view acceptance
 ├── profiles/
 │   └── trusted-govuk-discovery.profile.jsonld
 ├── examples/                       # preserved 29 August research seed
@@ -191,8 +222,14 @@ govuk-webmcp/
 │   ├── beginners/
 │   │   └── index.md               # evidence-before-answer learning pathway
 │   ├── product/
-│   │   ├── beginner-trust-pathway-prd.md # discovery PRD; no implemented UI
-│   │   └── beginner-interface-specification.md # proposed dual-view UI contract
+│   │   ├── beginner-trust-pathway-prd.md # accepted candidate requirements
+│   │   └── beginner-interface-specification.md # dual-view acceptance contract
+│   ├── hackathon-build/            # optional repository-local workflow bridge
+│   │   ├── scope.md
+│   │   ├── prd.md
+│   │   ├── spec.md
+│   │   ├── checklist.md
+│   │   └── build-notes.md
 │   └── competition/
 │       ├── architecture.md
 │       ├── tool-catalogue.md
@@ -201,6 +238,7 @@ govuk-webmcp/
 │       ├── demo-storyboard.md
 │       ├── federated-demo-storyboard.md
 │       ├── demo-video-script.json
+│       ├── demo-video-script-v0.4.0-rc.1.json # candidate nine-scene Evidence answer plan
 │       ├── demo-captions.en-GB.vtt
 │       ├── demo-transcript.md
 │       ├── evidence-manifest-registry.json
@@ -209,6 +247,7 @@ govuk-webmcp/
 │       ├── final-devpost-compliance-review-2026-08-31.md
 │       ├── post-deployment-devpost-compliance-review-2026-08-30-edd4ce6.md
 │       ├── personal-agent-webmcp-test-strategy.md
+│       ├── personal-agent-evaluation-protocol.md # planned 72-slot run contract
 │       ├── okf-federated-personal-agent-evaluation-plan.md # A–M gates
 │       ├── evaluation-set.csv
 │       ├── implementation-plan.md
@@ -275,6 +314,17 @@ govuk-webmcp/
         ├── ci.yml
         └── pages.yml
 ```
+
+The candidate overlay changes authored TypeScript, schemas, interface mounts,
+styles, tests, evaluation fixtures and documentation only in the working tree.
+It consumes the released data plane rather than creating a beginner-only copy.
+The same five root artefact families still gate registration; the candidate
+definition set contains six tools or none. The five additional schema files
+bring the worktree file count to 36, subject to complete release validation.
+
+The optional guided-build files are a repository-local workflow bridge. Their
+state records `submission.status` as `not-started`; they do not prove or perform
+Devpost registration, form update or submission.
 
 In released `v0.3.0-rc.1`, `app/data/sources/source-locks.json` contains
 five registry entries. Four retain the frozen reviewed inputs; the fifth binds the project-authored

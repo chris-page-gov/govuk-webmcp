@@ -3,9 +3,10 @@
 This statement applies to **Trusted government knowledge discovery**, an
 independent experimental prototype.
 
-The human interface remains usable without WebMCP. Its primary evidence view is
-an analytical index. The visual Evidence Trace is a progressive explanation of
-the same deterministic data, not the only way to understand it.
+The released human interface remains usable without WebMCP. Its primary
+evidence view is an analytical index. The visual Evidence Trace is a
+progressive explanation of the same deterministic data, not the only way to
+understand it.
 
 The interface uses semantic headings, labelled controls, keyboard-operable
 buttons and links, a skip link, visible focus, status messages and structured
@@ -14,7 +15,37 @@ Bounded URL-fragment routes support direct views and browser back and forward
 history. Evidence paths, selection states, assertion status and limitations use
 text labels; meaning is not conveyed by colour alone.
 
-## Automated testing
+## In-progress Evidence answer accessibility boundary
+
+The unreleased `0.4.0-rc.1` candidate adds persistent native-link navigation
+between **Evidence answer** and **Technical review**. The empty candidate route
+opens Evidence answer; legacy evidence fragments retain Technical review. Each
+active view has its own level-one heading, the active link uses
+`aria-current="page"`, sticky navigation reserves scroll space and explicit
+human view changes move focus to the selected view heading.
+
+Evidence answer uses semantic headings, lists, definition lists, links and
+`details`. It presents the supported statement, evidence tier, material limit,
+recorded sources, next check and cannot-decide boundary before optional
+technical data. Source-derived strings are added as text only. A WebMCP update
+is designed not to change the active view, URL, history, focus or scroll; an
+explicit human selection may navigate to Evidence answer and create bounded
+history.
+
+The final automated candidate suites pass 43 of 43 tests in installed Google
+Chrome and 43 of 43 in installed Microsoft Edge. They include serious-error-free axe
+smoke checks, keyboard operation, sticky-navigation focus clearance, 320 CSS
+pixel layout, 400% reflow, forced colours, reduced motion and preservation of
+the active Technical review view, URL, history, focus and scroll during a
+background WebMCP presentation.
+
+These are automated observations of named browsers and states. The candidate
+has not yet completed its release-specific manual checks at 320 CSS pixels,
+400% zoom, forced colours and reduced motion, or its Safari, VoiceOver and
+Caption Panel journey. No existing `v0.3.0-rc.1` manual observation is carried
+forward, and no WCAG conformance or beginner-comprehension claim is made.
+
+## Released automated testing
 
 The browser acceptance suite includes:
 
@@ -77,18 +108,23 @@ publication.
 
 ## Known limitations
 
+- Candidate sticky navigation, view focus, inactive-view update, route
+  restoration, result reading order and accepted-input disclosure have
+  automated coverage in installed Chrome and Edge. They have not yet completed
+  candidate-specific manual visual or assistive-technology observation.
 - The current manual journey did not retain a heading-rotor selection and did
   not prove automatic spoken live-status wording. These are the 2 recorded
   limitations; the other 7 checkpoints passed.
 - The nine-step manual journey did not exercise a partial-source failure.
   Deterministic and browser coverage of that state remains separate from the
   manual VoiceOver observation.
-- Nine Low security remediations have focused test evidence where recorded.
-  The current Chrome and Microsoft Edge suites each pass 30 of 30, and the full
-  prepared unit command passes 194 of 194. Fresh immutable exact-range scan
-  `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 review items with
-  zero reportable findings. Automated and manual observations remain bounded to
-  their named environments and journeys.
+- Nine Low security remediations retain their historical focused evidence. The
+  unreleased Evidence answer candidate now passes 272 of 272 unit tests and 43
+  of 43 browser tests in each of installed Chrome and Edge. Frozen code-snapshot
+  security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36
+  items, ran 102 focused tests, found zero findings and concluded that there is
+  no security release blocker. Automated and manual observations remain bounded to their named
+  environments and journeys.
 - The human live region distinguishes rejected input, a
   `federated_runtime_busy` response and other failure rather than presenting
   each as source unavailable. Focused regressions pass 11 of 11.

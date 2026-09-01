@@ -12,7 +12,24 @@ import type {
   EvidenceTrace,
   EvidenceTraceNode,
 } from "../src/evidence-runtime.js";
+import {
+  projectReviewedAnswer,
+  type BeginnerPresentation,
+} from "../src/beginner-presentation.js";
+import { canonicalJson, sha256Hex } from "../src/integrity.js";
 import { searchPresentationStatus } from "../src/search-presentation-status.js";
+import {
+  createEvidenceAnswerView,
+  evidenceAnswerViewElements,
+} from "./evidence-answer-view.js";
+import {
+  parseViewHash,
+  routeWithView,
+  serialiseViewRoute,
+  type AppView,
+  type EvidenceSelection,
+  type ViewRoute,
+} from "./view-routing.js";
 
 document.documentElement.dataset.applicationState = "starting";
 
@@ -38,9 +55,11 @@ const compareClaims = document.querySelector<HTMLButtonElement>("#compare-claims
 const comparisonPanel = document.querySelector<HTMLElement>("#comparison-panel")!;
 const comparisonContent = document.querySelector<HTMLElement>("#comparison-content")!;
 const routeWarning = document.querySelector<HTMLElement>("#route-warning")!;
-
-const RAW_HASH_MAX = 1024;
-const DECODED_COMPARISON_MAX = (4 * 96) + 3;
+const evidenceAnswerRoot = document.querySelector<HTMLElement>("#evidence-answer-view")!;
+const technicalReviewRoot = document.querySelector<HTMLElement>("#technical-review-view")!;
+const evidenceViewLink = document.querySelector<HTMLAnchorElement>("#view-evidence-link")!;
+const technicalViewLink = document.querySelector<HTMLAnchorElement>("#view-technical-link")!;
+const technicalReviewHeading = document.querySelector<HTMLElement>("#technical-review-heading")!;
 
 let runtime: TrustedKnowledgeRuntime | undefined;
 let actions: KnowledgeActionController | undefined;
@@ -49,6 +68,18 @@ let evidenceNeedsRedraw = false;
 let recordTrigger: HTMLElement | undefined;
 let comparisonTrigger: HTMLElement | undefined;
 let routeController: AbortController | undefined;
+let currentRoute: ViewRoute = { view: "guided", selection: { kind: "default" } };
+let evidenceTechnicalSelection: EvidenceSelection = { kind: "default" };
+let focusViewOnNextRoute = false;
+
+const evidenceAnswerView = createEvidenceAnswerView(evidenceAnswerViewElements(document), {
+  technicalReviewHref: () => serialiseViewRoute({
+    view: "technical",
+    selection: evidenceTechnicalSelection,
+  }),
+  onTechnicalReviewRequest: () => { focusViewOnNextRoute = true; },
+});
+evidenceAnswerView.renderInitial();
 
 function element<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -59,6 +90,112 @@ function element<K extends keyof HTMLElementTagNameMap>(
   if (text !== undefined) node.textContent = text;
   if (className) node.className = className;
   return node;
+}
+
+function updateViewLinks(): void {
+  const presentedEvidenceSelection = evidenceAnswerRoot.dataset.presentationState === "presented"
+    ? evidenceTechnicalSelection
+    : currentRoute.selection;
+  const technicalSelection = currentRoute.view === "technical"
+    ? currentRoute.selection
+    : evidenceTechnicalSelection;
+  evidenceViewLink.href = serialiseViewRoute({
+    view: "guided",
+    selection: presentedEvidenceSelection,
+  });
+  technicalViewLink.href = serialiseViewRoute({
+    view: "technical",
+    selection: technicalSelection,
+  });
+}
+
+function showView(view: AppView, focusHeading = false): void {
+  currentRoute = routeWithView(currentRoute, view);
+  evidenceAnswerRoot.hidden = view !== "guided";
+  technicalReviewRoot.hidden = view !== "technical";
+  evidenceViewLink.toggleAttribute("aria-current", view === "guided");
+  technicalViewLink.toggleAttribute("aria-current", view === "technical");
+  if (view === "guided") {
+    evidenceViewLink.setAttribute("aria-current", "page");
+    technicalViewLink.removeAttribute("aria-current");
+  } else {
+    technicalViewLink.setAttribute("aria-current", "page");
+    evidenceViewLink.removeAttribute("aria-current");
+  }
+  updateViewLinks();
+  if (focusHeading) {
+    if (view === "guided") evidenceAnswerView.focusHeading();
+    else technicalReviewHeading.focus();
+  }
+}
+
+function selectionFromReviewedResult(result: JsonObject): EvidenceSelection {
+  if (result.ok !== true || result.selection === null || typeof result.selection !== "object" || Array.isArray(result.selection)) {
+    return { kind: "default" };
+  }
+  const selection = result.selection as JsonObject;
+  const answerId = typeof selection.answerId === "string" ? selection.answerId : runtime?.evidence.defaultAnswerId;
+  if (!answerId) return { kind: "default" };
+  const claimIds = Array.isArray(selection.claimIds)
+    ? selection.claimIds.filter((value): value is string => typeof value === "string")
+    : [];
+  return {
+    kind: "answer",
+    answerId,
+    claimId: selection.mode === "claim" ? claimIds[0] ?? null : null,
+    compareClaimIds: selection.mode === "comparison" ? claimIds : [],
+  };
+}
+
+function renderEvidenceWithoutMovingViewport(
+  evidence: BeginnerPresentation,
+  origin: ActionPresentation["origin"],
+  comparisonSelected = false,
+  evidenceDigest: string | null = null,
+): void {
+  const previousX = globalThis.scrollX;
+  const previousY = globalThis.scrollY;
+  const previousStatus = status.textContent;
+  const activeElement = document.activeElement;
+  const activeFocusKey = activeElement instanceof HTMLElement
+    ? activeElement.dataset.focusKey
+    : undefined;
+  evidenceAnswerView.renderPresentation(evidence, { origin, comparisonSelected, evidenceDigest });
+  if (origin === "restore" && currentRoute.view === "technical") status.textContent = previousStatus;
+  if (document.activeElement !== activeElement && activeElement instanceof HTMLElement && activeElement.isConnected) {
+    activeElement.focus({ preventScroll: true });
+  } else if (activeElement instanceof HTMLElement && !activeElement.isConnected && activeFocusKey) {
+    const replacement = [...evidenceAnswerRoot.querySelectorAll<HTMLElement>("[data-focus-key]")]
+      .find(({ dataset }) => dataset.focusKey === activeFocusKey);
+    replacement?.focus({ preventScroll: true });
+  }
+  if (globalThis.scrollX !== previousX || globalThis.scrollY !== previousY) {
+    globalThis.scrollTo(previousX, previousY);
+  }
+}
+
+async function renderReviewedEvidence(presentation: ActionPresentation): Promise<void> {
+  if (presentation.result.ok !== true || !presentation.isCurrentEvidencePresentation()) return;
+  try {
+    const evidence = await projectReviewedAnswer(presentation.result, {
+      actionWasAccepted: presentation.origin !== "restore",
+    });
+    const evidenceDigest = await sha256Hex(canonicalJson(evidence));
+    if (!presentation.isCurrentEvidencePresentation()) return;
+    evidenceAnswerRoot.dataset.evidenceDigest = evidenceDigest;
+    evidenceTechnicalSelection = selectionFromReviewedResult(presentation.result);
+    renderEvidenceWithoutMovingViewport(
+      evidence,
+      presentation.origin,
+      presentation.action === "compare_evidence_foundations",
+      evidenceDigest,
+    );
+    updateViewLinks();
+  } catch {
+    if (presentation.isCurrentEvidencePresentation()) {
+      evidenceAnswerView.announceFailure("The reviewed evidence did not meet the presentation contract. The previous Evidence answer remains unchanged.");
+    }
+  }
 }
 
 function formatDate(value: unknown): string {
@@ -195,7 +332,12 @@ function renderSearchResult(result: JsonObject): void {
     const inspect = element("button", "View record and provenance", "secondary");
     inspect.type = "button";
     inspect.addEventListener("click", () => void showRecord(String(match.recordId), inspect));
-    article.append(inspect);
+    const present = element("button", "Show evidence for this result");
+    present.type = "button";
+    present.addEventListener("click", () => void presentRecordEvidence(String(match.recordId), present));
+    const actions = element("div", undefined, "result-actions");
+    actions.append(present, inspect);
+    article.append(actions);
     results.append(article);
   }
   appendStructuredResult(results, "Structured search result used by the page and tool", result);
@@ -465,8 +607,23 @@ function renderEvidenceSkeleton(trace: EvidenceTrace): void {
     explore.dataset.claimId = claimId;
     explore.addEventListener("click", async () => {
       if (!actions) return;
-      await actions.run("explore_answer_foundations", { answerId: trace.id, claimId }, { origin: "human", present: true });
-      history.pushState(null, "", `#answer=${encodeURIComponent(trace.id)}&claim=${encodeURIComponent(claimId)}`);
+      let presentationCommitted = false;
+      const result = await actions.run(
+        "explore_answer_foundations",
+        { answerId: trace.id, claimId },
+        {
+          origin: "human",
+          present: true,
+          onPresentationCommit: () => { presentationCommitted = true; },
+        },
+      );
+      if (result.ok !== true || !presentationCommitted) return;
+      currentRoute = {
+        view: "technical",
+        selection: { kind: "answer", answerId: trace.id, claimId, compareClaimIds: [] },
+      };
+      history.pushState(null, "", serialiseViewRoute(currentRoute));
+      updateViewLinks();
       status.textContent = `Evidence Trace updated to show foundations for claim ${index + 1}.`;
       document.querySelector<HTMLElement>("#foundation-panel")!.focus();
     });
@@ -665,7 +822,10 @@ function updateCompareButton(): void {
 }
 
 function updatePresentationDiagnostics(presentation: ActionPresentation): void {
-  document.querySelector("#diagnostic-last-action")!.textContent = `${presentation.origin === "webmcp" ? "WebMCP" : "Human"}: ${presentation.action}`;
+  const originLabel = presentation.origin === "webmcp"
+    ? "WebMCP"
+    : presentation.origin === "restore" ? "Restored view" : "Human";
+  document.querySelector("#diagnostic-last-action")!.textContent = `${originLabel}: ${presentation.action}`;
   document.querySelector("#diagnostic-input-digest")!.textContent = presentation.inputDigest ?? "Not retained for rejected input";
   document.querySelector("#diagnostic-parity")!.textContent = `Displayed deterministic result ${presentation.resultDigest.slice(0, 12)}…`;
   document.querySelector<HTMLElement>("#webmcp-diagnostics")!.dataset.resultDigest = presentation.resultDigest;
@@ -700,6 +860,7 @@ function commitPresentation(presentation: ActionPresentation): void {
       break;
     case "explore_answer_foundations":
       renderEvidenceResult(presentation.result);
+      void renderReviewedEvidence(presentation);
       if (presentation.origin === "webmcp") {
         status.textContent = presentation.result.ok === true
           ? "WebMCP updated the Evidence Trace. No source, storage or external state changed."
@@ -708,14 +869,70 @@ function commitPresentation(presentation: ActionPresentation): void {
       break;
     case "compare_evidence_foundations":
       renderComparisonResult(presentation.result);
+      void renderReviewedEvidence(presentation);
       if (presentation.origin === "webmcp") {
         status.textContent = presentation.result.ok === true
           ? "WebMCP updated the evidence comparison. No source, storage or external state changed."
           : "The WebMCP comparison request was rejected. No evidence comparison, source, storage or external state changed.";
       }
       break;
+    case "present_resource_evidence": {
+      if (presentation.result.ok !== true) {
+        const error = presentation.result.error as JsonObject | undefined;
+        evidenceAnswerView.announceFailure(
+          typeof error?.message === "string"
+            ? error.message
+            : "The request was rejected. The previous Evidence answer remains unchanged.",
+        );
+        if (presentation.origin === "webmcp") {
+          status.textContent = "The WebMCP presentation request was rejected. The previous Evidence answer remains unchanged.";
+        }
+        break;
+      }
+      const evidence = presentation.result.evidence as BeginnerPresentation;
+      const evidenceDigest = String(presentation.result.evidenceDigest);
+      evidenceAnswerRoot.dataset.evidenceDigest = evidenceDigest;
+      evidenceTechnicalSelection = { kind: "record", recordId: evidence.selectionId };
+      renderEvidenceWithoutMovingViewport(evidence, presentation.origin, false, evidenceDigest);
+      updateViewLinks();
+      if (presentation.support && presentation.origin !== "webmcp") {
+        renderRecord(presentation.support.recordResult);
+        renderProvenance(presentation.support.provenanceResult);
+        const selectedRecord = currentRoute.selection.kind === "record"
+          ? currentRoute.selection.recordId
+          : null;
+        if (selectedRecord === evidence.selectionId && currentRoute.view === "technical") {
+          recordPanel.hidden = false;
+        }
+      }
+      if (presentation.origin === "webmcp" && currentRoute.view === "technical") {
+        status.textContent = "Evidence answer updated. The Technical review view remains open.";
+      }
+      break;
+    }
   }
   updatePresentationDiagnostics(presentation);
+}
+
+async function presentRecordEvidence(recordId: string, trigger?: HTMLElement): Promise<void> {
+  if (!actions) return;
+  let presentationCommitted = false;
+  const result = await actions.run(
+    "present_resource_evidence",
+    { recordId },
+    {
+      origin: "human",
+      present: true,
+      onPresentationCommit: () => { presentationCommitted = true; },
+    },
+  );
+  if (result.ok !== true || !presentationCommitted) {
+    trigger?.focus();
+    return;
+  }
+  currentRoute = { view: "guided", selection: { kind: "record", recordId } };
+  history.pushState(null, "", serialiseViewRoute(currentRoute));
+  showView("guided", true);
 }
 
 async function showRecord(recordId: string, trigger?: HTMLElement, updateHash = true): Promise<void> {
@@ -728,7 +945,11 @@ async function showRecord(recordId: string, trigger?: HTMLElement, updateHash = 
   renderRecord(recordResult);
   renderProvenance(provenanceResult);
   recordPanel.hidden = false;
-  if (updateHash) history.pushState(null, "", `#record=${encodeURIComponent(recordId)}`);
+  if (updateHash) {
+    currentRoute = { view: "technical", selection: { kind: "record", recordId } };
+    history.pushState(null, "", serialiseViewRoute(currentRoute));
+    updateViewLinks();
+  }
   recordPanel.focus();
 }
 
@@ -736,7 +957,21 @@ function closeRecord(updateHash = true, restoreFocus = true): void {
   recordPanel.hidden = true;
   recordContent.replaceChildren();
   provenanceContent.replaceChildren();
-  if (updateHash && location.hash.startsWith("#record=")) history.pushState(null, "", location.pathname);
+  if (updateHash && currentRoute.selection.kind === "record") {
+    currentRoute = currentTrace
+      ? {
+          view: "technical",
+          selection: {
+            kind: "answer",
+            answerId: currentTrace.id,
+            claimId: null,
+            compareClaimIds: [],
+          },
+        }
+      : { view: "technical", selection: { kind: "default" } };
+    history.pushState(null, "", serialiseViewRoute(currentRoute));
+    updateViewLinks();
+  }
   if (restoreFocus) {
     if (recordTrigger?.isConnected) recordTrigger.focus();
     else query.focus();
@@ -765,63 +1000,74 @@ async function applyHashRoute(): Promise<void> {
   routeController?.abort(new DOMException("A newer route replaced this one.", "AbortError"));
   routeController = new AbortController();
   const signal = routeController.signal;
-  let encodedRoute = location.hash.slice(1);
   routeWarning.hidden = true;
   routeWarning.textContent = "";
-  if (encodedRoute.length > RAW_HASH_MAX) {
-    history.replaceState(null, "", `${location.pathname}${location.search}`);
-    encodedRoute = "";
-    routeWarning.textContent = "The requested view was too large to process safely. The default evidence view is shown instead.";
+  const parsed = parseViewHash(location.hash);
+  if (parsed.kind === "anchor") return;
+  if (parsed.kind === "invalid") {
+    currentRoute = parsed.fallback;
+    history.replaceState(null, "", serialiseViewRoute(currentRoute));
+    routeWarning.textContent = parsed.warning;
     routeWarning.hidden = false;
+  } else {
+    currentRoute = parsed.route;
   }
-  const params = new URLSearchParams(encodedRoute);
-  const recordId = params.get("record");
+  showView(currentRoute.view, false);
+
   try {
-    if (recordId) {
-      hideComparison(false);
-      if (!currentTrace) {
-        await actions.run(
-          "explore_answer_foundations",
-          { answerId: runtime.evidence.defaultAnswerId },
-          { origin: "human", present: true, signal },
+    switch (currentRoute.selection.kind) {
+      case "record": {
+        const { recordId } = currentRoute.selection;
+        hideComparison(false);
+        const result = await actions.run(
+          "present_resource_evidence",
+          { recordId },
+          { origin: "restore", present: true, actionWasAccepted: false, signal },
         );
+        if (result.ok !== true && currentRoute.view === "technical") recordPanel.hidden = true;
+        break;
       }
-      await showRecord(recordId, undefined, false);
-      return;
+      case "answer": {
+        const { answerId, claimId, compareClaimIds } = currentRoute.selection;
+        closeRecord(false, false);
+        if (compareClaimIds.length) {
+          await actions.run(
+            "compare_evidence_foundations",
+            { answerId, claimIds: [...compareClaimIds] },
+            { origin: "restore", present: true, actionWasAccepted: false, signal },
+          );
+        } else {
+          hideComparison(false);
+          await actions.run(
+            "explore_answer_foundations",
+            { answerId, ...(claimId ? { claimId } : {}) },
+            { origin: "restore", present: true, actionWasAccepted: false, signal },
+          );
+        }
+        break;
+      }
+      case "default":
+        closeRecord(false, false);
+        hideComparison(false);
+        if (currentRoute.view === "technical") {
+          await actions.run(
+            "explore_answer_foundations",
+            { answerId: runtime.evidence.defaultAnswerId },
+            { origin: "restore", present: true, actionWasAccepted: false, signal },
+          );
+        } else if (evidenceAnswerRoot.dataset.presentationState !== "presented") {
+          evidenceAnswerView.renderInitial();
+        }
+        break;
     }
-    closeRecord(false, false);
-    const answerId = params.get("answer") ?? runtime.evidence.defaultAnswerId;
-    const claimId = params.get("claim");
-    const compare = params.get("compare");
-    if (compare !== null && compare.length > DECODED_COMPARISON_MAX) {
-      history.replaceState(null, "", `${location.pathname}${location.search}`);
-      routeWarning.textContent = "The requested comparison was too large to process safely. The default evidence view is shown instead.";
-      routeWarning.hidden = false;
-      hideComparison(false);
-      await actions.run(
-        "explore_answer_foundations",
-        { answerId: runtime.evidence.defaultAnswerId },
-        { origin: "human", present: true, signal },
-      );
-      return;
-    }
-    if (compare) {
-      const claimIds = compare.split(",");
-      await actions.run(
-        "compare_evidence_foundations",
-        { answerId, claimIds: claimIds.length > 4 || claimIds.some((value) => !value) ? [] : claimIds },
-        { origin: "human", present: true, signal },
-      );
-    } else {
-      hideComparison(false);
-      await actions.run(
-        "explore_answer_foundations",
-        { answerId, ...(claimId ? { claimId } : {}) },
-        { origin: "human", present: true, signal },
-      );
+    if (focusViewOnNextRoute) {
+      if (currentRoute.view === "guided") evidenceAnswerView.focusHeading();
+      else technicalReviewHeading.focus();
     }
   } catch (error) {
     if (!(error instanceof DOMException && error.name === "AbortError")) throw error;
+  } finally {
+    focusViewOnNextRoute = false;
   }
 }
 
@@ -862,18 +1108,43 @@ compareClaims.addEventListener("click", async () => {
   if (!actions || !currentTrace) return;
   const claimIds = [...analyticalIndex.querySelectorAll<HTMLInputElement>("input[type='checkbox']:checked")].map(({ value }) => value);
   comparisonTrigger = compareClaims;
-  await actions.run("compare_evidence_foundations", { answerId: currentTrace.id, claimIds }, { origin: "human", present: true });
-  history.pushState(null, "", `#answer=${encodeURIComponent(currentTrace.id)}&compare=${encodeURIComponent(claimIds.join(","))}`);
+  let presentationCommitted = false;
+  const result = await actions.run(
+    "compare_evidence_foundations",
+    { answerId: currentTrace.id, claimIds },
+    {
+      origin: "human",
+      present: true,
+      onPresentationCommit: () => { presentationCommitted = true; },
+    },
+  );
+  if (result.ok !== true || !presentationCommitted) return;
+  currentRoute = {
+    view: "technical",
+    selection: { kind: "answer", answerId: currentTrace.id, claimId: null, compareClaimIds: claimIds },
+  };
+  history.pushState(null, "", serialiseViewRoute(currentRoute));
+  updateViewLinks();
   status.textContent = `Evidence comparison updated for ${claimIds.length} selected claims.`;
   comparisonPanel.focus();
 });
 
 document.querySelector<HTMLButtonElement>("#close-comparison")!.addEventListener("click", () => {
   hideComparison(true, false);
-  if (currentTrace) history.pushState(null, "", `#answer=${encodeURIComponent(currentTrace.id)}`);
+  if (currentTrace) {
+    currentRoute = {
+      view: "technical",
+      selection: { kind: "answer", answerId: currentTrace.id, claimId: null, compareClaimIds: [] },
+    };
+    history.pushState(null, "", serialiseViewRoute(currentRoute));
+    updateViewLinks();
+  }
 });
 document.querySelector<HTMLButtonElement>("#close-record")!.addEventListener("click", () => closeRecord());
 
+for (const link of [evidenceViewLink, technicalViewLink]) {
+  link.addEventListener("click", () => { focusViewOnNextRoute = true; });
+}
 window.addEventListener("hashchange", () => void applyHashRoute());
 
 try {
@@ -896,9 +1167,9 @@ try {
   document.querySelector("#diagnostic-artefacts")!.textContent = "Catalogue, receipts, Evidence Trace, admissions and lazy federated-search manifest validated";
   document.querySelector("#diagnostic-registration")!.textContent = "Registration check in progress; human controls are already available";
   void initialised.registration.then((registration) => {
-    document.querySelector("#tool-status")!.textContent = registration.state === "registered" ? "5 WebMCP tools" : "Human interface";
+    document.querySelector("#tool-status")!.textContent = registration.state === "registered" ? "6 WebMCP tools" : "Human interface";
     status.textContent = registration.state === "registered"
-      ? "All knowledge artefacts verified. Human search and 5 WebMCP tools are ready."
+      ? "All knowledge artefacts verified. Human search and 6 WebMCP tools are ready."
       : `All knowledge artefacts verified. The human interface is ready. ${registration.reason}`;
     updateRegistrationDiagnostics(registration);
   });

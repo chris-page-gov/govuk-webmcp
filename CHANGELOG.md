@@ -8,6 +8,32 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- An in-progress `0.4.0-rc.1` Evidence answer candidate in the working tree.
+  It adds a pure, closed beginner-presentation projection; separate input and
+  output contracts for `present_resource_evidence`; a sixth imperatively
+  registered WebMCP tool with a truthful reversible-presentation effect; a
+  persistent two-link **Evidence answer** and **Technical review** navigation;
+  bounded view routing; and a text-only accessible renderer over the same
+  deterministic result returned to the tool caller. This is candidate code,
+  not a release, deployment, supported-host observation or usability result.
+- Candidate evaluation support for natural personal-agent cases and the
+  repository-local optional guided-build bridge. The bridge points to the
+  established PRD, specification, implementation plan and backlog; creating or
+  updating its local state does not register, update or submit a Devpost entry.
+- A fail-closed deterministic double-build verifier. It runs the exact normal
+  build twice with offline npm settings, checks that source inputs stay fixed,
+  inventories every regular non-link `dist` file by safe path, byte size and
+  SHA-256, compares the complete ordered manifests and writes only a bounded,
+  ignored machine receipt beneath `.evals` after an exact match.
+- Guarded `0.4.0-rc.1` release-evidence tooling. The live Pages verifier binds
+  one exact successful manual Pages run and protected-main commit, rejects
+  unsafe archive entries before extraction, checks the GitHub artefact digest
+  and `deployment.json`, and byte-compares every regular artefact file with the
+  public site before a separately authorised evidence admission. A versioned
+  nine-scene video plan and capture/build validators now cover the Evidence
+  answer, its sixth tool, both persistent views, genuine private Copilot and
+  Ollama inputs, explicit redaction gates and the candidate VoiceOver
+  checkpoints. They create no release or observation by themselves.
 - A documentation-only beginner evidence interface specification that reviews
   the current page, retains it as the proposed **Technical review** view and
   defines a future **Evidence answer** view over the same deterministic actions
@@ -16,8 +42,9 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   disclosure, exact accepted-input boundaries, a candidate presentation
   record-presentation tool, module ownership, 12-story and primary-limitation
   mappings, verification and source/research/release gates. No UI, schema, tool
-  or deployment changed in that documentation-only slice. The experimental
-  implementation is now authorised but is not yet implemented or released.
+  or deployment changed in that documentation-only slice. That historical
+  checkpoint preceded the in-progress implementation recorded above; neither
+  checkpoint is a release.
 - A unit documentation contract for the companion beginner PRD, interface
   specification and learning guide. It checks the two-view and
   documentation-only boundaries, structurally exact DS-01 to DS-12, GE-01 to
@@ -28,8 +55,8 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   checking guide, discovery PRD, four synthetic personas, 12 representative
   user stories and an exact question-to-released-corpus coverage matrix. The
   questions are labelled hypotheses rather than frequency claims, and the
-  current public interface remains unchanged pending a low-fidelity prototype,
-  formative research and separately authorised implementation.
+  current public interface remains unchanged. The later candidate
+  implementation and still-open formative research are recorded separately.
 - A 12-story guided WebMCP conversation fixture and unit contract covering all
   five tools, reviewed and four-source federated evidence, context
   minimisation requirements, an expected task-minimal argument shape,
@@ -85,6 +112,34 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Set the working package version to `0.4.0-rc.1` for the Evidence answer
+  candidate. The public `v0.3.0-rc.1` release, its five-tool contracts, tag,
+  deployed bytes and retained observations remain historical release evidence
+  and are not rewritten or carried forward as six-tool evidence.
+- Reconciled the final local candidate checkpoint: research-pack verification,
+  the 80-reviewed plus 58,652-federated projection audit, 272 unit tests, 43
+  Chrome tests, 43 Edge tests, 7 model-free smoke envelopes, frozen retrieval
+  quality and dependency checks pass. The offline double build contains 1,883
+  files and 128,646,550 bytes at aggregate SHA-256
+  `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
+- Updated the application workspace guide and implementation maps to
+  distinguish the released five-tool `v0.3.0-rc.1` evidence from the
+  unreleased six-tool, two-view, 36-schema candidate and its still-open manual,
+  live-host and publication gates.
+- Made the empty candidate route open **Evidence answer** while bounded legacy
+  `record`, `answer`, `claim` and `compare` fragments retain **Technical
+  review** semantics. A background WebMCP presentation now preserves the
+  active Technical review selection, content, URL, history, focus and scroll,
+  while updating the durable Evidence answer link. Explicit human presentation
+  follows latest-started-request-wins semantics before changing view or
+  history.
+- Bounded `present_resource_evidence` execution to eight seconds. A timeout
+  aborts cooperative work, settles independently of an uncooperative loader,
+  returns no partial evidence and leaves the previous Evidence answer intact.
+- Added a production-shared build audit that validates every one of the 80
+  reviewed records and 58,652 federated records through the exact Evidence
+  answer projector and closed schema. It reads each checksum-validated
+  federated record shard once and is now part of `npm run build`.
 - Aligned the beginner PRD and learning guide with the companion interface
   specification. The guide now distinguishes question-first and answer-checking
   evidence paths, removes an unsupported claim about what an AI withheld and
@@ -113,9 +168,68 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   allowlisted public target, binds complete live-byte verification and redacts
   local page identifiers; an existing reviewed receipt fails closed unless
   `--overwrite-reviewed-evidence` is explicit.
+- Kept the released `v0.3.0-rc.1` demo configuration, receipts and media
+  references unchanged while moving candidate capture, captions, transcript,
+  clips and build receipts to explicit `v0.4.0-rc.1` paths.
 
 ### Fixed
 
+- Updated guarded public Chrome evidence admission to require the current
+  `govuk-webmcp.live-pages-verification.v2` receipt emitted by the hardened
+  live verifier. A regression prevents the capture path from silently drifting
+  back to the historical `v1` receipt used only by earlier releases.
+- Corrected the release-evaluation sequence so claim authentication consumes
+  the ignored mode-`0600` live receipt from a clean exact-Pages checkout.
+  Reviewed receipts, summaries and media are admitted only afterwards through
+  a post-deployment evidence change, preventing tracked evidence from closing
+  its own clean-worktree gate. The protocol now also recreates the exact
+  Pages-added `dist/deployment.json`; without it the local manifest is one file
+  short and release authentication correctly fails.
+- Unified the latest-started presentation sequence across
+  `explore_answer_foundations`, `compare_evidence_foundations` and
+  `present_resource_evidence`. An older asynchronous action may still return
+  its deterministic result to its caller, but it cannot replace the Evidence
+  answer selected by a newer action or announce a stale projection failure.
+- Minimised public personal-agent evaluation metadata. Exact host and browser
+  strings remain only in the private mode-`0600` capture; public summaries
+  publish no hash of unrestricted host, browser or URL text and expose a browser
+  version only when it has the bounded Chromium form `major.0.build.patch`.
+- Bound the 72-run claim gate to a freshly re-observed live Pages artefact and
+  public byte comparison rather than a structurally plausible receipt. Claim
+  authentication requires the canonical repository and URL, exact clean Git
+  commit before and after authentication, and a complete local `dist` manifest
+  that matches the authenticated Pages receipt. A raw receipt remains labelled
+  only `structurally-valid` and cannot open the claim gate.
+- Replayed each captured call sequence against a private, manifest-verified
+  snapshot of the receipt-bound `dist` bytes under a unique module identity,
+  compared the complete canonical outputs and derived page parity from replay
+  rather than captured output. The replay cache is confined to one validation;
+  the receipt is immutable, and the snapshot, working build and clean exact Git
+  identity are rechecked afterwards. Co-digested call or page substitutions,
+  unbound-cache reuse and divergent repetitions now fail closed.
+- Required a cloud observation to bind visible Microsoft Edge MCP Workspace and
+  a syntactically valid observed Copilot share link. Synthetic privacy markers
+  are detected after bounded percent-decoding, numeric-entity decoding, Unicode
+  normalisation, case folding and punctuation removal.
+- Required claim-gated answer judgements to be reviewed by a human or domain
+  specialist rather than self-attested by an agent. Claimable page observations
+  now require literal-null history state, empty local and session storage and,
+  for local runs, an exact credential-free loopback root URL with no query or
+  fragment.
+- Validated and counted every Pages tar member, including directories, before
+  extraction. The version 2 receipt binds fixed budgets of 4,096 files, 512
+  directories, 192 MiB aggregate regular-file bytes, 8 MiB per file, eight
+  concurrent fetches, 60 seconds per file and ten minutes for the complete live
+  comparison; a 256 MiB archive cap and pre-extraction logical-byte measurement
+  apply before extraction.
+- Rejected non-default explicit ports throughout the reviewed official-source
+  URL boundary, matching the existing federated and Evidence answer link
+  controls.
+- Kept an explicitly mapped primary limitation separate while still displaying
+  every other applicable recorded limitation in the core Evidence answer.
+- Closed the view-router record namespace so unsupported federated collections,
+  including legislation identifiers, cannot be restored or serialised as an
+  Evidence answer route.
 - Reconciled the A Life in the UK specialist-review contract with the exact
   admitted producer revision. The authored federation lock, closed schema,
   corpus admission, generated display contract, executable runtime boundary
@@ -136,8 +250,27 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   diff, and the local technical compliance review remains distinct from the
   final live-rules and form refresh.
 
+### Security
+
+- Completed a full candidate security-diff review over the frozen pre-fix
+  patch. It reported no vulnerability crossing the repository's external
+  security boundary, but its dynamic and independent follow-up checks exposed
+  release-blocking fidelity, privacy, authentication and resource-budget defects
+  corrected above. Frozen code-snapshot scan
+  `aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
+  `codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
+  completed 36 of 36 items, ran 102 focused tests, found zero findings and
+  concluded that there is no security release blocker. The complete local
+  deterministic, unit, Chrome, Edge, retrieval, smoke and dependency checks now
+  pass.
+
 ### Governance
 
+- Recorded the `0.4.0-rc.1` candidate as unreleased and unobserved on a public
+  host. No tag, GitHub release, Pages deployment, video publication, final
+  Devpost review or submission is claimed for this candidate. The repaired
+  repository-local guided-build workflow has `submission.status` set to
+  `not-started` and is not evidence of a Devpost mutation.
 - Closed the specialist-review wording gate for the current candidate without
   rewriting the released `v0.3.0-rc.1` chronology. No positive specialist-
   acceptance claim is admitted; source-snapshot search remains distinct from

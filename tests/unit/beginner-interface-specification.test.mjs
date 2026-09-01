@@ -18,7 +18,7 @@ function sequence(length) {
   return Array.from({ length }, (_, index) => String(index + 1).padStart(2, "0"));
 }
 
-test("beginner interface specification records the authorised candidate without claiming implementation", async () => {
+test("beginner interface specification records the implemented candidate without claiming release acceptance", async () => {
   const [specification, requirements, guide] = await Promise.all([
     readFile("docs/product/beginner-interface-specification.md", "utf8"),
     readFile("docs/product/beginner-trust-pathway-prd.md", "utf8"),
@@ -26,6 +26,9 @@ test("beginner interface specification records the authorised candidate without 
   ]);
 
   assert.match(specification, /Status:\*\* accepted implementation specification; candidate implementation authorised/u);
+  assert.match(specification, /Implementation status:\*\* core `0\.4\.0-rc\.1` projection, sixth action, bounded/u);
+  assert.match(specification, /present in the working tree/u);
+  assert.match(specification, /exact-candidate verification and release acceptance remain pending/u);
   assert.match(specification, /does not itself\s+change the application, WebMCP tools, schemas, release or deployment/u);
   assert.match(specification, /Evidence answer/u);
   assert.match(specification, /Technical review/u);
@@ -56,10 +59,21 @@ test("beginner interface specification records the authorised candidate without 
   assert.match(specification, /no overall trust, confidence or quality score/u);
   assert.match(specification, /source-contract correction is complete/u);
   assert.match(specification, /A Life in the UK specialist-/u);
-  assert.match(specification, /authorised\s+for experimental implementation but is not yet implemented, released or\s+supported by accepted host evidence/u);
+  assert.match(specification, /The tool is now\s+implemented in the worktree candidate but remains unreleased and has no\s+accepted host evidence/u);
   assert.match(specification, /\{ "readOnlyHint": false, "untrustedContentHint": true \}/u);
   assert.match(specification, /"additionalProperties": false/u);
   assert.match(specification, /does not authorise the separate Devpost submission action/u);
+  for (const modulePath of [
+    "src/beginner-presentation.ts",
+    "src/present-resource-evidence.ts",
+    "app/view-routing.ts",
+    "app/evidence-answer-view.ts",
+  ]) {
+    assert.ok(
+      specification.includes("| `" + modulePath + "` |"),
+      `missing implemented candidate module: ${modulePath}`,
+    );
+  }
 
   const decisions = sectionBetween(specification, "## 2. Decisions and non-decisions", "## 3. Current-interface review");
   const regions = sectionBetween(specification, "## 5. Evidence answer page regions", "## 6. Deterministic presentation contract");

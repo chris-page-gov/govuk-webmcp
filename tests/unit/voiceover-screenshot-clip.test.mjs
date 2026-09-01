@@ -22,7 +22,7 @@ const environment = {
   [demoReleaseEnvironment.pagesRunId]: "33333333333",
 };
 const config = bindReleaseConfig(
-  validateConfig(JSON.parse(await readFile("docs/competition/demo-video-script.json", "utf8"))),
+  validateConfig(JSON.parse(await readFile("docs/competition/demo-video-script-v0.4.0-rc.1.json", "utf8"))),
   environment,
 );
 const journeyIds = requiredVoiceOverJourneyIds;

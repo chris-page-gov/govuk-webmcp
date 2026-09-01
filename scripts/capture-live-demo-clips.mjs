@@ -18,7 +18,6 @@ import { chromium } from "playwright";
 
 import {
   bindReleaseConfig,
-  canonicalJson,
   repositoryRoot,
   validateConfig,
 } from "./build-demo-video.mjs";
@@ -28,7 +27,7 @@ import {
 } from "./lib/chrome-devtools-capture-target.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
-const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script.json");
+const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
 const sceneDurationMilliseconds = 32_000;
 
 function invariant(condition, message) {
@@ -50,10 +49,6 @@ function run(command, args, capture = false) {
   if (result.error) throw new Error(`${command} could not start: ${result.error.message}`);
   if (result.status !== 0) throw new Error(`${command} failed with exit code ${result.status}${capture ? `\n${result.stderr || result.stdout}` : ""}`);
   return result.stdout ?? "";
-}
-
-function sha256Text(value) {
-  return createHash("sha256").update(value).digest("hex");
 }
 
 async function sha256File(path) {
@@ -165,99 +160,97 @@ function sceneDefinitions(config, state) {
   const answerRoute = `#answer=${encodeURIComponent(inputs.reviewedAnswerId)}`;
   return [
     {
-      sceneId: "overview",
+      sceneId: "evidence-answer",
       route: "",
       run: async (page) => {
-        await hold(page, 1_500);
-        await smoothScroll(page, ".catalogue-summary");
-        await smoothScroll(page, "#estate-heading");
+        await page.locator("#evidence-answer-view").waitFor({ state: "visible" });
+        await smoothScroll(page, "#evidence-answer-heading");
         return {
-          reviewedRecordCount: numberFromText(await page.locator("#record-count").textContent(), "Reviewed count"),
-          federatedSourceRecordCount: numberFromText(await page.locator("#federated-source-record-count").textContent(), "Federated source count"),
-          federatedRecordCount: numberFromText(await page.locator("#federated-record-count").textContent(), "Federated searchable count"),
-          federatedQuarantinedRecordCount: numberFromText(await page.locator("#federated-quarantined-count").textContent(), "Federated quarantine count"),
-          reviewedTierLabel: await page.locator(".catalogue-summary dt").nth(0).textContent(),
-          federatedTierLabel: await page.locator(".catalogue-summary dt").nth(1).textContent(),
+          activeView: "guided",
+          heading: (await page.locator("#evidence-answer-heading").textContent()).trim(),
+          activity: (await page.locator("#evidence-answer-activity").textContent()).trim(),
+          presentationState: await page.locator("#evidence-answer-view").getAttribute("data-presentation-state"),
         };
       },
     },
     {
-      sceneId: "federated-search",
-      route: "",
+      sceneId: "present-evidence",
+      route: "#view=technical",
       run: async (page) => {
         await smoothScroll(page, "#search-heading");
         const result = await runFederatedSearch(page, inputs);
         state.searchResult = result;
         state.federatedRecordId = chooseFederatedRecord(result);
+        const article = page.locator(`article.result[data-record-id="${state.federatedRecordId}"]`);
         await smoothScroll(page, `article.result[data-record-id="${state.federatedRecordId}"]`);
+        await article.getByRole("button", { name: "Show evidence for this result" }).click();
+        await page.locator("#evidence-answer-view").waitFor({ state: "visible" });
+        await page.locator(`#evidence-answer-view[data-selection-id="${state.federatedRecordId}"]`).waitFor({ state: "visible" });
+        const structured = JSON.parse(await page.locator("#evidence-answer-content details.evidence-answer__structured-result pre").textContent());
+        state.evidenceDigest = await page.locator("#evidence-answer-view").getAttribute("data-evidence-digest");
+        invariant(/^[a-f0-9]{64}$/u.test(state.evidenceDigest ?? ""), "Presented Evidence answer has no exact digest");
+        state.presentation = structured;
+        await smoothScroll(page, "#evidence-answer-content");
         return {
           query: inputs.query,
           collections: inputs.collections,
           limit: inputs.limit,
-          resultIds: result.results.map(({ recordId }) => recordId),
-          resultCollectionIds: result.results.map(({ collectionId }) => collectionId),
-          collectionStatuses: result.collectionStatuses.map(({ collectionId, evidenceTier, status }) => ({ collectionId, evidenceTier, status })),
-          excludedHostnameResultCount: result.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname).length,
-          canonicalResultDigest: sha256Text(canonicalJson(result)),
+          selectedRecordId: state.federatedRecordId,
+          resultKind: structured.resultKind,
+          evidenceDigest: state.evidenceDigest,
+          sourceCount: structured.foundations.length,
+          limitationCount: structured.allLimitations.length,
+          routeView: "guided",
         };
       },
     },
     {
-      sceneId: "federated-record",
-      route: "",
+      sceneId: "comparison-guide",
+      route: "#view=guided",
       run: async (page) => {
-        invariant(state.searchResult && state.federatedRecordId, "Federated record capture requires the frozen search observation first");
-        const repeated = await runFederatedSearch(page, inputs);
-        invariant(sha256Text(canonicalJson(repeated)) === sha256Text(canonicalJson(state.searchResult)), "The exact deployed search changed between search and record capture");
-        const article = page.locator(`article.result[data-record-id="${state.federatedRecordId}"]`);
-        await article.getByRole("button", { name: "View record and provenance" }).click();
-        await page.locator("#record-panel").waitFor({ state: "visible" });
-        const record = JSON.parse(await page.locator("#record-content details.structured pre").textContent());
-        const provenance = JSON.parse(await page.locator("#provenance-content details.structured pre").textContent());
-        invariant(record.record.id === state.federatedRecordId && provenance.recordId === state.federatedRecordId, "The visible record and provenance do not match the frozen search result");
-        await smoothScroll(page, "#record-content");
-        await smoothScroll(page, "#provenance-content");
+        invariant(state.federatedRecordId && state.evidenceDigest, "Comparison guide requires the previously selected Evidence answer");
+        await page.evaluate((recordId) => {
+          window.location.hash = `view=guided&record=${encodeURIComponent(recordId)}`;
+        }, state.federatedRecordId);
+        await page.locator(`#evidence-answer-view[data-selection-id="${state.federatedRecordId}"]`).waitFor({ state: "visible" });
+        const digest = await page.locator("#evidence-answer-view").getAttribute("data-evidence-digest");
+        invariant(digest === state.evidenceDigest, "Restored Evidence answer digest differs from the human action result");
+        await smoothScroll(page, ".evidence-answer__comparison-guide");
         return {
-          recordId: state.federatedRecordId,
-          collectionId: record.record.collectionId,
-          evidenceTier: record.evidenceTier,
-          sourceAuthority: record.record.sourceAuthority,
-          linkRole: record.record.linkRole,
-          linkHostname: record.record.canonicalHumanUrl ? new URL(record.record.canonicalHumanUrl).hostname : null,
-          itemLevelReview: record.boundaries.itemLevelReview,
-          evidenceReceiptAvailable: record.boundaries.evidenceReceiptAvailable,
-          limitationsCount: record.record.limitations.length,
-          recordResultDigest: sha256Text(canonicalJson(record)),
-          provenanceResultDigest: sha256Text(canonicalJson(provenance)),
+          selectedRecordId: state.federatedRecordId,
+          evidenceDigest: digest,
+          guideHeadings: await page.locator(".evidence-answer__comparison-guide h3").allTextContents(),
+          sourceLinkCount: await page.locator(".evidence-answer__sources a").count(),
+          limitationCount: state.presentation.allLimitations.length,
         };
       },
     },
     {
-      sceneId: "reviewed-foundations",
+      sceneId: "technical-review",
       route: answerRoute,
       run: async (page) => {
         const firstClaim = page.locator(`#analytical-index li[data-claim-id="${inputs.reviewedClaimIds[0]}"]`);
         await firstClaim.getByRole("button", { name: /Show foundations/u }).click();
         await page.locator("#foundation-panel").waitFor({ state: "visible" });
-        const facetLabels = await page.locator("#foundation-detail dt").allTextContents();
-        const wantedFacets = ["Authority", "Assertion", "Verification", "Freshness", "Integrity", "Access", "Rights", "Coverage"];
         for (const claimId of inputs.reviewedClaimIds) await page.locator(`#analytical-index input[value="${claimId}"]`).check();
         await page.getByRole("button", { name: "Compare 2 selected claims" }).click();
         await page.locator("#comparison-panel").waitFor({ state: "visible" });
         const comparisonRowCount = await page.locator("#comparison-content table tbody tr").count();
         await smoothScroll(page, "#comparison-content");
         return {
+          activeView: "technical",
           answerId: inputs.reviewedAnswerId,
           claimIds: inputs.reviewedClaimIds,
-          foundationFacetLabels: wantedFacets.filter((label) => facetLabels.includes(label)),
           comparisonRowCount,
+          expectedToolCount: numberFromText((await page.locator("#diagnostic-tools").textContent()).split(" ")[0], "Expected tool count"),
           trustScoreShown: (await page.locator("#foundation-panel, #comparison-panel").allTextContents()).some((text) => /trust score\s*[:=]\s*\d/iu.test(text)),
+          legacyRoutePreserved: !new URL(page.url()).hash.includes("view="),
         };
       },
     },
     {
       sceneId: "boundary",
-      route: "",
+      route: "#view=technical",
       run: async (page, requestUrls) => {
         invariant(state.searchResult, "Boundary capture requires the frozen search observation first");
         await smoothScroll(page, "#webmcp-impact-heading");
@@ -281,6 +274,11 @@ function sceneDefinitions(config, state) {
           excludedHostnameResultLinkCount: state.searchResult.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname).length,
           impactClaimsFramedAsHypotheses: /hypotheses to test, not guarantees/iu.test(bodyText),
           remoteProviderDisclosureVisible: /remote AI provider may receive/iu.test(bodyText),
+          expectedToolCount: numberFromText((await page.locator("#diagnostic-tools").textContent()).split(" ")[0], "Expected tool count"),
+          reviewedRecordCount: numberFromText(await page.locator("#record-count").textContent(), "Reviewed count"),
+          federatedSourceRecordCount: numberFromText(await page.locator("#federated-source-record-count").textContent(), "Federated source count"),
+          federatedRecordCount: numberFromText(await page.locator("#federated-record-count").textContent(), "Federated searchable count"),
+          federatedQuarantinedRecordCount: numberFromText(await page.locator("#federated-quarantined-count").textContent(), "Federated quarantine count"),
         };
       },
     },
@@ -409,7 +407,7 @@ export async function main(argv = process.argv.slice(2)) {
     browser = undefined;
     invariant(state.federatedRecordId, "Capture did not bind a federated record from the exact deployed search");
     const receipt = {
-      schema: "trusted-govuk-discovery.demo-live-interaction-capture.v2",
+      schema: "govuk-webmcp.demo-live-interaction-capture.v3",
       capturedAt: new Date().toISOString(),
       page: { url: config.productUrl, release: config.release, productCommit: config.productCommit, pagesRunId: config.pagesRunId },
       deployment: { metadataUrl: deployment.url, metadataSha256: deployment.sha256 },

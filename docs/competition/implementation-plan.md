@@ -3,16 +3,47 @@
 This is the lockstep implementation map for
 `docs/competition/backlog.md`. It preserves the published `v0.2.0-rc.1`
 history and records the separately released `v0.3.0-rc.1` OKF federation.
-Current-candidate supported-host execution and exact public-byte verification
-are complete. The refreshed VoiceOver journey and exact-release local video
-technical review are complete with explicit limitations. Owner publication
-review, public YouTube upload, the final live-rules and form refresh, and
-competition submission remain separate open gates; the exact-release rules-
-named Chrome observation is complete, and release-platform attestation is
-optional assurance.
+For the historical `v0.3.0-rc.1` release, supported-host execution and exact
+public-byte verification are complete. Its refreshed VoiceOver journey and
+exact-release local video technical review are complete with explicit
+limitations. Owner publication review, public YouTube upload, the final live-
+rules and form refresh, and competition submission remain separate open gates;
+the historical release's rules-named Chrome observation is complete, and
+release-platform attestation is optional assurance.
 The 31 August local technical compliance review is complete through
 `2026-08-31T18:49:38.356Z`; it is not the final live-rules and Devpost-form
 refresh.
+
+## In-progress `0.4.0-rc.1` Evidence answer sequence
+
+This sequence is the current worktree candidate. It does not alter or supersede
+the released five-tool `v0.3.0-rc.1` evidence below.
+
+| Step | Candidate scope | Backlog mapping | Current worktree status |
+| --- | --- | --- | --- |
+| 1 | Reconcile the A Life in the UK specialist-review contract without rewriting release receipts. | Beginner 8 | Complete before this candidate; zero accepted, two not required and 291 required. |
+| 2 | Freeze a closed, pure beginner-presentation projection and schemas. | Beginner 9; Must 4, 9–14 | Implemented in candidate modules for reviewed answers, reviewed records and all four federated collections; the integrated projection audit passes for all 58,732 admitted records. Complete exact-candidate verification remains pending. |
+| 3 | Add `present_resource_evidence` through the shared controller and all-or-none WebMCP registration. | Beginner 9; Must 6–9, 13–16 | Implemented as the sixth candidate definition with closed input and non-read-only presentation effect; public-host discovery and execution pending. |
+| 4 | Add bounded persistent Evidence answer and Technical review navigation. | Beginner 9; Must 5, 9, 14 | Implemented with namespace-closed routes, one cross-tool latest-started presentation sequence and background WebMCP preservation. Stale human actions cannot rewrite route, status or focus after a later action. The complete 43-test suites pass in installed Chrome and Edge; manual verification remains pending. |
+| 5 | Render complete accessible Evidence answers from the same presentation object returned by the tool. | Beginner 9; Must 5, 9–11 | Implemented with text-only source data, source-link validation, mapped primary plus all other limitations, unknowns, next check, accepted input and comparison guide. Focused Chrome reflow tests pass; assistive-technology evidence remains pending. |
+| 6 | Audit every reviewed and federated record and deterministic generated boundary. | Beginner 9; Must 12–14 | `npm run build` uses production result builders, the projector and the closed schema to audit all 80 reviewed and 58,652 checksum-validated federated records. `npm run build:verify-deterministic` confirms two 1,883-file, 128,646,550-byte builds are byte-identical at aggregate SHA-256 `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`. |
+| 7 | Freeze the natural cross-host evaluation contract and privacy-minimised receipts. | Beginner 10; Must 16; Should 11–12 | Candidate fixture and schema are present. The claim gate requires a freshly re-observed live Pages receipt, clean unchanged exact Git commit and byte-identical local `dist`. Each exact call sequence is replayed from a private manifest-verified snapshot under a unique module identity; caches are per-validation and the snapshot, working build and Git identity are rechecked afterwards. Public summaries admit only bounded safe fields, and claimable answer judgements require human or domain-specialist review. Cloud evidence binds visible Edge MCP Workspace and an observed private Copilot share link. Repeated executions and accepted receipts remain pending. |
+| 8 | Run complete browser, accessibility and scoped security assurance. | Beginner 10; Must 5, 13–16; Should 7 | Research, build, 272 unit, 43 Chrome, 43 Edge, frozen retrieval, seven-envelope smoke and dependency-audit gates pass. Frozen code-snapshot security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items, ran 102 focused tests, found zero findings and concluded that there is no security release blocker. Candidate-specific manual accessibility remains pending. Historical release observations do not satisfy this step. |
+| 9 | Integrate through protected review, deploy, compare exact bytes and capture six-tool host evidence. | Must 16–18 | Guarded full-artefact verification and six-tool Chrome capture admission are implemented. Execution remains pending: no `v0.4.0-rc.1` PR, protected-main result, Pages run, live-byte receipt, host receipt, tag or release exists. |
+| 10 | Produce candidate-specific media and final submission hand-off. | Must 18 | A versioned nine-scene Evidence answer capture/build plan and validators require genuine private Copilot and Ollama inputs plus explicit redaction gates, without changing historical `v0.3.0-rc.1` evidence. Exact-release page clips, private host captures, VoiceOver frames, final video, owner review, signed-out public playback and Devpost mutation remain pending. |
+
+The optional repository-local guided-build state and
+`docs/hackathon-build/` bridge mirror this sequence. Repairing that local
+workflow did not register, update or submit anything on Devpost.
+
+The release-evidence order is deliberate: run
+`npm run build:verify-deterministic` before integration; after the exact
+protected-main Pages run, use a clean checkout of that commit and run
+`npm run deployment:verify-live` with the exact commit and run ID. Review the
+ignored mode-`0600` receipt and confirm the checkout remains clean before and
+after replay. Admit a reviewed public receipt only in a separate
+post-deployment evidence change, then perform candidate host, accessibility,
+personal-agent and media work against those authenticated bytes.
 
 The integrated compatibility and evaluator follow-up is mapped to Must 9,
 13–17 and Should 11 below. It is deployed from corrected main commit
@@ -148,7 +179,7 @@ SHA-256. Import preserves the reviewed stored bytes only after proving that
 they decode byte-for-byte to the freshly fetched raw source; rebuilding
 validates this cross-artefact binding without relying on host recompression.
 The current dynamic totals are 5 source-lock registry entries, 10 admissions
-and 31 schemas. The generated
+and 36 schemas. The generated
 same-origin search plane is ignored rather than committed as authored source;
 the locally verified plane contains 1,853 shards — 120 record shards and 1,733
 postings shards — plus the manifest and checksum sidecar, for 1,855 files and
@@ -398,8 +429,10 @@ tag and its evidence remain unchanged.
 
 ## Beginner trust pathway — discovery and evaluation 1–10 plan
 
-This is a documentation and research slice mapped to **Beginner 1–10** in the
-backlog. It does not authorise an interface, schema, tool or deployment change.
+This began as a documentation and research slice mapped to **Beginner 1–10** in
+the backlog. The user subsequently authorised the experimental
+`0.4.0-rc.1` implementation. That authority does not itself establish build,
+release, host, accessibility, model or submission evidence.
 
 1. **Establish the evidence and frequency boundary.** *(Complete: official GDS
    research and the fork-local GOV.UK Chat comparator are registered. No ranked
@@ -439,14 +472,11 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
    two not required and 291 required. Historical `v0.3.0-rc.1` receipts remain
    unchanged release evidence.)*
 9. **Perform the technical review and specify the beginner UI.**
-   *(Documentation review and proposed specification complete: the current page
-   is retained as Technical review and the companion specification defines an
-   Evidence answer view, deterministic presentation contract, progressive
-   disclosure, honest AI-addition boundary, accepted-input display,
-   accessibility, complete human parity and a candidate combined
-   record-evidence action. The action and UI are not implemented. The source-
-   contract prerequisite in step 8 is closed; the separately authorised
-   experimental evaluation-candidate implementation is next.)*
+   *(Specification complete and experimental implementation in progress: the
+   worktree contains the deterministic presentation contract, sixth action,
+   bounded two-view routing and Evidence answer renderer while retaining
+   Technical review. Exact-candidate build, browser, accessibility, security
+   and host acceptance remain open.)*
 10. **Run formative and repeated evaluation.** *(Open: use natural prompts,
     at least three runs per story, hard unsafe-answer failures and separately
     authorised host/model comparison; then test source, limitation and next-
@@ -458,10 +488,10 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
 | --- | --- |
 | Must 1–2 | Complete locally for the candidate: recorded ownership assurance, preserved baseline, item-level rights and five source-lock registry entries. The historical release had four. |
 | Must 3 | Complete: 69 locked GOV.UK records plus 11 reviewed companion records. |
-| Must 4 | Complete locally for the candidate: minimal profile, 31 schemas, authored/generated validators and deterministic builders. The historical release had 20 schemas. |
+| Must 4 | Complete locally for the candidate: minimal profile, 36 schemas, authored/generated validators and deterministic builders. The historical `v0.3.0-rc.1` release had 31 schemas and the earlier `v0.2` release had 20. |
 | Must 5 | Complete for the bounded tested journeys: automated Chrome and Edge cover search, record, provenance, analytical index, Trace and comparison; a manual Safari and VoiceOver journey completed with two retained limitations and no WCAG claim. |
-| Must 6–8 | Complete in the published release: five tools include the original three query tools and two evidence-presentation tools. |
-| Must 9 | Complete: one action controller, deterministic page/tool output and display-digest parity. |
+| Must 6–8 | Complete in published `v0.3.0-rc.1` for five tools. The working `0.4.0-rc.1` candidate adds a sixth bounded presentation definition; release and host acceptance are pending. |
+| Must 9 | Complete for released five-tool paths. Candidate shared-controller and presentation projection code is present, and automated Chrome and Edge tests verify local human/tool parity; exact deployed-byte and live supported-host parity remain pending. |
 | Must 10–11 | Complete: authoritative human links and visible access, rights, assertion, observation and limitation fields. |
 | Must 12 | Complete: source, record, bundle, receipt, Trace, federation and raw-file digests/checksums. |
 | Must 13 | Complete for the released candidate: the initial artefacts, lazy manifest, exact ordered per-source population/display contracts and separate 80 reviewed plus 58,655-raw, 3-quarantined and 58,652-searchable federated boundaries fail closed. Five exact source-lock registry entries validate, the post-remediation suite passes, immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` reports zero findings and the public byte comparison closes release binding. Historical release assurance remains bound to its four artefact families and four locks. |
@@ -471,7 +501,7 @@ backlog. It does not authorise an interface, schema, tool or deployment change.
 | Must 17 | Complete: MIT licence and notices are published. PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`; the annotated tag and pre-release are `v0.3.0-rc.1`. Earlier releases remain separately recorded. |
 | Must 18 | Part complete: current-release human interaction clips, supported-host receipt and receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, release hashes and tag `v0.3.0-rc.1` are complete. The historical 142.920-second local review video and its completed-with-limitations VoiceOver record remain evidence only for the pre-federation revision. Owner synthetic-voice, privacy, branding, rights and continuous-playback review, public YouTube upload and authorised submission remain open. No registration, submission or upload claim is made. |
 | Federation 1–10 | Released as `v0.3.0-rc.1`: exact final-candidate verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 194 prepared unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. PR #16, protected main and Pages passed; all 1,879 deployed files matched artefact `9745316971`; the current supported host completed all five tools with fixed-query parity; and current VoiceOver and local-video technical evidence are complete with limitations. Five fixed-model attempts are retained and all failed. Owner and public submission-media review remains open. |
-| Beginner 1–10 | Discovery steps 1–8 and the documentation review/specification part of step 9 are complete for the current candidate. Exact coverage, synthetic personas, user stories, beginner guide, PRD, dual-view interface specification, fixture, documentation and evaluator unit contracts, privacy-reviewed receipt and one reviewed model diagnostic are present. The public UI is unchanged. The Evidence answer implementation is separately authorised; formative review and natural repeated model evaluation remain unobserved and cannot support usability or model-safety claims. |
+| Beginner 1–10 | Discovery steps 1–8 and the specification part of step 9 are complete. The worktree now contains the in-progress Evidence answer projection, sixth tool, two-view routing and renderer, but no exact-candidate release or host evidence. Formative review and natural repeated model evaluation remain unobserved and cannot support usability or model-safety claims. |
 
 ## Implemented Should and Could work
 
