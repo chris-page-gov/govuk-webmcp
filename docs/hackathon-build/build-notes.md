@@ -68,3 +68,14 @@ stays clean before and after replay. Admit reviewed evidence only in a separate
 post-deployment evidence change. Candidate manual Safari, VoiceOver and Caption
 Panel observations, live six-tool calls, both 36-run host matrices, nine-scene
 video, exact release tag and public-player review remain pending.
+
+## 1 September 2026 — first PR validation follow-up
+
+Pull request 20 validation run `33552638564` reached the prepared unit suite.
+It recorded 270 passes, 0 assertion failures and 2 cancellations, then skipped
+the later quality and smoke jobs. The cancelled cases were the live Pages tar
+logical-byte deadline and complete-response deadline. Both operations awaited
+timers that had been unreferenced; on the Linux runner the event loop could
+finish before either deadline fired. The verifier now retains those two
+deadline handles until their operations settle. Historical released receipts
+and all timeout bounds remain unchanged.

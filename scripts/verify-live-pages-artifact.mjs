@@ -540,7 +540,6 @@ export function measureTarRegularPayload(
       child.kill("SIGTERM");
       finish(new Error("The Pages artifact logical-byte preflight exceeded its time budget."));
     }, timeoutMs);
-    timer.unref();
     child.once("error", (error) => finish(error));
     child.stdout.on("data", (chunk) => {
       totalBytes += chunk.length;
@@ -776,7 +775,6 @@ export async function compareAllLiveFiles(
   const timer = setTimeout(() => {
     controller.abort(new Error("The complete live Pages comparison exceeded its time budget."));
   }, comparisonTimeoutMs);
-  timer.unref();
   async function worker() {
     while (!controller.signal.aborted && nextIndex < files.length) {
       const index = nextIndex;
