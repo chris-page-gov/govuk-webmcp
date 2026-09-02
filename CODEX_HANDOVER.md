@@ -45,12 +45,23 @@ The corrected harness reconstructs the historical raw fixture exactly from
 tracked reviewed and supported-host evidence as 133,272 bytes with SHA-256
 `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
 Validated clean-up now binds exact bytes, mode and identity. Evidence staging
-also normalises a restrictive process umask through a no-follow opened file
+also normalises a conventional restrictive process umask that preserves owner
+access, including `0077`, through a no-follow opened file
 handle, verifies that handle against the path identity, applies the requested
 mode through the handle and only then checks exact mode and bytes. The current
-prepared unit suite passes 398 of 398, and the focused post-review batch passes
-116 of 116. Neither the failed run nor these local passes prove protected
+prepared unit suite passes 404 of 404, and the focused post-review batch passes
+116 of 116. Codex Security scan
+`5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed the immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero findings. Its portable four-file
+record is retained under
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. Neither the
+failed run, the local passes nor that exact-range scan proves protected
 integration, deployment or the final complete release gate for this revision.
+The canonical personal-agent pair producer was added after the sealed snapshot
+and still requires its own final review and exact-release use.
 
 Five silent exact-candidate page-interaction clips are captured for the empty
 Evidence answer, human presentation action, comparison guide, Technical review
@@ -158,6 +169,22 @@ replacement gates are separate. Overwriting the private receipt explicitly
 requires dependent supported-host and media evidence to be recaptured against
 that newer observation.
 
+The private-staging command creates the authenticated live receipt only. It
+does not perform or attest the visible 36-slot Copilot observation, its private
+share-link record, the genuine Copilot video or the human privacy, branding,
+rights and playback reviews. Those remain separate manual evidence gates.
+
+After the two 36-slot host halves have actually been captured, the import
+helper validates them against the authenticated receipt, writes the unique
+run-scoped outputs and, with `--stage-release-evidence`, promotes the merged
+capture and authenticated summary together to the canonical private release
+paths. The recoverable pair uses mode `0600` files beneath mode `0700`
+directories, preserves existing targets by default and requires
+`--overwrite-release-evidence` for replacement. The pair must pass the 16 MiB
+per-file admission preflight before run-scoped output is created, and a
+successful replacement prints the dependent-evidence recapture warning. It
+stages already observed evidence; it does not attest the Copilot journey or human review.
+
 With no manifest argument, the VoiceOver screenshot-clip builder now reads the
 canonical `output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json` path from
 that same module. It no longer selects the historical generic
@@ -172,9 +199,12 @@ control of repository and output ancestors. Portable Node cannot root these
 mutations in an already-open directory with `openat`, `linkat` and `unlinkat`;
 same-user or privileged substitution wholly within a filesystem syscall window
 remains explicitly out of scope and can leave an orphan external stage.
-Validated-stage, committed-output and dependency-backup removal additionally
-checks the expected exact bytes and file mode immediately before clean-up, so
-inode reuse cannot turn an unrelated replacement into the deletion target.
+Generic output-placement and dependency-backup removal additionally checks the
+expected exact bytes and file mode immediately before clean-up. Specialised
+public-evidence recovery snapshots bind identity, size and digest rather than
+mode; the final admitted targets still revalidate their requested mode after
+clean-up. Inode reuse therefore cannot turn a byte-different replacement into
+the deletion target or make a wrong-mode admitted target pass final validation.
 
 Version `v0.3.0-rc.1` remains a historical tagged release at product commit
 `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; its five-tool, accessibility and
@@ -252,7 +282,7 @@ post-hardening source checks completed on 2 September 2026 include:
   records through the production Evidence answer contract;
 - `node --test tests/unit/view-routing.test.mjs tests/unit/beginner-presentation.test.mjs tests/unit/evidence-federation.test.mjs tests/unit/federated-search-runtime.test.mjs tests/unit/evidence-answer-view.test.mjs`
   passed before the final remediation, and the complete prepared unit suite now
-  passes 398 of 398;
+  passes 404 of 404;
 - `npx playwright test tests/browser/evidence-answer.spec.mjs` passed 12 of 12
   in installed Chrome with the loopback bind permitted;
 - `node --test tests/unit/demo-video.test.mjs tests/unit/voiceover-screenshot-clip.test.mjs tests/unit/live-pages-verifier.test.mjs`
@@ -301,8 +331,18 @@ The later sealed scan `185ce6fa-a47f-4c5e-9888-c63a9f932205`, snapshot
 completed its 33 selected executable-source items with zero reportable
 findings. It predates the clean-run reconstruction, portable clean-up,
 canonical-path, secure receipt-staging and evidence-descendant changes in pull
-request #21. Preserve it as historical evidence; a fresh security review must
-cover the current executable snapshot.
+request #21. Preserve it as historical evidence. A later review completed scan
+`5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed the immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero findings. The retained portable
+record is
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. It closes the
+changed-source security gate only for that exact range, not protected
+integration, deployment, live staging or host and human evidence gates. The
+canonical personal-agent pair producer postdates that scan and requires the
+final changed-source review before protected integration.
 
 Protected integration and first exact deployment authentication are complete.
 The admitted live receipt binds product commit
@@ -1143,11 +1183,12 @@ prose.
 For any remaining build-affecting hardening, pass protected review,
 protected-main validation, exact deployment and byte comparison. Recapture and
 rebind every exact-release live, Chrome, supported-host, VoiceOver and host
-matrix input before building the new redacted under-three-minute video. First
-require a fresh security review and green protected pull-request validation for
-the current pull request #21 snapshot; run `33593265033`, job `100131452398`, is
-the retained failed clean-run and Linux-portability diagnostic, not an
-integration pass. Complete audible playback,
+matrix input before building the new redacted under-three-minute video. The
+pre-staging exact-range security review is complete; next finish the review of
+the canonical pair producer, then require green protected pull-request
+validation for the current pull request #21 snapshot. Run
+`33593265033`, job `100131452398`, is the retained failed clean-run and
+Linux-portability diagnostic, not an integration pass. Complete audible playback,
 privacy, branding, rights and caption review, then
 inspect GitHub metadata. If the annotated `v0.4.0-rc.1` tag and prerelease do
 not already exist, create them on that exact protected-main product commit. A

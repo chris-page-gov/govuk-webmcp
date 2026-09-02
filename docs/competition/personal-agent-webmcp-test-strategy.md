@@ -134,7 +134,7 @@ trusted coordinated shape-valid live-byte receipts. Every publication consumer
 now requires a fresh in-process authenticated receipt, ordered `initial`,
 `after-page-load` and `after-execution` deployment checks and exact matching of
 both stored receipt bindings. Focused remediation tests pass 31 of 31 and the
-current integrated prepared unit suite passes 398 of 398. Sealed post-fix scan
+current integrated prepared unit suite passes 404 of 404. Sealed post-fix scan
 `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
 executable-source items with complete configured coverage and zero reportable
 findings for its exact snapshot.
@@ -218,12 +218,13 @@ invalidates all evidence derived from the former receipt: supported-host calls,
 both personal-agent host halves, accessibility capture and every dependent
 media artefact must be recaptured before authentication can pass.
 Private receipt staging uses descriptor-bound no-follow mode normalisation: it
-supports restrictive umasks and rejects mode drift after `fchmod`. The
+supports conventional restrictive umasks that preserve owner access, including
+`0077`, and rejects mode drift after `fchmod`. The
 no-argument VoiceOver builder selects the canonical exact `v0.4.0-rc.1`
 manifest. Focused post-fix checks pass 116 of 116 and an independent clean
 review passes 71 of 71. Final local automated verification is complete: the
-prepared unit suite passed 398 of 398 in 67,006.169333 ms; installed Chrome
-passed 43 of 43 in 17.7 seconds; installed Edge passed 43 of 43 in 17.5
+prepared unit suite passed 404 of 404 in 66,929.613333 ms; installed Chrome
+passed 43 of 43 in 16.8 seconds; installed Edge passed 43 of 43 in 16.8
 seconds; and two deterministic builds each contained 1,883 files and
 128,653,230 bytes at aggregate SHA-256
 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.

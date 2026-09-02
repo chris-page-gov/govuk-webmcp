@@ -179,7 +179,7 @@ composite action, sixth tool, bounded router, renderer, shared mounts and
 controller integration. The build-integrated audit covers all 80 reviewed and
 58,652 federated records using production result builders, the production
 projector and the closed presentation schema. The latest prepared unit suite
-passes 398 of 398. The most recent complete version 0.4 browser suites pass 43
+passes 404 of 404. The most recent complete version 0.4 browser suites pass 43
 of 43 in installed Chrome and 43 of 43 in installed Edge. The settled
 deterministic check produced two identical 1,883-file, 128,653,230-byte builds
 at aggregate SHA-256
@@ -212,18 +212,19 @@ device/inode pair. The corrected test reconstructs the historical fixture from
 tracked reviewed evidence as exactly 133,272 bytes with SHA-256
 `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
 Validated clean-up and rollback now recheck exact bytes and mode as well as file
-identity. These corrections pass the 398-test prepared unit suite locally;
+identity. These corrections pass the current 404-test prepared unit suite locally;
 protected integration has not yet passed.
 
 Independent follow-up review found and corrected two further local release
-risks. Evidence staging now normalises a restrictive process umask to the exact
-requested file mode through the already opened, no-follow file descriptor
+risks. Evidence staging now normalises a conventional restrictive process umask
+that preserves owner access, including `0077`, to the exact requested file mode
+through the already opened, no-follow file descriptor
 before validating bytes, identity and permissions; mode drift after that
 descriptor-bound correction fails closed. The no-argument VoiceOver clip
 builder now resolves the canonical exact
 `v0.4.0-rc.1-capture-manifest.json` path instead of the obsolete unversioned
 manifest. The focused post-fix set passes 116 of 116 and the prepared unit suite
-passes 398 of 398. Local automated verification is complete; protected
+passes 404 of 404. Local automated verification is complete; protected
 integration, deployment and exact-candidate security and manual evidence remain
 pending.
 
@@ -272,6 +273,19 @@ overwrite gate. A release operator must use the verifier's staging action and
 must not manually copy the receipt. Replacing the private release receipt
 invalidates the dependent supported-host and media evidence, which must then be
 recaptured against that receipt.
+
+The personal-agent importer is the separate producer for the fixed private
+capture and authenticated-summary inputs. It first validates the exact 36 local
+and 36 Copilot slots against the authenticated release and writes a unique
+run-scoped pair. With `--stage-release-evidence`, it then promotes the merged
+capture and summary together through one recoverable admission to mode-`0600`
+files beneath mode-`0700` directories. Existing canonical files are preserved
+unless `--overwrite-release-evidence` is explicitly supplied. Serialisation is
+preflighted against the 16 MiB per-file admission limit before run-scoped output
+is created; a successful replacement prints the dependent-evidence recapture
+warning. This guarantees
+path, byte and permission handling; visible Copilot execution, the private
+share link, video and human review remain separately attested evidence.
 
 Supported-host evidence has three deliberately separate layers: an ignored
 mode-`0600` raw Chrome DevTools receipt, a tracked reviewed Chrome projection

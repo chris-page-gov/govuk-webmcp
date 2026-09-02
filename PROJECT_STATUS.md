@@ -20,13 +20,22 @@ correction reconstructs the exact historical raw fixture from tracked evidence
 as 133,272 bytes with SHA-256
 `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`
 and makes validated clean-up bind exact bytes, mode and identity rather than
-assuming an inode cannot be reused. The current prepared unit suite passes 398
-of 398. The focused post-review batch passes 116 of 116. Restrictive process
-umasks are now normalised by opening the new evidence stage without following a
-symbolic-link leaf, cross-checking its descriptor/path identity and setting the
+assuming an inode cannot be reused. The current prepared unit suite passes 404
+of 404. The focused post-review batch passes 116 of 116. The conventional
+restrictive process umask `0077` is normalised by opening the new evidence stage
+without following a symbolic-link leaf, cross-checking its descriptor/path identity and setting the
 exact requested mode through the opened handle before mode and byte validation.
-Protected integration, deployment and the final complete release gate for this
-hardening revision remain to be established by their own records.
+Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed the immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero findings. Its four-file portable
+record is retained under
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. The canonical
+personal-agent pair producer was added after this sealed snapshot and requires
+its own final review. Protected integration, deployment, exact-release use of
+the producer and the final complete release gate remain to be established by
+their own records.
 
 The complete live comparison observed on 1 September 2026 fetched all 1,884
 regular artefact files and 128,646,735 bytes. Every request returned HTTP 200
@@ -100,6 +109,19 @@ admission use `--stage-private-release-receipt` and
 option. Replacing the private receipt reports that all dependent supported-host
 and media evidence must be recaptured, and later validation requires the
 supported-host observation to be no earlier than the replacement.
+The canonical command stages only the authenticated live receipt. It does not
+perform or attest the visible 36-slot Copilot observation, its private share-link
+record, the genuine Copilot video or any human privacy, branding, rights or
+playback review.
+Once those 72 observations exist, the import helper's
+`--stage-release-evidence` option writes a unique run record first and then
+promotes the validated merged capture and freshly authenticated summary as one
+recoverable mode-`0600` pair to the fixed private release paths. It is
+no-clobber by default; `--overwrite-release-evidence` is a separate invalidating
+action and prints the required recapture warning after success. The pair is
+preflighted against the 16 MiB per-file admission limit before any run-scoped
+output is created. Staging cannot turn manual host or human-review assertions
+into machine-observed evidence.
 
 The no-argument VoiceOver screenshot-clip builder now resolves the same
 canonical candidate path,
@@ -110,12 +132,14 @@ argument can no longer select evidence from the wrong release lineage.
 Live clips, the supported-host reconstruction, the Ollama diagnostic and the
 four final-video outputs now use one shared promotion transaction. Failures
 before complete promotion restore the previous set; backup clean-up after a
-complete commit retains the new set and reports any recoverable leftovers. The
-portable clean-up boundary revalidates exact file bytes and mode as well as the
-expected identity immediately before removing a validated stage, committed
-output or dependency backup. A filesystem-recycled inode therefore cannot make
-a replacement eligible for deletion. The private local evaluator rejects
-symbolic `.evals` and output roots. Video copy
+complete commit retains the new set and reports any recoverable leftovers.
+Generic output and dependency-patch clean-up revalidate exact bytes, mode and
+identity. Specialised public-evidence recovery snapshots bind identity, size and
+digest rather than mode, while final admitted targets still revalidate their
+requested mode after clean-up. A filesystem-recycled inode therefore cannot make
+a byte-different replacement eligible for deletion or a wrong-mode admitted
+target pass final validation. The private local evaluator rejects symbolic
+`.evals` and output roots. Video copy
 now says only that there is no dedicated personal-context field and that free
 text can still disclose personal details.
 
@@ -182,8 +206,16 @@ coverage and zero reportable findings for that snapshot. The clean-run,
 portable clean-up, canonical-path, secure receipt-staging and
 evidence-descendant authentication changes described here alter executable
 source after that sealed scan, so it remains historical evidence and does not
-close the current changed-source security gate. A fresh review of the current
-snapshot remains required.
+close the current changed-source security gate. Scan
+`5944866f-336d-4f27-8b36-d0d8269f2824` subsequently reviewed the immutable
+range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+at snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed its configured coverage and found zero reportable findings. This
+closes the local changed-source security gate for that exact range only. The
+new canonical personal-agent pair producer postdates it, so the current-tree
+security gate remains open until the final diff review completes.
 
 Non-executable documentation, tests, generated projections, binary media,
 ignored private captures, transitive dependencies and upstream services retain
@@ -191,7 +223,7 @@ the scan's stated exclusions or supporting-evidence status.
 
 Settled post-hardening product checks on 2 September 2026 include research 4 of
 4; a passing production build and full-corpus projection audit for all 80
-reviewed and 58,652 federated records; 398 of 398 prepared unit tests; 43 of 43
+reviewed and 58,652 federated records; 404 of 404 prepared unit tests; 43 of 43
 installed Chrome and 43 of 43 installed Microsoft Edge
 tests; frozen mean nDCG@10
 `0.984698009` and Recall@20 `1`; 7 of 7 model-free WebMCP smoke envelopes; and
@@ -935,7 +967,7 @@ prohibited.
 
 First complete pull request #21's assurance cycle: preserve failed run
 `33593265033`, job `100131452398`, as evidence of the clean-run and Linux
-portability defects; retain the current 398-test prepared-unit pass; complete a
+portability defects; retain the current 404-test prepared-unit pass; complete a
 fresh security review of the corrected executable snapshot; and require a green
 protected pull-request run before merge. Only then deploy and authenticate the
 exact protected-main product commit. Do not reuse the pre-hardening Pages,

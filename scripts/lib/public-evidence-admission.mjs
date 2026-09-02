@@ -20,7 +20,7 @@ import {
   sep,
 } from "node:path";
 
-const MAX_PUBLIC_EVIDENCE_BYTES = 16 * 1024 * 1024;
+export const MAX_EVIDENCE_ADMISSION_BYTES = 16 * 1024 * 1024;
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -555,7 +555,7 @@ export async function admitEvidenceSet({
     );
     invariant(typeof entry.content === "string", "Public-evidence content must be a string.");
     invariant([0o600, 0o644].includes(entry.mode), "Evidence file mode must be 0600 or 0644.");
-    invariant(Buffer.byteLength(entry.content) <= MAX_PUBLIC_EVIDENCE_BYTES, "A public-evidence file exceeds the 16 MiB admission limit.");
+    invariant(Buffer.byteLength(entry.content) <= MAX_EVIDENCE_ADMISSION_BYTES, "A public-evidence file exceeds the 16 MiB admission limit.");
     invariant(isAbsolute(entry.path), "A public-evidence target must be an absolute path.");
     const replaceExisting = Object.hasOwn(entry, "replaceExisting") ? entry.replaceExisting : overwrite;
     invariant(typeof replaceExisting === "boolean", "Each evidence entry must have an explicit boolean replacement policy.");

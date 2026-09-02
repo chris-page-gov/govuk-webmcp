@@ -4,7 +4,7 @@
 
 **Implementation status:** core `0.4.0-rc.1` projection, sixth action, bounded
 two-view routing, Evidence answer rendering and release-evidence hardening are
-implemented locally. The latest prepared unit suite passes 398 of 398;
+implemented locally. The latest prepared unit suite passes 404 of 404;
 protected integration, deployment and release acceptance remain pending
 
 **Date:** 2 September 2026
@@ -968,7 +968,19 @@ and reviewed overwrite gates are independent. Replacing the private receipt
 invalidates dependent supported-host and media evidence and therefore requires
 their recapture.
 
-Receipt admission must remain reliable under a restrictive process umask. It
+The personal-agent import helper is the only supported producer for the
+canonical merged private capture and authenticated summary. It must validate
+the complete 36-local plus 36-Copilot matrix against the authenticated receipt
+and write unique run-scoped outputs before `--stage-release-evidence` promotes
+the two canonical mode-`0600` files together. The enclosing private directories
+must be mode `0700`; existing files must be preserved unless the separate
+`--overwrite-release-evidence` action is explicit. The pair must pass the 16 MiB
+per-file admission preflight before run-scoped output is created, and successful
+replacement must announce that dependent evidence requires recapture. This
+staging contract does not attest manual host execution, a share link, a recording or human review.
+
+Receipt admission must remain reliable under a conventional restrictive process
+umask that preserves owner access, including `0077`. It
 normalises each staged file to the requested mode through its opened no-follow
 descriptor before validating the descriptor, path identity, exact mode and
 bytes; later permission drift fails closed. The no-argument VoiceOver clip
@@ -1014,7 +1026,7 @@ sequenced verification and release gates.
    product checks are locally advanced; exact-release manual, final security,
    protected-integration and deployment evidence remain separately gated.** The
    full-corpus projection audit passes for 80 reviewed and 58,652 federated
-   records, and the latest prepared unit suite passes 398 of 398. The settled
+   records, and the latest prepared unit suite passes 404 of 404. The settled
    deterministic check produced two identical 1,883-file, 128,653,230-byte
    builds at aggregate SHA-256
    `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
@@ -1040,7 +1052,7 @@ sequenced verification and release gates.
    changes pass locally, but protected validation has not yet passed.
    Independent follow-up corrections for descriptor-bound umask normalisation
    and the canonical no-argument VoiceOver manifest pass 116 of 116 focused
-   tests. The current prepared suite passes 398 of 398. Local automated
+   tests. The current prepared suite passes 404 of 404. Local automated
    verification is complete; exact-candidate security, manual,
    protected-integration and deployment evidence remain pending.
    Recapture the release-specific manual visual and assistive-technology
@@ -1058,7 +1070,7 @@ sequenced verification and release gates.
 
 Gates 1 to 4 have implementation and local deterministic and cross-browser
 evidence. Release-evidence admission and clean evidence-descendant controls are
-also implemented and pass the current 398-test prepared unit suite. The
+also implemented and pass the current 404-test prepared unit suite. The
 retained candidate manual accessibility, deployment and host observations bind
 historical pre-hardening commit `a4fabe…`; protected integration, exact-release
 deployment, live-host and VoiceOver recapture, final video and tagging remain

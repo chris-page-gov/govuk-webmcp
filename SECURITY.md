@@ -54,9 +54,26 @@ separate `--overwrite-private-release-receipt` or
 `--overwrite-reviewed-evidence` gate. Replacing the private release receipt marks
 dependent supported-host and media evidence for recapture; supported-host
 validation requires its observation to be no earlier than the new receipt.
+This command stages the authenticated live receipt only. It neither creates nor
+attests a Copilot observation, private combined matrix or reviewed Copilot
+video; those remain separate visible-capture and human-review gates.
 
-A restrictive process umask cannot silently weaken the requested release-file
-mode or make a correct admission fail. After exclusive stage creation,
+After both 36-slot host halves have actually been observed, the Copilot import
+helper validates and merges them against that authenticated receipt. Its
+optional `--stage-release-evidence` action then promotes the merged capture and
+authenticated summary together to the two fixed private release paths through
+one recoverable admission. The pair is no-clobber by default, uses mode `0600`
+files beneath mode `0700` directories and requires
+`--overwrite-release-evidence` for replacement. Staged serialisation is
+preflighted against the 16 MiB per-file admission limit before run-scoped output
+is created. A successful overwrite prints an invalidation warning requiring the
+dependent host, personal-agent and media evidence to be recaptured. This
+operation preserves machine-checked bytes and permissions; it cannot establish that the visible
+Copilot journey, share link, video or human review really occurred.
+
+A conventional restrictive process umask that preserves owner access, including
+`0077`, cannot silently weaken the requested release-file mode or make a correct
+admission fail. After exclusive stage creation,
 admission opens that file with the no-follow flag, cross-checks the file-handle
 and path identities, applies the requested mode through the opened handle and
 then validates the exact mode and bytes. Permission drift after normalisation
@@ -99,10 +116,15 @@ The helpers bind the validated ancestor device and inode chain, recheck it
 immediately before and after each stage, link and removal operation, reject a
 persistent substitution and do not subsequently clean up through the changed
 chain. Exclusive stage creation also refuses to overwrite an existing file.
-Before removing any validated stage, committed output or dependency backup,
-clean-up revalidates exact bytes and mode as well as the expected identity. A
-filesystem-recycled inode therefore cannot make a replacement eligible for
-deletion.
+Generic output placement and dependency-patch clean-up revalidate exact bytes,
+mode and expected identity before removing a validated stage, committed output
+or backup. The specialised public-evidence recovery snapshots independently
+bind identity, byte size and digest, but not mode. Their recovery copies are
+created with private mode `0600`, and every final admitted target is still
+revalidated at its requested mode `0600` or `0644` after transaction clean-up.
+A filesystem-recycled inode therefore cannot make a byte-different replacement
+eligible for deletion or make a wrong-mode admitted target pass final
+validation.
 
 Portable Node does not expose the `openat`, `linkat` and `unlinkat` operations
 needed to root every mutation in an already-open directory handle. A process
@@ -237,7 +259,7 @@ Ten Low findings have implemented remediations:
 Sealed pre-fix standard scan `dcfed744-0676-40c1-a0ef-84dd3cc7b52b`
 identified the tenth finding with High confidence and Low severity. Its source
 coverage is explicitly partial. Focused remediation tests pass 31 of 31, and
-the current integrated prepared unit suite passes 398 of 398.
+the current integrated prepared unit suite passes 404 of 404.
 Those test results do not replace an exact post-fix working-tree security
 review.
 
@@ -252,14 +274,25 @@ services; relevant contracts and tests were used as supporting evidence. The
 later clean-run reconstruction, portable clean-up, canonical-path, secure
 receipt-staging and evidence-descendant authentication changes alter executable
 source after this scan. It remains historical evidence and closes the local
-changed-source security gate only for its own snapshot; a fresh scan is needed
-for the current tree. Protected integration, exact deployment, host,
-accessibility and human media review remain separate gates.
+changed-source security gate only for its own snapshot.
+
+Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+then completed the immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero reportable findings. Its portable
+four-file record is retained under
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. This closes
+the local changed-source security review for that exact range. The canonical
+personal-agent pair producer above was added after the sealed snapshot and
+requires a final changed-source review; the scan does not prove protected
+integration, deployment, exact-release staging, host or model behaviour,
+accessibility, Copilot observation or human media review.
 
 The subsequent independent review identified the restrictive-umask and
 no-argument VoiceOver-default defects described above. Their focused post-fix
-batch passes 116 of 116, and the complete prepared unit suite passes 398 of
-398. Those results do not establish protected CI, deployment or the final full
+batch passes 116 of 116, and the complete prepared unit suite passes 404 of
+404. Those results do not establish protected CI, deployment or the final full
 release gate.
 
 Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
@@ -321,14 +354,15 @@ mutation and deadline regressions plus the protected Linux rerun must evidence
 those deltas separately rather than retroactively widening the sealed scan.
 The sealed report is retained under
 `docs/competition/evidence/security-scan-2026-08-31-fixed-candidate/`. This is
-complete local candidate security evidence; protected CI, exact deployment and
+complete local security evidence for that named snapshot only; later executable
+changes require their own review, while protected CI, exact deployment and
 supported-host observations remain separate release claims.
 
 The final-candidate demonstration preflight also failed closed as intended when
 no deployed commit and no explicit overwrite approval were supplied. It did not
 start live capture and supplies no live-capture evidence.
 
-For the current Evidence answer tree, frozen code-snapshot scan
+For an earlier Evidence answer candidate snapshot, frozen code-snapshot scan
 `aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
 `codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
 completed 36 of 36 items, ran 102 focused tests, found zero findings and

@@ -37,6 +37,14 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   capture, a separately labelled local-model diagnostic, explicit redaction
   gates and the candidate VoiceOver checkpoints. They create no release or
   observation by themselves.
+- Canonical private personal-agent evidence staging. After the importer has
+  validated and merged the exact 36 local and 36 Copilot slots against a
+  freshly authenticated Pages receipt, `--stage-release-evidence` promotes the
+  merged capture and authenticated summary together to their fixed private
+  release paths. The pair uses one recoverable admission, mode `0600` files and
+  mode `0700` directories; it is no-clobber by default and replacement requires
+  the separate `--overwrite-release-evidence` flag. This stages already
+  observed evidence and does not attest the Copilot journey or human review.
 - Historical pre-hardening live-Pages and isolated-Chrome evidence for product
   commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`. Pull request #20 and
   protected-main validation passed; Pages run `33555187118` deployed the same
@@ -312,12 +320,15 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Chrome fixture is now reconstructed exactly from tracked reviewed and
   supported-host evidence as 133,272 bytes with SHA-256
   `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
-- Made validated-stage, committed-output and dependency-backup clean-up portable
-  across filesystems that can recycle inodes. Destructive clean-up now
-  revalidates the expected identity, exact bytes and file mode immediately
-  before removal; a replacement or permission change is preserved and fails
-  closed rather than being mistaken for the original file.
-- Corrected evidence staging under a restrictive process umask. Admission now
+- Made generic output-placement and dependency-backup clean-up portable across
+  filesystems that can recycle inodes. Those destructive paths revalidate the
+  expected identity, exact bytes and file mode immediately before removal.
+  Specialised public-evidence recovery snapshots bind identity, size and digest
+  rather than mode, while each final admitted target still revalidates its
+  requested mode after clean-up. A byte-different replacement is preserved and
+  a wrong-mode admitted target fails closed.
+- Corrected evidence staging under a conventional restrictive process umask
+  that preserves owner access, including `0077`. Admission now
   opens the newly created stage with `O_NOFOLLOW`, cross-checks the opened file
   and path identity, sets the exact requested mode through that file handle and
   only then validates mode and bytes. A requested public mode such as `0644` is
@@ -481,15 +492,22 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
-- Bound canonical live-receipt staging and clean-up to the same exact-content
-  controls used by release admission. Private directories are established as
-  mode `0700`, private receipts as mode `0600`, symbolic roots are rejected and
-  pre-existing private or public evidence is not replaced without its specific
-  overwrite gate. The resulting 398 of 398 prepared unit tests pass, including
-  the clean-run reconstruction, inode-reuse, mode-change, restrictive-umask,
+- Bound canonical live-receipt and personal-agent-pair staging and clean-up to
+  the same exact-content controls used by release admission. Private
+  directories are established as mode `0700`, private receipts as mode `0600`,
+  symbolic roots are rejected and pre-existing private or public evidence is
+  not replaced without its specific overwrite gate. Pair serialisation is
+  preflighted against the unchanged 16 MiB per-file admission limit before any
+  run-scoped output is created. A successful explicit pair overwrite emits a
+  warning that dependent supported-host, personal-agent and media evidence must
+  be recaptured. The resulting 404 of 404 prepared unit tests pass, including
+  clean-run reconstruction, inode reuse, mode change under conventional umask
+  `0077`, restoration of an existing canonical pair after failed promotion,
   rollback and evidence-descendant authentication regressions. The narrower
-  post-review batch passes 116 of 116; protected CI, the fresh current-snapshot
-  security review and the complete release gate remain pending.
+  post-review batch passes 116 of 116. The verifier's private-staging command
+  stages only the authenticated live receipt; visible Copilot observation, the
+  private share-link record, genuine Copilot video and human review remain
+  separate gates.
 - Required a fresh process-local authenticated live Pages receipt in every
   supported-host publication consumer. The shared validator now matches that
   authenticated observation against both exact stored receipts, derives all
@@ -553,8 +571,19 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   supporting evidence, and excludes binary-media review, ignored private
   captures, transitive dependencies and upstream services. The later clean-run,
   portable clean-up, canonical-path, receipt-staging and evidence-descendant
-  changes alter executable source, so this scan remains historical and a fresh
-  review is required for the current snapshot.
+  changes alter executable source, so this scan remains historical.
+- Completed Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`,
+  snapshot
+  `codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+  over immutable range
+  `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+  with complete configured coverage and zero findings. The portable four-file
+  record is retained under
+  `docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. This closes
+  the changed-source security review for that exact range only. The canonical
+  personal-agent pair producer was added afterwards and therefore requires its
+  own final review; protected CI, deployment, exact-release use and the
+  complete manual release gates remain pending.
 
 ### Governance
 

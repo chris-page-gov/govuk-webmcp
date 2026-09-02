@@ -134,7 +134,7 @@ publication.
   Deterministic and browser coverage of that state remains separate from the
   manual VoiceOver observation.
 - Ten Low security remediations retain their named focused evidence. The
-  Evidence answer candidate passes 398 of 398 unit tests and 43 of 43 browser
+  Evidence answer candidate passes 404 of 404 unit tests and 43 of 43 browser
   tests in each of installed Chrome and Edge. Historical code-snapshot scan
   `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items, ran 102
   focused tests and found zero findings for its snapshot. Later pre-fix scan

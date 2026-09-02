@@ -103,13 +103,14 @@ dependent supported-host, personal-agent, accessibility and media evidence, so
 every such capture must be repeated before the release gate can close.
 
 The staging transaction normalises its requested file mode through a
-descriptor-bound no-follow handle, so a restrictive umask is supported and any
-permission drift after `fchmod` fails closed. The no-argument VoiceOver clip
+descriptor-bound no-follow handle, so a conventional restrictive umask such as
+`0077` is supported and any permission drift after `fchmod` fails closed. The
+no-argument VoiceOver clip
 builder selects the canonical exact `v0.4.0-rc.1` capture manifest. Focused
 post-fix checks pass 116 of 116 and an independent clean review passes 71 of
 71. Final local automated verification is complete: the prepared unit suite
-passed 398 of 398 in 67,006.169333 ms; installed Chrome passed 43 of 43 in
-17.7 seconds; installed Edge passed 43 of 43 in 17.5 seconds; and two
+passed 404 of 404 in 66,929.613333 ms; installed Chrome passed 43 of 43 in
+16.8 seconds; installed Edge passed 43 of 43 in 16.8 seconds; and two
 deterministic builds each contained 1,883 files and 128,653,230 bytes at
 aggregate SHA-256
 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
@@ -754,6 +755,14 @@ access or permission to reuse linked material.
   writes ignored local evidence by default, can securely stage the mode-`0600`
   private release receipt without a manual copy and requires separate explicit
   flags for replacement or admission of reviewed evidence.
+- `scripts/import-copilot-personal-agent-capture.mjs` — validates the exact
+  two-host matrix against that authenticated receipt, preserves unique
+  run-scoped outputs and, with `--stage-release-evidence`, promotes the merged
+  capture and authenticated summary together to the canonical private release
+  paths. The pair is preflighted against the 16 MiB per-file admission limit
+  before run-scoped output is created. It is no-clobber by default; an explicit
+  successful overwrite prints the required recapture warning. It remains
+  private and is not proof that the manual Copilot or human-review steps occurred.
 - `scripts/verify-deterministic-build.mjs` — candidate offline double-build
   verifier; it checks stable source inputs and complete `dist` byte identity,
   then writes an ignored local receipt.
