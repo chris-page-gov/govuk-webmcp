@@ -164,7 +164,7 @@ govuk-webmcp/
 │   ├── audit-beginner-presentations.mjs # production-shared complete projection audit
 │   ├── prepare-personal-agent-evals.mjs # version 0.4 fixture normaliser
 │   ├── run-personal-agent-evals.mjs # pinned 36-run local Ollama adapter
-│   ├── import-copilot-personal-agent-capture.mjs # strict two-host merge
+│   ├── import-copilot-personal-agent-capture.mjs # strict two-host merge and private pair staging
 │   ├── verify-personal-agent-evals.mjs # production replay and authenticated claim gate
 │   ├── apply-webmcp-evals-browser-step-limit-patch.mjs # pinned upstream browser-step fix
 │   ├── copy-static.mjs
@@ -285,6 +285,7 @@ govuk-webmcp/
 │           ├── security-diff-scan-2026-08-29/
 │           ├── security-scan-2026-08-30/
 │           ├── security-candidate-snapshot-2026-08-30/
+│           ├── security-scan-2026-09-02-pre-staging/ # exact-range zero-finding Codex Security scan
 │           ├── security-scan-and-remediation-2026-08-30.md
 │           ├── candidate-verification-2026-08-30.md
 │           ├── accessibility-test-2026-08-30.md
@@ -356,7 +357,7 @@ styles, tests, evaluation fixtures and documentation. It consumes the released
 data plane rather than creating a beginner-only copy. The same five root
 artefact families still gate registration; the definition set contains six
 tools or none. The five additional schema files bring the versioned contract to
-36 schemas. The settled source-tree checks pass 398 of 398 unit tests, 43 of 43
+36 schemas. The settled source-tree checks pass 404 of 404 unit tests, 43 of 43
 installed-Chrome tests and 43 of 43 installed-Microsoft-Edge tests. The
 deterministic double build contains 1,883 files and 128,653,230 bytes at
 aggregate SHA-256

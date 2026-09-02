@@ -36,8 +36,8 @@ the released five-tool `v0.3.0-rc.1` evidence below.
 | 5 | Render complete accessible Evidence answers from the same presentation object returned by the tool. | Beginner 9; Must 5, 9–11 | Implemented with inert source text, source-link validation, mapped primary plus all other limitations, unknowns, next check, accepted input and comparison guide. The 43-test Chrome and Edge suites pass. The 6-pass/3-limited Safari and VoiceOver record is historical pre-hardening, one-environment evidence with no independent capture-time deployment binding; it is not a WCAG claim or a substitute for hardened-release recapture. |
 | 6 | Audit every reviewed and federated record and deterministic generated boundary. | Beginner 9; Must 12–14 | `npm run build` uses production result builders, the projector and the closed schema to audit all 80 reviewed and 58,652 checksum-validated federated records. The settled deterministic check produced two identical 1,883-file, 128,653,230-byte builds at aggregate SHA-256 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`. Frozen retrieval passes at mean nDCG@10 `0.984698009` and Recall@20 `1`. |
 | 7 | Freeze the natural cross-host evaluation contract and privacy-minimised receipts. | Beginner 10; Must 16; Should 11–12 | The contract and patched 36-case Ollama diagnostic are complete. Capture schema v3 records each diagnostic and measurement dimension explicitly: browser-console, page-error, network-error and latency telemetry are not observable; runner errors are observed with 34 clean and 2 bounded-error runs; and interaction steps are observed from 1 to 6. The 118 recognised calls contain 108 deterministic successes and 10 explicit rejections across nine runs; two unavailable or null-result attempts remain diagnostics. Tool selection and deterministic execution each pass 6 and fail 30; all page parity is unobservable, all answers are unreviewed, context is 0 complete and the claim gate is false. All 36 Copilot observations remain missing, so this step stays open. |
-| 8 | Run complete browser, accessibility and scoped security assurance. | Beginner 10; Must 5, 13–16; Should 7 | Current local evidence includes research 4 of 4; 398 of 398 prepared unit tests; the most recent complete 43-of-43 Chrome and 43-of-43 Edge suites; seven of seven model-free smoke calls; mean nDCG@10 `0.984698009`; Recall@20 `1`; and zero `npm audit` vulnerabilities. Sealed scan `185ce6fa-a47f-4c5e-9888-c63a9f932205` found zero reportable findings for its named snapshot but predates the latest release-evidence changes; final exact-candidate review remains pending. The historical pre-hardening VoiceOver record does not establish WCAG conformance or participant comprehension. |
-| 9 | Integrate through protected review, deploy, compare exact bytes and capture six-tool host evidence. | Must 16–18 | Implemented locally but integration is pending. The first PR #21 validation run `33593265033`, job `100131452398`, failed on four clean-runner defects; their local corrections now pass 398 prepared unit tests. After a green protected merge, deploy and byte-compare the exact product commit. Use the live verifier to stage the canonical local and private mode-`0600` receipt pair and optional reviewed mode-`0644` copy in one recoverable admission; do not copy a receipt manually. Private and reviewed replacement require independent gates, and private replacement invalidates dependent host/media evidence. Only then capture supported-host evidence. Admission must freshly authenticate the exact live receipt in the same process, retain ordered initial, after-page-load and after-execution checks, and exact-match the stored private/raw and public/reviewed receipt pair. |
+| 8 | Run complete browser, accessibility and scoped security assurance. | Beginner 10; Must 5, 13–16; Should 7 | Current local evidence includes research 4 of 4; 404 of 404 prepared unit tests; the most recent complete 43-of-43 Chrome and 43-of-43 Edge suites; seven of seven model-free smoke calls; mean nDCG@10 `0.984698009`; Recall@20 `1`; and zero `npm audit` vulnerabilities. Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot `codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`, completed the exact `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f` range with complete configured coverage and zero findings. Its portable record is retained under `docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. The later canonical-pair producer is not covered by that snapshot, so final changed-source review remains open. The historical pre-hardening VoiceOver record does not establish WCAG conformance or participant comprehension. |
+| 9 | Integrate through protected review, deploy, compare exact bytes and capture six-tool host evidence. | Must 16–18 | Implemented locally but integration is pending. The first PR #21 validation run `33593265033`, job `100131452398`, failed on four clean-runner defects; their local corrections now pass 404 prepared unit tests. After a green protected merge, deploy and byte-compare the exact product commit. Use the live verifier to stage the canonical local and private mode-`0600` receipt pair and optional reviewed mode-`0644` copy in one recoverable admission; do not copy a receipt manually. This command stages the authenticated live receipt only: it does not perform or attest the visible Copilot matrix, private share-link record, genuine Copilot video or human review. Private and reviewed replacement require independent gates, and private replacement invalidates dependent host/media evidence. Only then capture supported-host evidence. Admission must freshly authenticate the exact live receipt in the same process, retain ordered initial, after-page-load and after-execution checks, and exact-match the stored private/raw and public/reviewed receipt pair. |
 | 10 | Produce candidate-specific media and final submission hand-off. | Must 18 | Historical pre-hardening page, Chrome, supported-host and VoiceOver inputs remain chronology evidence only; the local diagnostic retains its explicit unclaimable boundary. Once step 9 is demonstrably complete, recapture or rebuild all release-context inputs, rerun 36 clean release-bound local and 36 visible Copilot slots, authenticate the combined matrix in-process, and recapture the exact nine-step VoiceOver journey. Final-video authentication may use the clean closed reviewed-evidence descendant while keeping the page runtime pinned to its ancestor product commit; all code, workflow, package, dirty, delete and rename states are rejected. Build and review the under-three-minute video, then tag only the deployed product commit. No final host matrix, final video, tag, GitHub prerelease or Devpost action is claimed. |
 
 Final-video personal-agent preflight owns one fresh authentication of its
@@ -507,8 +507,8 @@ release, host, accessibility, model or submission evidence.
    two-view routing and Evidence answer renderer while retaining Technical
    review. Descriptor-safe validation and the latest prepared unit and prior
    complete browser, retrieval, smoke and dependency gates pass. The prepared
-   unit suite passed 398 of 398 in 67,006.169333 ms; installed Chrome passed 43
-   of 43 in 17.7 seconds; installed Edge passed 43 of 43 in 17.5 seconds; and
+   unit suite passed 404 of 404 in 66,929.613333 ms; installed Chrome passed 43
+   of 43 in 16.8 seconds; installed Edge passed 43 of 43 in 16.8 seconds; and
    the settled double build produced two identical 1,883-file, 128,653,230-byte
    builds at aggregate SHA-256
    `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
@@ -539,20 +539,33 @@ The corrected unit fixture is reconstructed from tracked reviewed and
 supported-host evidence as exactly 133,272 bytes with SHA-256
 `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
 Validated rollback and post-commit clean-up now recheck exact bytes and mode as
-well as file identity. The resulting prepared unit suite passes 398 of 398
+well as file identity. The resulting prepared unit suite passes 404 of 404
 locally. A green protected validation is still required.
 
 Independent follow-up review then corrected two additional implementation
-issues. First, a restrictive process umask could leave a newly staged receipt
-stricter than its requested public mode. Admission now changes mode through the
+issues. First, a conventional restrictive process umask that preserves owner
+access could leave a newly staged receipt stricter than its requested public
+mode. Admission now changes mode through the
 already opened no-follow file descriptor, then revalidates the descriptor,
 path identity, exact mode and bytes; post-correction drift fails closed.
 Second, the no-argument VoiceOver clip builder selected an obsolete unversioned
 manifest. It now resolves the canonical exact
 `output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json`. The focused
-post-fix set passes 116 of 116, while the prepared suite remains 398 of 398.
+post-fix set passes 116 of 116, while the prepared suite passes 404 of 404.
 Local automated verification is complete. Protected integration and the
 remaining exact-release gates remain pending.
+
+Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed the immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero findings. The portable scan record
+is retained under
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. This closes
+the changed-source security review for that range only. The canonical
+personal-agent pair producer was added afterwards and needs its own final
+review; protected validation, deployment, exact-release staging and manual host
+and media evidence remain separate.
 
 Exact-release paths are now one canonical contract. After protected integration
 and exact Pages deployment, run the live verifier with its private-staging
@@ -566,6 +579,17 @@ identical bytes to
 Private and reviewed overwrites have independent explicit gates. Replacing the
 private receipt invalidates every dependent supported-host and media receipt,
 so recapture starts again from that point.
+
+After the 36 local and 36 Copilot observations have genuinely been captured,
+the import helper validates their exact matrices against that receipt and writes
+unique run-scoped outputs. `--stage-release-evidence` then promotes the merged
+capture and freshly authenticated summary together to the canonical private
+release paths through one recoverable admission. Existing canonical files are
+preserved unless `--overwrite-release-evidence` is also supplied. Serialisation
+must pass the 16 MiB per-file admission preflight before run-scoped output is
+created; successful replacement prints the dependent-evidence recapture warning.
+This machine-checks the pair's bytes, paths and private modes; it does not attest the
+manual host journey or human review.
 
 Ordinary evaluation authentication remains pinned to a clean checkout at the
 exact Pages product commit. Final-video authentication alone may run from a
@@ -600,8 +624,8 @@ those remaining outcomes is claimed here.
 | Must 13 | Complete locally for the hardened candidate: the initial artefacts, lazy manifest, exact ordered per-source population/display contracts and separate 80 reviewed plus 58,655-raw, 3-quarantined and 58,652-searchable federated boundaries fail closed. Five exact source-lock registry entries validate. The settled deterministic double build produced two identical sets of 1,883 files and 128,653,230 bytes at SHA-256 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`. Historical release assurance remains bound to its named public-byte receipts and source locks. |
 | Must 14 | Part complete: tamper, input, URL, inert-text, missing-licence and no-match tests pass; dedicated stale and conflicting-assertion fixtures remain. |
 | Must 15 | Complete: CSP, no storage and no external runtime provider request are enforced and tested. |
-| Must 16 | Part complete: current release-hardening assurance passes research 4 of 4 and 398 of 398 prepared unit tests; the most recent complete runtime checks pass 43 of 43 Chrome, 43 of 43 Edge, seven of seven smoke, mean nDCG@10 `0.984698009`, Recall@20 `1` and zero npm-audit vulnerabilities. Chrome 152.0.7977.66 and Chrome DevTools MCP 1.8.0 completed all six tools only against historical pre-hardening commit `a4fabe...`. Hardened live admission uses fresh process-local authentication observed at or after both stored receipts, ordered deployment checks, exact stored-pair matching and explicit owned/borrowed leases. Final-video authentication may accept only the clean, closed reviewed-evidence descendant described above; ordinary evaluation still requires the exact product commit. The patched local diagnostic remains unclaimable and all 36 Copilot observations are missing. No hardened live-host or model-safety claim is made. |
-| Must 17 | Part complete: MIT licence and notices are public; PR #20 and `a4fabe...`/Pages `33555187118` are historical pre-hardening chronology, not final-release evidence. PR #21 integration remains pending after validation run `33593265033`, job `100131452398`, exposed four portability/preservation failures. The local corrections pass 398 prepared unit tests; protected validation has not yet passed. After integration, deploy and byte-compare only the exact hardened protected-main commit. Tag only that deployed commit after exact-release recapture. Earlier release identities remain unchanged. |
+| Must 16 | Part complete: current release-hardening assurance passes research 4 of 4 and 404 of 404 prepared unit tests; the most recent complete runtime checks pass 43 of 43 Chrome, 43 of 43 Edge, seven of seven smoke, mean nDCG@10 `0.984698009`, Recall@20 `1` and zero npm-audit vulnerabilities. Scan `5944866f-336d-4f27-8b36-d0d8269f2824` completed exact range `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f` with complete configured coverage and zero findings; its snapshot digest is `codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c` and its portable record is under `docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. The canonical-pair producer postdates that scan and still requires final changed-source review. Chrome 152.0.7977.66 and Chrome DevTools MCP 1.8.0 completed all six tools only against historical pre-hardening commit `a4fabe...`. Hardened live admission uses fresh process-local authentication observed at or after both stored receipts, ordered deployment checks, exact stored-pair matching and explicit owned/borrowed leases. Final-video authentication may accept only the clean, closed reviewed-evidence descendant described above; ordinary evaluation still requires the exact product commit. The patched local diagnostic remains unclaimable and all 36 Copilot observations are missing. No hardened live-host or model-safety claim is made. |
+| Must 17 | Part complete: MIT licence and notices are public; PR #20 and `a4fabe...`/Pages `33555187118` are historical pre-hardening chronology, not final-release evidence. PR #21 integration remains pending after validation run `33593265033`, job `100131452398`, exposed four portability/preservation failures. The local corrections passed 404 prepared unit tests and the pre-staging exact-range security review is complete; the later canonical pair producer still needs final review and protected validation has not yet passed. After integration, deploy and byte-compare only the exact hardened protected-main commit. Tag only that deployed commit after exact-release recapture. Earlier release identities remain unchanged. |
 | Must 18 | Part complete: historical pre-hardening live, Chrome, page and VoiceOver inputs plus the separately unclaimable local diagnostic retain their limitations. None may be relabelled as hardened-release evidence. After Must 17 is demonstrably complete, recapture or rebuild every release-context input that does not name the hardened deployment, rerun 36 clean release-bound local slots and 36 visible Copilot slots, build and review the final video, then tag only the deployed product commit. Human review, signed-out playback, GitHub prerelease, public upload and authorised submission remain unclaimed. |
 | Federation 1–10 | Released as `v0.3.0-rc.1`: exact final-candidate verification passes research 4 of 4, build/data validation, frozen lexical quality, 30 Chrome, 30 Edge, six model-free real-Chrome smoke calls, 194 prepared unit tests, zero npm-audit vulnerabilities across 162 dependencies and `git diff --check`. Immutable fixed-tree scan `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings. PR #16, protected main and Pages passed; all 1,879 deployed files matched artefact `9745316971`; the current supported host completed all five tools with fixed-query parity; and current VoiceOver and local-video technical evidence are complete with limitations. Five fixed-model attempts are retained and all failed. Owner and public submission-media review remains open. |
 | Beginner 1–10 | Discovery steps 1–9 and hardened local implementation are complete. The source includes the Evidence answer projection, sixth tool, two-view routing, renderer, descriptor-safe validation, canonical receipt staging and closed evidence-descendant final-video authentication. Exact-byte, isolated-Chrome and VoiceOver evidence currently retained for this line belongs to historical pre-hardening `a4fabe...`; no hardened deployment, WCAG or comprehension claim follows. Protected integration, exact deployment, live-host and release VoiceOver recapture, final media and release tagging remain pending. The local Ollama diagnostic is complete but unclaimable; the Copilot matrix, complete host comparison and formative review remain unclaimed. |
@@ -681,7 +705,8 @@ is claimed here.
 
 PR #21 now carries the further release-evidence hardening. Its first validation
 run `33593265033`, job `100131452398`, failed for the four clean-runner causes
-recorded above. The portability and preservation corrections pass 398 prepared
+recorded above. The portability and preservation corrections, including the
+canonical-pair admission follow-up, pass 404 prepared
 unit tests locally, including exact reconstruction of the 133,272-byte raw
 Chrome fixture at SHA-256
 `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
@@ -721,10 +746,12 @@ now:
 1. Integrate PR #21 only after protected validation passes, then validate the
    exact protected-main commit.
 2. Deploy that exact product commit and byte-compare the live Pages files.
-3. Use the live verifier's canonical private-staging path; do not copy the
-   release receipt manually.
-4. Recapture all six supported-host tools, the nine-step release VoiceOver
-   journey and the 72 cloud/local observations against that receipt.
+3. Use the live verifier's canonical private-staging path for the authenticated
+   live receipt; do not copy that receipt manually. This command does not
+   attest Copilot execution or human review.
+4. Separately recapture all six supported-host tools, the nine-step release
+   VoiceOver journey and the 72 cloud/local observations against that receipt,
+   including all visible Copilot and human review evidence.
 5. Build the exact-release video, then complete owner privacy, branding, rights,
    synthetic-voice, caption and continuous-playback review.
 6. Tag the deployed product commit and publish its GitHub prerelease only after

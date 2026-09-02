@@ -78,15 +78,27 @@
   The claim gate is false and all 36 Copilot observations remain missing. After
   the final deployment, rerun all 36 local slots from a clean exact-release
   checkout and combine only that release-bound half with the visible Copilot
-  half. This item stays open.
+  half. The importer can now stage the validated merged capture and authenticated
+  summary together with `--stage-release-evidence`; it is no-clobber by default
+  after a 16 MiB per-file preflight, and a successful explicit replacement
+  prints the dependent-evidence recapture warning. It does not attest those
+  still-missing observations. This item stays open.
 
 - [ ] **8. Complete browser, accessibility and security assurance**
   Spec ref: `spec.md > Verification strategy`
   What to build: Chrome, Edge, axe, manual reflow/zoom/forced-colour/reduced-motion, Safari VoiceOver/Caption Panel and scoped security evidence.
   Acceptance: No serious accessibility error, unsafe URL/input handling, storage, unintended external request or unreported environmental limitation.
   Verify: Automated suites, scoped security scan and exact manual observation receipts.
-  Checkpoint: Automated Chrome, Edge and accessibility checks and frozen scoped
-  security scan pass with zero findings. The retained Safari and VoiceOver
+  Checkpoint: Automated Chrome, Edge and accessibility checks pass. Codex
+  Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+  `codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+  completed exact range
+  `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+  with complete configured coverage and zero findings; its portable record is
+  under `docs/competition/evidence/security-scan-2026-09-02-pre-staging/`.
+  The canonical personal-agent pair producer postdates that snapshot and still
+  needs the final changed-source review.
+  The retained Safari and VoiceOver
   Caption Panel observation is historical pre-hardening evidence: 6 checkpoints
   passed and 3 were limited, with no captured speech audio and no WCAG claim.
   The exact-release nine-step Safari, VoiceOver and Caption Panel recapture

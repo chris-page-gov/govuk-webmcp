@@ -1,0 +1,73 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [
+    {
+      "pattern": "documentation, tests, generated public projections and binary media",
+      "reason": "Excluded from vulnerability discovery except where used as supporting contract or counterevidence."
+    },
+    {
+      "pattern": "ignored private captures, upstream services, transitive dependencies, browser and extension internals, protected-branch configuration and host or model internals",
+      "reason": "Outside the changed-source audit and retained as external acceptance or trust boundaries."
+    }
+  ],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "branch_diff",
+  "openQuestions": [
+    {
+      "disposition": "Operational reproducibility gap outside the security finding set. Add an explicit no-clobber transactional producer before publication.",
+      "question": "How are validated Copilot capture and authenticated summary promoted to the fixed private release-evidence paths?"
+    }
+  ],
+  "scanId": "5944866f-336d-4f27-8b36-d0d8269f2824",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "no_issue_found",
+      "evidence": "src/webmcp-tools.ts; src/application-actions.ts",
+      "id": "surface_page-tool-input-and-action-dispatch",
+      "label": "Page tool input and action dispatch",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "evidence": "app/main.ts; src/beginner-presentation.ts",
+      "id": "surface_dom-rendering-hash-navigation-and-source-links",
+      "label": "DOM rendering, hash navigation and source links",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "evidence": "scripts/build.mjs; scripts/validate-federation.mjs; schemas; package.json",
+      "id": "surface_build-source-contracts-manifests-and-legislation-exclusion",
+      "label": "Build, source contracts, manifests and legislation exclusion",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "evidence": "scripts/verify-live-pages-artifact.mjs; scripts/lib/public-evidence-admission.mjs",
+      "id": "surface_live-pages-authentication-and-evidence-admission",
+      "label": "Live Pages authentication and evidence admission",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "evidence": "scripts/import-copilot-personal-agent-capture.mjs; scripts/run-personal-agent-evals.mjs; scripts/verify-personal-agent-evals.mjs",
+      "id": "surface_private-personal-agent-evaluation-and-exact-release-verification",
+      "label": "Private personal-agent evaluation and exact-release verification",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "evidence": "scripts/build-demo-video.mjs and related capture or clip builders",
+      "id": "surface_media-capture-rendering-and-transactional-placement",
+      "label": "Media capture, rendering and transactional placement",
+      "receiptRefs": []
+    }
+  ]
+}

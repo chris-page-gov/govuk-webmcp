@@ -539,21 +539,28 @@ GITHUB_SHA="$COMMIT" \
   GITHUB_RUN_ID="$PAGES_RUN_ID" \
   GITHUB_REPOSITORY="chris-page-gov/govuk-webmcp" \
   npm run deployment:metadata
+WEBMCP_EXPECTED_COMMIT="$COMMIT" \
+  GOVUK_WEBMCP_PAGES_RUN_ID="$PAGES_RUN_ID" \
+  npm run deployment:verify-live -- --stage-private-release-receipt
 node scripts/verify-personal-agent-evals.mjs \
   .evals/personal-agent-local/<run>/private-capture.json \
   .evals/live-artifact-verification-v0.4.0-rc.1.json
 node scripts/import-copilot-personal-agent-capture.mjs \
   .evals/personal-agent-local/<run>/private-capture.json \
   .evals/copilot-manual/<run>/private-capture.json \
-  .evals/live-artifact-verification-v0.4.0-rc.1.json
+  .evals/live-artifact-verification-v0.4.0-rc.1.json \
+  --stage-release-evidence
 GOVUK_WEBMCP_DEMO_COMMIT="$COMMIT" \
   GOVUK_WEBMCP_DEMO_PAGES_RUN_ID="$PAGES_RUN_ID" \
   npm run demo:ollama-diagnostic-clip
 ```
 
-Run `deployment:verify-live` without `--admit-public-evidence` before these
-commands. That writes the freshly authenticated mode-`0600` receipt under
-ignored `.evals` without dirtying the exact protected-main checkout. The
+Run the private-staging command above without `--admit-public-evidence`. It
+writes one freshly authenticated receipt as a recoverable local and canonical
+private mode-`0600` pair under ignored `.evals`, without dirtying the exact
+protected-main checkout. It stages the live receipt only: it does not perform
+or attest any visible Copilot observation, private share-link capture, genuine
+Copilot video or human privacy, branding, rights and playback review. The
 personal-agent verifier deliberately requires `HEAD` to equal the receipt
 commit and the worktree to be completely clean before, during and after replay.
 After the clean deterministic build, write `dist/deployment.json` with the
@@ -561,6 +568,18 @@ exact Pages commit and run shown above. Pages adds that file after its own
 build; omitting it makes the otherwise identical local manifest one file short
 and correctly fails the complete release binding. The generated file is under
 ignored `dist`, so this step does not dirty the Git checkout.
+
+Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero findings. The portable four-file
+record is retained under
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. This closes
+the changed-source security review for that exact range. The canonical
+personal-agent pair producer postdates it and still requires final
+changed-source review; neither scan nor local tests establish live staging or
+the manual host and review gates described here.
 A privacy-minimised partial diagnostic summary may be admitted when it labels
 missing runs and closed gates exactly, as the local record does. Admit a merged
 claimable comparison only after all 72 runs and the required reviews, through a
@@ -633,6 +652,19 @@ exact commit; Copilot observations must bind its canonical public URL, visible
 Microsoft Edge MCP Workspace and private observed share link, while
 the local comparison must have a clean worktree. Neither the generated fixture
 nor the run plan is evidence that a host executed anything.
+The live-receipt staging command is not a Copilot attestation. The importer is
+the separate no-clobber producer for the validated merged private capture and
+authenticated summary. It first writes a unique run-scoped capture and summary,
+then `--stage-release-evidence` promotes those exact serialised values together
+to `.evals/personal-agent-media/v0.4.0-rc.1/private-capture.json` and
+`authenticated-summary.json`. Both files are mode `0600`; each private
+directory is mode `0700`; an existing canonical pair is preserved unless
+`--overwrite-release-evidence` is also supplied. The pair is preflighted against
+the 16 MiB per-file admission limit before run-scoped output is created.
+Replacing the pair prints a warning and invalidates dependent host,
+personal-agent and media evidence. The operation does not create or attest the
+visible Copilot calls, share link, recording or human review, and a manual copy is not
+an acceptable substitute.
 
 ## Claims this protocol cannot establish
 

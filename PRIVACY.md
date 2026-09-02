@@ -131,6 +131,14 @@ selected provider's privacy terms.
 Private local evaluation refuses symbolic `.evals`, personal-agent output and
 run-directory boundaries, checks canonical containment inside the repository
 and applies mode `0700` to each directory. Private captures remain mode `0600`.
+After both host halves have genuinely been captured, the import helper can
+stage the validated merged capture and authenticated summary together at their
+canonical private release paths. It writes unique run-scoped outputs first,
+does not replace the canonical pair without
+`--overwrite-release-evidence`, preflights the pair against the 16 MiB per-file
+admission limit before creating those outputs and prints a recapture warning
+after a successful replacement. It cannot turn a manual Copilot or human-review
+assertion into machine-observed evidence.
 For supported-host evidence, the ignored raw receipt and the two public
 projections are promoted as one recoverable set. The public projections bind
 the raw bytes but retain only the names of rejected fields, not the rejected

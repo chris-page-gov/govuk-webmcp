@@ -48,7 +48,7 @@ status remains `not-started`; fixing the recurrent warning did not register,
 update or submit a Devpost entry.
 
 The candidate source passes research-pack verification; the production build
-and complete 80-reviewed plus 58,652-federated projection audit; 398 of 398 unit
+and complete 80-reviewed plus 58,652-federated projection audit; 404 of 404 unit
 tests; 43 of 43 installed-Chrome and 43 of 43 installed-Edge tests; frozen mean
 nDCG@10 `0.984698009` and Recall@20 `1`; 7 of 7 model-free smoke envelopes;
 zero npm-audit vulnerabilities across 162 dependencies; and the pinned Python
@@ -120,7 +120,7 @@ all nine frame bytes. The build, capture and evidence paths share one canonical
 legislation-host rejection, generated media use one recoverable output
 transaction, private `.evals` roots may not be symbolic and privacy copy makes
 clear that bounded free text can still disclose personal details. The settled
-production build and all 398 prepared unit tests pass; the
+production build and all 404 prepared unit tests pass; the
 personal-agent suite passes 32 of 32. Current Chrome and Edge reruns each pass
 43 of 43. The first current Chrome run's single cancellation-test failure did
 not reproduce standalone, over 10 concurrent repetitions or in the complete
@@ -206,23 +206,33 @@ supported-host evidence before use. Its reconstructed raw bytes are exactly
 Portable cleanup, rollback and promotion checks now bind exact bytes, mode,
 size and the available identity metadata; changed validated outputs are
 preserved rather than removed, including where Linux reuses an inode. The
-integrated prepared unit suite passes 398 of 398. A new
+integrated prepared unit suite passes 404 of 404. A new
 protected CI success, hardened Pages deployment and exact-release recapture are
 not yet claimed.
 
 Two independent follow-up reviews corrected the remaining local boundaries.
-Descriptor-bound, no-follow mode normalisation now handles a restrictive umask
-and rejects permission drift after `fchmod`; the no-argument VoiceOver clip
+Descriptor-bound, no-follow mode normalisation now handles the conventional
+restrictive umask `0077` and rejects permission drift after `fchmod`; the
+no-argument VoiceOver clip
 builder now selects the canonical exact `v0.4.0-rc.1` capture manifest. Focused
 post-fix checks pass 116 of 116 and an independent clean review passes 71 of
 71. Final local automated verification is complete: the prepared unit suite
-passed 398 of 398 in 67,006.169333 ms; installed Chrome passed 43 of 43 in
-17.7 seconds; installed Edge passed 43 of 43 in 17.5 seconds; and two
+passed 404 of 404 in 66,929.613333 ms; installed Chrome passed 43 of 43 in
+16.8 seconds; installed Edge passed 43 of 43 in 16.8 seconds; and two
 deterministic builds each contained 1,883 files and 128,653,230 bytes at
 aggregate SHA-256
 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
-Protected integration, deployment, exact-release recapture and the final
-current-snapshot security and manual gates remain separate.
+Codex Security scan `5944866f-336d-4f27-8b36-d0d8269f2824`, snapshot
+`codex-security-snapshot/v1:sha256:e393c031c8e21478fd934e00a1590ed030c314c996c4ea6116f7b43a4a4bec9c`,
+completed immutable range
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8..2666f201e30c9cc0df94af133a4d0449d183337f`
+with complete configured coverage and zero findings. Its portable four-file
+record is retained under
+`docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. The canonical
+personal-agent pair producer postdates that scan and still requires final
+changed-source review. Protected
+integration, deployment, exact-release recapture and the manual host,
+accessibility and media gates remain separate.
 
 For that future successful Pages run, the operator must securely create both
 ignored receipts through the verifier:
@@ -231,8 +241,30 @@ ignored receipts through the verifier:
 WEBMCP_EXPECTED_COMMIT="$RELEASE_COMMIT" GOVUK_WEBMCP_PAGES_RUN_ID="$PAGES_RUN_ID" npm run deployment:verify-live -- --stage-private-release-receipt
 ```
 
-There is no manual-copy step. The private receipt is mode `0600` and is not
-overwritten by default. Supplying
+There is no manual-copy step for this live receipt. The command creates the
+authenticated receipt only; it does not perform or attest the visible 36-slot
+Copilot observation, private share-link record, genuine Copilot video or any
+human privacy, branding, rights or playback review. The private receipt is mode
+`0600` and is not overwritten by default. Supplying
 `--overwrite-private-release-receipt` together with the staging flag is an
 explicit invalidation event: every dependent host, personal-agent,
 accessibility and media capture must then be repeated.
+
+After all 72 host slots have actually been captured, use the separate importer
+to create and stage the canonical personal-agent pair:
+
+```bash
+node scripts/import-copilot-personal-agent-capture.mjs \
+  .evals/personal-agent-local/<run>/private-capture.json \
+  .evals/copilot-manual/<run>/private-capture.json \
+  .evals/live-artifact-verification-v0.4.0-rc.1.json \
+  --stage-release-evidence
+```
+
+The importer writes unique run-scoped outputs first, then promotes the capture
+and authenticated summary together as one recoverable mode-`0600` pair beneath
+mode-`0700` directories. It does not replace an existing canonical pair unless
+`--overwrite-release-evidence` is explicitly added. The 16 MiB per-file
+admission preflight runs before those outputs are created; a successful
+replacement prints the dependent-evidence recapture warning. It does not attest
+the manual Copilot or human-review claims.

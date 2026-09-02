@@ -1,5 +1,15 @@
 import assert from "node:assert/strict";
-import { lstat, mkdir, readFile, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
+import {
+  link,
+  lstat,
+  mkdir,
+  readFile,
+  mkdtemp,
+  readdir,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
@@ -52,9 +62,15 @@ import {
 } from "../../scripts/run-personal-agent-evals.mjs";
 import {
   createPrivateMergedEvaluationRunDirectory,
+  formatStagedPrivateReleaseEvidenceOutput,
   mergePersonalAgentCaptures,
+  parseImportArguments,
+  preflightPrivateReleaseEvidence,
+  stagePrivateReleaseEvidence,
   writePrivateJsonExclusive,
 } from "../../scripts/import-copilot-personal-agent-capture.mjs";
+import { admitEvidenceSet, MAX_EVIDENCE_ADMISSION_BYTES } from "../../scripts/lib/public-evidence-admission.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "../../scripts/lib/release-evidence-paths.mjs";
 
 const loaded = await loadAndValidateCaseSet();
 const readData = (name) => readFile(new URL(`../../app/data/${name}`, import.meta.url), "utf8");
@@ -153,6 +169,237 @@ test("private Copilot merge output writes with no-follow, no-clobber file semant
   );
   assert.equal(await readFile(outside, "utf8"), "outside remains\n");
   assert.equal(await readFile(existingOutput, "utf8"), "existing remains\n");
+});
+
+test("Copilot import release-evidence flags are explicit and overwrite requires staging", () => {
+  const positional = ["local.json", "copilot.json", "live.json"];
+  assert.deepEqual(parseImportArguments(positional), {
+    localCapturePath: resolve("local.json"),
+    copilotCapturePath: resolve("copilot.json"),
+    liveReleaseReceiptPath: resolve("live.json"),
+    stageReleaseEvidence: false,
+    overwriteReleaseEvidence: false,
+  });
+  assert.deepEqual(
+    parseImportArguments([...positional, "--stage-release-evidence"]),
+    {
+      localCapturePath: resolve("local.json"),
+      copilotCapturePath: resolve("copilot.json"),
+      liveReleaseReceiptPath: resolve("live.json"),
+      stageReleaseEvidence: true,
+      overwriteReleaseEvidence: false,
+    },
+  );
+  assert.deepEqual(
+    parseImportArguments([
+      "--stage-release-evidence",
+      ...positional,
+      "--overwrite-release-evidence",
+    ]),
+    {
+      localCapturePath: resolve("local.json"),
+      copilotCapturePath: resolve("copilot.json"),
+      liveReleaseReceiptPath: resolve("live.json"),
+      stageReleaseEvidence: true,
+      overwriteReleaseEvidence: true,
+    },
+  );
+  assert.throws(
+    () => parseImportArguments([...positional, "--overwrite-release-evidence"]),
+    /requires --stage-release-evidence/u,
+  );
+  assert.throws(
+    () => parseImportArguments([...positional, "--stage-release-evidence", "--stage-release-evidence"]),
+    /Duplicate argument/u,
+  );
+  assert.throws(
+    () => parseImportArguments([...positional, "--unknown"]),
+    /Unknown argument/u,
+  );
+  assert.throws(() => parseImportArguments(positional.slice(0, 2)), /Usage:/u);
+});
+
+test("Copilot release-evidence preflight shares the admission limit and formats overwrite invalidation", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-release-preflight-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const staged = {
+    capturePath: join(root, "private-capture.json"),
+    summaryPath: join(root, "authenticated-summary.json"),
+  };
+  assert.equal(
+    formatStagedPrivateReleaseEvidenceOutput(staged, false),
+    `Canonical private capture: ${staged.capturePath}\nCanonical authenticated summary: ${staged.summaryPath}\n`,
+  );
+  assert.match(
+    formatStagedPrivateReleaseEvidenceOutput(staged, true),
+    /^Canonical private capture:.*\nCanonical authenticated summary:.*\nWARNING:.*must be recaptured\.\n$/u,
+  );
+
+  const oversizedCapture = {
+    schema: CAPTURE_SCHEMA,
+    suiteId: "oversized-suite",
+    caseSetSha256: "a".repeat(64),
+    padding: "x".repeat(MAX_EVIDENCE_ADMISSION_BYTES),
+    runs: [],
+  };
+  const oversizedSummary = {
+    schema: "govuk-webmcp.personal-agent-evaluation-summary.v2",
+    liveReleaseBinding: { status: "authenticated" },
+    suiteId: "oversized-suite",
+    caseSetSha256: "a".repeat(64),
+    observedRunCount: 0,
+  };
+  assert.throws(
+    () => preflightPrivateReleaseEvidence(oversizedCapture, oversizedSummary),
+    /canonical private capture exceeds the 16777216-byte evidence admission limit/u,
+  );
+  await assert.rejects(
+    stagePrivateReleaseEvidence(oversizedCapture, oversizedSummary, { root }),
+    /canonical private capture exceeds the 16777216-byte evidence admission limit/u,
+  );
+  await assert.rejects(lstat(join(root, ".evals")), (error) => error?.code === "ENOENT");
+});
+
+test("Copilot release evidence uses one closed private admission with a per-target replace gate", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-release-admission-contract-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const capture = await completeSyntheticCapture();
+  const release = await authenticatedReleaseReceipt();
+  context.after(() => disposeEvaluationReleaseReceipt(release));
+  const summary = await summariseEvaluationCapture(capture, loaded, release);
+  const admissions = [];
+
+  const staged = await stagePrivateReleaseEvidence(capture, summary, {
+    root,
+    overwrite: true,
+    admitImplementation: async (admission) => admissions.push(admission),
+  });
+
+  assert.deepEqual(staged, {
+    capturePath: resolve(root, RELEASE_EVIDENCE_PATHS.privateEvaluationCapture),
+    summaryPath: resolve(root, RELEASE_EVIDENCE_PATHS.privateAuthenticatedSummary),
+  });
+  assert.equal(admissions.length, 1);
+  assert.equal(admissions[0].repositoryRoot, root);
+  assert.deepEqual(
+    admissions[0].entries.map(({ path, mode, replaceExisting }) => ({ path, mode, replaceExisting })),
+    [
+      { path: staged.capturePath, mode: 0o600, replaceExisting: true },
+      { path: staged.summaryPath, mode: 0o600, replaceExisting: true },
+    ],
+  );
+  assert.equal(admissions[0].entries[0].content, `${JSON.stringify(capture, null, 2)}\n`);
+  assert.equal(admissions[0].entries[1].content, `${JSON.stringify(summary, null, 2)}\n`);
+});
+
+test("Copilot release evidence uses canonical paths and bytes with exact private modes under a conventional 0077 umask", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-release-admission-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const capture = await completeSyntheticCapture();
+  const release = await authenticatedReleaseReceipt();
+  context.after(() => disposeEvaluationReleaseReceipt(release));
+  const summary = await summariseEvaluationCapture(capture, loaded, release);
+  const expectedCapture = `${JSON.stringify(capture, null, 2)}\n`;
+  const expectedSummary = `${JSON.stringify(summary, null, 2)}\n`;
+
+  const originalUmask = process.umask(0o077);
+  let staged;
+  try {
+    staged = await stagePrivateReleaseEvidence(capture, summary, { root });
+  } finally {
+    process.umask(originalUmask);
+  }
+  assert.deepEqual(staged, {
+    capturePath: resolve(root, RELEASE_EVIDENCE_PATHS.privateEvaluationCapture),
+    summaryPath: resolve(root, RELEASE_EVIDENCE_PATHS.privateAuthenticatedSummary),
+  });
+  assert.equal(await readFile(staged.capturePath, "utf8"), expectedCapture);
+  assert.equal(await readFile(staged.summaryPath, "utf8"), expectedSummary);
+  assert.equal((await lstat(staged.capturePath)).mode & 0o777, 0o600);
+  assert.equal((await lstat(staged.summaryPath)).mode & 0o777, 0o600);
+  for (const directory of [
+    ".evals",
+    ".evals/personal-agent-media",
+    RELEASE_EVIDENCE_PATHS.privateReleaseRoot,
+  ]) {
+    const state = await lstat(resolve(root, directory));
+    assert.equal(state.isDirectory() && !state.isSymbolicLink(), true);
+    assert.equal(state.mode & 0o777, 0o700);
+  }
+
+  await writeFile(staged.capturePath, "existing capture remains\n", { mode: 0o600 });
+  await rm(staged.summaryPath);
+  await assert.rejects(
+    stagePrivateReleaseEvidence(capture, summary, { root }),
+    /replacement was not authorised/u,
+  );
+  assert.equal(await readFile(staged.capturePath, "utf8"), "existing capture remains\n");
+  await assert.rejects(readFile(staged.summaryPath, "utf8"), (error) => error?.code === "ENOENT");
+
+  await stagePrivateReleaseEvidence(capture, summary, { root, overwrite: true });
+  assert.equal(await readFile(staged.capturePath, "utf8"), expectedCapture);
+  assert.equal(await readFile(staged.summaryPath, "utf8"), expectedSummary);
+  assert.equal((await lstat(staged.capturePath)).mode & 0o777, 0o600);
+  assert.equal((await lstat(staged.summaryPath)).mode & 0o777, 0o600);
+});
+
+test("Copilot release evidence restores the complete existing canonical set after a second-promotion failure", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-release-admission-rollback-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const capture = await completeSyntheticCapture();
+  const release = await authenticatedReleaseReceipt();
+  context.after(() => disposeEvaluationReleaseReceipt(release));
+  const summary = await summariseEvaluationCapture(capture, loaded, release);
+  const capturePath = resolve(root, RELEASE_EVIDENCE_PATHS.privateEvaluationCapture);
+  const summaryPath = resolve(root, RELEASE_EVIDENCE_PATHS.privateAuthenticatedSummary);
+  await mkdir(resolve(root, RELEASE_EVIDENCE_PATHS.privateReleaseRoot), { recursive: true, mode: 0o700 });
+  await writeFile(capturePath, "old canonical capture\n", { mode: 0o600 });
+  await writeFile(summaryPath, "old canonical summary\n", { mode: 0o600 });
+  let promotions = 0;
+
+  await assert.rejects(
+    stagePrivateReleaseEvidence(capture, summary, {
+      root,
+      overwrite: true,
+      admitImplementation: (admission) => admitEvidenceSet(admission, {
+        async linkFile(source, destination) {
+          if (source.includes(".admit-stage-")) {
+            promotions += 1;
+            if (promotions === 2) throw new Error("injected second private promotion failure");
+          }
+          return link(source, destination);
+        },
+      }),
+    }),
+    /injected second private promotion failure/u,
+  );
+  assert.equal(await readFile(capturePath, "utf8"), "old canonical capture\n");
+  assert.equal(await readFile(summaryPath, "utf8"), "old canonical summary\n");
+  assert.equal((await lstat(capturePath)).mode & 0o777, 0o600);
+  assert.equal((await lstat(summaryPath)).mode & 0o777, 0o600);
+  const names = await readdir(root, { recursive: true });
+  assert.equal(names.some((name) => name.includes(".admit-stage-") || name.includes(".admit-backup-")), false);
+});
+
+test("Copilot release evidence rejects a symbolic canonical private release root", async (context) => {
+  const parent = await mkdtemp(join(tmpdir(), "govuk-webmcp-release-admission-link-"));
+  context.after(() => rm(parent, { recursive: true, force: true }));
+  const root = join(parent, "repo");
+  const outside = join(parent, "outside");
+  await mkdir(join(root, ".evals", "personal-agent-media"), { recursive: true });
+  await mkdir(outside);
+  await writeFile(join(outside, "sentinel"), "outside remains\n");
+  await symlink(outside, resolve(root, RELEASE_EVIDENCE_PATHS.privateReleaseRoot));
+  const capture = await completeSyntheticCapture();
+  const release = await authenticatedReleaseReceipt();
+  context.after(() => disposeEvaluationReleaseReceipt(release));
+  const summary = await summariseEvaluationCapture(capture, loaded, release);
+
+  await assert.rejects(
+    stagePrivateReleaseEvidence(capture, summary, { root }),
+    /private release-evidence directory v0\.4\.0-rc\.1.*non-symbolic/u,
+  );
+  assert.equal(await readFile(join(outside, "sentinel"), "utf8"), "outside remains\n");
 });
 
 test("local evaluator report admission rejects a child-created symbolic output", async (context) => {
