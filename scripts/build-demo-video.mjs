@@ -42,6 +42,7 @@ import {
   assertCanonicalRepositoryRelativePath,
   resolveCanonicalRepositoryPath,
 } from "./lib/repository-relative-path.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "./lib/release-evidence-paths.mjs";
 import {
   validateSupportedHostCallSchemas,
   validateSupportedHostPublishedInputSchema,
@@ -75,16 +76,16 @@ import { projectRecordEvidenceWithDigests } from "../dist/src/beginner-presentat
 
 const scriptPath = fileURLToPath(import.meta.url);
 export const repositoryRoot = resolve(dirname(scriptPath), "..");
-const defaultConfig = join(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
+const defaultConfig = join(repositoryRoot, RELEASE_EVIDENCE_PATHS.demoConfig);
 const defaultOutput = join(repositoryRoot, "output/govuk-webmcp-demo-v0.4.0-rc.1.mp4");
 const transcriptPath = join(repositoryRoot, "docs/competition/demo-transcript-v0.4.0-rc.1.md");
 const captionsPath = join(repositoryRoot, "docs/competition/demo-captions.v0.4.0-rc.1.en-GB.vtt");
 const verificationPath = join(repositoryRoot, "docs/competition/evidence/demo-video-build-v0.4.0-rc.1.json");
 const expectedInteractionCaptureReceipt = "docs/competition/evidence/demo-live-interaction-capture-v0.4.0-rc.1.json";
-const expectedPrivateEvaluationCapture = ".evals/personal-agent-media/v0.4.0-rc.1/private-capture.json";
-const expectedPrivateLiveReleaseReceipt = ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json";
-const expectedPrivateAuthenticatedSummary = ".evals/personal-agent-media/v0.4.0-rc.1/authenticated-summary.json";
-const expectedSupportedHostEvidence = "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json";
+const expectedPrivateEvaluationCapture = RELEASE_EVIDENCE_PATHS.privateEvaluationCapture;
+const expectedPrivateLiveReleaseReceipt = RELEASE_EVIDENCE_PATHS.privateLivePagesVerification;
+const expectedPrivateAuthenticatedSummary = RELEASE_EVIDENCE_PATHS.privateAuthenticatedSummary;
+const expectedSupportedHostEvidence = RELEASE_EVIDENCE_PATHS.supportedHostEvidence;
 const MAXIMUM_VIDEO_DURATION_SECONDS = 180;
 const COMMIT = /^[a-f0-9]{40}$/u;
 const RUN_ID = /^[1-9][0-9]*$/u;
@@ -150,7 +151,7 @@ export const personalAgentSceneContracts = Object.freeze({
     caseId: "US-09",
     repetition: 1,
     mediaPath: "output/demo-clips/v0.4.0-rc.1/04-copilot-personal-ai.mov",
-    evidencePath: ".evals/personal-agent-media/v0.4.0-rc.1/copilot-video-capture.json",
+    evidencePath: RELEASE_EVIDENCE_PATHS.privateCopilotVideoCapture,
     captureMethod: "manual-visible-screen-recording",
   }),
 });
@@ -375,7 +376,7 @@ export function validateSupportedHostLiveReceiptPair(config, context) {
   const publicFile = context.publicLiveReceiptFile;
   const privateFile = context.privateLiveReceiptFile;
   invariant(
-    publicFile?.relativePath === "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json"
+    publicFile?.relativePath === RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification
       && SHA256.test(publicFile.sha256)
       && Number.isSafeInteger(publicFile.sizeBytes)
       && publicFile.sizeBytes > 0,
@@ -778,7 +779,15 @@ export function validateSupportedHostReviewedArtefact(reviewed, evidence, review
     ["schema", "observedAt", "sourceReceipt", "target", "deploymentChecks", "releaseEvidence", "environment", "capture", "boundaries", "discovery", "calls", "rejectedCall", "console", "limitations"],
     "Tracked reviewed Chrome evidence");
   invariant(reviewed?.schema === supportedHostCandidateReleaseContract.reviewedEvidenceSchema, "Tracked reviewed Chrome evidence has the wrong schema");
-  validObservedAt(reviewed.observedAt, "Tracked reviewed Chrome observedAt");
+  const reviewedObservedTime = validObservedAt(reviewed.observedAt, "Tracked reviewed Chrome observedAt");
+  const privateReleaseObservedTime = validObservedAt(
+    releaseContext.privateLiveVerification.observedAt,
+    "Private live Pages receipt observedAt",
+  );
+  invariant(
+    privateReleaseObservedTime <= reviewedObservedTime,
+    "The private live Pages receipt is newer than the supported-host capture; recapture the dependent host and media evidence",
+  );
   invariant(reviewed.observedAt === evidence.capturedAt, "Tracked reviewed Chrome evidence has a different observation time");
   invariant(
     canonicalJson(reviewed.deploymentChecks) === canonicalJson(evidence.deploymentChecks),
@@ -809,7 +818,7 @@ export function validateSupportedHostReviewedArtefact(reviewed, evidence, review
   invariant(reviewed.releaseEvidence.productCommit === config.productCommit && String(reviewed.releaseEvidence.pagesRunId) === config.pagesRunId, "Tracked reviewed Chrome release evidence does not identify the configured candidate deployment");
   invariant(Number.isInteger(reviewed.releaseEvidence.pagesArtifactId) && reviewed.releaseEvidence.pagesArtifactId > 0, "Tracked reviewed Chrome release evidence has no Pages artefact ID");
   invariant(/^sha256:[a-f0-9]{64}$/u.test(reviewed.releaseEvidence.artifactApiDigest) && SHA256.test(reviewed.releaseEvidence.artifactTarSha256) && SHA256.test(reviewed.releaseEvidence.liveArtifactVerificationSha256) && SHA256.test(reviewed.releaseEvidence.liveManifestSha256), "Tracked reviewed Chrome release evidence has an invalid digest");
-  invariant(reviewed.releaseEvidence.liveArtifactVerification === "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json", "Tracked reviewed Chrome release evidence names the wrong live verification");
+  invariant(reviewed.releaseEvidence.liveArtifactVerification === RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification, "Tracked reviewed Chrome release evidence names the wrong live verification");
   invariant(liveVerificationFile.relativePath === reviewed.releaseEvidence.liveArtifactVerification && liveVerificationFile.sha256 === reviewed.releaseEvidence.liveArtifactVerificationSha256, "Tracked reviewed Chrome live-verification bytes do not match the release binding");
   invariant(liveVerificationFile.sha256 === release.publicReceiptSha256, "Tracked reviewed Chrome live-verification bytes differ from the exact public receipt");
   invariant(liveVerification.repository === reviewed.target.deployment.repository && liveVerification.baseUrl === reviewed.target.url && liveVerification.commit === reviewed.releaseEvidence.productCommit && liveVerification.runId === String(reviewed.releaseEvidence.pagesRunId), "Tracked reviewed Chrome live verification has a different deployment identity");
@@ -1256,7 +1265,9 @@ export async function authenticateFinalVideoPersonalAgentSummary(
 ) {
   let authenticatedRelease = null;
   try {
-    authenticatedRelease = await authenticateImplementation(preRunLiveRelease);
+    authenticatedRelease = await authenticateImplementation(preRunLiveRelease, {
+      checkoutPolicy: "clean-evidence-descendant",
+    });
     const authenticatedReplay = await summariseImplementation(
       sourceCapture,
       loadedCaseSet,
@@ -1863,7 +1874,8 @@ async function preflight(options) {
           config,
           preRunLiveRelease: liveRelease,
         }, {
-          authenticateImplementation: (candidate) => authenticateEvaluationReleaseReceipt(candidate, {
+          authenticateImplementation: (candidate, authenticationOptions) => authenticateEvaluationReleaseReceipt(candidate, {
+            checkoutPolicy: authenticationOptions.checkoutPolicy,
             authenticateImplementation: async (expected) => {
               invariant(
                 isAuthenticatedLivePagesReceipt(authenticatedLiveVerification)

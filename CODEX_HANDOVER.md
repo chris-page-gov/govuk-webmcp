@@ -36,6 +36,22 @@ The rebuilt 40.966667-second ignored receipt reconstruction has SHA-256
 its tracked receipt has SHA-256
 `4ee76fa70e48fca22e6874500d4bfa8a9c19d75bdbec5116276c23efffc5a528`.
 
+Pull request #21 contains the subsequent release-hardening follow-up. Its first
+Linux CI run `33593265033`, job `100131452398`, failed because an ignored raw
+Chrome fixture was absent on the clean runner, two filesystem-substitution
+regressions assumed APFS-style inode non-reuse, and `webmcp-evals` backup
+clean-up trusted a recycled device/inode pair and could remove a replacement.
+The corrected harness reconstructs the historical raw fixture exactly from
+tracked reviewed and supported-host evidence as 133,272 bytes with SHA-256
+`2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
+Validated clean-up now binds exact bytes, mode and identity. Evidence staging
+also normalises a restrictive process umask through a no-follow opened file
+handle, verifies that handle against the path identity, applies the requested
+mode through the handle and only then checks exact mode and bytes. The current
+prepared unit suite passes 398 of 398, and the focused post-review batch passes
+116 of 116. Neither the failed run nor these local passes prove protected
+integration, deployment or the final complete release gate for this revision.
+
 Five silent exact-candidate page-interaction clips are captured for the empty
 Evidence answer, human presentation action, comparison guide, Technical review
 and personal-AI boundary. Their receipt is bound to the same product commit and
@@ -129,6 +145,24 @@ numbers and do not invoke coercion hooks. Portable reflection does not claim to
 contain Proxy traps: host JSON cannot carry a Proxy, while same-realm code able
 to construct one already has script-execution authority.
 
+The canonical release path module supplies the demo configuration, ignored
+local and private live receipts, private evaluation and media inputs, tracked
+reviewed live, Chrome and supported-host receipts and the exact VoiceOver
+manifest, clip and nine frame paths to every release consumer. The live verifier
+can write the same serialised receipt as one recoverable set to local
+mode-`0600`, optional private mode-`0600` and optional reviewed mode-`0644`
+destinations. Use `--stage-private-release-receipt` for private staging and
+`--admit-public-evidence` for reviewed admission; their
+`--overwrite-private-release-receipt` and `--overwrite-reviewed-evidence`
+replacement gates are separate. Overwriting the private receipt explicitly
+requires dependent supported-host and media evidence to be recaptured against
+that newer observation.
+
+With no manifest argument, the VoiceOver screenshot-clip builder now reads the
+canonical `output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json` path from
+that same module. It no longer selects the historical generic
+`output/voiceover-capture/capture-manifest.json` file.
+
 The output and public-evidence helpers now bind and revalidate each ancestor
 device, inode and real path around every stage, link and removal mutation. This
 detects persistent late parent substitution, rejects instead of reporting
@@ -138,6 +172,9 @@ control of repository and output ancestors. Portable Node cannot root these
 mutations in an already-open directory with `openat`, `linkat` and `unlinkat`;
 same-user or privileged substitution wholly within a filesystem syscall window
 remains explicitly out of scope and can leave an orphan external stage.
+Validated-stage, committed-output and dependency-backup removal additionally
+checks the expected exact bytes and file mode immediately before clean-up, so
+inode reuse cannot turn an unrelated replacement into the deletion target.
 
 Version `v0.3.0-rc.1` remains a historical tagged release at product commit
 `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; its five-tool, accessibility and
@@ -175,7 +212,7 @@ Visible candidate implementation currently includes:
 - a DOM-only Evidence answer renderer that keeps source-derived text inert,
   admits only validated recorded HTTPS source destinations and exposes the
   source, material limit, next check, cannot-decide boundary, accepted input
-  and comparison guide without a trust score.
+  and comparison guide without a trust score;
 - a guarded full Pages artefact verifier that binds an exact successful manual
   Pages run to protected main, checks archive and deployment identity and
   compares every regular artefact file with the live site before public evidence
@@ -199,7 +236,13 @@ Visible candidate implementation currently includes:
   detection; and
 - pre-extraction validation and counting of every Pages tar member, including
   directories, aliases and entry-type/listing agreement, plus fixed archive,
-  file, directory, byte, concurrency and deadline budgets in receipt schema v2.
+  file, directory, byte, concurrency and deadline budgets in receipt schema v2;
+- one canonical candidate release-path contract and a secure live-receipt
+  staging operation with distinct private and reviewed overwrite gates; and
+- an exact-commit default evaluation policy plus a final-video-only clean
+  evidence-descendant policy that accepts a stable clean descendant containing
+  only `A` or `M` allowlisted inert documentation, reviewed evidence JSON and
+  the exact candidate VoiceOver assets.
 
 The `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` deployment is a historical
 pre-hardening evaluation checkpoint, not final release acceptance. Settled
@@ -209,7 +252,7 @@ post-hardening source checks completed on 2 September 2026 include:
   records through the production Evidence answer contract;
 - `node --test tests/unit/view-routing.test.mjs tests/unit/beginner-presentation.test.mjs tests/unit/evidence-federation.test.mjs tests/unit/federated-search-runtime.test.mjs tests/unit/evidence-answer-view.test.mjs`
   passed before the final remediation, and the complete prepared unit suite now
-  passes 381 of 381;
+  passes 398 of 398;
 - `npx playwright test tests/browser/evidence-answer.spec.mjs` passed 12 of 12
   in installed Chrome with the loopback bind permitted;
 - `node --test tests/unit/demo-video.test.mjs tests/unit/voiceover-screenshot-clip.test.mjs tests/unit/live-pages-verifier.test.mjs`
@@ -226,9 +269,10 @@ post-hardening source checks completed on 2 September 2026 include:
   and each contains 128,653,230 bytes.
 
 The first `npm test` browser start was blocked by the restricted sandbox's
-loopback-bind policy after every preceding stage, including all 381 unit tests,
-had passed. The explicitly authorised Chrome and Edge reruns both passed; do
-not misreport that environmental start failure as an application failure.
+loopback-bind policy after every preceding stage, including all 381 unit tests
+then present, had passed. The explicitly authorised Chrome and Edge reruns both
+passed; do not misreport that environmental start failure as an application
+failure.
 
 The focused browser checks prove background WebMCP preservation of the active
 Technical review record, durable navigation to the new Evidence answer,
@@ -250,7 +294,15 @@ budgets. Frozen code-snapshot scan
 `aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
 `codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
 completed 36 of 36 items, ran 102 focused tests, found zero findings and
-concluded that there is no security release blocker.
+concluded that there was no security release blocker for that frozen snapshot.
+
+The later sealed scan `185ce6fa-a47f-4c5e-9888-c63a9f932205`, snapshot
+`codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`,
+completed its 33 selected executable-source items with zero reportable
+findings. It predates the clean-run reconstruction, portable clean-up,
+canonical-path, secure receipt-staging and evidence-descendant changes in pull
+request #21. Preserve it as historical evidence; a fresh security review must
+cover the current executable snapshot.
 
 Protected integration and first exact deployment authentication are complete.
 The admitted live receipt binds product commit
@@ -1091,12 +1143,11 @@ prose.
 For any remaining build-affecting hardening, pass protected review,
 protected-main validation, exact deployment and byte comparison. Recapture and
 rebind every exact-release live, Chrome, supported-host, VoiceOver and host
-matrix input before building the new redacted under-three-minute video. The
-local changed-source security gate is closed for sealed post-fix snapshot
-`codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`:
-scan `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
-executable-source items with zero reportable findings. The following lockstep
-recording edits do not change executable source. Complete audible playback,
+matrix input before building the new redacted under-three-minute video. First
+require a fresh security review and green protected pull-request validation for
+the current pull request #21 snapshot; run `33593265033`, job `100131452398`, is
+the retained failed clean-run and Linux-portability diagnostic, not an
+integration pass. Complete audible playback,
 privacy, branding, rights and caption review, then
 inspect GitHub metadata. If the annotated `v0.4.0-rc.1` tag and prerelease do
 not already exist, create them on that exact protected-main product commit. A

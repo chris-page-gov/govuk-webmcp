@@ -1,12 +1,17 @@
 import { createHash } from "node:crypto";
+
+import {
+  EVIDENCE_RELEASE,
+  RELEASE_EVIDENCE_PATHS,
+} from "./release-evidence-paths.mjs";
 import { parseUtcRfc3339Timestamp } from "./rfc3339-timestamp.mjs";
 
 export const SUPPORTED_HOST_CAPTURE_SCHEMA = "govuk-webmcp.supported-host-webmcp-capture.v4";
-export const SUPPORTED_HOST_RELEASE = "v0.4.0-rc.1";
+export const SUPPORTED_HOST_RELEASE = EVIDENCE_RELEASE;
 export const SUPPORTED_HOST_PUBLIC_URL = "https://chris-page-gov.github.io/govuk-webmcp/";
 export const SUPPORTED_HOST_RAW_RECEIPT_PATH = ".evals/chrome-devtools-mcp-public.json";
 export const SUPPORTED_HOST_REVIEWED_EVIDENCE_PATH =
-  "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json";
+  RELEASE_EVIDENCE_PATHS.reviewedChromeEvidence;
 export const SUPPORTED_HOST_REVIEWED_LIMITATIONS = Object.freeze([
   "This time-bound capture proves browser-native WebMCP discovery and deterministic execution in Chrome DevTools MCP 1.8.0 against exact public release v0.4.0-rc.1; it is not a general compatibility claim.",
   "Chrome DevTools MCP did not select or evaluate a model, and no model provider was contacted.",

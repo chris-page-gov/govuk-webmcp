@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { EventEmitter } from "node:events";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { link, lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
@@ -18,6 +18,7 @@ import {
   measureTarRegularPayload,
   normaliseTarEntries,
   parseVerificationOptions,
+  persistLivePagesVerificationReceipt,
   selectPagesArtifact,
   validateArchiveDigest,
   validateLivePagesReceiptShape,
@@ -27,6 +28,7 @@ import {
   validatePagesWorkflowRun,
   validateTarEntryTypes,
 } from "../../scripts/verify-live-pages-artifact.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "../../scripts/lib/release-evidence-paths.mjs";
 
 const commit = "a".repeat(40);
 const runId = "33555555555";
@@ -35,12 +37,30 @@ const environment = {
   GOVUK_WEBMCP_PAGES_RUN_ID: runId,
 };
 
+function liveReceipt(observedAt = "2026-09-02T05:00:00Z") {
+  return createLiveVerificationReceipt({
+    artifact: { id: 123, apiDigest: `sha256:${"c".repeat(64)}` },
+    artifactTarSha256: "d".repeat(64),
+    expectedCommit: commit,
+    files: [
+      { path: "index.html", sha256: "e".repeat(64), byteCount: 5 },
+      { path: "app/main.js", sha256: "f".repeat(64), byteCount: 7 },
+    ],
+    mismatches: [],
+    observedAt,
+    runId,
+    statusCounts: { "200": 2 },
+  });
+}
+
 test("live verifier requires an exact commit, run and explicit evidence admission", () => {
   assert.deepEqual(parseVerificationOptions([], environment), {
     admitPublicEvidence: false,
     expectedCommit: commit,
+    overwritePrivateReleaseReceipt: false,
     overwriteReviewedEvidence: false,
     runId,
+    stagePrivateReleaseReceipt: false,
   });
   assert.equal(
     parseVerificationOptions(["--admit-public-evidence"], environment).admitPublicEvidence,
@@ -49,6 +69,15 @@ test("live verifier requires an exact commit, run and explicit evidence admissio
   assert.throws(
     () => parseVerificationOptions(["--overwrite-reviewed-evidence"], environment),
     /requires --admit-public-evidence/u,
+  );
+  assert.equal(
+    parseVerificationOptions(["--stage-private-release-receipt"], environment)
+      .stagePrivateReleaseReceipt,
+    true,
+  );
+  assert.throws(
+    () => parseVerificationOptions(["--overwrite-private-release-receipt"], environment),
+    /requires --stage-private-release-receipt/u,
   );
   assert.throws(() => parseVerificationOptions(["--force"], environment), /Unknown argument/u);
   assert.throws(
@@ -59,6 +88,175 @@ test("live verifier requires an exact commit, run and explicit evidence admissio
     () => parseVerificationOptions([], { ...environment, GOVUK_WEBMCP_PAGES_RUN_ID: "0" }),
     /workflow run ID/u,
   );
+});
+
+test("release receipt paths have one independent exact v0.4 contract", () => {
+  assert.deepEqual({
+    local: RELEASE_EVIDENCE_PATHS.localLivePagesVerification,
+    private: RELEASE_EVIDENCE_PATHS.privateLivePagesVerification,
+    reviewed: RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification,
+  }, {
+    local: ".evals/live-artifact-verification-v0.4.0-rc.1.json",
+    private: ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json",
+    reviewed: "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+  });
+});
+
+async function createReceiptRepository(context) {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-live-receipt-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(join(root, "docs/competition/evidence"), { recursive: true });
+  return root;
+}
+
+function receiptPersistenceOptions(overrides = {}) {
+  return {
+    admitPublicEvidence: false,
+    overwritePrivateReleaseReceipt: false,
+    overwriteReviewedEvidence: false,
+    stagePrivateReleaseReceipt: false,
+    ...overrides,
+  };
+}
+
+test("live verification stages identical private and public receipts with exact modes", async (context) => {
+  const root = await createReceiptRepository(context);
+  const receipt = liveReceipt();
+  const result = await persistLivePagesVerificationReceipt(
+    receipt,
+    receiptPersistenceOptions({
+      admitPublicEvidence: true,
+      stagePrivateReleaseReceipt: true,
+    }),
+    { repositoryPath: root },
+  );
+  const expected = `${JSON.stringify(receipt, null, 2)}\n`;
+  const [localBytes, privateBytes, reviewedBytes] = await Promise.all([
+    readFile(result.localPath, "utf8"),
+    readFile(result.privatePath, "utf8"),
+    readFile(result.reviewedPath, "utf8"),
+  ]);
+  assert.equal(localBytes, expected);
+  assert.equal(privateBytes, expected);
+  assert.equal(reviewedBytes, expected);
+  const [localState, privateState, reviewedState] = await Promise.all([
+    lstat(result.localPath),
+    lstat(result.privatePath),
+    lstat(result.reviewedPath),
+  ]);
+  assert.equal(localState.mode & 0o777, 0o600);
+  assert.equal(privateState.mode & 0o777, 0o600);
+  assert.equal(reviewedState.mode & 0o777, 0o644);
+  for (const directory of [
+    ".evals",
+    ".evals/personal-agent-media",
+    RELEASE_EVIDENCE_PATHS.privateReleaseRoot,
+  ]) {
+    assert.equal((await lstat(join(root, directory))).mode & 0o777, 0o700);
+  }
+});
+
+test("private release receipt replacement is explicit and invalid attempts change no receipt", async (context) => {
+  const root = await createReceiptRepository(context);
+  const firstReceipt = liveReceipt("2026-09-02T05:00:00Z");
+  const selected = receiptPersistenceOptions({
+    admitPublicEvidence: true,
+    stagePrivateReleaseReceipt: true,
+  });
+  const first = await persistLivePagesVerificationReceipt(firstReceipt, selected, { repositoryPath: root });
+  const firstBytes = `${JSON.stringify(firstReceipt, null, 2)}\n`;
+  const secondReceipt = liveReceipt("2026-09-02T05:01:00Z");
+  await assert.rejects(
+    persistLivePagesVerificationReceipt(secondReceipt, selected, { repositoryPath: root }),
+    /already exists and replacement was not authorised/u,
+  );
+  assert.equal(await readFile(first.localPath, "utf8"), firstBytes);
+  assert.equal(await readFile(first.privatePath, "utf8"), firstBytes);
+  assert.equal(await readFile(first.reviewedPath, "utf8"), firstBytes);
+
+  const replacement = await persistLivePagesVerificationReceipt(
+    secondReceipt,
+    receiptPersistenceOptions({
+      overwritePrivateReleaseReceipt: true,
+      stagePrivateReleaseReceipt: true,
+    }),
+    { repositoryPath: root },
+  );
+  const secondBytes = `${JSON.stringify(secondReceipt, null, 2)}\n`;
+  assert.equal(await readFile(replacement.localPath, "utf8"), secondBytes);
+  assert.equal(await readFile(replacement.privatePath, "utf8"), secondBytes);
+  assert.equal(await readFile(first.reviewedPath, "utf8"), firstBytes);
+});
+
+test("three-receipt admission rolls back every target after a later promotion failure", async (context) => {
+  const root = await createReceiptRepository(context);
+  const initialReceipt = liveReceipt("2026-09-02T05:00:00Z");
+  const initial = await persistLivePagesVerificationReceipt(
+    initialReceipt,
+    receiptPersistenceOptions({
+      admitPublicEvidence: true,
+      stagePrivateReleaseReceipt: true,
+    }),
+    { repositoryPath: root },
+  );
+  const initialBytes = `${JSON.stringify(initialReceipt, null, 2)}\n`;
+  const privateTarget = initial.privatePath;
+  await assert.rejects(
+    persistLivePagesVerificationReceipt(
+      liveReceipt("2026-09-02T05:02:00Z"),
+      receiptPersistenceOptions({
+        admitPublicEvidence: true,
+        overwritePrivateReleaseReceipt: true,
+        overwriteReviewedEvidence: true,
+        stagePrivateReleaseReceipt: true,
+      }),
+      {
+        repositoryPath: root,
+        admissionFileSystem: {
+          async linkFile(source, destination) {
+            if (source.includes(".admit-stage-") && destination === privateTarget) {
+              throw new Error("Injected private receipt promotion failure.");
+            }
+            return link(source, destination);
+          },
+        },
+      },
+    ),
+    /Injected private receipt promotion failure/u,
+  );
+  for (const path of [initial.localPath, initial.privatePath, initial.reviewedPath]) {
+    assert.equal(await readFile(path, "utf8"), initialBytes);
+  }
+  const names = await readdir(root, { recursive: true });
+  assert.equal(names.some((name) => name.includes(".admit-stage-") || name.includes(".admit-backup-")), false);
+});
+
+test("receipt persistence rejects invalid options and symbolic repository roots before mutation", async (context) => {
+  const parent = await mkdtemp(join(tmpdir(), "govuk-webmcp-live-root-"));
+  context.after(() => rm(parent, { recursive: true, force: true }));
+  const root = join(parent, "repository");
+  await mkdir(join(root, "docs/competition/evidence"), { recursive: true });
+  await assert.rejects(
+    persistLivePagesVerificationReceipt(
+      liveReceipt(),
+      { stagePrivateReleaseReceipt: "yes" },
+      { repositoryPath: root },
+    ),
+    /stagePrivateReleaseReceipt must be a boolean/u,
+  );
+  await assert.rejects(lstat(join(root, ".evals")), (error) => error?.code === "ENOENT");
+
+  const linkedRoot = join(parent, "repository-link");
+  await symlink(root, linkedRoot);
+  await assert.rejects(
+    persistLivePagesVerificationReceipt(
+      liveReceipt(),
+      receiptPersistenceOptions({ stagePrivateReleaseReceipt: true }),
+      { repositoryPath: linkedRoot },
+    ),
+    /real non-symbolic directory/u,
+  );
+  await assert.rejects(lstat(join(root, ".evals")), (error) => error?.code === "ENOENT");
 });
 
 test("live verifier accepts only a successful manual Pages run on exact protected main", () => {

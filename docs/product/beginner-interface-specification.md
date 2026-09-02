@@ -3,20 +3,22 @@
 **Status:** accepted implementation specification; candidate implementation authorised
 
 **Implementation status:** core `0.4.0-rc.1` projection, sixth action, bounded
-two-view routing and Evidence answer rendering are present in the working tree;
-exact-candidate verification and release acceptance remain pending
+two-view routing, Evidence answer rendering and release-evidence hardening are
+implemented locally. The latest prepared unit suite passes 398 of 398;
+protected integration, deployment and release acceptance remain pending
 
-**Date:** 1 September 2026
+**Date:** 2 September 2026
 
 **Companion requirements:**
 [Beginner trust pathway product requirements](beginner-trust-pathway-prd.md)
 
 **Authorisation boundary:** the user has authorised the experimental candidate
-implementation described here. This source-contract correction does not itself
-change the application, WebMCP tools, schemas, release or deployment. Release
-acceptance and formative user research remain separately evidenced work and
-must not be claimed before they occur. The source-contract correction is complete
-for the current candidate.
+implementation and publication work described here. Implementation, source-
+contract correction and local verification do not themselves establish a
+release, host observation, accessibility outcome or participant finding.
+Release acceptance and formative user research remain separately evidenced
+work and must not be claimed before they occur. Devpost submission remains a
+separate explicit action.
 
 ## 1. Outcome
 
@@ -953,6 +955,38 @@ human interaction accurately. The user has authorised candidate video and
 publication work; this specification does not claim that either has occurred
 and does not authorise the separate Devpost submission action.
 
+Release evidence must use the canonical path contract shared by the live
+verifier, supported-host capture and media builders. The verifier is the only
+supported staging path: do not manually copy its receipt. It always writes
+`.evals/live-artifact-verification-v0.4.0-rc.1.json` as mode `0600`; when
+explicitly requested it writes identical bytes to
+`.evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json` as mode
+`0600`; and a separate public-admission option can write
+`docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json` as mode
+`0644`. The selected one to three files are one recoverable admission. Private
+and reviewed overwrite gates are independent. Replacing the private receipt
+invalidates dependent supported-host and media evidence and therefore requires
+their recapture.
+
+Receipt admission must remain reliable under a restrictive process umask. It
+normalises each staged file to the requested mode through its opened no-follow
+descriptor before validating the descriptor, path identity, exact mode and
+bytes; later permission drift fails closed. The no-argument VoiceOver clip
+builder must resolve the canonical exact
+`output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json`, never an
+unversioned fallback.
+
+Normal evaluation authentication requires a clean checkout at the exact Pages
+product commit. Final-video authentication alone may accept a clean reviewed-
+evidence descendant while the runtime remains pinned to that ancestor product
+commit. Its allowlist admits only `A` or `M` changes to inert `.md`, `.csv` and
+`.vtt` files under `docs/`, reviewed evidence JSON, approved top-level
+documentation and the exact version 0.4 VoiceOver manifest, nine frames and
+clip. It rejects dirty state, a non-ancestor product commit, deletes, renames,
+copies, type changes, non-canonical paths and code, workflow, package or other
+runtime changes. Authentication pins and rechecks `HEAD` and the exact admitted
+change set through replay.
+
 ## 16. Gates and sequenced hand-off
 
 The user has authorised the experimental implementation, subject to these
@@ -977,13 +1011,12 @@ sequenced verification and release gates.
    43 in installed Edge, including routing, focus, reflow and inactive-view
    preservation.
 5. **Run deterministic, accessibility and security assurance — automated
-   product checks and the sealed local changed-source security scan are
-   complete; exact-release manual, protected-integration and deployment
-   evidence remain separately gated.** The
+   product checks are locally advanced; exact-release manual, final security,
+   protected-integration and deployment evidence remain separately gated.** The
    full-corpus projection audit passes for 80 reviewed and 58,652 federated
-   records, and the settled prepared unit suite passes 381 of 381. The offline
-   double build passes for 1,883 files and 128,653,230 bytes at aggregate
-   SHA-256
+   records, and the latest prepared unit suite passes 398 of 398. The settled
+   deterministic check produced two identical 1,883-file, 128,653,230-byte
+   builds at aggregate SHA-256
    `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
    Historical code-snapshot security scan
    `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items, ran 102
@@ -993,20 +1026,43 @@ sequenced verification and release gates.
    integrated tests. Sealed post-fix scan
    `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
    executable-source items with complete configured coverage and zero
-   reportable findings for its exact snapshot.
+   reportable findings for its exact snapshot. Subsequent release-evidence
+   changes make that scan historical and require final review for the exact
+   candidate.
+   The first PR #21 validation, run `33593265033` and job `100131452398`,
+   exposed four clean-runner failures: an ignored raw Chrome fixture read at
+   test module initialisation, two APFS-specific inode-reuse assumptions and
+   backup clean-up that trusted a recycled device/inode pair. The corrected
+   test reconstructs the exact 133,272-byte fixture from tracked evidence at
+   SHA-256
+   `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`;
+   validated rollback and clean-up now recheck exact bytes and mode. Those
+   changes pass locally, but protected validation has not yet passed.
+   Independent follow-up corrections for descriptor-bound umask normalisation
+   and the canonical no-argument VoiceOver manifest pass 116 of 116 focused
+   tests. The current prepared suite passes 398 of 398. Local automated
+   verification is complete; exact-candidate security, manual,
+   protected-integration and deployment evidence remain pending.
    Recapture the release-specific manual visual and assistive-technology
    checks, retaining every limitation.
 6. **Run formative research.** Include non-technical AI sceptics, disabled
    people and low-digital-confidence participants. Publish negative and
    inconclusive findings.
-7. **Verify and release separately.** Run complete unit, Chrome, Edge,
-   accessibility, host, security, manifest, protected-main and exact Pages
-   verification before making Evidence answer the default.
+7. **Verify and release separately.** Obtain green PR #21 and protected-main
+   validation; deploy and byte-compare that exact product commit; use the live
+   verifier's private-staging option; then recapture the six-tool host journey,
+   nine-step VoiceOver journey and cloud/local evaluation. Build and review the
+   final video before creating the annotated tag and GitHub prerelease. Do not
+   infer any of these outcomes from local implementation. Devpost submission
+   remains separately authorised work.
 
 Gates 1 to 4 have implementation and local deterministic and cross-browser
-evidence. The retained candidate manual accessibility, deployment and host
-observations bind historical pre-hardening commit `a4fabe…`; exact-release
-deployment and cross-host verification must be established from authenticated
+evidence. Release-evidence admission and clean evidence-descendant controls are
+also implemented and pass the current 398-test prepared unit suite. The
+retained candidate manual accessibility, deployment and host observations bind
+historical pre-hardening commit `a4fabe…`; protected integration, exact-release
+deployment, live-host and VoiceOver recapture, final video and tagging remain
+pending. Cross-host verification must be established from authenticated
 records, followed by formative review. Automated checks do not establish WCAG
 conformance. Formative comprehension remains an explicit evidence gap until
 real participants take part.

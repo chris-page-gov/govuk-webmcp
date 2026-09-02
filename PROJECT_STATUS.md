@@ -10,6 +10,24 @@ passed after its Linux deadline regression was corrected, protected `main`
 passed validation run `33554600300`, and Pages run `33555187118` deployed that
 exact commit at <https://chris-page-gov.github.io/govuk-webmcp/>.
 
+The subsequent release-hardening change is under pull request #21. Its first
+Linux CI run `33593265033`, job `100131452398`, failed for four diagnosed
+reasons: the ignored raw Chrome fixture was absent from the clean runner; two
+filesystem-substitution tests assumed APFS-style inode non-reuse; and
+`webmcp-evals` backup clean-up trusted a recycled device/inode pair and could
+remove a replacement. The run is not a passing integration record. The
+correction reconstructs the exact historical raw fixture from tracked evidence
+as 133,272 bytes with SHA-256
+`2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`
+and makes validated clean-up bind exact bytes, mode and identity rather than
+assuming an inode cannot be reused. The current prepared unit suite passes 398
+of 398. The focused post-review batch passes 116 of 116. Restrictive process
+umasks are now normalised by opening the new evidence stage without following a
+symbolic-link leaf, cross-checking its descriptor/path identity and setting the
+exact requested mode through the opened handle before mode and byte validation.
+Protected integration, deployment and the final complete release gate for this
+hardening revision remain to be established by their own records.
+
 The complete live comparison observed on 1 September 2026 fetched all 1,884
 regular artefact files and 128,646,735 bytes. Every request returned HTTP 200
 and there were zero byte mismatches. The live manifest SHA-256 is
@@ -69,11 +87,35 @@ One canonical helper rejects the legislation
 apex and every subdomain, including trailing-dot forms, throughout build,
 capture and evidence validation.
 
+One shared path contract now fixes every candidate release input consumed by
+the live verifier, supported-host capture and final-video assembly: the demo
+configuration; local and private live receipts; private evaluation, summary
+and Copilot capture; reviewed live, Chrome and supported-host evidence; and the
+exact VoiceOver manifest, clip and nine frames. The live verifier can promote
+one serialised receipt byte-identically to the local mode-`0600`, optional
+private mode-`0600` and optional reviewed mode-`0644` paths. Private and public
+admission use `--stage-private-release-receipt` and
+`--admit-public-evidence`; replacement requires the corresponding explicit
+`--overwrite-private-release-receipt` or `--overwrite-reviewed-evidence`
+option. Replacing the private receipt reports that all dependent supported-host
+and media evidence must be recaptured, and later validation requires the
+supported-host observation to be no earlier than the replacement.
+
+The no-argument VoiceOver screenshot-clip builder now resolves the same
+canonical candidate path,
+`output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json`, instead of the
+historical generic `output/voiceover-capture/capture-manifest.json`. An omitted
+argument can no longer select evidence from the wrong release lineage.
+
 Live clips, the supported-host reconstruction, the Ollama diagnostic and the
 four final-video outputs now use one shared promotion transaction. Failures
 before complete promotion restore the previous set; backup clean-up after a
 complete commit retains the new set and reports any recoverable leftovers. The
-private local evaluator rejects symbolic `.evals` and output roots. Video copy
+portable clean-up boundary revalidates exact file bytes and mode as well as the
+expected identity immediately before removing a validated stage, committed
+output or dependency backup. A filesystem-recycled inode therefore cannot make
+a replacement eligible for deletion. The private local evaluator rejects
+symbolic `.evals` and output roots. Video copy
 now says only that there is no dedicated personal-context field and that free
 text can still disclose personal details.
 
@@ -114,9 +156,10 @@ captured personal-agent call sequence is replayed from a private,
 manifest-verified snapshot of receipt-bound `dist` bytes under a unique module
 identity. The public summary copies neither
 unrestricted host/browser text nor hashes of it. Its strong claim gate requires
-a freshly authenticated exact live Pages observation, a clean unchanged Git
-commit and a byte-identical local `dist`; a merely well-shaped receipt is
-reported as `structurally-valid` and cannot open the gate. Copilot evidence must
+a freshly authenticated exact live Pages observation, an authenticated Git
+checkout under the policy described below and a byte-identical local `dist`;
+a merely well-shaped receipt is reported as `structurally-valid` and cannot
+open the gate. Copilot evidence must
 bind visible Microsoft Edge MCP Workspace and an observed Copilot share link,
 and privacy-marker checks normalise encoded and Unicode forms.
 
@@ -131,20 +174,26 @@ completed 36 of 36 items, ran 102 focused tests, found zero findings and
 concluded that there was no security release blocker for that snapshot. The
 later pre-fix scan `dcfed744-0676-40c1-a0ef-84dd3cc7b52b` found one Low,
 high-confidence receipt-authentication defect; the fresh-authentication changes
-above remediate it. Sealed post-fix working-tree scan
+above remediate it. Historical sealed post-fix working-tree scan
 `185ce6fa-a47f-4c5e-9888-c63a9f932205`, snapshot
 `codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`,
-then completed all 33 selected executable-source items with complete configured
-coverage and zero reportable findings. The subsequent lockstep edits only
-record that result; no executable source changed after the sealed snapshot.
+completed all 33 selected executable-source items with complete configured
+coverage and zero reportable findings for that snapshot. The clean-run,
+portable clean-up, canonical-path, secure receipt-staging and
+evidence-descendant authentication changes described here alter executable
+source after that sealed scan, so it remains historical evidence and does not
+close the current changed-source security gate. A fresh review of the current
+snapshot remains required.
+
 Non-executable documentation, tests, generated projections, binary media,
 ignored private captures, transitive dependencies and upstream services retain
 the scan's stated exclusions or supporting-evidence status.
 
 Settled post-hardening product checks on 2 September 2026 include research 4 of
 4; a passing production build and full-corpus projection audit for all 80
-reviewed and 58,652 federated records; 381 of 381 unit tests; 43 of 43 installed
-Chrome and 43 of 43 installed Microsoft Edge tests; frozen mean nDCG@10
+reviewed and 58,652 federated records; 398 of 398 prepared unit tests; 43 of 43
+installed Chrome and 43 of 43 installed Microsoft Edge
+tests; frozen mean nDCG@10
 `0.984698009` and Recall@20 `1`; 7 of 7 model-free WebMCP smoke envelopes; and
 zero npm-audit vulnerabilities across 162 dependencies. Two complete builds
 each produced 1,883 files and 128,653,230 bytes with aggregate SHA-256
@@ -165,6 +214,16 @@ state must be read from GitHub metadata rather than inferred from this file. The
 Safari and VoiceOver journey is complete with explicit limitations. The
 36-run local Ollama diagnostic is complete but unclaimable. Historical
 `v0.3.0-rc.1` evidence must not be relabelled as `0.4.0-rc.1` evidence.
+
+Normal evaluation continues to require a clean checkout at the exact Pages
+commit. Final-video authentication alone may use a clean evidence-descendant
+commit so reviewed release evidence can be assembled after deployment without
+changing the tagged product bytes. That exception requires the Pages product
+commit as an ancestor, a stable HEAD and exact Git change set before and after
+authentication and revalidation, `A` or `M` changes only, and a closed allowlist
+of documentation `.md`, `.csv` and `.vtt` files, reviewed evidence JSON and the
+exact `v0.4.0-rc.1` VoiceOver manifest, nine frames and clip. It rejects
+`AGENTS.md`, runtime, workflow, package, source, script and test changes.
 
 The worktree now also contains guarded candidate release tooling. It can verify
 the exact successful manual Pages run, downloaded artefact digest,
@@ -873,6 +932,15 @@ candidate inputs, not readiness for the next release commit: every exact-release
 receipt and media input must be recaptured or rebuilt after the hardening branch
 is integrated and deployed. Generated or reconstructed Copilot media remains
 prohibited.
+
+First complete pull request #21's assurance cycle: preserve failed run
+`33593265033`, job `100131452398`, as evidence of the clean-run and Linux
+portability defects; retain the current 398-test prepared-unit pass; complete a
+fresh security review of the corrected executable snapshot; and require a green
+protected pull-request run before merge. Only then deploy and authenticate the
+exact protected-main product commit. Do not reuse the pre-hardening Pages,
+Chrome, supported-host, VoiceOver or media receipts as release evidence for
+that commit.
 
 For the product-evidence lane, retain the completed patched 36-case Ollama
 diagnostic with all its failures and unknowns as historical diagnostic evidence,

@@ -1,8 +1,10 @@
 import { createHash, randomUUID } from "node:crypto";
+import { constants as fsConstants } from "node:fs";
 import {
   access,
   link,
   lstat,
+  open,
   readFile,
   realpath,
   rename,
@@ -73,6 +75,7 @@ async function assertSafeTarget(root, target, fileSystem) {
 const defaultFileSystem = Object.freeze({
   accessFile: access,
   linkFile: link,
+  openFile: open,
   statPath: lstat,
   readFile,
   realPath: realpath,
@@ -165,13 +168,62 @@ async function validateEvidenceBytes(path, entry, fileSystem, label, expectedIde
   const before = await fileSystem.statPath(path);
   invariant(before.isFile() && !before.isSymbolicLink(), `${label} must be a regular non-symbolic file: ${path}`);
   if (expectedIdentity) invariant(hasIdentity(before, expectedIdentity), `${label} changed identity: ${path}`);
+  const beforeMode = before.mode & 0o7777;
+  invariant(beforeMode === entry.mode, `${label} has the wrong permissions: ${path}`);
   const bytes = await fileSystem.readFile(path);
   const after = await fileSystem.statPath(path);
   await validateAncestorBinding(ancestorBinding, fileSystem, `${label} after inspection`);
   invariant(hasIdentity(after, identityOf(before)), `${label} changed identity while its bytes were verified: ${path}`);
+  invariant((after.mode & 0o7777) === beforeMode, `${label} changed permissions while its bytes were verified: ${path}`);
   invariant(after.size === bytes.byteLength && bytes.byteLength === entry.expectedBytes.byteLength, `${label} has the wrong size: ${path}`);
   invariant(sha256(bytes) === entry.expectedSha256 && bytes.equals(entry.expectedBytes), `${label} differs from the intended evidence bytes: ${path}`);
   return identityOf(after);
+}
+
+async function setExactEvidenceMode(path, entry, fileSystem, label, expectedIdentity = null, ancestorBinding = null) {
+  await validateAncestorBinding(ancestorBinding, fileSystem, `${label} before mode normalisation`);
+  let handle;
+  try {
+    handle = await fileSystem.openFile(
+      path,
+      fsConstants.O_RDONLY | (fsConstants.O_NOFOLLOW ?? 0),
+    );
+  } catch (error) {
+    if (["ELOOP", "ENOTDIR"].includes(error?.code)) {
+      throw new Error(`${label} must be a regular non-symbolic file: ${path}`, { cause: error });
+    }
+    throw error;
+  }
+  try {
+    const openedBefore = await handle.stat();
+    const pathBefore = await fileSystem.statPath(path);
+    const openedIdentity = identityOf(openedBefore);
+    invariant(
+      openedBefore.isFile()
+        && pathBefore.isFile()
+        && !pathBefore.isSymbolicLink()
+        && hasIdentity(pathBefore, openedIdentity),
+      `${label} changed identity or type before mode normalisation: ${path}`,
+    );
+    if (expectedIdentity) {
+      invariant(hasIdentity(openedBefore, expectedIdentity), `${label} changed identity: ${path}`);
+    }
+    await handle.chmod(entry.mode);
+    const openedAfter = await handle.stat();
+    const pathAfter = await fileSystem.statPath(path);
+    await validateAncestorBinding(ancestorBinding, fileSystem, `${label} after mode normalisation`);
+    invariant(
+      hasIdentity(openedAfter, openedIdentity) && hasIdentity(pathAfter, openedIdentity),
+      `${label} changed identity while its mode was normalised: ${path}`,
+    );
+    invariant(
+      (openedAfter.mode & 0o7777) === entry.mode && (pathAfter.mode & 0o7777) === entry.mode,
+      `${label} has the wrong permissions after mode normalisation: ${path}`,
+    );
+    return identityOf(openedAfter);
+  } finally {
+    await handle.close();
+  }
 }
 
 async function snapshotRegularFile(
@@ -350,14 +402,26 @@ async function removeWithRecoveryGuard({
 async function rollbackAdmission({ entries, promoted, backups, staged }, fileSystem) {
   const rollbackErrors = [];
   for (const entry of [...promoted].reverse()) {
-    await removeIdentityBoundFile(
-      entry.path,
-      entry.promotedIdentity,
-      fileSystem,
-      rollbackErrors,
-      "A promoted public-evidence target",
-      entry.ancestorBinding,
-    );
+    try {
+      await validateEvidenceBytes(
+        entry.path,
+        entry,
+        fileSystem,
+        "A promoted public-evidence target before rollback removal",
+        entry.promotedIdentity,
+        entry.ancestorBinding,
+      );
+      await removeIdentityBoundFile(
+        entry.path,
+        entry.promotedIdentity,
+        fileSystem,
+        rollbackErrors,
+        "A promoted public-evidence target",
+        entry.ancestorBinding,
+      );
+    } catch (error) {
+      if (error?.code !== "ENOENT") rollbackErrors.push(error);
+    }
   }
   for (const entry of [...backups].reverse()) {
     try {
@@ -416,14 +480,28 @@ async function rollbackAdmission({ entries, promoted, backups, staged }, fileSys
   }
   for (const entry of entries) {
     if (staged.has(entry.path)) {
-      await removeIdentityBoundFile(
-        entry.temporaryPath,
-        entry.stagedIdentity,
-        fileSystem,
-        rollbackErrors,
-        "A staged public-evidence file",
-        entry.ancestorBinding,
-      );
+      try {
+        if (entry.stagedValidated) {
+          await validateEvidenceBytes(
+            entry.temporaryPath,
+            entry,
+            fileSystem,
+            "A staged public-evidence file before rollback removal",
+            entry.stagedIdentity,
+            entry.ancestorBinding,
+          );
+        }
+        await removeIdentityBoundFile(
+          entry.temporaryPath,
+          entry.stagedIdentity,
+          fileSystem,
+          rollbackErrors,
+          "A staged public-evidence file",
+          entry.ancestorBinding,
+        );
+      } catch (error) {
+        if (error?.code !== "ENOENT") rollbackErrors.push(error);
+      }
     }
   }
   return rollbackErrors;
@@ -499,6 +577,7 @@ export async function admitEvidenceSet({
       existed: await pathExists(target, fileSystem, ancestorBinding),
       temporaryPath: resolve(dirname(target), `.${basename(target)}.admit-stage-${transactionId}`),
       backupPath: resolve(dirname(target), `.${basename(target)}.admit-backup-${transactionId}`),
+      stagedValidated: false,
       ancestorBinding,
     });
   }
@@ -526,7 +605,7 @@ export async function admitEvidenceSet({
           }),
         );
         writeCompleted = true;
-        entry.stagedIdentity = await validateEvidenceBytes(
+        entry.stagedIdentity = await setExactEvidenceMode(
           entry.temporaryPath,
           entry,
           fileSystem,
@@ -534,6 +613,15 @@ export async function admitEvidenceSet({
           null,
           entry.ancestorBinding,
         );
+        entry.stagedIdentity = await validateEvidenceBytes(
+          entry.temporaryPath,
+          entry,
+          fileSystem,
+          "A staged public-evidence file",
+          entry.stagedIdentity,
+          entry.ancestorBinding,
+        );
+        entry.stagedValidated = true;
       } catch (error) {
         try {
           await validateAncestorBinding(
@@ -646,6 +734,14 @@ export async function admitEvidenceSet({
         fileSystem,
         "A promoted public-evidence target",
         entry.promotedIdentity,
+        entry.ancestorBinding,
+      );
+      await validateEvidenceBytes(
+        entry.temporaryPath,
+        entry,
+        fileSystem,
+        "A staged public-evidence file before post-promotion removal",
+        entry.stagedIdentity,
         entry.ancestorBinding,
       );
       const stagedRemovalErrors = [];

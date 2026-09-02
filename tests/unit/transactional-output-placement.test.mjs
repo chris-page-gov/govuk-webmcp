@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  chmod,
   copyFile,
   link,
   lstat,
@@ -587,13 +588,67 @@ test("promotion rejects a pending file that changed identity before linking", as
         if (!swapped && temporary.includes(".pending-")) {
           swapped = true;
           await rm(temporary);
-          await writeFile(temporary, "swapped output\n", { flag: "wx" });
+          await writeFile(temporary, "malicious output\n", { flag: "wx" });
         }
         return link(temporary, target);
       },
     },
   }), /rollback was incomplete|does not match its validated stage/u);
-  assert.equal(await readFile(destination, "utf8"), "swapped output\n");
+  assert.equal(await readFile(destination, "utf8"), "malicious output\n");
+});
+
+test("rollback preserves a validated pending file whose bytes change before promotion", async (context) => {
+  const root = await mkdtemp(resolve(tmpdir(), "govuk-webmcp-output-placement-stage-content-swap-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const source = resolve(root, "source.txt");
+  const destination = resolve(root, "published", "output.txt");
+  await writeFile(source, "validated output\n");
+  await mkdir(resolve(root, "published"));
+  await writeFile(destination, "old output\n");
+  let pending;
+
+  await assert.rejects(placeRepositoryOutputs([{ source, destination }], {
+    root,
+    overwrite: true,
+    fileSystem: {
+      copyFile: async (from, to, flags) => {
+        pending = to;
+        return copyFile(from, to, flags);
+      },
+      link: async (from, to) => {
+        if (to.includes(".backup-")) {
+          await writeFile(pending, "malicious output\n");
+          throw new Error("synthetic backup failure");
+        }
+        return link(from, to);
+      },
+    },
+  }), /rollback was incomplete/u);
+
+  assert.equal(await readFile(pending, "utf8"), "malicious output\n");
+  assert.equal(await readFile(destination, "utf8"), "old output\n");
+});
+
+test("rollback preserves a committed output whose permissions changed", async (context) => {
+  const root = await mkdtemp(resolve(tmpdir(), "govuk-webmcp-output-placement-mode-drift-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const source = resolve(root, "source.txt");
+  const destination = resolve(root, "published", "output.txt");
+  await writeFile(source, "validated output\n");
+  await chmod(source, 0o644);
+
+  await assert.rejects(placeRepositoryOutputs([{ source, destination }], {
+    root,
+    fileSystem: {
+      link: async (temporary, target) => {
+        await link(temporary, target);
+        if (target === destination) await chmod(target, 0o600);
+      },
+    },
+  }), /rollback was incomplete/u);
+
+  assert.equal(await readFile(destination, "utf8"), "validated output\n");
+  assert.equal((await lstat(destination)).mode & 0o777, 0o600);
 });
 
 test("a writer replacing a committed output during pending clean-up prevents success", async (context) => {

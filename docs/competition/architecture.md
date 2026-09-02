@@ -174,32 +174,58 @@ replace the latest page selection. The composite action has an eight-second
 deadline; timeout, failure or cancellation retains the previous answer and
 cannot expose partial evidence.
 
-The settled `0.4.0-rc.1` source tree contains this projection, composite action,
-sixth tool, bounded router, renderer, shared mounts and controller integration.
-The build
-audits all 80 reviewed and 58,652 federated records using production result
-builders, the production projector and the closed presentation schema. The
-prepared unit suite passes 381 of 381, and the complete version 0.4 browser suites
-pass 43 of 43 in installed Chrome and 43 of 43 in installed Edge. The offline
-double build passes at 1,883 files, 128,653,230 bytes and aggregate SHA-256
+The current `0.4.0-rc.1` release-hardening worktree contains this projection,
+composite action, sixth tool, bounded router, renderer, shared mounts and
+controller integration. The build-integrated audit covers all 80 reviewed and
+58,652 federated records using production result builders, the production
+projector and the closed presentation schema. The latest prepared unit suite
+passes 398 of 398. The most recent complete version 0.4 browser suites pass 43
+of 43 in installed Chrome and 43 of 43 in installed Edge. The settled
+deterministic check produced two identical 1,883-file, 128,653,230-byte builds
+at aggregate SHA-256
 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
 Frozen code-snapshot security scan `aedf88e3-6a77-46af-be6b-2c672001dd46`
-completed 36 of 36 items, ran 102 focused tests, found zero findings and
-concluded that there is no security release blocker. The version 0.4 Safari and
-VoiceOver Caption Panel observation is complete with 6 passed and 3 limited
-checkpoints; it is a non-continuous screenshot sequence without speech audio
-and does not establish WCAG conformance. A dated, historical pre-hardening
-observation completed six-tool Chrome capture and a labelled receipt
-reconstruction against commit
+completed 36 of 36 items, ran 102 focused tests and found zero findings for its
+named snapshot. The version 0.4 Safari and VoiceOver Caption Panel observation
+completed with 6 passed and 3 limited checkpoints; it is a non-continuous
+screenshot sequence without speech audio and does not establish WCAG
+conformance. A dated, historical pre-hardening observation completed six-tool
+Chrome capture and a labelled receipt reconstruction against commit
 `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`; it is not evidence for the
-settled source tree or a later tag. The diagram is not release evidence.
+hardened source tree or a later tag. The diagram is not release evidence.
 
 Sealed post-fix working-tree scan `185ce6fa-a47f-4c5e-9888-c63a9f932205`,
 snapshot
 `codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`,
 subsequently completed all 33 selected executable-source items with complete
-configured coverage and zero reportable findings. The lockstep documentation
-that records this result does not change executable source.
+configured coverage and zero reportable findings. It is historical after the
+subsequent release-evidence implementation changes; final security review for
+the exact candidate remains a separate gate.
+
+The first pull-request validation of the release-hardening branch, run
+`33593265033` and job `100131452398`, failed before integration. A clean runner
+exposed four portability and preservation problems: one demonstration-video
+test tried to load an ignored raw Chrome fixture during module initialisation;
+two identity-swap tests assumed APFS inode behaviour that Linux does not
+guarantee; and WebMCP evaluation-patch backup clean-up trusted a recycled
+device/inode pair. The corrected test reconstructs the historical fixture from
+tracked reviewed evidence as exactly 133,272 bytes with SHA-256
+`2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
+Validated clean-up and rollback now recheck exact bytes and mode as well as file
+identity. These corrections pass the 398-test prepared unit suite locally;
+protected integration has not yet passed.
+
+Independent follow-up review found and corrected two further local release
+risks. Evidence staging now normalises a restrictive process umask to the exact
+requested file mode through the already opened, no-follow file descriptor
+before validating bytes, identity and permissions; mode drift after that
+descriptor-bound correction fails closed. The no-argument VoiceOver clip
+builder now resolves the canonical exact
+`v0.4.0-rc.1-capture-manifest.json` path instead of the obsolete unversioned
+manifest. The focused post-fix set passes 116 of 116 and the prepared unit suite
+passes 398 of 398. Local automated verification is complete; protected
+integration, deployment and exact-candidate security and manual evidence remain
+pending.
 
 Personal-agent captures are untrusted observations, not their own execution
 oracle. When an exact call trace is observable, the verifier copies the
@@ -232,6 +258,21 @@ and retains failed, unobserved and unreviewed states. It cannot claim a host
 recording, page update, live-release parity or safe local answers. The complete
 72-run and release-authentication gates below remain unchanged.
 
+Exact-release receipt paths are defined once in the canonical release-evidence
+path module. The live verifier always stages
+`.evals/live-artifact-verification-v0.4.0-rc.1.json` as mode `0600`. With the
+explicit private-staging option it writes identical bytes to
+`.evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json`, also as
+mode `0600`; with the separate public-admission option it may write the reviewed
+copy at
+`docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json` as mode
+`0644`. These one to three outputs are admitted in one recoverable transaction.
+The private and reviewed destinations each have an independent explicit
+overwrite gate. A release operator must use the verifier's staging action and
+must not manually copy the receipt. Replacing the private release receipt
+invalidates the dependent supported-host and media evidence, which must then be
+recaptured against that receipt.
+
 Supported-host evidence has three deliberately separate layers: an ignored
 mode-`0600` raw Chrome DevTools receipt, a tracked reviewed Chrome projection
 and a tracked supported-host projection. One recoverable admission transaction
@@ -249,10 +290,10 @@ authenticated object. Supported-host capture also requires the ordered
 `initial`, `after-page-load` and `after-execution` deployment observations to
 agree on the exact deployment identity and to enclose the host execution. A
 stored, copied, mutated or merely well-shaped receipt cannot satisfy that
-process-local authentication. Release-specific commit, run, deployment, artefact and
-browser/runtime version values are observation inputs, not values compiled
-before deployment: the configured commit/run, freshly verified deployment,
-authenticated receipt and both projections must agree exactly.
+process-local authentication. Release-specific commit, run, deployment,
+artefact and browser/runtime version values are observation inputs, not values
+compiled before deployment: the configured commit/run, freshly verified
+deployment, authenticated receipt and both projections must agree exactly.
 
 The media pipeline uses one transactional output-placement component for live
 interaction clips, supported-host and Ollama visualisations, and the four final
@@ -271,20 +312,37 @@ one screenshot sequence into continuous footage or WCAG conformance.
 Release authentication is also separate from structural receipt validation. A
 raw receipt-shaped object cannot open the evaluation claim gate. The verifier
 must freshly re-observe the named GitHub Pages artefact and every live byte,
-then bind an exact clean checkout and local `dist` manifest to the same commit.
-Receipt v2 fixes the work budget at a 256 MiB archive, 4,096 regular files, 512
-directories, 192 MiB of regular-file data, 8 MiB per file, 8 concurrent live
-fetches, 60 seconds per file and 10 minutes for the whole comparison. These
-controls are implemented and unit-tested locally. Their release status is
-established only by protected integration and a fresh authenticated deployment
-receipt for the exact product commit; it is not inferred from this document.
+then bind the local `dist` manifest to the Pages product commit. Ordinary
+evaluation authentication still requires a clean checkout at that exact
+commit. Receipt v2 fixes the work budget at a 256 MiB archive, 4,096 regular
+files, 512 directories, 192 MiB of regular-file data, 8 MiB per file, 8
+concurrent live fetches, 60 seconds per file and 10 minutes for the whole
+comparison. These controls are implemented and unit-tested locally. Their
+release status is established only by protected integration and a fresh
+authenticated deployment receipt for the exact product commit; it is not
+inferred from this document.
+
+Only final-video personal-agent admission may authenticate from a clean,
+reviewed evidence descendant while the page runtime remains pinned to its
+ancestor Pages product commit. The policy admits only `A` or `M` changes: inert
+`.md`, `.csv` and `.vtt` files under `docs/`, reviewed evidence JSON, the
+approved top-level documentation files, and the exact version 0.4 VoiceOver
+manifest, nine frame images and clip. It rejects a dirty checkout, a product
+commit that is not an ancestor, deletes, renames, copies, type changes,
+non-canonical paths and any code, workflow, package or other page-runtime
+change. NUL-delimited Git output is parsed as strict UTF-8, and both `HEAD` and
+the exact admitted change set are pinned and rechecked through authentication
+and replay.
 
 Final-video personal-agent admission performs that authentication in-process,
 replays the exact 72-run capture within the retained pre-run/fresh-observation
 window, exact-compares the supplied summary and disposes the authentication. A
 dirty unbound diagnostic cannot supply the local half. Any claimable local half
-must contain 36 slots captured from the clean exact-release checkout after its
-deployment; the receipt records whether that condition has been met.
+must contain 36 slots captured after the exact product deployment from either
+the product checkout or the admitted clean evidence descendant; the receipt
+records whether that condition has been met. Integration, exact deployment,
+live host capture, release VoiceOver capture, final video and tagging remain
+pending.
 
 ## Authored and generated boundaries
 

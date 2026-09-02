@@ -27,9 +27,11 @@ test("beginner interface specification records the implemented candidate without
 
   assert.match(specification, /Status:\*\* accepted implementation specification; candidate implementation authorised/u);
   assert.match(specification, /Implementation status:\*\* core `0\.4\.0-rc\.1` projection, sixth action, bounded/u);
-  assert.match(specification, /present in the working tree/u);
-  assert.match(specification, /exact-candidate verification and release acceptance remain pending/u);
-  assert.match(specification, /does not itself\s+change the application, WebMCP tools, schemas, release or deployment/u);
+  assert.match(specification, /release-evidence hardening are\s+implemented locally/u);
+  assert.match(specification, /protected integration, deployment and release acceptance remain pending/u);
+  assert.match(specification, /do not themselves establish a\s+release, host observation, accessibility outcome or participant finding/u);
+  assert.match(specification, /The verifier is the only\s+supported staging path: do not manually copy its receipt/u);
+  assert.match(specification, /Final-video authentication alone may accept a clean reviewed-\s+evidence descendant/u);
   assert.match(specification, /Evidence answer/u);
   assert.match(specification, /Technical review/u);
   assert.match(specification, /same action controller, validated artefacts, result objects and limitations/u);
@@ -57,7 +59,7 @@ test("beginner interface specification records the implemented candidate without
   assert.match(specification, /For every other record, `primaryLimitation` is `null`/u);
   assert.match(specification, /`acceptedInput` \| Closed successful validated action input[\s\S]+or `null` when a deep link/u);
   assert.match(specification, /no overall trust, confidence or quality score/u);
-  assert.match(specification, /source-contract correction is complete/u);
+  assert.match(specification, /source-\s*contract correction and local verification do not themselves establish/u);
   assert.match(specification, /A Life in the UK specialist-/u);
   assert.match(specification, /Any supported-host claim requires its own fresh,\s+authenticated exact-release observation/u);
   assert.match(specification, /the retained `a4fabe…` observation is\s+historical pre-hardening evidence/u);

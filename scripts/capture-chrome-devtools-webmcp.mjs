@@ -27,6 +27,7 @@ import {
 } from "./lib/chrome-devtools-supported-host-evidence.mjs";
 import { admitEvidenceSet } from "./lib/public-evidence-admission.mjs";
 import { ensurePrivateDirectory } from "./lib/private-directory.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "./lib/release-evidence-paths.mjs";
 import { withoutProviderCredentials } from "./lib/webmcp-evals-harness.mjs";
 import {
   validateSupportedHostEvidence,
@@ -49,17 +50,17 @@ const reviewedEvidencePath = resolve(
 );
 const supportedHostEvidencePath = resolve(
   repositoryRoot,
-  "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json",
+  RELEASE_EVIDENCE_PATHS.supportedHostEvidence,
 );
 const liveVerificationPath = resolve(
   repositoryRoot,
-  "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+  RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification,
 );
-const privateLiveVerificationRelativePath = ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json";
+const privateLiveVerificationRelativePath = RELEASE_EVIDENCE_PATHS.privateLivePagesVerification;
 const privateLiveVerificationPath = resolve(repositoryRoot, privateLiveVerificationRelativePath);
 const demoVideoScriptPath = resolve(
   repositoryRoot,
-  "docs/competition/demo-video-script-v0.4.0-rc.1.json",
+  RELEASE_EVIDENCE_PATHS.demoConfig,
 );
 const portText = process.env.WEBMCP_DEVTOOLS_PORT ?? "4231";
 const port = Number(portText);
@@ -569,7 +570,7 @@ try {
         pagesArtifactId: authenticatedLiveReceipt.artifact.id,
         artifactApiDigest: authenticatedLiveReceipt.artifact.apiDigest,
         artifactTarSha256: authenticatedLiveReceipt.artifact.tarSha256,
-        liveArtifactVerification: "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+        liveArtifactVerification: RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification,
         liveArtifactVerificationSha256: sha256(liveVerificationBytes),
         comparedFileCount: authenticatedLiveReceipt.fileCount,
         comparedByteCount: authenticatedLiveReceipt.byteCount,
@@ -652,7 +653,7 @@ try {
       {
         config: releaseConfig,
         liveVerificationFile: {
-          relativePath: "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+          relativePath: RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification,
           sha256: liveVerificationSha256,
           sizeBytes: liveVerificationBytes.byteLength,
           bytes: liveVerificationBytes,

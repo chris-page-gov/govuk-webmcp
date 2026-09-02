@@ -142,14 +142,14 @@ test("the dependency patch preserves the promoted backend when its recovery back
       if (!injected && destination === target && source.includes(".tmp-")) {
         injected = true;
         await rm(backup);
-        await writeFile(backup, "attacker backup\n", { flag: "wx" });
+        await writeFile(backup, "attacker\n", { flag: "wx" });
       }
       return link(source, destination);
     },
   }), /recovery backup changed identity.*promoted backend.*preserved/u);
 
   assert.equal(await readFile(target, "utf8"), "replacement\n");
-  assert.equal(await readFile(backup, "utf8"), "attacker backup\n");
+  assert.equal(await readFile(backup, "utf8"), "attacker\n");
   const files = (await readdir(root)).sort();
   assert.equal(files.some((name) => name.includes(".tmp-")), false);
 });

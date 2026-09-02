@@ -86,10 +86,14 @@
   Acceptance: No serious accessibility error, unsafe URL/input handling, storage, unintended external request or unreported environmental limitation.
   Verify: Automated suites, scoped security scan and exact manual observation receipts.
   Checkpoint: Automated Chrome, Edge and accessibility checks and frozen scoped
-  security scan pass with zero findings. The candidate-specific Safari and
-  VoiceOver Caption Panel observation completed with 6 passed and 3 limited
-  checkpoints, no captured speech audio and no WCAG claim. Keep this item open
-  for the remaining manual visual and formative accessibility boundaries.
+  security scan pass with zero findings. The retained Safari and VoiceOver
+  Caption Panel observation is historical pre-hardening evidence: 6 checkpoints
+  passed and 3 were limited, with no captured speech audio and no WCAG claim.
+  The exact-release nine-step Safari, VoiceOver and Caption Panel recapture
+  remains pending after the hardened deployment. The no-argument clip builder
+  is pinned to the canonical exact `v0.4.0-rc.1` manifest. Keep this item open for that
+  recapture and the remaining manual visual and formative accessibility
+  boundaries.
 
 - [ ] **9. Publish and verify the release candidate**
   Spec ref: `spec.md > Verification strategy`

@@ -28,6 +28,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import { parseUtcRfc3339Timestamp } from "./lib/rfc3339-timestamp.mjs";
 import { placeRepositoryOutputs } from "./lib/transactional-output-placement.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "./lib/release-evidence-paths.mjs";
 
 import {
   bindReleaseConfig,
@@ -40,8 +41,11 @@ import {
 
 const scriptPath = fileURLToPath(import.meta.url);
 const captureRoot = resolve(repositoryRoot, "output/voiceover-capture");
-const defaultManifestPath = join(captureRoot, "capture-manifest.json");
-const demoConfigPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
+const defaultManifestPath = resolve(
+  repositoryRoot,
+  RELEASE_EVIDENCE_PATHS.voiceOverCaptureManifest,
+);
+const demoConfigPath = resolve(repositoryRoot, RELEASE_EVIDENCE_PATHS.demoConfig);
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);

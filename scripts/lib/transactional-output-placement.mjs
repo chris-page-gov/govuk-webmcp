@@ -209,6 +209,7 @@ async function snapshotRegularFile(
   invariant(after.size === bytes.byteLength, `${label} size changed while its bytes were read: ${path}`);
   const snapshot = {
     identity: identityOf(after),
+    mode: after.mode & 0o7777,
     sizeBytes: bytes.byteLength,
     sha256: digest(bytes),
   };
@@ -218,6 +219,7 @@ async function snapshotRegularFile(
 
 function sameSnapshot(left, right) {
   return hasIdentity({ dev: left.identity.device, ino: left.identity.inode }, right.identity)
+    && left.mode === right.mode
     && left.sizeBytes === right.sizeBytes
     && left.sha256 === right.sha256;
 }
@@ -242,12 +244,21 @@ async function removeIdentityBoundFile(path, identity, fileSystem, ancestorBindi
   );
 }
 
-async function validateSnapshot(path, snapshot, label, fileSystem, expectedIdentity, ancestorBinding = null) {
+async function validateSnapshot(
+  path,
+  snapshot,
+  label,
+  fileSystem,
+  expectedIdentity,
+  ancestorBinding = null,
+  expectedMode = snapshot.mode,
+) {
   const observed = await snapshotRegularFile(path, label, fileSystem, expectedIdentity, false, ancestorBinding);
   invariant(
     observed.sizeBytes === snapshot.sizeBytes && observed.sha256 === snapshot.sha256,
     `${label} bytes differ from the known-good copy: ${path}`,
   );
+  invariant(observed.mode === expectedMode, `${label} permissions differ from the known-good copy: ${path}`);
 }
 
 async function createVerifiedRecoveryCopy(destination, snapshot, label, fileSystem, ancestorBinding) {
@@ -270,6 +281,7 @@ async function createVerifiedRecoveryCopy(destination, snapshot, label, fileSyst
       recoverySnapshot.sizeBytes === snapshot.sizeBytes && recoverySnapshot.sha256 === snapshot.sha256,
       `${label} differs from the known-good bytes: ${recovery}`,
     );
+    invariant(recoverySnapshot.mode === 0o600, `${label} has unsafe recovery permissions: ${recovery}`);
     return { path: recovery, identity: recoverySnapshot.identity };
   }
   throw new Error(`${label} could not reserve an exclusive recovery path for: ${destination}`);
@@ -291,7 +303,7 @@ async function assertPathAbsent(path, label, fileSystem, ancestorBinding = null)
 
 async function ensureVerifiedRecoveryCopy(recovery, destination, snapshot, label, fileSystem, ancestorBinding) {
   try {
-    await validateSnapshot(recovery.path, snapshot, label, fileSystem, recovery.identity, ancestorBinding);
+    await validateSnapshot(recovery.path, snapshot, label, fileSystem, recovery.identity, ancestorBinding, 0o600);
     return recovery;
   } catch {
     return createVerifiedRecoveryCopy(destination, snapshot, `${label} replacement`, fileSystem, ancestorBinding);
@@ -365,10 +377,13 @@ async function removeWithRecoveryGuard({
 
 async function validateCommittedOutputs(committed, fileSystem, label) {
   for (const item of committed) {
-    const snapshot = await snapshotRegularFile(item.destination, label, fileSystem, item.identity, false, item.ancestorBinding);
-    invariant(
-      snapshot.sizeBytes === item.snapshot.sizeBytes && snapshot.sha256 === item.snapshot.sha256,
-      `${label} bytes differ from the validated stage: ${item.destination}`,
+    await validateSnapshot(
+      item.destination,
+      item.snapshot,
+      label,
+      fileSystem,
+      item.identity,
+      item.ancestorBinding,
     );
   }
 }
@@ -458,7 +473,8 @@ export async function placeRepositoryOutputs(entries, {
           stagedSnapshot.sizeBytes === sourceSnapshot.sizeBytes && stagedSnapshot.sha256 === sourceSnapshot.sha256,
           `Pending output bytes differ from the validated source: ${temporary}`,
         );
-        staged.set(temporary, { ancestorBinding, identity: stagedIdentity });
+        invariant(stagedSnapshot.mode === sourceSnapshot.mode, `Pending output permissions differ from the validated source: ${temporary}`);
+        staged.set(temporary, { ancestorBinding, identity: stagedIdentity, snapshot: stagedSnapshot });
         const sourceAfterCopy = await snapshotRegularFile(source, "Output source after copy", fileSystem, sourceSnapshot.identity);
         invariant(sameSnapshot(sourceAfterCopy, sourceSnapshot), `Output source changed during staging: ${source}`);
         prepared.push({ temporary, destination, stagedIdentity, stagedSnapshot, ancestorBinding });
@@ -530,6 +546,7 @@ export async function placeRepositoryOutputs(entries, {
         currentStage.sizeBytes === item.stagedSnapshot.sizeBytes && currentStage.sha256 === item.stagedSnapshot.sha256,
         `Pending output bytes changed before promotion: ${item.temporary}`,
       );
+      invariant(currentStage.mode === item.stagedSnapshot.mode, `Pending output permissions changed before promotion: ${item.temporary}`);
       try {
         await runBoundMutation(
           item.ancestorBinding,
@@ -571,15 +588,26 @@ export async function placeRepositoryOutputs(entries, {
         committedSnapshot.sizeBytes === item.stagedSnapshot.sizeBytes && committedSnapshot.sha256 === item.stagedSnapshot.sha256,
         `Committed output bytes differ from the validated stage: ${item.destination}`,
       );
+      invariant(committedSnapshot.mode === item.stagedSnapshot.mode, `Committed output permissions differ from the validated stage: ${item.destination}`);
       await removeIdentityBoundFile(item.temporary, item.stagedIdentity, fileSystem, item.ancestorBinding);
       staged.delete(item.temporary);
     }
     await validateCommittedOutputs(committed, fileSystem, "Committed output before backup clean-up");
   } catch (error) {
     const rollbackFailures = [];
-    for (const { destination, identity, ancestorBinding } of [...committed].reverse()) {
+    for (const { destination, identity, snapshot, ancestorBinding } of [...committed].reverse()) {
       await attempt(
-        () => removeIdentityBoundFile(destination, identity, fileSystem, ancestorBinding),
+        async () => {
+          await validateSnapshot(
+            destination,
+            snapshot,
+            "Committed output before rollback removal",
+            fileSystem,
+            identity,
+            ancestorBinding,
+          );
+          await removeIdentityBoundFile(destination, identity, fileSystem, ancestorBinding);
+        },
         rollbackFailures,
         destination,
       );
@@ -637,12 +665,24 @@ export async function placeRepositoryOutputs(entries, {
     }
     for (const [temporary, stagedState] of staged) {
       await attempt(
-        () => removeIdentityBoundFile(
-          temporary,
-          stagedState.identity,
-          fileSystem,
-          stagedState.ancestorBinding,
-        ),
+        async () => {
+          if (stagedState.snapshot) {
+            await validateSnapshot(
+              temporary,
+              stagedState.snapshot,
+              "Pending output before rollback removal",
+              fileSystem,
+              stagedState.identity,
+              stagedState.ancestorBinding,
+            );
+          }
+          await removeIdentityBoundFile(
+            temporary,
+            stagedState.identity,
+            fileSystem,
+            stagedState.ancestorBinding,
+          );
+        },
         rollbackFailures,
         temporary,
       );
@@ -672,8 +712,9 @@ export async function placeRepositoryOutputs(entries, {
       );
       invariant(
         committedSnapshot.sizeBytes === committedItem.snapshot.sizeBytes
-          && committedSnapshot.sha256 === committedItem.snapshot.sha256,
-        `Committed output bytes differ from the validated stage before guarded backup clean-up: ${destination}`,
+          && committedSnapshot.sha256 === committedItem.snapshot.sha256
+          && committedSnapshot.mode === committedItem.snapshot.mode,
+        `Committed output differs from the validated stage before guarded backup clean-up: ${destination}`,
       );
       await removeWithRecoveryGuard({
         cleanupPath: backup,

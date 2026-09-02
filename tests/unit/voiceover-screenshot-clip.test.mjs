@@ -201,6 +201,7 @@ test("successful screenshot-sequence build result retains every capture limitati
 test("VoiceOver output promotion uses the shared no-clobber repository transaction", async () => {
   const source = await readFile("scripts/build-voiceover-screenshot-clip.mjs", "utf8");
   assert.match(source, /return placeRepositoryOutputs\(/u);
+  assert.match(source, /RELEASE_EVIDENCE_PATHS\.voiceOverCaptureManifest/u);
   assert.doesNotMatch(source, /rename\(pending, outputPath\)/u);
 });
 

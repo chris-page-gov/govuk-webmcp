@@ -3,7 +3,7 @@
 import { execFile } from "node:child_process";
 import { cp, lstat, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { extname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
@@ -13,6 +13,10 @@ import addFormats from "ajv-formats";
 import {
   PUBLIC_CAPTURE_TARGET,
 } from "./lib/chrome-devtools-capture-target.mjs";
+import {
+  RELEASE_EVIDENCE_PATHS,
+  RELEASE_VOICEOVER_FRAME_PATHS,
+} from "./lib/release-evidence-paths.mjs";
 import { parseUtcRfc3339Timestamp } from "./lib/rfc3339-timestamp.mjs";
 import {
   authenticateLivePagesReceipt,
@@ -50,6 +54,7 @@ export const MAX_CAPTURED_ARGUMENT_DEPTH = 8;
 export const MAX_CAPTURED_ARGUMENT_NODES = 2_048;
 const MAX_LIVE_RELEASE_RECEIPT_BYTES = 1024 * 1024;
 const MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS = 5 * 60 * 1_000;
+const GIT_COMMIT = /^[a-f0-9]{40}$/u;
 const HOST_IDS = Object.freeze(["copilot-mcp-workspace", "ollama-local"]);
 const PUBLISHABLE_BROWSER_VERSION = /^[0-9]{2,3}\.0\.[0-9]{1,6}\.[0-9]{1,6}$/u;
 const CRITERION_STATUSES = new Set(["pass", "fail", "not-observable"]);
@@ -76,6 +81,24 @@ const schemaDirectory = join(repositoryRoot, "schemas");
 const captureValidators = new Map();
 const evaluationAuthenticatedReceipts = new WeakMap();
 const execFileAsync = promisify(execFile);
+const CHECKOUT_POLICIES = new Set(["exact-pages-commit", "clean-evidence-descendant"]);
+const EVIDENCE_DESCENDANT_TOP_LEVEL_PATHS = new Set([
+  "ACCESSIBILITY.md",
+  "CHANGELOG.md",
+  "CODEX_HANDOVER.md",
+  "DISCLAIMER.md",
+  "NOTICE.md",
+  "PRIVACY.md",
+  "PROJECT_STATUS.md",
+  "README.md",
+  "SECURITY.md",
+]);
+const EVIDENCE_DESCENDANT_OUTPUT_PATHS = new Set([
+  RELEASE_EVIDENCE_PATHS.voiceOverCaptureManifest,
+  RELEASE_EVIDENCE_PATHS.voiceOverClip,
+  ...RELEASE_VOICEOVER_FRAME_PATHS,
+]);
+const EVIDENCE_DESCENDANT_DOCUMENT_EXTENSIONS = new Set([".csv", ".md", ".vtt"]);
 
 function assertEnum(value, allowed, label) {
   if (!allowed.has(value)) throw new Error(`${label} is not an admitted state.`);
@@ -188,22 +211,188 @@ function deepFreeze(value) {
 
 export const validateLiveReleaseReceipt = validateLivePagesReceiptShape;
 
-async function currentGitIdentity() {
-  const [headResult, statusResult] = await Promise.all([
-    execFileAsync("git", ["rev-parse", "HEAD"], {
-      cwd: repositoryRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024,
-      timeout: 30_000,
-    }),
-    execFileAsync("git", ["status", "--porcelain", "--untracked-files=normal"], {
-      cwd: repositoryRoot,
-      encoding: "utf8",
-      maxBuffer: 8 * 1024 * 1024,
-      timeout: 30_000,
-    }),
-  ]);
-  return { commit: headResult.stdout.trim(), status: statusResult.stdout.trim() };
+function asBuffer(value, label) {
+  if (Buffer.isBuffer(value)) return value;
+  if (value instanceof Uint8Array) return Buffer.from(value);
+  if (typeof value === "string") return Buffer.from(value, "utf8");
+  throw new Error(`${label} did not return bytes.`);
+}
+
+function strictUtf8(bytes, label) {
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch (error) {
+    throw new Error(`${label} is not valid UTF-8.`, { cause: error });
+  }
+}
+
+function nulFields(value, label) {
+  const bytes = asBuffer(value, label);
+  if (bytes.length === 0) return [];
+  if (bytes.at(-1) !== 0) throw new Error(`${label} is not NUL terminated.`);
+  const fields = [];
+  let start = 0;
+  for (let index = 0; index < bytes.length; index += 1) {
+    if (bytes[index] !== 0) continue;
+    fields.push(strictUtf8(bytes.subarray(start, index), label));
+    start = index + 1;
+  }
+  return fields;
+}
+
+export function parseGitNameStatusZ(value) {
+  const fields = nulFields(value, "The evidence-descendant Git diff");
+  const entries = [];
+  for (let index = 0; index < fields.length;) {
+    const status = fields[index];
+    index += 1;
+    if (!/^[A-Z](?:[0-9]{1,3})?$/u.test(status)) {
+      throw new Error("The evidence-descendant Git diff has a malformed status token.");
+    }
+    const pathCount = status.startsWith("R") || status.startsWith("C") ? 2 : 1;
+    if (index + pathCount > fields.length) {
+      throw new Error("The evidence-descendant Git diff has a truncated path record.");
+    }
+    const paths = fields.slice(index, index + pathCount);
+    if (paths.some((path) => path.length === 0)) {
+      throw new Error("The evidence-descendant Git diff contains an empty path.");
+    }
+    entries.push({ status, paths });
+    index += pathCount;
+  }
+  return entries;
+}
+
+function canonicalEvidenceDescendantPath(path) {
+  if (
+    typeof path !== "string"
+    || path.length === 0
+    || path.startsWith("/")
+    || path.includes("\\")
+    || path.includes("\0")
+    || path.split("/").some((part) => part.length === 0 || part === "." || part === "..")
+  ) {
+    throw new Error("The evidence-descendant Git diff contains a non-canonical repository path.");
+  }
+  return path;
+}
+
+export function validateEvidenceDescendantChanges(entries) {
+  if (!Array.isArray(entries)) {
+    throw new Error("The evidence-descendant Git diff is unavailable.");
+  }
+  for (const entry of entries) {
+    if (
+      !entry
+      || typeof entry !== "object"
+      || Array.isArray(entry)
+      || !["A", "M"].includes(entry.status)
+      || !Array.isArray(entry.paths)
+      || entry.paths.length !== 1
+    ) {
+      throw new Error("The evidence-descendant Git diff contains a rejected change status.");
+    }
+    const path = canonicalEvidenceDescendantPath(entry.paths[0]);
+    const allowedDocumentation = path.startsWith("docs/")
+      && EVIDENCE_DESCENDANT_DOCUMENT_EXTENSIONS.has(extname(path).toLowerCase());
+    const allowedReviewedEvidence = path.startsWith("docs/competition/evidence/")
+      && extname(path).toLowerCase() === ".json";
+    const allowed = allowedDocumentation
+      || allowedReviewedEvidence
+      || EVIDENCE_DESCENDANT_TOP_LEVEL_PATHS.has(path)
+      || EVIDENCE_DESCENDANT_OUTPUT_PATHS.has(path);
+    if (!allowed) {
+      throw new Error(`The evidence-descendant Git diff changes a page-runtime or unapproved path: ${path}`);
+    }
+  }
+  return entries;
+}
+
+export function validateEvaluationCheckoutIdentity(
+  identity,
+  productCommit,
+  checkoutPolicy = "exact-pages-commit",
+) {
+  if (!CHECKOUT_POLICIES.has(checkoutPolicy)) {
+    throw new Error("Evaluation checkout policy must be exact-pages-commit or clean-evidence-descendant.");
+  }
+  if (!identity || typeof identity !== "object" || !GIT_COMMIT.test(identity.commit)) {
+    throw new Error("Evaluation Git identity has no exact commit.");
+  }
+  if (identity.status !== "") {
+    throw new Error("Evaluation authentication requires a clean checkout.");
+  }
+  if (checkoutPolicy === "exact-pages-commit") {
+    if (identity.commit !== productCommit) {
+      throw new Error("Evaluation authentication requires a clean checkout at the exact Pages commit.");
+    }
+    return Object.freeze({ commit: identity.commit, changes: Object.freeze([]) });
+  }
+  if (identity.productIsAncestor !== true) {
+    throw new Error("The Pages product commit is not an ancestor of the clean evidence checkout.");
+  }
+  const changes = validateEvidenceDescendantChanges(identity.changedEntries)
+    .map((entry) => Object.freeze({ status: entry.status, paths: Object.freeze([...entry.paths]) }));
+  return Object.freeze({ commit: identity.commit, changes: Object.freeze(changes) });
+}
+
+function sameCheckoutIdentity(left, right) {
+  return left.commit === right.commit && canonicalJson(left.changes) === canonicalJson(right.changes);
+}
+
+export async function inspectEvaluationGitCheckout(
+  productCommit,
+  {
+    execImplementation = execFileAsync,
+    repositoryPath = repositoryRoot,
+  } = {},
+) {
+  if (!GIT_COMMIT.test(productCommit)) {
+    throw new Error("The Pages product commit is not an exact lowercase commit.");
+  }
+  const commandOptions = {
+    cwd: repositoryPath,
+    encoding: "buffer",
+    maxBuffer: 8 * 1024 * 1024,
+    timeout: 30_000,
+  };
+  const firstHeadResult = await execImplementation("git", ["rev-parse", "HEAD"], commandOptions);
+  const firstHead = strictUtf8(asBuffer(firstHeadResult.stdout, "Git HEAD"), "Git HEAD").trim();
+  if (!GIT_COMMIT.test(firstHead)) throw new Error("Git HEAD is not an exact lowercase commit.");
+  const statusResult = await execImplementation(
+    "git",
+    ["status", "--porcelain=v1", "-z", "--untracked-files=all"],
+    commandOptions,
+  );
+  const statusBytes = asBuffer(statusResult.stdout, "Git status");
+  let productIsAncestor = false;
+  try {
+    await execImplementation(
+      "git",
+      ["merge-base", "--is-ancestor", productCommit, firstHead],
+      commandOptions,
+    );
+    productIsAncestor = true;
+  } catch (error) {
+    if (Number(error?.code) !== 1) throw error;
+  }
+  const diffResult = await execImplementation(
+    "git",
+    ["diff", "--name-status", "-z", "--find-renames", `${productCommit}..${firstHead}`, "--"],
+    commandOptions,
+  );
+  const changedEntries = parseGitNameStatusZ(diffResult.stdout);
+  const finalHeadResult = await execImplementation("git", ["rev-parse", "HEAD"], commandOptions);
+  const finalHead = strictUtf8(asBuffer(finalHeadResult.stdout, "Git HEAD"), "Git HEAD").trim();
+  if (finalHead !== firstHead) {
+    throw new Error("Git HEAD changed while the evidence checkout was being inspected.");
+  }
+  return {
+    commit: firstHead,
+    status: statusBytes.length === 0 ? "" : "dirty",
+    productIsAncestor,
+    changedEntries,
+  };
 }
 
 async function createAuthenticatedRuntimeSnapshot(
@@ -249,7 +438,8 @@ export async function authenticateEvaluationReleaseReceipt(
   candidate,
   {
     authenticateImplementation = authenticateLivePagesReceipt,
-    gitIdentityImplementation = currentGitIdentity,
+    checkoutPolicy = "exact-pages-commit",
+    gitIdentityImplementation = inspectEvaluationGitCheckout,
     liveReceiptLease = "owned",
     localBindingImplementation = validateLocalPagesBuildBinding,
     runtimeSnapshotImplementation = createAuthenticatedRuntimeSnapshot,
@@ -257,6 +447,9 @@ export async function authenticateEvaluationReleaseReceipt(
 ) {
   if (liveReceiptLease !== "owned" && liveReceiptLease !== "borrowed") {
     throw new Error("Evaluation live-receipt lease must be owned or borrowed.");
+  }
+  if (!CHECKOUT_POLICIES.has(checkoutPolicy)) {
+    throw new Error("Evaluation checkout policy must be exact-pages-commit or clean-evidence-descendant.");
   }
   const expected = validateLivePagesReceiptShape(candidate);
   const preRunObservedAt = expected.observedAt;
@@ -267,10 +460,11 @@ export async function authenticateEvaluationReleaseReceipt(
   if (preRunObservedTime > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
     throw new Error("The supplied pre-run live Pages receipt observedAt must not be more than five minutes in the future.");
   }
-  const before = await gitIdentityImplementation();
-  if (before.commit !== expected.commit || before.status !== "") {
-    throw new Error("Evaluation authentication requires a clean checkout at the exact Pages commit.");
-  }
+  const before = validateEvaluationCheckoutIdentity(
+    await gitIdentityImplementation(expected.commit, { checkoutPolicy }),
+    expected.commit,
+    checkoutPolicy,
+  );
   let observed;
   let runtimeSnapshot = null;
   try {
@@ -293,8 +487,12 @@ export async function authenticateEvaluationReleaseReceipt(
     runtimeSnapshot = await runtimeSnapshotImplementation(observed, {
       localBindingImplementation,
     });
-    const after = await gitIdentityImplementation();
-    if (after.commit !== expected.commit || after.status !== "") {
+    const after = validateEvaluationCheckoutIdentity(
+      await gitIdentityImplementation(expected.commit, { checkoutPolicy }),
+      expected.commit,
+      checkoutPolicy,
+    );
+    if (!sameCheckoutIdentity(before, after)) {
       throw new Error("The checkout changed while the evaluation release was being authenticated.");
     }
     deepFreeze(observed);
@@ -313,8 +511,12 @@ export async function authenticateEvaluationReleaseReceipt(
         async revalidate() {
           await localBindingImplementation(observed);
           await runtimeSnapshot.revalidate();
-          const identity = await gitIdentityImplementation();
-          if (identity.commit !== observed.commit || identity.status !== "") {
+          const identity = validateEvaluationCheckoutIdentity(
+            await gitIdentityImplementation(observed.commit, { checkoutPolicy }),
+            observed.commit,
+            checkoutPolicy,
+          );
+          if (!sameCheckoutIdentity(before, identity)) {
             throw new Error("The checkout changed while the evaluation capture was being verified.");
           }
         },

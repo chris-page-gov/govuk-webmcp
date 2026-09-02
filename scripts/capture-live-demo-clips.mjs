@@ -25,9 +25,10 @@ import {
 import { isLegislationHostname } from "./lib/legislation-host.mjs";
 import { resolveCanonicalRepositoryPath } from "./lib/repository-relative-path.mjs";
 import { placeRepositoryOutputs } from "./lib/transactional-output-placement.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "./lib/release-evidence-paths.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
-const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
+const configPath = resolve(repositoryRoot, RELEASE_EVIDENCE_PATHS.demoConfig);
 const sceneDurationMilliseconds = 32_000;
 
 function invariant(condition, message) {

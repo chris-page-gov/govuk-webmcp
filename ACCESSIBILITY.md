@@ -49,6 +49,16 @@ manual recapture remains required after any build-affecting hardening. No
 existing `v0.3.0-rc.1` manual observation is carried forward, and no WCAG
 conformance or beginner-comprehension claim is made.
 
+The repository owner has authorised the exact-release nine-step Safari journey,
+including temporary use of VoiceOver and its Caption Panel, after the hardened
+public candidate has been deployed and byte-verified. That recapture is still
+pending: authorisation is not an observation. VoiceOver and the Caption Panel
+must both be turned off immediately after the journey, and the retained record
+must identify the exact deployment and any limitations actually observed.
+The no-argument screenshot-sequence builder selects the canonical exact
+`v0.4.0-rc.1` capture manifest; this default does not turn the pending capture
+into completed evidence.
+
 ## Released automated testing
 
 The browser acceptance suite includes:
@@ -124,7 +134,7 @@ publication.
   Deterministic and browser coverage of that state remains separate from the
   manual VoiceOver observation.
 - Ten Low security remediations retain their named focused evidence. The
-  Evidence answer candidate passes 381 of 381 unit tests and 43 of 43 browser
+  Evidence answer candidate passes 398 of 398 unit tests and 43 of 43 browser
   tests in each of installed Chrome and Edge. Historical code-snapshot scan
   `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items, ran 102
   focused tests and found zero findings for its snapshot. Later pre-fix scan

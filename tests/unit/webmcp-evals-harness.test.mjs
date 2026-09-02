@@ -411,6 +411,7 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
     "utf8",
   );
   const targetSource = await readFile("scripts/lib/chrome-devtools-capture-target.mjs", "utf8");
+  const releasePathSource = await readFile("scripts/lib/release-evidence-paths.mjs", "utf8");
   const admissionSource = await readFile("scripts/lib/public-evidence-admission.mjs", "utf8");
   const browserEvalSource = await readFile("scripts/run-webmcp-evals-browser.mjs", "utf8");
   const smokeSource = await readFile("scripts/run-webmcp-evals-smoke.mjs", "utf8");
@@ -421,10 +422,14 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
   assert.match(admissionSource, /existing public-evidence target must be a regular file/u);
   assert.match(admissionSource, /flag: "wx"/u);
   assert.match(admissionSource, /randomUUID\(\)/u);
-  assert.match(evidenceSource, /chrome-devtools-mcp-v0\.4\.0-rc\.1\.json/u);
-  assert.match(source, /supported-host-webmcp-capture-v0\.4\.0-rc\.1\.json/u);
-  assert.match(source, /live-artifact-verification-v0\.4\.0-rc\.1\.json/u);
-  assert.match(source, /demo-video-script-v0\.4\.0-rc\.1\.json/u);
+  assert.match(releasePathSource, /chrome-devtools-mcp-\$\{EVIDENCE_RELEASE\}\.json/u);
+  assert.match(releasePathSource, /supported-host-webmcp-capture-\$\{EVIDENCE_RELEASE\}\.json/u);
+  assert.match(releasePathSource, /live-artifact-verification-\$\{EVIDENCE_RELEASE\}\.json/u);
+  assert.match(releasePathSource, /demo-video-script-\$\{EVIDENCE_RELEASE\}\.json/u);
+  assert.match(evidenceSource, /RELEASE_EVIDENCE_PATHS\.reviewedChromeEvidence/u);
+  assert.match(source, /RELEASE_EVIDENCE_PATHS\.supportedHostEvidence/u);
+  assert.match(source, /RELEASE_EVIDENCE_PATHS\.reviewedLivePagesVerification/u);
+  assert.match(source, /RELEASE_EVIDENCE_PATHS\.demoConfig/u);
   assert.match(source, /govuk-webmcp\.live-pages-verification\.v2/u);
   assert.doesNotMatch(source, /govuk-webmcp\.live-pages-verification\.v1/u);
   assert.match(evidenceSource, /name: "present_resource_evidence"/u);

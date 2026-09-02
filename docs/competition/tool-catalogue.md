@@ -260,8 +260,8 @@ deployment, host or tag status of this settled source tree.
 Released `v0.3.0-rc.1` publishes 31 closed JSON Schemas. The `0.4.0-rc.1`
 contract contains 36 schema files after adding the beginner presentation,
 presentation input and output, personal-agent case-set and private
-evaluation-capture contracts. The settled prepared unit suite passes 381 of
-381, while the complete version 0.4 browser suites pass 43 of 43 in installed
+evaluation-capture contracts. The settled prepared unit suite passes 398 of
+398, while the complete version 0.4 browser suites pass 43 of 43 in installed
 Chrome and 43 of 43 in installed Edge. The offline double build passes for
 1,883 files and 128,653,230
 bytes at aggregate SHA-256
