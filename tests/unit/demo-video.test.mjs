@@ -1335,6 +1335,41 @@ test("Chrome reviewed evidence maps annotations and excludes the rejected privat
     demonstratedRecordId,
   );
 
+  const escapedRejectedValue = "private \\\"quoted\\\" \\\\path\\nline";
+  const escapedRejectedValueReceipt = structuredClone(rawReceipt);
+  escapedRejectedValueReceipt.rejectedCall.input.personalContext = escapedRejectedValue;
+  escapedRejectedValueReceipt.rejectedCall.output.error.message =
+    `Unknown input field: personalContext. Rejected value: ${escapedRejectedValue}`;
+  escapedRejectedValueReceipt.rejectedCall.canonicalOutputSha256 =
+    digest(escapedRejectedValueReceipt.rejectedCall.output);
+  assert.throws(
+    () => buildSupportedHostEvidence({
+      receipt: escapedRejectedValueReceipt,
+      sourceReceiptSha256: "b".repeat(64),
+      sourceReceiptSizeBytes: 1_024,
+      reviewedEvidenceSha256: "c".repeat(64),
+      reviewedEvidenceSizeBytes: 2_048,
+      liveVerification: { commit: config.productCommit, runId: config.pagesRunId },
+      demoConfig: rawConfig,
+    }),
+    /retained the rejected personal-context value/u,
+  );
+
+  const nonStringRejectedValueReceipt = structuredClone(rawReceipt);
+  nonStringRejectedValueReceipt.rejectedCall.input.personalContext = { private: true };
+  assert.throws(
+    () => buildSupportedHostEvidence({
+      receipt: nonStringRejectedValueReceipt,
+      sourceReceiptSha256: "b".repeat(64),
+      sourceReceiptSizeBytes: 1_024,
+      reviewedEvidenceSha256: "c".repeat(64),
+      reviewedEvidenceSizeBytes: 2_048,
+      liveVerification: { commit: config.productCommit, runId: config.pagesRunId },
+      demoConfig: rawConfig,
+    }),
+    /must be a string/u,
+  );
+
   const mapped = mapChromeToolDefinition({
     name: "example",
     description: "Example tool",

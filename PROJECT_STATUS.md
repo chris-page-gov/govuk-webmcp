@@ -145,6 +145,8 @@ text can still disclose personal details.
 
 The corrected admission path preserves the rejected-field privacy boundary:
 public projections retain only rejected field names, not rejected values. The
+guard checks decoded string values recursively, so JSON escaping cannot conceal
+a retained value and non-string rejected context fails closed. The
 final three-file capture and labelled reconstruction are now byte-bound; the
 evidence manifest must include these exact final bytes before review completes.
 Validation counts and durations belong to their named receipts and commits;

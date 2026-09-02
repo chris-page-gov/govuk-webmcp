@@ -119,7 +119,9 @@ object. Authentication has explicit `owned` and `borrowed` leases. It writes
 the mode-`0600` raw receipt and the reviewed Chrome and
 supported-host projections as one recoverable set. The two
 public projections retain only rejected field names, not rejected values. The
-last pre-hardening corrected-path capture and labelled supported-host
+supported-host builder now checks decoded values recursively rather than raw
+serialised JSON, closing the escaped-value case and rejecting non-string context.
+The last pre-hardening corrected-path capture and labelled supported-host
 reconstruction are retained; regenerate and verify the evidence manifest after
 the exact-release recapture. The
 validation counts and durations belong to their named receipts and commits;

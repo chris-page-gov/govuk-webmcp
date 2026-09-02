@@ -43,7 +43,9 @@ written as one recoverable three-file set. Paths must remain under the real
 repository root, symbolic ancestors and targets are rejected, and raw overwrite
 is independently explicit. The public projections bind source paths, byte
 sizes and SHA-256 values while retaining only rejected field names, never the
-rejected synthetic value.
+rejected synthetic value. The no-retention guard walks decoded string values,
+so JSON escaping cannot conceal a retained value; non-string rejected context
+fails closed.
 
 The live verifier can also promote one byte-identical serialised receipt to the
 canonical local mode-`0600`, optional private mode-`0600` and optional tracked
