@@ -5,6 +5,7 @@
   "description": "Independent experimental WebMCP prototype for trusted government knowledge discovery",
   "type": "module",
   "scripts": {
+    "webmcp:eval:patch": "node scripts/apply-webmcp-evals-browser-step-limit-patch.mjs",
     "catalogue:build": "node scripts/build-catalogue.mjs",
     "sources:validate": "node scripts/validate-authored-sources.mjs",
     "evidence:build": "node scripts/build-evidence.mjs",
@@ -25,6 +26,7 @@
     "deployment:verify-live": "node scripts/verify-live-pages-artifact.mjs",
     "demo:capture-live": "node scripts/capture-live-demo-clips.mjs",
     "demo:host-clip": "node scripts/build-host-evidence-clip.mjs",
+    "demo:ollama-diagnostic-clip": "node scripts/build-ollama-diagnostic-clip.mjs",
     "demo:voiceover-screenshot-clip": "node scripts/build-voiceover-screenshot-clip.mjs",
     "demo:preview-clips": "node scripts/build-preview-scene-clips.mjs",
     "demo:preflight": "node scripts/build-demo-video.mjs --preflight-only",
@@ -37,17 +39,17 @@
     "webmcp:devtools:capture": "npm run build && node scripts/capture-chrome-devtools-webmcp.mjs",
     "webmcp:explorer:setup": "bash scripts/setup-webmcp-explorer.sh",
     "webmcp:eval:smoke": "node scripts/run-webmcp-evals-smoke.mjs",
-    "webmcp:eval:browser": "node scripts/run-webmcp-evals-browser.mjs",
+    "webmcp:eval:browser": "npm run webmcp:eval:patch && node scripts/run-webmcp-evals-browser.mjs",
     "eval:personal-agent:prepare": "node scripts/prepare-personal-agent-evals.mjs",
     "eval:personal-agent:check": "node scripts/prepare-personal-agent-evals.mjs --check",
     "eval:personal-agent:verify": "node scripts/verify-personal-agent-evals.mjs",
     "test:unit:prepared": "node --test tests/unit/*.test.mjs",
-    "test:unit": "npm run build && npm run test:unit:prepared",
+    "test:unit": "npm run webmcp:eval:patch && npm run build && npm run test:unit:prepared",
     "test:browser:prepared": "playwright test",
     "test:browser": "npm run build && npm run test:browser:prepared",
     "test:browser:edge:prepared": "PLAYWRIGHT_CHANNEL=msedge playwright test",
     "test:browser:edge": "npm run build && npm run test:browser:edge:prepared",
-    "test": "npm run research:verify && npm run build && npm run eval:personal-agent:check && npm run test:unit:prepared && npm run test:browser:prepared"
+    "test": "npm run webmcp:eval:patch && npm run research:verify && npm run build && npm run eval:personal-agent:check && npm run test:unit:prepared && npm run test:browser:prepared"
   },
   "engines": {
     "node": ">=22.12.0",

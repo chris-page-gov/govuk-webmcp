@@ -27,6 +27,65 @@ local storage, session storage or persistent server-side application storage.
 Following a reviewed authoritative link or a federated producer-declared link
 leaves this boundary.
 
+Candidate release evidence uses a separate fail-closed boundary. Public Chrome
+admission is allowed only for the fixed public target with an exact expected
+commit. The mode-`0600` raw receipt, tracked reviewed Chrome projection and
+tracked supported-host projection are written as one recoverable three-file
+set. Paths must remain under the real repository root, symbolic ancestors and
+targets are rejected, and raw overwrite is independently explicit. The public
+projections bind source paths, byte sizes and SHA-256 values while retaining
+only rejected field names, never the rejected synthetic value.
+
+Supported-host preflight checks the exact six published input and output
+schemas, canonical results, complete presented-evidence digest, fixed
+demonstration inputs and the exact live Pages `v2` receipt. Every publication
+consumer freshly authenticates the live receipt in-process, requires ordered
+`initial`, `after-page-load` and `after-execution` deployment checks, matches
+both stored public and private receipt bindings and derives release claims only
+from the authenticated object. The fresh observation must be at or after both
+stored receipt observations. Structural validity alone is not authentication.
+Authentication uses explicit `owned` and `borrowed` leases: an owned lease is
+revoked synchronously before asynchronous snapshot clean-up on both success and
+failure, while a borrower cannot revoke the outer owner's authentication. The
+final-video builder owns and ultimately revokes the shared receipt; its nested
+evaluation and supported-host checks borrow it.
+The legislation
+boundary uses one canonical hostname classifier so the apex, subdomains, case
+variants and trailing-dot forms fail consistently across build, capture and
+evidence validation. VoiceOver preflight revalidates its closed manifest and
+all nine bounded regular non-symbolic frame files rather than trusting the
+rendered sequence alone.
+
+Multi-file candidate media and release outputs from the live-interaction,
+supported-host, Ollama and final-video builders use a shared promotion
+transaction. Failure before complete promotion restores the previous complete
+set. Backup clean-up occurs only after every new file is committed; if clean-up
+then fails, the new set is kept and the error reports committed outputs and any
+recoverable backup paths.
+
+This is a recoverable set contract, not an atomic multi-file or hostile-
+namespace guarantee. Release tooling requires exclusive control of the real
+repository root and every output-parent namespace for the complete operation.
+The helpers bind the validated ancestor device and inode chain, recheck it
+immediately before and after each stage, link and removal operation, reject a
+persistent substitution and do not subsequently clean up through the changed
+chain. Exclusive stage creation also refuses to overwrite an existing file.
+
+Portable Node does not expose the `openat`, `linkat` and `unlinkat` operations
+needed to root every mutation in an already-open directory handle. A process
+running as the same operating-system user, or a privileged process, can rename
+or replace an ancestor with a symbolic link inside the filesystem syscall
+window and restore it before the pathname recheck. That concurrent namespace
+mutation is outside the supported boundary and can leave an orphan stage at the
+substituted location before the transaction rejects. Do not run release tooling
+while another process can rename or replace its repository or output
+directories. Full containment would require a reviewed native directory-
+relative helper or an equivalent operating-system sandbox.
+
+Private evaluation separately refuses symbolic `.evals` and output roots,
+checks canonical containment and applies mode `0700` to directories and
+`0600` to captures.
+
 Five logical artefact families gate all WebMCP registration: the 80-record
 catalogue, 80 evidence receipts, one Evidence Trace collection, the 10-entry
 federation manifest and the lazy federated-search manifest. Each raw file must
@@ -38,13 +97,15 @@ leaves a human-readable failure state and prevents every tool registration; no
 partial tool set is accepted.
 
 The frozen reviewed evidence estate is derived from four exact source locks;
-the current working candidate adds a separate federation lock through the
-registry. Each of the five registry entries must match a separately code-
+the federated release adds a separate federation lock through the registry.
+Each of the five registry entries must match a separately code-
 reviewed imported SHA-256 value before its bytes are trusted. The standalone
 federated-search builder additionally requires the reviewed federation-lock
 byte pin before parsing, so replacing source bytes and re-digesting the mutable
-registry cannot create an admitted release identity. Recompute the exact
-registry, admission and schema totals after the exact-tree rescan. Integrity
+registry cannot create an admitted release identity. The current build and
+post-fix scan reconfirm five registry locks, 10 admission decisions and 36
+schemas. Recompute them if source or contract bytes change before release
+binding. Integrity
 checks bind the packaged bytes and declared relationships. They are not
 signatures from a government body and do not prove official endorsement,
 current accuracy, access authority or an open licence.
@@ -125,7 +186,7 @@ assertion to official status. Exact-record output reports source authority as
 “Not independently established”, retains a producer-declared link role and
 shows the recorded destination hostname in the human interface.
 
-Nine Low findings have implemented remediations:
+Ten Low findings have implemented remediations:
 
 | Finding | Remediation state |
 | --- | --- |
@@ -138,6 +199,26 @@ Nine Low findings have implemented remediations:
 | Concurrent WebMCP calls amplify uncached shard work (`csf_afca5f27e901f0db4b730cc7`) | Per-runtime in-flight fetch sharing implemented |
 | Trailing-dot and secondary legislation URLs bypass the excluded-host boundary (`csf_a2d9e030fda789ecd1cb0e41`) | Generator and runtime canonical-host checks cover primary and secondary URLs, including trailing-dot forms |
 | Normal build accepts a co-digested source-lock substitution (`csf_050a3c08c471d3176e0640c3`) | All five source digests are separately pinned in executable release policy, the direct federated builder checks the reviewed lock bytes and same-count source/registry mutation tests fail closed |
+| Public Chrome evidence admission trusts unauthenticated live-byte receipts (`csf_65ba47976493eb447f8cf096`) | Every supported-host publication consumer requires a fresh process-local authenticated receipt observed at or after both stored receipts, matches both stored bindings and derives release claims only from the authenticated object; explicit owned and borrowed leases prevent nested consumers from revoking or outliving the outer authentication |
+
+Sealed pre-fix standard scan `dcfed744-0676-40c1-a0ef-84dd3cc7b52b`
+identified the tenth finding with High confidence and Low severity. Its source
+coverage is explicitly partial. Focused remediation tests pass 31 of 31 and
+the settled integrated unit suite passes 381 of 381. At that checkpoint, these
+results did not replace an exact post-fix working-tree security review.
+
+Sealed post-fix working-tree scan `185ce6fa-a47f-4c5e-9888-c63a9f932205`,
+snapshot
+`codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`,
+subsequently completed all 33 selected executable-source items with complete
+configured coverage and zero reportable findings. Its vulnerability-discovery
+scope excluded non-executable documentation, tests, generated projections,
+binary media, ignored private captures, transitive dependencies and upstream
+services; relevant contracts and tests were used as supporting evidence. The
+subsequent lockstep edits record the scan result and do not change executable
+source. This closes the local changed-source security gate for that snapshot;
+protected integration, exact deployment, host, accessibility and human media
+review remain separate gates.
 
 Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
 findings and identified the eighth with High confidence and Low severity. It
@@ -209,8 +290,13 @@ For the current Evidence answer tree, frozen code-snapshot scan
 `aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
 `codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
 completed 36 of 36 items, ran 102 focused tests, found zero findings and
-concluded that there is no security release blocker. Candidate deployment,
-host, accessibility, personal-agent and media claims remain separately gated.
+concluded that there was no security release blocker for that snapshot. The
+later sealed pre-fix scan `dcfed744-0676-40c1-a0ef-84dd3cc7b52b` identified the
+tenth finding above. Its remediation is covered by the focused and integrated
+tests recorded above, and sealed post-fix scan
+`185ce6fa-a47f-4c5e-9888-c63a9f932205` closes the local changed-source security
+gate for its exact snapshot as recorded above. Deployment, host, accessibility,
+personal-agent and media claims remain separately gated.
 
 Residual operational boundaries remain explicit. Removing networked npm
 configuration is not operating-system isolation; some local media and evaluation
@@ -235,7 +321,7 @@ reversible, transient presentation state and therefore declare
 `readOnlyHint: false`; they do not change sources, browser storage, the network
 or external state.
 
-The unreleased `0.4.0-rc.1` candidate adds
+The `0.4.0-rc.1` candidate adds
 `present_resource_evidence` through that controller. Its one-field input is
 closed and executable validation accepts only a canonical reviewed or admitted
 federated record identifier. It resolves the exact record before provenance,
@@ -270,11 +356,26 @@ force.
 
 The personal-agent claim gate accepts only an in-process authenticated live
 Pages receipt. Authentication freshly repeats the GitHub artefact and live-byte
-observation, compares every binding except the new observation time, verifies a
+observation, requires ordered `initial`, `after-page-load` and
+`after-execution` deployment checks, compares every binding except the new
+observation time, requires that new observation to be at or after both stored
+receipt observations, verifies a
 clean unchanged checkout at the exact commit and checks local `dist` file count,
 byte count, manifest and `deployment.json`. Authentication is mutation-sensitive:
 changing a branded receipt closes the gate. A raw but well-shaped receipt is
 reported only as `structurally-valid`.
+
+Authentication objects have explicit `owned` and `borrowed` leases. An owned
+consumer revokes synchronously on both success and failure before it awaits
+asynchronous snapshot clean-up; a borrowed consumer cleans its own snapshot but
+cannot revoke the outer authentication. Final-video preflight owns one
+in-process authentication object and observation window, lends it to evaluation
+replay and supported-host validation, and revokes it in its outer `finally`
+path. Release-specific commit, run, deployment, artefact and browser/runtime
+values are supplied by the final configuration and independently validated
+receipts; they are not frozen to a pre-integration deployment in source. A
+retained dirty or unbound local diagnostic cannot be reused as the release-bound
+local half of the 72-run matrix.
 
 Every observable call trajectory is replayed in order through a private,
 manifest-verified snapshot of receipt-bound `dist`, loaded under a unique module
@@ -300,13 +401,26 @@ recordable but non-claimable. An admitted page observation must retain literal
 must be a credential-free HTTP loopback root with no query or fragment.
 
 Tool schemas are closed and bounded, and executable code revalidates every
-input. Before dispatch, the shared input budget accepts at most 16 plain root
-keys, each at most 128 characters, without walking rejected nested values or
-executing accessors. Root-key enumeration is still proportional to the root
+input. One descriptor-safe data-only boundary covers reviewed discovery,
+combined discovery, lazy federated discovery, Evidence Trace comparison and
+the shared action-budget ingress used by all six page actions. Before dispatch,
+the shared input budget accepts at most 16 plain, enumerable string data
+properties, each with a key of at most 128 characters, without walking rejected
+nested values or executing accessors. Symbols, non-enumerable fields and
+accessors fail closed. Action-specific object and array validators likewise
+inspect descriptors and copy only enumerable data properties, rejecting sparse,
+accessor-backed or extra indexed array fields without invoking them. Numeric
+limits are non-coercive: only actual bounded integer numbers are accepted;
+strings, booleans and objects with conversion hooks are rejected without
+invoking those hooks. Root-key enumeration is still proportional to the root
 object presented by the caller. Only accepted, bounded diagnostic inputs are
-hashed. Rejected, cyclic, accessor-backed or over-budget input receives no
-input digest. Result diagnostics bind the serialised deterministic result
-instead.
+hashed. Rejected, cyclic, exotic or over-budget input receives no input digest.
+Result diagnostics bind the serialised deterministic result instead.
+
+Portable JavaScript reflection cannot establish that a Proxy is trap-free, so
+hostile Proxy containment is not claimed. Browser-host JSON inputs cannot carry
+a Proxy. Code that constructs a Proxy in the same JavaScript realm already has
+script-execution authority and is outside this data-only host-input boundary.
 
 Human URL-fragment routing is also bounded. Raw fragments over 1,024 characters
 are discarded, comparison values are length-limited, and comparison accepts
@@ -334,9 +448,12 @@ context. A correctly configured local model can keep inference local, but the
 host, model runner and browser can still log data. Only bounded, action-specific
 inputs belong in page-tool calls.
 
-No public-host or independent-harness observation has yet discovered or called
-the six-tool `0.4.0-rc.1` set. The retained five-tool observations are release-
-specific and cannot be used as candidate security or compatibility evidence.
+A dated isolated-Chrome observation discovered and called the six-tool
+`0.4.0-rc.1` set against the exact pre-integration `a4fabe...` deployment. It
+selected no model and captured no host-owned surface. That receipt is specific
+to its named bytes and cannot authenticate a later build, current host support
+or personal-AI selection. The retained five-tool observations are likewise
+release-specific and cannot be carried forward as candidate evidence.
 
 ## Independent harness security
 

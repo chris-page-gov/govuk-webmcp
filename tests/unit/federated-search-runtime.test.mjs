@@ -379,7 +379,7 @@ test("applies the closed collection filter without initialising unselected sourc
   assert.ok(calls.every(({ path }) => path.includes("/ons/")));
 });
 
-test("rejects personal context, URL fields, collection escape and accessors before any load", async () => {
+test("rejects personal context, URL fields and hostile search input before any load or caller hook", async () => {
   const value = fixture();
   const calls = [];
   const runtime = await runtimeFor(value, calls);
@@ -397,6 +397,7 @@ test("rejects personal context, URL fields, collection escape and accessors befo
     assert.equal(result.error.code, "invalid_federated_search_request");
   }
   let getterCalls = 0;
+  let coercionCalls = 0;
   const accessor = {};
   Object.defineProperty(accessor, "query", {
     enumerable: true,
@@ -406,7 +407,102 @@ test("rejects personal context, URL fields, collection escape and accessors befo
     },
   });
   assert.equal((await runtime.search(accessor)).ok, false);
+
+  const inherited = ["ons"];
+  const prototype = Object.create(Array.prototype);
+  Object.defineProperty(prototype, "map", {
+    configurable: true,
+    get() {
+      getterCalls += 1;
+      return Array.prototype.map;
+    },
+  });
+  Object.setPrototypeOf(inherited, prototype);
+
+  const indexedAccessor = ["ons"];
+  Object.defineProperty(indexedAccessor, "0", {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "ons";
+    },
+  });
+
+  const hiddenIndex = ["ons"];
+  Object.defineProperty(hiddenIndex, "0", {
+    configurable: true,
+    enumerable: false,
+    value: "ons",
+  });
+
+  const namedExtra = ["ons"];
+  Object.defineProperty(namedExtra, "privateContext", {
+    configurable: true,
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const symbolExtra = ["ons"];
+  Object.defineProperty(symbolExtra, Symbol("private-context"), {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const numericPseudoIndex = ["ons"];
+  Object.defineProperty(numericPseudoIndex, "4294967295", {
+    configurable: true,
+    enumerable: true,
+    value: "must be rejected",
+  });
+
+  const coerciveCollection = {
+    valueOf() {
+      coercionCalls += 1;
+      return "ons";
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return "ons";
+    },
+  };
+  const coerciveLimit = {
+    valueOf() {
+      coercionCalls += 1;
+      return 2;
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return 2;
+    },
+  };
+
+  for (const collections of [
+    inherited,
+    indexedAccessor,
+    hiddenIndex,
+    new Array(1),
+    namedExtra,
+    symbolExtra,
+    numericPseudoIndex,
+    [coerciveCollection],
+  ]) {
+    const result = await runtime.search({ query: "housing", collections });
+    assert.equal(result.ok, false, "federated search admitted a hostile collections representation");
+    assert.equal(result.error.code, "invalid_federated_search_request");
+  }
+  const coerciveLimitResult = await runtime.search({ query: "housing", limit: coerciveLimit });
+  assert.equal(coerciveLimitResult.ok, false);
+  assert.equal(coerciveLimitResult.error.code, "invalid_federated_search_request");
   assert.equal(getterCalls, 0);
+  assert.equal(coercionCalls, 0);
   assert.equal(calls.length, 0);
 });
 

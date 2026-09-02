@@ -13,8 +13,10 @@ import addFormats from "ajv-formats";
 import {
   PUBLIC_CAPTURE_TARGET,
 } from "./lib/chrome-devtools-capture-target.mjs";
+import { parseUtcRfc3339Timestamp } from "./lib/rfc3339-timestamp.mjs";
 import {
   authenticateLivePagesReceipt,
+  disposeAuthenticatedLivePagesReceipt,
   isAuthenticatedLivePagesReceipt,
   livePagesReceiptBinding,
   validateLivePagesReceiptShape,
@@ -39,11 +41,15 @@ import {
   sha256Hex,
 } from "./prepare-personal-agent-evals.mjs";
 
-export const CAPTURE_SCHEMA = "govuk-webmcp.personal-agent-evaluation-capture.v2";
+export const CAPTURE_SCHEMA = "govuk-webmcp.personal-agent-evaluation-capture.v3";
 // Import-compatible alias for callers of the earlier digest-only test seam.
 export const RECEIPT_SCHEMA = CAPTURE_SCHEMA;
 const MAX_CAPTURE_BYTES = 64 * 1024 * 1024;
+export const MAX_CAPTURED_ARGUMENT_BYTES = 32 * 1024;
+export const MAX_CAPTURED_ARGUMENT_DEPTH = 8;
+export const MAX_CAPTURED_ARGUMENT_NODES = 2_048;
 const MAX_LIVE_RELEASE_RECEIPT_BYTES = 1024 * 1024;
+const MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS = 5 * 60 * 1_000;
 const HOST_IDS = Object.freeze(["copilot-mcp-workspace", "ollama-local"]);
 const PUBLISHABLE_BROWSER_VERSION = /^[0-9]{2,3}\.0\.[0-9]{1,6}\.[0-9]{1,6}$/u;
 const CRITERION_STATUSES = new Set(["pass", "fail", "not-observable"]);
@@ -54,6 +60,16 @@ const PRESENTATION_TOOLS = new Set([
   "explore_answer_foundations",
   "compare_evidence_foundations",
   "present_resource_evidence",
+]);
+const DIAGNOSTIC_DIMENSIONS = Object.freeze([
+  "browserConsole",
+  "pageErrors",
+  "networkErrors",
+  "runnerErrors",
+]);
+const MEASUREMENT_DIMENSIONS = Object.freeze([
+  "interactionSteps",
+  "latencyMilliseconds",
 ]);
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const schemaDirectory = join(repositoryRoot, "schemas");
@@ -115,6 +131,53 @@ function digestJson(value) {
 
 function plainObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+export function assertBoundedCapturedArguments(value, label) {
+  let nodes = 0;
+  function visit(item, depth) {
+    nodes += 1;
+    if (nodes > MAX_CAPTURED_ARGUMENT_NODES || depth > MAX_CAPTURED_ARGUMENT_DEPTH) {
+      throw new Error(`${label} has an unbounded attempted tool argument.`);
+    }
+    if (item === null || typeof item === "boolean") return;
+    if (typeof item === "number") {
+      if (!Number.isFinite(item)) throw new Error(`${label} has a non-finite attempted tool argument.`);
+      return;
+    }
+    if (typeof item === "string") {
+      if (item.length > 4_096) throw new Error(`${label} has an overlong attempted tool argument.`);
+      return;
+    }
+    if (Array.isArray(item)) {
+      if (item.length > 64) throw new Error(`${label} has too many attempted tool argument items.`);
+      for (const child of item) visit(child, depth + 1);
+      return;
+    }
+    if (!plainObject(item)) throw new Error(`${label} has a non-JSON attempted tool argument.`);
+    const entries = Object.entries(item);
+    if (entries.length > 32 || entries.some(([key]) => key.length > 128)) {
+      throw new Error(`${label} has too many or overlong attempted tool argument fields.`);
+    }
+    for (const [, child] of entries) visit(child, depth + 1);
+  }
+  visit(value, 0);
+  if (Buffer.byteLength(canonicalJson(value), "utf8") > MAX_CAPTURED_ARGUMENT_BYTES) {
+    throw new Error(`${label} has an oversized attempted tool argument.`);
+  }
+}
+
+function assertPreSchemaCaptureArgumentBudgets(capture) {
+  if (!plainObject(capture) || !Array.isArray(capture.runs)) return;
+  for (const run of capture.runs) {
+    const calls = plainObject(run?.callTrace) ? run.callTrace.calls : null;
+    if (!Array.isArray(calls)) continue;
+    for (const call of calls) {
+      if (plainObject(call) && Object.hasOwn(call, "arguments")) {
+        assertBoundedCapturedArguments(call.arguments, String(run.caseId ?? "Evaluation capture"));
+      }
+    }
+  }
 }
 
 function deepFreeze(value) {
@@ -187,24 +250,49 @@ export async function authenticateEvaluationReleaseReceipt(
   {
     authenticateImplementation = authenticateLivePagesReceipt,
     gitIdentityImplementation = currentGitIdentity,
+    liveReceiptLease = "owned",
     localBindingImplementation = validateLocalPagesBuildBinding,
     runtimeSnapshotImplementation = createAuthenticatedRuntimeSnapshot,
   } = {},
 ) {
+  if (liveReceiptLease !== "owned" && liveReceiptLease !== "borrowed") {
+    throw new Error("Evaluation live-receipt lease must be owned or borrowed.");
+  }
   const expected = validateLivePagesReceiptShape(candidate);
+  const preRunObservedAt = expected.observedAt;
+  const preRunObservedTime = parseUtcRfc3339Timestamp(
+    preRunObservedAt,
+    "The supplied pre-run live Pages receipt observedAt",
+  );
+  if (preRunObservedTime > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
+    throw new Error("The supplied pre-run live Pages receipt observedAt must not be more than five minutes in the future.");
+  }
   const before = await gitIdentityImplementation();
   if (before.commit !== expected.commit || before.status !== "") {
     throw new Error("Evaluation authentication requires a clean checkout at the exact Pages commit.");
   }
-  const observed = await authenticateImplementation(expected);
-  if (!isAuthenticatedLivePagesReceipt(observed)) {
-    throw new Error("Evaluation authentication did not receive a freshly authenticated Pages receipt.");
-  }
-  await localBindingImplementation(observed);
-  const runtimeSnapshot = await runtimeSnapshotImplementation(observed, {
-    localBindingImplementation,
-  });
+  let observed;
+  let runtimeSnapshot = null;
   try {
+    observed = await authenticateImplementation(expected);
+    if (!isAuthenticatedLivePagesReceipt(observed)) {
+      throw new Error("Evaluation authentication did not receive a freshly authenticated Pages receipt.");
+    }
+    const freshAuthenticationObservedAt = observed.observedAt;
+    const freshAuthenticationObservedTime = parseUtcRfc3339Timestamp(
+      freshAuthenticationObservedAt,
+      "The fresh live Pages authentication observedAt",
+    );
+    if (freshAuthenticationObservedTime > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
+      throw new Error("The fresh live Pages authentication observedAt must not be more than five minutes in the future.");
+    }
+    if (freshAuthenticationObservedTime < preRunObservedTime) {
+      throw new Error("The fresh live Pages authentication observedAt must not be earlier than the supplied pre-run receipt observedAt.");
+    }
+    await localBindingImplementation(observed);
+    runtimeSnapshot = await runtimeSnapshotImplementation(observed, {
+      localBindingImplementation,
+    });
     const after = await gitIdentityImplementation();
     if (after.commit !== expected.commit || after.status !== "") {
       throw new Error("The checkout changed while the evaluation release was being authenticated.");
@@ -214,7 +302,12 @@ export async function authenticateEvaluationReleaseReceipt(
       observed,
       {
         dispose: runtimeSnapshot.dispose,
+        liveReceiptLease,
         receiptSha256: digestJson(observed),
+        observationWindow: Object.freeze({
+          preRunObservedAt,
+          freshAuthenticationObservedAt,
+        }),
         runtimeFactory: runtimeSnapshot.runtimeFactory,
         verifyGeneratedArtifacts: runtimeSnapshot.verifyGeneratedArtifacts,
         async revalidate() {
@@ -229,7 +322,24 @@ export async function authenticateEvaluationReleaseReceipt(
     );
     return observed;
   } catch (error) {
-    await runtimeSnapshot.dispose();
+    const cleanupErrors = [];
+    if (liveReceiptLease === "owned" && observed !== undefined) {
+      disposeAuthenticatedLivePagesReceipt(observed);
+    }
+    if (runtimeSnapshot !== null) {
+      try {
+        await runtimeSnapshot.dispose();
+      } catch (cleanupError) {
+        cleanupErrors.push(cleanupError);
+      }
+    }
+    if (cleanupErrors.length > 0) {
+      throw new AggregateError(
+        [error, ...cleanupErrors],
+        error instanceof Error ? error.message : String(error),
+        { cause: error },
+      );
+    }
     throw error;
   }
 }
@@ -237,8 +347,11 @@ export async function authenticateEvaluationReleaseReceipt(
 export async function disposeEvaluationReleaseReceipt(receipt) {
   const context = evaluationAuthenticatedReceipts.get(receipt);
   if (context === undefined) return false;
-  await context.dispose();
   evaluationAuthenticatedReceipts.delete(receipt);
+  if (context.liveReceiptLease === "owned") {
+    disposeAuthenticatedLivePagesReceipt(receipt);
+  }
+  await context.dispose();
   return true;
 }
 
@@ -350,15 +463,17 @@ function validateExecutionContext(run) {
       throw new Error("The Copilot execution context does not bind a visible Microsoft Edge MCP Workspace observation and share link.");
     }
   }
-  const diagnosticsClean = context.diagnostics.status === "observed"
-    && context.diagnostics.browserConsoleErrors.length === 0
-    && context.diagnostics.runnerErrors.length === 0;
+  const diagnosticsClean = DIAGNOSTIC_DIMENSIONS.every((field) =>
+    context.diagnostics[field].status === "observed"
+    && context.diagnostics[field].errors.length === 0);
+  const measurementsComplete = MEASUREMENT_DIMENSIONS.every((field) =>
+    context.measurements[field].status === "observed");
   return context.hostVersion.status === "observed"
     && context.browser.status === "observed"
     && context.exposedTools.status === "observed"
     && context.visibleMode !== "not-observable"
-    && context.diagnostics.status === "observed"
     && diagnosticsClean
+    && measurementsComplete
     && context.deployment.worktreeStatus !== "dirty";
 }
 
@@ -515,11 +630,12 @@ async function callsMatchExecutionOracle(calls, oracleCase, oracle) {
 }
 
 /** Shared runner/verifier policy assessment over captured exact calls. */
-export function assessCapturedCalls(calls, evalCase) {
+export function assessCapturedCalls(calls, evalCase, { runnerErrors = [] } = {}) {
   const { deterministicExecution, policyMatched } = validateObservedCalls(calls, evalCase);
+  const runnerClean = runnerErrors.length === 0;
   return {
-    toolSelection: policyMatched ? "pass" : "fail",
-    deterministicExecution: deterministicExecution ? "pass" : "fail",
+    toolSelection: policyMatched && runnerClean ? "pass" : "fail",
+    deterministicExecution: deterministicExecution && runnerClean ? "pass" : "fail",
   };
 }
 
@@ -697,6 +813,13 @@ async function validateRun(run, caseSet, oracle) {
   if (run.hostId === "ollama-local" && run.callTrace.status !== "observed") {
     throw new Error("The local evaluator requires an observed exact call trace.");
   }
+  if (
+    run.callTrace.status === "observed"
+    && run.executionContext.measurements.interactionSteps.status === "observed"
+    && run.executionContext.measurements.interactionSteps.value < run.callTrace.calls.length
+  ) {
+    throw new Error(`${run.caseId} interaction-step measurement is smaller than its observed tool-call count.`);
+  }
   let policyMatched = false;
   let deterministicExecution = false;
   let replayedCallTrace = run.callTrace;
@@ -707,6 +830,13 @@ async function validateRun(run, caseSet, oracle) {
     deterministicExecution = deterministicExecution && replay.matches;
     projectReviewedAnswer = replay.projectReviewedAnswer;
     replayedCallTrace = { status: "observed", calls: replay.replayedCalls };
+  }
+  if (
+    run.executionContext.diagnostics.runnerErrors.status === "observed"
+    && run.executionContext.diagnostics.runnerErrors.errors.length > 0
+  ) {
+    policyMatched = false;
+    deterministicExecution = false;
   }
   const derivedPresentation = await derivePresentation(replayedCallTrace, projectReviewedAnswer);
   let pageParity = null;
@@ -737,9 +867,30 @@ export async function validateEvaluationCapture(
   liveReleaseReceipt = null,
   { oracle = null, runtimeFactory = createPersonalAgentCanonicalRuntime } = {},
 ) {
+  assertPreSchemaCaptureArgumentBudgets(capture);
+  const authenticationContext = liveReleaseReceipt === null
+    ? null
+    : evaluationAuthenticatedReceipts.get(liveReleaseReceipt) ?? null;
   const release = liveReleaseReceipt === null
     ? null
     : validateLiveReleaseReceipt(liveReleaseReceipt);
+  const authenticatedObservationWindow = authenticationContext !== null
+      && isAuthenticatedLivePagesReceipt(liveReleaseReceipt)
+      && authenticationContext.receiptSha256 === digestJson(liveReleaseReceipt)
+    ? authenticationContext.observationWindow
+    : null;
+  const preRunObservedTime = authenticatedObservationWindow === null
+    ? null
+    : parseUtcRfc3339Timestamp(
+        authenticatedObservationWindow.preRunObservedAt,
+        "The retained pre-run live Pages receipt observedAt",
+      );
+  const freshAuthenticationObservedTime = authenticatedObservationWindow === null
+    ? null
+    : parseUtcRfc3339Timestamp(
+        authenticatedObservationWindow.freshAuthenticationObservedAt,
+        "The retained fresh live Pages authentication observedAt",
+      );
   const { ajv, validate } = await captureValidator(loaded);
   if (!validate(capture)) {
     throw new Error(`The private evaluation capture does not match its closed schema: ${ajv.errorsText(validate.errors, { separator: "; " })}`);
@@ -753,11 +904,28 @@ export async function validateEvaluationCapture(
   if (capture.comparisonDesign !== "observational") {
     throw new Error("The host comparison is observational and cannot admit a causal claim.");
   }
+  const captureCreatedAt = parseUtcRfc3339Timestamp(capture.createdAt, "Evaluation capture createdAt");
+  if (captureCreatedAt > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
+    throw new Error("Evaluation capture createdAt must not be more than five minutes in the future.");
+  }
   const admittedRunKeys = new Set(expectedRunKeys(loaded.caseSet));
   const observedRunKeys = new Set();
   const currentOracle = oracle ?? executionOracle(loaded, runtimeFactory);
   for (const run of capture.runs) {
     const runKey = `${run.hostId}/${run.caseId}/${run.repetition}`;
+    const observedAt = parseUtcRfc3339Timestamp(run.observedAt, `${runKey} observedAt`);
+    if (observedAt > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
+      throw new Error(`${runKey} observedAt must not be more than five minutes in the future.`);
+    }
+    if (observedAt > captureCreatedAt) {
+      throw new Error(`${runKey} observedAt must not be later than the capture createdAt timestamp.`);
+    }
+    if (preRunObservedTime !== null && observedAt < preRunObservedTime) {
+      throw new Error(`${runKey} observedAt must not be earlier than the supplied pre-run live receipt observedAt.`);
+    }
+    if (freshAuthenticationObservedTime !== null && observedAt > freshAuthenticationObservedTime) {
+      throw new Error(`${runKey} observedAt must not be later than the fresh live authentication observedAt.`);
+    }
     if (!admittedRunKeys.has(runKey)) throw new Error(`Unplanned evaluation run ${runKey}.`);
     if (observedRunKeys.has(runKey)) throw new Error(`Duplicate evaluation run ${runKey}.`);
     observedRunKeys.add(runKey);
@@ -845,7 +1013,12 @@ export async function summariseEvaluationCapture(
   if (initiallyAuthenticated) {
     await authenticationContext.verifyGeneratedArtifacts(loaded);
   }
-  await validateEvaluationCapture(capture, loaded, release, { oracle });
+  await validateEvaluationCapture(
+    capture,
+    loaded,
+    initiallyAuthenticated ? suppliedRelease : release,
+    { oracle },
+  );
   if (initiallyAuthenticated) await authenticationContext.revalidate();
   const releaseAuthenticated = initiallyAuthenticated
     && evaluationAuthenticatedReceipts.get(suppliedRelease) === authenticationContext
@@ -890,7 +1063,8 @@ export async function summariseEvaluationCapture(
     };
   }
   privacyChecks.publicSummary = { pass: 1, fail: 0 };
-  const observedTimes = capture.runs.map(({ observedAt }) => Date.parse(observedAt));
+  const observedTimes = capture.runs.map(({ hostId, caseId, repetition, observedAt }) =>
+    parseUtcRfc3339Timestamp(observedAt, `${hostId}/${caseId}/${repetition} observedAt`));
   const observationWindow = observedTimes.length === 0
     ? { earliest: null, latest: null }
     : {
@@ -968,14 +1142,41 @@ export async function summariseEvaluationCapture(
       ])).values()],
       diagnostics: {
         observedClean: contexts.filter(({ diagnostics }) =>
-          diagnostics.status === "observed"
-          && diagnostics.browserConsoleErrors.length === 0
-          && diagnostics.runnerErrors.length === 0).length,
+          DIAGNOSTIC_DIMENSIONS.every((field) =>
+            diagnostics[field].status === "observed"
+            && diagnostics[field].errors.length === 0)).length,
         observedWithErrors: contexts.filter(({ diagnostics }) =>
-          diagnostics.status === "observed"
-          && (diagnostics.browserConsoleErrors.length > 0 || diagnostics.runnerErrors.length > 0)).length,
-        notObservable: contexts.filter(({ diagnostics }) => diagnostics.status === "not-observable").length,
+          DIAGNOSTIC_DIMENSIONS.some((field) =>
+            diagnostics[field].status === "observed"
+            && diagnostics[field].errors.length > 0)).length,
+        notObservable: contexts.filter(({ diagnostics }) =>
+          DIAGNOSTIC_DIMENSIONS.some((field) => diagnostics[field].status === "not-observable")
+          && DIAGNOSTIC_DIMENSIONS.every((field) =>
+            diagnostics[field].status !== "observed"
+            || diagnostics[field].errors.length === 0)).length,
       },
+      diagnosticDimensions: Object.fromEntries(DIAGNOSTIC_DIMENSIONS.map((field) => [field, {
+        observedClean: contexts.filter(({ diagnostics }) =>
+          diagnostics[field].status === "observed"
+          && diagnostics[field].errors.length === 0).length,
+        observedWithErrors: contexts.filter(({ diagnostics }) =>
+          diagnostics[field].status === "observed"
+          && diagnostics[field].errors.length > 0).length,
+        notObservable: contexts.filter(({ diagnostics }) =>
+          diagnostics[field].status === "not-observable").length,
+      }])),
+      measurements: Object.fromEntries(MEASUREMENT_DIMENSIONS.map((field) => {
+        const values = contexts
+          .map(({ measurements }) => measurements[field])
+          .filter(({ status }) => status === "observed")
+          .map(({ value }) => value);
+        return [field, {
+          observed: values.length,
+          notObservable: contexts.length - values.length,
+          minimum: values.length === 0 ? null : Math.min(...values),
+          maximum: values.length === 0 ? null : Math.max(...values),
+        }];
+      })),
     };
   });
   const executionContext = {

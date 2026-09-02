@@ -20,8 +20,8 @@ The packaged evidence estate contains:
   federation lock.
 
 These lock and admission counts, and the schema total below, are working-tree
-observations; recompute them after the exact-tree rescan before release
-binding.
+observations reconfirmed by the current build and sealed post-fix scan.
+Recompute them if source or contract bytes change before release binding.
 
 The four federated populations sum to 58,655 raw rows before cross-source
 deduplication. Exactly three standalone HM Land Registry legislation rows are

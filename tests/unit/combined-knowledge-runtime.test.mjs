@@ -291,6 +291,123 @@ test("combined search rejects personal, arbitrary and invalid collection fields 
   assert.equal(calls.federatedSearch.length, 0);
 });
 
+test("combined search rejects coercive limits without invoking coercion hooks", async () => {
+  const { calls, combined } = runtimeStubs();
+  let coercionCalls = 0;
+  const coerciveLimit = {
+    valueOf() {
+      coercionCalls += 1;
+      return 8;
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return 8;
+    },
+  };
+
+  for (const limit of ["8", true, coerciveLimit]) {
+    const result = await combined.search({ query: "birth", limit });
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "invalid_search_request");
+    assert.match(result.error.message, /limit must be an integer/u);
+  }
+
+  assert.equal(coercionCalls, 0);
+  assert.equal(calls.reviewedSearch.length, 0);
+  assert.equal(calls.federatedSearch.length, 0);
+});
+
+test("combined search rejects exotic filter arrays without invoking getters", async () => {
+  const fields = [
+    ["resourceTypes", "api"],
+    ["publishers", "GOV.UK"],
+    ["accessStatuses", "public"],
+    ["collections", "deep-evidence"],
+  ];
+
+  for (const [field, item] of fields) {
+    const { calls, combined } = runtimeStubs();
+    let getterCalls = 0;
+    const inherited = [item];
+    const prototype = Object.create(Array.prototype);
+    Object.defineProperty(prototype, Symbol.iterator, {
+      configurable: true,
+      get() {
+        getterCalls += 1;
+        return Array.prototype[Symbol.iterator];
+      },
+    });
+    Object.setPrototypeOf(inherited, prototype);
+
+    const result = await combined.search({ query: "birth", [field]: inherited });
+    assert.equal(result.ok, false, `${field} admitted a non-plain array`);
+    assert.equal(result.error.code, "invalid_search_request");
+    assert.match(result.error.message, /plain data array/u);
+    assert.equal(getterCalls, 0, `${field} invoked an inherited iterator getter`);
+    assert.equal(calls.reviewedSearch.length, 0);
+    assert.equal(calls.federatedSearch.length, 0);
+  }
+});
+
+test("combined search rejects accessors, sparse arrays and extra array properties without invoking getters", async () => {
+  const cases = [];
+  let getterCalls = 0;
+
+  const accessor = ["api"];
+  Object.defineProperty(accessor, "0", {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "api";
+    },
+  });
+  cases.push(accessor);
+
+  cases.push(new Array(1));
+
+  const namedExtra = ["api"];
+  Object.defineProperty(namedExtra, "privateContext", {
+    configurable: true,
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "secret";
+    },
+  });
+  cases.push(namedExtra);
+
+  const symbolicExtra = ["api"];
+  Object.defineProperty(symbolicExtra, Symbol("privateContext"), {
+    configurable: true,
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "secret";
+    },
+  });
+  cases.push(symbolicExtra);
+
+  const numericExtra = ["api"];
+  Object.defineProperty(numericExtra, "4294967295", {
+    configurable: true,
+    enumerable: true,
+    value: "smuggled",
+  });
+  cases.push(numericExtra);
+
+  for (const resourceTypes of cases) {
+    const { calls, combined } = runtimeStubs();
+    const result = await combined.search({ query: "birth", resourceTypes });
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "invalid_search_request");
+    assert.equal(calls.reviewedSearch.length, 0);
+    assert.equal(calls.federatedSearch.length, 0);
+  }
+
+  assert.equal(getterCalls, 0);
+});
+
 test("combined search preserves a bounded federated-runtime busy result", async () => {
   const federatedResult = {
     schema: "govuk-webmcp.error.v1",

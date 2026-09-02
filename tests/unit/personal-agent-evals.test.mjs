@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { lstat, mkdir, readFile, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
@@ -37,18 +37,135 @@ import {
 import {
   LIVE_PAGES_LIMITS,
   authenticateLivePagesReceipt,
+  disposeAuthenticatedLivePagesReceipt,
+  isAuthenticatedLivePagesReceipt,
 } from "../../scripts/verify-live-pages-artifact.mjs";
 import {
   convertPersonalAgentReport,
+  createPrivateEvaluationRunDirectory,
+  readSingleJsonReport,
   runCommand,
 } from "../../scripts/run-personal-agent-evals.mjs";
-import { mergePersonalAgentCaptures } from "../../scripts/import-copilot-personal-agent-capture.mjs";
+import {
+  createPrivateMergedEvaluationRunDirectory,
+  mergePersonalAgentCaptures,
+  writePrivateJsonExclusive,
+} from "../../scripts/import-copilot-personal-agent-capture.mjs";
 
 const loaded = await loadAndValidateCaseSet();
 const readData = (name) => readFile(new URL(`../../app/data/${name}`, import.meta.url), "utf8");
 const digestJson = (value) => sha256Hex(Buffer.from(canonicalJson(value), "utf8"));
 const LIVE_COMMIT = "a".repeat(40);
 const PUBLIC_URL = "https://chris-page-gov.github.io/govuk-webmcp/";
+
+test("private personal-agent output rejects symlinked confidentiality roots", async (context) => {
+  const parent = await mkdtemp(join(tmpdir(), "govuk-webmcp-private-output-"));
+  context.after(() => rm(parent, { recursive: true, force: true }));
+  const outside = join(parent, "outside");
+  await mkdir(outside);
+
+  const symlinkedEvalsRoot = join(parent, "repo-evals-link");
+  await mkdir(symlinkedEvalsRoot);
+  await symlink(outside, join(symlinkedEvalsRoot, ".evals"));
+  await assert.rejects(
+    createPrivateEvaluationRunDirectory("2026-09-02T00:00:00.000Z", symlinkedEvalsRoot),
+    /private \.evals directory.*non-symbolic/u,
+  );
+
+  const symlinkedOutputRoot = join(parent, "repo-output-link");
+  await mkdir(join(symlinkedOutputRoot, ".evals"), { recursive: true });
+  await symlink(outside, join(symlinkedOutputRoot, ".evals", "personal-agent-local"));
+  await assert.rejects(
+    createPrivateEvaluationRunDirectory("2026-09-02T00:00:01.000Z", symlinkedOutputRoot),
+    /personal-agent output root.*non-symbolic/u,
+  );
+
+  const safeRoot = join(parent, "repo-safe");
+  await mkdir(safeRoot);
+  const runDirectory = await createPrivateEvaluationRunDirectory("2026-09-02T00:00:02.000Z", safeRoot);
+  assert.match(runDirectory, /\.evals\/personal-agent-local\/2026-09-02T00-00-02-000Z-/u);
+  await assert.rejects(
+    createPrivateEvaluationRunDirectory("2026-09-02", safeRoot),
+    /RFC 3339 UTC timestamp/u,
+  );
+  await assert.rejects(
+    createPrivateEvaluationRunDirectory("2099-01-01T00:00:00Z", safeRoot),
+    /five minutes in the future/u,
+  );
+});
+
+test("private Copilot merge output rejects symlinked confidentiality roots and creates a fresh run child", async (context) => {
+  const parent = await mkdtemp(join(tmpdir(), "govuk-webmcp-private-merge-"));
+  context.after(() => rm(parent, { recursive: true, force: true }));
+  const outside = join(parent, "outside");
+  await mkdir(outside);
+  const createdAt = new Date().toISOString();
+
+  const symlinkedEvalsRoot = join(parent, "repo-evals-link");
+  await mkdir(symlinkedEvalsRoot);
+  await symlink(outside, join(symlinkedEvalsRoot, ".evals"));
+  await assert.rejects(
+    createPrivateMergedEvaluationRunDirectory(createdAt, symlinkedEvalsRoot, () => "evals-link"),
+    /private merged \.evals directory.*non-symbolic/u,
+  );
+
+  const symlinkedOutputRoot = join(parent, "repo-output-link");
+  await mkdir(join(symlinkedOutputRoot, ".evals"), { recursive: true });
+  await symlink(outside, join(symlinkedOutputRoot, ".evals", "personal-agent-merged"));
+  await assert.rejects(
+    createPrivateMergedEvaluationRunDirectory(createdAt, symlinkedOutputRoot, () => "output-link"),
+    /private merged personal-agent output root.*non-symbolic/u,
+  );
+
+  const safeRoot = join(parent, "repo-safe");
+  await mkdir(safeRoot);
+  const runDirectory = await createPrivateMergedEvaluationRunDirectory(createdAt, safeRoot, () => "fixed-run");
+  assert.match(runDirectory, /\.evals\/personal-agent-merged\/.*-fixed-run$/u);
+  const state = await lstat(runDirectory);
+  assert.equal(state.isDirectory() && !state.isSymbolicLink(), true);
+  await assert.rejects(
+    createPrivateMergedEvaluationRunDirectory(createdAt, safeRoot, () => "fixed-run"),
+    /EEXIST/u,
+  );
+});
+
+test("private Copilot merge output writes with no-follow, no-clobber file semantics", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-private-merge-files-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const outside = join(root, "outside.json");
+  const linkedOutput = join(root, "private-capture.json");
+  const existingOutput = join(root, "public-summary.json");
+  await writeFile(outside, "outside remains\n");
+  await symlink(outside, linkedOutput);
+  await writeFile(existingOutput, "existing remains\n");
+
+  await assert.rejects(
+    writePrivateJsonExclusive(linkedOutput, { private: true }, "The private capture"),
+    /EEXIST/u,
+  );
+  await assert.rejects(
+    writePrivateJsonExclusive(existingOutput, { summary: true }, "The public summary"),
+    /EEXIST/u,
+  );
+  assert.equal(await readFile(outside, "utf8"), "outside remains\n");
+  assert.equal(await readFile(existingOutput, "utf8"), "existing remains\n");
+});
+
+test("local evaluator report admission rejects a child-created symbolic output", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "govuk-webmcp-private-evaluator-report-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const outside = join(root, "outside.json");
+  const report = join(root, "report-1.json");
+  await writeFile(outside, '{"outside":true}\n', { mode: 0o600 });
+  await symlink(outside, report);
+
+  await assert.rejects(
+    readSingleJsonReport(root),
+    /local evaluator JSON report.*regular non-symbolic/u,
+  );
+  assert.equal(await readFile(outside, "utf8"), '{"outside":true}\n');
+  assert.equal((await lstat(outside)).mode & 0o777, 0o600);
+});
 
 function liveReleaseReceipt() {
   return {
@@ -86,6 +203,7 @@ async function authenticatedReleaseReceipt(
     revalidate: async () => {},
     dispose: async () => {},
   }),
+  freshObservedAt = "2026-09-01T13:00:00.000Z",
 ) {
   return authenticateEvaluationReleaseReceipt(candidate, {
     authenticateImplementation: (value) => authenticateLivePagesReceipt(
@@ -93,7 +211,7 @@ async function authenticatedReleaseReceipt(
       async () => ({
         receipt: {
           ...structuredClone(value),
-          observedAt: "2026-09-01T12:01:00.000Z",
+          observedAt: freshObservedAt,
         },
       }),
     ),
@@ -161,7 +279,7 @@ function hostIdentity(hostId) {
       };
 }
 
-function executionContext(hostId) {
+function executionContext(hostId, interactionSteps = 1) {
   const local = hostId === "ollama-local";
   return {
     hostVersion: { status: "observed", value: local ? "Ollama test; webmcp-evals 0.0.4" : "Microsoft Copilot MCP Workspace observed" },
@@ -181,7 +299,16 @@ function executionContext(hostId) {
       commitSha: LIVE_COMMIT,
       worktreeStatus: local ? "clean" : "not-applicable",
     },
-    diagnostics: { status: "observed", browserConsoleErrors: [], runnerErrors: [] },
+    diagnostics: {
+      browserConsole: { status: "observed", errors: [] },
+      pageErrors: { status: "observed", errors: [] },
+      networkErrors: { status: "observed", errors: [] },
+      runnerErrors: { status: "observed", errors: [] },
+    },
+    measurements: {
+      interactionSteps: { status: "observed", value: interactionSteps },
+      latencyMilliseconds: { status: "observed", value: 250 },
+    },
   };
 }
 
@@ -311,7 +438,7 @@ async function completeSyntheticCapture() {
             repetition,
             observedAt: `2026-09-01T12:${String(repetition).padStart(2, "0")}:00Z`,
             hostIdentity: hostIdentity(hostId),
-            executionContext: executionContext(hostId),
+            executionContext: executionContext(hostId, Math.max(1, execution.calls.length)),
             callTrace: { status: "observed", calls: structuredClone(execution.calls) },
             pageObservation: observedPage(execution.evidence, hostId),
             criteria: {
@@ -337,9 +464,100 @@ async function completeSyntheticCapture() {
   return structuredClone(await capturePromise);
 }
 
+async function completeLocalAdapterReport() {
+  const source = await completeSyntheticCapture();
+  const fixture = (await buildGeneratedArtifacts(loaded)).fixture;
+  const fixtureById = new Map(fixture.map((item) => [item.name.slice(0, 5), item]));
+  const rows = [];
+  for (const run of source.runs.filter(({ hostId }) => hostId === "ollama-local")) {
+    const evalCase = loaded.caseSet.cases.find(({ id }) => id === run.caseId);
+    const requiredTools = new Set(evalCase.callPolicy.requiredCalls.map(({ tool }) => tool));
+    const requiredCalls = run.callTrace.calls.filter(({ name }) => requiredTools.has(name));
+    const fixtureCase = fixtureById.get(run.caseId);
+    if (requiredCalls.length === 0) {
+      rows.push({
+        test: { name: fixtureCase.name, messages: fixtureCase.messages, expectedCall: null },
+        response: { text: run.answerReview.text },
+        outcome: "pass",
+        runIndex: run.repetition,
+        stepIndex: 1,
+        trajectory: [{ text: run.answerReview.text }],
+      });
+      continue;
+    }
+    requiredCalls.forEach((call, index) => rows.push({
+      test: { name: fixtureCase.name, messages: fixtureCase.messages, expectedCall: null },
+      response: { functionName: call.name, args: call.arguments, result: call.output },
+      outcome: "pass",
+      runIndex: run.repetition,
+      stepIndex: index + 1,
+      trajectory: [{ text: run.answerReview.text }],
+    }));
+  }
+  return {
+    config: {
+      backend: "vercel",
+      model: LOCAL_MODEL,
+      runs: 3,
+      maxSteps: 6,
+      url: "http://127.0.0.1:4173/",
+    },
+    results: { testCount: 36, passCount: rows.length, failCount: 0, errorCount: 0, results: rows },
+  };
+}
+
+test("evaluation capture timestamps are strict, bounded and chronological", async () => {
+  const future = await completeSyntheticCapture();
+  future.createdAt = "2099-01-01T00:00:00Z";
+  for (const run of future.runs) run.observedAt = "2099-01-01T00:00:00Z";
+  await assert.rejects(() => validateEvaluationCapture(future, loaded), /five minutes in the future/u);
+
+  const reversed = await completeSyntheticCapture();
+  reversed.runs[0].observedAt = "2026-09-01T13:00:01Z";
+  await assert.rejects(
+    () => validateEvaluationCapture(reversed, loaded),
+    /observedAt must not be later than the capture createdAt/u,
+  );
+});
+
+test("authenticated capture chronology is enclosed by the retained pre-run and fresh observations", async (context) => {
+  const authenticated = await authenticatedReleaseReceipt();
+  context.after(() => disposeEvaluationReleaseReceipt(authenticated));
+
+  const beforePreRun = await completeSyntheticCapture();
+  beforePreRun.runs[0].observedAt = "2026-09-01T11:59:59.999Z";
+  await assert.rejects(
+    () => summariseEvaluationCapture(beforePreRun, loaded, authenticated),
+    /observedAt must not be earlier than the supplied pre-run live receipt observedAt/u,
+  );
+
+  const afterFreshAuthentication = await completeSyntheticCapture();
+  afterFreshAuthentication.createdAt = "2026-09-01T13:00:00.001Z";
+  afterFreshAuthentication.runs[0].observedAt = "2026-09-01T13:00:00.001Z";
+  await assert.rejects(
+    () => summariseEvaluationCapture(afterFreshAuthentication, loaded, authenticated),
+    /observedAt must not be later than the fresh live authentication observedAt/u,
+  );
+
+  const boundaryEquality = await completeSyntheticCapture();
+  boundaryEquality.runs[0].observedAt = "2026-09-01T12:00:00.000Z";
+  boundaryEquality.runs[1].observedAt = "2026-09-01T13:00:00.000Z";
+  const boundarySummary = await summariseEvaluationCapture(boundaryEquality, loaded, authenticated);
+  assert.equal(boundarySummary.liveReleaseBinding.status, "authenticated");
+  assert.equal(boundarySummary.claimGatePassed, true);
+
+  const structurallyValidOnly = await summariseEvaluationCapture(
+    beforePreRun,
+    loaded,
+    liveReleaseReceipt(),
+  );
+  assert.equal(structurallyValidOnly.liveReleaseBinding.status, "structurally-valid");
+  assert.equal(structurallyValidOnly.claimGatePassed, false);
+});
+
 test("the authored case set and private capture contract are closed and complete", async () => {
   assert.equal(loaded.caseSet.cases.length, 12);
-  assert.equal(loaded.captureSchema.$id, "urn:govuk-webmcp:schema:personal-agent-evaluation-capture:v2");
+  assert.equal(loaded.captureSchema.$id, "urn:govuk-webmcp:schema:personal-agent-evaluation-capture:v3");
   const naturalPrompts = loaded.caseSet.cases.map(({ messages }) => messages[0].content).join("\n");
   for (const toolName of TOOL_NAMES) assert.equal(naturalPrompts.includes(toolName), false);
   for (const marker of PRIVACY_MARKERS) assert.equal(naturalPrompts.includes(marker), false);
@@ -444,6 +662,26 @@ test("a complete synthetic exact capture validates all six tools and page parity
   assert.equal(localOnlySummary.claimGatePassed, false);
 });
 
+test("imported captures reject deeply nested attempted arguments before recursive schema validation", async () => {
+  const capture = await completeSyntheticCapture();
+  const run = capture.runs.find(({ callTrace }) => callTrace.status === "observed" && callTrace.calls.length > 0);
+  let nested = true;
+  for (let depth = 0; depth < 2_048; depth += 1) nested = { nested };
+  run.callTrace.calls[0].arguments = nested;
+  run.callTrace.calls[0].output = {
+    schema: "trusted-govuk-discovery.error.v1",
+    ok: false,
+    error: { code: "invalid_search_request", message: "Rejected.", details: {} },
+    limitations: ["No substitute source was selected."],
+  };
+  await assert.rejects(
+    () => validateEvaluationCapture(capture, loaded),
+    (error) => error instanceof Error
+      && !(error instanceof RangeError)
+      && /unbounded attempted tool argument/u.test(error.message),
+  );
+});
+
 test("receipt-authenticated replay never reuses an earlier unbound execution cache", async () => {
   const capture = await completeSyntheticCapture();
   await validateEvaluationCapture(capture, loaded);
@@ -527,45 +765,7 @@ test("public evaluation metadata omits private host values and exposes only boun
 });
 
 test("the isolated local adapter accepts optional-call omissions and emits 36 exact private captures", async () => {
-  const source = await completeSyntheticCapture();
-  const fixture = (await buildGeneratedArtifacts(loaded)).fixture;
-  const fixtureById = new Map(fixture.map((item) => [item.name.slice(0, 5), item]));
-  const rows = [];
-  for (const run of source.runs.filter(({ hostId }) => hostId === "ollama-local")) {
-    const evalCase = loaded.caseSet.cases.find(({ id }) => id === run.caseId);
-    const requiredTools = new Set(evalCase.callPolicy.requiredCalls.map(({ tool }) => tool));
-    const requiredCalls = run.callTrace.calls.filter(({ name }) => requiredTools.has(name));
-    const fixtureCase = fixtureById.get(run.caseId);
-    if (requiredCalls.length === 0) {
-      rows.push({
-        test: { name: fixtureCase.name, messages: fixtureCase.messages, expectedCall: null },
-        response: { text: run.answerReview.text },
-        outcome: "pass",
-        runIndex: run.repetition,
-        stepIndex: 1,
-        trajectory: [{ text: run.answerReview.text }],
-      });
-      continue;
-    }
-    requiredCalls.forEach((call, index) => rows.push({
-      test: { name: fixtureCase.name, messages: fixtureCase.messages, expectedCall: null },
-      response: { functionName: call.name, args: call.arguments, result: call.output },
-      outcome: "pass",
-      runIndex: run.repetition,
-      stepIndex: index + 1,
-      trajectory: [{ text: run.answerReview.text }],
-    }));
-  }
-  const report = {
-    config: {
-      backend: "vercel",
-      model: LOCAL_MODEL,
-      runs: 3,
-      maxSteps: 6,
-      url: "http://127.0.0.1:4173/",
-    },
-    results: { testCount: 36, passCount: rows.length, failCount: 0, errorCount: 0, results: rows },
-  };
+  const report = await completeLocalAdapterReport();
   const capture = await convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z");
   assert.equal(capture.runs.length, 36);
   assert.ok(capture.runs.every(({ pageObservation }) => pageObservation.status === "not-observable"));
@@ -574,6 +774,39 @@ test("the isolated local adapter accepts optional-call omissions and emits 36 ex
   assert.equal(summary.evidenceStatus, "partial");
   assert.equal(summary.executionContext.incomplete, 36);
   assert.equal(summary.claimGatePassed, false);
+  assert.deepEqual(summary.hosts[1].diagnosticDimensions.browserConsole, {
+    observedClean: 0,
+    observedWithErrors: 0,
+    notObservable: 36,
+  });
+  assert.deepEqual(summary.hosts[1].diagnosticDimensions.runnerErrors, {
+    observedClean: 36,
+    observedWithErrors: 0,
+    notObservable: 0,
+  });
+  assert.equal(summary.hosts[1].measurements.interactionSteps.observed, 36);
+  assert.equal(summary.hosts[1].measurements.interactionSteps.notObservable, 0);
+  assert.equal(summary.hosts[1].measurements.interactionSteps.minimum, 1);
+  assert.equal(summary.hosts[1].measurements.interactionSteps.maximum, 2);
+  assert.deepEqual(summary.hosts[1].measurements.latencyMilliseconds, {
+    observed: 0,
+    notObservable: 36,
+    minimum: null,
+    maximum: null,
+  });
+  assert.ok(capture.runs.every(({ executionContext }) =>
+    executionContext.diagnostics.browserConsole.status === "not-observable"
+    && executionContext.diagnostics.pageErrors.status === "not-observable"
+    && executionContext.diagnostics.networkErrors.status === "not-observable"
+    && executionContext.diagnostics.runnerErrors.status === "observed"
+    && executionContext.measurements.interactionSteps.status === "observed"
+    && executionContext.measurements.latencyMilliseconds.status === "not-observable"));
+  for (const run of capture.runs) {
+    const fixtureName = `${run.caseId} ${loaded.caseSet.cases.find(({ id }) => id === run.caseId).title}`;
+    const rowCount = report.results.results.filter(({ test: test_, runIndex }) =>
+      test_.name === fixtureName && runIndex === run.repetition).length;
+    assert.equal(run.executionContext.measurements.interactionSteps.value, rowCount);
+  }
 
   for (const url of [
     "http://user:password@127.0.0.1:4173/",
@@ -592,6 +825,192 @@ test("the isolated local adapter accepts optional-call omissions and emits 36 ex
       /pinned local/u,
     );
   }
+});
+
+test("the local adapter rejects a seven-step case even when the aggregate report remains bounded", async () => {
+  const report = await completeLocalAdapterReport();
+  const evalCase = loaded.caseSet.cases.find(({ id }) => id === "US-02");
+  const fixtureName = `${evalCase.id} ${evalCase.title}`;
+  const existing = report.results.results
+    .filter((row) => row.test.name === fixtureName && row.runIndex === 1)
+    .sort((left, right) => left.stepIndex - right.stepIndex);
+  assert.equal(existing.length, 2);
+  const extraRows = Array.from({ length: 5 }, (_, index) => ({
+    ...structuredClone(existing.at(-1)),
+    response: { text: `Bounded non-call step ${String(index + 3)}.` },
+    trajectory: [{ text: `Bounded non-call step ${String(index + 3)}.` }],
+    stepIndex: index + 3,
+  }));
+  report.results.results.push(...extraRows);
+  report.results.passCount += extraRows.length;
+  assert.ok(report.results.results.length < 12 * 3 * 6);
+  await assert.rejects(
+    () => convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z"),
+    /bounded six-step case trajectory/u,
+  );
+});
+
+test("the local adapter records unavailable and missing-result attempts without admitting them", async () => {
+  const report = await completeLocalAdapterReport();
+  const name = loaded.caseSet.cases.find(({ id }) => id === "US-02");
+  const fixtureName = `${name.id} ${name.title}`;
+  const existing = report.results.results
+    .filter((row) => row.test.name === fixtureName && row.runIndex === 1)
+    .sort((left, right) => left.stepIndex - right.stepIndex);
+  assert.equal(existing.length, 2);
+
+  const unavailable = structuredClone(existing[0]);
+  unavailable.stepIndex = 2;
+  unavailable.outcome = "fail";
+  unavailable.response = {
+    functionName: "search_government_analysis",
+    args: { value: "unavailable" },
+    result: null,
+  };
+  const missingResult = structuredClone(existing[0]);
+  missingResult.stepIndex = 3;
+  missingResult.outcome = "fail";
+  missingResult.response = {
+    functionName: "show_provenance",
+    args: {
+      recordId: "govuk-discovery:govuk-content:6e2a4012-2448-47fd-b7ec-a47396e4b114",
+    },
+    result: null,
+  };
+  existing[1].stepIndex = 4;
+  report.results.results = [
+    ...report.results.results.filter((row) =>
+      row.test.name !== fixtureName || row.runIndex !== 1),
+    existing[0],
+    unavailable,
+    missingResult,
+    existing[1],
+  ];
+  report.results.failCount += 2;
+
+  const capture = await convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z");
+  const run = capture.runs.find(({ caseId, repetition }) => caseId === "US-02" && repetition === 1);
+  assert.deepEqual(
+    run.callTrace.calls.map(({ name: toolName }) => toolName),
+    ["search_government_knowledge", "present_resource_evidence"],
+  );
+  assert.deepEqual(run.executionContext.diagnostics.runnerErrors.errors, [
+    "Model tool attempt at step 2 named an unavailable page tool.",
+    "Model tool attempt at step 3 did not return an exact executable result.",
+  ]);
+  assert.equal(run.criteria.toolSelection, "fail");
+  assert.equal(run.criteria.deterministicExecution, "fail");
+});
+
+test("the local adapter retains deterministically rejected closed-schema calls as exact failures", async () => {
+  const report = await completeLocalAdapterReport();
+  const fixtureName = `${loaded.caseSet.cases.find(({ id }) => id === "US-02").id} ${loaded.caseSet.cases.find(({ id }) => id === "US-02").title}`;
+  const row = report.results.results.find(({ test: test_, runIndex, stepIndex }) =>
+    test_.name === fixtureName && runIndex === 1 && stepIndex === 1);
+  row.response.args = { query: "house prices", unexpected: "record exactly as rejected" };
+  row.response.result = {
+    schema: "trusted-govuk-discovery.error.v1",
+    ok: false,
+    error: {
+      code: "invalid_search_request",
+      message: "The search input contains an unknown field.",
+      details: {},
+    },
+    limitations: [
+      "No substitute source was selected.",
+      "No official API, model provider or personal context was contacted.",
+    ],
+  };
+  row.outcome = "fail";
+
+  const capture = await convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z");
+  const run = capture.runs.find(({ caseId, repetition }) => caseId === "US-02" && repetition === 1);
+  assert.deepEqual(run.callTrace.calls[0].arguments, row.response.args);
+  assert.deepEqual(run.callTrace.calls[0].output, row.response.result);
+  assert.equal(run.criteria.toolSelection, "fail");
+  assert.equal(run.criteria.deterministicExecution, "fail");
+  const summary = await summariseEvaluationCapture(capture, loaded);
+  assert.equal(summary.claimGatePassed, false);
+  assert.equal(JSON.stringify(summary).includes("record exactly as rejected"), false);
+});
+
+test("the local adapter classifies a valid-input deterministic error in only the rejected-call branch", async () => {
+  const report = await completeLocalAdapterReport();
+  const fixtureName = `${loaded.caseSet.cases.find(({ id }) => id === "US-04").id} ${loaded.caseSet.cases.find(({ id }) => id === "US-04").title}`;
+  const row = report.results.results.find(({ test: test_, runIndex }) =>
+    test_.name === fixtureName && runIndex === 1);
+  row.response.functionName = "get_resource_record";
+  row.response.args = {
+    recordId: "govuk-discovery:govuk-content:ae6c8a6e-2c70-4d54-a3d2-1c2b5a0a2db6",
+  };
+  row.response.result = {
+    schema: "trusted-govuk-discovery.error.v1",
+    ok: false,
+    error: {
+      code: "record_not_found",
+      message: "No catalogue record matched the supplied identifier.",
+      details: { recordId: row.response.args.recordId },
+    },
+    limitations: ["No substitute record was selected."],
+  };
+  row.outcome = "fail";
+
+  const capture = await convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z");
+  const run = capture.runs.find(({ caseId, repetition }) => caseId === "US-04" && repetition === 1);
+  const retained = run.callTrace.calls.find(({ ordinal }) => ordinal === row.stepIndex);
+  assert.equal(retained.name, "get_resource_record");
+  assert.deepEqual(retained.arguments, row.response.args);
+  assert.deepEqual(retained.output, row.response.result);
+  assert.equal(run.criteria.toolSelection, "fail");
+  assert.equal(run.criteria.deterministicExecution, "fail");
+});
+
+test("the local adapter refuses unbounded rejected-call arguments before receipt validation", async () => {
+  const report = await completeLocalAdapterReport();
+  const row = report.results.results.find(({ response }) => response?.functionName);
+  row.response.args = { query: "x", nested: { a: { b: { c: { d: { e: { f: { g: { h: { i: true } } } } } } } } } };
+  row.response.result = {
+    schema: "trusted-govuk-discovery.error.v1",
+    ok: false,
+    error: { code: "invalid_search_request", message: "Rejected.", details: {} },
+    limitations: ["No substitute source was selected."],
+  };
+  await assert.rejects(
+    () => convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z"),
+    /unbounded attempted tool argument/u,
+  );
+});
+
+test("the local adapter rejects a parallel-call trajectory above six attempts", async () => {
+  const report = await completeLocalAdapterReport();
+  const name = loaded.caseSet.cases.find(({ id }) => id === "US-01");
+  const fixtureName = `${name.id} ${name.title}`;
+  const original = report.results.results.find((row) =>
+    row.test.name === fixtureName && row.runIndex === 1);
+  const parallelToolCalls = Array.from({ length: 7 }, (_value, index) => ({
+    toolCallId: `parallel-${String(index + 1)}`,
+    toolName: original.response.functionName,
+    input: structuredClone(original.response.args),
+  }));
+  const parallelRows = parallelToolCalls.map((_call, index) => ({
+    ...structuredClone(original),
+    stepIndex: index + 1,
+    trajectory: [{
+      ...structuredClone(original.trajectory[0]),
+      toolCalls: structuredClone(parallelToolCalls),
+    }],
+  }));
+  report.results.results = [
+    ...report.results.results.filter((row) =>
+      row.test.name !== fixtureName || row.runIndex !== 1),
+    ...parallelRows,
+  ];
+  report.results.passCount += parallelRows.length - 1;
+
+  await assert.rejects(
+    () => convertPersonalAgentReport(report, loaded, "2026-09-01T14:00:00Z"),
+    /bounded six-step case trajectory/u,
+  );
 });
 
 test("the Copilot import helper requires and merges two exact 36-slot host matrices", async () => {
@@ -635,6 +1054,91 @@ test("host, browser, visible-mode, tool-list, share, deployment and diagnostics 
   const summary = await summariseEvaluationCapture(dirty, loaded);
   assert.equal(summary.executionContext.incomplete, 1);
   assert.equal(summary.claimGatePassed, false);
+
+  const unacknowledgedRunnerError = await completeSyntheticCapture();
+  const unacknowledgedRun = unacknowledgedRunnerError.runs.find(({ hostId, caseId }) =>
+    hostId === "ollama-local" && caseId === "US-02");
+  unacknowledgedRun.executionContext.diagnostics.runnerErrors.errors.push(
+    "Model tool attempt did not return an exact executable result.",
+  );
+  await assert.rejects(
+    () => validateEvaluationCapture(unacknowledgedRunnerError, loaded),
+    /tool-selection criterion disagrees/u,
+  );
+
+  const acknowledgedRunnerError = structuredClone(unacknowledgedRunnerError);
+  const acknowledgedRun = acknowledgedRunnerError.runs.find(({ hostId, caseId }) =>
+    hostId === "ollama-local" && caseId === "US-02");
+  acknowledgedRun.criteria.toolSelection = "fail";
+  acknowledgedRun.criteria.deterministicExecution = "fail";
+  const diagnosticSummary = await summariseEvaluationCapture(acknowledgedRunnerError, loaded);
+  assert.equal(diagnosticSummary.criteria.toolSelection.fail, 1);
+  assert.equal(diagnosticSummary.criteria.deterministicExecution.fail, 1);
+  assert.equal(diagnosticSummary.executionContext.incomplete, 1);
+  assert.equal(diagnosticSummary.claimGatePassed, false);
+  assert.equal(
+    JSON.stringify(diagnosticSummary).includes(
+      "Model tool attempt did not return an exact executable result.",
+    ),
+    false,
+  );
+
+  const privateDiagnosticText = "Private browser diagnostic must stay private.";
+  const browserDiagnostic = await completeSyntheticCapture();
+  const browserDiagnosticRun = browserDiagnostic.runs.find(({ hostId, caseId }) =>
+    hostId === "copilot-mcp-workspace" && caseId === "US-02");
+  browserDiagnosticRun.executionContext.diagnostics.browserConsole.errors.push(privateDiagnosticText);
+  const browserDiagnosticSummary = await summariseEvaluationCapture(browserDiagnostic, loaded);
+  assert.equal(browserDiagnosticSummary.hosts[0].diagnosticDimensions.browserConsole.observedWithErrors, 1);
+  assert.equal(browserDiagnosticSummary.executionContext.incomplete, 1);
+  assert.equal(JSON.stringify(browserDiagnosticSummary).includes(privateDiagnosticText), false);
+
+  for (const [field, value] of [
+    ["interactionSteps", 0],
+    ["interactionSteps", 7],
+    ["latencyMilliseconds", 600001],
+  ]) {
+    const outOfRange = await completeSyntheticCapture();
+    outOfRange.runs[0].executionContext.measurements[field].value = value;
+    await assert.rejects(
+      () => validateEvaluationCapture(outOfRange, loaded),
+      /closed schema/u,
+    );
+  }
+
+  const underCount = await completeSyntheticCapture();
+  const underCountRun = underCount.runs.find(({ callTrace }) =>
+    callTrace.status === "observed" && callTrace.calls.length > 1);
+  underCountRun.executionContext.measurements.interactionSteps.value =
+    underCountRun.callTrace.calls.length - 1;
+  await assert.rejects(
+    () => validateEvaluationCapture(underCount, loaded),
+    /smaller than its observed tool-call count/u,
+  );
+
+  const sixStepBoundary = await completeSyntheticCapture();
+  sixStepBoundary.runs[0].executionContext.measurements.interactionSteps.value = 6;
+  await validateEvaluationCapture(sixStepBoundary, loaded);
+
+  const inconsistentUnknown = await completeSyntheticCapture();
+  inconsistentUnknown.runs[0].executionContext.diagnostics.networkErrors = {
+    status: "not-observable",
+    errors: [],
+  };
+  await assert.rejects(
+    () => validateEvaluationCapture(inconsistentUnknown, loaded),
+    /closed schema/u,
+  );
+
+  const unexpectedMetric = await completeSyntheticCapture();
+  unexpectedMetric.runs[0].executionContext.measurements.modelTokens = {
+    status: "observed",
+    value: 1,
+  };
+  await assert.rejects(
+    () => validateEvaluationCapture(unexpectedMetric, loaded),
+    /closed schema/u,
+  );
 
   const wrongCloudBrowser = await completeSyntheticCapture();
   wrongCloudBrowser.runs.find(({ hostId }) => hostId === "copilot-mcp-workspace")
@@ -803,38 +1307,150 @@ test("the claim gate requires a closed live receipt and exact per-run release bi
   );
 });
 
-test("authenticated runtime snapshots are disposed on authentication failure and retryable cleanup", async () => {
+test("owned evaluation authentication is revoked on every failure and successful disposal", async () => {
   const receipt = liveReleaseReceipt();
-  const authenticateImplementation = (value) => authenticateLivePagesReceipt(
-    value,
-    async () => ({
-      receipt: {
-        ...structuredClone(value),
-        observedAt: "2026-09-01T12:01:00.000Z",
-      },
+  const successfulSnapshot = () => ({
+    runtimeFactory: createPersonalAgentCanonicalRuntime,
+    verifyGeneratedArtifacts: async () => {},
+    revalidate: async () => {},
+    dispose: async () => {},
+  });
+
+  async function expectOwnedFailureRevoked({
+    expectedError,
+    freshObservedAt = "2026-09-01T12:01:00.000Z",
+    gitIdentityImplementation = async () => ({ commit: receipt.commit, status: "" }),
+    localBindingImplementation = async (value) => value,
+    runtimeSnapshotImplementation = async () => successfulSnapshot(),
+  }) {
+    let retainedObservation;
+    await assert.rejects(
+      () => authenticateEvaluationReleaseReceipt(receipt, {
+        authenticateImplementation: async (value) => {
+          retainedObservation = await authenticateLivePagesReceipt(
+            value,
+            async () => ({
+              receipt: {
+                ...structuredClone(value),
+                observedAt: freshObservedAt,
+              },
+            }),
+          );
+          return retainedObservation;
+        },
+        gitIdentityImplementation,
+        localBindingImplementation,
+        runtimeSnapshotImplementation,
+      }),
+      expectedError,
+    );
+    assert.ok(retainedObservation);
+    assert.equal(isAuthenticatedLivePagesReceipt(retainedObservation), false);
+  }
+
+  await expectOwnedFailureRevoked({
+    freshObservedAt: "2026-09-01T11:59:59.999Z",
+    expectedError: /earlier than the supplied pre-run receipt/u,
+  });
+  await expectOwnedFailureRevoked({
+    expectedError: /Injected local binding failure/u,
+    localBindingImplementation: async () => { throw new Error("Injected local binding failure."); },
+  });
+  await expectOwnedFailureRevoked({
+    expectedError: /Injected runtime snapshot failure/u,
+    runtimeSnapshotImplementation: async () => { throw new Error("Injected runtime snapshot failure."); },
+  });
+  await expectOwnedFailureRevoked({
+    expectedError: /Injected context construction failure/u,
+    runtimeSnapshotImplementation: async () => ({
+      runtimeFactory: createPersonalAgentCanonicalRuntime,
+      verifyGeneratedArtifacts: async () => {},
+      revalidate: async () => {},
+      get dispose() { throw new Error("Injected context construction failure."); },
     }),
-  );
+  });
+
   let identityCalls = 0;
   let failedAuthenticationDisposals = 0;
-  await assert.rejects(
-    () => authenticateEvaluationReleaseReceipt(receipt, {
-      authenticateImplementation,
-      gitIdentityImplementation: async () => {
-        identityCalls += 1;
-        if (identityCalls === 2) throw new Error("Injected Git identity failure.");
-        return { commit: receipt.commit, status: "" };
-      },
-      localBindingImplementation: async (value) => value,
-      runtimeSnapshotImplementation: async () => ({
-        runtimeFactory: createPersonalAgentCanonicalRuntime,
-        verifyGeneratedArtifacts: async () => {},
-        revalidate: async () => {},
-        dispose: async () => { failedAuthenticationDisposals += 1; },
-      }),
+  await expectOwnedFailureRevoked({
+    expectedError: /Injected Git identity failure/u,
+    gitIdentityImplementation: async () => {
+      identityCalls += 1;
+      if (identityCalls === 2) throw new Error("Injected Git identity failure.");
+      return { commit: receipt.commit, status: "" };
+    },
+    runtimeSnapshotImplementation: async () => ({
+      ...successfulSnapshot(),
+      dispose: async () => { failedAuthenticationDisposals += 1; },
     }),
-    /Injected Git identity failure/u,
-  );
+  });
   assert.equal(failedAuthenticationDisposals, 1);
+
+  let retainedDuringFailureCleanup;
+  let releaseFailureCleanup;
+  let signalFailureCleanup;
+  const failureCleanupGate = new Promise((resolveCleanup) => { releaseFailureCleanup = resolveCleanup; });
+  const failureCleanupStarted = new Promise((resolveStarted) => { signalFailureCleanup = resolveStarted; });
+  let gatedIdentityCalls = 0;
+  const pendingAuthenticationFailure = authenticateEvaluationReleaseReceipt(receipt, {
+    authenticateImplementation: async (value) => {
+      retainedDuringFailureCleanup = await authenticateLivePagesReceipt(
+        value,
+        async () => ({
+          receipt: {
+            ...structuredClone(value),
+            observedAt: "2026-09-01T12:01:00.000Z",
+          },
+        }),
+      );
+      return retainedDuringFailureCleanup;
+    },
+    gitIdentityImplementation: async () => {
+      gatedIdentityCalls += 1;
+      if (gatedIdentityCalls === 2) throw new Error("Gated Git identity failure.");
+      return { commit: receipt.commit, status: "" };
+    },
+    localBindingImplementation: async (value) => value,
+    runtimeSnapshotImplementation: async () => ({
+      ...successfulSnapshot(),
+      dispose: async () => {
+        signalFailureCleanup();
+        await failureCleanupGate;
+        throw new Error("Gated runtime cleanup failure.");
+      },
+    }),
+  });
+  await failureCleanupStarted;
+  assert.equal(isAuthenticatedLivePagesReceipt(retainedDuringFailureCleanup), false);
+  releaseFailureCleanup();
+  await assert.rejects(
+    pendingAuthenticationFailure,
+    (error) => error instanceof AggregateError
+      && error.message === "Gated Git identity failure."
+      && error.cause?.message === "Gated Git identity failure."
+      && error.errors.some(({ message }) => message === "Gated runtime cleanup failure."),
+  );
+
+  const owned = await authenticatedReleaseReceipt();
+  assert.equal(isAuthenticatedLivePagesReceipt(owned), true);
+  assert.equal(await disposeEvaluationReleaseReceipt(owned), true);
+  assert.equal(isAuthenticatedLivePagesReceipt(owned), false);
+  assert.equal(await disposeEvaluationReleaseReceipt(owned), false);
+
+  let releaseCleanup;
+  const cleanupGate = new Promise((resolveCleanup) => { releaseCleanup = resolveCleanup; });
+  const gated = await authenticatedReleaseReceipt(
+    liveReleaseReceipt(),
+    async () => ({
+      ...successfulSnapshot(),
+      dispose: async () => cleanupGate,
+    }),
+  );
+  const pendingDisposal = disposeEvaluationReleaseReceipt(gated);
+  assert.equal(isAuthenticatedLivePagesReceipt(gated), false);
+  assert.equal(await disposeEvaluationReleaseReceipt(gated), false);
+  releaseCleanup();
+  assert.equal(await pendingDisposal, true);
 
   let cleanupCalls = 0;
   const authenticated = await authenticatedReleaseReceipt(
@@ -853,9 +1469,43 @@ test("authenticated runtime snapshots are disposed on authentication failure and
     () => disposeEvaluationReleaseReceipt(authenticated),
     /Injected cleanup failure/u,
   );
-  assert.equal(await disposeEvaluationReleaseReceipt(authenticated), true);
-  assert.equal(cleanupCalls, 2);
+  assert.equal(isAuthenticatedLivePagesReceipt(authenticated), false);
+  assert.equal(cleanupCalls, 1);
   assert.equal(await disposeEvaluationReleaseReceipt(authenticated), false);
+});
+
+test("borrowed evaluation authentication remains valid until its outer owner revokes it", async () => {
+  const receipt = liveReleaseReceipt();
+  await assert.rejects(
+    () => authenticateEvaluationReleaseReceipt(receipt, { liveReceiptLease: "shared" }),
+    /must be owned or borrowed/u,
+  );
+  const borrowed = await authenticateLivePagesReceipt(
+    receipt,
+    async () => ({
+      receipt: {
+        ...structuredClone(receipt),
+        observedAt: "2026-09-01T12:01:00.000Z",
+      },
+    }),
+  );
+  const evaluated = await authenticateEvaluationReleaseReceipt(receipt, {
+    authenticateImplementation: async () => borrowed,
+    gitIdentityImplementation: async () => ({ commit: receipt.commit, status: "" }),
+    liveReceiptLease: "borrowed",
+    localBindingImplementation: async (value) => value,
+    runtimeSnapshotImplementation: async () => ({
+      runtimeFactory: createPersonalAgentCanonicalRuntime,
+      verifyGeneratedArtifacts: async () => {},
+      revalidate: async () => {},
+      dispose: async () => {},
+    }),
+  });
+  assert.equal(evaluated, borrowed);
+  assert.equal(await disposeEvaluationReleaseReceipt(evaluated), true);
+  assert.equal(isAuthenticatedLivePagesReceipt(borrowed), true);
+  assert.equal(disposeAuthenticatedLivePagesReceipt(borrowed), true);
+  assert.equal(isAuthenticatedLivePagesReceipt(borrowed), false);
 });
 
 test("72 arbitrary digest assertions cannot pass as execution evidence", async () => {

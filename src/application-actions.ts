@@ -70,6 +70,7 @@ function normaliseForJsonDigest(value: unknown): unknown {
 
 const ROOT_INPUT_KEY_LIMIT = 16;
 const ROOT_INPUT_KEY_LENGTH_LIMIT = 128;
+const DIAGNOSTIC_ARRAY_ITEM_LIMIT = 8;
 
 function inputBudgetError(): JsonObject {
   return {
@@ -87,22 +88,52 @@ function inputBudgetError(): JsonObject {
   };
 }
 
+function admittedDataArray(value: unknown): unknown[] | undefined {
+  if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) return undefined;
+  const lengthDescriptor = Object.getOwnPropertyDescriptor(value, "length");
+  if (!lengthDescriptor || !Object.hasOwn(lengthDescriptor, "value") ||
+    !Number.isSafeInteger(lengthDescriptor.value) ||
+    lengthDescriptor.value < 0 || lengthDescriptor.value > DIAGNOSTIC_ARRAY_ITEM_LIMIT) return undefined;
+  const length = lengthDescriptor.value;
+  const keys = Reflect.ownKeys(value);
+  if (keys.some((key) => {
+    if (key === "length") return false;
+    if (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)) return true;
+    const index = Number(key);
+    return !Number.isSafeInteger(index) || index < 0 || index >= length;
+  })) return undefined;
+  const copy: unknown[] = [];
+  for (let index = 0; index < length; index += 1) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
+    if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) return undefined;
+    copy.push(descriptor.value as unknown);
+  }
+  return copy;
+}
+
+function isDiagnosticScalar(value: unknown): value is string | number | boolean | null {
+  return value === null || ["string", "number", "boolean"].includes(typeof value);
+}
+
 /**
- * Apply a cheap boundary before action-specific validation. This deliberately
- * inspects root metadata only: rejected nested values must never be traversed
- * merely to produce diagnostics.
+ * Apply a cheap boundary before action-specific validation. This inspects root
+ * metadata and at most eight immediate array item descriptors; it never
+ * recursively traverses rejected nested values merely to produce diagnostics.
  */
 function exceedsRootInputBudget(value: unknown): boolean {
   if (value === null || typeof value !== "object" || Array.isArray(value)) return false;
   try {
     if (Object.getPrototypeOf(value) !== Object.prototype) return false;
-    let keys = 0;
-    for (const key in value) {
-      if (!Object.hasOwn(value, key)) continue;
-      keys += 1;
-      if (keys > ROOT_INPUT_KEY_LIMIT || key.length > ROOT_INPUT_KEY_LENGTH_LIMIT) return true;
+    const keys = Reflect.ownKeys(value);
+    if (keys.length > ROOT_INPUT_KEY_LIMIT) return true;
+    for (const key of keys) {
+      if (typeof key !== "string" || key.length > ROOT_INPUT_KEY_LENGTH_LIMIT) return true;
       const descriptor = Object.getOwnPropertyDescriptor(value, key);
-      if (!descriptor || !Object.hasOwn(descriptor, "value")) return true;
+      if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) return true;
+      if (Array.isArray(descriptor.value)) {
+        const admitted = admittedDataArray(descriptor.value);
+        if (admitted === undefined || admitted.some((item) => !isDiagnosticScalar(item))) return true;
+      }
     }
     return false;
   } catch {
@@ -123,16 +154,12 @@ function admittedDiagnosticInput(value: unknown): JsonObject | undefined {
       if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) return undefined;
       const item = descriptor.value as unknown;
       if (Array.isArray(item)) {
-        if (item.length > 8 || Reflect.ownKeys(item).some((candidate) =>
-          candidate !== "length" &&
-          (typeof candidate !== "string" || !/^\d+$/u.test(candidate)))) return undefined;
+        const admitted = admittedDataArray(item);
+        if (admitted === undefined) return undefined;
         const values: Array<string | number | boolean | null> = [];
-        for (let index = 0; index < item.length; index += 1) {
-          const itemDescriptor = Object.getOwnPropertyDescriptor(item, String(index));
-          if (!itemDescriptor?.enumerable || !Object.hasOwn(itemDescriptor, "value")) return undefined;
-          const entry = itemDescriptor.value as unknown;
-          if (entry !== null && !["string", "number", "boolean"].includes(typeof entry)) return undefined;
-          values.push(entry as string | number | boolean | null);
+        for (const entry of admitted) {
+          if (!isDiagnosticScalar(entry)) return undefined;
+          values.push(entry);
         }
         copy[key] = values;
       } else if (item === null || ["string", "number", "boolean"].includes(typeof item)) {

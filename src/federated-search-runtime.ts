@@ -405,6 +405,7 @@ function plainObject(
     throw new Error(`${label} must be a plain JSON object.`);
   }
   const object = value as JsonObject;
+  const copy: JsonObject = {};
   const keys = Reflect.ownKeys(object);
   for (const key of keys) {
     if (typeof key !== "string" || !allowed.has(key)) throw new Error(`${label} contains an unknown field.`);
@@ -412,28 +413,43 @@ function plainObject(
     if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
       throw new Error(`${label} must contain data fields only.`);
     }
+    copy[key] = descriptor.value as unknown;
   }
   for (const key of required) {
-    if (!Object.hasOwn(object, key)) throw new Error(`${label} is missing ${key}.`);
+    if (!Object.hasOwn(copy, key)) throw new Error(`${label} is missing ${key}.`);
   }
-  return object;
+  return copy;
 }
 
 function dataArray(value: unknown, label: string, minimum: number, maximum: number): unknown[] {
-  if (!Array.isArray(value) || value.length < minimum || value.length > maximum) {
+  if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) {
+    throw new Error(`${label} must be a plain data array.`);
+  }
+  const lengthDescriptor = Object.getOwnPropertyDescriptor(value, "length");
+  if (!lengthDescriptor || !Object.hasOwn(lengthDescriptor, "value") ||
+    !Number.isSafeInteger(lengthDescriptor.value) ||
+    lengthDescriptor.value < minimum || lengthDescriptor.value > maximum) {
     throw new Error(`${label} must contain from ${minimum} to ${maximum} items.`);
   }
+  const length = lengthDescriptor.value;
   const ownKeys = Reflect.ownKeys(value);
-  if (ownKeys.some((key) => key !== "length" && (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)))) {
+  if (ownKeys.some((key) => {
+    if (key === "length") return false;
+    if (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)) return true;
+    const index = Number(key);
+    return !Number.isSafeInteger(index) || index < 0 || index >= length;
+  })) {
     throw new Error(`${label} must contain indexed data items only.`);
   }
-  for (let index = 0; index < value.length; index += 1) {
+  const copy: unknown[] = [];
+  for (let index = 0; index < length; index += 1) {
     const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
     if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
       throw new Error(`${label} must not contain accessors or empty positions.`);
     }
+    copy.push(descriptor.value as unknown);
   }
-  return value;
+  return copy;
 }
 
 function stringValue(value: unknown, label: string, minimum: number, maximum: number): string {
@@ -444,10 +460,10 @@ function stringValue(value: unknown, label: string, minimum: number, maximum: nu
 }
 
 function integer(value: unknown, label: string, minimum: number, maximum: number): number {
-  if (!Number.isSafeInteger(value) || Number(value) < minimum || Number(value) > maximum) {
+  if (typeof value !== "number" || !Number.isSafeInteger(value) || value < minimum || value > maximum) {
     throw new Error(`${label} must be an integer from ${minimum} to ${maximum}.`);
   }
-  return Number(value);
+  return value;
 }
 
 function digest(value: unknown, label: string): string {

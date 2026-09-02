@@ -513,7 +513,7 @@ async function buildOracle(
     suiteId: caseSet.suiteId,
     caseSetSha256,
     captureContract: {
-      schema: "govuk-webmcp.personal-agent-evaluation-capture.v2",
+      schema: "govuk-webmcp.personal-agent-evaluation-capture.v3",
       schemaSha256: captureSchemaSha256,
       actualCallsRequiredWhenObservable: true,
       renderedEvidenceParityRequiredWhenObservable: true,
@@ -563,7 +563,7 @@ function buildRunPlan(caseSet, caseSetSha256, captureSchemaSha256) {
     suiteId: caseSet.suiteId,
     caseSetSha256,
     captureContract: {
-      schema: "govuk-webmcp.personal-agent-evaluation-capture.v2",
+      schema: "govuk-webmcp.personal-agent-evaluation-capture.v3",
       path: "schemas/personal-agent-evaluation-capture.schema.json",
       sha256: captureSchemaSha256,
       privateCapture: true,

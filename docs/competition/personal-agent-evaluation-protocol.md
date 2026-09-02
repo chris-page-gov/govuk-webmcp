@@ -2,14 +2,27 @@
 
 ## Status
 
-This protocol defines a **planned, observational** evaluation. It does not
-claim that any of the 72 host observations have happened.
+This protocol defines an **observational** evaluation. A partial local
+diagnostic has been admitted; it does not complete or pass the 72-run matrix.
 
 The generated run plan contains 72 entries labelled `planned-unrun` and an
 `observedRunCount` of 0. A completed observation exists only when a separate,
 private exact capture contains a valid run entry. Missing runs remain
 missing; they must not be represented by copied, inferred or placeholder
 results.
+
+The patched local Ollama run contributes 36 observed diagnostic slots. Its
+capture-schema-v3 mode-`0600` private capture is
+`.evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json`,
+with SHA-256
+`ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8`;
+the tracked privacy-minimised summary at
+`docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json` has
+SHA-256
+`a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f`.
+All 36 Copilot slots remain missing. Page parity is not observable, answers are
+unreviewed, execution context is incomplete and the claim gate is false. The
+summary is an honest diagnostic record, not a local-host safety pass.
 
 ## Question
 
@@ -37,11 +50,33 @@ shared case set, not an experiment that supports causal attribution.
 | `evals/generated/personal-agent-evals-manifest.json` | Byte counts and SHA-256 values binding authored and generated files. |
 | `scripts/verify-personal-agent-evals.mjs` | Exact private-capture validation and privacy-safe deterministic matrix summary. |
 | `scripts/run-personal-agent-evals.mjs` | Isolated local adapter for the 12 cases and 3 Ollama repetitions, producing 36 private run captures. |
+| `scripts/apply-webmcp-evals-browser-step-limit-patch.mjs` | Version-and-source-digest-bound correction that applies the configured six-step limit to the pinned `webmcp-evals` 0.0.4 browser agent. |
 | `scripts/import-copilot-personal-agent-capture.mjs` | Strict import and merge of one 36-slot local capture with one 36-slot manual Copilot capture. |
+| `docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json` | Privacy-minimised partial summary of the 36 observed local slots; it retains missing cloud runs and the closed claim gate. |
+| `scripts/build-ollama-diagnostic-clip.mjs` | Offline builder for the visibly labelled local diagnostic receipt visualisation. It independently replays the exact private capture, matches the public summary and writes the clip and its closed receipt transactionally. |
+| `docs/competition/evidence/ollama-local-diagnostic-clip-v0.4.0-rc.1.json` | Public closed receipt for the generated diagnostic visualisation. It binds the exact private-source digest without admitting private bytes, the public summary and model digests, failed and unknown criteria, media hash and visible presentation boundary. |
+| `docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json` | Historical pre-hardening product-execution baseline for commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118`: six direct Chrome DevTools MCP calls and final tool/page digest parity. It selects no model and is not a personal-agent result. This last pre-hardening corrected-path projection has SHA-256 `b98c43fd394ea74731d59a114aecb69897a60fe978b1ebc352a4347ba1046f33`. |
+| `docs/competition/evidence/supported-host-webmcp-clip-v0.4.0-rc.1.json` | Historical pre-hardening public receipt for the labelled 40.966667-second supported-host receipt reconstruction. Receipt SHA-256 `4ee76fa70e48fca22e6874500d4bfa8a9c19d75bdbec5116276c23efffc5a528` binds ignored media SHA-256 `db8a9eaaadc0e4b2d6716c52cec5cde995f7a1e56d54fc3e92df96089fcfb835`. It is not a host-owned recording, does not apply to later built bytes and does not replace either host arrangement in the 72-run matrix. |
+| `docs/competition/demo-video-script-v0.4.0-rc.1.json` | Nine-scene media contract: genuine visible Copilot evidence stays separate from the local diagnostic visualisation. |
 
 The retained guided fixture at `evals/beginner-conversations.json` remains
 historical evidence. It must not be rewritten to look like this natural-prompt
 evaluation.
+
+The historical supported-host projection binds the tracked reviewed Chrome
+projection with SHA-256
+`e9d67af0799ee6772396837bd4ab8df7538ae8a11c6d5c62ef08e1b505d5a8e7`
+and the ignored mode-`0600` raw receipt with SHA-256
+`2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
+Those exact stored public and private bindings are evidence only for the named
+pre-hardening deployment. An exact-release capture requires a fresh in-process
+authentication of its live Pages receipt and ordered `initial`,
+`after-page-load` and `after-execution` deployment observations that agree and
+enclose the six-tool execution. The raw private receipt, reviewed public
+projection and supported-host projection must match that authenticated object
+exactly. Host matrices, manual accessibility observations and media each require
+their own receipts. GitHub tag and release state must be read live; neither is
+inferred from this protocol.
 
 ## Matrix
 
@@ -87,6 +122,42 @@ sample of all users, prompts, sessions or future model versions.
   `executionBound: true` only when those checks pass.
 - This is daemon-reported identity evidence, not cryptographic proof that every
   token came from particular model weights.
+
+### Video evidence boundary
+
+The cloud and local scenes have deliberately different evidence contracts.
+The Copilot scene is admitted only from a genuine visible Microsoft Edge MCP
+Workspace recording that shows a Site-tool invocation and the corresponding
+Evidence answer update, and only after the clip-level privacy, branding and
+owner-human reviews pass.
+
+The patched Ollama evaluation did not meet those success conditions. Its local
+video scene is therefore a generated **diagnostic receipt visualisation**, not
+a host capture. The builder must:
+
+- revalidate all 36 exact local runs against the frozen case set and canonical
+  deterministic runtime;
+- match the fresh privacy-minimised summary byte-for-byte in meaning;
+- bind the exact mode-`0600` private-capture bytes, tracked public-summary
+  bytes and model inventory digest in a closed media receipt;
+- display 6 tool-selection and execution passes, 30 failures, all 36 page-
+  parity states as not observed and all 36 answers as not reviewed; and
+- label the result as not a host recording, not a page update, not release-
+  bound and not evidence that the local host answers safely.
+
+The generated ignored release-media clip is 37 seconds long, contains
+1,849,825 bytes and has
+SHA-256
+`95bb7ab39361546021601cbb126a41d4530916ab08d9d709abbe89c7cd623f63`.
+Its tracked public receipt has SHA-256
+`182f9308464e5ba1773e316965f627a200d6df2f38a85a70a4a37e3178296fe4`.
+The source mode-`0600` capture remains private inside ignored `.evals` and
+outside tracked history.
+
+This exception does not relax the 72-run, clean release-binding or human-answer
+review gates for a cross-host safety claim. It provides an honest account of a
+failed host observation while the deterministic public page can still be
+published as an experimental evaluation candidate.
 
 ## Stories and expected page outcomes
 
@@ -253,7 +324,7 @@ an unsafe category fails closed.
 ## Private capture and public summary contracts
 
 The private capture schema identifier is
-`govuk-webmcp.personal-agent-evaluation-capture.v2`. The executable verifier
+`govuk-webmcp.personal-agent-evaluation-capture.v3`. The executable verifier
 uses its closed JSON Schema and additional semantic checks; unexpected fields
 fail. The capture belongs under the ignored `.evals/` directory with mode
 `0600`. It is evaluation evidence, not a publishable receipt.
@@ -277,10 +348,16 @@ Each observed run contains:
 - an observed, unavailable or not-applicable share-link state;
 - the exact Git commit, deployment kind and URL, plus a clean, dirty or
   not-applicable worktree boundary;
-- bounded browser-console and runner diagnostics, or an explicit
-  `not-observable` diagnostic state;
-- every observable tool name, exact argument object and exact closed output, or
-  a complete `not-observable` call state;
+- separate, closed browser-console, page-error, network-error and runner-error
+  diagnostics. Each dimension contains a bounded observed error list or the
+  explicit pair `status: "not-observable"`, `errors: null`;
+- one-to-six interaction steps and zero-to-600,000 latency milliseconds. Each
+  required measurement is either a bounded observed integer or the explicit pair
+  `status: "not-observable"`, `value: null`;
+- every observable recognised tool name, exact bounded argument object and
+  exact deterministic result, including an explicit closed `ok: false`
+  rejected-call result where observed, or a complete `not-observable` call
+  state;
 - exact before and after beginner-presentation objects, their recomputed
   evidence digests, URL, history and isolated storage observations, or a
   complete `not-observable` page state;
@@ -289,12 +366,21 @@ Each observed run contains:
   class, check outcomes and unsafe categories when reviewed.
 
 Capture operators must not deliberately copy account identifiers, email
-addresses or unrelated browser state into dedicated fields. Exact observed
+addresses or unrelated browser state into dedicated fields. A closed schema is
+data minimisation, not secrecy: bounded free-text search or prompts can still
+contain personal details, so operators must keep inputs task-minimal. Exact observed
 host or browser version text can nevertheless contain unexpected interface
 text; that unrestricted text is therefore confined to the private capture and
 never copied or hashed into the public summary. US-10 host-only input remains
 outside page calls and page state. Raw arguments, results and model prose are
 deliberately private rather than pretending opaque digests prove their content.
+
+Normal closed tool-result variants require `ok: true`; the explicit rejected-
+call variant requires `ok: false`. This keeps the schema's `oneOf` branches
+disjoint. An unavailable tool name or a recognised call with no executable
+result is retained only as a bounded runner diagnostic, not invented as an
+executed call. It still counts towards the six-attempt limit and forces the
+tool-selection and deterministic-execution criteria to fail.
 
 For a claimable page observation, history state must be literal `null` before
 and after the action, and both local and session storage inventories must be
@@ -330,9 +416,9 @@ only in the private mode-`0600` capture because a nominal version field can
 contain account or unrelated interface text. The public summary contains
 neither those free-text values nor hashes of them. It exposes a browser version
 only when it has the bounded Chromium form `major.0.build.patch`.
-The canonical release repository and URL may be repeated from the separately
-validated live Pages receipt because they are fixed public release identity,
-not host-supplied personal metadata.
+The canonical release repository and URL may be repeated from the freshly
+authenticated in-process live Pages receipt because they are fixed public
+release-identity fields, not host-supplied personal metadata.
 
 The deterministic summary reports:
 
@@ -342,7 +428,8 @@ The deterministic summary reports:
   per-story tool-name sequences plus deterministic selection/digest pairs;
 - host-version status counts, privacy-minimised browser product/version values,
   visible-mode counts, exposed-tool observability,
-  share-link state, deployment bindings and diagnostic counts;
+  share-link state, deployment bindings, per-dimension diagnostic status/error
+  counts and per-measurement observation counts and numeric ranges;
 - the exact authenticated live Pages receipt identity and the count of runs bound
   to it;
 - each criterion's pass, fail, unknown and missing counts;
@@ -359,7 +446,11 @@ matches every binding except observation time, verifies a clean unchanged Git
 checkout at the exact commit and matches the complete local `dist` manifest and
 `deployment.json`. It then replays from a private exact-manifest snapshot and
 rechecks that snapshot, local build and Git identity. The immutable receipt
-cannot be changed during verification. It also
+cannot be changed during verification. The authenticated evaluation retains
+the supplied pre-run live receipt `observedAt` and the fresh post-run
+authentication `observedAt`; every run must be at or after the former and at or
+before both the latter and `capture.createdAt`. A merely `structurally-valid`
+receipt remains non-claimable. The gate also
 remains closed when a run is not bound to that commit and canonical deployment,
 a run is missing, a criterion fails or is unknown, an answer is unsafe or
 unreviewed, an answer has only an agent reviewer, or a US-10 destination fails
@@ -368,6 +459,72 @@ conservative gate does not prevent publishing an honest experimental prototype
 with its failures and unknowns; it prevents stronger claims that the evidence
 does not support.
 
+Supported-host admission applies the same authentication in the capture
+process. It records ordered `initial`, `after-page-load` and `after-execution`
+deployment observations, requires all three to name one exact deployment and
+requires them to enclose the tool execution. The mode-`0600` raw private
+receipt, reviewed public projection and supported-host projection are then
+matched to the freshly authenticated receipt by exact path, byte length and
+SHA-256 before being promoted as one recoverable set. A stored, copied, mutated
+or merely well-shaped receipt is not an authentication result.
+
+The host matrix, manual accessibility journey and every source and rendered
+media item retain separate receipt and review boundaries. A supported-host call
+does not establish those observations, and media or accessibility evidence for
+one product commit is not carried forward to changed built bytes. GitHub tag
+and release metadata are live external state and must be observed at the time of
+a release claim.
+
+## Rejected first local diagnostic and completed patched diagnostic
+
+The first complete local execution produced 36 case results in the ignored raw
+upstream report beneath
+`.evals/personal-agent-local/2026-09-01T20-36-55-997Z-85228/`. Its report
+SHA-256 is
+`70fdab101134f86ac92dd658377bae34f53be878aa0da2be37cddcc055a845ce`.
+The project converter rejected the report at US-01 repetition 2 because the
+trajectory contained seven attempts, above the frozen limit of six. No private
+capture or public summary from that execution is admissible.
+
+Inspection showed a defect in the pinned `webmcp-evals` 0.0.4 browser path:
+the command accepted `maxSteps: 6`, but the browser `ToolLoopAgent` omitted the
+corresponding `stepCountIs(this.maxSteps)` stop condition. The repository's
+explicit patch applies only when both the dependency version and reviewed
+source SHA-256 match, produces one reviewed patched digest and fails closed on
+drift. CI and Pages run it after `npm ci --ignore-scripts`; the personal-agent
+runner reapplies it before execution. Unit tests cover original,
+already-patched and unexpected source states.
+
+The patched rerun produced raw report
+`.evals/personal-agent-local/2026-09-01T21-25-56-524Z-8733/report-1788298998487.json`.
+Conversion and receipt-bound replay pass. The private capture records 118
+recognised calls: 108 deterministic `ok: true` results and 10 deterministic
+`ok: false` rejections across nine runs. Two unavailable or null-result
+attempts are runner diagnostics only. Tool selection and deterministic
+execution each pass 6 and fail 30. Page parity is `not-observable` for all 36,
+all answers remain unreviewed and context is 0 complete. US-10 tool-argument
+checks pass 3 of 3 and tool-result checks pass 3 of 3 without synthetic-marker
+leakage.
+
+The retained raw report has now also been converted through capture schema v3.
+The resulting ignored evidence is
+`.evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json`
+(SHA-256
+`ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8`)
+and its privacy-minimised public-summary candidate has SHA-256
+`a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f`.
+The upstream rows do not expose browser-console, page-error, network-error or
+latency telemetry, so those dimensions are explicitly `not-observable`; the
+runner-error dimension is observed and retains the two bounded errors only in
+the private capture. Interaction steps are derived from each already validated,
+consecutive one-to-six-row trajectory. The public summary exposes only status
+and count aggregates: it does not copy diagnostic text.
+
+Authenticated verification correctly refuses this dirty, unbound loopback
+context. All 36 cloud slots are missing, `matrixComplete` is false and
+`claimGatePassed` is false. The correction does not change the authored cases,
+acceptance oracle or requirement to retain failures and unknowns.
+
 ## Commands
 
 Current direct commands:
@@ -375,6 +532,7 @@ Current direct commands:
 ```sh
 node scripts/prepare-personal-agent-evals.mjs
 node scripts/prepare-personal-agent-evals.mjs --check
+npm run webmcp:eval:patch
 node --test tests/unit/personal-agent-evals.test.mjs
 WEBMCP_EVAL_PRESENTATION_APPROVED=1 node scripts/run-personal-agent-evals.mjs
 GITHUB_SHA="$COMMIT" \
@@ -388,6 +546,9 @@ node scripts/import-copilot-personal-agent-capture.mjs \
   .evals/personal-agent-local/<run>/private-capture.json \
   .evals/copilot-manual/<run>/private-capture.json \
   .evals/live-artifact-verification-v0.4.0-rc.1.json
+GOVUK_WEBMCP_DEMO_COMMIT="$COMMIT" \
+  GOVUK_WEBMCP_DEMO_PAGES_RUN_ID="$PAGES_RUN_ID" \
+  npm run demo:ollama-diagnostic-clip
 ```
 
 Run `deployment:verify-live` without `--admit-public-evidence` before these
@@ -400,17 +561,21 @@ exact Pages commit and run shown above. Pages adds that file after its own
 build; omitting it makes the otherwise identical local manifest one file short
 and correctly fails the complete release binding. The generated file is under
 ignored `dist`, so this step does not dirty the Git checkout.
-Admit the reviewed live receipt, public evaluation summary and media only after
-the 72-run comparison, through a separate post-deployment evidence change. Do
-not point claim authentication at a newly written tracked receipt in the same
-checkout: doing so makes the checkout dirty and correctly closes the gate.
+A privacy-minimised partial diagnostic summary may be admitted when it labels
+missing runs and closed gates exactly, as the local record does. Admit a merged
+claimable comparison only after all 72 runs and the required reviews, through a
+separate post-deployment evidence change. Do not point claim authentication at
+a newly written tracked receipt in the same checkout: doing so makes the
+checkout dirty and correctly closes the gate.
 
 The local runner pins `ollama:gpt-oss:20b`, three repetitions, the locally
 installed model digest and Chrome stable. It refuses model or repetition
 overrides, checks the model before and after execution and will not download a
-model. It accepts optional diagnostic-call omissions, but applies the project
-case policy to the exact calls rather than treating the upstream matcher's
-descriptors as acceptance evidence.
+model. The explicit correction binds the pinned upstream browser backend to
+the same six-step limit. The adapter records malformed or unsupported attempts
+as fail-closed diagnostics and applies the project case policy to exact
+executed calls rather than treating the upstream matcher's descriptors as
+acceptance evidence.
 
 The pinned upstream browser report does not expose an independent semantic DOM,
 URL, history or storage snapshot after each case. The adapter therefore records
@@ -433,6 +598,17 @@ not release-bound, or the claim gate is not passed. The local runner deliberatel
 receipt: it exits successfully after writing a valid 36-run partial capture and
 privacy-minimised summary with `claimGatePassed: false`.
 
+That retained dirty, unbound local diagnostic cannot become the local half of
+an authenticated 72-run media source. For a claimable release matrix, rerun all
+36 local slots from a clean exact-release checkout and build after the protected
+product deployment, bind every run to that commit and canonical deployment, and
+retain page or answer states as unknown unless they were genuinely observed or
+reviewed.
+Final-video preflight authenticates the private pre-run Pages receipt
+in-process, replays the exact combined capture inside the retained observation
+window, exact-compares the supplied summary and disposes the authentication; a
+shaped structural receipt cannot be promoted offline.
+
 Recommended `package.json` aliases for the integrating change:
 
 ```json
@@ -447,8 +623,9 @@ Copilot observations remain manual unless the product exposes an authorised
 exact trace or export interface. A matching page alone cannot convert a hidden
 call trace into a pass. Each manual run must use the same private capture schema,
 record visible mode, Edge and Copilot versions when available, the six exposed
-tools when observable, the public deployment commit and URL, bounded diagnostics
-and the observed canonical Copilot share URL. The import helper accepts
+tools when observable, the public deployment commit and URL, every closed
+diagnostic and measurement dimension and the observed canonical Copilot share
+URL. The import helper accepts
 exactly 36 distinct Copilot slots, exactly 36 distinct local slots and the
 freshly authenticated live Pages byte-verification receipt before it writes a 72-run merged
 private capture and privacy-minimised summary. Every run must bind the receipt's

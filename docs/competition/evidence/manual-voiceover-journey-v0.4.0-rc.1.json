@@ -1,0 +1,101 @@
+{
+  "schema": "trusted-govuk-discovery.manual-voiceover-journey.v1",
+  "observedAt": "2026-09-01T22:13:36Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.4.0-rc.1",
+    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+    "pagesRunId": "33555187118"
+  },
+  "method": "manual-operator-driven",
+  "manual": true,
+  "assistiveTechnologyActuallyUsed": true,
+  "withoutWebMCP": true,
+  "noWcagConformanceClaim": true,
+  "screenReaderAudioCaptured": false,
+  "environment": {
+    "operatingSystem": "macOS",
+    "operatingSystemVersion": "26.5.2",
+    "operatingSystemBuild": "25F84",
+    "browser": "Safari",
+    "browserVersion": "26.5.2 (21624.2.5.11.8)",
+    "screenReader": "VoiceOver",
+    "screenReaderVersion": "10 (993)"
+  },
+  "overallStatus": "completed-with-limitations",
+  "journey": [
+    {
+      "id": "page-title-and-headings",
+      "result": "limitation",
+      "observation": "With VoiceOver and its Caption Panel running, Safari exposed the page title as ‘Trusted government knowledge discovery’ and the visible level-one heading as ‘Government evidence for your AI’. The retained frame shows both the heading and the Caption Panel identifying the page's web content and window.",
+      "limitation": "The page title and level-one heading were visible while VoiceOver was active, but a heading-rotor selection was not retained in the nine-frame sequence."
+    },
+    {
+      "id": "skip-link-and-main-focus",
+      "result": "pass",
+      "observation": "Safari and VoiceOver identified ‘Skip to main content’ as a link. Activating it moved accessibility focus to the main content container and the Caption Panel identified the main region."
+    },
+    {
+      "id": "persistent-view-navigation",
+      "result": "pass",
+      "observation": "The persistent Evidence answer and Technical review navigation remained available. Activating Technical review selected that view, moved to its single level-one heading and made the Caption Panel identify ‘Technical review: government knowledge evidence’ as a level-one heading."
+    },
+    {
+      "id": "evidence-presentation-action",
+      "result": "pass",
+      "observation": "A bounded ‘housing’ search used the four federated collections, excluded reviewed deep evidence and retained the eight-result limit. Activating ‘Show evidence for this result’ for record ‘govuk-discovery:federated:land-registry:57845’ updated the page's Evidence answer and focused its level-one heading."
+    },
+    {
+      "id": "evidence-answer-sections",
+      "result": "limitation",
+      "observation": "Safari's accessibility tree exposed the Evidence answer's ordered headings and separate integrity, access, rights and coverage values. The retained frame shows the observed-date explanation and the integrity, access, rights and coverage section while VoiceOver was active.",
+      "limitation": "Direct pointer selection made the Caption Panel retain only the final word ‘coverage’ rather than the complete visible ‘Integrity, access, rights and coverage’ heading; the complete heading was separately exposed in Safari's accessibility tree."
+    },
+    {
+      "id": "source-link-role-and-destination",
+      "result": "pass",
+      "observation": "The Evidence answer retained the descriptively named ‘Open recorded source link’, source role ‘Recorded source link declared by the producer’, source authority ‘Not independently established’, publisher ‘HM Land Registry’ and destination ‘www.gov.uk’. The link was not opened.",
+      "details": {
+        "linkRole": "producer-declared-source",
+        "destinationHostname": "www.gov.uk",
+        "sourceAuthority": "Not independently established"
+      }
+    },
+    {
+      "id": "comparison-guide",
+      "result": "limitation",
+      "observation": "Safari's accessibility tree exposed ‘Compare this with your AI's answer’ and the separate ‘From this page’, ‘From your AI’ and ‘Check carefully’ headings. The retained frame shows all three comparison columns while VoiceOver was active.",
+      "limitation": "Direct pointer selection made the Caption Panel retain only the final word ‘answer’ rather than the complete visible comparison-guide heading; the complete heading and its three child headings were separately exposed in Safari's accessibility tree."
+    },
+    {
+      "id": "technical-review-controls",
+      "result": "pass",
+      "observation": "Activating the persistent Technical review navigation returned to the detailed interface without losing the Evidence answer selection. Safari exposed the populated ‘housing’ search field, Search button, expanded filters, four selected federated collections, unselected reviewed collection and eight-result limit."
+    },
+    {
+      "id": "focus-restoration",
+      "result": "pass",
+      "observation": "Activating ‘View record and provenance’ opened the exact Land Registry record. Closing it restored accessibility focus to its originating ‘View record and provenance’ button; the retained frame and final accessibility-tree check both identify that control. This ninth checkpoint was captured before the later screen lock."
+    }
+  ],
+  "limitations": [
+    "The page title and level-one heading were visible while VoiceOver was active, but a heading-rotor selection was not retained in the nine-frame sequence.",
+    "Direct pointer selection made the Caption Panel retain only the final word ‘coverage’ rather than the complete visible ‘Integrity, access, rights and coverage’ heading; the complete heading was separately exposed in Safari's accessibility tree.",
+    "Direct pointer selection made the Caption Panel retain only the final word ‘answer’ rather than the complete visible comparison-guide heading; the complete heading and its three child headings were separately exposed in Safari's accessibility tree.",
+    "VoiceOver speech audio was not captured; the retained sequence uses the Caption Panel and manual Safari accessibility observations.",
+    "This screenshot sequence is not a continuous recording.",
+    "This observation covers one manual environment and does not establish WCAG conformance.",
+    "The capture did not retain independent deployment metadata before and after the manual journey; the commit and Pages run identify the intended candidate rather than a cryptographic capture-time binding.",
+    "The Mac locked after the ninth frame while the assistive-technology session was being ended. The Caption Panel had already been turned off; after the user unlocked the Mac, VoiceOver was turned off and both settings were explicitly verified off."
+  ],
+  "media": {
+    "path": "output/demo-clips/v0.4.0-rc.1/06-voiceover.mov",
+    "sha256": "704532eaf6c01706d33ae201efc7b98131b1399340bfea6ca948c2ac775f4921",
+    "startSeconds": 0,
+    "endSeconds": 27,
+    "captureStartedAt": "2026-09-01T22:04:24Z",
+    "captureEndedAt": "2026-09-01T22:13:36Z",
+    "captureManifestPath": "output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json",
+    "captureManifestSha256": "4d96de5240d2c15d1ff57330371ba8334381381a2eb9e0c4c178651f6d05b3ef"
+  }
+}

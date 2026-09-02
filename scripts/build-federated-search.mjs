@@ -18,6 +18,7 @@ import {
   sha256,
   validateReviewedStoredArtifact,
 } from "./import-okf-federation.mjs";
+import { isLegislationHostname } from "./lib/legislation-host.mjs";
 
 export const FEDERATED_SEARCH_DIRECTORY = "app/data/federated-search";
 export const FEDERATED_SEARCH_MANIFEST_PATH = `${FEDERATED_SEARCH_DIRECTORY}/manifest.json`;
@@ -466,8 +467,7 @@ function assertNoHmlrSensitiveFields(value, path = "record") {
 function isLegislationHost(value) {
   const url = safeSourceUrl(value);
   if (url === null) return false;
-  const hostname = new URL(url).hostname.replace(/\.+$/u, "").toLowerCase();
-  return hostname === "legislation.gov.uk" || hostname.endsWith(".legislation.gov.uk");
+  return isLegislationHostname(new URL(url).hostname);
 }
 
 export function classifyLandRegistryRecord(record) {

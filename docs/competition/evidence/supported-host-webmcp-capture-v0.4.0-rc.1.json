@@ -1,0 +1,2645 @@
+{
+  "schema": "govuk-webmcp.supported-host-webmcp-capture.v4",
+  "capturedAt": "2026-09-02T01:56:15.734Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.4.0-rc.1",
+    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+    "pagesRunId": "33555187118"
+  },
+  "deploymentChecks": [
+    {
+      "label": "initial",
+      "observedAt": "2026-09-02T01:56:10.849Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after-page-load",
+      "observedAt": "2026-09-02T01:56:13.110Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after-execution",
+      "observedAt": "2026-09-02T01:56:15.734Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    }
+  ],
+  "host": {
+    "name": "Google Chrome stable through Chrome DevTools MCP",
+    "version": "Google Chrome 152.0.7977.66",
+    "capabilities": [
+      "webmcp"
+    ]
+  },
+  "capture": {
+    "method": "Chrome DevTools MCP 1.8.0 used native list_webmcp_tools, execute_webmcp_tool and evaluate_script commands in an isolated stable-Chrome profile.",
+    "hostOwnedSurfaceObserved": false,
+    "hostRecordingCaptured": false,
+    "modelSelected": false,
+    "modelProviderCalled": false
+  },
+  "artefacts": [
+    {
+      "path": ".evals/chrome-devtools-mcp-public.json",
+      "sha256": "2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e",
+      "sizeBytes": 133272,
+      "kind": "raw-receipt",
+      "hostOwnedSurface": false,
+      "purpose": "Ignored exact Chrome DevTools receipt containing discovered definitions, six bounded calls, the rejected call and final page observation.",
+      "limitation": "This machine-readable source remains outside Git; its reviewed tracked projection carries this exact byte binding."
+    },
+    {
+      "path": "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
+      "sha256": "e9d67af0799ee6772396837bd4ab8df7538ae8a11c6d5c62ef08e1b505d5a8e7",
+      "sizeBytes": 134239,
+      "kind": "reviewed-public-evidence",
+      "hostOwnedSurface": false,
+      "purpose": "Tracked reviewed projection of the exact Chrome DevTools receipt, used as the reproducible input to the labelled receipt visualisation.",
+      "limitation": "This reviewed machine evidence is not a recording or screenshot of a host-owned surface."
+    }
+  ],
+  "discovery": {
+    "toolCount": 6,
+    "tools": [
+      {
+        "name": "search_government_knowledge",
+        "description": "Search 80 reviewed records and 58,652 searchable records from four checksum-bound OKF source snapshots. Use exact collection IDs deep-evidence, uk-living, ons, government-apis or land-registry; omit unused optional filters rather than sending empty arrays or display labels. Three source records are quarantined. It accepts no personal profile and calls no official or model-provider API.",
+        "inputSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Search terms and optional exact filters only. Keep personal context outside this page-scoped tool call.",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "description": "The exact search terms. Do not add personal context or rewrite an explicitly supplied query."
+            },
+            "resourceTypes": {
+              "type": "array",
+              "maxItems": 7,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/resourceType"
+              },
+              "description": "Optional exact machine tokens: govuk-content, dataset, api, api-documentation, catalogue-record, organisation and guidance. Omit this property when unused; do not send an empty array or display labels."
+            },
+            "publishers": {
+              "type": "array",
+              "maxItems": 8,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "description": "Optional exact publisher names. Omit this property when unused; do not send an empty array."
+            },
+            "accessStatuses": {
+              "type": "array",
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/accessStatus"
+              },
+              "description": "Optional exact access-status machine tokens. Omit this property when unused; do not send an empty array or display labels."
+            },
+            "collections": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/knowledgeCollection"
+              },
+              "description": "Optional exact machine tokens: deep-evidence, uk-living, ons, government-apis and land-registry. Omit this property to search all collections; never send an empty array or a display label."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "default": 8,
+              "description": "Maximum results from 1 to 20. Use an explicitly requested value exactly; omit it only to accept the default of 8."
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "$defs": {
+            "resourceType": {
+              "type": "string",
+              "enum": [
+                "govuk-content",
+                "dataset",
+                "api",
+                "api-documentation",
+                "catalogue-record",
+                "organisation",
+                "guidance"
+              ]
+            },
+            "accessStatus": {
+              "type": "string",
+              "enum": [
+                "public",
+                "restricted",
+                "authentication-required",
+                "access-not-established",
+                "not-applicable"
+              ]
+            },
+            "knowledgeCollection": {
+              "type": "string",
+              "enum": [
+                "deep-evidence",
+                "uk-living",
+                "ons",
+                "government-apis",
+                "land-registry"
+              ]
+            }
+          }
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "untrustedContentHint": true
+        }
+      },
+      {
+        "name": "get_resource_record",
+        "description": "Return one exact reviewed or federated record using its canonical govuk-discovery: record ID exactly, not a display label. Includes its assurance tier, source link, access, licence, assertions and limitations. A federated result is snapshot-bound, not item-reviewed, and grants no access authority.",
+        "inputSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recordId": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 160,
+              "pattern": "^govuk-discovery:(?:[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$"
+            }
+          },
+          "required": [
+            "recordId"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "untrustedContentHint": true
+        }
+      },
+      {
+        "name": "show_provenance",
+        "description": "Inspect provenance using the canonical govuk-discovery: record ID exactly, not a display label. Returns either an item-level reviewed receipt or the file, snapshot and manifest bindings for a federated record. It does not refetch or independently certify an official source.",
+        "inputSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recordId": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 160,
+              "pattern": "^govuk-discovery:(?:[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$"
+            }
+          },
+          "required": [
+            "recordId"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "untrustedContentHint": true
+        }
+      },
+      {
+        "name": "explore_answer_foundations",
+        "description": "Use canonical answer: and optional claim: IDs exactly, not display labels, to select one bounded evidence-first answer or claim and update this page's analytical index and Evidence Trace. The only effect is reversible in-memory presentation; no source, storage or external state changes.",
+        "inputSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "answerId": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 96,
+              "pattern": "^answer:[a-z0-9][a-z0-9-]{2,88}$"
+            },
+            "claimId": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 96,
+              "pattern": "^claim:[a-z0-9][a-z0-9-]{2,89}$"
+            }
+          },
+          "required": [
+            "answerId"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "untrustedContentHint": true
+        }
+      },
+      {
+        "name": "compare_evidence_foundations",
+        "description": "Use one canonical answer: ID and two to four canonical claim: IDs exactly, not display labels, to update this page's accessible comparison. It does not rank sources or change catalogue, storage, network or external state.",
+        "inputSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "answerId": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 96,
+              "pattern": "^answer:[a-z0-9][a-z0-9-]{2,88}$"
+            },
+            "claimIds": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 8,
+                "maxLength": 96,
+                "pattern": "^claim:[a-z0-9][a-z0-9-]{2,89}$"
+              }
+            }
+          },
+          "required": [
+            "answerId",
+            "claimIds"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "untrustedContentHint": true
+        }
+      },
+      {
+        "name": "present_resource_evidence",
+        "description": "Use one canonical govuk-discovery: record ID exactly, not a display label, to update this page's Evidence answer with the same closed, deterministic evidence object returned by the tool. The reversible presentation effect changes no URL, history, focus, scroll, storage, catalogue or external state and accepts no personal context.",
+        "inputSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recordId": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 160,
+              "pattern": "^govuk-discovery:(?:(?!federated:)[a-z0-9][a-z0-9._:-]{2,111}|federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5}))$"
+            }
+          },
+          "required": [
+            "recordId"
+          ]
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "untrustedContentHint": true
+        }
+      }
+    ]
+  },
+  "calls": [
+    {
+      "name": "search_government_knowledge",
+      "input": {
+        "query": "housing",
+        "collections": [
+          "uk-living",
+          "ons",
+          "government-apis",
+          "land-registry"
+        ],
+        "limit": 8
+      },
+      "result": {
+        "schema": "trusted-govuk-discovery.search-result.v2",
+        "ok": true,
+        "query": "housing",
+        "selectedCollections": [
+          "uk-living",
+          "ons",
+          "government-apis",
+          "land-registry"
+        ],
+        "evidenceEstate": {
+          "reviewedRecordCount": 80,
+          "reviewedBundleDigest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+          "federatedSourceRecordCount": 58655,
+          "federatedQuarantinedRecordCount": 3,
+          "federatedRecordCount": 58652,
+          "federatedCollectionCount": 4,
+          "federatedManifestDigest": "0263d828575c4fdd2bcc7c5a34cec402332fca68a9ab5edd882838898caa0954"
+        },
+        "totalMatches": 797,
+        "totalRelation": "eq",
+        "returned": 8,
+        "truncated": true,
+        "results": [
+          {
+            "recordId": "govuk-discovery:federated:uk-living:7060",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "uk-living",
+            "collectionTitle": "A Life in the UK — life-course discovery corpus",
+            "sourceNativeId": "concept:get-housing-adaptation-in-later-life",
+            "sourceNativeIdSha256": "d8e9a0a3aa27f778953894b66da4bb12afe51a61ca8fcd14a0fb9aa5d530e85f",
+            "title": "Get a housing adaptation in later life",
+            "description": "Request the local assessment, identify housing and tenure responsibilities and use the funding, works and review route offered for the home.",
+            "resourceType": "catalogue-record",
+            "publisher": "okf-uk-living",
+            "accessStatus": "access-not-established",
+            "accessNote": "The producer record does not establish access.",
+            "licenceStatus": "confirmed",
+            "licenceTitle": "MIT",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "canonicalHumanUrl": "https://www.gov.uk/disabled-facilities-grants",
+            "snapshot": "life-course-authority-infrastructure-2026-08-08",
+            "revision": "4bc010eab3c9c072f68960393c1458a772aa700b",
+            "deploymentId": "5943077379",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "producer-declared-source",
+            "recordDigest": "feb099f88eacc11b5dbdb82d47bebf0e5068af5ac64c51d09496feb22e4d6ff5",
+            "limitations": [
+              "Original summaries and links only; no upstream source response or snapshot is retained.",
+              "A national discovery handoff locates the current route but does not establish a leaf rule, eligibili",
+              "Jurisdictions, providers and exceptions remain separate even where labels are similar.",
+              "Specialist review is required before legal, clinical, safeguarding or high-impact operational claims",
+              "The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.",
+              "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required.",
+              "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."
+            ],
+            "match": {
+              "localRank": 1,
+              "score": 21,
+              "matchedFields": [
+                "title",
+                "description"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:ons:11777",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "ons",
+            "collectionTitle": "ONS data discovery OKF",
+            "sourceNativeId": "ons-explore-local-statistics:indicator:net-additions-housing-stock",
+            "sourceNativeIdSha256": "08ec0e23cf215a36cfb2bf1535dfb03a55dfccf01aebc41f4f666b01505a9923",
+            "title": "Net additions to the housing stock (England)",
+            "description": "This indicator shows the net additions to the housing stock (including new builds, conversions, changes of use, other gains/losses and offset by demolitions) per 1,000 dwellings, in England, for financial years ending from 2002 to 2025.",
+            "resourceType": "dataset",
+            "publisher": "Ministry of Housing, Communities and Local Government",
+            "accessStatus": "access-not-established",
+            "accessNote": "The producer record does not establish access.",
+            "licenceStatus": "confirmed",
+            "licenceTitle": "Rights not evaluated for this multi-producer indicator metadata",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "canonicalHumanUrl": "https://www.ons.gov.uk/explore-local-statistics/indicators/net-additions-housing-stock",
+            "documentationUrl": "https://www.ons.gov.uk/explore-local-statistics/indicators/net-additions-housing-stock",
+            "snapshot": "monday-2026-07-17-r2",
+            "revision": "b0283b0d0dd2bbd06a8311dd5d1342eea0c36fdf",
+            "deploymentId": "5969704658",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "producer-declared-source",
+            "recordDigest": "170eb1a0ed346b4b6650d9409df4d706be09ac54b44d5eb4e10c19ba2f37439e",
+            "limitations": [
+              "Net additional dwellings per 1,000 stock are available at an England, regional and local authority d",
+              "The snapshot contains metadata from four declared adapters, not current statistical observations.",
+              "The repository revision does not by itself reproduce the ignored generated Pages bundle; its deployed bytes are locked separately.",
+              "A result does not establish statistical accuracy, currentness, endpoint access or permission to reuse linked material."
+            ],
+            "match": {
+              "localRank": 1,
+              "score": 33,
+              "matchedFields": [
+                "title",
+                "description",
+                "publisher",
+                "topics"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:government-apis:19737",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "government-apis",
+            "collectionTitle": "UK Government APIs OKF",
+            "sourceNativeId": "api-records/data-gov-uk-core-social-housing-lettings-la-owned-economic-status.md",
+            "sourceNativeIdSha256": "8c350669e576ebad92c6efb453b00b0573b5e75e51b96b5d6e842ae9309240bd",
+            "title": "CORE - Social housing lettings (LA owned) - Economic status",
+            "description": "This dataset comprises new general needs lettings, let at social rent levels owned by Local Authorities, classified by the economic status of the lead tenant, including where economic status has been imputed. These data are for new social housing lettings at the local authority area level, and are derived from record level data recorded through the COntinous REcording of social housing lettings. They cover new General Needs lettings, at social rent levels, owned by Local Authorities (LAs). All figures are unweighted and are therefore not fully consistent with the weighted social rent data at national level in the 'Social Housing Lettings in England' statistical release. Some Local Authority areas are missing from the Local Authority owned datasets due to there being either no LA owned lettings in that area, or there being too few lettings in an area for the data to be released, as it is deemed disclosive. Data are given for the economic status of the lead tenant of each general needs social rent LA letting, as reported by the tenant. In the cases of joint tenancies, the lead tenant is defined as the most economically active of the tenants. If one or more tenants have the same econ…",
+            "resourceType": "catalogue-record",
+            "publisher": "Ministry of Housing, Communities and Local Government",
+            "accessStatus": "public",
+            "accessNote": "Producer-declared access value: anonymous.",
+            "licenceStatus": "confirmed",
+            "licenceTitle": "Open Government Licence v3.0",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "snapshot": null,
+            "revision": "55c7e67947dfd86e291ca987e354429c36b453d9",
+            "deploymentId": "5969350495",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "no-direct-authority-link",
+            "recordDigest": "465b29f3edd61b76f2425d5408c00a4915436d4d8d2a601217844e3125313e2b",
+            "limitations": [
+              "The published record has no direct authority link; no substitute URL has been invented.",
+              "The snapshot describes 41,598 records and is not a claim about every UK public API or dataset.",
+              "Many producer records have missing, inferred or incomplete licence and access evidence.",
+              "A catalogue result does not establish that an endpoint is live, public, authorised, openly licensed or safe to call."
+            ],
+            "match": {
+              "localRank": 1,
+              "score": 29,
+              "matchedFields": [
+                "title",
+                "description",
+                "publisher"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:land-registry:57845",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "land-registry",
+            "collectionTitle": "HM Land Registry public-estate OKF",
+            "sourceNativeId": "hmlr-a70832855005e4e016de68d3",
+            "sourceNativeIdSha256": "22e009a9707f142c253a7d5034f534b19b3bf7ae8ffdb0d69b1bdc31eb7eb63e",
+            "title": "Reduced regulation of English social housing providers: registration requirements",
+            "description": "On 6 April 2017, regulations relating to English social housing providers will change.",
+            "resourceType": "catalogue-record",
+            "publisher": "HM Land Registry",
+            "accessStatus": "public",
+            "accessNote": "Producer-declared access value: public.",
+            "licenceStatus": "missing",
+            "licenceTitle": "Not stated by the source.",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "canonicalHumanUrl": "https://www.gov.uk/government/news/reduced-regulation-of-english-social-housing-providers-registration-requirements",
+            "snapshot": "hmlr-public-metadata-v0.2.0",
+            "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+            "deploymentId": "5860288274",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "producer-declared-source",
+            "recordDigest": "ca783325ccedee87b39785915b132b3cc6afb43fce81268b8f763dbcea163d0a",
+            "limitations": [
+              "Search metadata is a discovery record, not the full document or legal advice.",
+              "Publisher modification time is not dataset release, registration or legal currency.",
+              "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+              "The producer is independent and is not endorsed by HM Land Registry.",
+              "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+            ],
+            "match": {
+              "localRank": 1,
+              "score": 21,
+              "matchedFields": [
+                "title",
+                "description"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:uk-living:7589",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "uk-living",
+            "collectionTitle": "A Life in the UK — life-course discovery corpus",
+            "sourceNativeId": "concept:service-step-get-housing-adaptation-in-later-life-ordinary-source-linked-route-follow-current-official-instructions",
+            "sourceNativeIdSha256": "c016c048bf6ce9988f5534f4f0c42bbda4df3dde597febf8d0ac6645aa4e1d65",
+            "title": "Follow the selected source to get a housing adaptation in later life and retain its output or reference.",
+            "description": "Provider: organisation:selected-authoritative-provider. Outcome: Request the local assessment, identify housing and tenure responsibilities and use the funding, works and review route offered for the home.",
+            "resourceType": "catalogue-record",
+            "publisher": "okf-uk-living",
+            "accessStatus": "access-not-established",
+            "accessNote": "The producer record does not establish access.",
+            "licenceStatus": "confirmed",
+            "licenceTitle": "MIT",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "snapshot": "life-course-authority-infrastructure-2026-08-08",
+            "revision": "4bc010eab3c9c072f68960393c1458a772aa700b",
+            "deploymentId": "5943077379",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "no-direct-authority-link",
+            "recordDigest": "a2d1eee91ddb5c3a8838ad716d9f2ffadb01330d5124223734acacc33eae9979",
+            "limitations": [
+              "Repository-authored discovery concept; consult the linked current authority for a real case.",
+              "The published record has no direct authority link; no substitute URL has been invented.",
+              "The snapshot contains 9,757 records and governed concepts, including 293 service families; those counts are not interchangeable.",
+              "The exact admitted producer revision records 0 accepted specialist reviews, 2 service families where specialist review is not required and 291 where specialist review is required.",
+              "The source links and original summaries do not decide eligibility or provide legal, clinical, safeguarding or financial advice."
+            ],
+            "match": {
+              "localRank": 2,
+              "score": 21,
+              "matchedFields": [
+                "title",
+                "description"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:ons:11778",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "ons",
+            "collectionTitle": "ONS data discovery OKF",
+            "sourceNativeId": "ons-explore-local-statistics:indicator:net-additions-housing-stock-northern-ireland",
+            "sourceNativeIdSha256": "89b7e84bf95366c8ae83809d4d4125c38de9bc0aed7ecc4fc72b1151208b1ebe",
+            "title": "Net additions to the housing stock (Northern Ireland)",
+            "description": "This indicator shows the net additions to the housing stock (including new builds, conversions, changes of use, other gains/losses and offset by demolitions) per 1,000 dwellings, in Northern Ireland, for financial years ending 2013 to 2026.",
+            "resourceType": "dataset",
+            "publisher": "Northern Ireland Department of Finance",
+            "accessStatus": "access-not-established",
+            "accessNote": "The producer record does not establish access.",
+            "licenceStatus": "confirmed",
+            "licenceTitle": "Rights not evaluated for this multi-producer indicator metadata",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "canonicalHumanUrl": "https://www.ons.gov.uk/explore-local-statistics/indicators/net-additions-housing-stock-northern-ireland",
+            "documentationUrl": "https://www.ons.gov.uk/explore-local-statistics/indicators/net-additions-housing-stock-northern-ireland",
+            "snapshot": "monday-2026-07-17-r2",
+            "revision": "b0283b0d0dd2bbd06a8311dd5d1342eea0c36fdf",
+            "deploymentId": "5969704658",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "producer-declared-source",
+            "recordDigest": "59ca9e4183a9e138c4238ed4079395cb60090bae7f4a2b752f53393834bd20bf",
+            "limitations": [
+              "In line with The Rates (Northern Ireland) Order 1977, Housing Stock is defined as a count of propert",
+              "The snapshot contains metadata from four declared adapters, not current statistical observations.",
+              "The repository revision does not by itself reproduce the ignored generated Pages bundle; its deployed bytes are locked separately.",
+              "A result does not establish statistical accuracy, currentness, endpoint access or permission to reuse linked material."
+            ],
+            "match": {
+              "localRank": 2,
+              "score": 25,
+              "matchedFields": [
+                "title",
+                "description",
+                "topics"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:government-apis:19738",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "government-apis",
+            "collectionTitle": "UK Government APIs OKF",
+            "sourceNativeId": "api-records/data-gov-uk-core-social-housing-lettings-la-owned-household-type.md",
+            "sourceNativeIdSha256": "adaa9bb497c1f9513b57c6cc2f3b8712ff987c1e95790ec6015da70539dbd07f",
+            "title": "CORE - Social housing lettings (LA owned) - Household type",
+            "description": "This dataset comprises new general needs lettings, let at social rent levels owned by Local Authorities, classified by household type These data are for new social housing lettings at the local authority area level, and are derived from record level data recorded through the COntinous REcording of social housing lettings. They cover new General Needs lettings, at social rent levels, owned by Local Authorities (LAs). All figures are unweighted and are therefore not fully consistent with the weighted social rent data at national level in the 'Social Housing Lettings in England' statistical release. Some Local Authority areas are missing from the Local Authority owned datasets due to there being either no LA owned lettings in that area, or there being too few lettings in an area for the data to be released, as it is deemed disclosive. Data are given for the household type of each general needs social rent LA letting. Household type is derived from the demographic information for the household, as reported by the tenant. Where any of the household members' age or relationship to the tenant has been refused, the household type is classified as 'other'.",
+            "resourceType": "catalogue-record",
+            "publisher": "Ministry of Housing, Communities and Local Government",
+            "accessStatus": "public",
+            "accessNote": "Producer-declared access value: anonymous.",
+            "licenceStatus": "confirmed",
+            "licenceTitle": "Open Government Licence v3.0",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "snapshot": null,
+            "revision": "55c7e67947dfd86e291ca987e354429c36b453d9",
+            "deploymentId": "5969350495",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "no-direct-authority-link",
+            "recordDigest": "d6a18a6e612f7c11bf2ada360c89e2cb092378ec301267ea88191a0535e178ef",
+            "limitations": [
+              "The published record has no direct authority link; no substitute URL has been invented.",
+              "The snapshot describes 41,598 records and is not a claim about every UK public API or dataset.",
+              "Many producer records have missing, inferred or incomplete licence and access evidence.",
+              "A catalogue result does not establish that an endpoint is live, public, authorised, openly licensed or safe to call."
+            ],
+            "match": {
+              "localRank": 2,
+              "score": 29,
+              "matchedFields": [
+                "title",
+                "description",
+                "publisher"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          },
+          {
+            "recordId": "govuk-discovery:federated:land-registry:57983",
+            "evidenceTier": "federated-source-snapshot",
+            "collectionId": "land-registry",
+            "collectionTitle": "HM Land Registry public-estate OKF",
+            "sourceNativeId": "hmlr-627ae1addba1880e1f674b13",
+            "sourceNativeIdSha256": "8e9f72a5b56b9f24b655cb6cd5584b4be819b652dac835304fb5b16a0c0f3fb9",
+            "title": "Transfers of public housing estates (PG47)",
+            "description": "Advice on the transfer and registration of publicly-owned housing estates and on the preserved right to buy (practice guide 47).",
+            "resourceType": "guidance",
+            "publisher": "HM Land Registry",
+            "accessStatus": "public",
+            "accessNote": "Producer-declared access value: public.",
+            "licenceStatus": "missing",
+            "licenceTitle": "Not stated by the source.",
+            "lastObserved": "2026-08-30T00:00:00Z",
+            "assertionStatuses": [
+              "normalised"
+            ],
+            "canonicalHumanUrl": "https://www.gov.uk/government/publications/transfers-of-public-housing-estates",
+            "snapshot": "hmlr-public-metadata-v0.2.0",
+            "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+            "deploymentId": "5860288274",
+            "integrityBasis": "snapshot-file-integrity",
+            "linkRole": "producer-declared-source",
+            "recordDigest": "ca35f4c7f8b765e03df332eacf9b4a78a04f721013c95626a360a81ee100ee09",
+            "limitations": [
+              "Search metadata is a discovery record, not the full document or legal advice.",
+              "Publisher modification time is not dataset release, registration or legal currency.",
+              "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+              "The producer is independent and is not endorsed by HM Land Registry.",
+              "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+            ],
+            "match": {
+              "localRank": 2,
+              "score": 21,
+              "matchedFields": [
+                "title",
+                "description"
+              ],
+              "explanation": "Source-local lexical relevance; this is not a trust score."
+            }
+          }
+        ],
+        "collectionStatuses": [
+          {
+            "collectionId": "uk-living",
+            "title": "A Life in the UK — life-course discovery corpus",
+            "status": "ready",
+            "totalMatches": 388,
+            "totalRelation": "eq",
+            "returned": 2,
+            "verifiedShardFiles": 4,
+            "verifiedShardBytes": 1935632,
+            "evidenceTier": "federated-source-snapshot"
+          },
+          {
+            "collectionId": "ons",
+            "title": "ONS data discovery OKF",
+            "status": "ready",
+            "totalMatches": 18,
+            "totalRelation": "eq",
+            "returned": 2,
+            "verifiedShardFiles": 2,
+            "verifiedShardBytes": 1054229,
+            "evidenceTier": "federated-source-snapshot"
+          },
+          {
+            "collectionId": "government-apis",
+            "title": "UK Government APIs OKF",
+            "status": "ready",
+            "totalMatches": 386,
+            "totalRelation": "eq",
+            "returned": 2,
+            "verifiedShardFiles": 2,
+            "verifiedShardBytes": 719478,
+            "evidenceTier": "federated-source-snapshot"
+          },
+          {
+            "collectionId": "land-registry",
+            "title": "HM Land Registry public-estate OKF",
+            "status": "ready",
+            "totalMatches": 5,
+            "totalRelation": "eq",
+            "returned": 2,
+            "verifiedShardFiles": 4,
+            "verifiedShardBytes": 1687998,
+            "evidenceTier": "federated-source-snapshot"
+          }
+        ],
+        "boundaries": {
+          "pageScoped": true,
+          "readOnly": true,
+          "providerCall": false,
+          "officialApiCall": false,
+          "sameOriginStaticReads": true,
+          "personalContextAccepted": false,
+          "durableReceiptCreated": false,
+          "sourceDerivedContentIsUntrusted": true,
+          "rankingIsTrustAssessment": false
+        }
+      },
+      "canonicalResultDigest": "27f5f87c79094e15f63ec33f123d57ff4e8425e5dc4283a23b0b89b3dbe71ce8"
+    },
+    {
+      "name": "get_resource_record",
+      "input": {
+        "recordId": "govuk-discovery:federated:land-registry:57845"
+      },
+      "result": {
+        "schema": "govuk-webmcp.federated-resource-record-result.v1",
+        "ok": true,
+        "evidenceTier": "federated-source-snapshot",
+        "verificationStatus": "snapshot-file-integrity",
+        "record": {
+          "id": "govuk-discovery:federated:land-registry:57845",
+          "ordinal": 57845,
+          "evidenceTier": "federated-source-snapshot",
+          "collectionId": "land-registry",
+          "sourceNativeId": "hmlr-a70832855005e4e016de68d3",
+          "sourceNativeIdSha256": "22e009a9707f142c253a7d5034f534b19b3bf7ae8ffdb0d69b1bdc31eb7eb63e",
+          "title": "Reduced regulation of English social housing providers: registration requirements",
+          "description": "On 6 April 2017, regulations relating to English social housing providers will change.",
+          "resourceType": "catalogue-record",
+          "publisher": "HM Land Registry",
+          "topics": [
+            "news story"
+          ],
+          "authoritativeLink": {
+            "url": "https://www.gov.uk/government/news/reduced-regulation-of-english-social-housing-providers-registration-requirements",
+            "role": "producer-declared-source",
+            "label": "Reduced regulation of English social housing providers: registration requirements"
+          },
+          "documentationUrl": null,
+          "licence": {
+            "status": "missing",
+            "title": "Not stated by the source.",
+            "url": null
+          },
+          "access": {
+            "status": "public",
+            "note": "Producer-declared access value: public."
+          },
+          "assertionStatus": "normalised",
+          "observedAt": "2026-08-30T00:00:00Z",
+          "snapshot": "hmlr-public-metadata-v0.2.0",
+          "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+          "deploymentId": "5860288274",
+          "sourcePath": "data/explorer/datasets-005.json",
+          "sourceSha256": "06f2000bdc88872bd7568adcc1e8cf400b38dcda2d9afbe64ec1c2a2197468fe",
+          "extractionMethod": "deterministic projection from a checksum-bound published OKF source snapshot",
+          "limitations": [
+            "Search metadata is a discovery record, not the full document or legal advice.",
+            "Publisher modification time is not dataset release, registration or legal currency.",
+            "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+            "The producer is independent and is not endorsed by HM Land Registry.",
+            "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+          ],
+          "recordDigest": "ca783325ccedee87b39785915b132b3cc6afb43fce81268b8f763dbcea163d0a",
+          "collectionTitle": "HM Land Registry public-estate OKF",
+          "canonicalHumanUrl": "https://www.gov.uk/government/news/reduced-regulation-of-english-social-housing-providers-registration-requirements",
+          "linkRole": "producer-declared-source",
+          "sourceAuthority": "Not independently established",
+          "dates": {
+            "observed": "2026-08-30T00:00:00Z"
+          },
+          "assertions": [
+            {
+              "field": "record",
+              "status": "normalised",
+              "evidenceUrls": [
+                "https://www.gov.uk/government/news/reduced-regulation-of-english-social-housing-providers-registration-requirements"
+              ],
+              "note": "Federated source-snapshot status; this record has not received item-level review."
+            }
+          ]
+        },
+        "relatedRecords": [],
+        "integrity": {
+          "manifestDigest": "0263d828575c4fdd2bcc7c5a34cec402332fca68a9ab5edd882838898caa0954",
+          "sourceLockDigest": "79fca31f213798c073b9159dfb47cbc12a45694a10519d30cc92fea96fe5dabd",
+          "recordShard": {
+            "path": "data/federated-search/records/land-registry/records-002.json",
+            "bytes": 559853,
+            "sha256": "8a231c71202a50f2a7a6895c92ad8116d65e37313a14283e577c728466a970d8"
+          },
+          "recordDigest": "ca783325ccedee87b39785915b132b3cc6afb43fce81268b8f763dbcea163d0a",
+          "recordDigestScope": "Closed stored item-specific record excluding recordDigest; shard, collection and manifest digests bind inherited fields."
+        },
+        "boundaries": {
+          "pageScoped": true,
+          "readOnly": true,
+          "officialApiCall": false,
+          "accessAuthorityGranted": false,
+          "itemLevelReview": false,
+          "evidenceReceiptAvailable": false,
+          "sourceDerivedContentIsUntrusted": true
+        }
+      },
+      "canonicalResultDigest": "1d434bdfbccf959047d7c03ad6c6366c80a01abbb58a08a9d41dd3fa07112469"
+    },
+    {
+      "name": "show_provenance",
+      "input": {
+        "recordId": "govuk-discovery:federated:land-registry:57845"
+      },
+      "result": {
+        "schema": "govuk-webmcp.federated-provenance-result.v1",
+        "ok": true,
+        "evidenceTier": "federated-source-snapshot",
+        "recordId": "govuk-discovery:federated:land-registry:57845",
+        "status": "federated-source-linked",
+        "observationDate": "2026-08-30T00:00:00Z",
+        "sourceLock": "79fca31f213798c073b9159dfb47cbc12a45694a10519d30cc92fea96fe5dabd",
+        "sourceDigest": "06f2000bdc88872bd7568adcc1e8cf400b38dcda2d9afbe64ec1c2a2197468fe",
+        "recordDigest": "ca783325ccedee87b39785915b132b3cc6afb43fce81268b8f763dbcea163d0a",
+        "bundleDigest": "0263d828575c4fdd2bcc7c5a34cec402332fca68a9ab5edd882838898caa0954",
+        "snapshot": "hmlr-public-metadata-v0.2.0",
+        "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+        "sourcePath": "data/explorer/datasets-005.json",
+        "sourceFileDigest": "06f2000bdc88872bd7568adcc1e8cf400b38dcda2d9afbe64ec1c2a2197468fe",
+        "evidenceReceiptAvailable": false,
+        "collection": {
+          "id": "land-registry",
+          "title": "HM Land Registry public-estate OKF",
+          "descriptorUrl": "https://chris-page-gov.github.io/okf-LandRegistry/okf-explorer.json",
+          "snapshot": "hmlr-public-metadata-v0.2.0",
+          "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc",
+          "deploymentId": "5860288274",
+          "sourceNativeId": "hmlr-a70832855005e4e016de68d3",
+          "sourceNativeIdSha256": "22e009a9707f142c253a7d5034f534b19b3bf7ae8ffdb0d69b1bdc31eb7eb63e"
+        },
+        "authoritativeLink": {
+          "url": "https://www.gov.uk/government/news/reduced-regulation-of-english-social-housing-providers-registration-requirements",
+          "role": "producer-declared-source",
+          "label": "Reduced regulation of English social housing providers: registration requirements"
+        },
+        "fieldAssertions": [
+          {
+            "field": "record",
+            "status": "normalised",
+            "note": "Producer-derived source-snapshot assertion; no item-level evidence receipt is claimed."
+          }
+        ],
+        "limitations": [
+          "Search metadata is a discovery record, not the full document or legal advice.",
+          "Publisher modification time is not dataset release, registration or legal currency.",
+          "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+          "The producer is independent and is not endorsed by HM Land Registry.",
+          "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+        ],
+        "boundaries": {
+          "sameOriginSnapshotVerified": true,
+          "sourceWasNotRefetchedAtRuntime": true,
+          "itemLevelReview": false,
+          "evidenceReceiptAvailable": false,
+          "cryptographicSignatureVerified": false,
+          "accessAuthorityGranted": false,
+          "sourceDerivedContentIsUntrusted": true
+        }
+      },
+      "canonicalResultDigest": "2459452ceffd4d2180dc57463701618a151b9f62c24f31dba80cc55dc5b0310a"
+    },
+    {
+      "name": "explore_answer_foundations",
+      "input": {
+        "answerId": "answer:new-child-starting-points",
+        "claimId": "claim:register-a-birth"
+      },
+      "result": {
+        "schema": "trusted-govuk-discovery.evidence-exploration-result.v1",
+        "ok": true,
+        "selection": {
+          "mode": "claim",
+          "answerId": "answer:new-child-starting-points",
+          "claimIds": [
+            "claim:register-a-birth"
+          ]
+        },
+        "trace": {
+          "schema": "trusted-govuk-discovery.evidence-trace.v1",
+          "id": "answer:new-child-starting-points",
+          "question": "Which GOV.UK sources should I check after a baby is born?",
+          "answerSummary": "This catalogue identifies official GOV.UK starting points for registering a birth, checking Child Benefit and checking maternity or paternity leave, pay or Maternity Allowance.",
+          "scope": "This is a directory answer based on captured page metadata. It does not decide eligibility, replace current guidance or provide legal or financial advice.",
+          "claimIds": [
+            "claim:register-a-birth",
+            "claim:check-child-benefit",
+            "claim:check-parental-pay-and-leave"
+          ],
+          "nodes": [
+            {
+              "id": "answer:new-child-starting-points",
+              "kind": "answer",
+              "label": "Directory answer",
+              "statement": "This catalogue identifies official GOV.UK starting points for registering a birth, checking Child Benefit and checking maternity or paternity leave, pay or Maternity Allowance.",
+              "facets": {
+                "authority": "Curated directory answer over admitted source metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "not-established",
+                  "note": "The answer has no independent freshness claim; its sources retain their observation dates."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "Every selected record is bound to the validated catalogue bundle."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The answer grants no access or permission."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "Rights remain attached to each cited source record."
+                },
+                "coverage": {
+                  "status": "bounded",
+                  "note": "3 selected starting points from the 80-record catalogue; not exhaustive."
+                }
+              }
+            },
+            {
+              "id": "check:check-child-benefit-digest",
+              "kind": "check",
+              "label": "Packaged integrity check",
+              "statement": "The source record, evidence receipt and catalogue bundle bindings passed deterministic SHA-256 checks.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "facets": {
+                "authority": "Local deterministic validation runtime",
+                "assertionStatus": "not-applicable",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "Integrity was checked for this packaged record, not for the current live page."
+                }
+              }
+            },
+            {
+              "id": "check:check-parental-pay-and-leave-digest",
+              "kind": "check",
+              "label": "Packaged integrity check",
+              "statement": "The source record, evidence receipt and catalogue bundle bindings passed deterministic SHA-256 checks.",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "facets": {
+                "authority": "Local deterministic validation runtime",
+                "assertionStatus": "not-applicable",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "Integrity was checked for this packaged record, not for the current live page."
+                }
+              }
+            },
+            {
+              "id": "check:register-a-birth-digest",
+              "kind": "check",
+              "label": "Packaged integrity check",
+              "statement": "The source record, evidence receipt and catalogue bundle bindings passed deterministic SHA-256 checks.",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "facets": {
+                "authority": "Local deterministic validation runtime",
+                "assertionStatus": "not-applicable",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "Integrity was checked for this packaged record, not for the current live page."
+                }
+              }
+            },
+            {
+              "id": "claim:check-child-benefit",
+              "kind": "claim",
+              "label": "Child Benefit",
+              "statement": "GOV.UK has Child Benefit guidance covering rates, eligibility and how to claim.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "facets": {
+                "authority": "Curated deterministic normalisation of cited official metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One selected statement within a bounded directory answer."
+                }
+              }
+            },
+            {
+              "id": "claim:check-parental-pay-and-leave",
+              "kind": "claim",
+              "label": "Check if you can get Maternity or Paternity Leave or Pay, or Maternity Allowance",
+              "statement": "GOV.UK has a service for checking maternity or paternity leave or pay, or Maternity Allowance.",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "facets": {
+                "authority": "Curated deterministic normalisation of cited official metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One selected statement within a bounded directory answer."
+                }
+              }
+            },
+            {
+              "id": "claim:register-a-birth",
+              "kind": "claim",
+              "label": "Register a birth",
+              "statement": "GOV.UK has guidance on registering a birth and obtaining birth certificates.",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "facets": {
+                "authority": "Curated deterministic normalisation of cited official metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One selected statement within a bounded directory answer."
+                }
+              }
+            },
+            {
+              "id": "limitation:bounded-starting-points",
+              "kind": "limitation",
+              "label": "Coverage limitation",
+              "statement": "These are selected starting points from a bounded catalogue, not an exhaustive checklist for every family or UK nation.",
+              "facets": {
+                "authority": "Curated project boundary",
+                "assertionStatus": "normalised",
+                "verification": "authored-boundary",
+                "freshness": {
+                  "status": "not-applicable",
+                  "note": "This is a standing interpretation boundary."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "The limitation is packaged with the evidence trace."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The limitation grants no access."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "The limitation makes no rights claim."
+                },
+                "coverage": {
+                  "status": "not-applicable",
+                  "note": "The limitation qualifies the nodes named by its edges."
+                }
+              }
+            },
+            {
+              "id": "limitation:captured-metadata",
+              "kind": "limitation",
+              "label": "Freshness limitation",
+              "statement": "The underlying metadata was observed on 15 July 2026 and is not refetched while this page is used.",
+              "facets": {
+                "authority": "Curated project boundary",
+                "assertionStatus": "normalised",
+                "verification": "authored-boundary",
+                "freshness": {
+                  "status": "not-applicable",
+                  "note": "This is a standing interpretation boundary."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "The limitation is packaged with the evidence trace."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The limitation grants no access."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "The limitation makes no rights claim."
+                },
+                "coverage": {
+                  "status": "not-applicable",
+                  "note": "The limitation qualifies the nodes named by its edges."
+                }
+              }
+            },
+            {
+              "id": "limitation:not-an-eligibility-decision",
+              "kind": "limitation",
+              "label": "Eligibility limitation",
+              "statement": "Eligibility and the action to take depend on current rules and personal circumstances; this evidence pack does not assess either.",
+              "facets": {
+                "authority": "Curated project boundary",
+                "assertionStatus": "normalised",
+                "verification": "authored-boundary",
+                "freshness": {
+                  "status": "not-applicable",
+                  "note": "This is a standing interpretation boundary."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "The limitation is packaged with the evidence trace."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The limitation grants no access."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "The limitation makes no rights claim."
+                },
+                "coverage": {
+                  "status": "not-applicable",
+                  "note": "The limitation qualifies the nodes named by its edges."
+                }
+              }
+            },
+            {
+              "id": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "kind": "source",
+              "label": "Check if you can get Maternity or Paternity Leave or Pay, or Maternity Allowance",
+              "statement": "Maternity or Paternity Leave or Pay, or Maternity Allowance for parents",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "url": "https://www.gov.uk/maternity-paternity-pay-leave",
+              "facets": {
+                "authority": "GOV.UK Publishing",
+                "assertionStatus": "official-source",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One admitted catalogue record; linked page content was not copied or refetched at runtime."
+                }
+              }
+            },
+            {
+              "id": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "kind": "source",
+              "label": "Register a birth",
+              "statement": "Find out how to register a birth - who can register, birth certificates",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "url": "https://www.gov.uk/register-birth",
+              "facets": {
+                "authority": "GOV.UK Publishing",
+                "assertionStatus": "official-source",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One admitted catalogue record; linked page content was not copied or refetched at runtime."
+                }
+              }
+            },
+            {
+              "id": "source:govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae:description",
+              "kind": "source",
+              "label": "Child Benefit",
+              "statement": "Child Benefit - child benefit rates, eligibility, how to claim, child benefit claim form CH2.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "url": "https://www.gov.uk/child-benefit",
+              "facets": {
+                "authority": "GOV.UK Publishing",
+                "assertionStatus": "official-source",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One admitted catalogue record; linked page content was not copied or refetched at runtime."
+                }
+              }
+            },
+            {
+              "id": "transformation:check-child-benefit",
+              "kind": "transformation",
+              "label": "Deterministic restatement",
+              "statement": "Deterministically restated from the captured official title and description; it does not decide whether a person is eligible.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "facets": {
+                "authority": "Original project transformation rule",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "This rule applies only to the named claim and source field."
+                }
+              }
+            },
+            {
+              "id": "transformation:check-parental-pay-and-leave",
+              "kind": "transformation",
+              "label": "Deterministic restatement",
+              "statement": "Deterministically restated from the captured official title and description; it does not calculate an entitlement.",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "facets": {
+                "authority": "Original project transformation rule",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "This rule applies only to the named claim and source field."
+                }
+              }
+            },
+            {
+              "id": "transformation:register-a-birth",
+              "kind": "transformation",
+              "label": "Deterministic restatement",
+              "statement": "Deterministically restated from the captured official title and description without adding an eligibility or deadline claim.",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "facets": {
+                "authority": "Original project transformation rule",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "This rule applies only to the named claim and source field."
+                }
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge:bounded-starting-points-answer-new-child-starting-points",
+              "source": "limitation:bounded-starting-points",
+              "target": "answer:new-child-starting-points",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:captured-metadata-answer-new-child-starting-points",
+              "source": "limitation:captured-metadata",
+              "target": "answer:new-child-starting-points",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:check-child-benefit-answer",
+              "source": "claim:check-child-benefit",
+              "target": "answer:new-child-starting-points",
+              "relation": "supports",
+              "label": "supports answer"
+            },
+            {
+              "id": "edge:check-child-benefit-check",
+              "source": "check:check-child-benefit-digest",
+              "target": "source:govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae:description",
+              "relation": "verifies",
+              "label": "checks packaged bytes"
+            },
+            {
+              "id": "edge:check-child-benefit-source",
+              "source": "source:govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae:description",
+              "target": "claim:check-child-benefit",
+              "relation": "supports",
+              "label": "supports claim"
+            },
+            {
+              "id": "edge:check-child-benefit-transformation",
+              "source": "transformation:check-child-benefit",
+              "target": "claim:check-child-benefit",
+              "relation": "derived-through",
+              "label": "derived through"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-answer",
+              "source": "claim:check-parental-pay-and-leave",
+              "target": "answer:new-child-starting-points",
+              "relation": "supports",
+              "label": "supports answer"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-check",
+              "source": "check:check-parental-pay-and-leave-digest",
+              "target": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "relation": "verifies",
+              "label": "checks packaged bytes"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-source",
+              "source": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "target": "claim:check-parental-pay-and-leave",
+              "relation": "supports",
+              "label": "supports claim"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-transformation",
+              "source": "transformation:check-parental-pay-and-leave",
+              "target": "claim:check-parental-pay-and-leave",
+              "relation": "derived-through",
+              "label": "derived through"
+            },
+            {
+              "id": "edge:not-an-eligibility-decision-answer-new-child-starting-points",
+              "source": "limitation:not-an-eligibility-decision",
+              "target": "answer:new-child-starting-points",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:not-an-eligibility-decision-claim-check-child-benefit",
+              "source": "limitation:not-an-eligibility-decision",
+              "target": "claim:check-child-benefit",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:not-an-eligibility-decision-claim-check-parental-pay-and-leave",
+              "source": "limitation:not-an-eligibility-decision",
+              "target": "claim:check-parental-pay-and-leave",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:register-a-birth-answer",
+              "source": "claim:register-a-birth",
+              "target": "answer:new-child-starting-points",
+              "relation": "supports",
+              "label": "supports answer"
+            },
+            {
+              "id": "edge:register-a-birth-check",
+              "source": "check:register-a-birth-digest",
+              "target": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "relation": "verifies",
+              "label": "checks packaged bytes"
+            },
+            {
+              "id": "edge:register-a-birth-source",
+              "source": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "target": "claim:register-a-birth",
+              "relation": "supports",
+              "label": "supports claim"
+            },
+            {
+              "id": "edge:register-a-birth-transformation",
+              "source": "transformation:register-a-birth",
+              "target": "claim:register-a-birth",
+              "relation": "derived-through",
+              "label": "derived through"
+            }
+          ],
+          "boundaries": {
+            "canonicalNarrative": false,
+            "pageScoped": true,
+            "providerCall": false,
+            "sourceRefetched": false,
+            "eligibilityDecision": false,
+            "singleTrustScore": false
+          },
+          "traceDigest": "5b742b40784e2b0c6cb5a49199214e4abd39e2fc66fe9bb7dc5d376bccf0f4e5"
+        },
+        "boundaries": {
+          "presentationEffect": "transient-local-selection",
+          "catalogueMutation": false,
+          "storageWrite": false,
+          "providerCall": false,
+          "externalStateChange": false,
+          "sourceDerivedContentIsUntrusted": true,
+          "singleTrustScore": false
+        }
+      },
+      "canonicalResultDigest": "598e35479aa1336855e306483e249bb05696194f6d39eb0b26d7f369f143b717"
+    },
+    {
+      "name": "compare_evidence_foundations",
+      "input": {
+        "answerId": "answer:new-child-starting-points",
+        "claimIds": [
+          "claim:register-a-birth",
+          "claim:check-parental-pay-and-leave"
+        ]
+      },
+      "result": {
+        "schema": "trusted-govuk-discovery.evidence-comparison-result.v1",
+        "ok": true,
+        "answerId": "answer:new-child-starting-points",
+        "claimIds": [
+          "claim:register-a-birth",
+          "claim:check-parental-pay-and-leave"
+        ],
+        "comparedFacets": [
+          "authority",
+          "assertionStatus",
+          "verification",
+          "freshness",
+          "integrity",
+          "access",
+          "rights",
+          "coverage"
+        ],
+        "rows": [
+          {
+            "claimId": "claim:register-a-birth",
+            "statement": "GOV.UK has guidance on registering a birth and obtaining birth certificates.",
+            "source": {
+              "nodeId": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "title": "Register a birth",
+              "url": "https://www.gov.uk/register-birth"
+            },
+            "facets": {
+              "authority": "Curated deterministic normalisation of cited official metadata",
+              "assertionStatus": "normalised",
+              "verification": "source-linked",
+              "freshness": {
+                "status": "observed",
+                "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                "note": "No freshness deadline is asserted; use the authoritative page for current information."
+              },
+              "integrity": {
+                "status": "sha256-bound",
+                "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                "note": "The packaged record passed its SHA-256 binding checks."
+              },
+              "access": {
+                "status": "public",
+                "note": "The captured official metadata declares anonymous access to the human page."
+              },
+              "rights": {
+                "status": "confirmed",
+                "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+              },
+              "coverage": {
+                "status": "one-record",
+                "note": "One selected statement within a bounded directory answer."
+              }
+            },
+            "limitations": [
+              {
+                "nodeId": "limitation:bounded-starting-points",
+                "statement": "These are selected starting points from a bounded catalogue, not an exhaustive checklist for every family or UK nation."
+              },
+              {
+                "nodeId": "limitation:captured-metadata",
+                "statement": "The underlying metadata was observed on 15 July 2026 and is not refetched while this page is used."
+              },
+              {
+                "nodeId": "limitation:not-an-eligibility-decision",
+                "statement": "Eligibility and the action to take depend on current rules and personal circumstances; this evidence pack does not assess either."
+              }
+            ]
+          },
+          {
+            "claimId": "claim:check-parental-pay-and-leave",
+            "statement": "GOV.UK has a service for checking maternity or paternity leave or pay, or Maternity Allowance.",
+            "source": {
+              "nodeId": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "title": "Check if you can get Maternity or Paternity Leave or Pay, or Maternity Allowance",
+              "url": "https://www.gov.uk/maternity-paternity-pay-leave"
+            },
+            "facets": {
+              "authority": "Curated deterministic normalisation of cited official metadata",
+              "assertionStatus": "normalised",
+              "verification": "source-linked",
+              "freshness": {
+                "status": "observed",
+                "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                "note": "No freshness deadline is asserted; use the authoritative page for current information."
+              },
+              "integrity": {
+                "status": "sha256-bound",
+                "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                "note": "The packaged record passed its SHA-256 binding checks."
+              },
+              "access": {
+                "status": "public",
+                "note": "The captured official metadata declares anonymous access to the human page."
+              },
+              "rights": {
+                "status": "confirmed",
+                "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+              },
+              "coverage": {
+                "status": "one-record",
+                "note": "One selected statement within a bounded directory answer."
+              }
+            },
+            "limitations": [
+              {
+                "nodeId": "limitation:bounded-starting-points",
+                "statement": "These are selected starting points from a bounded catalogue, not an exhaustive checklist for every family or UK nation."
+              },
+              {
+                "nodeId": "limitation:captured-metadata",
+                "statement": "The underlying metadata was observed on 15 July 2026 and is not refetched while this page is used."
+              },
+              {
+                "nodeId": "limitation:not-an-eligibility-decision",
+                "statement": "Eligibility and the action to take depend on current rules and personal circumstances; this evidence pack does not assess either."
+              }
+            ]
+          }
+        ],
+        "trace": {
+          "schema": "trusted-govuk-discovery.evidence-trace.v1",
+          "id": "answer:new-child-starting-points",
+          "question": "Which GOV.UK sources should I check after a baby is born?",
+          "answerSummary": "This catalogue identifies official GOV.UK starting points for registering a birth, checking Child Benefit and checking maternity or paternity leave, pay or Maternity Allowance.",
+          "scope": "This is a directory answer based on captured page metadata. It does not decide eligibility, replace current guidance or provide legal or financial advice.",
+          "claimIds": [
+            "claim:register-a-birth",
+            "claim:check-child-benefit",
+            "claim:check-parental-pay-and-leave"
+          ],
+          "nodes": [
+            {
+              "id": "answer:new-child-starting-points",
+              "kind": "answer",
+              "label": "Directory answer",
+              "statement": "This catalogue identifies official GOV.UK starting points for registering a birth, checking Child Benefit and checking maternity or paternity leave, pay or Maternity Allowance.",
+              "facets": {
+                "authority": "Curated directory answer over admitted source metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "not-established",
+                  "note": "The answer has no independent freshness claim; its sources retain their observation dates."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "Every selected record is bound to the validated catalogue bundle."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The answer grants no access or permission."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "Rights remain attached to each cited source record."
+                },
+                "coverage": {
+                  "status": "bounded",
+                  "note": "3 selected starting points from the 80-record catalogue; not exhaustive."
+                }
+              }
+            },
+            {
+              "id": "check:check-child-benefit-digest",
+              "kind": "check",
+              "label": "Packaged integrity check",
+              "statement": "The source record, evidence receipt and catalogue bundle bindings passed deterministic SHA-256 checks.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "facets": {
+                "authority": "Local deterministic validation runtime",
+                "assertionStatus": "not-applicable",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "Integrity was checked for this packaged record, not for the current live page."
+                }
+              }
+            },
+            {
+              "id": "check:check-parental-pay-and-leave-digest",
+              "kind": "check",
+              "label": "Packaged integrity check",
+              "statement": "The source record, evidence receipt and catalogue bundle bindings passed deterministic SHA-256 checks.",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "facets": {
+                "authority": "Local deterministic validation runtime",
+                "assertionStatus": "not-applicable",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "Integrity was checked for this packaged record, not for the current live page."
+                }
+              }
+            },
+            {
+              "id": "check:register-a-birth-digest",
+              "kind": "check",
+              "label": "Packaged integrity check",
+              "statement": "The source record, evidence receipt and catalogue bundle bindings passed deterministic SHA-256 checks.",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "facets": {
+                "authority": "Local deterministic validation runtime",
+                "assertionStatus": "not-applicable",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "Integrity was checked for this packaged record, not for the current live page."
+                }
+              }
+            },
+            {
+              "id": "claim:check-child-benefit",
+              "kind": "claim",
+              "label": "Child Benefit",
+              "statement": "GOV.UK has Child Benefit guidance covering rates, eligibility and how to claim.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "facets": {
+                "authority": "Curated deterministic normalisation of cited official metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One selected statement within a bounded directory answer."
+                }
+              }
+            },
+            {
+              "id": "claim:check-parental-pay-and-leave",
+              "kind": "claim",
+              "label": "Check if you can get Maternity or Paternity Leave or Pay, or Maternity Allowance",
+              "statement": "GOV.UK has a service for checking maternity or paternity leave or pay, or Maternity Allowance.",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "facets": {
+                "authority": "Curated deterministic normalisation of cited official metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One selected statement within a bounded directory answer."
+                }
+              }
+            },
+            {
+              "id": "claim:register-a-birth",
+              "kind": "claim",
+              "label": "Register a birth",
+              "statement": "GOV.UK has guidance on registering a birth and obtaining birth certificates.",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "facets": {
+                "authority": "Curated deterministic normalisation of cited official metadata",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One selected statement within a bounded directory answer."
+                }
+              }
+            },
+            {
+              "id": "limitation:bounded-starting-points",
+              "kind": "limitation",
+              "label": "Coverage limitation",
+              "statement": "These are selected starting points from a bounded catalogue, not an exhaustive checklist for every family or UK nation.",
+              "facets": {
+                "authority": "Curated project boundary",
+                "assertionStatus": "normalised",
+                "verification": "authored-boundary",
+                "freshness": {
+                  "status": "not-applicable",
+                  "note": "This is a standing interpretation boundary."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "The limitation is packaged with the evidence trace."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The limitation grants no access."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "The limitation makes no rights claim."
+                },
+                "coverage": {
+                  "status": "not-applicable",
+                  "note": "The limitation qualifies the nodes named by its edges."
+                }
+              }
+            },
+            {
+              "id": "limitation:captured-metadata",
+              "kind": "limitation",
+              "label": "Freshness limitation",
+              "statement": "The underlying metadata was observed on 15 July 2026 and is not refetched while this page is used.",
+              "facets": {
+                "authority": "Curated project boundary",
+                "assertionStatus": "normalised",
+                "verification": "authored-boundary",
+                "freshness": {
+                  "status": "not-applicable",
+                  "note": "This is a standing interpretation boundary."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "The limitation is packaged with the evidence trace."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The limitation grants no access."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "The limitation makes no rights claim."
+                },
+                "coverage": {
+                  "status": "not-applicable",
+                  "note": "The limitation qualifies the nodes named by its edges."
+                }
+              }
+            },
+            {
+              "id": "limitation:not-an-eligibility-decision",
+              "kind": "limitation",
+              "label": "Eligibility limitation",
+              "statement": "Eligibility and the action to take depend on current rules and personal circumstances; this evidence pack does not assess either.",
+              "facets": {
+                "authority": "Curated project boundary",
+                "assertionStatus": "normalised",
+                "verification": "authored-boundary",
+                "freshness": {
+                  "status": "not-applicable",
+                  "note": "This is a standing interpretation boundary."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "20593105f6e34d5072f566b4f7b98cab143c4333c56bbabfca831b935237945c",
+                  "note": "The limitation is packaged with the evidence trace."
+                },
+                "access": {
+                  "status": "not-applicable",
+                  "note": "The limitation grants no access."
+                },
+                "rights": {
+                  "status": "not-applicable",
+                  "note": "The limitation makes no rights claim."
+                },
+                "coverage": {
+                  "status": "not-applicable",
+                  "note": "The limitation qualifies the nodes named by its edges."
+                }
+              }
+            },
+            {
+              "id": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "kind": "source",
+              "label": "Check if you can get Maternity or Paternity Leave or Pay, or Maternity Allowance",
+              "statement": "Maternity or Paternity Leave or Pay, or Maternity Allowance for parents",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "url": "https://www.gov.uk/maternity-paternity-pay-leave",
+              "facets": {
+                "authority": "GOV.UK Publishing",
+                "assertionStatus": "official-source",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One admitted catalogue record; linked page content was not copied or refetched at runtime."
+                }
+              }
+            },
+            {
+              "id": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "kind": "source",
+              "label": "Register a birth",
+              "statement": "Find out how to register a birth - who can register, birth certificates",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "url": "https://www.gov.uk/register-birth",
+              "facets": {
+                "authority": "GOV.UK Publishing",
+                "assertionStatus": "official-source",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One admitted catalogue record; linked page content was not copied or refetched at runtime."
+                }
+              }
+            },
+            {
+              "id": "source:govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae:description",
+              "kind": "source",
+              "label": "Child Benefit",
+              "statement": "Child Benefit - child benefit rates, eligibility, how to claim, child benefit claim form CH2.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "url": "https://www.gov.uk/child-benefit",
+              "facets": {
+                "authority": "GOV.UK Publishing",
+                "assertionStatus": "official-source",
+                "verification": "digest-bound",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "One admitted catalogue record; linked page content was not copied or refetched at runtime."
+                }
+              }
+            },
+            {
+              "id": "transformation:check-child-benefit",
+              "kind": "transformation",
+              "label": "Deterministic restatement",
+              "statement": "Deterministically restated from the captured official title and description; it does not decide whether a person is eligible.",
+              "recordId": "govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae",
+              "facets": {
+                "authority": "Original project transformation rule",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:43.049674+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "131baa6c79e1decedd7e8b3ec72a548a9ea67e01bc085c4eb6b4f6f58b41bd8b",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "This rule applies only to the named claim and source field."
+                }
+              }
+            },
+            {
+              "id": "transformation:check-parental-pay-and-leave",
+              "kind": "transformation",
+              "label": "Deterministic restatement",
+              "statement": "Deterministically restated from the captured official title and description; it does not calculate an entitlement.",
+              "recordId": "govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598",
+              "facets": {
+                "authority": "Original project transformation rule",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:22.929662+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "1ad55fe3e43173e292d3fb34d31519d85391b7cc4085e2d3191ef028ecefe964",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "This rule applies only to the named claim and source field."
+                }
+              }
+            },
+            {
+              "id": "transformation:register-a-birth",
+              "kind": "transformation",
+              "label": "Deterministic restatement",
+              "statement": "Deterministically restated from the captured official title and description without adding an eligibility or deadline claim.",
+              "recordId": "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363",
+              "facets": {
+                "authority": "Original project transformation rule",
+                "assertionStatus": "normalised",
+                "verification": "source-linked",
+                "freshness": {
+                  "status": "observed",
+                  "observedAt": "2026-07-15T06:24:25.034371+00:00",
+                  "note": "No freshness deadline is asserted; use the authoritative page for current information."
+                },
+                "integrity": {
+                  "status": "sha256-bound",
+                  "digest": "9487e6e1bda0f0e041d507f6b38bbd21734ba6f0efb6779086adec1980d5c833",
+                  "note": "The packaged record passed its SHA-256 binding checks."
+                },
+                "access": {
+                  "status": "public",
+                  "note": "The captured official metadata declares anonymous access to the human page."
+                },
+                "rights": {
+                  "status": "confirmed",
+                  "title": "Open Government Licence v3.0 for reused GOV.UK metadata, where applicable",
+                  "note": "Contains public sector information licensed under the Open Government Licence v3.0 where applicable."
+                },
+                "coverage": {
+                  "status": "one-record",
+                  "note": "This rule applies only to the named claim and source field."
+                }
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge:bounded-starting-points-answer-new-child-starting-points",
+              "source": "limitation:bounded-starting-points",
+              "target": "answer:new-child-starting-points",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:captured-metadata-answer-new-child-starting-points",
+              "source": "limitation:captured-metadata",
+              "target": "answer:new-child-starting-points",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:check-child-benefit-answer",
+              "source": "claim:check-child-benefit",
+              "target": "answer:new-child-starting-points",
+              "relation": "supports",
+              "label": "supports answer"
+            },
+            {
+              "id": "edge:check-child-benefit-check",
+              "source": "check:check-child-benefit-digest",
+              "target": "source:govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae:description",
+              "relation": "verifies",
+              "label": "checks packaged bytes"
+            },
+            {
+              "id": "edge:check-child-benefit-source",
+              "source": "source:govuk-discovery:govuk-content:aed2cee3-7ca8-4f00-ab17-9193fff516ae:description",
+              "target": "claim:check-child-benefit",
+              "relation": "supports",
+              "label": "supports claim"
+            },
+            {
+              "id": "edge:check-child-benefit-transformation",
+              "source": "transformation:check-child-benefit",
+              "target": "claim:check-child-benefit",
+              "relation": "derived-through",
+              "label": "derived through"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-answer",
+              "source": "claim:check-parental-pay-and-leave",
+              "target": "answer:new-child-starting-points",
+              "relation": "supports",
+              "label": "supports answer"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-check",
+              "source": "check:check-parental-pay-and-leave-digest",
+              "target": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "relation": "verifies",
+              "label": "checks packaged bytes"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-source",
+              "source": "source:govuk-discovery:govuk-content:1f6b4ecc-ce2c-488a-b9c7-b78b3bba5598:description",
+              "target": "claim:check-parental-pay-and-leave",
+              "relation": "supports",
+              "label": "supports claim"
+            },
+            {
+              "id": "edge:check-parental-pay-and-leave-transformation",
+              "source": "transformation:check-parental-pay-and-leave",
+              "target": "claim:check-parental-pay-and-leave",
+              "relation": "derived-through",
+              "label": "derived through"
+            },
+            {
+              "id": "edge:not-an-eligibility-decision-answer-new-child-starting-points",
+              "source": "limitation:not-an-eligibility-decision",
+              "target": "answer:new-child-starting-points",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:not-an-eligibility-decision-claim-check-child-benefit",
+              "source": "limitation:not-an-eligibility-decision",
+              "target": "claim:check-child-benefit",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:not-an-eligibility-decision-claim-check-parental-pay-and-leave",
+              "source": "limitation:not-an-eligibility-decision",
+              "target": "claim:check-parental-pay-and-leave",
+              "relation": "qualifies",
+              "label": "qualifies"
+            },
+            {
+              "id": "edge:register-a-birth-answer",
+              "source": "claim:register-a-birth",
+              "target": "answer:new-child-starting-points",
+              "relation": "supports",
+              "label": "supports answer"
+            },
+            {
+              "id": "edge:register-a-birth-check",
+              "source": "check:register-a-birth-digest",
+              "target": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "relation": "verifies",
+              "label": "checks packaged bytes"
+            },
+            {
+              "id": "edge:register-a-birth-source",
+              "source": "source:govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363:description",
+              "target": "claim:register-a-birth",
+              "relation": "supports",
+              "label": "supports claim"
+            },
+            {
+              "id": "edge:register-a-birth-transformation",
+              "source": "transformation:register-a-birth",
+              "target": "claim:register-a-birth",
+              "relation": "derived-through",
+              "label": "derived through"
+            }
+          ],
+          "boundaries": {
+            "canonicalNarrative": false,
+            "pageScoped": true,
+            "providerCall": false,
+            "sourceRefetched": false,
+            "eligibilityDecision": false,
+            "singleTrustScore": false
+          },
+          "traceDigest": "5b742b40784e2b0c6cb5a49199214e4abd39e2fc66fe9bb7dc5d376bccf0f4e5"
+        },
+        "boundaries": {
+          "presentationEffect": "transient-local-selection",
+          "catalogueMutation": false,
+          "storageWrite": false,
+          "providerCall": false,
+          "externalStateChange": false,
+          "sourceDerivedContentIsUntrusted": true,
+          "singleTrustScore": false
+        }
+      },
+      "canonicalResultDigest": "12e8e56056c73c06d41d418856f356f25da6a157b64feabf33664a0eca6349ad"
+    },
+    {
+      "name": "present_resource_evidence",
+      "input": {
+        "recordId": "govuk-discovery:federated:land-registry:57845"
+      },
+      "result": {
+        "schema": "govuk-webmcp.present-resource-evidence-result.v1",
+        "ok": true,
+        "evidence": {
+          "schema": "govuk-webmcp.beginner-presentation.v1",
+          "ok": true,
+          "selectionId": "govuk-discovery:federated:land-registry:57845",
+          "resultKind": "federated-record",
+          "evidenceTier": "federated-source-snapshot",
+          "evidenceTierLabel": "Wider catalogue source snapshot",
+          "heading": "Reduced regulation of English social housing providers: registration requirements",
+          "foundations": [
+            {
+              "claimId": null,
+              "supportedStatement": "On 6 April 2017, regulations relating to English social housing providers will change.",
+              "publisher": "HM Land Registry",
+              "resourceDetails": {
+                "recordId": "govuk-discovery:federated:land-registry:57845",
+                "resourceType": "catalogue-record",
+                "collectionId": "land-registry",
+                "sourceNativeId": "hmlr-a70832855005e4e016de68d3",
+                "snapshot": "hmlr-public-metadata-v0.2.0",
+                "revision": "1d708e39f2cde19610d43c5a7f5e36e4a2f947bc"
+              },
+              "sourceTitle": "Reduced regulation of English social housing providers: registration requirements",
+              "sourceAuthority": "Not independently established",
+              "sourceRole": "producer-declared-source",
+              "sourceUrl": "https://www.gov.uk/government/news/reduced-regulation-of-english-social-housing-providers-registration-requirements",
+              "sourceHostname": "www.gov.uk",
+              "assertionStatus": "normalised",
+              "observedAt": "2026-08-30T00:00:00Z",
+              "integrityBasis": {
+                "status": "snapshot-file-integrity",
+                "digest": "ca783325ccedee87b39785915b132b3cc6afb43fce81268b8f763dbcea163d0a",
+                "note": "Record, shard, source-lock and manifest digests bind the saved source snapshot. The item was not reviewed individually in this prototype."
+              },
+              "access": {
+                "status": "public",
+                "note": "Producer-declared access value: public."
+              },
+              "rights": {
+                "status": "missing",
+                "title": "Not stated by the source.",
+                "url": null,
+                "note": "No record-level licence was established from the admitted sources."
+              },
+              "coverage": {
+                "status": "one-source-snapshot-record",
+                "note": "One saved source-collection record with no item-level review in this prototype."
+              },
+              "primaryLimitation": null,
+              "allLimitations": [
+                "Search metadata is a discovery record, not the full document or legal advice.",
+                "Publisher modification time is not dataset release, registration or legal currency.",
+                "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+                "The producer is independent and is not endorsed by HM Land Registry.",
+                "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+              ]
+            }
+          ],
+          "primaryLimitation": null,
+          "allLimitations": [
+            "Search metadata is a discovery record, not the full document or legal advice.",
+            "Publisher modification time is not dataset release, registration or legal currency.",
+            "Metadata-only source snapshot; it contains no title-register, title-plan, ownership, address, polygon or personal rows.",
+            "The producer is independent and is not endorsed by HM Land Registry.",
+            "A record link and catalogue inclusion do not establish permission, legal effect or current operational availability."
+          ],
+          "boundaries": {
+            "presentationEffect": "transient-local-selection",
+            "pageScoped": true,
+            "sameOriginStaticReads": true,
+            "modelHostedByPage": false,
+            "aiAnswerObserved": false,
+            "providerCall": false,
+            "officialApiCall": false,
+            "sourceRefetchedAtRuntime": false,
+            "catalogueMutation": false,
+            "storageWrite": false,
+            "externalStateChange": false,
+            "personalContextAccepted": false,
+            "durableReceiptCreated": false,
+            "accessAuthorityGranted": false,
+            "itemLevelReview": false,
+            "evidenceReceiptAvailable": false,
+            "cryptographicSignatureVerified": false,
+            "sourceDerivedContentIsUntrusted": true,
+            "singleTrustScore": false,
+            "personalisedDecision": false,
+            "eligibilityDecision": false,
+            "legalDecision": false,
+            "liveValueProvided": false,
+            "ownershipRecordProvided": false
+          },
+          "nextCheck": "Open the recorded source, check who published it and confirm that it is current and usable for your task.",
+          "cannotDecide": [
+            {
+              "kind": "personalised-applicability",
+              "statement": "This packaged evidence does not decide what applies to a person's circumstances."
+            },
+            {
+              "kind": "currentness",
+              "statement": "A checksum can identify the packaged bytes; it does not establish that the source is still current."
+            },
+            {
+              "kind": "item-level-authority",
+              "statement": "Catalogue inclusion does not establish that this individual source-snapshot record is authoritative."
+            },
+            {
+              "kind": "access-and-rights",
+              "statement": "This evidence does not grant access or permission to reuse the recorded material."
+            }
+          ],
+          "acceptedInput": {
+            "action": "present_resource_evidence",
+            "recordId": "govuk-discovery:federated:land-registry:57845"
+          },
+          "sourceResultDigests": {
+            "evidenceTrace": null,
+            "recordResult": "1d434bdfbccf959047d7c03ad6c6366c80a01abbb58a08a9d41dd3fa07112469",
+            "provenanceResult": "2459452ceffd4d2180dc57463701618a151b9f62c24f31dba80cc55dc5b0310a"
+          }
+        },
+        "evidenceDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3"
+      },
+      "canonicalResultDigest": "0a9e560e3587f5a5c6bec9fe1c3b06224f315a7ee77b8a55dcc0ecba9cb2568c"
+    }
+  ],
+  "rejectedCall": {
+    "name": "search_government_knowledge",
+    "rejectedField": "personalContext",
+    "inputFieldNames": [
+      "personalContext",
+      "query"
+    ],
+    "result": {
+      "schema": "trusted-govuk-discovery.error.v1",
+      "ok": false,
+      "error": {
+        "code": "invalid_search_request",
+        "message": "The search input contains an unknown field.",
+        "details": {}
+      },
+      "limitations": [
+        "No substitute source was selected.",
+        "No official API, model provider or personal context was contacted."
+      ]
+    },
+    "canonicalResultDigest": "b784977475cf73d2ac5e587fed165549cbe53cc9cb969c567f2388900f67eddd"
+  },
+  "finalPageObservation": {
+    "lastPresentationAction": "WebMCP: present_resource_evidence",
+    "selectedRecordId": "govuk-discovery:federated:land-registry:57845",
+    "displayEvidenceDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3",
+    "toolEvidenceDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3",
+    "digestParity": true
+  },
+  "limitations": [
+    "This time-bound receipt covers one observed Google Chrome stable and Chrome DevTools MCP version; it is not a general browser-support claim.",
+    "Chrome DevTools MCP invoked fixed calls directly. No model selected a tool and no model provider received the exchange.",
+    "The raw receipt and this reviewed projection do not show a host-owned surface; the video uses a receipt visualisation and labels it as such.",
+    "Source-derived content remains untrusted, and the capture does not refetch or independently certify cited sources.",
+    "The Chrome bridge exposed tool names, descriptions, schemas and annotations but not the application-registered titles; title absence is recorded rather than inferred."
+  ]
+}

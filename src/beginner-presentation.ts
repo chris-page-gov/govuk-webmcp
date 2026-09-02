@@ -163,6 +163,11 @@ export interface ProjectionOptions {
   readonly actionWasAccepted?: boolean;
 }
 
+export interface RecordProjectionDigests {
+  readonly recordResult: string;
+  readonly provenanceResult: string;
+}
+
 const SHA256 = /^[a-f0-9]{64}$/u;
 const ANSWER_ID = /^answer:[a-z0-9][a-z0-9-]{2,88}$/u;
 const CLAIM_ID = /^claim:[a-z0-9][a-z0-9-]{2,89}$/u;
@@ -535,11 +540,12 @@ function validateFederatedPair(recordResult: JsonObject, provenanceResult: JsonO
  * Project a validated record result and its matching provenance into the closed
  * Evidence answer contract. The two source objects are hashed untouched.
  */
-export async function projectRecordEvidence(
+export function projectRecordEvidenceWithDigests(
   recordResultValue: unknown,
   provenanceResultValue: unknown,
+  sourceResultDigests: RecordProjectionDigests,
   options: ProjectionOptions = {},
-): Promise<BeginnerPresentation> {
+): BeginnerPresentation {
   const recordResult = dataObject(recordResultValue, "Record result");
   const provenanceResult = dataObject(provenanceResultValue, "Provenance result");
   if (!isSuccessful(recordResult) || !isSuccessful(provenanceResult)) {
@@ -569,10 +575,8 @@ export async function projectRecordEvidence(
   const foundation = federated
     ? federatedRecordFoundation(record, allLimitations, primary)
     : reviewedRecordFoundation(record, allLimitations, primary);
-  const [recordResultDigest, provenanceResultDigest] = await Promise.all([
-    sha256Hex(canonicalJson(recordResultValue)),
-    sha256Hex(canonicalJson(provenanceResultValue)),
-  ]);
+  const recordResultDigest = digest(sourceResultDigests.recordResult, "Record result digest");
+  const provenanceResultDigest = digest(sourceResultDigests.provenanceResult, "Provenance result digest");
   const actionWasAccepted = options.actionWasAccepted !== false;
   return {
     schema: "govuk-webmcp.beginner-presentation.v1",
@@ -595,6 +599,28 @@ export async function projectRecordEvidence(
       provenanceResult: provenanceResultDigest,
     },
   };
+}
+
+/**
+ * Project one record using SHA-256 values calculated over the untouched source
+ * results. Release tooling can call the synchronous helper above with its own
+ * canonical digests and therefore validate the complete runtime projection.
+ */
+export async function projectRecordEvidence(
+  recordResultValue: unknown,
+  provenanceResultValue: unknown,
+  options: ProjectionOptions = {},
+): Promise<BeginnerPresentation> {
+  const [recordResultDigest, provenanceResultDigest] = await Promise.all([
+    sha256Hex(canonicalJson(recordResultValue)),
+    sha256Hex(canonicalJson(provenanceResultValue)),
+  ]);
+  return projectRecordEvidenceWithDigests(
+    recordResultValue,
+    provenanceResultValue,
+    { recordResult: recordResultDigest, provenanceResult: provenanceResultDigest },
+    options,
+  );
 }
 
 interface ReviewedSelection {

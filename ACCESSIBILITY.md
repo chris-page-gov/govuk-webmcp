@@ -15,9 +15,9 @@ Bounded URL-fragment routes support direct views and browser back and forward
 history. Evidence paths, selection states, assertion status and limitations use
 text labels; meaning is not conveyed by colour alone.
 
-## In-progress Evidence answer accessibility boundary
+## Evidence answer accessibility boundary
 
-The unreleased `0.4.0-rc.1` candidate adds persistent native-link navigation
+The `0.4.0-rc.1` candidate adds persistent native-link navigation
 between **Evidence answer** and **Technical review**. The empty candidate route
 opens Evidence answer; legacy evidence fragments retain Technical review. Each
 active view has its own level-one heading, the active link uses
@@ -39,11 +39,15 @@ pixel layout, 400% reflow, forced colours, reduced motion and preservation of
 the active Technical review view, URL, history, focus and scroll during a
 background WebMCP presentation.
 
-These are automated observations of named browsers and states. The candidate
-has not yet completed its release-specific manual checks at 320 CSS pixels,
-400% zoom, forced colours and reduced motion, or its Safari, VoiceOver and
-Caption Panel journey. No existing `v0.3.0-rc.1` manual observation is carried
-forward, and no WCAG conformance or beginner-comprehension claim is made.
+These are automated observations of named browsers and states. A bounded
+Safari, VoiceOver and Caption Panel journey was completed against historical
+pre-hardening product commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`: 6 of 9 checkpoints passed and 3
+were limited. It was a non-continuous screenshot sequence without VoiceOver
+speech audio or independent capture-time deployment binding. Exact-release
+manual recapture remains required after any build-affecting hardening. No
+existing `v0.3.0-rc.1` manual observation is carried forward, and no WCAG
+conformance or beginner-comprehension claim is made.
 
 ## Released automated testing
 
@@ -110,21 +114,28 @@ publication.
 
 - Candidate sticky navigation, view focus, inactive-view update, route
   restoration, result reading order and accepted-input disclosure have
-  automated coverage in installed Chrome and Edge. They have not yet completed
-  candidate-specific manual visual or assistive-technology observation.
+  automated coverage in installed Chrome and Edge. The retained candidate
+  manual observation is historical pre-hardening evidence and must be
+  recaptured for the exact release bytes.
 - The current manual journey did not retain a heading-rotor selection and did
   not prove automatic spoken live-status wording. These are the 2 recorded
   limitations; the other 7 checkpoints passed.
 - The nine-step manual journey did not exercise a partial-source failure.
   Deterministic and browser coverage of that state remains separate from the
   manual VoiceOver observation.
-- Nine Low security remediations retain their historical focused evidence. The
-  unreleased Evidence answer candidate now passes 272 of 272 unit tests and 43
-  of 43 browser tests in each of installed Chrome and Edge. Frozen code-snapshot
-  security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36
-  items, ran 102 focused tests, found zero findings and concluded that there is
-  no security release blocker. Automated and manual observations remain bounded to their named
-  environments and journeys.
+- Ten Low security remediations retain their named focused evidence. The
+  Evidence answer candidate passes 381 of 381 unit tests and 43 of 43 browser
+  tests in each of installed Chrome and Edge. Historical code-snapshot scan
+  `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items, ran 102
+  focused tests and found zero findings for its snapshot. Later pre-fix scan
+  `dcfed744-0676-40c1-a0ef-84dd3cc7b52b` identified the tenth Low finding;
+  focused and integrated tests cover its fresh receipt-authentication
+  remediation. Sealed post-fix scan
+  `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
+  executable-source items with complete configured coverage and zero
+  reportable findings for its exact snapshot.
+  Automated and manual observations remain bounded to their named environments
+  and journeys.
 - The human live region distinguishes rejected input, a
   `federated_runtime_busy` response and other failure rather than presenting
   each as source unavailable. Focused regressions pass 11 of 11.

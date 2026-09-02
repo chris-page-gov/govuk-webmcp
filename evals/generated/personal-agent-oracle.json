@@ -3,8 +3,8 @@
   "suiteId": "beginner-evidence-v1",
   "caseSetSha256": "9fe430cee9d09090247c857078129623753e229cdab063772a59d881d6d9e0ad",
   "captureContract": {
-    "schema": "govuk-webmcp.personal-agent-evaluation-capture.v2",
-    "schemaSha256": "0657fdeff05787203c9c7eddfda5c84c78498293b09f54ff9c3e679a49d25011",
+    "schema": "govuk-webmcp.personal-agent-evaluation-capture.v3",
+    "schemaSha256": "704ea837bf90816d9c15f99d50b134f5f3e4bcc3912c65fec3c3669959b74611",
     "actualCallsRequiredWhenObservable": true,
     "renderedEvidenceParityRequiredWhenObservable": true,
     "executionContextRequired": true

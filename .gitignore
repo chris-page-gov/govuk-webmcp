@@ -10,7 +10,26 @@ test-results/
 playwright-report/
 .playwright-cli/
 .playwright-mcp/
-output/
+# Local outputs stay ignored except for the exact public VoiceOver release
+# evidence needed to reproduce the v0.4.0-rc.1 demonstration build.
+output/*
+!output/demo-clips/
+output/demo-clips/*
+!output/demo-clips/v0.4.0-rc.1/
+output/demo-clips/v0.4.0-rc.1/*
+!output/demo-clips/v0.4.0-rc.1/06-voiceover.mov
+!output/voiceover-capture/
+output/voiceover-capture/*
+!output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json
+!output/voiceover-capture/v0.4.0-rc.1-frame-01-page-title-and-headings.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-02-skip-link-and-main-focus.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-03-persistent-view-navigation.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-04-evidence-presentation-action.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-05-evidence-answer-sections.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-06-source-link-role-and-destination.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-07-comparison-guide.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-08-technical-review-controls.png
+!output/voiceover-capture/v0.4.0-rc.1-frame-09-focus-restoration.png
 .DS_Store
 .env
 .env.*

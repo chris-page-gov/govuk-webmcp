@@ -44,6 +44,8 @@ jobs:
           --no-deps
           --requirement requirements-dev.txt
       - run: npm ci --ignore-scripts --no-audit
+      - name: Apply the reviewed webmcp-evals browser step-limit patch
+        run: npm run webmcp:eval:patch
       - run: npm test
       - name: Run frozen federated retrieval-quality gate
         run: npm run okf-federation:quality:prepared

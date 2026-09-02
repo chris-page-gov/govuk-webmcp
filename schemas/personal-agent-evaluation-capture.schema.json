@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:govuk-webmcp:schema:personal-agent-evaluation-capture:v2",
+  "$id": "urn:govuk-webmcp:schema:personal-agent-evaluation-capture:v3",
   "title": "Private personal-agent WebMCP evaluation capture",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "suiteId", "caseSetSha256", "comparisonDesign", "createdAt", "runs"],
   "properties": {
-    "schema": { "const": "govuk-webmcp.personal-agent-evaluation-capture.v2" },
+    "schema": { "const": "govuk-webmcp.personal-agent-evaluation-capture.v3" },
     "suiteId": { "const": "beginner-evidence-v1" },
     "caseSetSha256": { "$ref": "#/$defs/sha256" },
     "comparisonDesign": { "const": "observational" },
@@ -148,19 +148,40 @@
         "worktreeStatus": { "enum": ["clean", "dirty", "not-applicable"] }
       }
     },
-    "diagnosticsObservation": {
+    "diagnosticObservation": {
       "oneOf": [
         {
           "type": "object",
           "additionalProperties": false,
-          "required": ["status", "browserConsoleErrors", "runnerErrors"],
+          "required": ["status", "errors"],
           "properties": {
             "status": { "const": "observed" },
-            "browserConsoleErrors": {
+            "errors": {
               "type": "array", "maxItems": 32,
               "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
-            },
-            "runnerErrors": {
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "errors"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "errors": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "runnerDiagnosticObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "errors"],
+          "properties": {
+            "status": { "const": "observed" },
+            "errors": {
               "type": "array", "maxItems": 16,
               "items": { "type": "string", "minLength": 1, "maxLength": 2000 }
             }
@@ -169,11 +190,54 @@
         {
           "type": "object",
           "additionalProperties": false,
-          "required": ["status", "browserConsoleErrors", "runnerErrors"],
+          "required": ["status", "errors"],
           "properties": {
             "status": { "const": "not-observable" },
-            "browserConsoleErrors": { "type": "null" },
-            "runnerErrors": { "type": "null" }
+            "errors": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "interactionStepsObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "value"],
+          "properties": {
+            "status": { "const": "observed" },
+            "value": { "type": "integer", "minimum": 1, "maximum": 6 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "value"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "value": { "type": "null" }
+          }
+        }
+      ]
+    },
+    "latencyObservation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "value"],
+          "properties": {
+            "status": { "const": "observed" },
+            "value": { "type": "integer", "minimum": 0, "maximum": 600000 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "value"],
+          "properties": {
+            "status": { "const": "not-observable" },
+            "value": { "type": "null" }
           }
         }
       ]
@@ -181,7 +245,7 @@
     "executionContext": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["hostVersion", "browser", "visibleMode", "exposedTools", "share", "deployment", "diagnostics"],
+      "required": ["hostVersion", "browser", "visibleMode", "exposedTools", "share", "deployment", "diagnostics", "measurements"],
       "properties": {
         "hostVersion": { "$ref": "#/$defs/textObservation" },
         "browser": { "$ref": "#/$defs/browserObservation" },
@@ -189,7 +253,26 @@
         "exposedTools": { "$ref": "#/$defs/toolListObservation" },
         "share": { "$ref": "#/$defs/shareObservation" },
         "deployment": { "$ref": "#/$defs/deploymentIdentity" },
-        "diagnostics": { "$ref": "#/$defs/diagnosticsObservation" }
+        "diagnostics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["browserConsole", "pageErrors", "networkErrors", "runnerErrors"],
+          "properties": {
+            "browserConsole": { "$ref": "#/$defs/diagnosticObservation" },
+            "pageErrors": { "$ref": "#/$defs/diagnosticObservation" },
+            "networkErrors": { "$ref": "#/$defs/diagnosticObservation" },
+            "runnerErrors": { "$ref": "#/$defs/runnerDiagnosticObservation" }
+          }
+        },
+        "measurements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["interactionSteps", "latencyMilliseconds"],
+          "properties": {
+            "interactionSteps": { "$ref": "#/$defs/interactionStepsObservation" },
+            "latencyMilliseconds": { "$ref": "#/$defs/latencyObservation" }
+          }
+        }
       }
     },
     "capturedCall": {
@@ -199,8 +282,45 @@
         { "$ref": "#/$defs/provenanceCall" },
         { "$ref": "#/$defs/exploreCall" },
         { "$ref": "#/$defs/compareCall" },
-        { "$ref": "#/$defs/presentCall" }
+        { "$ref": "#/$defs/presentCall" },
+        { "$ref": "#/$defs/rejectedCall" }
       ]
+    },
+    "boundedJsonValue": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "number" },
+        { "type": "string", "maxLength": 4096 },
+        { "type": "array", "maxItems": 64, "items": { "$ref": "#/$defs/boundedJsonValue" } },
+        { "$ref": "#/$defs/boundedJsonObject" }
+      ]
+    },
+    "boundedJsonObject": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": { "type": "string", "maxLength": 128 },
+      "additionalProperties": { "$ref": "#/$defs/boundedJsonValue" }
+    },
+    "rejectedCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "name", "arguments", "output"],
+      "properties": {
+        "ordinal": { "$ref": "#/$defs/ordinal" },
+        "name": {
+          "enum": [
+            "search_government_knowledge",
+            "get_resource_record",
+            "show_provenance",
+            "explore_answer_foundations",
+            "compare_evidence_foundations",
+            "present_resource_evidence"
+          ]
+        },
+        "arguments": { "$ref": "#/$defs/boundedJsonObject" },
+        "output": { "$ref": "urn:govuk-webmcp:schema:error-result:v1" }
+      }
     },
     "searchCall": {
       "type": "object",
@@ -210,7 +330,16 @@
         "ordinal": { "$ref": "#/$defs/ordinal" },
         "name": { "const": "search_government_knowledge" },
         "arguments": { "$ref": "https://example.invalid/schemas/search-government-knowledge-input.schema.json" },
-        "output": { "$ref": "https://example.invalid/schemas/search-government-knowledge-output.schema.json" }
+        "output": {
+          "allOf": [
+            { "$ref": "https://example.invalid/schemas/search-government-knowledge-output.schema.json" },
+            {
+              "type": "object",
+              "required": ["ok"],
+              "properties": { "ok": { "const": true } }
+            }
+          ]
+        }
       }
     },
     "recordCall": {
@@ -221,7 +350,16 @@
         "ordinal": { "$ref": "#/$defs/ordinal" },
         "name": { "const": "get_resource_record" },
         "arguments": { "$ref": "https://example.invalid/schemas/get-resource-record-input.schema.json" },
-        "output": { "$ref": "https://example.invalid/schemas/get-resource-record-output.schema.json" }
+        "output": {
+          "allOf": [
+            { "$ref": "https://example.invalid/schemas/get-resource-record-output.schema.json" },
+            {
+              "type": "object",
+              "required": ["ok"],
+              "properties": { "ok": { "const": true } }
+            }
+          ]
+        }
       }
     },
     "provenanceCall": {
@@ -232,7 +370,16 @@
         "ordinal": { "$ref": "#/$defs/ordinal" },
         "name": { "const": "show_provenance" },
         "arguments": { "$ref": "https://example.invalid/schemas/show-provenance-input.schema.json" },
-        "output": { "$ref": "https://example.invalid/schemas/show-provenance-output.schema.json" }
+        "output": {
+          "allOf": [
+            { "$ref": "https://example.invalid/schemas/show-provenance-output.schema.json" },
+            {
+              "type": "object",
+              "required": ["ok"],
+              "properties": { "ok": { "const": true } }
+            }
+          ]
+        }
       }
     },
     "exploreCall": {
@@ -243,7 +390,16 @@
         "ordinal": { "$ref": "#/$defs/ordinal" },
         "name": { "const": "explore_answer_foundations" },
         "arguments": { "$ref": "urn:govuk-webmcp:schema:explore-answer-foundations-input:v1" },
-        "output": { "$ref": "urn:govuk-webmcp:schema:explore-answer-foundations-output:v1" }
+        "output": {
+          "allOf": [
+            { "$ref": "urn:govuk-webmcp:schema:explore-answer-foundations-output:v1" },
+            {
+              "type": "object",
+              "required": ["ok"],
+              "properties": { "ok": { "const": true } }
+            }
+          ]
+        }
       }
     },
     "compareCall": {
@@ -254,7 +410,16 @@
         "ordinal": { "$ref": "#/$defs/ordinal" },
         "name": { "const": "compare_evidence_foundations" },
         "arguments": { "$ref": "urn:govuk-webmcp:schema:compare-evidence-foundations-input:v1" },
-        "output": { "$ref": "urn:govuk-webmcp:schema:compare-evidence-foundations-output:v1" }
+        "output": {
+          "allOf": [
+            { "$ref": "urn:govuk-webmcp:schema:compare-evidence-foundations-output:v1" },
+            {
+              "type": "object",
+              "required": ["ok"],
+              "properties": { "ok": { "const": true } }
+            }
+          ]
+        }
       }
     },
     "presentCall": {
@@ -265,7 +430,16 @@
         "ordinal": { "$ref": "#/$defs/ordinal" },
         "name": { "const": "present_resource_evidence" },
         "arguments": { "$ref": "urn:govuk-webmcp:schema:present-resource-evidence-input:v1" },
-        "output": { "$ref": "urn:govuk-webmcp:schema:present-resource-evidence-output:v1" }
+        "output": {
+          "allOf": [
+            { "$ref": "urn:govuk-webmcp:schema:present-resource-evidence-output:v1" },
+            {
+              "type": "object",
+              "required": ["ok"],
+              "properties": { "ok": { "const": true } }
+            }
+          ]
+        }
       }
     },
     "ordinal": { "type": "integer", "minimum": 1, "maximum": 6 },

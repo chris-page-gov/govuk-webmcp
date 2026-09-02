@@ -620,9 +620,18 @@ The human equivalent is **Show evidence for this result** and calls the
 same application action. The action performs no storage, catalogue or external-
 state write and makes no official-service or model-provider request. A
 federated selection may still lazily read checksum-bound same-origin manifest,
-posting and record shards under the existing budgets. The tool is now
-implemented in the worktree candidate but remains unreleased and has no
-accepted host evidence.
+posting and record shards under the existing budgets. The tool is part of the
+`v0.4.0-rc.1` product contract. Any supported-host claim requires its own fresh,
+authenticated exact-release observation; the retained `a4fabe…` observation is
+historical pre-hardening evidence.
+
+Executable validation is deliberately stricter than JSON Schema. It accepts
+only ordinary plain objects with allowed own enumerable string data properties
+and dense canonical-index arrays; symbols, accessors, non-enumerable fields,
+sparse items and extra array properties are rejected without invoking getters.
+Supported-host publication must freshly authenticate the Pages receipt
+in-process, require ordered `initial`, `after-page-load` and `after-execution`
+deployment checks and match both stored public and private receipt bindings.
 
 Presentation is transactional. Validation and projection finish before commit;
 one latest-started sequence spans `explore_answer_foundations`,
@@ -967,18 +976,26 @@ sequenced verification and release gates.
    complete candidate suites pass 43 of 43 tests in installed Chrome and 43 of
    43 in installed Edge, including routing, focus, reflow and inactive-view
    preservation.
-5. **Run deterministic, accessibility and security assurance — automated and
-   frozen security checks complete; manual accessibility pending.** The
+5. **Run deterministic, accessibility and security assurance — automated
+   product checks and the sealed local changed-source security scan are
+   complete; exact-release manual, protected-integration and deployment
+   evidence remain separately gated.** The
    full-corpus projection audit passes for 80 reviewed and 58,652 federated
-   records, and the current prepared unit suite passes 272 of 272. The offline
-   double build passes for 1,883 files and 128,646,550 bytes at aggregate
+   records, and the settled prepared unit suite passes 381 of 381. The offline
+   double build passes for 1,883 files and 128,653,230 bytes at aggregate
    SHA-256
-   `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
-   Frozen code-snapshot security scan
+   `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+   Historical code-snapshot security scan
    `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items, ran 102
-   focused tests, found zero findings and concluded that there is no security
-   release blocker. Complete the release-specific manual visual and assistive-
-   technology checks, retaining every limitation.
+   focused tests and found zero findings for its snapshot. Later pre-fix scan
+   `dcfed744-0676-40c1-a0ef-84dd3cc7b52b` identified one Low
+   receipt-authentication defect; its remediation is covered by focused and
+   integrated tests. Sealed post-fix scan
+   `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
+   executable-source items with complete configured coverage and zero
+   reportable findings for its exact snapshot.
+   Recapture the release-specific manual visual and assistive-technology
+   checks, retaining every limitation.
 6. **Run formative research.** Include non-technical AI sceptics, disabled
    people and low-digital-confidence participants. Publish negative and
    inconclusive findings.
@@ -986,9 +1003,10 @@ sequenced verification and release gates.
    accessibility, host, security, manifest, protected-main and exact Pages
    verification before making Evidence answer the default.
 
-Gates 1 to 4 have worktree implementation and local deterministic and
-cross-browser evidence. Candidate-specific manual accessibility, protected integration, exact
-deployment and cross-host verification remain open,
-followed by formative review. Automated checks do not establish WCAG
+Gates 1 to 4 have implementation and local deterministic and cross-browser
+evidence. The retained candidate manual accessibility, deployment and host
+observations bind historical pre-hardening commit `a4fabe…`; exact-release
+deployment and cross-host verification must be established from authenticated
+records, followed by formative review. Automated checks do not establish WCAG
 conformance. Formative comprehension remains an explicit evidence gap until
 real participants take part.

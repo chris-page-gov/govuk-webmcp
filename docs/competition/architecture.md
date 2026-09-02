@@ -1,4 +1,4 @@
-# Static competition architecture, federated release and Evidence answer candidate
+# Static competition architecture, federated release and Evidence answer overlay
 
 The first diagram records the frozen pre-federation architecture through
 `v0.2.0-rc.2`. Annotated tag `v0.2.0-rc.2` resolves to product commit
@@ -46,11 +46,11 @@ Version `0.3.0-rc.1` implements the federated architecture in released product
 commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`. Pull-request validation run
 `33356087333`, protected-main run `33356272534` and exact-commit Pages run
 `33356452048` passed. The complete public-byte comparison matched all 1,879
-regular files to Pages artefact `9745316971`. One current supported host then
+regular files to Pages artefact `9745316971`. One supported host then
 discovered and executed all five page tools; no model selected a tool and no
 model provider was called:
 
-A separate current-release manual Safari and VoiceOver journey completed with
+A separate `v0.3.0-rc.1` manual Safari and VoiceOver journey completed with
 7 passes and 2 retained limitations. Its Caption Panel media is a 27-second
 screenshot sequence, not a continuous recording; VoiceOver speech audio was
 not captured and the observation is not a WCAG conformance claim. The guarded
@@ -127,9 +127,9 @@ supplementary counts, completeness statement and first limitation before the
 human display uses them. A co-digested redistribution or contradictory display
 claim fails closed.
 
-## Unreleased `0.4.0-rc.1` presentation overlay
+## `0.4.0-rc.1` presentation overlay
 
-The candidate changes presentation and page-tool choreography without adding a
+Version 0.4 changes presentation and page-tool choreography without adding a
 model, source, runtime official-API call, catalogue copy or storage layer:
 
 ```text
@@ -160,7 +160,7 @@ uses the service-navigation pattern only as semantic guidance, and keeps sticky
 navigation from obscuring keyboard focus in line with WCAG 2.2 Focus Not
 Obscured (Minimum). [G22; G23; A03]
 
-The empty candidate route selects Evidence answer. A legacy record, answer,
+The empty version 0.4 route selects Evidence answer. A legacy record, answer,
 claim or comparison fragment selects Technical review so released deep links
 retain their meaning. A WebMCP presentation updates the deterministic Evidence
 answer in place but must not change the active view, fragment, history, focus or
@@ -174,19 +174,32 @@ replace the latest page selection. The composite action has an eight-second
 deadline; timeout, failure or cancellation retains the previous answer and
 cannot expose partial evidence.
 
-The current worktree contains this projection, composite action, sixth tool,
-bounded router, renderer, shared mounts and controller integration. The build
+The settled `0.4.0-rc.1` source tree contains this projection, composite action,
+sixth tool, bounded router, renderer, shared mounts and controller integration.
+The build
 audits all 80 reviewed and 58,652 federated records using production result
 builders, the production projector and the closed presentation schema. The
-prepared unit suite passes 272 of 272, and the complete candidate browser suites
+prepared unit suite passes 381 of 381, and the complete version 0.4 browser suites
 pass 43 of 43 in installed Chrome and 43 of 43 in installed Edge. The offline
-double build passes at 1,883 files, 128,646,550 bytes and aggregate SHA-256
-`3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
+double build passes at 1,883 files, 128,653,230 bytes and aggregate SHA-256
+`cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
 Frozen code-snapshot security scan `aedf88e3-6a77-46af-be6b-2c672001dd46`
 completed 36 of 36 items, ran 102 focused tests, found zero findings and
-concluded that there is no security release blocker. Candidate-specific manual visual, Safari, VoiceOver and Caption
-Panel observations and host verification remain pending. Automated checks do
-not establish WCAG conformance. The diagram is not release evidence.
+concluded that there is no security release blocker. The version 0.4 Safari and
+VoiceOver Caption Panel observation is complete with 6 passed and 3 limited
+checkpoints; it is a non-continuous screenshot sequence without speech audio
+and does not establish WCAG conformance. A dated, historical pre-hardening
+observation completed six-tool Chrome capture and a labelled receipt
+reconstruction against commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`; it is not evidence for the
+settled source tree or a later tag. The diagram is not release evidence.
+
+Sealed post-fix working-tree scan `185ce6fa-a47f-4c5e-9888-c63a9f932205`,
+snapshot
+`codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`,
+subsequently completed all 33 selected executable-source items with complete
+configured coverage and zero reportable findings. The lockstep documentation
+that records this result does not change executable source.
 
 Personal-agent captures are untrusted observations, not their own execution
 oracle. When an exact call trace is observable, the verifier copies the
@@ -208,6 +221,53 @@ observations require literal `null` history state and empty local and session
 storage; local runs additionally require the exact credential-free loopback root
 URL with no query or fragment.
 
+Media admission does not convert a failed local evaluation into a successful
+host demonstration. The cloud Copilot scene still requires genuine visible
+Microsoft Edge MCP Workspace media, a Site-tool invocation, an Evidence answer
+update and owner-human review. The local Ollama scene instead uses a generated,
+visibly labelled diagnostic receipt visualisation. Its executable closed
+contract independently replays all 36 private runs, matches the tracked public
+summary, binds both source-byte digests and the exact model inventory digest,
+and retains failed, unobserved and unreviewed states. It cannot claim a host
+recording, page update, live-release parity or safe local answers. The complete
+72-run and release-authentication gates below remain unchanged.
+
+Supported-host evidence has three deliberately separate layers: an ignored
+mode-`0600` raw Chrome DevTools receipt, a tracked reviewed Chrome projection
+and a tracked supported-host projection. One recoverable admission transaction
+writes all three or restores the previous set. Public admission is allowed only
+for the fixed public target with an exact expected commit; replacing the raw
+receipt and replacing reviewed evidence are separately explicit operations.
+The supported-host projection binds both source artefacts by path, byte size and
+SHA-256. Final-video preflight validates the six published input and output
+schemas, every canonical result digest, the complete presented-evidence digest,
+the tracked reviewed projection and its exact `v2` live Pages receipt before
+using a labelled receipt reconstruction. Every consumer must also receive a
+fresh process-local authenticated live receipt, match its observation-
+independent binding to both stored receipts and derive release claims from the
+authenticated object. Supported-host capture also requires the ordered
+`initial`, `after-page-load` and `after-execution` deployment observations to
+agree on the exact deployment identity and to enclose the host execution. A
+stored, copied, mutated or merely well-shaped receipt cannot satisfy that
+process-local authentication. Release-specific commit, run, deployment, artefact and
+browser/runtime version values are observation inputs, not values compiled
+before deployment: the configured commit/run, freshly verified deployment,
+authenticated receipt and both projections must agree exactly.
+
+The media pipeline uses one transactional output-placement component for live
+interaction clips, supported-host and Ollama visualisations, and the four final
+video outputs. Failure before every pending output is promoted removes partial
+new files and restores all backups. Backup clean-up is a separate post-commit
+phase: if it fails, the complete new outputs remain in place and the error
+identifies committed outputs and any recoverable backup paths.
+
+VoiceOver assurance remains a manual observation, but the final-video build no
+longer trusts only the already-rendered clip. It revalidates the closed capture
+manifest, exact environment and limitation statements, nine unique ordered
+frame paths and digests, capture interval and hold duration, then checks every
+frame as a bounded regular non-symbolic file. This byte binding does not turn
+one screenshot sequence into continuous footage or WCAG conformance.
+
 Release authentication is also separate from structural receipt validation. A
 raw receipt-shaped object cannot open the evaluation claim gate. The verifier
 must freshly re-observe the named GitHub Pages artefact and every live byte,
@@ -215,8 +275,16 @@ then bind an exact clean checkout and local `dist` manifest to the same commit.
 Receipt v2 fixes the work budget at a 256 MiB archive, 4,096 regular files, 512
 directories, 192 MiB of regular-file data, 8 MiB per file, 8 concurrent live
 fetches, 60 seconds per file and 10 minutes for the whole comparison. These
-controls are implemented and unit-tested locally; protected integration and an
-authenticated candidate deployment remain unobserved.
+controls are implemented and unit-tested locally. Their release status is
+established only by protected integration and a fresh authenticated deployment
+receipt for the exact product commit; it is not inferred from this document.
+
+Final-video personal-agent admission performs that authentication in-process,
+replays the exact 72-run capture within the retained pre-run/fresh-observation
+window, exact-compares the supplied summary and disposes the authentication. A
+dirty unbound diagnostic cannot supply the local half. Any claimable local half
+must contain 36 slots captured from the clean exact-release checkout after its
+deployment; the receipt records whether that condition has been met.
 
 ## Authored and generated boundaries
 
@@ -230,19 +298,21 @@ directories, symbolic links and a file that changes while it is being opened.
 
 The generators produce the catalogue and receipts, the Evidence Trace
 collection, the corpus-admission manifest and the federated search plane. They
-do not change the authored sources. Thirty-one closed JSON Schemas cover the
-authored, generated, input and output contracts. At runtime, the page checks
+do not change the authored sources. The `0.4.0-rc.1` contract has 36 closed JSON
+Schemas covering the authored, generated, input and output contracts; historical
+`v0.3.0-rc.1` had 31. At runtime, the page checks
 the 10 initial same-origin files — five roots and five SHA-256 sidecars — then
 checks their closed structure, internal digests and bindings. An initial-root
-failure leaves the human fallback error visible and prevents all five tools
-from registering.
+failure leaves the human fallback error visible and prevents every tool from
+registering: five in `v0.3.0-rc.1` or six in `0.4.0-rc.1`.
 
-The candidate adds five closed schema files for beginner presentation,
+The `0.4.0-rc.1` contract adds five closed schema files for beginner presentation,
 presentation input/output, personal-agent cases and private evaluation captures
 without changing the five runtime root artefact families. If the same roots and
-their semantic bindings validate, the candidate registers six fixed tool
-definitions or none. The schema count and focused registration path pass local
-candidate checks; complete release verification remains open.
+their semantic bindings validate, it registers six fixed tool definitions or
+none. The schema count and focused registration path pass the settled source-tree
+checks. Merge, deployment, host and tag status must still be established from
+their own authenticated records rather than inferred from this architecture.
 
 The corpus-admission manifest records `sourceOkfCore` separately from
 `targetOkfCore`. The target is OKF core 0.2 for every admission; the source may
@@ -304,7 +374,16 @@ current selection and comparison. That effect is reversible and held only in
 memory: it does not change the catalogue, browser storage, network or external
 state.
 
-In the `0.4.0-rc.1` candidate, Evidence answer becomes the bare-route view and
+The controller and every action-specific validator inspect caller-owned root
+and array descriptors before reading values. Executable validation is
+deliberately stricter than JSON Schema: it copies only allowed own enumerable
+string data properties from ordinary plain objects and only dense,
+canonical-index data items from arrays. Symbols, non-enumerable properties,
+accessors, sparse arrays and extra array properties fail closed without invoking
+a getter. Rejected exotic or over-budget input is not included in the diagnostic
+input digest.
+
+In the `0.4.0-rc.1` contract, Evidence answer becomes the bare-route view and
 Technical review retains that released analytical interface. Both consume the
 same controller results. The sixth action has the same reversible-presentation
 boundary as the two exploration actions, while the three discovery queries
@@ -351,9 +430,11 @@ same-origin validated bundle -> deterministic, source-linked result
 The static government page does not host a model and its schemas do not request
 an identity, profile, location history, unrelated conversation or other
 general personal context. A citizen's agent may use context it is permitted to
-hold to choose a tool and formulate the smallest valid input. Only that bounded
-input reaches the page tool; the wider context is neither required nor accepted
-by the page contract.
+hold to choose a tool and formulate the smallest valid input. The schema has no
+dedicated personal-context field, but its bounded free-text search field can
+still carry personal details if a person or host puts them there. The page
+contract reduces what it asks for; it cannot make user-entered free text
+private or govern what the host sends to a remote model provider.
 
 That page boundary is not a claim that every agent arrangement is local or
 private. The citizen-selected host can observe the page, tool definitions,
@@ -389,7 +470,7 @@ structural validation failed; attempt 5 retained 30 pass and 6 fail across 36
 reported rows and failed `verify-reports`. Separately, Codex In-app Browser
 (Browser plugin `26.825.32147`) discovered and executed all five tools against
 public `v0.3.0-rc.1`, rejected an unrelated `personalContext` field and matched
-the displayed comparison digest. This is current deterministic host-invocation
+the displayed comparison digest. This is deterministic host-invocation
 evidence, not a host-owned recording, a model-selection result or a general
 compatibility claim.
 
@@ -433,7 +514,8 @@ items, dynamically reproduced mutable model identity, aggregate-only
 per-source population binding and cancellation-driven physical-work
 amplification, and classified zero as reportable vulnerabilities after attack-
 path analysis. The defects were remediated nevertheless.
-The exact post-remediation local chain now passes research 4 of 4; build/data
+The exact post-remediation `v0.3.0-rc.1` local chain passes research 4 of 4;
+build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
 shards; 194 of 194 prepared unit tests; 30 of 30 tests in both Chrome and Edge;
@@ -446,20 +528,22 @@ of 55 review items and retained one Low co-digested source-substitution finding.
 Separately code-reviewed pins for all five source files, a direct builder lock-
 byte check and mutation regressions remediate it. Fresh immutable scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 review items against
-the fixed candidate with zero reportable findings. Its sealed scope predates
+the fixed `v0.3.0-rc.1` product with zero reportable findings. Its sealed scope
+predates
 the reviewed-gzip and referenced import-deadline CI portability corrections;
 focused mutation and deadline regressions plus the protected release path
 evidence those deltas separately. Pull-request validation `33356087333`,
 protected-main validation `33356272534` and Pages run `33356452048` passed,
-and the annotated `v0.3.0-rc.1` tag and current five-tool supported-host
-observation bind the released product. The current-release VoiceOver journey
+and the annotated `v0.3.0-rc.1` tag and five-tool supported-host observation
+bind that released product. The `v0.3.0-rc.1` VoiceOver journey
 and local final-video technical review are complete under the limitations above.
-A passing fixed-model evaluation remains optional; owner playback, privacy,
-branding, rights and synthetic-voice publication review, public upload and
-player verification, and Devpost submission remain open. No historical pre-
+A passing fixed-model evaluation remains optional. The retained
+`v0.3.0-rc.1` evidence records owner playback, privacy, branding, rights and
+synthetic-voice publication review, public upload and player verification, and
+Devpost submission as open at its observation date. No historical pre-
 federation browser, accessibility, video or host receipt is carried forward as
-proof of the current-release evidence.
+proof of `v0.3.0-rc.1` evidence.
 
-An earlier final-candidate demonstration preflight correctly failed closed
-without a deployed commit and explicit overwrite approval. It did not start
-live capture and is not live-capture evidence.
+An earlier `v0.3.0-rc.1` final-candidate demonstration preflight correctly
+failed closed without a deployed commit and explicit overwrite approval. It did
+not start live capture and is not live-capture evidence.

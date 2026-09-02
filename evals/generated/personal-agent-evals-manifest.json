@@ -14,8 +14,8 @@
     },
     "captureSchema": {
       "path": "schemas/personal-agent-evaluation-capture.schema.json",
-      "bytes": 20584,
-      "sha256": "0657fdeff05787203c9c7eddfda5c84c78498293b09f54ff9c3e679a49d25011"
+      "bytes": 25587,
+      "sha256": "704ea837bf90816d9c15f99d50b134f5f3e4bcc3912c65fec3c3669959b74611"
     }
   },
   "generated": [
@@ -27,12 +27,12 @@
     {
       "path": "evals/generated/personal-agent-oracle.json",
       "bytes": 49242,
-      "sha256": "86ac5d6e9795f08c9569d00956f367b453631f43a2480109422e253a99ca1cdc"
+      "sha256": "2e9bc177bc09197233ef171b9424d6330af553fb85e3d00b976fcf298d6ce319"
     },
     {
       "path": "evals/generated/personal-agent-run-plan.json",
       "bytes": 14066,
-      "sha256": "6633b6537e04011dde64c3d2dc47df24300db4a2f79985824c64df66f5f7b2d4"
+      "sha256": "cf295960ba106bc542822c2cc6f4656bc2176ab9eb579e4eb812210ce46ed2f1"
     }
   ],
   "counts": {

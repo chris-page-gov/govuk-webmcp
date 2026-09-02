@@ -35,11 +35,17 @@ import {
   validateBrowserEvaluationReport,
 } from "../../scripts/run-webmcp-evals-browser.mjs";
 import {
+  assertMatchingPublicDeploymentSnapshot,
+  assertPublicEvidenceAdmissionTarget,
   fetchPublicDeploymentMetadata,
   parseDevtoolsCaptureTarget,
   PUBLIC_CAPTURE_TARGET,
   validatePublicDeploymentMetadata,
 } from "../../scripts/lib/chrome-devtools-capture-target.mjs";
+import {
+  SUPPORTED_HOST_EXPECTED_CALLS,
+  SUPPORTED_HOST_FEDERATED_RECORD_ID,
+} from "../../scripts/lib/chrome-devtools-supported-host-evidence.mjs";
 
 async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
@@ -355,7 +361,7 @@ test("package scripts expose the deterministic evaluator and isolated DevTools c
   );
   assert.equal(
     packageValue.scripts["webmcp:eval:browser"],
-    "node scripts/run-webmcp-evals-browser.mjs",
+    "npm run webmcp:eval:patch && node scripts/run-webmcp-evals-browser.mjs",
   );
   assert.equal(
     packageValue.scripts["webmcp:explorer:setup"],
@@ -400,20 +406,44 @@ test("Explorer setup is pinned, locked and stops before browser or provider conf
 
 test("DevTools capture uses a clean bounded browser and keeps the receipt local by default", async () => {
   const source = await readFile("scripts/capture-chrome-devtools-webmcp.mjs", "utf8");
+  const evidenceSource = await readFile(
+    "scripts/lib/chrome-devtools-supported-host-evidence.mjs",
+    "utf8",
+  );
   const targetSource = await readFile("scripts/lib/chrome-devtools-capture-target.mjs", "utf8");
+  const admissionSource = await readFile("scripts/lib/public-evidence-admission.mjs", "utf8");
   const browserEvalSource = await readFile("scripts/run-webmcp-evals-browser.mjs", "utf8");
   const smokeSource = await readFile("scripts/run-webmcp-evals-smoke.mjs", "utf8");
   assert.match(targetSource, /receiptName: "chrome-devtools-mcp\.json"/u);
   assert.match(targetSource, /receiptName: "chrome-devtools-mcp-public\.json"/u);
   assert.match(source, /captureTarget\.receiptName/u);
-  assert.match(source, /chrome-devtools-mcp-v0\.4\.0-rc\.1\.json/u);
+  assert.match(admissionSource, /existing public-evidence target must not be a symbolic link/u);
+  assert.match(admissionSource, /existing public-evidence target must be a regular file/u);
+  assert.match(admissionSource, /flag: "wx"/u);
+  assert.match(admissionSource, /randomUUID\(\)/u);
+  assert.match(evidenceSource, /chrome-devtools-mcp-v0\.4\.0-rc\.1\.json/u);
+  assert.match(source, /supported-host-webmcp-capture-v0\.4\.0-rc\.1\.json/u);
   assert.match(source, /live-artifact-verification-v0\.4\.0-rc\.1\.json/u);
+  assert.match(source, /demo-video-script-v0\.4\.0-rc\.1\.json/u);
   assert.match(source, /govuk-webmcp\.live-pages-verification\.v2/u);
   assert.doesNotMatch(source, /govuk-webmcp\.live-pages-verification\.v1/u);
-  assert.match(source, /name: "present_resource_evidence"/u);
-  assert.match(source, /schema: "govuk-webmcp\.present-resource-evidence-result\.v1"/u);
+  assert.match(evidenceSource, /name: "present_resource_evidence"/u);
+  assert.match(evidenceSource, /schema: "govuk-webmcp\.present-resource-evidence-result\.v1"/u);
+  assert.match(source, /FINAL_PAGE_EVALUATION_FUNCTION/u);
+  assert.match(source, /"evaluate_script"/u);
+  assert.match(source, /validateCapturedPageObservation/u);
+  assert.match(source, /buildSupportedHostEvidence/u);
+  assert.match(source, /validateSupportedHostEvidence/u);
+  assert.match(source, /validateSupportedHostReviewedArtefact/u);
+  assert.ok(
+    source.indexOf("validateSupportedHostReviewedArtefact(")
+      < source.indexOf("await admitEvidenceSet({"),
+    "The complete reviewed release contract must be validated before evidence promotion.",
+  );
   assert.match(source, /--admit-public-evidence/u);
   assert.match(source, /--overwrite-reviewed-evidence/u);
+  assert.match(source, /--overwrite-raw-evidence/u);
+  assert.match(source, /admitEvidenceSet/u);
   assert.match(source, /comparedEveryRegularArtifactFile/u);
   assert.match(source, /local page identifiers were omitted/u);
   assert.match(source, /captureTarget\.mode === "local"/u);
@@ -438,8 +468,37 @@ test("DevTools capture uses a clean bounded browser and keeps the receipt local 
   assert.match(source, /error\?\.code !== "invalid_search_request"/u);
   assert.doesNotMatch(source, /error\?\.message\?\.includes\("Unknown input field"\)/u);
   assert.match(source, /invalid personal-context field did not fail closed/u);
-  assert.match(source, /schema: "trusted-govuk-discovery\.search-result\.v2"/u);
-  assert.match(source, /collections: \["deep-evidence"\]/u);
+  assert.match(evidenceSource, /schema: "trusted-govuk-discovery\.search-result\.v2"/u);
+  assert.deepEqual(
+    SUPPORTED_HOST_EXPECTED_CALLS.map(({ name, input }) => ({ name, input: structuredClone(input) })),
+    [
+      {
+        name: "search_government_knowledge",
+        input: {
+          query: "housing",
+          collections: ["uk-living", "ons", "government-apis", "land-registry"],
+          limit: 8,
+        },
+      },
+      { name: "get_resource_record", input: { recordId: SUPPORTED_HOST_FEDERATED_RECORD_ID } },
+      { name: "show_provenance", input: { recordId: SUPPORTED_HOST_FEDERATED_RECORD_ID } },
+      {
+        name: "explore_answer_foundations",
+        input: {
+          answerId: "answer:new-child-starting-points",
+          claimId: "claim:register-a-birth",
+        },
+      },
+      {
+        name: "compare_evidence_foundations",
+        input: {
+          answerId: "answer:new-child-starting-points",
+          claimIds: ["claim:register-a-birth", "claim:check-parental-pay-and-leave"],
+        },
+      },
+      { name: "present_resource_evidence", input: { recordId: SUPPORTED_HOST_FEDERATED_RECORD_ID } },
+    ],
+  );
   for (const runner of [browserEvalSource, smokeSource]) {
     assert.match(runner, /process\.kill\(-child\.pid, signal\)/u);
     assert.match(runner, /timedOut/u);
@@ -474,6 +533,19 @@ test("DevTools public capture target is exactly allowlisted and has a separate r
     expectedCommit: commit,
     receiptName: "chrome-devtools-mcp-public.json",
   });
+  const exploratoryPublicTarget = parseDevtoolsCaptureTarget({
+    WEBMCP_DEVTOOLS_TARGET_URL: PUBLIC_CAPTURE_TARGET,
+  });
+  assert.equal(assertPublicEvidenceAdmissionTarget(exploratoryPublicTarget, false), exploratoryPublicTarget);
+  assert.throws(
+    () => assertPublicEvidenceAdmissionTarget(exploratoryPublicTarget, true),
+    /requires an exact WEBMCP_EXPECTED_COMMIT/u,
+  );
+  const releaseTarget = parseDevtoolsCaptureTarget({
+    WEBMCP_DEVTOOLS_TARGET_URL: PUBLIC_CAPTURE_TARGET,
+    WEBMCP_EXPECTED_COMMIT: commit,
+  });
+  assert.equal(assertPublicEvidenceAdmissionTarget(releaseTarget, true), releaseTarget);
 
   for (const target of [
     "http://chris-page-gov.github.io/govuk-webmcp/",
@@ -530,18 +602,51 @@ test("DevTools public capture validates and digests exact deployment metadata", 
     fetchImplementation: async (url, options) => {
       requestedUrl = url;
       requestedOptions = options;
-      return { ok: true, status: 200, text: async () => body };
+      return new Response(body, { status: 200 });
     },
   });
   assert.equal(requestedUrl, `${PUBLIC_CAPTURE_TARGET}deployment.json`);
-  assert.deepEqual(requestedOptions, {
+  assert.deepEqual({
+    cache: requestedOptions.cache,
+    credentials: requestedOptions.credentials,
+    redirect: requestedOptions.redirect,
+  }, {
     cache: "no-store",
     credentials: "omit",
     redirect: "error",
   });
+  assert.ok(requestedOptions.signal instanceof AbortSignal);
   assert.deepEqual(binding.metadata, metadata);
   assert.match(binding.sha256, /^[a-f0-9]{64}$/u);
   assert.equal(binding.url, requestedUrl);
+  assert.deepEqual(assertMatchingPublicDeploymentSnapshot(binding, structuredClone(binding)), binding);
+  assert.throws(
+    () => assertMatchingPublicDeploymentSnapshot(binding, { ...binding, sha256: "0".repeat(64) }),
+    /changed during capture/u,
+  );
+
+  await assert.rejects(
+    fetchPublicDeploymentMetadata({
+      expectedCommit: commit,
+      fetchImplementation: async () => new Response(body, { headers: { "content-length": "4097" } }),
+    }),
+    /exceeds 4096 bytes/u,
+  );
+  await assert.rejects(
+    fetchPublicDeploymentMetadata({
+      expectedCommit: commit,
+      fetchImplementation: async () => new Response("x".repeat(4_097)),
+    }),
+    /exceeds 4096 bytes/u,
+  );
+  await assert.rejects(
+    fetchPublicDeploymentMetadata({
+      expectedCommit: commit,
+      timeoutMs: 5,
+      fetchImplementation: async () => new Promise(() => {}),
+    }),
+    /deadline/u,
+  );
 });
 
 test("smoke subprocess environment does not receive model-provider credentials", () => {

@@ -13,6 +13,7 @@ import {
   buildVerificationManifest,
   compareAllLiveFiles,
   createLiveVerificationReceipt,
+  disposeAuthenticatedLivePagesReceipt,
   isAuthenticatedLivePagesReceipt,
   measureTarRegularPayload,
   normaliseTarEntries,
@@ -332,6 +333,27 @@ test("deployment metadata and receipt retain exact release identity and complete
   }));
   observedTimeMutation.observedAt = "2026-09-01T20:03:00Z";
   assert.equal(isAuthenticatedLivePagesReceipt(observedTimeMutation), false);
+
+  const disposableObservation = await authenticateLivePagesReceipt(receipt, async () => ({
+    receipt: { ...structuredClone(receipt), observedAt: "2026-09-01T20:04:00Z" },
+  }));
+  assert.equal(isAuthenticatedLivePagesReceipt(disposableObservation), true);
+  assert.equal(disposeAuthenticatedLivePagesReceipt(disposableObservation), true);
+  assert.equal(isAuthenticatedLivePagesReceipt(disposableObservation), false);
+  assert.equal(disposeAuthenticatedLivePagesReceipt(disposableObservation), false);
+
+  let failedOperationObservation;
+  await assert.rejects(async () => {
+    failedOperationObservation = await authenticateLivePagesReceipt(receipt, async () => ({
+      receipt: { ...structuredClone(receipt), observedAt: "2026-09-01T20:05:00Z" },
+    }));
+    try {
+      throw new Error("bounded admission failed");
+    } finally {
+      disposeAuthenticatedLivePagesReceipt(failedOperationObservation);
+    }
+  }, /bounded admission failed/u);
+  assert.equal(isAuthenticatedLivePagesReceipt(failedOperationObservation), false);
 
   const alteredBudget = structuredClone(receipt);
   alteredBudget.boundaries.budgets.maximumRegularFiles -= 1;

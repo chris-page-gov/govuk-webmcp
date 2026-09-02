@@ -29,7 +29,7 @@ test("the optional guided-build workflow can resume from the repository state", 
   const items = [...checklist.matchAll(/^- \[([ x])\] \*\*(\d+)\. ([^*]+)\*\*/gmu)];
   assert.equal(items.length, 10);
   assert.deepEqual(items.map(([, , number]) => number), Array.from({ length: 10 }, (_, index) => String(index + 1)));
-  assert.equal(items[0][1], "x");
-  assert.equal(items[1][1], " ");
+  assert.deepEqual(items.slice(0, 6).map((item) => item[1]), Array(6).fill("x"));
+  assert.equal(items[6][1], " ");
   assert.equal(items.at(-1)[3], "Prepare Devpost handoff");
 });
