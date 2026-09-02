@@ -1,33 +1,33 @@
 {
   "schema": "govuk-webmcp.supported-host-webmcp-capture.v4",
-  "capturedAt": "2026-09-02T01:56:15.734Z",
+  "capturedAt": "2026-09-02T19:32:33.954Z",
   "page": {
     "url": "https://chris-page-gov.github.io/govuk-webmcp/",
     "release": "v0.4.0-rc.1",
-    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-    "pagesRunId": "33555187118"
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203"
   },
   "deploymentChecks": [
     {
       "label": "initial",
-      "observedAt": "2026-09-02T01:56:10.849Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:32:27.171Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after-page-load",
-      "observedAt": "2026-09-02T01:56:13.110Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:32:30.672Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after-execution",
-      "observedAt": "2026-09-02T01:56:15.734Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:32:33.954Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     }
   ],
   "host": {
@@ -47,7 +47,7 @@
   "artefacts": [
     {
       "path": ".evals/chrome-devtools-mcp-public.json",
-      "sha256": "2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e",
+      "sha256": "20ef269c4245e197246d181fbcba646956a12479294e1953bb3f4c37ab79b6bc",
       "sizeBytes": 133272,
       "kind": "raw-receipt",
       "hostOwnedSurface": false,
@@ -56,7 +56,7 @@
     },
     {
       "path": "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
-      "sha256": "e9d67af0799ee6772396837bd4ab8df7538ae8a11c6d5c62ef08e1b505d5a8e7",
+      "sha256": "6f734d4e945d4c5e4b2c8c30f27efab9bb66758b376c372993e7739e8b37d823",
       "sizeBytes": 134239,
       "kind": "reviewed-public-evidence",
       "hostOwnedSurface": false,

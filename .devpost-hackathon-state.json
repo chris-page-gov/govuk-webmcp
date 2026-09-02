@@ -13,12 +13,12 @@
     "display_name": "Chris"
   },
   "project": {
-    "name": "Evidence answer",
-    "summary": "Personal AI interpretation backed by bounded, inspectable government evidence.",
+    "name": "Evidence Answer: check what your AI tells you",
+    "summary": "Your compatible AI can query bounded government evidence, while an accessible Evidence Answer shows every source, limitation and unknown so you can check before you act.",
     "ai_usage": "Cloud Microsoft Copilot and local Ollama are evaluated as separate personal-AI host classes.",
     "codex_usage": "Codex implements, verifies and documents the deterministic WebMCP application and release evidence."
   },
-  "current_stage": "resources",
+  "current_stage": "prepare-submission",
   "completed_stages": [
     "start-hackathon",
     "review-hackathon-rules",
@@ -38,8 +38,8 @@
     "checklist_file": "docs/hackathon-build/checklist.md"
   },
   "submission": {
-    "draft_file": "docs/competition/devpost-submission-draft.md",
-    "status": "not-started"
+    "draft_file": "devpost-submission.md",
+    "status": "drafting"
   },
-  "next_command": "build-project"
+  "next_command": "prepare-submission"
 }

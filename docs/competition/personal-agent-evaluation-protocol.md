@@ -2,8 +2,12 @@
 
 ## Status
 
-This protocol defines an **observational** evaluation. A partial local
-diagnostic has been admitted; it does not complete or pass the 72-run matrix.
+This protocol defines an **observational** evaluation. All 72 planned slots now
+have exact-release observations, but the matrix does not pass its claim gate.
+The product under observation is protected-main commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c`: validation run `33656288475`
+and Pages run `33657069203` passed, and all 1,884 live files and 128,653,415
+bytes matched with zero mismatches.
 
 The generated run plan contains 72 entries labelled `planned-unrun` and an
 `observedRunCount` of 0. A completed observation exists only when a separate,
@@ -11,18 +15,25 @@ private exact capture contains a valid run entry. Missing runs remain
 missing; they must not be represented by copied, inferred or placeholder
 results.
 
-The patched local Ollama run contributes 36 observed diagnostic slots. Its
-capture-schema-v3 mode-`0600` private capture is
-`.evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json`,
-with SHA-256
-`ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8`;
-the tracked privacy-minimised summary at
-`docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json` has
-SHA-256
-`a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f`.
-All 36 Copilot slots remain missing. Page parity is not observable, answers are
-unreviewed, execution context is incomplete and the claim gate is false. The
-summary is an honest diagnostic record, not a local-host safety pass.
+The exact-release local Ollama half contributes 36 observed slots: tool
+selection and deterministic execution each pass 6 and fail 30, with 3 runner
+errors. Page parity is not observable and all answers are unreviewed. The 36
+visible Copilot observations retain private share evidence, but exposed tools,
+calls, page parity and answer review are not observable. No Site tool
+invocation or Evidence answer update was observed. All 72 slots are therefore
+present, but the claim gate is false and no safe-host or model-safety result is
+supported. The tracked public comparison summary contains no private share
+links or answer text; its generated clip is visibly labelled as an observation
+summary, not a host recording.
+
+On 2 September 2026, one separate owner-controlled personal-profile session in
+Edge 152.0.4191.53 explicitly asked Copilot to use Site tools and present ONS
+evidence. A response completed, but the page's before and after activity text
+both remained “No AI action was presented to this page.” Copilot exposed no
+exact call trace, so the record says that invocation was **not observed**, not
+that non-execution was proved. This supplemental observation is not a 73rd
+matrix slot, retains no answer text, private share link or account identifier,
+and does not change the false claim gate.
 
 ## Question
 
@@ -52,12 +63,18 @@ shared case set, not an experiment that supports causal attribution.
 | `scripts/run-personal-agent-evals.mjs` | Isolated local adapter for the 12 cases and 3 Ollama repetitions, producing 36 private run captures. |
 | `scripts/apply-webmcp-evals-browser-step-limit-patch.mjs` | Version-and-source-digest-bound correction that applies the configured six-step limit to the pinned `webmcp-evals` 0.0.4 browser agent. |
 | `scripts/import-copilot-personal-agent-capture.mjs` | Strict import and merge of one 36-slot local capture with one 36-slot manual Copilot capture. |
-| `docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json` | Privacy-minimised partial summary of the 36 observed local slots; it retains missing cloud runs and the closed claim gate. |
+| `docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json` | Historical privacy-minimised partial summary of the earlier 36-slot local diagnostic; it retains the cloud slots then missing and the closed claim gate. |
 | `scripts/build-ollama-diagnostic-clip.mjs` | Offline builder for the visibly labelled local diagnostic receipt visualisation. It independently replays the exact private capture, matches the public summary and writes the clip and its closed receipt transactionally. |
 | `docs/competition/evidence/ollama-local-diagnostic-clip-v0.4.0-rc.1.json` | Public closed receipt for the generated diagnostic visualisation. It binds the exact private-source digest without admitting private bytes, the public summary and model digests, failed and unknown criteria, media hash and visible presentation boundary. |
-| `docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json` | Historical pre-hardening product-execution baseline for commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118`: six direct Chrome DevTools MCP calls and final tool/page digest parity. It selects no model and is not a personal-agent result. This last pre-hardening corrected-path projection has SHA-256 `b98c43fd394ea74731d59a114aecb69897a60fe978b1ebc352a4347ba1046f33`. |
-| `docs/competition/evidence/supported-host-webmcp-clip-v0.4.0-rc.1.json` | Historical pre-hardening public receipt for the labelled 40.966667-second supported-host receipt reconstruction. Receipt SHA-256 `4ee76fa70e48fca22e6874500d4bfa8a9c19d75bdbec5116276c23efffc5a528` binds ignored media SHA-256 `db8a9eaaadc0e4b2d6716c52cec5cde995f7a1e56d54fc3e92df96089fcfb835`. It is not a host-owned recording, does not apply to later built bytes and does not replace either host arrangement in the 72-run matrix. |
-| `docs/competition/demo-video-script-v0.4.0-rc.1.json` | Nine-scene media contract: genuine visible Copilot evidence stays separate from the local diagnostic visualisation. |
+| `docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json` | Exact live-byte receipt for product commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` and Pages run `33657069203`: 1,884 files, 128,653,415 bytes and zero mismatches. |
+| `docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json` | Exact-release direct Chrome DevTools evidence for all six tools through fixed calls. It selects no model, records no host-owned UI and is not a personal-agent result. |
+| `docs/competition/evidence/supported-host-webmcp-clip-v0.4.0-rc.1.json` | Exact-release public receipt for the labelled supported-host receipt visualisation. It is not a host-owned recording and does not replace either host arrangement in the 72-run matrix. |
+| `docs/competition/evidence/manual-voiceover-journey-v0.4.0-rc.1.json` | Exact-release nine-step Safari and VoiceOver record: eight passes, one limitation and both VoiceOver and its Caption Panel verified off afterwards. It does not claim WCAG conformance. |
+| Canonical private personal-agent capture and authenticated summary | All 72 exact-release observation slots. Copilot tools, calls and page parity are unobservable; every answer is unreviewed; Ollama records 6 selection/execution passes, 30 failures and 3 runner errors. The false claim gate is retained without publishing private links or answer text. |
+| `docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json` | Privacy-minimised tracked summary of all 72 observations. It retains the false claim gate, publishes no private URLs or answer text and supports neither a safe-host nor a causal claim. |
+| `docs/competition/evidence/personal-agent-comparison-clip-v0.4.0-rc.1.json` | Receipt for the visibly labelled cloud-and-local comparison clip. The generated visualisation is not a host recording and shows no inferred Copilot tool or page state. |
+| `docs/competition/demo-video-script-v0.4.0-rc.1.json` | Eight-scene media contract that separates the negative Copilot compatibility finding, exact direct supported-host success and the local comparison. |
+| `docs/competition/evidence/demo-video-build-v0.4.0-rc.1.json` | Receipt for the unpublished 120.326-second local review MP4: H.264 1080p video, AAC audio, embedded English captions and SHA-256 `4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`. Owner and public-player review remain open. |
 
 The retained guided fixture at `evals/beginner-conversations.json` remains
 historical evidence. It must not be rewritten to look like this natural-prompt
@@ -125,15 +142,32 @@ sample of all users, prompts, sessions or future model versions.
 
 ### Video evidence boundary
 
-The cloud and local scenes have deliberately different evidence contracts.
-The Copilot scene is admitted only from a genuine visible Microsoft Edge MCP
-Workspace recording that shows a Site-tool invocation and the corresponding
-Evidence answer update, and only after the clip-level privacy, branding and
-owner-human reviews pass.
+The cloud, direct supported-host and local scenes have deliberately different
+evidence contracts. The exact Copilot observation is a negative compatibility
+finding: No Site tool invocation or Evidence answer update was observed. The
+revised scene must show that boundary without implying that hidden tools or
+calls occurred. Exact direct Chrome DevTools evidence may separately show all
+six fixed calls succeeding, but it must be labelled as machine-observed direct
+execution without model selection or a host-owned UI. Final admission still
+requires clip-level privacy, branding and owner-human review.
 
-The patched Ollama evaluation did not meet those success conditions. Its local
-video scene is therefore a generated **diagnostic receipt visualisation**, not
-a host capture. The builder must:
+The final local review cut now uses the tracked privacy-minimised 72-run
+summary and its clip receipt. The comparison clip visibly states that it is an
+observation summary, not a host recording; it retains 36 Copilot observations
+with unobservable tools, calls and page parity, alongside 36 Ollama runs with 6
+selection/execution passes, 30 failures and 3 runner errors. It makes no safe-
+host or causal claim. The resulting eight-scene MP4 is 120.326 seconds long,
+uses H.264 1080p video, AAC audio and embedded English captions, and has SHA-256
+`4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+It is a local review build, not a published video.
+Owner privacy, branding, rights, synthetic-voice and playback review, signed-
+out public playback and upload remain pending. The tag, GitHub prerelease and
+Devpost action also remain open.
+
+The earlier patched Ollama-only evaluation did not meet those success
+conditions. Its historical local video scene is a generated **diagnostic
+receipt visualisation**, not a host capture, and is superseded for the final
+cut. Its builder had to:
 
 - revalidate all 36 exact local runs against the frozen case set and canonical
   deterministic runtime;
@@ -145,7 +179,7 @@ a host capture. The builder must:
 - label the result as not a host recording, not a page update, not release-
   bound and not evidence that the local host answers safely.
 
-The generated ignored release-media clip is 37 seconds long, contains
+That historical generated clip is 37 seconds long, contains
 1,849,825 bytes and has
 SHA-256
 `95bb7ab39361546021601cbb126a41d4530916ab08d9d709abbe89c7cd623f63`.
@@ -154,10 +188,12 @@ Its tracked public receipt has SHA-256
 The source mode-`0600` capture remains private inside ignored `.evals` and
 outside tracked history.
 
-This exception does not relax the 72-run, clean release-binding or human-answer
-review gates for a cross-host safety claim. It provides an honest account of a
-failed host observation while the deterministic public page can still be
-published as an experimental evaluation candidate.
+That historical exception does not relax the clean release-binding or human-answer review
+gates for a cross-host safety claim. The matrix now has all 72 observations,
+but every answer remains unreviewed and the claim gate is false. The scenes
+must provide an honest account of the failed or unobservable host evidence
+while the deterministic public page remains an experimental evaluation
+candidate.
 
 ## Stories and expected page outcomes
 
@@ -587,6 +623,12 @@ separate post-deployment evidence change. Do not point claim authentication at
 a newly written tracked receipt in the same checkout: doing so makes the
 checkout dirty and correctly closes the gate.
 
+The current tracked public comparison is deliberately non-claimable. It records
+all 72 observations, retains the false claim gate and excludes private URLs and
+answer text. Its clip receipt binds the visibly labelled generated comparison;
+neither artefact converts the unobservable Copilot state or unreviewed answers
+into a pass.
+
 The local runner pins `ollama:gpt-oss:20b`, three repetitions, the locally
 installed model digest and Chrome stable. It refuses model or repetition
 overrides, checks the model before and after execution and will not download a
@@ -623,6 +665,9 @@ an authenticated 72-run media source. For a claimable release matrix, rerun all
 product deployment, bind every run to that commit and canonical deployment, and
 retain page or answer states as unknown unless they were genuinely observed or
 reviewed.
+The exact-release rerun and merge occurred separately and produced the current
+non-claimable 72-observation summary. The historical Ollama-only diagnostic
+remains preserved but is superseded as a final-cut input.
 Final-video preflight authenticates the private pre-run Pages receipt
 in-process, replays the exact combined capture inside the retained observation
 window, exact-compares the supplied summary and disposes the authentication; a

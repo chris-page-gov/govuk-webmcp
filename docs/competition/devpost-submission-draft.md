@@ -1,17 +1,28 @@
 # 19. Draft Devpost submission text
 
-**Status: registered; draft only — not submitted.** Devpost project `1406973`
-remains an unpublished `submission_pre_draft` in the last authenticated
-read-only observation. No submission action is authorised by this document.
+**Status: registered; live project populated — not submitted.** Devpost project
+`1406973` now has its title, pitch, description, technology list and public
+links at
+<https://devpost.com/software/evidence-answer-check-what-your-ai-tells-you>.
+Its authenticated project record has no challenge submission timestamp. The
+video, custom answers, final attestations and submission action remain open.
 
 This draft is being revised for the `v0.4.0-rc.1` Evidence answer candidate.
-The retained `a4fabe…` deployment, six-tool Chrome receipt and bounded VoiceOver
-journey are historical pre-hardening evidence only. Do not enter this as final submission
-copy until the build-affecting hardening is merged and deployed, every
-exact-release input and both 36-slot host halves are recaptured, the final video
-passes playback, privacy, branding, rights and caption review, public playback
-works signed out, and every live Devpost field and human attestation is reviewed
-again.
+Protected-main commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passed
+validation run `33656288475` and Pages run `33657069203`; all 1,884 live files
+and 128,653,415 bytes matched with zero mismatches. Exact Chrome DevTools
+evidence completed all six tools through fixed direct calls, not model selection
+or a host-owned UI. The nine-step VoiceOver journey records eight passes and one
+limitation, with VoiceOver and its Caption Panel off afterwards. All 72 host
+slots are observed, but the claim gate is false. No Site tool invocation or Evidence answer update was observed. Copilot page and call states are
+unobservable, all answers are unreviewed, and Ollama records 6
+selection/execution passes, 30 failures and 3 runner errors. The honest local
+review video is now built from eight scenes: 120.326 seconds, H.264 1080p video,
+AAC audio, embedded English captions and SHA-256
+`4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+Do not enter this as final submission copy until that exact cut passes owner and
+signed-out public-player review, the candidate is tagged and released, and
+every live Devpost field and human attestation is reviewed again.
 
 The current local technical compliance interpretation is retained in
 [`final-devpost-compliance-review-2026-08-31.md`](final-devpost-compliance-review-2026-08-31.md).
@@ -32,32 +43,32 @@ Your own AI can use bounded government evidence, while an accessible Evidence an
 
 ## Live Devpost form mapping
 
-Authenticated read-only Devpost calls started at `2026-08-31T12:16:23Z` and
-completed at `2026-08-31T12:16:25Z`. They confirmed that project `1406973`
-remained `Untitled` and `submission_pre_draft`, with no
-tagline, description, video URL, publication timestamp or submission timestamp.
-This is a time-bounded observation of editable state, not a submission receipt.
-The following remains preparation copy only.
+Authenticated Devpost calls on 2 September 2026 confirmed registration and an
+open submission phase, then populated the reversible project fields. A
+read-after-write at `2026-09-02T21:20:48Z` returned the selected title, pitch,
+description and public links, with `video_url: null` and `submitted_at: null`.
+This is a time-bounded project-draft observation, not a submission receipt. The
+following custom answers remain preparation copy only.
 
 | Live field | Prepared value or owner action |
 | --- | --- |
-| Submitter Type (`28249`) | **Owner decision required:** Chris Page must select the truthful individual, team or organisation route. |
-| Country of residence (`28250`) | **Owner attestation required:** select the truthful country value in the live form. |
+| Submitter Type (`28249`) | Prepared: `Individual`; confirm with the final submission action. |
+| Country of residence (`28250`) | Prepared: `United Kingdom`; owner attestation remains required before submission. |
 | Organisation name (`28251`, conditional) | Complete only if the organisation route is selected. |
-| App Status (`28252`) | **Owner decision required:** choose `New` or `Existing` consistently with the disclosed pre-existing OKF design lineage and this repository's separately evidenced competition-period WebMCP implementation. |
+| App Status (`28252`) | Prepared: `Existing`, with the pre-existing OKF/GIS AI GO design lineage separated from this repository's competition-period implementation. |
 | Existing-project explanation (`28253`, conditional) | If `Existing` is selected, explain that earlier OKF and `gis-ai-go` work supplied research and design lineage, while this repository's dated competition-period commits implement the six-tool WebMCP Evidence answer product, tests, evaluation and deployment. |
 | Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — verify its published `deployment.json`, final tag identity and signed-out access immediately before final entry. |
 | Testing instructions (`28255`, optional) | Open the deployed live URL in a supported WebMCP host. Confirm six tools; run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`; inspect one record and provenance; then call `present_resource_evidence` for that exact record. Compare the Evidence answer with the AI's prose and the Technical review. No site account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Tested agents or clients (`28257`) | Historical Codex In-app Browser evidence covers five tools. Pre-integration isolated Chrome 152 through Chrome DevTools MCP 1.8.0 completed all six candidate tools, rejected `personalContext`, recorded zero console errors and matched the Evidence answer digest without using a model. Final exact-release Chrome, visible Microsoft Copilot MCP Workspace and clean local Ollama observations must replace this wording after recapture; none proves universal compatibility or safe answers. |
-| AI tools used (`28258`) | **Draft from Chris Page's assurance:** ChatGPT, Codex, Claude and Gemini were used through Chris's personal subscriptions for research, design, implementation and review. Chris must confirm the final wording. |
-| Learning level (`28259`) | **Owner assessment required:** select `None`, `Moderate` or `Significant`. |
-| Career value (`28260`) | **Owner assessment required:** select `Yes` or `No`. |
-| Public video URL | **Blocking:** add only after the refreshed federated cut is approved and signed-out public playback passes. |
+| Tested agents or clients (`28257`) | Exact Chrome DevTools host evidence completed all six tools through fixed direct calls against commit `a4d2db44…`; this did not observe model selection or a host-owned UI. The 36 visible Microsoft Copilot MCP Workspace observations did not expose tools, calls or page parity, and no Site tool invocation or Evidence answer update was observed. The 36 local Ollama runs record 6 selection/execution passes, 30 failures and 3 runner errors. Every answer remains unreviewed and the claim gate is false; this proves neither universal compatibility nor safe answers. |
+| AI tools used (`28258`) | Prepared from Chris Page's assurance: ChatGPT, Codex, Claude, Gemini, Microsoft Copilot and local Ollama were used for research, design, implementation and evaluation; no model is embedded in the deployed application. |
+| Learning level (`28259`) | Prepared: `Significant`; owner confirmation remains required. |
+| Career value (`28260`) | Prepared: `Yes`; owner confirmation remains required. |
+| Public video URL | **Blocking:** the eight-scene 120.326-second local review MP4 exists, but add a URL only after owner privacy, branding, rights, voice and playback review, upload and signed-out public playback pass for its exact SHA-256. |
 
-The project title and one-line description are candidates for Chris to select
-and edit, not final form values. The entrant remains responsible for the
-project name, claims, form answers and final submission.
+The project title and one-line description are now present in the live project.
+The entrant remains responsible for the final claims, custom answers, video and
+submission action.
 
 ## The problem
 
@@ -230,6 +241,28 @@ still required for a cloud model.
 
 ## Release and submission observations
 
+The hardened `v0.4.0-rc.1` product is protected-main commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c`. Validation run `33656288475`
+and Pages run `33657069203` passed. A byte-for-byte comparison matched all
+1,884 live files and 128,653,415 bytes with zero mismatches. Exact Chrome
+DevTools evidence completed all six tools through fixed direct calls; it is not
+model-selection or host-UI evidence. The exact nine-step VoiceOver journey
+records eight passes and one limitation, with VoiceOver and its Caption Panel
+verified off afterwards. The full 72-slot observational matrix is structurally
+complete, but its false claim gate supports no safe-host conclusion. No Site tool invocation or Evidence answer update was observed. The Copilot observation retains that limitation. The final
+local review video now shows that negative compatibility finding separately
+from exact direct supported-host success. Its tracked public comparison summary
+and clip receipt publish no private URLs or answer text; the clip is visibly
+labelled as an observation summary, not a host recording, and supports no safe-
+host or causal claim. The eight-scene MP4 is 120.326 seconds long, uses H.264
+1080p video, AAC audio and embedded English captions, and has SHA-256
+`4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+It is not published. Owner review, signed-out playback, upload, the annotated
+tag, GitHub prerelease and Devpost action remain open.
+
+The earlier Ollama-only diagnostic clip remains retained as historical dirty,
+unbound evidence and is superseded for this final local cut.
+
 The historical public evidence relates to the earlier 80-record product.
 Protected-main commit
 `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` passed exact-main run
@@ -284,6 +317,34 @@ streams, complete video/audio decode, and all 40 normalised caption cues against
 the tracked captions, script and transcript. No audible human playback or
 publication approval is claimed. The local cut has not been uploaded or
 submitted and still requires owner and signed-out public-player review.
+
+## `v0.4.0-rc.1` submission evidence gate
+
+- [x] Protected-main commit
+  `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passes validation run
+  `33656288475`.
+- [x] Pages run `33657069203` serves the exact product; all 1,884 files and
+  128,653,415 bytes match with zero mismatches.
+- [x] Exact Chrome DevTools evidence completes all six fixed direct calls.
+  It is not model-selection or host-owned-UI evidence.
+- [x] The exact nine-step VoiceOver journey records eight passes and one
+  limitation; VoiceOver and its Caption Panel were turned off afterwards.
+- [x] All 72 host slots have observations. The Copilot call, tool and page
+  states are not observable; all answers are unreviewed; Ollama records 6
+  selection/execution passes, 30 failures and 3 runner errors. No Site tool
+  invocation or Evidence answer update was observed. The claim gate is false.
+- [x] The tracked public comparison summary contains no private URLs or answer
+  text. Its clip receipt binds a visibly labelled generated observation
+  summary, not a host recording, and supports no safe-host or causal claim.
+- [x] Build the honest eight-scene local review video showing the negative
+  Copilot compatibility finding and exact direct supported-host success. The
+  120.326-second H.264 1080p/AAC MP4 has embedded English captions and SHA-256
+  `4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+- [ ] Chris Page approves privacy, branding, rights, synthetic voice, captions,
+  continuous playback and claims.
+- [ ] The public video works signed out.
+- [ ] Create the annotated `v0.4.0-rc.1` tag and GitHub prerelease.
+- [ ] Refresh every live Devpost field and attestation without submitting.
 
 ## `v0.3.0-rc.1` submission evidence gate
 

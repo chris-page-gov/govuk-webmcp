@@ -53,14 +53,14 @@ specific to that host, version and time and did not use a model.
 The `0.4.0-rc.1` contract keeps the five historical contracts and adds a sixth
 bounded presentation action plus persistent **Evidence answer** and
 **Technical review** views over one action controller and one closed
-deterministic presentation object. A pre-integration isolated-Chrome receipt
-completed all six tools against its exact `a4fabe...` deployment, and the
-Safari/VoiceOver journey completed with recorded limitations. Those records are
-historical pre-hardening evidence for that named checkpoint only. Any
-`0.4.0-rc.1` release claim must bind the exact protected product commit,
-deployment and tag to fresh authenticated host and accessibility observations;
-it cannot carry the `a4fabe...` observations forward. The frozen zero-finding
-security scan is also evidence for its named snapshot only.
+deterministic presentation object. Protected-main commit `a4d2db44...` is
+deployed by Pages run `33657069203`; a fresh Chrome DevTools receipt executed
+all six fixed direct calls, and the exact Safari/VoiceOver journey recorded 8
+passes and 1 limitation. The host receipt does not show a model selecting tools
+or a host-owned surface. The separate 72-run personal-agent summary retains an
+unobservable Copilot call/page boundary and a false claim gate. Historical
+`a4fabe...` receipts and the frozen zero-finding security scan remain evidence
+only for their named snapshots.
 
 ## 8.2 Five historical release tools and one version 0.4 tool
 
@@ -250,10 +250,10 @@ official service or model provider.
 An explicit human selection may navigate to Evidence answer and add the
 validated record ID to bounded history; a WebMCP call may not.
 
-This tool is part of the `0.4.0-rc.1` definition set. A historical
-pre-hardening host observation exists for commit
-`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, but it cannot establish the
-deployment, host or tag status of this settled source tree.
+This tool is part of the `0.4.0-rc.1` definition set. The exact protected-main
+supported-host receipt records a fixed direct invocation against
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c`; it does not establish model tool
+selection, Copilot integration or the still-pending tag.
 
 ## 8.3 Registration and shared execution
 
@@ -266,8 +266,10 @@ Chrome and 43 of 43 in installed Edge. The offline double build passes for
 1,883 files and 128,653,230
 bytes at aggregate SHA-256
 `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
-These automated observations do not establish manual accessibility, protected
-deployment, six-tool host or tag status. The version 0.4 search input and
+These source-tree observations do not by themselves establish deployment,
+host, accessibility or tag status. Separate exact-release receipts now bind the
+protected deployment, six direct Chrome calls and bounded manual VoiceOver
+journey; tagging and public-video review remain open. The version 0.4 search input and
 successful v2
 output, reviewed and federated record summaries, federated manifest and shards,
 and reviewed/federated exact-record and provenance unions are all checked
@@ -610,9 +612,9 @@ For the six-tool contract, admission additionally requires a fresh
 process-local authentication of the live receipt and ordered `initial`,
 `after-page-load` and `after-execution` deployment observations. The capture,
 reviewed projection and supported-host projection are promoted as one
-recoverable set only after those checks agree. Historical `a4fabe...` evidence
-remains pre-hardening and cannot satisfy this requirement for a later product
-commit.
+recoverable set only after those checks agree. The fresh set records protected
+product commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` and Pages run
+`33657069203`; historical `a4fabe...` evidence remains pre-hardening.
 
 `webmcp:eval:smoke` uses the exactly pinned `webmcp-evals` 0.0.4 and
 `evals/webmcp-smoke.json`. The `0.4.0-rc.1` fixture contains three synthetic

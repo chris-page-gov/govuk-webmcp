@@ -12,9 +12,72 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   values rather than their serialised JSON spelling. Escaped rejected values can
   no longer evade the no-retention check, and non-string rejected context fails
   closed.
+- Closed the release-media personal-agent evidence contract at every
+  publication consumer. The final-video and standalone comparison builders now
+  require a freshly authenticated live Pages receipt, replay the canonical
+  mode-`0600` 72-run capture and authenticated summary, and require the tracked
+  public projection to match that replay exactly before admitting a clip.
+- Closed every nested public-summary object, required exact ordered
+  `US-01` to `US-12` three-run coverage for both hosts, compared the complete
+  live artefact, file, byte and manifest binding, and fixed VoiceOver admission
+  to the canonical candidate manifest and nine frame paths. Focused mutation
+  and injected-fake coverage passes 36 of 36.
+
+### Security
+
+- Sealed exact post-remediation Codex Security scan
+  `8111841c-37a9-430f-82ee-e0d938275c35` for snapshot
+  `codex-security-snapshot/v1:sha256:fa7f13cac45d27832514469e74a3dc012e85cab5da9339fbccddcd05354aa6f3`.
+  It completed the four changed release-media and evidence surfaces with zero
+  reportable findings. Its portable record is retained in
+  `docs/competition/evidence/security-scan-2026-09-02-release-media/`; visual
+  truth, host and assistive-technology operation, answer safety and owner
+  publication approval remain separate manual gates.
 
 ### Added
 
+- A privacy-minimised supplemental personal-profile Microsoft Copilot
+  observation against the exact public candidate. The prompt explicitly asked
+  for Site tools and page presentation; the response completed, but no
+  Site-tool invocation or Evidence answer update was observed. The record is
+  separate from the frozen 72-run matrix, retains neither answer text nor a
+  private share link, and does not change its false claim gate.
+- A field-ready `devpost-submission.md` aligned to the live form and judging
+  criteria. The reversible Devpost project draft now has its title, pitch,
+  description, public links and technology list; its video, custom
+  attestations and final challenge submission remain open.
+- Exact protected-main release evidence for product commit
+  `a4d2db44e60024c3eadbdb2b1722153ce19dff4c`. Validation run
+  `33656288475` and Pages run `33657069203` passed. The authenticated live
+  comparison fetched 1,884 regular files and 128,653,415 bytes with zero byte
+  mismatches.
+- An exact-release Chrome DevTools supported-host observation in which all six
+  WebMCP tools completed through direct, fixed calls. This proves the bounded
+  tool contracts and page-result parity in that named harness; no model chose a
+  tool, no model provider was called and no host-owned interaction surface was
+  captured.
+- An exact-release nine-step Safari, VoiceOver and Caption Panel observation.
+  Eight checkpoints passed and one retained a limitation because the first
+  frame used accessibility focus rather than retaining the VoiceOver rotor.
+  The Caption Panel and VoiceOver were both confirmed off afterwards. The
+  sequence contains no VoiceOver speech audio and makes no WCAG conformance
+  claim.
+- Exact-release personal-agent observations for 36 personal Microsoft Copilot
+  slots and 36 local Ollama slots. Copilot tool discovery, calls and page parity
+  were not observable and every answer remains unreviewed. The local Ollama
+  run passed tool selection and execution in 6 slots, failed in 30 and retained
+  3 runner errors. The combined claim gate is false and supports no safe-host
+  claim.
+- An eight-scene, 120.326-second local review video encoded as 1920 by 1080
+  H.264 at 30 frames per second with `yuv420p` pixel format, 48 kHz AAC audio
+  and embedded English `mov_text` captions. Its SHA-256 is
+  `4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+  A privacy-minimised generated cloud-versus-local observation card reports the
+  complete 72-run public summary and is explicitly labelled as not a host
+  recording. It retains the unobservable Copilot tool, call and page-parity
+  states, the 6-pass/30-fail/3-runner-error Ollama result and the no-safe-host,
+  no-causal-claim boundary. The direct six-call supported-host evidence remains
+  separate.
 - The `0.4.0-rc.1` Evidence answer evaluation candidate.
   It adds a pure, closed beginner-presentation projection; separate input and
   output contracts for `present_resource_evidence`; a sixth imperatively
@@ -39,11 +102,11 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   unsafe archive entries before extraction, checks the GitHub artefact digest
   and `deployment.json`, and byte-compares every regular artefact file with the
   public site before a separately authorised evidence admission. A versioned
-  nine-scene video plan and capture/build validators now cover the Evidence
-  answer, its sixth tool, both persistent views, a genuine private Copilot
-  capture, a separately labelled local-model diagnostic, explicit redaction
-  gates and the candidate VoiceOver checkpoints. They create no release or
-  observation by themselves.
+  video plan and capture/build validators cover the Evidence answer, its sixth
+  tool, both persistent views, the privacy-minimised personal-agent comparison,
+  the separately proved supported-host calls, explicit redaction gates and the
+  candidate VoiceOver checkpoints. They create no release or observation by
+  themselves.
 - Canonical private personal-agent evidence staging. After the importer has
   validated and merged the exact 36 local and 36 Copilot slots against a
   freshly authenticated Pages receipt, `--stage-release-evidence` promotes the
@@ -214,6 +277,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Changed the release-video direction to present the personal Copilot result as
+  an explicit compatibility finding:
+  “No Site tool invocation or Evidence answer update was observed.”
+  The exact Chrome DevTools supported-host result remains the successful
+  six-tool demonstration. The resulting cut is local review material only;
+  owner playback and privacy, branding, rights and voice approval, signed-out
+  public playback, public upload and Devpost submission remain open.
 - Revised the private personal-agent capture contract to v3 so every run has
   four independent, closed diagnostic dimensions and two required measurement
   dimensions. Browser-console, page-error, network-error and runner-error

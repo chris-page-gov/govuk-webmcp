@@ -1,0 +1,66 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "379b269280f9453b6ec80e8fc72c9dccbf73467cd60b512f057f01575cca7cc0"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "6f3966d07c725822ccf98084c1046efe577bff70180d21e4333ceadb340ed04f"
+      }
+    ],
+    "completedAt": "2026-09-02T21:02:00.664045Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "8111841c-37a9-430f-82ee-e0d938275c35",
+    "preservedSources": {
+      "checkpoints/45bf22322784af0a651407fc06188f6b880e75be67a5c9770a94f23547794ee5.json": "50cc08c42d3df5a8f2a0f6b120781c6a5e61eab9627015297037e94c8257c5e5",
+      "checkpoints/6664e277539987b0e64f2c9371a214c89e601ed933a733b39487813982ad2f4b.json": "6664e277539987b0e64f2c9371a214c89e601ed933a733b39487813982ad2f4b"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "package.json",
+        "scripts/build-demo-video.mjs",
+        "scripts/build-personal-agent-comparison-clip.mjs",
+        "output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json",
+        "Focused 36-test mutation result and independent static review"
+      ],
+      "context": "The threat model was generated during this scan. Complete four-item review and an independent read-only reviewer confirmed the six targeted provenance, privacy and canonical-path remediations. No candidate vulnerability survived discovery.",
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "No live penetration test or media rebuild was performed.",
+        "Visual truth, genuine host or assistive-technology operation and publication approval remain manual gates.",
+        "Non-executable documentation, other generated evidence and the unchanged deployed static application were supporting context rather than primary discovery surfaces."
+      ],
+      "runtimeStatus": "node --test tests/unit/demo-video.test.mjs passed 36 of 36 in 538.93 ms; targeted git diff --check passed.",
+      "summary": "Final focused security review of exact working-tree snapshot codex-security-snapshot/v1:sha256:fa7f13cac45d27832514469e74a3dc012e85cab5da9339fbccddcd05354aa6f3 over protected product base a4d2db44e60024c3eadbdb2b1722153ce19dff4c.",
+      "validationMode": "Exact-snapshot source-backed four-item diff review with independent static review and focused injected-fake/mutation counterevidence."
+    },
+    "sealedAt": "2026-09-02T21:02:00.664045Z",
+    "startedAt": "2026-09-02T21:00:51.030995Z",
+    "status": "completed",
+    "target": {
+      "baseRevision": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "displayName": "govuk-webmcp",
+      "headRevision": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "kind": "git_diff",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:fa7f13cac45d27832514469e74a3dc012e85cab5da9339fbccddcd05354aa6f3",
+      "targetId": "target_sha256_9df5a1a7d372c8ced6a9178a294cc62356833a0d5ebcd20101fb7c6456d1fe79"
+    },
+    "threatModel": {
+      "summary": "# Final scoped release-evidence threat model\n\nThis diff contains privileged local release tooling and generated evidence, not\na change to the deployed static browser application. Protected assets are the\nconfidentiality of mode-0600 personal-agent inputs; the integrity of the public\n72-run aggregate, exact live-release binding and canonical private-source\nderivation; exact VoiceOver evidence identity; and recoverable media outputs.\n\nTracked JSON crosses closed executable validators. Every personal-agent\npublication consumer now requires a freshly authenticated live Pages receipt,\nreplays the canonical private 72-run capture and authenticated summary, and\nrequires canonical equality with the tracked public projection. The aggregate\nuses exact nested shapes and exact ordered US-01 to US-12 coverage for both\nhosts. VoiceOver admission requires the canonical manifest and nine ordered\ncanonical frame paths as well as byte digests and image checks. Dynamic HTML is\nescaped, browser rendering is offline with network requests aborted, fixed\nmedia executables receive argument arrays without a shell, and outputs use\nbounded canonical file admission plus recoverable no-clobber promotion.\n\nA realistic attacker may propose malformed, symbolic, path-traversing or\nsemantically forged inputs, but is not assumed to control the protected branch,\nmaintainer account, authenticated live receipt, mode-0600 canonical private\npair or local release operator. Same-user PATH and namespace races remain\nexplicitly outside the hostile boundary.\n\nResidual manual obligations are visual truth, genuine host and assistive-\ntechnology operation, answer safety, privacy/branding/rights review and public\nupload approval. Structural and digest checks do not establish those facts.\n\nThis model applies to exact working-tree snapshot\n`codex-security-snapshot/v1:sha256:fa7f13cac45d27832514469e74a3dc012e85cab5da9339fbccddcd05354aa6f3`\nover base `a4d2db44e60024c3eadbdb2b1722153ce19dff4c`.\n\nNo Critical or High issue is supportable without a lower-privileged reachable\npath that publishes private material, executes attacker-controlled code or\nforges evidence without authority equivalent to changing the reviewed\nrepository. A protected-write-path correctness defect with no privilege delta\ndoes not survive the security reportability gate, though it must still be fixed\nbefore release.\n"
+    }
+  },
+  "schemaVersion": "1.0"
+}

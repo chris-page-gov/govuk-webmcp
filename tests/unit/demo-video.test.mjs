@@ -24,6 +24,8 @@ import {
   validateOllamaDiagnosticClipReceipt,
   validateOllamaDiagnosticEvidence,
   validatePersonalAgentCaptureEvidence,
+  validatePersonalAgentObservationClipReceipt,
+  validatePersonalAgentObservationEvidence,
   validateSupportedHostDeploymentObservation,
   validateSupportedHostEvidence as validateSupportedHostEvidenceForDeployment,
   validateSupportedHostLiveReceiptPair,
@@ -44,10 +46,19 @@ import {
   resolveHostClipRepositoryPath,
 } from "../../scripts/build-host-evidence-clip.mjs";
 import {
+  authenticatePersonalAgentComparisonEvidence,
+  personalAgentComparisonPageHtml,
+  resolvePersonalAgentComparisonClipPath,
+} from "../../scripts/build-personal-agent-comparison-clip.mjs";
+import {
   resolveLiveCaptureRepositoryPath,
   waitForRenderedSearchResult,
 } from "../../scripts/capture-live-demo-clips.mjs";
 import { assertCanonicalRepositoryRelativePath } from "../../scripts/lib/repository-relative-path.mjs";
+import {
+  RELEASE_EVIDENCE_PATHS,
+  RELEASE_VOICEOVER_FRAME_PATHS,
+} from "../../scripts/lib/release-evidence-paths.mjs";
 import { TOOL_TITLES } from "../../dist/src/webmcp-tools.js";
 import {
   CAPTURE_SCHEMA,
@@ -74,14 +85,18 @@ import {
 } from "../../scripts/lib/chrome-devtools-supported-host-evidence.mjs";
 
 const environment = {
-  [demoReleaseEnvironment.productCommit]: "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-  [demoReleaseEnvironment.pagesRunId]: "33555187118",
+  [demoReleaseEnvironment.productCommit]: "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+  [demoReleaseEnvironment.pagesRunId]: "33657069203",
 };
 const rawConfig = validateConfig(JSON.parse(await readFile("docs/competition/demo-video-script-v0.4.0-rc.1.json", "utf8")));
 const config = bindReleaseConfig(rawConfig, environment);
 const releasedSupportedHostPath = "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json";
 const releasedSupportedHostBytes = await readFile(releasedSupportedHostPath);
 const releasedSupportedHostEvidence = JSON.parse(releasedSupportedHostBytes.toString("utf8"));
+const releasedPersonalAgentObservation = JSON.parse(await readFile("docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json", "utf8"));
+const releasedPrivateAuthenticatedSummary = structuredClone(releasedPersonalAgentObservation);
+const releasedPersonalAgentObservationBytes = Buffer.from(`${JSON.stringify(releasedPersonalAgentObservation, null, 2)}\n`);
+const releasedPersonalAgentObservationClipReceipt = JSON.parse(await readFile("docs/competition/evidence/personal-agent-comparison-clip-v0.4.0-rc.1.json", "utf8"));
 const releasedRawChromePath = ".evals/chrome-devtools-mcp-public.json";
 const releasedReviewedChromePath = "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json";
 const releasedReviewedChromeBytes = await readFile(releasedReviewedChromePath);
@@ -266,7 +281,7 @@ function supportedHostDeploymentChecks(observedAt, deployment = releasedInteract
   }));
 }
 
-test("v4 video script is an unbound nine-scene UK-English Evidence answer plan", () => {
+test("v4 video script is an unbound eight-scene UK-English Evidence answer plan with an honest host comparison", () => {
   assert.equal(Object.hasOwn(rawConfig, "productCommit"), false);
   assert.equal(Object.hasOwn(rawConfig, "pagesRunId"), false);
   assert.equal(config.productCommit, environment.GOVUK_WEBMCP_DEMO_COMMIT);
@@ -277,25 +292,20 @@ test("v4 video script is an unbound nine-scene UK-English Evidence answer plan",
   assert.equal(config.demonstrationInputs.query, "housing");
   assert.equal(config.demonstrationInputs.limit, 8);
   assert.deepEqual(config.demonstrationInputs.collections, ["uk-living", "ons", "government-apis", "land-registry"]);
-  assert.deepEqual(config.scenes.map(({ id }) => id), ["evidence-answer", "present-evidence", "comparison-guide", "copilot-personal-ai", "webmcp", "technical-review", "ollama-local", "voiceover", "boundary"]);
+  assert.deepEqual(config.scenes.map(({ id }) => id), ["evidence-answer", "present-evidence", "comparison-guide", "personal-agent-comparison", "webmcp", "technical-review", "voiceover", "boundary"]);
   assert.equal(config.reviews.rights, "pending-human-review");
-  assert.equal(config.reviews.personalAgentCapturePublication, "pending-capture-and-human-review");
+  assert.equal(config.reviews.personalAgentCapturePublication, "not-included-unobservable");
   assert.equal(config.reviews.finalHumanPlayback, "pending");
   assert.equal(config.interactionCaptureReceipt, "docs/competition/evidence/demo-live-interaction-capture-v0.4.0-rc.1.json");
   assert.ok(config.scenes.every(({ media }) => media.path.startsWith("output/demo-clips/v0.4.0-rc.1/")));
   assert.equal(config.scenes.find(({ id }) => id === "webmcp").mediaReceipt, "docs/competition/evidence/supported-host-webmcp-clip-v0.4.0-rc.1.json");
-  assert.deepEqual(config.scenes.filter(({ kind }) => kind === "personal-agent-capture").map(({ id, hostId, caseId, repetition, evidence }) => ({ id, hostId, caseId, repetition, evidence })), [
-    { id: "copilot-personal-ai", hostId: "copilot-mcp-workspace", caseId: "US-09", repetition: 1, evidence: personalAgentSceneContracts["copilot-personal-ai"].evidencePath },
-  ]);
-  const copilotCues = config.scenes.find(({ id }) => id === "copilot-personal-ai").cues.join(" ");
-  assert.match(copilotCues, /Each Site tool accepts only its declared, bounded arguments\./u);
-  assert.doesNotMatch(copilotCues, /run used only task-minimal arguments/iu);
-  assert.deepEqual(config.scenes.filter(({ kind }) => kind === "evaluation-diagnostic").map(({ id, evidence, privateEvidence, mediaReceipt }) => ({ id, evidence, privateEvidence, mediaReceipt })), [{
-    id: "ollama-local",
-    evidence: ollamaDiagnosticSceneContract.publicEvidencePath,
-    privateEvidence: ollamaDiagnosticSceneContract.privateEvidencePath,
-    mediaReceipt: ollamaDiagnosticSceneContract.mediaReceiptPath,
-  }]);
+  assert.deepEqual(config.scenes.filter(({ kind }) => kind === "personal-agent-capture"), []);
+  const personalAgentObservation = config.scenes.find(({ id }) => id === "personal-agent-comparison");
+  assert.equal(personalAgentObservation.kind, "evaluation-observation");
+  assert.equal(personalAgentObservation.evidence, "docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json");
+  assert.equal(personalAgentObservation.mediaReceipt, "docs/competition/evidence/personal-agent-comparison-clip-v0.4.0-rc.1.json");
+  assert.match(personalAgentObservation.cues.join(" "), /not observable/iu);
+  assert.deepEqual(config.scenes.filter(({ kind }) => kind === "evaluation-diagnostic"), []);
   for (const scene of config.scenes) {
     for (const cue of scene.cues) {
       const lines = wrapCaption(cue).split("\n");
@@ -303,6 +313,186 @@ test("v4 video script is an unbound nine-scene UK-English Evidence answer plan",
       assert.ok(lines.every((line) => line.length <= 42));
     }
   }
+});
+
+test("personal-agent observation retains the complete but non-claimable release-bound matrix", () => {
+  assert.deepEqual(validatePersonalAgentObservationEvidence(releasedPersonalAgentObservation, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary), {
+    comparisonDesign: "observational",
+    observedRunCount: 72,
+    claimGatePassed: false,
+    causalClaimSupported: false,
+    copilot: { observedRunCount: 36, callTraceStatus: "not-observable", pageParityStatus: "not-observable" },
+    ollama: { observedRunCount: 36, toolSelectionPass: 6, toolSelectionFail: 30, runnerErrorRuns: 3 },
+  });
+
+  const inventedCopilotTools = structuredClone(releasedPersonalAgentObservation);
+  inventedCopilotTools.hosts.find(({ hostId }) => hostId === "copilot-mcp-workspace").exposedTools = { observed: 36, "not-observable": 0 };
+  assert.throws(() => validatePersonalAgentObservationEvidence(inventedCopilotTools, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary), /Copilot tool observability boundary/u);
+
+  const unsafePublication = structuredClone(releasedPersonalAgentObservation);
+  unsafePublication.privateLink = "https://copilot.microsoft.com/shares/PRIVATE";
+  assert.throws(() => validatePersonalAgentObservationEvidence(unsafePublication, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary), /unknown fields|private account or share-link/u);
+
+  const nestedPrivatePublication = structuredClone(releasedPersonalAgentObservation);
+  nestedPrivatePublication.hosts[0].browsers[0].accountEmail = "private@example.invalid";
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(nestedPrivatePublication, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary),
+    /Copilot browser has unknown fields: accountEmail/u,
+  );
+
+  for (const mutate of [
+    (summary) => { summary.liveReleaseBinding.artifact.id += 1; },
+    (summary) => { summary.liveReleaseBinding.fileCount += 1; },
+    (summary) => { summary.liveReleaseBinding.byteCount += 1; },
+    (summary) => { summary.liveReleaseBinding.manifestSha256 = "f".repeat(64); },
+  ]) {
+    const forgedReleaseBinding = structuredClone(releasedPersonalAgentObservation);
+    mutate(forgedReleaseBinding);
+    assert.throws(
+      () => validatePersonalAgentObservationEvidence(forgedReleaseBinding, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary),
+      /does not exactly match the freshly authenticated live release/u,
+    );
+  }
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(releasedPersonalAgentObservation, config, structuredClone(authenticatedReleasedLiveVerification), releasedPrivateAuthenticatedSummary),
+    /requires a freshly authenticated live Pages receipt/u,
+  );
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(releasedPersonalAgentObservation, config, authenticatedReleasedLiveVerification),
+    /requires the independently replayed private authenticated summary/u,
+  );
+  const driftedPrivateSummary = structuredClone(releasedPrivateAuthenticatedSummary);
+  driftedPrivateSummary.answerOutcomes["not-reviewed"] = 71;
+  driftedPrivateSummary.answerOutcomes.missing = 1;
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(releasedPersonalAgentObservation, config, authenticatedReleasedLiveVerification, driftedPrivateSummary),
+    /does not exactly match the independently replayed private authenticated summary/u,
+  );
+
+  const duplicateCopilotCase = structuredClone(releasedPersonalAgentObservation);
+  duplicateCopilotCase.hosts.find(({ hostId }) => hostId === "copilot-mcp-workspace").caseEvidence[1].caseId = "US-01";
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(duplicateCopilotCase, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary),
+    /exact ordered unique US-01 to US-12/u,
+  );
+
+  const missingOllamaCase = structuredClone(releasedPersonalAgentObservation);
+  missingOllamaCase.hosts.find(({ hostId }) => hostId === "ollama-local").caseEvidence.pop();
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(missingOllamaCase, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary),
+    /exact ordered unique US-01 to US-12/u,
+  );
+
+  const aggregateDrift = structuredClone(releasedPersonalAgentObservation);
+  aggregateDrift.hosts.find(({ hostId }) => hostId === "ollama-local").caseEvidence[0].observedRunCount = 2;
+  assert.throws(
+    () => validatePersonalAgentObservationEvidence(aggregateDrift, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary),
+    /must retain exactly three observations|does not reconcile/u,
+  );
+});
+
+test("personal-agent comparison clip visibly retains both hosts and the non-claimable boundary", () => {
+  const scene = config.scenes.find(({ id }) => id === "personal-agent-comparison");
+  const evidenceFile = {
+    relativePath: scene.evidence,
+    sha256: createHash("sha256").update(releasedPersonalAgentObservationBytes).digest("hex"),
+    parsed: releasedPersonalAgentObservation,
+  };
+  const observation = validatePersonalAgentObservationEvidence(releasedPersonalAgentObservation, config, authenticatedReleasedLiveVerification, releasedPrivateAuthenticatedSummary);
+  const media = {
+    sha256: releasedPersonalAgentObservationClipReceipt.media.sha256,
+    durationSeconds: releasedPersonalAgentObservationClipReceipt.media.durationSeconds,
+  };
+  assert.deepEqual(validatePersonalAgentObservationClipReceipt(releasedPersonalAgentObservationClipReceipt, config, scene, media, evidenceFile, observation), {
+    kind: "privacy-minimised-observation-visualisation",
+    durationSeconds: releasedPersonalAgentObservationClipReceipt.media.durationSeconds,
+    observedRunCount: 72,
+    claimGatePassed: false,
+  });
+  const html = personalAgentComparisonPageHtml(releasedPersonalAgentObservation);
+  assert.match(html, /Personal Microsoft Copilot/u);
+  assert.match(html, /Pinned local Ollama model/u);
+  assert.match(html, /No Site tool invocation or Evidence answer update was observed/u);
+  assert.match(html, /6 passed · 30 failed/u);
+  assert.match(html, /not a host recording/u);
+
+  const overstated = structuredClone(releasedPersonalAgentObservationClipReceipt);
+  overstated.rendering.hostRecordingEmbedded = true;
+  assert.throws(() => validatePersonalAgentObservationClipReceipt(overstated, config, scene, media, evidenceFile, observation), /overstates its evidence/u);
+});
+
+test("standalone personal-agent comparison authenticates the canonical private pair before rendering", async () => {
+  const sourceCapture = { caseSetSha256: releasedPersonalAgentObservation.caseSetSha256 };
+  let authenticateLiveCalls = 0;
+  let replayCalls = 0;
+  let borrowedEvaluationCalls = 0;
+  let disposeCalls = 0;
+  const replayedSummaries = [];
+  const dependencies = {
+    authenticateLiveImplementation: async (candidate) => {
+      authenticateLiveCalls += 1;
+      assert.equal(candidate.manifestSha256, releasedLiveVerification.manifestSha256);
+      return authenticatedReleasedLiveVerification;
+    },
+    replaySummaryImplementation: async (input, options) => {
+      replayCalls += 1;
+      assert.equal(input.sourceCapture, sourceCapture);
+      replayedSummaries.push(input.suppliedSummary);
+      assert.equal(input.suppliedSummary.caseSetSha256, releasedPrivateAuthenticatedSummary.caseSetSha256);
+      assert.equal(input.preRunLiveRelease.manifestSha256, releasedLiveVerification.manifestSha256);
+      const borrowed = await options.authenticateImplementation(input.preRunLiveRelease, { checkoutPolicy: "clean-evidence-descendant" });
+      assert.equal(borrowed, authenticatedReleasedLiveVerification);
+      return { status: "authenticated", caseSetSha256: input.suppliedSummary.caseSetSha256 };
+    },
+    authenticateEvaluationImplementation: async (candidate, options) => {
+      borrowedEvaluationCalls += 1;
+      assert.equal(options.checkoutPolicy, "clean-evidence-descendant");
+      assert.equal(options.liveReceiptLease, "borrowed");
+      return options.authenticateImplementation(candidate);
+    },
+    disposeLiveImplementation: async (receipt) => {
+      disposeCalls += 1;
+      assert.equal(receipt, authenticatedReleasedLiveVerification);
+    },
+  };
+  assert.deepEqual(await authenticatePersonalAgentComparisonEvidence({
+    config,
+    publicSummary: releasedPersonalAgentObservation,
+    sourceCapture,
+    authenticatedPrivateSummary: releasedPrivateAuthenticatedSummary,
+    privateLiveRelease: releasedLiveVerification,
+    loadedCaseSet: { fixture: true },
+  }, dependencies), {
+    comparisonDesign: "observational",
+    observedRunCount: 72,
+    claimGatePassed: false,
+    causalClaimSupported: false,
+    copilot: { observedRunCount: 36, callTraceStatus: "not-observable", pageParityStatus: "not-observable" },
+    ollama: { observedRunCount: 36, toolSelectionPass: 6, toolSelectionFail: 30, runnerErrorRuns: 3 },
+  });
+  assert.equal(replayedSummaries[0], releasedPrivateAuthenticatedSummary);
+  assert.deepEqual({ authenticateLiveCalls, replayCalls, borrowedEvaluationCalls, disposeCalls }, { authenticateLiveCalls: 1, replayCalls: 1, borrowedEvaluationCalls: 1, disposeCalls: 1 });
+
+  const driftedPrivateSummary = structuredClone(releasedPrivateAuthenticatedSummary);
+  driftedPrivateSummary.hosts[0].privateAccount = "private@example.invalid";
+  await assert.rejects(
+    authenticatePersonalAgentComparisonEvidence({
+      config,
+      publicSummary: releasedPersonalAgentObservation,
+      sourceCapture,
+      authenticatedPrivateSummary: driftedPrivateSummary,
+      privateLiveRelease: releasedLiveVerification,
+      loadedCaseSet: { fixture: true },
+    }, dependencies),
+    /does not exactly match the independently replayed private authenticated summary/u,
+  );
+
+  const builderSource = await readFile("scripts/build-personal-agent-comparison-clip.mjs", "utf8");
+  assert.match(builderSource, /RELEASE_EVIDENCE_PATHS\.privateEvaluationCapture[\s\S]*?RELEASE_EVIDENCE_PATHS\.privateAuthenticatedSummary[\s\S]*?RELEASE_EVIDENCE_PATHS\.privateLivePagesVerification/u);
+  assert.match(builderSource, /mode === 0o600[\s\S]*?authenticatePersonalAgentComparisonEvidence/u);
+  assert.match(builderSource, /liveReceiptLease:\s*"borrowed"/u);
+  assert.match(builderSource, /offline:\s*true/u);
+  assert.match(builderSource, /context\.route\([^\n]+https\?\|wss\?/u);
 });
 
 test("release binding fails closed without an exact commit and Pages run", () => {
@@ -322,11 +512,11 @@ test("release binding fails closed without an exact commit and Pages run", () =>
   relaxedDelivery.delivery.maximumDurationSeconds = 180.001;
   assert.throws(() => validateConfig(relaxedDelivery), /under 180 seconds/u);
   const reconstructedPersonalAgentScene = structuredClone(rawConfig);
-  reconstructedPersonalAgentScene.scenes.find(({ id }) => id === "copilot-personal-ai").kind = "receipt-visualisation";
-  assert.throws(() => validateConfig(reconstructedPersonalAgentScene), /personal-agent|supported-host|media receipt/u);
+  reconstructedPersonalAgentScene.scenes.find(({ id }) => id === "personal-agent-comparison").kind = "personal-agent-capture";
+  assert.throws(() => validateConfig(reconstructedPersonalAgentScene), /personal-agent|hostId|capture/u);
   const ambiguousFutureReceipt = structuredClone(rawConfig);
-  ambiguousFutureReceipt.scenes.find(({ id }) => id === "ollama-local").privateEvidence = ".evals/personal-agent-media/latest.json";
-  assert.throws(() => validateConfig(ambiguousFutureReceipt), /fixed diagnostic source, clip or receipt path/u);
+  ambiguousFutureReceipt.scenes.find(({ id }) => id === "personal-agent-comparison").mediaReceipt = "docs/competition/evidence/latest.json";
+  assert.throws(() => validateConfig(ambiguousFutureReceipt), /exact privacy-minimised comparison evidence and clip receipt/u);
   for (const unsafePath of [
     "output/demo-clips/../escape.mov",
     "output/demo-clips/../../.evals/private.mov",
@@ -352,6 +542,7 @@ test("standalone media entry points reject path aliases outside their exact rele
     resolveLiveCaptureRepositoryPath,
     resolveHostClipRepositoryPath,
     resolveOllamaClipRepositoryPath,
+    resolvePersonalAgentComparisonClipPath,
   ]) {
     assert.throws(
       () => resolvePath("output/demo-clips/../escape.mov", "Test output", clipOptions),
@@ -1188,6 +1379,7 @@ test("publication consumers authenticate the live release before validating or a
   assert.match(clipSource, /config,[\s\S]*?privateLiveVerificationFile[\s\S]*?privateLiveVerification[\s\S]*?authenticatedLiveReceipt[\s\S]*?rawReceiptFile[\s\S]*?rawReceipt/u);
   assert.match(clipSource, /mode === 0o600/u);
   assert.match(finalVideoSource, /try[\s\S]*?authenticatedLiveVerification = await authenticateLivePagesReceipt\(liveRelease\)[\s\S]*?authenticateFinalVideoPersonalAgentSummary\([\s\S]*?authenticateEvaluationReleaseReceipt\(candidate,[\s\S]*?checkoutPolicy:\s*authenticationOptions\.checkoutPolicy[\s\S]*?return authenticatedLiveVerification[\s\S]*?liveReceiptLease:\s*"borrowed"[\s\S]*?validateSupportedHostReviewedArtefact\([\s\S]*?authenticatedLiveReceipt:\s*authenticatedLiveVerification[\s\S]*?finally[\s\S]*?disposeAuthenticatedLivePagesReceipt\(authenticatedLiveVerification\)/u);
+  assert.match(finalVideoSource, /personalAgentObservationScenes = config\.scenes\.filter[\s\S]*?expectedPrivateEvaluationCapture[\s\S]*?publiclyReportable = false[\s\S]*?expectedPrivateAuthenticatedSummary[\s\S]*?publiclyReportable = false[\s\S]*?authenticateFinalVideoPersonalAgentSummary\([\s\S]*?inputs\.push\(sourceCaptureFile, authenticatedSummaryFile\)[\s\S]*?for \(const scene of personalAgentObservationScenes\)[\s\S]*?validatePersonalAgentObservationEvidence\([\s\S]*?authenticatedLiveVerification,[\s\S]*?authenticatedSummary,/u);
   assert.equal((finalVideoSource.match(/clean-evidence-descendant/gu) ?? []).length, 1);
 });
 
@@ -1697,7 +1889,7 @@ function voiceOverFixture() {
       endSeconds: 30,
       captureStartedAt: "2026-08-31T09:55:00Z",
       captureEndedAt: "2026-08-31T10:05:00Z",
-      captureManifestPath: "output/voiceover-capture/capture-manifest.json",
+      captureManifestPath: RELEASE_EVIDENCE_PATHS.voiceOverCaptureManifest,
       captureManifestSha256: "d".repeat(64),
     },
   };
@@ -1726,6 +1918,9 @@ test("VoiceOver gate requires exact candidate, manual use and bounded source-lin
   const privateEnvironmentDetail = voiceOverFixture();
   privateEnvironmentDetail.environment.accountEmail = "private@example.invalid";
   assert.throws(() => validateVoiceOverEvidence(privateEnvironmentDetail, config), /VoiceOver environment has unknown fields/u);
+  const alternateManifestRoot = voiceOverFixture();
+  alternateManifestRoot.media.captureManifestPath = "output/voiceover-capture/alternate/v0.4.0-rc.1-capture-manifest.json";
+  assert.throws(() => validateVoiceOverEvidence(alternateManifestRoot, config), /exact canonical release path/u);
 });
 
 test("VoiceOver media is bound to the scene and immutable capture manifest", () => {
@@ -1757,7 +1952,7 @@ function voiceOverCaptureFixture() {
       continuousRecording: false,
       frames: requiredVoiceOverJourneyIds.map((id, index) => ({
         id,
-        path: `output/voiceover-capture/unit-frame-${index + 1}.png`,
+        path: RELEASE_VOICEOVER_FRAME_PATHS[index],
         sha256: String(index + 1).repeat(64),
         capturedAt: new Date(start + (index * 75_000)).toISOString().replace(".000Z", "Z"),
         holdSeconds: holdSeconds[index],
@@ -1786,6 +1981,9 @@ test("final-video VoiceOver preflight revalidates the manifest and every frame b
   const outsideInterval = structuredClone(manifest);
   outsideInterval.frames[0].capturedAt = "2026-08-31T09:54:59Z";
   assert.throws(() => validateVoiceOverCaptureManifest(outsideInterval, evidence, config), /outside the manual capture interval/u);
+  const alternateFrameRoot = structuredClone(manifest);
+  alternateFrameRoot.frames[0].path = "output/voiceover-capture/alternate/v0.4.0-rc.1-frame-01-page-title-and-headings.png";
+  assert.throws(() => validateVoiceOverCaptureManifest(alternateFrameRoot, evidence, config), /exact nine canonical release frame paths/u);
 });
 
 function interactionCaptureFixture() {
@@ -2090,7 +2288,13 @@ function ollamaDiagnosticEvidenceFixture() {
 function ollamaDiagnosticClipFixture() {
   const source = ollamaDiagnosticEvidenceFixture();
   const diagnosticEvidence = validateOllamaDiagnosticEvidence(source.publicSummary, source.privateCapture, source.structuralSummary);
-  const scene = config.scenes.find(({ id }) => id === "ollama-local");
+  const scene = {
+    id: ollamaDiagnosticSceneContract.sceneId,
+    media: { path: ollamaDiagnosticSceneContract.mediaPath, startSeconds: 0 },
+    evidence: ollamaDiagnosticSceneContract.publicEvidencePath,
+    privateEvidence: ollamaDiagnosticSceneContract.privateEvidencePath,
+    mediaReceipt: ollamaDiagnosticSceneContract.mediaReceiptPath,
+  };
   const privateFile = { relativePath: scene.privateEvidence, sha256: "1".repeat(64) };
   const publicFile = { relativePath: scene.evidence, sha256: "2".repeat(64) };
   const media = { sha256: "3".repeat(64), durationSeconds: 36 };
@@ -2190,7 +2394,7 @@ function selectedPersonalAgentRun(hostId, observedAt = "2026-09-01T10:00:00Z") {
       visibleMode: cloud ? "visible" : "headless",
       exposedTools: { status: "observed", names: expectedToolNames },
       share: cloud
-        ? { status: "observed", url: "https://copilot.microsoft.com/shares/G6UPWiDJ2VK4RfGycoxdr" }
+        ? { status: "observed", url: "https://copilot.microsoft.com/shares/SYNTHETICTESTSHARE0001" }
         : { status: "not-applicable", url: null },
       deployment: cloud
         ? { kind: "public-pages", url: config.productUrl, commitSha: config.productCommit, worktreeStatus: "not-applicable" }
@@ -2216,8 +2420,10 @@ function selectedPersonalAgentRun(hostId, observedAt = "2026-09-01T10:00:00Z") {
 
 function personalAgentCaptureFixture(hostId) {
   const sceneId = hostId === "copilot-mcp-workspace" ? "copilot-personal-ai" : "ollama-local";
-  const scene = config.scenes.find(({ id }) => id === sceneId);
   const contract = personalAgentSceneContracts[sceneId];
+  const scene = hostId === "copilot-mcp-workspace"
+    ? { id: sceneId, media: { path: contract.mediaPath, startSeconds: 0 } }
+    : config.scenes.find(({ id }) => id === sceneId);
   const selected = selectedPersonalAgentRun(hostId);
   const runs = ["copilot-mcp-workspace", "ollama-local"].flatMap((matrixHostId) =>
     personalAgentStoryIds.flatMap((caseId) => [1, 2, 3].map((repetition) =>
@@ -2608,14 +2814,6 @@ test("final verification scopes private-input publication without hiding the pub
         bindingCount: 1,
         sourceBytesDirectlyVerifiedByBuild: false,
         purpose: "Retain one deduplicated binding to the ignored raw Chrome receipt in the reviewed supported-host evidence without publishing those receipt bytes.",
-      },
-      {
-        privateInputPath: ollamaDiagnosticSceneContract.privateEvidencePath,
-        publicReceiptPaths: [ollamaDiagnosticSceneContract.mediaReceiptPath],
-        privateInputPathAndSha256BindingPublished: true,
-        bindingCount: 1,
-        sourceBytesDirectlyVerifiedByBuild: true,
-        purpose: "Bind the Ollama diagnostic visualisation to the exact private evaluation input without publishing those input bytes.",
       },
     ],
   });

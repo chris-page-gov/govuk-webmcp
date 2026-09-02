@@ -2,9 +2,9 @@
 
 ## What the page processes
 
-The frozen public page processes search terms in the browser against the
-80-record same-origin static catalogue. The released `0.3.0-rc.1` application
-can search 58,652 records from 58,655 locked raw rows in exactly
+The public `0.4.0-rc.1` candidate processes search terms in the browser against
+the 80-record same-origin static catalogue and can search 58,652 records from
+58,655 locked raw rows in exactly
 four OKF source snapshots through progressively loaded, same-origin static
 assets. Exactly three standalone Land Registry legislation rows are
 quarantined. It does not contact
@@ -22,12 +22,12 @@ network metadata. That is a narrower boundary than sending a profile to the
 page, not proof that searching is unobservable.
 
 The application does not use accounts, cookies, analytics, advertising,
-tracking pixels or persistent server-side application storage. Its five WebMCP
+tracking pixels or persistent server-side application storage. Its six WebMCP
 tools accept only bounded action-specific inputs. The federated search contract
 adds only a fixed collection allowlist; it does not request unrelated
 conversation, identity, a personal profile, location or browsing history.
 
-The `0.4.0-rc.1` candidate adds a sixth tool,
+The sixth tool is
 `present_resource_evidence`. Its only accepted field is one canonical record
 identifier. It adds no dedicated name, address, identity, profile, location-
 history, browsing-history, conversation-history or general personal-context
@@ -63,10 +63,9 @@ this page's storage boundary.
 
 ## WebMCP host boundary
 
-In the release, two evidence exploration tools can update only reversible,
-transient page presentation and three query tools return packaged data without
-changing the page. The candidate adds one further reversible presentation
-tool. Rejected tool input is not retained in the page's diagnostic input
+Three evidence presentation tools can update only reversible, transient page
+presentation, and three query tools return packaged data without changing the
+page. Rejected tool input is not retained in the page's diagnostic input
 digest or Evidence answer. No tool creates a new durable receipt for the call,
 a persistent session or external state.
 
@@ -112,11 +111,14 @@ page copy over deterministic evidence, not a transcript or model assessment.
 ## Test evidence and retention
 
 Native developer tools, Microsoft WebMCP Explorer, Chrome DevTools MCP and
-`webmcp-evals` are used only as development and assurance harnesses. Tests use
-the public synthetic fixture in a fresh, isolated browser profile with no
-personal browsing history, accounts, saved credentials, unrelated tabs or
-personal extensions. Prompts and tool inputs must not contain personal,
-sensitive or unpublished information.
+`webmcp-evals` are used only as development and assurance harnesses. Automated
+browser tests use the public synthetic fixture in a fresh, isolated profile
+with no personal browsing history, accounts, saved credentials, unrelated tabs
+or personal extensions. The separate personal Copilot observation used the
+owner-controlled personal profile; public evidence excludes its account
+identifier, private share links, answer text and unrelated browser content.
+Prompts and tool inputs must not contain personal, sensitive or unpublished
+information.
 
 Harness configuration can contain model-provider credentials, and generated
 reports can contain prompts, tool descriptions, arguments, results, console
@@ -157,12 +159,24 @@ a freshly authenticated live Pages observation that also binds a clean
 unchanged checkout and a byte-identical local `dist` plus private execution
 snapshot.
 
-The retained dirty local diagnostic is not eligible for an authenticated
-cross-host media source. After the final deployment, its 36 local slots must be
-rerun from the clean exact-release checkout and bound to that deployment; any
-unobserved page, network, latency or answer-review dimension remains explicitly
-unknown. Final-video preflight freshly authenticates the release receipt rather
-than trusting a stored summary labelled `authenticated`.
+The exact-release private matrix contains 36 personal Microsoft Copilot
+observations and 36 local Ollama observations. Copilot tool discovery, calls and
+page parity were not observable; every answer remains unreviewed.
+**No Site tool invocation or Evidence answer update was observed.**
+The exact local Ollama run passed tool selection and execution in 6 slots,
+failed in 30 and retained 3
+runner errors. The combined claim gate is false and supports no safe-host
+claim. Private share links, answer text, unrestricted host text and raw call
+detail remain outside tracked public evidence.
+
+Before either the standalone comparison clip or final video may use this
+summary, the consumer authenticates the exact live Pages receipt, loads the
+canonical private capture and authenticated summary as mode-`0600` files,
+replays all 72 runs and requires exact public/private equality. Nested public
+objects use closed contracts, so an extra account, link or contradictory field
+fails before rendering. This establishes provenance and minimisation of the
+tracked aggregate; it does not establish that a host action occurred or that
+an unreviewed answer was safe.
 
 Observable call sequences are replayed through the receipt-bound production
 runtime snapshot before evaluation; captured output cannot become public truth
@@ -173,22 +187,35 @@ generated canonical search string, so changed order, extra separators, encoded
 values, hashes or otherwise unrelated additions cannot pass as task-minimal
 arguments.
 
-The evaluation plan adds a synthetic-persona minimisation test with visible
+The evaluation plan includes a synthetic-persona minimisation test with visible
 sentinel values, a no-call case and at least three runs per fixed model after
 model-free checks pass. It must report any sentinel reaching page-tool
 arguments, application-origin requests or storage, and report remote-provider
-traffic separately. Candidate-specific repeated natural-model, browser-host
-and provider-boundary evidence remains pending for `0.4.0-rc.1`.
+traffic separately. Observed host results remain evidence for their named
+configuration and date, not a controlled causal comparison.
 
-The candidate video plan requires a genuine visible Copilot observation for
-the cloud scene. Its local scene may use only the separately labelled Ollama
-diagnostic receipt visualisation; that is not a host recording or a successful
-page update. The private inputs can contain account, host, prompt, share-link or
-model-run detail and must remain mode `0600`. The builder's
+The candidate video presents the Copilot result as a negative
+compatibility finding and must use the exact wording “No Site tool invocation
+or Evidence answer update was observed.” It must not reconstruct or imply a
+Copilot call. The successful six-tool scene is the exact Chrome DevTools
+supported-host observation through direct fixed calls; it is not a model-
+selection result or host-owned recording. The local scene may use only the
+separately labelled Ollama diagnostic receipt visualisation. Private inputs can
+contain account, host, prompt, share-link or model-run detail and must remain
+mode `0600`. The builder's
 redaction and privacy gates do not make raw inputs publishable: only a separately
 reviewed cut may proceed to branding, rights, voice, caption, signed-out playback
-and publication review. The candidate has not yet produced or published that
-video.
+and publication review.
+
+The eight-scene, 120.326-second local review cut is built. Its SHA-256 is
+`4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+Its generated cloud-versus-local card uses the privacy-minimised complete
+72-run public summary and is explicitly not a host recording. It retains the
+unobservable Copilot tool, call and page-parity states, the Ollama
+6-pass/30-fail/3-runner-error result and the no-safe-host, no-causal-claim
+boundary. Direct six-call supported-host evidence remains separate. The cut is
+not approved or published: owner playback and privacy, branding, rights and
+voice approval, signed-out public playback and public upload remain pending.
 
 The admitted native-panel screenshots were captured from a disposable,
 unconnected Chrome profile containing only the public project. They were

@@ -268,3 +268,13 @@ mode-`0700` directories. It does not replace an existing canonical pair unless
 admission preflight runs before those outputs are created; a successful
 replacement prints the dependent-evidence recapture warning. It does not attest
 the manual Copilot or human-review claims.
+
+## 2 September 2026 — submission preparation
+
+The live Devpost project now contains the prepared title, pitch, description,
+technology list and public application and repository links. This reversible
+project update did not submit the project to the challenge: its authenticated
+record still has no submission timestamp. The local workflow state now points
+to `devpost-submission.md` with status `drafting`. The public video, custom
+answers, owner attestations, final compliance review and explicit submission
+action remain open.
