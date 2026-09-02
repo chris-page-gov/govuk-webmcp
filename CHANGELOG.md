@@ -6,6 +6,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- Made the supported-host public-evidence privacy guard inspect decoded string
+  values rather than their serialised JSON spelling. Escaped rejected values can
+  no longer evade the no-retention check, and non-string rejected context fails
+  closed.
+
 ### Added
 
 - The `0.4.0-rc.1` Evidence answer evaluation candidate.

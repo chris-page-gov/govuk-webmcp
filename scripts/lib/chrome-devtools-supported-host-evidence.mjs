@@ -117,6 +117,15 @@ function invariant(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function containsStringValue(value, expected) {
+  if (typeof value === "string") return value.includes(expected);
+  if (Array.isArray(value)) {
+    return value.some((entry) => containsStringValue(entry, expected));
+  }
+  if (value === null || typeof value !== "object") return false;
+  return Object.values(value).some((entry) => containsStringValue(entry, expected));
+}
+
 function exactKeys(value, expected, label) {
   invariant(value && typeof value === "object" && !Array.isArray(value), `${label} must be an object.`);
   invariant(
@@ -412,7 +421,11 @@ export function buildSupportedHostEvidence({
   };
   const rejectedValue = receipt.rejectedCall.input.personalContext;
   invariant(
-    typeof rejectedValue !== "string" || !canonicalJson(evidence).includes(rejectedValue),
+    typeof rejectedValue === "string",
+    "The raw rejected personal-context value must be a string.",
+  );
+  invariant(
+    !containsStringValue(evidence, rejectedValue),
     "The reviewed supported-host evidence retained the rejected personal-context value.",
   );
   for (const call of calls) {
