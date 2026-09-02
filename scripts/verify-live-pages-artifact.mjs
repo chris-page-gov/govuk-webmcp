@@ -3,14 +3,12 @@
 import { execFile, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
-  chmod,
   lstat,
   mkdir,
   mkdtemp,
   readFile,
   readdir,
   realpath,
-  rename,
   rm,
   writeFile,
 } from "node:fs/promises";
@@ -25,18 +23,16 @@ import {
   PUBLIC_DEPLOYMENT_SCHEMA,
   validatePublicDeploymentMetadata,
 } from "./lib/chrome-devtools-capture-target.mjs";
+import { ensurePrivateDirectory } from "./lib/private-directory.mjs";
+import { admitEvidenceSet } from "./lib/public-evidence-admission.mjs";
+import {
+  EVIDENCE_RELEASE,
+  RELEASE_EVIDENCE_PATHS,
+} from "./lib/release-evidence-paths.mjs";
 
 const execFileAsync = promisify(execFile);
 const repositoryRoot = resolve(import.meta.dirname, "..");
-const RELEASE = "v0.4.0-rc.1";
-const LOCAL_RECEIPT = resolve(
-  repositoryRoot,
-  ".evals/live-artifact-verification-v0.4.0-rc.1.json",
-);
-const REVIEWED_RECEIPT = resolve(
-  repositoryRoot,
-  "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
-);
+const RELEASE = EVIDENCE_RELEASE;
 const COMMIT = /^[a-f0-9]{40}$/u;
 const RUN_ID = /^[1-9][0-9]*$/u;
 const SHA256 = /^[a-f0-9]{64}$/u;
@@ -83,15 +79,26 @@ function exactRegularPath(path, label) {
 }
 
 export function parseVerificationOptions(argv = process.argv.slice(2), environment = process.env) {
-  const allowed = new Set(["--admit-public-evidence", "--overwrite-reviewed-evidence"]);
+  const allowed = new Set([
+    "--admit-public-evidence",
+    "--overwrite-private-release-receipt",
+    "--overwrite-reviewed-evidence",
+    "--stage-private-release-receipt",
+  ]);
   for (const argument of argv) {
     invariant(allowed.has(argument), `Unknown argument: ${argument}`);
   }
   const admitPublicEvidence = argv.includes("--admit-public-evidence");
+  const stagePrivateReleaseReceipt = argv.includes("--stage-private-release-receipt");
+  const overwritePrivateReleaseReceipt = argv.includes("--overwrite-private-release-receipt");
   const overwriteReviewedEvidence = argv.includes("--overwrite-reviewed-evidence");
   invariant(
     !overwriteReviewedEvidence || admitPublicEvidence,
     "--overwrite-reviewed-evidence requires --admit-public-evidence.",
+  );
+  invariant(
+    !overwritePrivateReleaseReceipt || stagePrivateReleaseReceipt,
+    "--overwrite-private-release-receipt requires --stage-private-release-receipt.",
   );
   const expectedCommit = environment.WEBMCP_EXPECTED_COMMIT;
   const runId = environment.GOVUK_WEBMCP_PAGES_RUN_ID;
@@ -103,7 +110,14 @@ export function parseVerificationOptions(argv = process.argv.slice(2), environme
     typeof runId === "string" && RUN_ID.test(runId),
     "GOVUK_WEBMCP_PAGES_RUN_ID must be the exact successful Pages workflow run ID.",
   );
-  return { admitPublicEvidence, expectedCommit, overwriteReviewedEvidence, runId };
+  return {
+    admitPublicEvidence,
+    expectedCommit,
+    overwritePrivateReleaseReceipt,
+    overwriteReviewedEvidence,
+    runId,
+    stagePrivateReleaseReceipt,
+  };
 }
 
 export function validatePagesWorkflowRun(value, expectedCommit, runId) {
@@ -803,29 +817,6 @@ export async function compareAllLiveFiles(
   }
 }
 
-async function pathExists(path) {
-  try {
-    await lstat(path);
-    return true;
-  } catch (error) {
-    if (error?.code === "ENOENT") return false;
-    throw error;
-  }
-}
-
-async function atomicWrite(path, bytes, { overwrite, mode }) {
-  await mkdir(dirname(path), { recursive: true, mode: 0o700 });
-  if (await pathExists(path)) {
-    const info = await lstat(path);
-    invariant(info.isFile() && !info.isSymbolicLink(), `Evidence destination is not a regular file: ${path}`);
-    invariant(overwrite, `Evidence destination exists; review it before using the explicit overwrite gate: ${path}`);
-  }
-  const temporary = `${path}.tmp-${process.pid}`;
-  await writeFile(temporary, bytes, { flag: "wx", mode });
-  await rename(temporary, path);
-  await chmod(path, mode);
-}
-
 export async function collectLivePagesArtifactVerification(options) {
   const runEndpoint = `repos/${PUBLIC_DEPLOYMENT_REPOSITORY}/actions/runs/${options.runId}`;
   const artifactEndpoint = `${runEndpoint}/artifacts?per_page=100`;
@@ -915,25 +906,113 @@ export async function collectLivePagesArtifactVerification(options) {
   }
 }
 
-export async function verifyLivePagesArtifact(options) {
-  const { receipt } = await collectLivePagesArtifactVerification(options);
+export async function persistLivePagesVerificationReceipt(
+  receipt,
+  options,
+  {
+    admissionFileSystem = {},
+    admitImplementation = admitEvidenceSet,
+    ensurePrivateDirectoryImplementation = ensurePrivateDirectory,
+    repositoryPath = repositoryRoot,
+  } = {},
+) {
+  validateLivePagesReceiptShape(receipt);
+  invariant(options && typeof options === "object" && !Array.isArray(options), "Live receipt persistence options are invalid.");
+  for (const [name, value] of Object.entries({
+    admitPublicEvidence: options.admitPublicEvidence,
+    overwritePrivateReleaseReceipt: options.overwritePrivateReleaseReceipt,
+    overwriteReviewedEvidence: options.overwriteReviewedEvidence,
+    stagePrivateReleaseReceipt: options.stagePrivateReleaseReceipt,
+  })) {
+    invariant(value === undefined || typeof value === "boolean", `${name} must be a boolean when supplied.`);
+  }
+  const admitPublicEvidence = options.admitPublicEvidence === true;
+  const overwritePrivateReleaseReceipt = options.overwritePrivateReleaseReceipt === true;
+  const overwriteReviewedEvidence = options.overwriteReviewedEvidence === true;
+  const stagePrivateReleaseReceipt = options.stagePrivateReleaseReceipt === true;
+  invariant(
+    !overwriteReviewedEvidence || admitPublicEvidence,
+    "Reviewed live evidence cannot be overwritten unless public evidence admission is enabled.",
+  );
+  invariant(
+    !overwritePrivateReleaseReceipt || stagePrivateReleaseReceipt,
+    "The private release receipt cannot be overwritten unless private receipt staging is enabled.",
+  );
+  const rootState = await lstat(repositoryPath);
+  invariant(
+    rootState.isDirectory() && !rootState.isSymbolicLink(),
+    "The live-verification repository root must be a real non-symbolic directory.",
+  );
+  const rootRealPath = await realpath(repositoryPath);
+  const privatePath = resolve(repositoryPath, RELEASE_EVIDENCE_PATHS.privateLivePagesVerification);
+  const privateReleasePath = dirname(privatePath);
+  const personalAgentMediaPath = dirname(privateReleasePath);
+  const evalsPath = dirname(personalAgentMediaPath);
+  const evalsRealPath = await ensurePrivateDirectoryImplementation(
+    evalsPath,
+    rootRealPath,
+    "The private live-verification .evals directory",
+  );
+  if (stagePrivateReleaseReceipt) {
+    const personalAgentMediaRealPath = await ensurePrivateDirectoryImplementation(
+      personalAgentMediaPath,
+      evalsRealPath,
+      "The private personal-agent media directory",
+    );
+    await ensurePrivateDirectoryImplementation(
+      privateReleasePath,
+      personalAgentMediaRealPath,
+      `The private ${RELEASE} release-evidence directory`,
+    );
+  }
+
   const bytes = `${JSON.stringify(receipt, null, 2)}\n`;
-  await atomicWrite(LOCAL_RECEIPT, bytes, { overwrite: true, mode: 0o600 });
-  if (options.admitPublicEvidence) {
-    await atomicWrite(REVIEWED_RECEIPT, bytes, {
-      overwrite: options.overwriteReviewedEvidence,
-      mode: 0o644,
+  const localPath = resolve(repositoryPath, RELEASE_EVIDENCE_PATHS.localLivePagesVerification);
+  const reviewedPath = resolve(repositoryPath, RELEASE_EVIDENCE_PATHS.reviewedLivePagesVerification);
+  const entries = [{
+    path: localPath,
+    content: bytes,
+    mode: 0o600,
+    replaceExisting: true,
+  }];
+  if (stagePrivateReleaseReceipt) {
+    entries.push({
+      path: privatePath,
+      content: bytes,
+      mode: 0o600,
+      replaceExisting: overwritePrivateReleaseReceipt,
     });
   }
+  if (admitPublicEvidence) {
+    entries.push({
+      path: reviewedPath,
+      content: bytes,
+      mode: 0o644,
+      replaceExisting: overwriteReviewedEvidence,
+    });
+  }
+  await admitImplementation({
+    repositoryRoot: repositoryPath,
+    entries,
+  }, admissionFileSystem);
   return {
     receipt,
-    localPath: LOCAL_RECEIPT,
-    reviewedPath: options.admitPublicEvidence ? REVIEWED_RECEIPT : null,
+    localPath,
+    privatePath: stagePrivateReleaseReceipt ? privatePath : null,
+    reviewedPath: admitPublicEvidence ? reviewedPath : null,
   };
 }
 
+export async function verifyLivePagesArtifact(options, implementations = {}) {
+  const collectImplementation = implementations.collectImplementation
+    ?? collectLivePagesArtifactVerification;
+  const { receipt } = await collectImplementation(options);
+  return persistLivePagesVerificationReceipt(receipt, options, implementations);
+}
+
 async function main() {
-  const result = await verifyLivePagesArtifact(parseVerificationOptions());
+  const options = parseVerificationOptions();
+  const result = await verifyLivePagesArtifact(options);
   process.stdout.write(`${JSON.stringify({
     status: "verified",
     release: RELEASE,
@@ -943,6 +1022,8 @@ async function main() {
     byteCount: result.receipt.byteCount,
     mismatches: result.receipt.mismatches.length,
     localReceipt: relative(repositoryRoot, result.localPath),
+    privateReceipt: result.privatePath ? relative(repositoryRoot, result.privatePath) : null,
+    dependentEvidenceRecaptureRequired: options.overwritePrivateReleaseReceipt,
     reviewedReceipt: result.reviewedPath ? relative(repositoryRoot, result.reviewedPath) : null,
   }, null, 2)}\n`);
 }

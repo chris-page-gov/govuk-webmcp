@@ -323,6 +323,13 @@ export async function replaceWithExclusiveStage(path, source, mode, {
       expectedSize: intendedSize,
       label: "The promoted webmcp-evals browser backend after stage clean-up",
     }, lstatImplementation, openImplementation);
+    await validateExactRegularFile(backupPath, {
+      identity: backupIdentity,
+      expectedMode: originalSnapshot.mode,
+      expectedSha256: originalSnapshot.sha256,
+      expectedSize: originalSnapshot.size,
+      label: "The webmcp-evals recovery backup before transaction clean-up",
+    }, lstatImplementation, openImplementation);
     await removeIdentityBoundFile(backupPath, backupIdentity, lstatImplementation, unlinkImplementation);
     backupIdentity = null;
     await validateExactRegularFile(path, {

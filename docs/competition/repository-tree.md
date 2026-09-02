@@ -181,7 +181,7 @@ govuk-webmcp/
 │   ├── build-demo-video.mjs        # guarded local review cut, captions and transcript
 │   ├── build-host-evidence-clip.mjs # labelled receipt visualisation, not host video
 │   ├── build-ollama-diagnostic-clip.mjs # failed-run receipt visualisation, not host video
-│   ├── build-voiceover-screenshot-clip.mjs # guarded and visibly labelled screenshot sequence
+│   ├── build-voiceover-screenshot-clip.mjs # guarded sequence; exact v0.4 manifest is the default
 │   ├── build-preview-scene-clips.mjs # explicitly non-live editorial previews
 │   ├── capture-live-demo-clips.mjs # exact-release genuine interaction capture
 │   ├── write-evidence-manifest.mjs # fail-closed allowlisted digest manifest
@@ -356,7 +356,7 @@ styles, tests, evaluation fixtures and documentation. It consumes the released
 data plane rather than creating a beginner-only copy. The same five root
 artefact families still gate registration; the definition set contains six
 tools or none. The five additional schema files bring the versioned contract to
-36 schemas. The settled source-tree checks pass 381 of 381 unit tests, 43 of 43
+36 schemas. The settled source-tree checks pass 398 of 398 unit tests, 43 of 43
 installed-Chrome tests and 43 of 43 installed-Microsoft-Edge tests. The
 deterministic double build contains 1,883 files and 128,653,230 bytes at
 aggregate SHA-256

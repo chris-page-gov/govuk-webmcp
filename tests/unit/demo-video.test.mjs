@@ -83,11 +83,55 @@ const releasedSupportedHostPath = "docs/competition/evidence/supported-host-webm
 const releasedSupportedHostBytes = await readFile(releasedSupportedHostPath);
 const releasedSupportedHostEvidence = JSON.parse(releasedSupportedHostBytes.toString("utf8"));
 const releasedRawChromePath = ".evals/chrome-devtools-mcp-public.json";
-const releasedRawChromeBytes = await readFile(releasedRawChromePath);
-const releasedRawChrome = JSON.parse(releasedRawChromeBytes.toString("utf8"));
 const releasedReviewedChromePath = "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json";
 const releasedReviewedChromeBytes = await readFile(releasedReviewedChromePath);
 const releasedReviewedChrome = JSON.parse(releasedReviewedChromeBytes.toString("utf8"));
+const releasedRawChrome = {
+  schema: supportedHostCandidateReleaseContract.rawCaptureSchema,
+  observedAt: releasedReviewedChrome.observedAt,
+  target: structuredClone(releasedReviewedChrome.target),
+  deploymentChecks: structuredClone(releasedReviewedChrome.deploymentChecks),
+  environment: structuredClone(releasedReviewedChrome.environment),
+  discovery: {
+    command: "list_webmcp_tools",
+    pageId: 2,
+    toolCount: releasedReviewedChrome.discovery.toolCount,
+    tools: structuredClone(releasedReviewedChrome.discovery.tools),
+  },
+  calls: releasedReviewedChrome.calls.map((call) => ({
+    command: "execute_webmcp_tool",
+    pageId: 2,
+    ...structuredClone(call),
+  })),
+  finalPageObservation: {
+    command: "evaluate_script",
+    pageId: 2,
+    ...structuredClone(releasedSupportedHostEvidence.finalPageObservation),
+  },
+  rejectedCall: {
+    command: "execute_webmcp_tool",
+    pageId: 2,
+    toolName: releasedReviewedChrome.rejectedCall.toolName,
+    input: {
+      query: "birth",
+      personalContext: "synthetic context that the page contract must reject",
+    },
+    status: releasedReviewedChrome.rejectedCall.status,
+    output: structuredClone(releasedReviewedChrome.rejectedCall.output),
+    canonicalOutputSha256: releasedReviewedChrome.rejectedCall.canonicalOutputSha256,
+  },
+  console: {
+    command: "list_console_messages",
+    ...structuredClone(releasedReviewedChrome.console),
+  },
+  boundaries: structuredClone(releasedReviewedChrome.boundaries),
+  limitations: [
+    "This public-page capture binds discovery and execution to the validated deployment metadata returned at capture time; it does not independently compare every live byte with the Pages artefact.",
+    "Chrome DevTools MCP execution does not measure whether a model chooses the right tool.",
+    "The receipt contains source-derived tool output and must be reviewed before admission to public evidence.",
+  ],
+};
+const releasedRawChromeBytes = Buffer.from(`${JSON.stringify(releasedRawChrome, null, 2)}\n`);
 const releasedLiveVerificationPath = "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json";
 const releasedLiveVerificationBytes = await readFile(releasedLiveVerificationPath);
 const releasedLiveVerification = JSON.parse(releasedLiveVerificationBytes.toString("utf8"));
@@ -803,6 +847,7 @@ async function futureSupportedHostReleaseFixture() {
   const privateLiveReceiptFile = jsonFile(".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json", privateLiveReceipt);
 
   const evidence = hostEvidenceFixture();
+  evidence.capturedAt = "2026-09-02T02:11:30.000Z";
   evidence.page.productCommit = futureConfig.productCommit;
   evidence.page.pagesRunId = futureConfig.pagesRunId;
   evidence.deploymentChecks = supportedHostDeploymentChecks(evidence.capturedAt, deployment, futureConfig);
@@ -970,6 +1015,28 @@ test("supported-host admission rejects authentication before either stored recei
   }
 });
 
+test("a newer private release receipt invalidates dependent supported-host evidence", async () => {
+  const fixture = await futureSupportedHostReleaseFixture();
+  const newerPrivateReceipt = structuredClone(fixture.privateLiveReceipt);
+  newerPrivateReceipt.observedAt = "2026-09-02T02:11:31.000Z";
+  assert.throws(
+    () => validateSupportedHostReviewedArtefactForRelease(
+      fixture.reviewed,
+      fixture.evidence,
+      fixture.reviewedFile,
+      {
+        ...fixture.context,
+        privateLiveVerification: newerPrivateReceipt,
+        privateLiveVerificationFile: jsonFile(
+          fixture.privateLiveReceiptFile.relativePath,
+          newerPrivateReceipt,
+        ),
+      },
+    ),
+    /newer than the supported-host capture; recapture/u,
+  );
+});
+
 test("future release cross-receipt drift fails closed", async () => {
   const fixture = await futureSupportedHostReleaseFixture();
   const pairContext = {
@@ -1120,7 +1187,8 @@ test("publication consumers authenticate the live release before validating or a
   assert.match(clipSource, /metadataUrl:\s*liveDeployment\.url[\s\S]*?metadataSha256:\s*liveDeployment\.sha256/u);
   assert.match(clipSource, /config,[\s\S]*?privateLiveVerificationFile[\s\S]*?privateLiveVerification[\s\S]*?authenticatedLiveReceipt[\s\S]*?rawReceiptFile[\s\S]*?rawReceipt/u);
   assert.match(clipSource, /mode === 0o600/u);
-  assert.match(finalVideoSource, /try[\s\S]*?authenticatedLiveVerification = await authenticateLivePagesReceipt\(liveRelease\)[\s\S]*?authenticateFinalVideoPersonalAgentSummary\([\s\S]*?authenticateEvaluationReleaseReceipt\(candidate,[\s\S]*?return authenticatedLiveVerification[\s\S]*?liveReceiptLease:\s*"borrowed"[\s\S]*?validateSupportedHostReviewedArtefact\([\s\S]*?authenticatedLiveReceipt:\s*authenticatedLiveVerification[\s\S]*?finally[\s\S]*?disposeAuthenticatedLivePagesReceipt\(authenticatedLiveVerification\)/u);
+  assert.match(finalVideoSource, /try[\s\S]*?authenticatedLiveVerification = await authenticateLivePagesReceipt\(liveRelease\)[\s\S]*?authenticateFinalVideoPersonalAgentSummary\([\s\S]*?authenticateEvaluationReleaseReceipt\(candidate,[\s\S]*?checkoutPolicy:\s*authenticationOptions\.checkoutPolicy[\s\S]*?return authenticatedLiveVerification[\s\S]*?liveReceiptLease:\s*"borrowed"[\s\S]*?validateSupportedHostReviewedArtefact\([\s\S]*?authenticatedLiveReceipt:\s*authenticatedLiveVerification[\s\S]*?finally[\s\S]*?disposeAuthenticatedLivePagesReceipt\(authenticatedLiveVerification\)/u);
+  assert.equal((finalVideoSource.match(/clean-evidence-descendant/gu) ?? []).length, 1);
 });
 
 test("Chrome DevTools final page observation binds diagnostic, selection and digest parity", () => {
@@ -2375,6 +2443,7 @@ test("final-video preflight rejects a run one millisecond before its authenticat
     preRunLiveRelease,
   );
   let authenticatedRelease;
+  let requestedCheckoutPolicy = null;
 
   await assert.rejects(
     () => authenticateFinalVideoPersonalAgentSummary(
@@ -2386,13 +2455,20 @@ test("final-video preflight rejects a run one millisecond before its authenticat
         preRunLiveRelease,
       },
       {
-        authenticateImplementation: async (candidate) => {
+        authenticateImplementation: async (candidate, authenticationOptions) => {
+          requestedCheckoutPolicy = authenticationOptions.checkoutPolicy;
           authenticatedRelease = await authenticateEvaluationReleaseReceipt(candidate, {
             authenticateImplementation: (value) => authenticateLivePagesReceipt(
               value,
               async () => ({ receipt: { ...structuredClone(value), observedAt: freshObservedAt } }),
             ),
-            gitIdentityImplementation: async () => ({ commit: candidate.commit, status: "" }),
+            checkoutPolicy: authenticationOptions.checkoutPolicy,
+            gitIdentityImplementation: async () => ({
+              commit: candidate.commit,
+              status: "",
+              productIsAncestor: true,
+              changedEntries: [],
+            }),
             localBindingImplementation: async () => {},
             runtimeSnapshotImplementation: async () => ({
               runtimeFactory: async () => { throw new Error("The chronology gate must run before canonical replay."); },
@@ -2408,6 +2484,7 @@ test("final-video preflight rejects a run one millisecond before its authenticat
     /observedAt must not be earlier than the supplied pre-run live receipt observedAt/u,
   );
   assert.ok(authenticatedRelease);
+  assert.equal(requestedCheckoutPolicy, "clean-evidence-descendant");
   assert.equal(await disposeEvaluationReleaseReceipt(authenticatedRelease), false);
 });
 

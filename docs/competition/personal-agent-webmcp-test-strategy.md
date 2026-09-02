@@ -134,7 +134,7 @@ trusted coordinated shape-valid live-byte receipts. Every publication consumer
 now requires a fresh in-process authenticated receipt, ordered `initial`,
 `after-page-load` and `after-execution` deployment checks and exact matching of
 both stored receipt bindings. Focused remediation tests pass 31 of 31 and the
-settled integrated unit suite passes 381 of 381. Sealed post-fix scan
+current integrated prepared unit suite passes 398 of 398. Sealed post-fix scan
 `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
 executable-source items with complete configured coverage and zero reportable
 findings for its exact snapshot.
@@ -190,6 +190,46 @@ After deployment, the separately bound `v0.3.0-rc.1` captures, VoiceOver record
 and local video build passed the guarded path; they do not retroactively
 change that historical failure or prove public upload or submission.
 
+## Release-bound checkout and private-receipt policy
+
+Normal personal-agent evaluation authentication uses the
+`exact-pages-commit` policy. The checkout must be clean and `HEAD` must equal
+the product commit named by the freshly authenticated Pages receipt. This is
+the default and remains the rule for host evaluations and ordinary replay.
+
+Final-video assembly alone may use the `clean-evidence-descendant` policy so
+reviewed evidence can be added after the immutable product deployment without
+moving its tag. The checkout must still be clean, the product commit must be an
+ancestor and the initially accepted `HEAD` plus exact change set are pinned
+through authentication and final revalidation. Only added or modified files in
+the closed release-evidence allowlist are accepted: Markdown, CSV or VTT within
+`docs/`; JSON only within `docs/competition/evidence/`; the named top-level
+project documents; and the exact `v0.4.0-rc.1` VoiceOver manifest, nine frames
+and generated clip. Deletes, renames, copies, type changes, non-canonical paths
+and changes to application runtime, packages, workflows, scripts, source or
+tests fail closed. This is a restricted final-video exception, not a general
+claim that every file described as documentation is passive or trustworthy.
+
+Create the ignored mode-`0600` private release receipt directly through
+`deployment:verify-live -- --stage-private-release-receipt`; there is no manual
+copy step. The verifier refuses an existing private receipt unless the operator
+also gives `--overwrite-private-release-receipt`. That explicit replacement
+invalidates all evidence derived from the former receipt: supported-host calls,
+both personal-agent host halves, accessibility capture and every dependent
+media artefact must be recaptured before authentication can pass.
+Private receipt staging uses descriptor-bound no-follow mode normalisation: it
+supports restrictive umasks and rejects mode drift after `fchmod`. The
+no-argument VoiceOver builder selects the canonical exact `v0.4.0-rc.1`
+manifest. Focused post-fix checks pass 116 of 116 and an independent clean
+review passes 71 of 71. Final local automated verification is complete: the
+prepared unit suite passed 398 of 398 in 67,006.169333 ms; installed Chrome
+passed 43 of 43 in 17.7 seconds; installed Edge passed 43 of 43 in 17.5
+seconds; and two deterministic builds each contained 1,883 files and
+128,653,230 bytes at aggregate SHA-256
+`cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+Protected integration, deployment, exact-release recapture and the final
+current-snapshot security and manual gates remain separate.
+
 The physical shard layer admits at most 4 active loads, 32 queued loads and 36
 distinct in-flight files. Each 3-second file deadline begins before queueing,
 and a physical slot remains held until the underlying loader actually settles.
@@ -217,13 +257,14 @@ panel controls; it is native-panel evidence, not a claim of manual operation.
 list WebMCP debugging as an inherited Chromium feature; record the exact Edge
 build rather than infer compatibility from Chromium alone.
 
-The research referred to “both tools”, but this release exposes five. Capture
-all five names and schemas, then execute through the panel controls at least:
+The research referred to “both tools”, the historical release exposes five and
+the `0.4.0-rc.1` candidate exposes six. Capture all six candidate names and
+schemas, then execute through the panel controls at least:
 
 - `search_government_knowledge`, proving a read-only result with an authoritative
   link, assertion status and limitation; and
-- `explore_answer_foundations`, proving the reversible presentation effect and
-  visible page update.
+- `present_resource_evidence`, proving the reversible Evidence answer
+  presentation effect and visible page update.
 
 Also submit one invalid input and retain the rejection. A screenshot alone is
 insufficient: save the exact input, output or error, invocation status, browser
@@ -468,13 +509,13 @@ therefore test controls, not optional tidying.
 
 The evidence stack passes only when the same deployed commit:
 
-1. lists exactly the five intended tools and their closed schemas;
+1. lists exactly the six intended tools and their closed schemas;
 2. rejects invalid and additional inputs;
 3. returns the common bounded source-derived result and its evidence tier
    through the human interface and captured host executions, while
    deterministic smoke independently proves only its authored expected-schema
    envelopes, not full payload equivalence or model selection;
-4. visibly applies and can reverse the two presentation effects;
+4. visibly applies and can reverse the three presentation effects;
 5. retains reviewed authoritative links and federated producer-declared links,
    destination hostnames, assertions, limitations and the untrusted-output
    boundary in every path without promoting federated authority;

@@ -25,6 +25,7 @@ import {
   verifyDemoDeployment,
 } from "./build-demo-video.mjs";
 import { resolveCanonicalRepositoryPath } from "./lib/repository-relative-path.mjs";
+import { RELEASE_EVIDENCE_PATHS } from "./lib/release-evidence-paths.mjs";
 import { placeRepositoryOutputs } from "./lib/transactional-output-placement.mjs";
 import {
   authenticateLivePagesReceipt,
@@ -32,9 +33,9 @@ import {
 } from "./verify-live-pages-artifact.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
-const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
+const configPath = resolve(repositoryRoot, RELEASE_EVIDENCE_PATHS.demoConfig);
 const reconstructionLabel = "Receipt reconstruction — not a host recording";
-const privateLiveVerificationPath = ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json";
+const privateLiveVerificationPath = RELEASE_EVIDENCE_PATHS.privateLivePagesVerification;
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);

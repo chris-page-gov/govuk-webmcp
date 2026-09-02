@@ -87,6 +87,35 @@ recapture every exact-release page, host and accessibility input; rerun both
 36-slot host halves against it; build and review the video; then tag that same
 product commit. A later evidence-documentation commit must not move the tag.
 
+After the new Pages run succeeds, stage its ignored, mode-`0600` private release
+receipt through the verifier itself:
+
+```bash
+WEBMCP_EXPECTED_COMMIT="$RELEASE_COMMIT" GOVUK_WEBMCP_PAGES_RUN_ID="$PAGES_RUN_ID" npm run deployment:verify-live -- --stage-private-release-receipt
+```
+
+Do not copy a receipt manually. The verifier validates the live bytes and
+promotes the local and private receipts as one recoverable operation. It refuses
+to replace an existing private release receipt by default. If replacement is
+deliberately required, add `--overwrite-private-release-receipt` alongside
+`--stage-private-release-receipt`; that explicit replacement invalidates all
+dependent supported-host, personal-agent, accessibility and media evidence, so
+every such capture must be repeated before the release gate can close.
+
+The staging transaction normalises its requested file mode through a
+descriptor-bound no-follow handle, so a restrictive umask is supported and any
+permission drift after `fchmod` fails closed. The no-argument VoiceOver clip
+builder selects the canonical exact `v0.4.0-rc.1` capture manifest. Focused
+post-fix checks pass 116 of 116 and an independent clean review passes 71 of
+71. Final local automated verification is complete: the prepared unit suite
+passed 398 of 398 in 67,006.169333 ms; installed Chrome passed 43 of 43 in
+17.7 seconds; installed Edge passed 43 of 43 in 17.5 seconds; and two
+deterministic builds each contained 1,883 files and 128,653,230 bytes at
+aggregate SHA-256
+`cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+Protected integration, deployment, exact-release recapture and the final
+current-snapshot security and manual gates remain separate.
+
 ## Beginner documentation
 
 Start with [Evidence before answers](docs/beginners/index.md) if you are new to
@@ -722,8 +751,9 @@ access or permission to reuse linked material.
   view state and DOM/text-only Evidence answer rendering.
 - `scripts/verify-live-pages-artifact.mjs` — candidate exact-run verifier for
   the downloaded Pages artefact, deployment identity and every public file; it
-  writes ignored local evidence by default and requires a separate admission
-  flag for a reviewed receipt.
+  writes ignored local evidence by default, can securely stage the mode-`0600`
+  private release receipt without a manual copy and requires separate explicit
+  flags for replacement or admission of reviewed evidence.
 - `scripts/verify-deterministic-build.mjs` — candidate offline double-build
   verifier; it checks stable source inputs and complete `dist` byte identity,
   then writes an ignored local receipt.

@@ -223,7 +223,7 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   deployed bytes and retained observations remain historical release evidence
   and are not rewritten or carried forward as six-tool evidence.
 - Reconciled the settled local candidate checkpoint: research-pack
-  verification, the 80-reviewed plus 58,652-federated projection audit, 381
+  verification, the 80-reviewed plus 58,652-federated projection audit, 398
   prepared unit tests, 43 Chrome tests, 43 Edge tests, 7 model-free smoke
   envelopes, frozen retrieval quality and dependency checks pass. The offline
   double build contains 1,883 files and 128,653,230 bytes at aggregate SHA-256
@@ -283,9 +283,49 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Kept the released `v0.3.0-rc.1` demo configuration, receipts and media
   references unchanged while moving candidate capture, captions, transcript,
   clips and build receipts to explicit `v0.4.0-rc.1` paths.
+- Centralised the canonical `v0.4.0-rc.1` release-evidence paths in one shared
+  module. The inventory fixes the demo configuration; ignored local and private
+  live receipts; private evaluation, authenticated-summary and Copilot capture
+  paths; tracked reviewed live, Chrome and supported-host evidence; and the
+  exact VoiceOver manifest, clip and nine frame paths used by release tooling.
+- Extended the live verifier to promote one byte-identical receipt to its
+  local mode-`0600`, optionally staged private mode-`0600` and optionally
+  reviewed mode-`0644` paths as one recoverable operation. Private and public
+  overwrites remain separate explicit choices. Replacing the private release
+  receipt explicitly invalidates dependent supported-host and media evidence,
+  which must be recaptured against the new observation.
+- Kept ordinary evaluation authentication at the clean exact Pages commit.
+  Final-video authentication alone may use a clean evidence-descendant commit:
+  the product commit must be its ancestor, HEAD and the exact change set must
+  remain stable, every Git change must be `A` or `M`, and the closed allowlist
+  admits only inert documentation extensions, reviewed evidence JSON and the
+  exact candidate VoiceOver assets. Runtime, workflow, package, source, script,
+  test and top-level `AGENTS.md` changes remain rejected.
 
 ### Fixed
 
+- Corrected the four portability and clean-run failures exposed by pull request
+  #21's first CI run `33593265033`, job `100131452398`. The ignored raw Chrome
+  fixture was absent on a clean runner; two parent-substitution regressions
+  assumed APFS-style inode non-reuse; and `webmcp-evals` backup clean-up trusted
+  a recycled device/inode pair and could remove a replacement. The historical
+  Chrome fixture is now reconstructed exactly from tracked reviewed and
+  supported-host evidence as 133,272 bytes with SHA-256
+  `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
+- Made validated-stage, committed-output and dependency-backup clean-up portable
+  across filesystems that can recycle inodes. Destructive clean-up now
+  revalidates the expected identity, exact bytes and file mode immediately
+  before removal; a replacement or permission change is preserved and fails
+  closed rather than being mistaken for the original file.
+- Corrected evidence staging under a restrictive process umask. Admission now
+  opens the newly created stage with `O_NOFOLLOW`, cross-checks the opened file
+  and path identity, sets the exact requested mode through that file handle and
+  only then validates mode and bytes. A requested public mode such as `0644` is
+  therefore normalised deliberately without a path-following `chmod` step.
+- Corrected the no-argument VoiceOver screenshot-clip builder to select the
+  canonical candidate manifest at
+  `output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json`. It no longer
+  falls back to the historical generic `capture-manifest.json` path.
 - Added a digest-bound explicit dependency correction for the pinned
   `webmcp-evals` 0.0.4 browser backend. The upstream browser path accepted a
   six-step configuration but did not pass that bound into `ToolLoopAgent`, so
@@ -365,7 +405,8 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   explicit, while path escape, symbolic targets, partial promotion and
   unreviewed overwrites fail closed.
 - Corrected the release-evaluation sequence so claim authentication consumes
-  the ignored mode-`0600` live receipt from a clean exact-Pages checkout.
+  the ignored mode-`0600` live receipt from a clean exact-Pages checkout under
+  the ordinary evaluation policy.
   Reviewed receipts, summaries and media are admitted only afterwards through
   a post-deployment evidence change, preventing tracked evidence from closing
   its own clean-worktree gate. The protocol now also recreates the exact
@@ -382,16 +423,18 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   version only when it has the bounded Chromium form `major.0.build.patch`.
 - Bound the 72-run claim gate to a freshly re-observed live Pages artefact and
   public byte comparison rather than a structurally plausible receipt. Claim
-  authentication requires the canonical repository and URL, exact clean Git
-  commit before and after authentication, and a complete local `dist` manifest
-  that matches the authenticated Pages receipt. A raw receipt remains labelled
-  only `structurally-valid` and cannot open the claim gate.
+  authentication requires the canonical repository and URL, an admitted clean
+  Git identity stable before and after authentication, and a complete local
+  `dist` manifest that matches the authenticated Pages receipt. Ordinary
+  evaluation requires the exact Pages commit; only final-video assembly may
+  use the closed evidence-descendant exception described above. A raw receipt
+  remains labelled only `structurally-valid` and cannot open the claim gate.
 - Replayed each captured call sequence against a private, manifest-verified
   snapshot of the receipt-bound `dist` bytes under a unique module identity,
   compared the complete canonical outputs and derived page parity from replay
   rather than captured output. The replay cache is confined to one validation;
-  the receipt is immutable, and the snapshot, working build and clean exact Git
-  identity are rechecked afterwards. Co-digested call or page substitutions,
+  the receipt is immutable, and the snapshot, working build and admitted clean
+  Git identity are rechecked afterwards. Co-digested call or page substitutions,
   unbound-cache reuse and divergent repetitions now fail closed.
 - Required a cloud observation to bind visible Microsoft Edge MCP Workspace and
   a syntactically valid observed Copilot share link. Synthetic privacy markers
@@ -438,6 +481,15 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+- Bound canonical live-receipt staging and clean-up to the same exact-content
+  controls used by release admission. Private directories are established as
+  mode `0700`, private receipts as mode `0600`, symbolic roots are rejected and
+  pre-existing private or public evidence is not replaced without its specific
+  overwrite gate. The resulting 398 of 398 prepared unit tests pass, including
+  the clean-run reconstruction, inode-reuse, mode-change, restrictive-umask,
+  rollback and evidence-descendant authentication regressions. The narrower
+  post-review batch passes 116 of 116; protected CI, the fresh current-snapshot
+  security review and the complete release gate remain pending.
 - Required a fresh process-local authenticated live Pages receipt in every
   supported-host publication consumer. The shared validator now matches that
   authenticated observation against both exact stored receipts, derives all
@@ -489,21 +541,28 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `aedf88e3-6a77-46af-be6b-2c672001dd46`, digest
   `codex-security-snapshot/v1:sha256:54069030a2b50cc5a9a084c5973fc06d4b07ea898acab187d3c543c9aa70df0e`,
   completed 36 of 36 items, ran 102 focused tests, found zero findings and
-  concluded that there is no security release blocker. The complete local
-  deterministic, unit, Chrome, Edge, retrieval, smoke and dependency checks now
-  pass.
-- Completed sealed post-fix working-tree scan
+  concluded that there was no security release blocker for that frozen
+  snapshot. The separately recorded local deterministic, unit, Chrome, Edge,
+  retrieval, smoke and dependency checks passed for their named revisions.
+- Preserved sealed post-fix working-tree scan
   `185ce6fa-a47f-4c5e-9888-c63a9f932205` over all 33 selected
   executable-source items in snapshot
   `codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`.
   Configured coverage is complete and no reportable findings survived. The
   scan treats non-executable documentation, tests and generated projections as
   supporting evidence, and excludes binary-media review, ignored private
-  captures, transitive dependencies and upstream services. These following
-  lockstep recording edits do not change executable source.
+  captures, transitive dependencies and upstream services. The later clean-run,
+  portable clean-up, canonical-path, receipt-staging and evidence-descendant
+  changes alter executable source, so this scan remains historical and a fresh
+  review is required for the current snapshot.
 
 ### Governance
 
+- Recorded pull request #21's first Linux CI failure as diagnostic evidence,
+  not release acceptance. Run `33593265033`, job `100131452398`, predates the
+  clean-run and inode-reuse corrections above. Protected integration, an exact
+  Pages deployment, recaptured host and VoiceOver evidence, final media, tag,
+  prerelease and Devpost state remain separate gates.
 - Later evidence-only documentation may record release observations but must
   not move an existing product tag or imply a different deployed identity.
 - Recorded the first `0.4.0-rc.1` product checkpoint as deployed and exactly

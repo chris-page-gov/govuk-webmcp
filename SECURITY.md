@@ -27,14 +27,40 @@ local storage, session storage or persistent server-side application storage.
 Following a reviewed authoritative link or a federated producer-declared link
 leaves this boundary.
 
-Candidate release evidence uses a separate fail-closed boundary. Public Chrome
-admission is allowed only for the fixed public target with an exact expected
-commit. The mode-`0600` raw receipt, tracked reviewed Chrome projection and
-tracked supported-host projection are written as one recoverable three-file
-set. Paths must remain under the real repository root, symbolic ancestors and
-targets are rejected, and raw overwrite is independently explicit. The public
-projections bind source paths, byte sizes and SHA-256 values while retaining
-only rejected field names, never the rejected synthetic value.
+Candidate release evidence uses a separate fail-closed boundary.
+`scripts/lib/release-evidence-paths.mjs` fixes the canonical paths for the demo
+configuration; local and private live receipts; private evaluation,
+authenticated-summary and Copilot capture inputs; tracked reviewed live,
+Chrome and supported-host evidence; and the exact VoiceOver manifest, clip and
+nine frames. Private media remains below
+`.evals/personal-agent-media/v0.4.0-rc.1/`; tracked reviewed evidence remains
+below `docs/competition/evidence/`; and candidate VoiceOver media uses only the
+enumerated `output/voiceover-capture/` and `output/demo-clips/` paths. Public
+Chrome admission is allowed only for the
+fixed public target with an exact expected commit. The mode-`0600` raw receipt,
+tracked reviewed Chrome projection and tracked supported-host projection are
+written as one recoverable three-file set. Paths must remain under the real
+repository root, symbolic ancestors and targets are rejected, and raw overwrite
+is independently explicit. The public projections bind source paths, byte
+sizes and SHA-256 values while retaining only rejected field names, never the
+rejected synthetic value.
+
+The live verifier can also promote one byte-identical serialised receipt to the
+canonical local mode-`0600`, optional private mode-`0600` and optional tracked
+reviewed mode-`0644` paths as one recoverable set. It establishes private
+directories as mode `0700`, rejects a symbolic repository or private root and
+does not replace private or reviewed evidence without the destination's
+separate `--overwrite-private-release-receipt` or
+`--overwrite-reviewed-evidence` gate. Replacing the private release receipt marks
+dependent supported-host and media evidence for recapture; supported-host
+validation requires its observation to be no earlier than the new receipt.
+
+A restrictive process umask cannot silently weaken the requested release-file
+mode or make a correct admission fail. After exclusive stage creation,
+admission opens that file with the no-follow flag, cross-checks the file-handle
+and path identities, applies the requested mode through the opened handle and
+then validates the exact mode and bytes. Permission drift after normalisation
+fails closed, and the unsafe replacement is preserved rather than removed.
 
 Supported-host preflight checks the exact six published input and output
 schemas, canonical results, complete presented-evidence digest, fixed
@@ -54,7 +80,10 @@ boundary uses one canonical hostname classifier so the apex, subdomains, case
 variants and trailing-dot forms fail consistently across build, capture and
 evidence validation. VoiceOver preflight revalidates its closed manifest and
 all nine bounded regular non-symbolic frame files rather than trusting the
-rendered sequence alone.
+rendered sequence alone. The no-argument VoiceOver builder obtains
+`output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json` from the canonical
+release path module and cannot fall back to historical generic
+`capture-manifest.json` evidence.
 
 Multi-file candidate media and release outputs from the live-interaction,
 supported-host, Ollama and final-video builders use a shared promotion
@@ -70,6 +99,10 @@ The helpers bind the validated ancestor device and inode chain, recheck it
 immediately before and after each stage, link and removal operation, reject a
 persistent substitution and do not subsequently clean up through the changed
 chain. Exclusive stage creation also refuses to overwrite an existing file.
+Before removing any validated stage, committed output or dependency backup,
+clean-up revalidates exact bytes and mode as well as the expected identity. A
+filesystem-recycled inode therefore cannot make a replacement eligible for
+deletion.
 
 Portable Node does not expose the `openat`, `linkat` and `unlinkat` operations
 needed to root every mutation in an already-open directory handle. A process
@@ -203,9 +236,10 @@ Ten Low findings have implemented remediations:
 
 Sealed pre-fix standard scan `dcfed744-0676-40c1-a0ef-84dd3cc7b52b`
 identified the tenth finding with High confidence and Low severity. Its source
-coverage is explicitly partial. Focused remediation tests pass 31 of 31 and
-the settled integrated unit suite passes 381 of 381. At that checkpoint, these
-results did not replace an exact post-fix working-tree security review.
+coverage is explicitly partial. Focused remediation tests pass 31 of 31, and
+the current integrated prepared unit suite passes 398 of 398.
+Those test results do not replace an exact post-fix working-tree security
+review.
 
 Sealed post-fix working-tree scan `185ce6fa-a47f-4c5e-9888-c63a9f932205`,
 snapshot
@@ -215,10 +249,18 @@ configured coverage and zero reportable findings. Its vulnerability-discovery
 scope excluded non-executable documentation, tests, generated projections,
 binary media, ignored private captures, transitive dependencies and upstream
 services; relevant contracts and tests were used as supporting evidence. The
-subsequent lockstep edits record the scan result and do not change executable
-source. This closes the local changed-source security gate for that snapshot;
-protected integration, exact deployment, host, accessibility and human media
-review remain separate gates.
+later clean-run reconstruction, portable clean-up, canonical-path, secure
+receipt-staging and evidence-descendant authentication changes alter executable
+source after this scan. It remains historical evidence and closes the local
+changed-source security gate only for its own snapshot; a fresh scan is needed
+for the current tree. Protected integration, exact deployment, host,
+accessibility and human media review remain separate gates.
+
+The subsequent independent review identified the restrictive-umask and
+no-argument VoiceOver-default defects described above. Their focused post-fix
+batch passes 116 of 116, and the complete prepared unit suite passes 398 of
+398. Those results do not establish protected CI, deployment or the final full
+release gate.
 
 Sealed scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed the first seven
 findings and identified the eighth with High confidence and Low severity. It
@@ -359,11 +401,24 @@ Pages receipt. Authentication freshly repeats the GitHub artefact and live-byte
 observation, requires ordered `initial`, `after-page-load` and
 `after-execution` deployment checks, compares every binding except the new
 observation time, requires that new observation to be at or after both stored
-receipt observations, verifies a
-clean unchanged checkout at the exact commit and checks local `dist` file count,
-byte count, manifest and `deployment.json`. Authentication is mutation-sensitive:
-changing a branded receipt closes the gate. A raw but well-shaped receipt is
-reported only as `structurally-valid`.
+receipt observations, verifies a checkout admitted by the selected policy and
+checks local `dist` file count, byte count, manifest and `deployment.json`.
+Normal evaluation uses the `exact-pages-commit` policy and therefore requires a
+clean unchanged checkout at the exact Pages commit. Authentication is
+mutation-sensitive: changing a branded receipt closes the gate. A raw but
+well-shaped receipt is reported only as `structurally-valid`.
+
+Final-video authentication alone may select the
+`clean-evidence-descendant` policy. It requires the product commit to be an
+ancestor of a clean descendant, permits only `A` or `M` changes and pins the
+same HEAD and exact NUL-safe Git change set before authentication, afterwards
+and during retained revalidation. Its closed path allowlist admits only
+documentation `.md`, `.csv` and `.vtt` files, reviewed JSON below
+`docs/competition/evidence/`, selected top-level public documentation and the
+exact `v0.4.0-rc.1` VoiceOver manifest, nine frames and clip. It rejects
+`AGENTS.md`, runtime, workflow, package, source, script, test, deletion,
+rename, copy, type-change and non-canonical path changes. This is an
+evidence-assembly exception, not permission to evaluate changed page code.
 
 Authentication objects have explicit `owned` and `borrowed` leases. An owned
 consumer revokes synchronously on both success and failure before it awaits
@@ -381,12 +436,13 @@ Every observable call trajectory is replayed in order through a private,
 manifest-verified snapshot of receipt-bound `dist`, loaded under a unique module
 identity; captured outputs must equal the replay, and page parity derives from
 replayed output. Replay caches are scoped to one validation. The authenticated
-receipt is immutable, and the snapshot, working `dist` and clean exact Git
-identity are rechecked after replay. Public Copilot runs
-must bind the canonical deployment, visible Microsoft Edge MCP Workspace and an
-observed canonical Copilot share link. The link and exact free-text host/browser
-values remain private. The public summary contains no hashes of those values and
-publishes a browser version only when it has the bounded Chromium form
+receipt is immutable, and the snapshot, working `dist` and clean Git identity
+admitted by that evaluation's selected policy are rechecked after replay.
+Public Copilot runs must bind the canonical deployment, visible Microsoft Edge
+MCP Workspace and an observed canonical Copilot share link. The link and exact
+free-text host/browser values remain private. The public summary contains no
+hashes of those values and publishes a browser version only when it has the
+bounded Chromium form
 `major.0.build.patch`. Synthetic markers
 are checked across nested percent-encoded, numeric-entity, Unicode-normalised,
 case-folded and punctuation-insensitive forms. Fixed search stories admit only

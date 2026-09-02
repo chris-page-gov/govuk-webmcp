@@ -29,7 +29,11 @@ import {
   CAPTURE_SCHEMA,
   authenticateEvaluationReleaseReceipt,
   disposeEvaluationReleaseReceipt,
+  inspectEvaluationGitCheckout,
+  parseGitNameStatusZ,
   summariseEvaluationCapture,
+  validateEvidenceDescendantChanges,
+  validateEvaluationCheckoutIdentity,
   validateEvaluationCapture,
   validateLiveReleaseReceipt,
   verifyEvaluationCapture,
@@ -220,6 +224,220 @@ async function authenticatedReleaseReceipt(
     runtimeSnapshotImplementation,
   });
 }
+
+function cleanEvidenceIdentity(overrides = {}) {
+  return {
+    commit: "b".repeat(40),
+    status: "",
+    productIsAncestor: true,
+    changedEntries: [{ status: "M", paths: ["docs/competition/evidence/example.json"] }],
+    ...overrides,
+  };
+}
+
+test("evaluation checkout policy defaults to the exact clean Pages commit", () => {
+  assert.equal(
+    validateEvaluationCheckoutIdentity(
+      { commit: LIVE_COMMIT, status: "" },
+      LIVE_COMMIT,
+    ).commit,
+    LIVE_COMMIT,
+  );
+  assert.throws(
+    () => validateEvaluationCheckoutIdentity(cleanEvidenceIdentity(), LIVE_COMMIT),
+    /exact Pages commit/u,
+  );
+  assert.equal(
+    validateEvaluationCheckoutIdentity({
+      commit: LIVE_COMMIT,
+      status: "",
+      productIsAncestor: true,
+      changedEntries: [],
+    }, LIVE_COMMIT, "clean-evidence-descendant").commit,
+    LIVE_COMMIT,
+  );
+});
+
+test("clean evidence descendants admit only documentation and exact VoiceOver release assets", () => {
+  const paths = [
+    "docs/competition/evidence/live.json",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "output/demo-clips/v0.4.0-rc.1/06-voiceover.mov",
+    "output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json",
+    "output/voiceover-capture/v0.4.0-rc.1-frame-01-page-title-and-headings.png",
+    "output/voiceover-capture/v0.4.0-rc.1-frame-09-focus-restoration.png",
+  ];
+  const identity = cleanEvidenceIdentity({
+    changedEntries: paths.map((path, index) => ({
+      status: index % 2 === 0 ? "A" : "M",
+      paths: [path],
+    })),
+  });
+  assert.equal(
+    validateEvaluationCheckoutIdentity(identity, LIVE_COMMIT, "clean-evidence-descendant").changes.length,
+    paths.length,
+  );
+
+  for (const path of [
+    "AGENTS.md",
+    ".github/workflows/ci.yml",
+    "package.json",
+    "scripts/verify-personal-agent-evals.mjs",
+    "src/application-actions.ts",
+    "output/demo-clips/v0.4.0-rc.1/04-copilot-personal-ai.mov",
+    "output/demo-clips/v0.4.0-rc.1/06-voiceover.mp4",
+    "output/voiceover-capture/v0.4.0-rc.1-frame-10-focus-restoration.png",
+    "docs/competition/demo-video-script-v0.4.0-rc.1.json",
+    "docs/competition/run-review.mjs",
+    "docs/competition/review.html",
+  ]) {
+    assert.throws(
+      () => validateEvidenceDescendantChanges([{ status: "M", paths: [path] }]),
+      /page-runtime or unapproved path/u,
+    );
+  }
+  for (const entry of [
+    { status: "D", paths: ["README.md"] },
+    { status: "T", paths: ["docs/example.md"] },
+    { status: "R100", paths: ["docs/old.md", "docs/new.md"] },
+    { status: "C100", paths: ["docs/old.md", "docs/new.md"] },
+    { status: "Z", paths: ["docs/example.md"] },
+  ]) {
+    assert.throws(
+      () => validateEvidenceDescendantChanges([entry]),
+      /rejected change status/u,
+    );
+  }
+  for (const path of ["/docs/example.md", "docs\\example.md", "docs//example.md", "docs/../README.md"]) {
+    assert.throws(
+      () => validateEvidenceDescendantChanges([{ status: "M", paths: [path] }]),
+      /non-canonical repository path/u,
+    );
+  }
+  assert.throws(
+    () => validateEvaluationCheckoutIdentity(
+      cleanEvidenceIdentity({ status: "M docs/example.md" }),
+      LIVE_COMMIT,
+      "clean-evidence-descendant",
+    ),
+    /clean checkout/u,
+  );
+  assert.throws(
+    () => validateEvaluationCheckoutIdentity(
+      cleanEvidenceIdentity({ productIsAncestor: false }),
+      LIVE_COMMIT,
+      "clean-evidence-descendant",
+    ),
+    /not an ancestor/u,
+  );
+});
+
+test("NUL-safe Git diff parsing preserves unusual valid paths and rejects malformed bytes", () => {
+  assert.deepEqual(
+    parseGitNameStatusZ(Buffer.from("M\0docs/name with space.md\0A\0docs/tab\tand\nline.md\0", "utf8")),
+    [
+      { status: "M", paths: ["docs/name with space.md"] },
+      { status: "A", paths: ["docs/tab\tand\nline.md"] },
+    ],
+  );
+  assert.deepEqual(
+    parseGitNameStatusZ(Buffer.from("R100\0docs/old.md\0docs/new.md\0", "utf8")),
+    [{ status: "R100", paths: ["docs/old.md", "docs/new.md"] }],
+  );
+  assert.throws(() => parseGitNameStatusZ(Buffer.from("M\0docs/example.md", "utf8")), /NUL terminated/u);
+  assert.throws(() => parseGitNameStatusZ(Buffer.from([0x4d, 0x00, 0xff, 0x00])), /valid UTF-8/u);
+  assert.throws(() => parseGitNameStatusZ(Buffer.from("R100\0docs/old.md\0", "utf8")), /truncated/u);
+});
+
+test("Git checkout inspection rejects an internal HEAD change", async () => {
+  let headReads = 0;
+  await assert.rejects(
+    inspectEvaluationGitCheckout(LIVE_COMMIT, {
+      repositoryPath: "/unused/unit/repository",
+      async execImplementation(_command, args) {
+        if (args[0] === "rev-parse") {
+          headReads += 1;
+          return { stdout: Buffer.from(`${headReads === 1 ? LIVE_COMMIT : "b".repeat(40)}\n`, "utf8") };
+        }
+        if (args[0] === "status" || args[0] === "diff") return { stdout: Buffer.alloc(0) };
+        if (args[0] === "merge-base") return { stdout: Buffer.alloc(0) };
+        throw new Error(`Unexpected Git test command ${args[0]}`);
+      },
+    }),
+    /HEAD changed while/u,
+  );
+});
+
+test("Git checkout inspection rejects an invalid product commit before execution", async () => {
+  let executed = false;
+  await assert.rejects(
+    inspectEvaluationGitCheckout("--is-ancestor", {
+      repositoryPath: "/unused/unit/repository",
+      async execImplementation() {
+        executed = true;
+        throw new Error("Git must not execute for an invalid product commit.");
+      },
+    }),
+    /product commit is not an exact lowercase commit/u,
+  );
+  assert.equal(executed, false);
+});
+
+test("evidence-descendant authentication pins one clean HEAD through authentication and replay", async () => {
+  const receipt = liveReleaseReceipt();
+  const runtimeSnapshotImplementation = async () => ({
+    runtimeFactory: createPersonalAgentCanonicalRuntime,
+    verifyGeneratedArtifacts: async () => {},
+    revalidate: async () => {},
+    dispose: async () => {},
+  });
+  const freshAuthentication = (value) => authenticateLivePagesReceipt(
+    value,
+    async () => ({
+      receipt: {
+        ...structuredClone(value),
+        observedAt: "2026-09-02T00:00:00.000Z",
+      },
+    }),
+  );
+
+  let changedDuringAuthenticationCalls = 0;
+  await assert.rejects(
+    authenticateEvaluationReleaseReceipt(receipt, {
+      authenticateImplementation: freshAuthentication,
+      checkoutPolicy: "clean-evidence-descendant",
+      gitIdentityImplementation: async () => {
+        changedDuringAuthenticationCalls += 1;
+        return cleanEvidenceIdentity({
+          commit: changedDuringAuthenticationCalls === 1 ? "b".repeat(40) : "c".repeat(40),
+        });
+      },
+      localBindingImplementation: async () => {},
+      runtimeSnapshotImplementation,
+    }),
+    /checkout changed while the evaluation release/u,
+  );
+
+  let replayIdentityCalls = 0;
+  const authenticated = await authenticateEvaluationReleaseReceipt(receipt, {
+    authenticateImplementation: freshAuthentication,
+    checkoutPolicy: "clean-evidence-descendant",
+    gitIdentityImplementation: async () => {
+      replayIdentityCalls += 1;
+      return cleanEvidenceIdentity({
+        commit: replayIdentityCalls <= 2 ? "b".repeat(40) : "c".repeat(40),
+      });
+    },
+    localBindingImplementation: async () => {},
+    runtimeSnapshotImplementation,
+  });
+  await assert.rejects(
+    summariseEvaluationCapture(await completeSyntheticCapture(), loaded, authenticated),
+    /checkout changed while the evaluation capture/u,
+  );
+  await disposeEvaluationReleaseReceipt(authenticated);
+});
 
 let runtimePromise;
 function runtimes() {

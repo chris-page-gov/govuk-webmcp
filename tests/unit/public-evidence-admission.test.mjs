@@ -4,6 +4,7 @@ import {
   lstat,
   mkdir,
   mkdtemp,
+  open,
   readFile,
   readdir,
   rename,
@@ -522,6 +523,78 @@ test("rollback preserves a writer replacement of an already promoted target", as
   });
 });
 
+test("rollback preserves an in-place byte change to an already promoted target", async () => {
+  await withTemporaryRepository(async (root) => {
+    let promotion = 0;
+    const firstTarget = join(root, "left.json");
+    await assert.rejects(
+      admitPublicEvidencePair(
+        { repositoryRoot: root, entries: entries(root), overwrite: false },
+        {
+          linkFile: async (source, target) => {
+            if (source.includes(".admit-stage-")) {
+              promotion += 1;
+              if (promotion === 2) {
+                await writeFile(firstTarget, "changed!\n");
+                throw new Error("synthetic later promotion failure");
+              }
+            }
+            return link(source, target);
+          },
+        },
+      ),
+      /rollback could not restore/u,
+    );
+    assert.equal(await readFile(firstTarget, "utf8"), "changed!\n");
+  });
+});
+
+test("evidence admission normalises a restrictive creation mode before validation", async () => {
+  await withTemporaryRepository(async (root) => {
+    const target = join(root, "reviewed.json");
+    await admitEvidenceSet({
+      repositoryRoot: root,
+      entries: [{ path: target, content: "reviewed evidence\n", mode: 0o644, replaceExisting: false }],
+    }, {
+      writeFile: (path, content, options) => writeFile(path, content, {
+        ...options,
+        mode: options.mode & ~0o077,
+      }),
+    });
+    assert.equal(await readFile(target, "utf8"), "reviewed evidence\n");
+    assert.equal((await lstat(target)).mode & 0o777, 0o644);
+  });
+});
+
+test("evidence admission rejects permissions that drift after descriptor-bound normalisation", async () => {
+  await withTemporaryRepository(async (root) => {
+    const target = join(root, "private.json");
+    let stagePath;
+    await assert.rejects(admitEvidenceSet({
+      repositoryRoot: root,
+      entries: [{ path: target, content: "private evidence\n", mode: 0o600, replaceExisting: false }],
+    }, {
+      writeFile: async (path, content, options) => {
+        stagePath = path;
+        await writeFile(path, content, options);
+      },
+      openFile: async (...arguments_) => {
+        const handle = await open(...arguments_);
+        return {
+          stat: (...statArguments) => handle.stat(...statArguments),
+          chmod: async (mode) => {
+            await handle.chmod(mode);
+            await handle.chmod(0o644);
+          },
+          close: () => handle.close(),
+        };
+      },
+    }), /wrong permissions after mode normalisation/u);
+    await assert.rejects(readFile(target), /ENOENT/u);
+    assert.equal((await lstat(stagePath)).mode & 0o777, 0o644);
+  });
+});
+
 test("a backup-name collision preserves both the original and colliding file", async () => {
   await withTemporaryRepository(async (root) => {
     const target = join(root, "left.json");
@@ -557,15 +630,15 @@ test("promotion rejects a stage that changed identity before linking", async () 
         if (!swapped && source.includes(".admit-stage-")) {
           swapped = true;
           await rm(source);
-          await writeFile(source, "swapped evidence\n", { flag: "wx" });
+          await writeFile(source, "malicious evidence\n", { flag: "wx" });
         }
         return link(source, destination);
       },
     }), /rollback could not restore|does not match its validated stage/u);
-    await assert.rejects(readFile(target), /ENOENT/u);
+    assert.equal(await readFile(target, "utf8"), "malicious evidence\n");
     const preservedStage = (await readdir(root)).find((name) => name.includes(".admit-stage-"));
     assert.ok(preservedStage);
-    assert.equal(await readFile(join(root, preservedStage), "utf8"), "swapped evidence\n");
+    assert.equal(await readFile(join(root, preservedStage), "utf8"), "malicious evidence\n");
   });
 });
 

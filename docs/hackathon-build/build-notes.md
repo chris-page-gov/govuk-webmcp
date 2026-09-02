@@ -48,7 +48,7 @@ status remains `not-started`; fixing the recurrent warning did not register,
 update or submit a Devpost entry.
 
 The candidate source passes research-pack verification; the production build
-and complete 80-reviewed plus 58,652-federated projection audit; 381 of 381 unit
+and complete 80-reviewed plus 58,652-federated projection audit; 398 of 398 unit
 tests; 43 of 43 installed-Chrome and 43 of 43 installed-Edge tests; frozen mean
 nDCG@10 `0.984698009` and Recall@20 `1`; 7 of 7 model-free smoke envelopes;
 zero npm-audit vulnerabilities across 162 dependencies; and the pinned Python
@@ -120,7 +120,7 @@ all nine frame bytes. The build, capture and evidence paths share one canonical
 legislation-host rejection, generated media use one recoverable output
 transaction, private `.evals` roots may not be symbolic and privacy copy makes
 clear that bounded free text can still disclose personal details. The settled
-production build and all 381 prepared unit tests pass; the
+production build and all 398 prepared unit tests pass; the
 personal-agent suite passes 32 of 32. Current Chrome and Edge reruns each pass
 43 of 43. The first current Chrome run's single cancellation-test failure did
 not reproduce standalone, over 10 concurrent repetitions or in the complete
@@ -186,3 +186,53 @@ The optional guided-build package now initialises from the repository-local
 state and bridge; the recurrent missing-state warning is fixed. Its
 `submission.status` remains `not-started`. No Devpost entry was registered,
 updated or submitted.
+
+## 2 September 2026 — clean-runner portability and receipt staging
+
+Pull request 21 validation run `33593265033`, job `100131452398`, failed for
+four recorded reasons. The demonstration-video unit module read the ignored
+`.evals/chrome-devtools-mcp-public.json` fixture while it was being loaded, so a
+clean runner could not initialise the test. Two namespace-substitution tests
+assumed that replacing a file must change its device or inode; the Linux runner
+could immediately reuse the inode. Finally, the `webmcp-evals` patcher's backup
+cleanup trusted that recycled device/inode pair and could remove a same-name
+replacement. The last case was a real evidence-preservation defect, not merely
+a platform-specific test expectation.
+
+The clean-runner fixture is now reconstructed from tracked reviewed Chrome and
+supported-host evidence before use. Its reconstructed raw bytes are exactly
+133,272 bytes with SHA-256
+`2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`.
+Portable cleanup, rollback and promotion checks now bind exact bytes, mode,
+size and the available identity metadata; changed validated outputs are
+preserved rather than removed, including where Linux reuses an inode. The
+integrated prepared unit suite passes 398 of 398. A new
+protected CI success, hardened Pages deployment and exact-release recapture are
+not yet claimed.
+
+Two independent follow-up reviews corrected the remaining local boundaries.
+Descriptor-bound, no-follow mode normalisation now handles a restrictive umask
+and rejects permission drift after `fchmod`; the no-argument VoiceOver clip
+builder now selects the canonical exact `v0.4.0-rc.1` capture manifest. Focused
+post-fix checks pass 116 of 116 and an independent clean review passes 71 of
+71. Final local automated verification is complete: the prepared unit suite
+passed 398 of 398 in 67,006.169333 ms; installed Chrome passed 43 of 43 in
+17.7 seconds; installed Edge passed 43 of 43 in 17.5 seconds; and two
+deterministic builds each contained 1,883 files and 128,653,230 bytes at
+aggregate SHA-256
+`cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+Protected integration, deployment, exact-release recapture and the final
+current-snapshot security and manual gates remain separate.
+
+For that future successful Pages run, the operator must securely create both
+ignored receipts through the verifier:
+
+```bash
+WEBMCP_EXPECTED_COMMIT="$RELEASE_COMMIT" GOVUK_WEBMCP_PAGES_RUN_ID="$PAGES_RUN_ID" npm run deployment:verify-live -- --stage-private-release-receipt
+```
+
+There is no manual-copy step. The private receipt is mode `0600` and is not
+overwritten by default. Supplying
+`--overwrite-private-release-receipt` together with the staging flag is an
+explicit invalidation event: every dependent host, personal-agent,
+accessibility and media capture must then be repeated.
