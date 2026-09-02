@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import { chmod, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { randomUUID } from "node:crypto";
+import { lstat, mkdir, realpath } from "node:fs/promises";
+import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -16,10 +17,59 @@ import {
   summariseEvaluationCapture,
   validateEvaluationCapture,
 } from "./verify-personal-agent-evals.mjs";
+import { ensurePrivateDirectory } from "./lib/private-directory.mjs";
+import {
+  readBoundedPrivateJsonNoFollow,
+  writePrivateJsonExclusiveNoFollow,
+} from "./lib/private-json-file.mjs";
+import { parseUtcRfc3339Timestamp } from "./lib/rfc3339-timestamp.mjs";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
-const outputRoot = join(repositoryRoot, ".evals", "personal-agent-merged");
 const MAX_CAPTURE_BYTES = 64 * 1024 * 1024;
+const MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS = 5 * 60 * 1_000;
+
+function inside(root, candidate) {
+  const fromRoot = relative(root, candidate);
+  return fromRoot !== ".." && !fromRoot.startsWith(`..${sep}`) && !isAbsolute(fromRoot);
+}
+
+export async function createPrivateMergedEvaluationRunDirectory(
+  createdAt,
+  root = repositoryRoot,
+  idFactory = randomUUID,
+) {
+  const parsedCreatedAt = parseUtcRfc3339Timestamp(createdAt, "Private merged evaluation time");
+  if (parsedCreatedAt > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
+    throw new Error("Private merged evaluation time must not be more than five minutes in the future.");
+  }
+  const rootState = await lstat(root);
+  if (!rootState.isDirectory() || rootState.isSymbolicLink()) {
+    throw new Error("The merged evaluation repository root must be a real non-symbolic directory.");
+  }
+  const rootRealPath = await realpath(root);
+  const evalsPath = join(root, ".evals");
+  const evalsRealPath = await ensurePrivateDirectory(evalsPath, rootRealPath, "The private merged .evals directory");
+  const outputRoot = join(evalsPath, "personal-agent-merged");
+  const outputRealPath = await ensurePrivateDirectory(outputRoot, evalsRealPath, "The private merged personal-agent output root");
+  const identifier = idFactory();
+  if (typeof identifier !== "string" || !/^[A-Za-z0-9-]{1,100}$/u.test(identifier)) {
+    throw new Error("Private merged evaluation directory identifier is invalid.");
+  }
+  const runName = `${createdAt.replace(/[:.]/gu, "-")}-${process.pid}-${identifier}`;
+  const directory = join(outputRoot, runName);
+  await mkdir(directory, { mode: 0o700 });
+  const directoryRealPath = await ensurePrivateDirectory(
+    directory,
+    outputRealPath,
+    "The private merged evaluation run directory",
+  );
+  if (!inside(outputRealPath, directoryRealPath)) {
+    throw new Error("The private merged evaluation run directory escaped its output root.");
+  }
+  return directoryRealPath;
+}
+
+export const writePrivateJsonExclusive = writePrivateJsonExclusiveNoFollow;
 
 function expectedHostKeys(caseSet, hostId) {
   return caseSet.cases.flatMap(({ id }) =>
@@ -74,11 +124,7 @@ export async function mergePersonalAgentCaptures(
 }
 
 async function readPrivateCapture(path, label) {
-  const stat = await lstat(path);
-  if (!stat.isFile() || stat.isSymbolicLink() || stat.size > MAX_CAPTURE_BYTES) {
-    throw new Error(`${label} must be a bounded regular non-symbolic-link JSON file.`);
-  }
-  return JSON.parse(await readFile(path, "utf8"));
+  return readBoundedPrivateJsonNoFollow(path, label, MAX_CAPTURE_BYTES);
 }
 
 async function main() {
@@ -103,14 +149,11 @@ async function main() {
       createdAt,
     );
     const summary = await summariseEvaluationCapture(merged, loaded, authenticatedRelease);
-    const directory = join(outputRoot, `${createdAt.replace(/[:.]/gu, "-")}-${process.pid}`);
-    await mkdir(directory, { recursive: true, mode: 0o700 });
-    await chmod(directory, 0o700);
+    const directory = await createPrivateMergedEvaluationRunDirectory(createdAt);
     const capturePath = join(directory, "private-capture.json");
     const summaryPath = join(directory, "public-summary.json");
-    await writeFile(capturePath, `${JSON.stringify(merged, null, 2)}\n`, { mode: 0o600 });
-    await writeFile(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, { mode: 0o600 });
-    await Promise.all([chmod(capturePath, 0o600), chmod(summaryPath, 0o600)]);
+    await writePrivateJsonExclusiveNoFollow(capturePath, merged, "The merged private capture");
+    await writePrivateJsonExclusiveNoFollow(summaryPath, summary, "The merged public summary");
     process.stdout.write(`Merged private capture: ${capturePath}\nPrivacy-minimised summary: ${summaryPath}\n`);
   } finally {
     await disposeEvaluationReleaseReceipt(authenticatedRelease);

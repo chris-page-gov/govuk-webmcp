@@ -27,12 +27,18 @@ tools accept only bounded action-specific inputs. The federated search contract
 adds only a fixed collection allowlist; it does not request unrelated
 conversation, identity, a personal profile, location or browsing history.
 
-The unreleased `0.4.0-rc.1` candidate adds a sixth tool,
+The `0.4.0-rc.1` candidate adds a sixth tool,
 `present_resource_evidence`. Its only accepted field is one canonical record
 identifier. It adds no dedicated name, address, identity, profile, location-
 history, browsing-history, conversation-history or general personal-context
 field. The candidate can show the exact validated arguments it accepted, but
 it must never retain or display rejected structured input.
+
+That closed shape is minimisation, not secrecy. Search remains a bounded
+free-text field and can contain a name, address or other personal detail if a
+person or AI host puts one there. The demonstration therefore says that there
+is no dedicated personal-context field and that free text can still disclose
+personal details; it does not claim that the schema keeps context private.
 
 ## URL fragments and browser history
 
@@ -122,6 +128,14 @@ class and model identifier, not its credential, and is checksummed against the
 tested revision. Provider-side logging and retention remain subject to the
 selected provider's privacy terms.
 
+Private local evaluation refuses symbolic `.evals`, personal-agent output and
+run-directory boundaries, checks canonical containment inside the repository
+and applies mode `0700` to each directory. Private captures remain mode `0600`.
+For supported-host evidence, the ignored raw receipt and the two public
+projections are promoted as one recoverable set. The public projections bind
+the raw bytes but retain only the names of rejected fields, not the rejected
+synthetic value.
+
 Exact personal-agent host and browser version strings remain only in the
 private mode-`0600` capture because a nominal version field can include account
 or unrelated interface text. The public evaluation summary retains
@@ -134,6 +148,13 @@ canonical repository, public URL and protected-main commit are copied only from
 a freshly authenticated live Pages observation that also binds a clean
 unchanged checkout and a byte-identical local `dist` plus private execution
 snapshot.
+
+The retained dirty local diagnostic is not eligible for an authenticated
+cross-host media source. After the final deployment, its 36 local slots must be
+rerun from the clean exact-release checkout and bound to that deployment; any
+unobserved page, network, latency or answer-review dimension remains explicitly
+unknown. Final-video preflight freshly authenticates the release receipt rather
+than trusting a stored summary labelled `authenticated`.
 
 Observable call sequences are replayed through the receipt-bound production
 runtime snapshot before evaluation; captured output cannot become public truth
@@ -151,9 +172,11 @@ arguments, application-origin requests or storage, and report remote-provider
 traffic separately. Candidate-specific repeated natural-model, browser-host
 and provider-boundary evidence remains pending for `0.4.0-rc.1`.
 
-The candidate video plan consumes genuine Copilot and Ollama observations only
-from ignored private evidence paths. Those inputs can contain account, host,
-prompt, share-link or model-run detail and must remain mode `0600`. The builder's
+The candidate video plan requires a genuine visible Copilot observation for
+the cloud scene. Its local scene may use only the separately labelled Ollama
+diagnostic receipt visualisation; that is not a host recording or a successful
+page update. The private inputs can contain account, host, prompt, share-link or
+model-run detail and must remain mode `0600`. The builder's
 redaction and privacy gates do not make raw inputs publishable: only a separately
 reviewed cut may proceed to branding, rights, voice, caption, signed-out playback
 and publication review. The candidate has not yet produced or published that

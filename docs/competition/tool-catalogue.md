@@ -1,8 +1,8 @@
-# 8. Released WebMCP and in-progress Evidence answer candidate
+# 8. Versioned WebMCP and Evidence answer contracts
 
 ## 8.1 Human-agent shared page
 
-The current public `v0.3.0-rc.1` release is a static application that retains
+The historical public `v0.3.0-rc.1` release is a static application that retains
 80 reviewed records and their 80 item-level receipts, then adds a separately
 labelled federated discovery tier. Its primary view is a worked evidence-first
 answer, not a search box or a generated narrative. The page presents:
@@ -50,18 +50,19 @@ A separate exact-release observation records all five tools being discovered
 and called in Codex In-app Browser plugin 26.825.32147; that observation is
 specific to that host, version and time and did not use a model.
 
-The unreleased `0.4.0-rc.1` working candidate keeps that five-tool release
-contract and adds a sixth bounded presentation action. It also adds persistent
-**Evidence answer** and **Technical review** views over one action controller
-and one closed deterministic presentation object. Nothing in this catalogue
-turns the five-tool host receipts into six-tool evidence: candidate build,
-full-corpus and automated browser checks now pass locally. Frozen code-snapshot
-security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items,
-ran 102 focused tests, found zero findings and concluded that there is no
-security release blocker. Manual
-accessibility, protected release and host acceptance remain pending.
+The `0.4.0-rc.1` contract keeps the five historical contracts and adds a sixth
+bounded presentation action plus persistent **Evidence answer** and
+**Technical review** views over one action controller and one closed
+deterministic presentation object. A pre-integration isolated-Chrome receipt
+completed all six tools against its exact `a4fabe...` deployment, and the
+Safari/VoiceOver journey completed with recorded limitations. Those records are
+historical pre-hardening evidence for that named checkpoint only. Any
+`0.4.0-rc.1` release claim must bind the exact protected product commit,
+deployment and tag to fresh authenticated host and accessibility observations;
+it cannot carry the `a4fabe...` observations forward. The frozen zero-finding
+security scan is also evidence for its named snapshot only.
 
-## 8.2 Five released tools
+## 8.2 Five historical release tools and one version 0.4 tool
 
 | Tool | Purpose | Input bound | Page effect | `readOnlyHint` |
 |---|---|---|---|---:|
@@ -70,10 +71,12 @@ accessibility, protected release and host acceptance remain pending.
 | `show_provenance` | Inspect one packaged reviewed receipt or federated snapshot chain | One reviewed or four-collection federated identifier up to 160 characters | None | `true` |
 | `explore_answer_foundations` | Select the worked answer or one exact claim | One answer ID; optional claim ID, each up to 96 characters | Reversible in-memory selection | `false` |
 | `compare_evidence_foundations` | Compare two to four claims from the worked answer | One answer ID and 2 to 4 unique claim IDs | Reversible in-memory comparison | `false` |
+| `present_resource_evidence` | Present one complete Evidence answer for an exact reviewed or federated record | One canonical record ID; no personal-context field | Reversible in-memory presentation | `false` |
 
-All five tools have `untrustedContentHint: true`, closed input schemas and fixed
-names, titles and descriptions. Source-derived strings never become tool names
-or instructions.
+All six version 0.4 tools have `untrustedContentHint: true`, closed input schemas
+and fixed names, titles and descriptions. The first five are unchanged from
+the historical release; the sixth is introduced in version 0.4. Source-derived
+strings never become tool names or instructions.
 
 The release does not add a general question-answering tool. It extends
 `search_government_knowledge`, `get_resource_record` and `show_provenance` over
@@ -98,7 +101,7 @@ official or model-provider API.
 arrays to 8 values, collections to 1 to 5 unique allowlisted values and output
 to 20 records. Unknown fields are rejected.
 
-**Output:** a successful current-candidate search is
+**Output:** a successful version 0.4 search is
 `trusted-govuk-discovery.search-result.v2`. It returns selected collections,
 separate reviewed and federated estate counts and digests, exact or lower-bound
 total semantics, tiered summaries, per-collection availability and
@@ -141,7 +144,7 @@ exposes the recorded destination hostname to the human interface.
 
 **Human equivalent:** **View record and provenance** on a result.
 
-The candidate admits only exact generated federated identifiers tied to the
+Version 0.4 admits only exact generated federated identifiers tied to the
 four collection IDs and a bounded ordinal. It does not fuzzy-resolve a source
 identifier or treat a source-snapshot result as reviewed deep evidence.
 
@@ -165,7 +168,7 @@ an evidence receipt is available.
 **Human equivalent:** the provenance and receipt section of the exact record
 view.
 
-For a federated record, the candidate returns the collection, revision,
+For a federated record, version 0.4 returns the collection, revision,
 snapshot, source path and source-file digest and explicitly states that no
 item-level receipt exists. The recorded source link may be producer-declared or
 may be absent; the interface must not relabel every link as authoritative.
@@ -212,11 +215,11 @@ comparison and selects the matching trace paths.
 
 **Human equivalent:** select claim checkboxes, then **Compare selected claims**.
 
-### Candidate Tool 6 — `present_resource_evidence`
+### Tool 6 — `present_resource_evidence`
 
 **Title:** Present evidence for a government resource
 
-**Candidate description:** Use one canonical `govuk-discovery:` record ID
+**Description:** Use one canonical `govuk-discovery:` record ID
 exactly, not a display label, to update this page's Evidence answer with the
 same closed deterministic evidence object returned by the tool. The reversible
 presentation effect changes no URL, history, focus, scroll, storage, catalogue
@@ -247,22 +250,25 @@ official service or model provider.
 An explicit human selection may navigate to Evidence answer and add the
 validated record ID to bounded history; a WebMCP call may not.
 
-This tool is implemented only in the worktree candidate. It has no public
-release or accepted host observation.
+This tool is part of the `0.4.0-rc.1` definition set. A historical
+pre-hardening host observation exists for commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, but it cannot establish the
+deployment, host or tag status of this settled source tree.
 
 ## 8.3 Registration and shared execution
 
-Released `v0.3.0-rc.1` publishes 31 closed JSON Schemas. The worktree contains
-36 schema files after adding the beginner presentation, presentation input and
-output, personal-agent case-set and private evaluation-capture candidate
-contracts. The current prepared unit suite passes 272 of 272, while the complete
-candidate browser suites pass 43 of 43 in installed Chrome and 43 of 43 in
-installed Edge. The offline double build passes for 1,883 files and 128,646,550
+Released `v0.3.0-rc.1` publishes 31 closed JSON Schemas. The `0.4.0-rc.1`
+contract contains 36 schema files after adding the beginner presentation,
+presentation input and output, personal-agent case-set and private
+evaluation-capture contracts. The settled prepared unit suite passes 381 of
+381, while the complete version 0.4 browser suites pass 43 of 43 in installed
+Chrome and 43 of 43 in installed Edge. The offline double build passes for
+1,883 files and 128,653,230
 bytes at aggregate SHA-256
-`3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
-These automated observations do not replace candidate-specific manual
-accessibility, protected deployment or six-tool host evidence. The current search
-input and successful v2
+`cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+These automated observations do not establish manual accessibility, protected
+deployment, six-tool host or tag status. The version 0.4 search input and
+successful v2
 output, reviewed and federated record summaries, federated manifest and shards,
 and reviewed/federated exact-record and provenance unions are all checked
 against their executable counterparts.
@@ -283,8 +289,8 @@ only after five same-origin artefact families have validated:
    searchable records, source-lock digest and every declared postings and
    record-shard identity.
 
-The released application registers all five fixed definitions or none. The
-candidate registers all six definitions or none. Local definition checks
+The released application registers all five fixed definitions or none. Version
+0.4 registers all six definitions or none. Local definition checks
 reject duplicate names or an open schema. Registration has a three-second
 timeout and a failed or blocked attempt withdraws the partial registration
 lifetime while leaving the verified human interface available.
@@ -309,7 +315,7 @@ established, a failed lazy collection is isolated and returned as explicit
 source status while unaffected sources and the reviewed tier remain available.
 Each collection status reports deterministic `verifiedShardFiles` and
 `verifiedShardBytes` counters. This behaviour has local unit, Chrome and Edge,
-protected CI, deployment and current-host evidence.
+protected CI, deployment and release-bound host evidence.
 
 The execution-options argument is optional at the page-host boundary. Some
 hosts, including the pinned Chrome DevTools MCP and `webmcp-evals` paths, invoke
@@ -321,7 +327,7 @@ DevTools MCP receipt provides independent real-host evidence for all five. The
 unchanged, checksum-bound `v0.2.0-rc.1` evidence predates this fix. The later protected-main
 deployment includes it and has separate public-host receipts.
 
-The current `ModelContextTool` shape uses `name`, `title`, `description`,
+The version 0.4 `ModelContextTool` shape uses `name`, `title`, `description`,
 `inputSchema`, annotations and an execute callback. The repository publishes
 closed output schemas for validation, but it does not register a non-standard
 `outputSchema` property.
@@ -330,9 +336,9 @@ closed output schemas for validation, but it does not register a non-standard
 
 The historical `v0.2` generation starts from four exact source-lock registry
 entries: 69 GOV.UK content records, 11 curated government data and API records,
-1 answer pack and 10 corpus-admission decisions. At this working-tree
-checkpoint the released data plane retains a fifth entry binding the exact
-four-publication OKF federation lock. Registry
+1 answer pack and 10 corpus-admission decisions. The released
+`v0.3.0-rc.1` data plane retains a fifth entry binding the exact four-publication
+OKF federation lock. Registry
 validation binds exact IDs, paths, item counts and SHA-256 values and rejects
 symbolic links, non-regular files, path swaps and changed file identity.
 
@@ -340,14 +346,14 @@ The historical federation manifest contains 10 admissions: 2 searchable
 deep-evidence collections and 8 that were described-only, conditional,
 quarantined or contract-only. Released `v0.3.0-rc.1` has 6 searchable
 admissions — the same 2 reviewed collections and 4 federated source snapshots
-— and 4 non-searchable admissions. The `0.4.0-rc.1` presentation candidate does
+— and 4 non-searchable admissions. The `0.4.0-rc.1` presentation layer does
 not change those admissions or source locks.
 `sourceOkfCore` records the producer
 declaration separately from the `targetOkfCore` 0.2 mapping. A descriptor or
 crosswalk does not by itself admit, redistribute or make a producer payload
 searchable.
 
-The `0.3.0-rc.1` candidate admits exactly four previously governed OKF
+Released `v0.3.0-rc.1` admits exactly four previously governed OKF
 publications into a separate source-snapshot search tier. It does not promote
 the remaining admissions. The four locked populations total 58,655 raw rows
 and remain separate from the 80 deep-evidence records. Three standalone Land
@@ -384,9 +390,14 @@ fallback.
 
 ## 8.5 Input, route and injection controls
 
-- Inputs must be plain JSON objects with closed action-specific keys.
+- Inputs must be ordinary plain JSON objects with closed action-specific keys.
 - A common pre-validation budget rejects more than 16 root keys, root keys over
-  128 characters, accessors and complex diagnostic values before dispatch.
+  128 characters and complex diagnostic values before dispatch.
+- Executable validation is deliberately stricter than JSON Schema. It copies
+  only allowed own enumerable string data properties and dense arrays with
+  canonical indexed data items. Symbols, accessors, non-enumerable properties,
+  sparse arrays and extra array properties fail closed without invoking a
+  getter.
 - Query, identifier, array and result bounds are repeated in executable code;
   JSON Schema is not the only control.
 - Hash routes are limited before decoding; malformed or oversized record,
@@ -414,6 +425,15 @@ evidence selections, comparisons and missing exact identifiers. A checksum,
 digest, graph, URL, source-lock or admission failure blocks registration rather
 than manufacturing an unverified substitute.
 
+Supported-host evidence is claimable only when the consumer freshly
+authenticates the exact live Pages receipt in-process. It must then match the
+observation-independent binding of the raw, reviewed and supported-host
+receipts and derive release claims from that authenticated object. The host
+capture must retain ordered `initial`, `after-page-load` and `after-execution`
+deployment observations that agree on the exact deployment and enclose the
+execution. A stored, copied, mutated or merely well-shaped receipt is not
+authenticated evidence.
+
 The unchanged, checksum-bound `v0.2.0-rc.1` evidence remains bound to commit
 `9235ee5db4df637bdb2a12e87449e871614afe68`. Public `v0.3.0-rc.1` is separately
 bound to release commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf` through
@@ -425,7 +445,7 @@ byte for byte.
 The browser suites include instrumented five-tool registration, parity,
 cancellation, rollback, integrity failure, bounded hash routes, inert source
 text, keyboard, reflow, forced-colour, reduced-motion and axe smoke checks.
-Against the exact current release, Codex In-app Browser plugin 26.825.32147
+Against exact `v0.3.0-rc.1`, Codex In-app Browser plugin 26.825.32147
 discovered and completed all five tools for the fixed four-source journey,
 rejected an unrelated `personalContext` key and produced a final comparison
 whose canonical result digest matched the displayed 11-row comparison. The
@@ -437,18 +457,18 @@ At `2026-08-31T18:49:38.356Z`, isolated Chrome 152 with browser-native WebMCP
 enabled also discovered and completed all five exact-release tools through
 Chrome DevTools MCP 1.8.0. It rejected unrelated `personalContext` using stable
 error code `invalid_search_request`, recorded zero console errors and called no
-model provider. The first current-release attempt stopped only because the
+model provider. The first `v0.3.0-rc.1` attempt stopped only because the
 capture harness expected obsolete error prose; the harness was changed to
 assert the stable code and the reviewed rerun passed. This closes the rules-
 named Chrome observation for that host, version, release and time only.
 
 Historical Chrome 152 native-panel, earlier Chrome DevTools MCP 1.8.0 and manual
-Safari and VoiceOver observations remain bound to the earlier revisions they name.
-The fresh current-release Safari and VoiceOver journey completed separately
+Safari and VoiceOver observations remain bound to the earlier revisions they
+name.
+The `v0.3.0-rc.1` Safari and VoiceOver journey completed separately
 with 7 passes and 2 limitations. Its nine Caption Panel frames form a 27-second
 screenshot sequence, not a continuous recording; VoiceOver speech audio was
-not captured, and neither the historical nor current observation is a WCAG
-conformance claim.
+not captured, and neither observation is a WCAG conformance claim.
 
 The last complete pre-remediation `0.3.0-rc.1` checkpoint included a successful
 production build, a byte-idempotent reconstruction of the federated plane, 144
@@ -469,17 +489,18 @@ sealed follow-up scan suppressed those seven and found one further High-
 confidence Low trailing-dot and secondary legislation-URL bypass
 (`csf_a2d9e030fda789ecd1cb0e41`), fixed post-snapshot. The scan has mechanically
 partial and stale-pending coverage. Focused security checks passed 119 of 119
-and the affected post-fix subset passed 23 of 23. The current research,
+and the affected post-fix subset passed 23 of 23. The subsequent research,
 build/data, lexical-quality, Chrome, Microsoft Edge and authorised model-free
-smoke gates pass where recorded. The full unit command passed 173 of 173 in
+smoke gates passed where recorded. The full unit command passed 173 of 173 in
 `17128.154916 ms` before the latest three engineering remediations. Immutable
 scan `4ab29c3e-0a96-4596-b930-5eccb9b63ebc` then completed 50 of 50 review
 items, dynamically reproduced mutable local-model identity, aggregate-only per-
 source population binding and cancellation-driven physical shard-work
 amplification, and classified zero as reportable vulnerabilities under attack-
-path policy. Working-tree remediations add exact per-source/display binding,
+path policy. Subsequent pre-release remediations added exact per-source/display
+binding,
 4-active/32-queued/36-distinct physical work limits and model receipt v2. The
-exact post-remediation candidate now passes research 4 of 4; build/data
+exact post-remediation `v0.3.0-rc.1` product passes research 4 of 4; build/data
 validation with 80 reviewed records and 80 receipts, 58,655 raw rows, 3
 quarantined rows, 58,652 searchable rows, 120 record shards and 1,733 postings
 shards; 194 of 194 prepared unit tests; frozen quality at mean nDCG@10
@@ -494,22 +515,24 @@ a direct builder lock-byte check and mutation regressions. Fresh immutable scan
 reportable findings. Its sealed scope predates the reviewed-gzip and referenced
 import-deadline CI portability corrections; focused mutation and deadline
 regressions and the protected Linux rerun evidence those deltas separately.
-Protected CI, Pages, final tag, release and current-release supported-host
-capture are complete. The current-release manual screen-reader journey and
+Protected CI, Pages, final tag, release and supported-host capture are complete
+for `v0.3.0-rc.1`. Its manual screen-reader journey and
 local final-video technical review are also complete. The 156.023-second local
 MP4 has SHA-256
 `e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`; its
 H.264, AAC and English-caption streams, complete video/audio decode and all 40
 normalised caption cues passed technical review. A passing fixed-model
-evaluation remains optional, while human playback and publication review,
-public-player verification and Devpost submission remain open.
+evaluation remains optional. The retained `v0.3.0-rc.1` evidence records human
+playback and publication review, public-player verification and Devpost
+submission as open at its observation date.
 
 An earlier demonstration preflight correctly failed closed without a deployed
-commit and explicit overwrite approval. The current release now has five
+commit and explicit overwrite approval. The `v0.3.0-rc.1` release has five
 silent public-page interaction clips, a supported-host receipt reconstruction,
-the current-release VoiceOver sequence and a technically reviewed local final
-video. Owner playback, privacy, branding, rights and synthetic-voice
-publication review remain open; no public upload or submission is claimed.
+its VoiceOver sequence and a technically reviewed local final
+video. Its retained review records owner playback, privacy, branding, rights
+and synthetic-voice publication review as open; they establish no public upload
+or submission.
 
 ## 8.7 Pinned local interoperability harnesses
 
@@ -536,20 +559,23 @@ Python requirements and runs semantic WebMCP smoke before deployment. These
 paths passed for the protected integration and corrected Pages deployment.
 
 `webmcp:devtools:capture` uses the exactly pinned `chrome-devtools-mcp` 1.8.0
-with Chrome 150 or later. The current harness expects the complete six-tool
-`0.4.0-rc.1` definition set, including `present_resource_evidence`; it should
-fail closed against the five-tool public release. Historical five-tool receipts
-remain readable evidence; this six-tool harness does not rerun them. The harness
-builds and serves on loopback, starts an isolated Chrome profile with an exact origin allow-list, calls
+with Chrome 150 or later. The version 0.4 harness expects the complete six-tool
+`0.4.0-rc.1` definition set, including `present_resource_evidence`; it must
+fail closed if pointed at the historical five-tool `v0.3.0-rc.1` release.
+Historical five-tool receipts remain readable evidence; this six-tool harness
+does not rerun them. The harness builds and serves on loopback, starts an
+isolated Chrome profile with an exact origin allow-list, calls
 `list_webmcp_tools` with the selected `pageId`, then calls
-`execute_webmcp_tool` with a JSON input for all six candidate tools. The fail-closed
+`execute_webmcp_tool` with a JSON input for all six version 0.4 tools. The fail-
+closed
 wrapper checks each completion status and output schema and writes the complete
 local result to ignored `.evals/chrome-devtools-mcp.json`. It also submits one
 synthetic unrelated personal-context field and requires a closed error result.
 It does not use a
 model, contact a model provider or establish that the same fix is deployed. The
-historical five-tool hardened run at 15:53 BST on 30 August 2026 used Chrome 152.0.7977.64,
-checked the closed schemas and annotations, completed all five calls, rejected
+historical five-tool hardened run at 15:53 BST on 30 August 2026 used Chrome
+152.0.7977.64, checked the closed schemas and annotations, completed all five
+calls, rejected
 `personalContext` and recorded zero console errors. The runner sets
 `CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1`; an earlier pre-hardening run wrote
 `~/.cache/chrome-devtools-mcp/latest.json`, while the final run left its
@@ -568,23 +594,32 @@ commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and Pages run
 completed calls, a closed-input rejection and zero console errors; the complete
 raw response remains ignored and private.
 
-By default, the current public-target capture also remains ignored under
+By default, a public-target capture also remains ignored under
 `.evals`. After human review, `--admit-public-evidence` writes the reviewed
 exact-release receipt only for the allowlisted public target, binds it to the
 complete `govuk-webmcp.live-pages-verification.v2` live-byte receipt and omits
 local page identifiers. It fails
 closed if the reviewed receipt already exists unless
 `--overwrite-reviewed-evidence` is explicit. This guarded path admitted the
-current `b0bd634` / Pages `33356452048` Chrome receipt after the first attempt
+historical `b0bd634` / Pages `33356452048` Chrome receipt after the first attempt
 exposed a harness dependency on old error prose; changing the assertion to the
 stable `invalid_search_request` code and rerunning produced five completed
 calls, one closed-input rejection and zero console errors.
 
+For the six-tool contract, admission additionally requires a fresh
+process-local authentication of the live receipt and ordered `initial`,
+`after-page-load` and `after-execution` deployment observations. The capture,
+reviewed projection and supported-host projection are promoted as one
+recoverable set only after those checks agree. Historical `a4fabe...` evidence
+remains pre-hardening and cannot satisfy this requirement for a later product
+commit.
+
 `webmcp:eval:smoke` uses the exactly pinned `webmcp-evals` 0.0.4 and
-`evals/webmcp-smoke.json`. The candidate fixture now contains three synthetic
-cases and seven concrete calls covering all six definitions. It has not yet
-been run as accepted `0.4.0-rc.1` evidence. The wrapper builds the application, serves only the
-same-origin candidate, selects installed stable Chrome, gives the third-party
+`evals/webmcp-smoke.json`. The `0.4.0-rc.1` fixture contains three synthetic
+cases and seven concrete calls covering all six definitions; the settled
+source-tree smoke gate passes all seven result envelopes. The wrapper builds the
+application, serves only the
+same-origin version 0.4 build, selects installed stable Chrome, gives the third-party
 child process a small operating environment with an isolated `HOME` and no
 forwarded provider credential environment variables. The child nevertheless
 retains the operating-system filesystem access of the invoking user. Every call
@@ -684,7 +719,7 @@ receipts are static build evidence. Any future gateway, provider or service-
 operation capability would require a separate architecture, authority and
 assurance case.
 
-The federated candidate is also not an official service, a comprehensive or
+The federated product is also not an official service, a comprehensive or
 unique-record government index, a source-currentness certificate or proof that
 an API is callable, a person is eligible or a property record is supplied. The
 page hosts no model and accepts no personal profile, but a remote provider may

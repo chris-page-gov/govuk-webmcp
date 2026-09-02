@@ -1,0 +1,36 @@
+{
+  "schema": "govuk-webmcp.live-pages-verification.v2",
+  "observedAt": "2026-09-01T20:56:25.967Z",
+  "repository": "chris-page-gov/govuk-webmcp",
+  "baseUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+  "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+  "runId": "33555187118",
+  "artifact": {
+    "id": 9819226488,
+    "apiDigest": "sha256:f0a27c177ffb0c0448d38da0be66bcb4125f5206930b1e58fc51f74be123eeb0",
+    "tarSha256": "8b64bc4269b0eb8fcab56eee009711c812d8b3364073740e3192fa6521ac346f"
+  },
+  "fileCount": 1884,
+  "byteCount": 128646735,
+  "manifestSha256": "23c88e4d67c4d75f687f0b4c53763ea755dcbaa566753bc3d213a5a9ba714442",
+  "statusCounts": {
+    "200": 1884
+  },
+  "mismatches": [],
+  "boundaries": {
+    "comparedEveryRegularArtifactFile": true,
+    "followedRedirects": false,
+    "cacheBustingQueryUsed": true,
+    "browserJourneyObserved": false,
+    "budgets": {
+      "maximumArchiveBytes": 268435456,
+      "maximumRegularFiles": 4096,
+      "maximumDirectoryEntries": 512,
+      "maximumTotalRegularBytes": 201326592,
+      "maximumFileBytes": 8388608,
+      "fetchConcurrency": 8,
+      "perFileTimeoutMs": 60000,
+      "comparisonTimeoutMs": 600000
+    }
+  }
+}

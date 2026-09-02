@@ -14,10 +14,11 @@ product was integrated through [pull request
 12](https://github.com/chris-page-gov/govuk-webmcp/pull/12) at protected-main
 commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. Historical exact-main validation run
 `33323068982` and Pages run `33323152751` passed. Those observations remain
-historical. Competition registration is complete. Devpost project `1406973`
-remains an unpublished pre-submission draft and has not been submitted.
+historical. A dated retained observation records competition registration as
+complete and Devpost project `1406973` as an unpublished pre-submission draft;
+current form or submission state is not inferred from this repository tree.
 
-Package version `0.3.0-rc.1` identifies the current released federated product.
+Package version `0.3.0-rc.1` identifies the historical released federated product.
 It keeps the frozen release history and adds four checksum-bound federated source
 snapshots totalling 58,655 locked raw rows. Three standalone Land Registry
 legislation rows are quarantined, leaving 58,652 searchable federated records,
@@ -25,21 +26,28 @@ separately from the 80 reviewed records and receipts. Pull-request validation
 run `33356087333`, protected-main run `33356272534` and exact-commit Pages run
 `33356452048` passed for product commit
 `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, which is retained as annotated tag
-`v0.3.0-rc.1` and deployed at
-<https://chris-page-gov.github.io/govuk-webmcp/>. The tree below records that
-released shape. Current-release VoiceOver and local final-video technical
-evidence are complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0
+`v0.3.0-rc.1`. Pages run `33356452048` historically deployed it at the mutable
+<https://chris-page-gov.github.io/govuk-webmcp/> URL. The tree below records that
+released shape. Its VoiceOver and local final-video technical evidence are
+complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0
 receipt also binds five completed WebMCP calls to the exact release. Owner
 review, public upload and player verification, the optional fixed-model gate,
-final live-rules and form review, and Devpost submission remain separate and
-open. The tree below distinguishes the released implementation from the
-unreleased `0.4.0-rc.1` Evidence answer overlay now present in the worktree.
+final live-rules and form review, and Devpost submission are separate evidence
+gates whose current state is not established by this file. The tree below
+distinguishes that released implementation from the versioned `0.4.0-rc.1`
+Evidence answer overlay.
 
-## 20.2 Released tree and candidate overlay
+## 20.2 Released tree and versioned overlay
 
-Candidate-only paths and changed responsibilities are labelled below. Their
-presence does not establish a passing build, protected review, Pages
-deployment, host observation, tag, media publication or Devpost submission.
+`0.4.0-rc.1` paths and changed responsibilities are labelled below. Historical
+pre-hardening product commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` passed protected review and exact
+Pages deployment, but its page, host, accessibility and media receipts do not
+apply to later built bytes. Any release claim must bind protected integration,
+fresh exact deployment and complete release-bound recapture to the product
+commit named by the tag. A later evidence-documentation commit must not move
+that tag. Presence does not establish media publication, personal-AI evaluation
+or Devpost submission.
 
 ```text
 govuk-webmcp/
@@ -61,10 +69,10 @@ govuk-webmcp/
 ├── tsconfig.json
 ├── playwright.config.mjs
 ├── app/
-│   ├── index.html                 # shared shell for the two candidate views
+│   ├── index.html                 # shared shell for the two version 0.4 views
 │   ├── main.ts                    # accessible rendering, transactions and bounded routes
-│   ├── evidence-answer-view.ts    # candidate DOM/text-only guided renderer
-│   ├── view-routing.ts            # candidate bounded guided/technical routes
+│   ├── evidence-answer-view.ts    # version 0.4 DOM/text-only guided renderer
+│   ├── view-routing.ts            # version 0.4 bounded guided/technical routes
 │   ├── style.css
 │   ├── startup-watchdog.js
 │   ├── favicon.svg
@@ -95,26 +103,26 @@ govuk-webmcp/
 │               ├── government-apis/
 │               └── land-registry/
 ├── evals/
-│   ├── webmcp-smoke.json          # model-free concrete five-tool calls
+│   ├── webmcp-smoke.json          # seven model-free calls across all six definitions
 │   ├── webmcp-browser.json        # prepared model-selection and no-call cases
 │   ├── beginner-conversations.json # 12 guided beginner stories and no-call cases
-│   ├── personal-agent-cases.json  # candidate natural cross-host evaluation contract
-│   ├── generated/                  # deterministic 72-slot candidate run plan
+│   ├── personal-agent-cases.json  # version 0.4 cross-host evaluation contract
+│   ├── generated/                  # deterministic 72-slot version 0.4 run plan
 │   └── federated-search-quality.json # frozen authored lexical-quality fixture
 ├── src/
 │   ├── contracts.ts
 │   ├── integrity.ts
-│   ├── evidence-runtime.ts
+│   ├── evidence-runtime.ts        # descriptor-safe Evidence Trace inputs
 │   ├── federation-runtime.ts
 │   ├── okf-federated-contracts.ts # fixed four-source and resource-budget contract
 │   ├── federated-search-runtime.ts # lazy checksum-bound source-snapshot search
 │   ├── combined-knowledge-runtime.ts # common reviewed and federated results
-│   ├── beginner-presentation-copy.ts # fixed candidate en-GB presentation copy
-│   ├── beginner-presentation.ts   # pure closed candidate projection
-│   ├── present-resource-evidence.ts # candidate composite record presentation
-│   ├── application-actions.ts     # shared human and WebMCP controller; candidate sixth action
-│   └── webmcp-tools.ts            # 5 released; 6 candidate imperative registrations
-├── schemas/                        # 31 released; 36 files in candidate worktree
+│   ├── beginner-presentation-copy.ts # fixed version 0.4 en-GB presentation copy
+│   ├── beginner-presentation.ts   # pure closed version 0.4 projection
+│   ├── present-resource-evidence.ts # version 0.4 composite record presentation
+│   ├── application-actions.ts     # shared controller and descriptor-safe input budget
+│   └── webmcp-tools.ts            # 5 historical; 6 versioned imperative registrations
+├── schemas/                        # 31 in v0.3.0-rc.1; 36 in 0.4.0-rc.1
 │   ├── catalogue.schema.json
 │   ├── evidence-receipt.schema.json
 │   ├── evidence-trace.schema.json
@@ -138,11 +146,11 @@ govuk-webmcp/
 │   ├── federated-search-manifest.schema.json
 │   ├── federated-search-result.schema.json
 │   ├── okf-federation-lock.schema.json
-│   ├── beginner-presentation.schema.json # candidate
-│   ├── personal-agent-case-set.schema.json # candidate evaluation
+│   ├── beginner-presentation.schema.json # version 0.4
+│   ├── personal-agent-case-set.schema.json # version 0.4 evaluation
 │   ├── personal-agent-evaluation-capture.schema.json # private closed capture
-│   ├── present-resource-evidence-input.schema.json # candidate
-│   ├── present-resource-evidence-output.schema.json # candidate
+│   ├── present-resource-evidence-input.schema.json # version 0.4
+│   ├── present-resource-evidence-output.schema.json # version 0.4
 │   └── error-result.schema.json
 ├── scripts/
 │   ├── validate-authored-sources.mjs
@@ -154,16 +162,17 @@ govuk-webmcp/
 │   ├── build-federated-search.mjs # deterministic ignored search projection
 │   ├── validate-generated.mjs
 │   ├── audit-beginner-presentations.mjs # production-shared complete projection audit
-│   ├── prepare-personal-agent-evals.mjs # candidate fixture normaliser
+│   ├── prepare-personal-agent-evals.mjs # version 0.4 fixture normaliser
 │   ├── run-personal-agent-evals.mjs # pinned 36-run local Ollama adapter
 │   ├── import-copilot-personal-agent-capture.mjs # strict two-host merge
 │   ├── verify-personal-agent-evals.mjs # production replay and authenticated claim gate
+│   ├── apply-webmcp-evals-browser-step-limit-patch.mjs # pinned upstream browser-step fix
 │   ├── copy-static.mjs
 │   ├── audit-catalogue-links.mjs
 │   ├── sanitise-sbom.mjs
 │   ├── write-deployment-metadata.mjs
 │   ├── verify-deterministic-build.mjs # offline two-build source/dist identity verifier
-│   ├── verify-live-pages-artifact.mjs # budgeted exact-run authentication and byte guard
+│   ├── verify-live-pages-artifact.mjs # fresh process-local authentication and byte guard
 │   ├── verify-research-pack.sh    # exact jsonschema gate and seed verifier
 │   ├── capture-chrome-devtools-webmcp.mjs # guarded version-bound MCP capture and evidence admission
 │   ├── run-webmcp-evals-smoke.mjs # model-free pinned browser smoke wrapper
@@ -171,12 +180,25 @@ govuk-webmcp/
 │   ├── setup-webmcp-explorer.sh # pinned isolated Explorer source and build
 │   ├── build-demo-video.mjs        # guarded local review cut, captions and transcript
 │   ├── build-host-evidence-clip.mjs # labelled receipt visualisation, not host video
+│   ├── build-ollama-diagnostic-clip.mjs # failed-run receipt visualisation, not host video
 │   ├── build-voiceover-screenshot-clip.mjs # guarded and visibly labelled screenshot sequence
 │   ├── build-preview-scene-clips.mjs # explicitly non-live editorial previews
 │   ├── capture-live-demo-clips.mjs # exact-release genuine interaction capture
 │   ├── write-evidence-manifest.mjs # fail-closed allowlisted digest manifest
 │   └── lib/
+│       ├── chrome-devtools-capture-target.mjs # allowlisted public target and commit
+│       ├── chrome-devtools-capture-cleanup.mjs # fail-closed private capture clean-up
+│       ├── chrome-devtools-supported-host-evidence.mjs # authenticated three-check host projection
 │       ├── deterministic-json.mjs
+│       ├── legislation-host.mjs # canonical excluded-host predicate
+│       ├── private-directory.mjs # bounded mode-0700 ignored-directory guard
+│       ├── private-json-file.mjs # bounded mode-0600 private JSON writer
+│       ├── public-evidence-admission.mjs # recoverable raw/reviewed/public promotion
+│       ├── repository-relative-path.mjs # canonical contained-path validator
+│       ├── rfc3339-timestamp.mjs # strict UTC evaluation timestamp parser
+│       ├── supported-host-schema-validation.mjs # exact six-tool input/output validation
+│       ├── transactional-output-placement.mjs # recoverable multi-output promotion
+│       ├── run-webmcp-evals-smoke-child.mjs # bounded smoke child entry point
 │       ├── webmcp-evals-harness.mjs # validated fixture, server and receipt helpers
 │       └── source-locks.mjs       # exact path, file and code-reviewed digest pins
 ├── tests/
@@ -202,10 +224,16 @@ govuk-webmcp/
 │   │   ├── deterministic-build.test.mjs
 │   │   ├── webmcp-evals-harness.test.mjs
 │   │   ├── post-deployment-evidence.test.mjs
+│   │   ├── chrome-devtools-capture-cleanup.test.mjs
+│   │   ├── demo-video-media-snapshot.test.mjs
+│   │   ├── private-directory.test.mjs
+│   │   ├── public-evidence-admission.test.mjs
+│   │   ├── transactional-output-placement.test.mjs
+│   │   ├── webmcp-evals-browser-step-limit-patch.test.mjs
 │   │   └── release-evidence.test.mjs
 │   └── browser/
 │       ├── knowledge.spec.mjs
-│       └── evidence-answer.spec.mjs # candidate dual-view acceptance
+│       └── evidence-answer.spec.mjs # version 0.4 dual-view acceptance
 ├── profiles/
 │   └── trusted-govuk-discovery.profile.jsonld
 ├── examples/                       # preserved 29 August research seed
@@ -222,7 +250,7 @@ govuk-webmcp/
 │   ├── beginners/
 │   │   └── index.md               # evidence-before-answer learning pathway
 │   ├── product/
-│   │   ├── beginner-trust-pathway-prd.md # accepted candidate requirements
+│   │   ├── beginner-trust-pathway-prd.md # accepted version 0.4 requirements
 │   │   └── beginner-interface-specification.md # dual-view acceptance contract
 │   ├── hackathon-build/            # optional repository-local workflow bridge
 │   │   ├── scope.md
@@ -238,7 +266,7 @@ govuk-webmcp/
 │       ├── demo-storyboard.md
 │       ├── federated-demo-storyboard.md
 │       ├── demo-video-script.json
-│       ├── demo-video-script-v0.4.0-rc.1.json # candidate nine-scene Evidence answer plan
+│       ├── demo-video-script-v0.4.0-rc.1.json # versioned nine-scene Evidence answer plan
 │       ├── demo-captions.en-GB.vtt
 │       ├── demo-transcript.md
 │       ├── evidence-manifest-registry.json
@@ -272,6 +300,7 @@ govuk-webmcp/
 │           ├── supported-host-webmcp-full-page-2026-08-30.jpg
 │           ├── chrome-devtools-mcp-2026-08-30-edd4ce6.json
 │           ├── chrome-devtools-mcp-v0.3.0-rc.1.json
+│           ├── chrome-devtools-mcp-v0.4.0-rc.1.json # historical pre-hardening observation
 │           ├── native-devtools-webmcp-2026-08-30-edd4ce6.json
 │           ├── native-devtools-webmcp-completed-2026-08-30-edd4ce6.jpeg
 │           ├── native-devtools-webmcp-invalid-input-2026-08-30-edd4ce6.jpeg
@@ -279,8 +308,14 @@ govuk-webmcp/
 │           ├── public-deployment-verification-v0.3.0-rc.1.md
 │           ├── demo-live-interaction-capture-2026-08-30.json
 │           ├── demo-live-interaction-capture-v0.3.0-rc.1.json
+│           ├── demo-live-interaction-capture-v0.4.0-rc.1.json # historical pre-hardening input
 │           ├── manual-voiceover-journey-2026-08-30.json
 │           ├── manual-voiceover-journey-v0.3.0-rc.1.json
+│           ├── manual-voiceover-journey-v0.4.0-rc.1.json # historical pre-hardening input
+│           ├── ollama-local-diagnostic-v0.4.0-rc.1.json
+│           ├── ollama-local-diagnostic-clip-v0.4.0-rc.1.json
+│           ├── supported-host-webmcp-capture-v0.4.0-rc.1.json # historical pre-hardening observation
+│           ├── supported-host-webmcp-clip-v0.4.0-rc.1.json
 │           ├── demo-video-build-2026-08-30.json
 │           ├── demo-video-build-v0.3.0-rc.1.json
 │           ├── demo-video-technical-review-2026-08-30.json
@@ -296,6 +331,7 @@ govuk-webmcp/
 │           ├── live-artifact-verification-2026-08-30.json
 │           ├── live-artifact-verification-2026-08-30-edd4ce6.json
 │           ├── live-artifact-verification-v0.3.0-rc.1.json
+│           ├── live-artifact-verification-v0.4.0-rc.1.json # historical pre-hardening receipt
 │           ├── live-deployment-metadata-2026-08-30.json
 │           ├── live-deployment-metadata-2026-08-30-edd4ce6.json
 │           ├── public-live-search-2026-08-30.png
@@ -315,12 +351,32 @@ govuk-webmcp/
         └── pages.yml
 ```
 
-The candidate overlay changes authored TypeScript, schemas, interface mounts,
-styles, tests, evaluation fixtures and documentation only in the working tree.
-It consumes the released data plane rather than creating a beginner-only copy.
-The same five root artefact families still gate registration; the candidate
-definition set contains six tools or none. The five additional schema files
-bring the worktree file count to 36, subject to complete release validation.
+The `0.4.0-rc.1` overlay changes authored TypeScript, schemas, interface mounts,
+styles, tests, evaluation fixtures and documentation. It consumes the released
+data plane rather than creating a beginner-only copy. The same five root
+artefact families still gate registration; the definition set contains six
+tools or none. The five additional schema files bring the versioned contract to
+36 schemas. The settled source-tree checks pass 381 of 381 unit tests, 43 of 43
+installed-Chrome tests and 43 of 43 installed-Microsoft-Edge tests. The
+deterministic double build contains 1,883 files and 128,653,230 bytes at
+aggregate SHA-256
+`cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+These results do not by themselves establish merge, deployment, host or tag
+status.
+
+The executable input boundary is deliberately stricter than JSON Schema. It
+copies only allowed own enumerable string data properties from ordinary plain
+objects and only dense, canonical-index data items from arrays. Symbols,
+accessors, non-enumerable properties, sparse arrays and extra array properties
+fail closed without invoking a getter. Rejected exotic input is not added to a
+diagnostic input digest.
+
+Supported-host evidence requires a fresh process-local authentication of the
+exact live Pages receipt. The raw, reviewed and supported-host projections must
+match that authenticated binding, and the ordered `initial`, `after-page-load`
+and `after-execution` deployment observations must agree and enclose execution.
+A stored, copied, mutated or merely well-shaped receipt cannot substitute for
+that authentication.
 
 The optional guided-build files are a repository-local workflow bridge. Their
 state records `submission.status` as `not-started`; they do not prove or perform
@@ -335,7 +391,7 @@ files are checksum-bound imported producer metadata, not generated projections
 or project-authored content.
 
 `app/data/federated-search/` is an ignored deterministic projection of those
-locked imports. The current build produces 1,853 shard files — 120 record
+locked imports. The versioned build produces 1,853 shard files — 120 record
 shards and 1,733 postings shards — plus the manifest and checksum sidecar, for
 1,855 files and 127,747,020 bytes in total. `scripts/copy-static.mjs` copies the
 validated plane into `dist` for publication. Do not regenerate an authored lock from its projection,
@@ -390,7 +446,7 @@ paths passed for the historical corrected deployment and again for public
 dependencies. `npm run webmcp:devtools:capture` and
 `npm run webmcp:eval:smoke` write review-before-publication receipts under
 ignored `.evals/`. Only the DevTools receipt retains full tool outputs. The
-model-free smoke wrapper validates six `ok: true` expected-schema envelopes,
+model-free smoke wrapper validates seven `ok: true` expected-schema envelopes,
 deletes the raw rows and retains counts plus a results digest. It forwards no
 provider credential environment variables and gives the child an isolated
 `HOME`, but the child retains the operating-system filesystem access of the
@@ -403,7 +459,7 @@ expanded rows; 33 of 33 upstream but 32 of 33 strict; then 30 of 35 upstream.
 Attempt 4 retained a null evaluation after structural validation failed;
 attempt 5 retained 30 pass and 6 fail across 36 reported rows and failed
 `verify-reports`. These
-harnesses exercise the corrected candidate, whose tool callbacks now
+harnesses exercise the corrected `v0.3.0-rc.1` product, whose tool callbacks now
 tolerate an omitted execution-options argument. The unchanged, checksum-bound `v0.2.0-rc.1`
 tag predates that fix; the corrected protected-main deployment contains it.
 
@@ -414,6 +470,12 @@ writes `.evals/chrome-devtools-mcp-public.json`. The mode completed against
 commit `edd4ce6b60c38c3c9fbac86408d6b58d1495671f` and Pages run
 `33323152751`; the reviewed receipt records the exact five tools, five completed
 calls, closed-input rejection and zero console errors.
+
+The later six-tool admission path additionally authenticates the exact live
+Pages receipt in-process and requires ordered `initial`, `after-page-load` and
+`after-execution` deployment checks. Its historical `a4fabe...` records remain
+pre-hardening evidence only; they cannot be relabelled for another product
+commit.
 
 `npm run webmcp:explorer:setup` built Microsoft WebMCP Explorer 0.1.0 at commit
 `f7091c12420e713b11361630dc1649d5678f62ab` twice idempotently in isolated
@@ -458,7 +520,7 @@ genuine, silent public-page interaction clips are also bound to the exact
 release; agent privacy and branding review passed, while owner publication
 review remains open.
 
-The fresh current-release Safari and VoiceOver Caption Panel journey is now
+The `v0.3.0-rc.1` Safari and VoiceOver Caption Panel journey is
 admitted as completed-with-limitations evidence: 7 of 9 checkpoints passed and
 2 retained limitations. Its nine-frame media is a 27-second non-continuous
 screenshot sequence without captured VoiceOver speech audio or a WCAG
@@ -470,13 +532,22 @@ normalised parity across all 40 caption cues, the script and transcript passed.
 
 Owner playback, privacy, branding, rights, synthetic-voice publication and
 caption review, public upload and player verification, and Devpost submission
-remain open. Microsoft Explorer, a passing fixed-model evaluation and a
-release-platform SBOM or attestation remain optional assurance work.
-Competition registration is complete; the current read-only Devpost review is
+remain separate evidence gates. Microsoft Explorer, a passing fixed-model
+evaluation and a release-platform SBOM or attestation remain optional assurance
+work. A dated observation records competition registration as complete; the
+read-only Devpost review is
 retained as the local technical review in
 `final-devpost-compliance-review-2026-08-31.md`. It is complete through the
 Chrome observation at `2026-08-31T18:49:38.356Z`, does not record a submission
 and does not replace the final live-rules and Devpost-form refresh.
+
+A separate dated observation binds historical pre-hardening commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` to Pages run `33555187118`, 1,884
+live files and 128,646,735 bytes, plus one isolated-Chrome six-tool execution
+and bounded VoiceOver evidence. Those records establish only that named
+checkpoint. They do not authenticate the settled `0.4.0-rc.1` source tree or a
+later tag; release identity must come from live deployment metadata, a
+fresh authenticated receipt and GitHub tag and release metadata.
 
 The older evidence remains historical and revision-specific. The earlier
 `v0.2.0-rc.1` evidence records 58 unit, 19 Chromium and 19 installed-Microsoft-
@@ -487,8 +558,8 @@ DevTools MCP 1.8.0 observations belong to corrected commit
 `edd4ce6b60c38c3c9fbac86408d6b58d1495671f`. The completed-with-limitations
 Safari 26.5.2 and VoiceOver 10 sequence and the technically reviewed
 142.920-second local video also remain evidence only for their named
-pre-federation revision; neither is carried forward as current-release proof or
-public YouTube evidence.
+pre-federation revision; neither is carried forward as proof for a later
+release or public YouTube evidence.
 
 Protected pull request 13 admitted the post-deployment evidence, evidence tests
 and lockstep documentation as repository commit

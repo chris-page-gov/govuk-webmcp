@@ -10,6 +10,7 @@ import {
   readBoundedResponseBytes,
   TOOL_DESCRIPTIONS,
   TOOL_INPUT_SCHEMAS,
+  TOOL_TITLES,
 } from "../../dist/src/webmcp-tools.js";
 import { canonicalJson } from "../../dist/src/integrity.js";
 
@@ -175,6 +176,17 @@ test("search schema and tool descriptions teach exact machine identifiers withou
   assert.ok(Object.values(TOOL_DESCRIPTIONS).every((description) => /not (?:a )?display label|rather than.*display labels/u.test(description)));
 });
 
+test("all six page registrations retain their canonical application titles", () => {
+  assert.deepEqual(TOOL_TITLES, {
+    search_government_knowledge: "Search government knowledge",
+    get_resource_record: "Get a government resource record",
+    show_provenance: "Show record provenance",
+    explore_answer_foundations: "Explore answer foundations",
+    compare_evidence_foundations: "Compare evidence foundations",
+    present_resource_evidence: "Present evidence for a government resource",
+  });
+});
+
 test("search is deterministic and supports closed filters", async () => {
   const discovery = await runtime();
   const input = { query: "flood API", resourceTypes: ["api"], accessStatuses: ["public"], limit: 8 };
@@ -206,6 +218,198 @@ test("search rejects unknown, oversized and unsupported input", async () => {
   assert.match(additional.error.message, /Unknown input field/u);
   assert.match(oversized.error.message, /at most 160/u);
   assert.match(unsupported.error.message, /unsupported value/u);
+});
+
+test("reviewed query actions reject exotic root descriptors without invoking getters", async () => {
+  const discovery = await runtime();
+  const cases = [
+    {
+      name: "search",
+      invoke: (input) => discovery.search(input),
+      base: { query: "content" },
+      required: "query",
+      errorCode: "invalid_search_request",
+    },
+    {
+      name: "record",
+      invoke: (input) => discovery.getRecord(input),
+      base: { recordId: "govuk-discovery:api:companies-house" },
+      required: "recordId",
+      errorCode: "invalid_record_request",
+    },
+    {
+      name: "provenance",
+      invoke: (input) => discovery.showProvenance(input),
+      base: { recordId: "govuk-discovery:api:companies-house" },
+      required: "recordId",
+      errorCode: "invalid_provenance_request",
+    },
+  ];
+
+  for (const action of cases) {
+    let getterCalls = 0;
+    const inputs = [];
+
+    for (const enumerable of [true, false]) {
+      const input = { ...action.base };
+      delete input[action.required];
+      Object.defineProperty(input, action.required, {
+        enumerable,
+        get() {
+          getterCalls += 1;
+          return action.base[action.required];
+        },
+      });
+      inputs.push(input);
+    }
+
+    const hiddenUnknown = { ...action.base };
+    Object.defineProperty(hiddenUnknown, "privateContext", {
+      enumerable: false,
+      get() {
+        getterCalls += 1;
+        return "must not be read";
+      },
+    });
+    inputs.push(hiddenUnknown);
+
+    const symbolUnknown = { ...action.base };
+    Object.defineProperty(symbolUnknown, Symbol("private-context"), {
+      enumerable: true,
+      get() {
+        getterCalls += 1;
+        return "must not be read";
+      },
+    });
+    inputs.push(symbolUnknown);
+
+    const hiddenData = { ...action.base };
+    Object.defineProperty(hiddenData, "privateContext", {
+      enumerable: false,
+      value: "must be rejected",
+    });
+    inputs.push(hiddenData);
+
+    for (const input of inputs) {
+      const result = await action.invoke(input);
+      assert.equal(result.ok, false, `${action.name} admitted an exotic root descriptor`);
+      assert.equal(result.error.code, action.errorCode);
+    }
+    assert.equal(getterCalls, 0, `${action.name} invoked a rejected getter`);
+  }
+});
+
+test("reviewed search rejects hostile filter arrays without invoking getters or coercion hooks", async () => {
+  const discovery = await runtime();
+  const filters = [
+    ["resourceTypes", "api"],
+    ["publishers", "Government Digital Service"],
+    ["accessStatuses", "public"],
+  ];
+  let getterCalls = 0;
+  let coercionCalls = 0;
+
+  for (const [field, acceptedValue] of filters) {
+    const values = [acceptedValue];
+    const prototype = Object.create(Array.prototype);
+    Object.defineProperty(prototype, Symbol.iterator, {
+      configurable: true,
+      get() {
+        getterCalls += 1;
+        return Array.prototype[Symbol.iterator];
+      },
+    });
+    Object.setPrototypeOf(values, prototype);
+    const result = await discovery.search({ query: "content", [field]: values });
+    assert.equal(result.ok, false, `${field} admitted a non-plain array`);
+    assert.equal(result.error.code, "invalid_search_request");
+  }
+
+  const accessor = ["api"];
+  Object.defineProperty(accessor, "0", {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "api";
+    },
+  });
+
+  const hiddenIndex = ["api"];
+  Object.defineProperty(hiddenIndex, "0", {
+    configurable: true,
+    enumerable: false,
+    value: "api",
+  });
+
+  const namedExtra = ["api"];
+  Object.defineProperty(namedExtra, "privateContext", {
+    configurable: true,
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const symbolExtra = ["api"];
+  Object.defineProperty(symbolExtra, Symbol("private-context"), {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const numericPseudoIndex = ["api"];
+  Object.defineProperty(numericPseudoIndex, "4294967295", {
+    configurable: true,
+    enumerable: true,
+    value: "must be rejected",
+  });
+
+  const coerciveValue = {
+    valueOf() {
+      coercionCalls += 1;
+      return "api";
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return "api";
+    },
+  };
+  const coerciveLimit = {
+    valueOf() {
+      coercionCalls += 1;
+      return 8;
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return 8;
+    },
+  };
+
+  for (const resourceTypes of [
+    accessor,
+    hiddenIndex,
+    new Array(1),
+    namedExtra,
+    symbolExtra,
+    numericPseudoIndex,
+    [coerciveValue],
+  ]) {
+    const result = await discovery.search({ query: "content", resourceTypes });
+    assert.equal(result.ok, false, "resourceTypes admitted a hostile array representation");
+    assert.equal(result.error.code, "invalid_search_request");
+  }
+
+  const coerciveLimitResult = await discovery.search({ query: "content", limit: coerciveLimit });
+  assert.equal(coerciveLimitResult.ok, false);
+  assert.equal(coerciveLimitResult.error.code, "invalid_search_request");
+
+  assert.equal(getterCalls, 0);
+  assert.equal(coercionCalls, 0);
 });
 
 test("search rejects duplicate filters wherever the published schema uses uniqueItems", async () => {

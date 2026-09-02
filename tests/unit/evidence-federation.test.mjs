@@ -185,6 +185,178 @@ test("evidence inputs reject unknown fields, malformed IDs, duplicates and out-o
   assert.equal(results[4].error.code, "claim_not_found");
 });
 
+test("evidence actions reject exotic root descriptors without invoking getters", async () => {
+  const evidence = await evidenceRuntime();
+  const cases = [
+    {
+      name: "explore",
+      invoke: (input) => evidence.explore(input),
+      base: { answerId: evidence.defaultAnswerId },
+      required: "answerId",
+      errorCode: "invalid_evidence_exploration_request",
+    },
+    {
+      name: "compare",
+      invoke: (input) => evidence.compare(input),
+      base: {
+        answerId: evidence.defaultAnswerId,
+        claimIds: ["claim:register-a-birth", "claim:check-child-benefit"],
+      },
+      required: "answerId",
+      errorCode: "invalid_evidence_comparison_request",
+    },
+  ];
+
+  for (const action of cases) {
+    let getterCalls = 0;
+    const inputs = [];
+    for (const enumerable of [true, false]) {
+      const input = { ...action.base };
+      delete input[action.required];
+      Object.defineProperty(input, action.required, {
+        enumerable,
+        get() {
+          getterCalls += 1;
+          return action.base[action.required];
+        },
+      });
+      inputs.push(input);
+    }
+
+    const hiddenUnknown = { ...action.base };
+    Object.defineProperty(hiddenUnknown, "privateContext", {
+      enumerable: false,
+      get() {
+        getterCalls += 1;
+        return "must not be read";
+      },
+    });
+    inputs.push(hiddenUnknown);
+
+    const symbolUnknown = { ...action.base };
+    Object.defineProperty(symbolUnknown, Symbol("private-context"), {
+      enumerable: true,
+      get() {
+        getterCalls += 1;
+        return "must not be read";
+      },
+    });
+    inputs.push(symbolUnknown);
+
+    const hiddenData = { ...action.base };
+    Object.defineProperty(hiddenData, "privateContext", {
+      enumerable: false,
+      value: "must be rejected",
+    });
+    inputs.push(hiddenData);
+
+    for (const input of inputs) {
+      const result = await action.invoke(input);
+      assert.equal(result.ok, false, `${action.name} admitted an exotic root descriptor`);
+      assert.equal(result.error.code, action.errorCode);
+    }
+    assert.equal(getterCalls, 0, `${action.name} invoked a rejected getter`);
+  }
+});
+
+test("evidence comparison rejects hostile claim arrays without invoking getters or coercion hooks", async () => {
+  const evidence = await evidenceRuntime();
+  let getterCalls = 0;
+  let coercionCalls = 0;
+  const validClaimIds = ["claim:register-a-birth", "claim:check-child-benefit"];
+
+  const inherited = [...validClaimIds];
+  const prototype = Object.create(Array.prototype);
+  Object.defineProperty(prototype, Symbol.iterator, {
+    configurable: true,
+    get() {
+      getterCalls += 1;
+      return Array.prototype[Symbol.iterator];
+    },
+  });
+  Object.setPrototypeOf(inherited, prototype);
+
+  const accessor = [...validClaimIds];
+  Object.defineProperty(accessor, "0", {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "claim:register-a-birth";
+    },
+  });
+
+  const hiddenIndex = [...validClaimIds];
+  Object.defineProperty(hiddenIndex, "0", {
+    configurable: true,
+    enumerable: false,
+    value: "claim:register-a-birth",
+  });
+
+  const sparse = new Array(2);
+  Object.defineProperty(sparse, "1", {
+    configurable: true,
+    enumerable: true,
+    value: "claim:check-child-benefit",
+  });
+
+  const namedExtra = [...validClaimIds];
+  Object.defineProperty(namedExtra, "privateContext", {
+    configurable: true,
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const symbolExtra = [...validClaimIds];
+  Object.defineProperty(symbolExtra, Symbol("private-context"), {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const numericPseudoIndex = [...validClaimIds];
+  Object.defineProperty(numericPseudoIndex, "4294967295", {
+    configurable: true,
+    enumerable: true,
+    value: "must be rejected",
+  });
+
+  const coerciveClaim = {
+    valueOf() {
+      coercionCalls += 1;
+      return "claim:register-a-birth";
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return "claim:register-a-birth";
+    },
+  };
+
+  for (const claimIds of [
+    inherited,
+    accessor,
+    hiddenIndex,
+    sparse,
+    namedExtra,
+    symbolExtra,
+    numericPseudoIndex,
+    [coerciveClaim, "claim:check-child-benefit"],
+  ]) {
+    const result = await evidence.compare({ answerId: evidence.defaultAnswerId, claimIds });
+    assert.equal(result.ok, false, "compare admitted a hostile claimIds representation");
+    assert.equal(result.error.code, "invalid_evidence_comparison_request");
+  }
+
+  assert.equal(getterCalls, 0);
+  assert.equal(coercionCalls, 0);
+});
+
 test("evidence validation fails closed for raw tampering and rebound source URL substitutions", async () => {
   await assert.rejects(
     createEvidenceRuntime(`${rawEvidence} `, rawEvidenceChecksum, catalogue.bundleDigest, catalogue.records),
@@ -782,8 +954,10 @@ test("all action paths reject deeply nested unknown input without hashing caller
   assert.ok(presentations.every(({ result }) => JSON.stringify(result).length < 1_000));
 });
 
-test("the common input budget rejects broad roots and accessors before dispatch", async () => {
+test("the common input budget rejects broad and exotic roots before any action dispatch", async () => {
   let calls = 0;
+  let getterCalls = 0;
+  let coercionCalls = 0;
   const rejectingRuntime = {
     search: async () => { calls += 1; return { ok: true }; },
     getRecord: async () => { calls += 1; return { ok: true }; },
@@ -797,16 +971,139 @@ test("the common input budget rejects broad roots and accessors before dispatch"
   const actions = createKnowledgeActionController(rejectingRuntime, (value) => presentations.push(value));
   const broad = Object.fromEntries(Array.from({ length: 17 }, (_, index) => [`field${index}`, index]));
   const accessor = {};
-  Object.defineProperty(accessor, "query", { enumerable: true, get: () => "must not execute" });
+  Object.defineProperty(accessor, "query", {
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "must not execute";
+    },
+  });
+  const hiddenAccessor = {};
+  Object.defineProperty(hiddenAccessor, "query", {
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "must not execute";
+    },
+  });
+  const symbolicAccessor = {};
+  Object.defineProperty(symbolicAccessor, Symbol("query"), {
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "must not execute";
+    },
+  });
+  const hiddenData = {};
+  Object.defineProperty(hiddenData, "query", { enumerable: false, value: "must not execute" });
+  const names = [
+    "search_government_knowledge",
+    "get_resource_record",
+    "show_provenance",
+    "explore_answer_foundations",
+    "compare_evidence_foundations",
+    "present_resource_evidence",
+  ];
 
-  for (const input of [broad, accessor]) {
-    const result = await actions.run("search_government_knowledge", input, { origin: "webmcp", present: true });
-    assert.equal(result.ok, false);
-    assert.equal(result.error.code, "input_budget_exceeded");
+  for (const name of names) {
+    for (const input of [broad, accessor, hiddenAccessor, symbolicAccessor, hiddenData]) {
+      const result = await actions.run(name, input, { origin: "webmcp", present: true });
+      assert.equal(result.ok, false);
+      assert.equal(result.error.code, "input_budget_exceeded");
+    }
   }
   assert.equal(calls, 0);
-  assert.equal(presentations.length, 2);
+  assert.equal(getterCalls, 0);
+  assert.equal(presentations.length, names.length * 5);
   assert.ok(presentations.every(({ inputDigest }) => inputDigest === null));
+
+  const inherited = ["api"];
+  const prototype = Object.create(Array.prototype);
+  Object.defineProperty(prototype, Symbol.iterator, {
+    configurable: true,
+    get() {
+      getterCalls += 1;
+      return Array.prototype[Symbol.iterator];
+    },
+  });
+  Object.setPrototypeOf(inherited, prototype);
+
+  const indexedAccessor = ["api"];
+  Object.defineProperty(indexedAccessor, "0", {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "api";
+    },
+  });
+
+  const hiddenIndex = ["api"];
+  Object.defineProperty(hiddenIndex, "0", {
+    configurable: true,
+    enumerable: false,
+    value: "api",
+  });
+
+  const namedExtra = ["api"];
+  Object.defineProperty(namedExtra, "privateContext", {
+    configurable: true,
+    enumerable: false,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const symbolExtra = ["api"];
+  Object.defineProperty(symbolExtra, Symbol("private-context"), {
+    configurable: true,
+    enumerable: true,
+    get() {
+      getterCalls += 1;
+      return "must not be read";
+    },
+  });
+
+  const numericPseudoIndex = ["api"];
+  Object.defineProperty(numericPseudoIndex, "4294967295", {
+    configurable: true,
+    enumerable: true,
+    value: "must be rejected",
+  });
+
+  const coerciveItem = {
+    valueOf() {
+      coercionCalls += 1;
+      return "api";
+    },
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      return "api";
+    },
+  };
+  const hostileArrays = [
+    inherited,
+    indexedAccessor,
+    hiddenIndex,
+    new Array(1),
+    namedExtra,
+    symbolExtra,
+    numericPseudoIndex,
+    [coerciveItem],
+  ];
+  const presentationCount = presentations.length;
+  for (const name of names) {
+    for (const resourceTypes of hostileArrays) {
+      const result = await actions.run(name, { resourceTypes }, { origin: "webmcp", present: false });
+      assert.equal(result.ok, false);
+      assert.equal(result.error.code, "input_budget_exceeded");
+    }
+  }
+  assert.equal(calls, 0, "hostile arrays must be rejected before action dispatch");
+  assert.equal(getterCalls, 0, "hostile array getters must not run");
+  assert.equal(coercionCalls, 0, "hostile array coercion hooks must not run");
+  assert.equal(presentations.length, presentationCount, "a non-presenting rejection must not commit presentation");
 });
 
 test("accepted inputs retain canonical property-order-independent diagnostic digests", async () => {

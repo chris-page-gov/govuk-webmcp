@@ -145,27 +145,11 @@ function safePublicUrl(value: unknown, label = "URL"): string {
   return url.toString();
 }
 
-function ensurePlainObject(value: unknown, allowed: Set<string>): JsonObject {
-  if (
-    value === null ||
-    typeof value !== "object" ||
-    Array.isArray(value) ||
-    Object.getPrototypeOf(value) !== Object.prototype
-  ) {
-    throw new Error("Input must be a plain JSON object.");
-  }
-  const object = value as JsonObject;
-  for (const key of Object.keys(object)) {
-    if (!allowed.has(key)) throw new Error(`Unknown input field: ${key.slice(0, 80)}`);
-  }
-  return object;
-}
-
-function closedPlainObject(
+function enumerableDataObject(
   value: unknown,
   label: string,
   allowed: ReadonlySet<string>,
-  required: readonly string[],
+  unknownFieldMessage: (key: string | symbol) => string,
 ): JsonObject {
   if (
     value === null ||
@@ -175,12 +159,45 @@ function closedPlainObject(
   ) {
     throw new Error(`${label} must be a plain JSON object.`);
   }
-  const object = value as JsonObject;
-  for (const key of Object.keys(object)) {
-    if (!allowed.has(key)) throw new Error(`${label} contains the unknown field ${key.slice(0, 80)}.`);
+  const copy: JsonObject = {};
+  for (const key of Reflect.ownKeys(value)) {
+    if (typeof key !== "string" || !allowed.has(key)) throw new Error(unknownFieldMessage(key));
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
+      throw new Error(`${label} must contain enumerable data fields only.`);
+    }
+    copy[key] = descriptor.value as unknown;
   }
+  return copy;
+}
+
+function ensurePlainObject(value: unknown, allowed: ReadonlySet<string>): JsonObject {
+  return enumerableDataObject(
+    value,
+    "Input",
+    allowed,
+    (key) => typeof key === "string"
+      ? `Unknown input field: ${key.slice(0, 80)}`
+      : "Input contains an unknown symbol field.",
+  );
+}
+
+function closedPlainObject(
+  value: unknown,
+  label: string,
+  allowed: ReadonlySet<string>,
+  required: readonly string[],
+): JsonObject {
+  const object = enumerableDataObject(
+    value,
+    label,
+    allowed,
+    (key) => typeof key === "string"
+      ? `${label} contains the unknown field ${key.slice(0, 80)}.`
+      : `${label} contains an unknown symbol field.`,
+  );
   for (const key of required) {
-    if (!Object.prototype.hasOwnProperty.call(object, key)) {
+    if (!Object.hasOwn(object, key)) {
       throw new Error(`${label} is missing the required field ${key}.`);
     }
   }
@@ -217,11 +234,35 @@ function schemaArray(
   minimum: number,
   maximum = Number.POSITIVE_INFINITY,
 ): unknown[] {
-  if (!Array.isArray(value) || value.length < minimum || value.length > maximum) {
+  if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) {
+    throw new Error(`${label} must be a plain data array.`);
+  }
+  const lengthDescriptor = Object.getOwnPropertyDescriptor(value, "length");
+  if (!lengthDescriptor || !Object.hasOwn(lengthDescriptor, "value") ||
+    !Number.isSafeInteger(lengthDescriptor.value) ||
+    lengthDescriptor.value < minimum || lengthDescriptor.value > maximum) {
     const range = Number.isFinite(maximum) ? `from ${minimum} to ${maximum}` : `at least ${minimum}`;
     throw new Error(`${label} must be an array with ${range} item${maximum === 1 ? "" : "s"}.`);
   }
-  return value;
+  const length = lengthDescriptor.value;
+  const ownKeys = Reflect.ownKeys(value);
+  if (ownKeys.some((key) => {
+    if (key === "length") return false;
+    if (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)) return true;
+    const index = Number(key);
+    return !Number.isSafeInteger(index) || index < 0 || index >= length;
+  })) {
+    throw new Error(`${label} must contain indexed data items only.`);
+  }
+  const copy: unknown[] = [];
+  for (let index = 0; index < length; index += 1) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
+    if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
+      throw new Error(`${label} must not contain accessors, hidden items or empty positions.`);
+    }
+    copy.push(descriptor.value as unknown);
+  }
+  return copy;
 }
 
 function uniqueStringArray(
@@ -361,11 +402,9 @@ function enumArray<T extends string>(
   maximum: number,
 ): T[] {
   if (value === undefined) return [];
-  if (!Array.isArray(value) || value.length > maximum) {
-    throw new Error(`${name} must be an array with at most ${maximum} values.`);
-  }
+  const values = schemaArray(value, name, 0, maximum);
   const output: T[] = [];
-  for (const item of value) {
+  for (const item of values) {
     if (typeof item !== "string" || !allowed.has(item)) {
       throw new Error(`${name} contains an unsupported value.`);
     }
@@ -377,10 +416,10 @@ function enumArray<T extends string>(
 
 function integerLimit(value: unknown): number {
   if (value === undefined) return 8;
-  if (!Number.isInteger(value) || Number(value) < 1 || Number(value) > RESULT_LIMIT_MAX) {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 1 || value > RESULT_LIMIT_MAX) {
     throw new Error(`limit must be an integer from 1 to ${RESULT_LIMIT_MAX}.`);
   }
-  return Number(value);
+  return value;
 }
 
 function words(value: string): string[] {
@@ -686,12 +725,12 @@ export async function createKnowledgeDiscoveryRuntime(
         const query = boundedString(object.query, "query", QUERY_MAX);
         const resourceTypes = enumArray<ResourceType>(object.resourceTypes, "resourceTypes", RESOURCE_TYPES, 7);
         const accessStatuses = enumArray<AccessStatus>(object.accessStatuses, "accessStatuses", ACCESS_STATUSES, 5);
-        const rawPublishers = object.publishers;
-        if (rawPublishers !== undefined && (!Array.isArray(rawPublishers) || rawPublishers.length > 8)) {
-          throw new Error("publishers must contain at most eight strings.");
-        }
-        const publishers = rawPublishers === undefined ? [] : Array.from(
-          rawPublishers as unknown[],
+        const publishers = object.publishers === undefined ? [] : schemaArray(
+          object.publishers,
+          "publishers",
+          0,
+          8,
+        ).map(
           (publisher, index) => boundedString(publisher, `publishers[${index}]`, 100),
         );
         const publisherKeys = publishers.map((publisher) => publisher.toLocaleLowerCase("en-GB"));
@@ -1056,6 +1095,15 @@ export const TOOL_DESCRIPTIONS: Readonly<Record<(typeof EXPECTED_TOOL_NAMES)[num
   present_resource_evidence: "Use one canonical govuk-discovery: record ID exactly, not a display label, to update this page's Evidence answer with the same closed, deterministic evidence object returned by the tool. The reversible presentation effect changes no URL, history, focus, scroll, storage, catalogue or external state and accepts no personal context.",
 });
 
+export const TOOL_TITLES: Readonly<Record<(typeof EXPECTED_TOOL_NAMES)[number], string>> = Object.freeze({
+  search_government_knowledge: "Search government knowledge",
+  get_resource_record: "Get a government resource record",
+  show_provenance: "Show record provenance",
+  explore_answer_foundations: "Explore answer foundations",
+  compare_evidence_foundations: "Compare evidence foundations",
+  present_resource_evidence: "Present evidence for a government resource",
+});
+
 function webMcpActionOptions(
   present: boolean,
   options?: { signal?: AbortSignal },
@@ -1069,7 +1117,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
   return [
     {
       name: "search_government_knowledge",
-      title: "Search government knowledge",
+      title: TOOL_TITLES.search_government_knowledge,
       description: TOOL_DESCRIPTIONS.search_government_knowledge,
       inputSchema: searchInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
@@ -1077,7 +1125,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     },
     {
       name: "get_resource_record",
-      title: "Get a government resource record",
+      title: TOOL_TITLES.get_resource_record,
       description: TOOL_DESCRIPTIONS.get_resource_record,
       inputSchema: recordInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
@@ -1085,7 +1133,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     },
     {
       name: "show_provenance",
-      title: "Show record provenance",
+      title: TOOL_TITLES.show_provenance,
       description: TOOL_DESCRIPTIONS.show_provenance,
       inputSchema: recordInputSchema,
       annotations: { readOnlyHint: true, ...untrusted },
@@ -1093,7 +1141,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     },
     {
       name: "explore_answer_foundations",
-      title: "Explore answer foundations",
+      title: TOOL_TITLES.explore_answer_foundations,
       description: TOOL_DESCRIPTIONS.explore_answer_foundations,
       inputSchema: answerInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },
@@ -1101,7 +1149,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     },
     {
       name: "compare_evidence_foundations",
-      title: "Compare evidence foundations",
+      title: TOOL_TITLES.compare_evidence_foundations,
       description: TOOL_DESCRIPTIONS.compare_evidence_foundations,
       inputSchema: comparisonInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },
@@ -1109,7 +1157,7 @@ function fixedToolDefinitions(actions: KnowledgeActionController): ModelContextT
     },
     {
       name: "present_resource_evidence",
-      title: "Present evidence for a government resource",
+      title: TOOL_TITLES.present_resource_evidence,
       description: TOOL_DESCRIPTIONS.present_resource_evidence,
       inputSchema: presentationInputSchema,
       annotations: { readOnlyHint: false, ...untrusted },

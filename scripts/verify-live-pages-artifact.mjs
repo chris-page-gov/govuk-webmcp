@@ -452,6 +452,11 @@ export function isAuthenticatedLivePagesReceipt(receipt) {
   }
 }
 
+export function disposeAuthenticatedLivePagesReceipt(receipt) {
+  if (receipt === null || typeof receipt !== "object") return false;
+  return authenticatedLiveReceipts.delete(receipt);
+}
+
 export async function authenticateLivePagesReceipt(
   candidate,
   collectImplementation = collectLivePagesArtifactVerification,

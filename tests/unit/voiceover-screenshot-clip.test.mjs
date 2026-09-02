@@ -7,11 +7,13 @@ import test, { after, before } from "node:test";
 import {
   bindReleaseConfig,
   demoReleaseEnvironment,
+  requiredVoiceOverCaptureLimitations,
   requiredVoiceOverJourneyIds,
   validateConfig,
 } from "../../scripts/build-demo-video.mjs";
 import {
   buildVoiceOverFfmpegArguments,
+  buildVoiceOverSuccessResult,
   preflightCapture,
   validateCaptureManifest,
   validateRenderedClip,
@@ -27,16 +29,15 @@ const config = bindReleaseConfig(
 );
 const journeyIds = requiredVoiceOverJourneyIds;
 const unitDirectory = `output/voiceover-capture/unit-${process.pid}-${randomUUID()}`;
-const deploymentFetch = async () => ({
-  ok: true,
-  status: 200,
-  text: async () => JSON.stringify({
+const deploymentFetch = async () => new Response(JSON.stringify({
     schema: "trusted-govuk-discovery.deployment.v1",
     repository: "chris-page-gov/govuk-webmcp",
     commit: config.productCommit,
     runId: config.pagesRunId,
-  }),
-});
+  }), {
+    status: 200,
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 
 function digest(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
@@ -72,10 +73,7 @@ function manifestFixture() {
       holdSeconds: index < 3 ? 3 : 2,
       label: `Checkpoint ${index + 1}: ${id}`,
     })),
-    limitations: [
-      "This screenshot sequence is not a continuous recording.",
-      "One manual journey in one environment is not a WCAG conformance assessment.",
-    ],
+    limitations: [...requiredVoiceOverCaptureLimitations],
   };
 }
 
@@ -147,6 +145,15 @@ test("screenshot manifest rejects continuous-recording and unsafe path claims", 
   continuous.continuousRecording = true;
   assert.throws(() => validateCaptureManifest(continuous, config), /must not claim to be a continuous recording/u);
 
+  for (const required of requiredVoiceOverCaptureLimitations) {
+    const missingBoundary = manifestFixture();
+    missingBoundary.limitations = missingBoundary.limitations.filter((limitation) => limitation !== required);
+    assert.throws(
+      () => validateCaptureManifest(missingBoundary, config),
+      new RegExp(`Capture limitations must include: ${required.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}`, "u"),
+    );
+  }
+
   const outside = manifestFixture();
   outside.frames[0].path = "docs/competition/evidence/frame.png";
   assert.throws(() => validateCaptureManifest(outside, config), /must stay beneath output\/voiceover-capture/u);
@@ -176,6 +183,25 @@ test("screenshot sequence encode is capped at the validated manifest duration", 
     () => buildVoiceOverFfmpegArguments("/tmp/frames.txt", "/tmp/sequence.mov", Number.NaN),
     /positive finite number/u,
   );
+});
+
+test("successful screenshot-sequence build result retains every capture limitation", () => {
+  const result = buildVoiceOverSuccessResult({
+    output: "output/demo-clips/v0.4.0-rc.1/06-voiceover.mov",
+    outputSha256: "a".repeat(64),
+    media: { durationSeconds: 27, width: 1920, height: 1080, codec: "h264", pixelFormat: "yuv420p" },
+    manifest: { path: "output/voiceover-capture/capture-manifest.json", sha256: "b".repeat(64) },
+    frames: [{ id: journeyIds[0], path: "output/voiceover-capture/frame-01.png", sha256: "c".repeat(64) }],
+  });
+  assert.equal(result.status, "built-local-screenshot-sequence-not-continuous-recording");
+  assert.deepEqual(result.limitations, [...requiredVoiceOverCaptureLimitations]);
+  assert.equal(Object.hasOwn(result, "limitation"), false);
+});
+
+test("VoiceOver output promotion uses the shared no-clobber repository transaction", async () => {
+  const source = await readFile("scripts/build-voiceover-screenshot-clip.mjs", "utf8");
+  assert.match(source, /return placeRepositoryOutputs\(/u);
+  assert.doesNotMatch(source, /rename\(pending, outputPath\)/u);
 });
 
 test("capture preflight verifies bytes and rejects hash drift, symlinks and weak frames", async () => {

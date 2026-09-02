@@ -118,7 +118,7 @@ Federated links and assertions must remain producer-declared rather than
 official; exact-record output reports source authority as “Not independently
 established”, and the human route displays the recorded destination hostname.
 
-The working tree contains remediations for nine Low security findings. Sealed
+The candidate contains remediations for ten Low security findings. Sealed
 scan `9c2c0929-bb88-437b-a185-74a7f8bdec6a` suppressed seven earlier findings
 and found one further High-confidence Low trailing-dot and secondary
 legislation-URL bypass (`csf_a2d9e030fda789ecd1cb0e41`), which was fixed after
@@ -127,8 +127,17 @@ coverage is mechanically partial and has stale-pending rows. Focused security
 checks passed 119 of 119, then the affected post-fix subset passed 23 of 23.
 The current research, build/data, lexical-quality, Chrome, Microsoft Edge and
 authorised model-free smoke gates pass where recorded. The full unit command
-passed 173 of 173 in `17128.154916 ms` before the latest three engineering
-remediations.
+passed 173 of 173 in `17128.154916 ms` before the later engineering
+remediations. Pre-fix scan `dcfed744-0676-40c1-a0ef-84dd3cc7b52b` subsequently
+identified the tenth High-confidence Low finding: supported-host publication
+trusted coordinated shape-valid live-byte receipts. Every publication consumer
+now requires a fresh in-process authenticated receipt, ordered `initial`,
+`after-page-load` and `after-execution` deployment checks and exact matching of
+both stored receipt bindings. Focused remediation tests pass 31 of 31 and the
+settled integrated unit suite passes 381 of 381. Sealed post-fix scan
+`185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
+executable-source items with complete configured coverage and zero reportable
+findings for its exact snapshot.
 
 Immutable scan `2b3097c7-6f9f-45fb-baee-ee8b2d125a3a` later completed 55 of
 55 review items and reported the ninth, High-confidence Low co-digested source-
@@ -160,8 +169,9 @@ reviewed pins for all five sources, a direct builder lock-byte check and
 mutation regressions remediate it. Immutable fixed-tree scan
 `040ad945-3723-4aef-9c03-1bb552630deb` completed 55 of 55 items against exact
 commit `9c6ed7d9a21574972ee564b333cbc49983058554` with zero reportable findings.
-Protected CI, Pages deployment and supported-host evidence are complete. The
-current-release manual Safari and VoiceOver journey also completed with 7
+Protected CI, Pages deployment and supported-host evidence are complete for
+the historical `v0.3.0-rc.1` release. Its manual Safari and VoiceOver journey
+also completed with 7
 passes and 2 retained limitations. Its Caption Panel media is a 27-second
 non-continuous screenshot sequence; VoiceOver speech audio was not captured and
 no WCAG conformance is claimed. The guarded pipeline produced a technically
@@ -176,8 +186,8 @@ remain prerequisites for the corresponding publication claims.
 The final-candidate demonstration preflight correctly failed closed because no
 deployed commit and no explicit overwrite approval were supplied. It did not
 start live capture and must not be used as supported-host or video evidence.
-After deployment, the separately bound current-release captures, VoiceOver
-record and local video build passed the guarded path; they do not retroactively
+After deployment, the separately bound `v0.3.0-rc.1` captures, VoiceOver record
+and local video build passed the guarded path; they do not retroactively
 change that historical failure or prove public upload or submission.
 
 The physical shard layer admits at most 4 active loads, 32 queued loads and 36

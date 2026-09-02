@@ -3,12 +3,14 @@
 Public source repository for **Trusted government knowledge discovery**, an
 independent experimental prototype.
 
-<https://chris-page-gov.github.io/govuk-webmcp/> serves release commit
-`b0bd634579a3abf82bdd1fc83ff688535e0db0bf` from Pages run `33356452048`.
-The annotated
+<https://chris-page-gov.github.io/govuk-webmcp/> serves the protected-main
+deployment identified by its published `deployment.json` and exact live
+verification receipt. The retained pre-integration observation names commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118`;
+it is not automatically evidence for a later commit. The annotated
 [`v0.3.0-rc.1`](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.3.0-rc.1)
-tag resolves to those exact product bytes and is the current public release
-candidate.
+tag preserves the earlier five-tool product bytes at commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf` as historical evidence.
 The earlier product commit `9235ee5db4df637bdb2a12e87449e871614afe68`
 remains unchanged as the
 [`v0.2.0-rc.1` public pre-release](https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.2.0-rc.1)
@@ -19,24 +21,22 @@ the recorded Pages product identity. Its annotated tag resolves to product
 commit `35fcedd39ed955278d3975a6dd80692fc6e32935`; it is the retained, frozen
 project baseline and is not described as a GitHub-platform immutable release.
 
-Package version `0.3.0-rc.1` identifies the released federated-discovery
-candidate. Protected-main validation run `33356272534` and Pages run
-`33356452048` passed. The deployed artefact comparison covered 1,879 regular
-files and 128,548,215 bytes with zero mismatches. The release retains 80
-reviewed records and adds 58,652 searchable federated records from 58,655
-locked source rows; 3 standalone legislation rows remain quarantined.
-Supported-host evidence records discovery and deterministic calls for all five
-page tools against the exact release. A separate isolated Chrome 152 / Chrome
-DevTools MCP 1.8.0 observation also completed all five tools with browser-native
-WebMCP enabled. The refreshed manual VoiceOver journey and 156.023-second local
-video technical review are complete with explicit limitations. Owner approval,
-public-video publication, final live-rules and form review, and submission
-remain separate gates and are not implied by the product release.
+The `0.4.0-rc.1` candidate retains 80 reviewed records and 58,652
+searchable federated records from 58,655 locked source rows; 3 standalone
+legislation rows remain quarantined. Its pre-integration deployment matched all
+1,884 regular files and 128,646,735 bytes. The release process permits a
+`v0.4.0-rc.1` tag only on the protected-main product commit that has passed
+exact deployment, byte verification and complete exact-release recapture. A
+later evidence-documentation commit must not move that tag. Public-video
+publication, final live-rules and form review, and submission remain separate
+gates. A checkout does not prove its own merge, deployment or tag state; use
+the published `deployment.json`, authenticated receipt and GitHub release
+metadata for that determination.
 
-## In-progress Evidence answer candidate
+## Deployed Evidence answer candidate
 
-The working tree now identifies an unreleased `0.4.0-rc.1` candidate. It does
-not replace the public release described above. The candidate adds a persistent
+The `0.4.0-rc.1` candidate does not rewrite the tagged `v0.3.0-rc.1` history.
+It adds a persistent
 two-view interface:
 
 - **Evidence answer** presents a plain English, deterministic evidence result
@@ -71,16 +71,21 @@ and live-comparison work budgets.
 No model is embedded in the page. The page cannot see or validate the AI
 host's final wording; Evidence answer therefore shows what the page supports
 and asks the person to compare the AI's dates, amounts, eligibility statements
-and instructions against that evidence. This candidate has no public tag,
-deployment, six-tool host observation, new demonstration video or Devpost
-submission. Complete build, browser, accessibility, security and evaluation
-acceptance remains pending. Local research, production build, full-corpus
-projection, 272 unit tests, 43 Chrome tests, 43 Edge tests, frozen retrieval,
-seven model-free smoke envelopes and dependency audit pass. Frozen code-snapshot
-security scan `aedf88e3-6a77-46af-be6b-2c672001dd46` completed 36 of 36 items,
-ran 102 focused tests, found zero findings and concluded that there is no
-security release blocker. Candidate-specific manual Safari/VoiceOver, live-host
-and repeated-model evidence remain open.
+and instructions against that evidence. Eligibility for the `v0.4.0-rc.1`
+product tag requires a genuine Copilot capture and reviewed final demonstration
+video. The tag binds the verified product commit; later evidence documentation
+does not become part of that tag, and the tag does not imply a Devpost
+submission. Validation
+results are authoritative only for the revision and environment named by their
+receipts. Historical partial and flaky runs remain visible rather than being
+converted into a product pass.
+
+The retained `a4fabe...` captures are pre-integration evidence for their named
+deployment. Because this hardening changes built application bytes, the release
+sequence is: merge and deploy the protected-main product commit; byte-verify it;
+recapture every exact-release page, host and accessibility input; rerun both
+36-slot host halves against it; build and review the video; then tag that same
+product commit. A later evidence-documentation commit must not move the tag.
 
 ## Beginner documentation
 
@@ -88,8 +93,7 @@ Start with [Evidence before answers](docs/beginners/index.md) if you are new to
 AI-assisted government information. It explains how to separate an AI answer,
 its recorded evidence and a decision that depends on your circumstances.
 
-The beginner experience is specified and its first experimental candidate is
-implemented in the working tree, but it is not released or accepted. Its
+The beginner experience is specified as an experimental candidate. Its
 [product requirements](docs/product/beginner-trust-pathway-prd.md),
 [interface specification](docs/product/beginner-interface-specification.md),
 [question and coverage matrix](docs/competition/beginner-question-coverage.md)
@@ -349,6 +353,12 @@ public YouTube-upload claim.
    npm test
    ```
 
+   `npm test` is self-contained after the locked install: it applies and
+   verifies the digest-bound `webmcp-evals` step-limit correction before any
+   evaluator-dependent checks. `npm run webmcp:eval:patch` remains available
+   as an optional explicit fail-early check; it is not an extra clean-clone
+   prerequisite.
+
    The installed-Edge matrix and model-free evaluator smoke are separate:
 
    ```bash
@@ -363,13 +373,13 @@ public YouTube-upload claim.
    pinned Python requirements, run the frozen federated retrieval-quality gate
    after the complete suite and run semantic WebMCP smoke before deployment.
    Those definitions ran in the protected integration and corrected Pages
-   deployment path. For the current working candidate, the standalone
+   deployment path. For this candidate source, the standalone
    deterministic verifier runs the normal build twice without networked npm
    configuration, proves that tracked source inputs remained unchanged and
    writes an ignored mode-`0600` receipt only after the complete `dist`
-   manifests match. The verified checkpoint contains 1,883 files and
-   128,646,550 bytes at aggregate SHA-256
-   `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
+   manifests match. The settled post-hardening checkpoint contains 1,883 files
+   and 128,653,230 bytes at aggregate SHA-256
+   `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
 
 7. Start the verified build for manual browser use:
 
@@ -448,7 +458,11 @@ page tools use the same action controller and deterministic runtime:
 - `explore_answer_foundations` and `compare_evidence_foundations` update a
   reversible, transient selection in the visible page, so they truthfully
   declare `readOnlyHint: false` even though they do not change a source,
-  browser storage or external state.
+  browser storage or external state; and
+- the `0.4.0-rc.1` candidate contract adds `present_resource_evidence`, which
+  accepts one canonical record ID and reversibly presents the exact closed
+  Evidence answer returned to its caller, so it also declares
+  `readOnlyHint: false`.
 
 For the released `0.3.0-rc.1` application, the three discovery tools accept the fixed
 collection allowlist and return either reviewed deep evidence or federated
@@ -458,18 +472,25 @@ their existing Evidence Trace boundary. One federated source failure is
 reported explicitly without silently removing the source, weakening integrity
 or disabling unaffected evidence.
 
-All five released tools have closed, bounded input schemas and repeat validation in
-executable code. A shared input budget rejects broad roots and accessors before
-dispatch. Rejected input is not hashed or retained in the diagnostic input
-digest. URL-fragment routes are length-bounded and comparison is limited to two
-to four exact claim identifiers.
+All five `v0.3.0-rc.1` tools have closed, bounded input schemas and repeat
+validation in executable code. The `v0.4.0-rc.1` executable boundary is
+deliberately stricter than JSON Schema: it accepts only ordinary plain objects
+with allowed own enumerable string data properties and dense arrays with
+canonical indices. It rejects symbols, accessors, non-enumerable properties,
+sparse items and extra array properties without invoking getters. Rejected
+input is not hashed or retained in the diagnostic input digest. URL-fragment
+routes are length-bounded and comparison is limited to two to four exact claim
+identifiers.
 
-The `0.4.0-rc.1` worktree adds
-`present_resource_evidence` as a sixth closed action. Its only field is a
-canonical record ID. It obtains the exact record and provenance sequentially,
-projects one closed Evidence answer and returns the same presentation object
-shown by the page. It declares `readOnlyHint: false` because it can change
-reversible display selection. No six-tool public-host observation is claimed.
+The `0.4.0-rc.1` candidate adds
+`present_resource_evidence` as that sixth closed action. It obtains the exact
+record and provenance sequentially, projects one closed Evidence answer and
+returns the same presentation object shown by the page. A pre-integration
+isolated-Chrome observation completed all six tools against product commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, rejected the unrelated
+`personalContext` field and matched the tool and displayed Evidence answer
+digest. This hardening changes built bytes, so a new exact-release observation
+is required after its protected-main deployment.
 
 These tools are registered imperatively on the current page when a compatible
 secure browser host exposes `document.modelContext`. They are available only in
@@ -477,11 +498,11 @@ that page context. They do not provide an independently callable, durable MCP
 gateway, provider authentication, persistent sessions or durable call
 receipts. Instrumented browser tests cover registration and calls. On 30 August
 2026, `Codex In-app Browser` discovered and successfully called all five tools
-against the historical tagged deployment. Current exact-release evidence now
-records the same five tools in Codex In-app Browser and, separately, in isolated
-Chrome 152 with browser-native WebMCP enabled through Chrome DevTools MCP 1.8.0.
-These are evidence for their named hosts, versions, releases and times only,
-not model-selection or general browser-support claims.
+against the historical tagged deployment. The later isolated Chrome 152 and
+Chrome DevTools MCP 1.8.0 receipt records all six candidate tools against its
+named pre-integration deployment. These observations are specific to their
+hosts, versions, commits and times; neither proves model selection, personal-AI
+answer safety or general browser support.
 
 ## Local WebMCP interoperability checks
 
@@ -502,8 +523,8 @@ then calls `execute_webmcp_tool` for each of the six candidate tools. Its full l
 receipt also records a synthetic unrelated-context field failing closed. It is
 written to the ignored `.evals/chrome-devtools-mcp.json` path and may
 contain source-derived tool output, so review it before copying any part into
-release evidence. This six-tool expectation applies to the unreleased candidate
-and should fail closed against the five-tool public release. The historical
+release evidence. This six-tool expectation applies to `v0.4.0-rc.1` and
+should fail closed against the five-tool `v0.3.0-rc.1` release. The historical
 hardened local run at 15:53 BST on 30 August 2026
 used Chrome 152.0.7977.64, discovered and executed all five tools, verified the
 closed schemas and annotations, rejected `personalContext` and recorded no
@@ -521,10 +542,14 @@ WEBMCP_EXPECTED_COMMIT='<40-character-main-commit>' \
 npm run webmcp:devtools:capture
 ```
 
-Only that exact public URL is accepted. The runner validates the deployment
-schema, repository, commit and Pages run before capture, binds the raw metadata
-digest into `.evals/chrome-devtools-mcp-public.json`, and does not start the
-loopback server. This default public capture remains ignored. After manual
+Only that exact public URL is accepted. The runner freshly authenticates the
+live Pages receipt in-process, requires ordered `initial`, `after-page-load`
+and `after-execution` deployment checks, and validates the deployment schema,
+repository, commit and Pages run before capture. A stored, copied, merely
+well-shaped or subsequently mutated receipt cannot open this gate. The runner
+binds the raw metadata digest into `.evals/chrome-devtools-mcp-public.json` and
+does not start the loopback server. This default public capture remains
+ignored. After manual
 review, `--admit-public-evidence` may write the reviewed exact-release receipt
 only for the allowlisted public target. Admission also binds the complete live-
 byte verification, omits local page identifiers and fails closed if the
@@ -551,9 +576,10 @@ passed. The reviewed receipt SHA-256 is
 build. The wrapper gives the third-party child process a small operating
 environment with an isolated `HOME`; no provider credential environment
 variables are forwarded. This limits inherited configuration, but the child
-still has the operating-system filesystem access of the invoking user. The six
-authored calls must each return `ok: true` with the expected result-schema
-envelope. Raw evaluator rows are deleted after validation; the ignored
+still has the operating-system filesystem access of the invoking user. The
+seven authored calls across three cases must each return `ok: true` with the
+expected result-schema envelope. Raw evaluator rows are deleted after
+validation; the ignored
 `.evals/webmcp-smoke-receipt.json` retains only semantic counts and a digest of
 the validated results. Smoke mode does not prove model selection or complete
 payload equivalence.
@@ -702,11 +728,12 @@ access or permission to reuse linked material.
   verifier; it checks stable source inputs and complete `dist` byte identity,
   then writes an ignored local receipt.
 - `docs/competition/demo-video-script-v0.4.0-rc.1.json` and the demo scripts —
-  unreleased nine-scene Evidence answer capture/build contract. Genuine private
-  Copilot and Ollama inputs and explicit redaction, privacy, branding, rights,
-  voice and playback gates are required. Candidate
-  clips, Copilot and Ollama observations, VoiceOver frames and video do not yet
-  exist; retained `v0.3.0-rc.1` media evidence is not reused as candidate proof.
+  nine-scene Evidence answer capture/build contract. Pre-hardening page clips,
+  a bounded VoiceOver frame sequence and a local Ollama diagnostic now exist
+  with explicit limitations. Genuine private Copilot inputs, exact-release
+  recapture and explicit redaction, privacy, branding, rights, voice and
+  playback gates remain required; retained `v0.3.0-rc.1` media evidence is not
+  reused as candidate proof.
 - `schemas/` — closed input, output and generated-artefact schemas.
 - `SECURITY.md`, `PRIVACY.md` and `ACCESSIBILITY.md` — public operating
   boundaries and known limitations.

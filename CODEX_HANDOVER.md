@@ -2,50 +2,148 @@
 
 ## Current outcome
 
-Protected-main product commit `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`
-is released as annotated tag `v0.3.0-rc.1`; tag object
-`8278c580df4767491ef0808516dd90cc3423cb9d` peels to that commit. Pull request
-16 passed run `33356087333`, protected `main` passed run `33356272534`, and
-exact-commit Pages run `33356452048` deployed the same product commit at:
+This source defines the six-tool `0.4.0-rc.1` Evidence answer experimental
+evaluation candidate. A checkout does not establish whether it is merged,
+deployed or tagged; determine that from the live `deployment.json`, a fresh
+authenticated byte-comparison receipt and GitHub tag and release metadata. A
+dated historical observation records that commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` passed pull request #20,
+protected-main validation run `33554600300` and exact-commit Pages run
+`33555187118`. The public site is at:
 
-- <https://github.com/chris-page-gov/govuk-webmcp/releases/tag/v0.3.0-rc.1>
 - <https://chris-page-gov.github.io/govuk-webmcp/>
 
-All 1,879 regular files in Pages artefact `9745316971`, totalling 128,548,215
-bytes, returned HTTP 200 and matched the public deployment byte for byte. The
-downloaded artefact tar SHA-256 is
-`872384696f587572d794de3a4e07485aee7d2816598c86546ed178cd5aa03bf2` and
-the canonical live comparison manifest SHA-256 is
-`4b2336a8927d34951c94008703dec27ed79f1ad87a318526c6807eeaa4bc0183`.
+The guarded live verifier fetched all 1,884 regular artefact files, totalling
+128,646,735 bytes. Every request returned HTTP 200 and there were zero byte
+mismatches. The canonical live manifest SHA-256 is
+`23c88e4d67c4d75f687f0b4c53763ea755dcbaa566753bc3d213a5a9ba714442`.
+An isolated observation used Chrome 152.0.7977.66 through Chrome DevTools MCP
+1.8.0. It
+discovered and completed all six WebMCP tools on that exact deployment,
+rejected an unrelated `personalContext` field and recorded zero console
+errors. The final tool result and displayed Evidence answer shared digest
+`0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3`.
+No model selected a tool, no model provider was called and no host-owned
+surface was captured. Review then found and corrected a pre-admission
+validation gap. The last pre-hardening corrected-path capture completed at
+`2026-09-02T01:56:15.734Z`. Its raw, reviewed Chrome and
+supported-host SHA-256 values are respectively
+`2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`,
+`e9d67af0799ee6772396837bd4ab8df7538ae8a11c6d5c62ef08e1b505d5a8e7`
+and `b98c43fd394ea74731d59a114aecb69897a60fe978b1ebc352a4347ba1046f33`.
+The rebuilt 40.966667-second ignored receipt reconstruction has SHA-256
+`db8a9eaaadc0e4b2d6716c52cec5cde995f7a1e56d54fc3e92df96089fcfb835`;
+its tracked receipt has SHA-256
+`4ee76fa70e48fca22e6874500d4bfa8a9c19d75bdbec5116276c23efffc5a528`.
 
-The exact-release supported-host capture is complete. Codex In-app Browser
-(Browser plugin `26.825.32147`) discovered and successfully executed all five
-WebMCP tools, rejected an unrelated `personalContext` field and produced a
-comparison whose canonical digest matched the displayed digest. Its media
-scene is a labelled receipt reconstruction, not a host-owned recording; no
-model selected a tool and no model provider was called. Five genuine silent
-public-page clips are also captured, with agent privacy and branding review
-passed and human publication review still pending. Keep the host name exact:
-Codex In-app Browser is not relabelled as another client. A separate isolated
-Chrome 152 observation at `2026-08-31T18:49:38.356Z` discovered and completed
-all five tools against exact public `v0.3.0-rc.1` through Chrome DevTools MCP
-1.8.0, rejected unrelated `personalContext` by stable error code
-`invalid_search_request` and recorded zero console errors. It closes the rules-
-named Chrome gate but proves neither ChatGPT support nor model selection.
+Five silent exact-candidate page-interaction clips are captured for the empty
+Evidence answer, human presentation action, comparison guide, Technical review
+and personal-AI boundary. Their receipt is bound to the same product commit and
+Pages run. Agent privacy and branding review passed; human publication review
+remains pending. Their v4 receipt, SHA-256
+`4ce8b09bad6a8b9d5a981d31c2e5ad4f0d1d3030d4eba1758e93f4000c0870aa`,
+records an initial deployment check, checks immediately before and after every
+scene and a final check. The candidate Safari 26.5.2 and VoiceOver 10 Caption
+Panel journey at the public candidate URL is complete with limitations: 6 of
+9 checkpoints passed and 3 are limited, with eight explicit limitation
+statements. VoiceOver speech audio was not captured, the sequence is
+not continuous footage and no WCAG conformance is claimed. The Caption Panel
+and VoiceOver were verified off afterwards. The retained capture did not
+independently snapshot deployment metadata before and after the journey; its
+commit and Pages run identify the intended candidate rather than a
+cryptographic capture-time binding. The bound 27-second clip has
+SHA-256 `704532eaf6c01706d33ae201efc7b98131b1399340bfea6ca948c2ac775f4921`;
+the nine-frame capture manifest has SHA-256
+`4d96de5240d2c15d1ff57330371ba8334381381a2eb9e0c4c178651f6d05b3ef`.
+The manual evidence SHA-256 is
+`77b6737c0ca21661c536f3e62a7fc071c27652290e5c14dcb4dd1474509ac69f`.
+The clip, manifest and nine source frames are intentionally tracked as 11
+narrowly allowlisted release-build inputs totalling 5,584,101 bytes; including
+the tracked manual evidence makes 5,591,303 bytes. No final video has been
+completed.
 
-The fresh nine-step Safari 26.5.2 and VoiceOver 10 Caption Panel journey against
-the exact release completed with limitations: seven checkpoints passed; a
-heading-rotor selection was not retained; and automatic spoken live-status
-wording was not proved. VoiceOver speech audio was not captured, no WCAG
-conformance is claimed, and the Caption Panel and VoiceOver were turned off
-afterwards. The resulting exact-release local review video is 156.023 seconds
-long and has SHA-256
-`e35d181d644fc8057a3f9757885feb322641784411ad27b7108987a1550a6fe4`.
-Technical review passed the complete video/audio decode, 4,678-frame count and
-40-cue caption-parity checks, with one non-blocking subtitle metadata warning.
-It did not include audible or continuous human playback. Owner review and
-publication approval remain open. Nothing in this handover claims a public
-YouTube upload or Devpost submission.
+The final-video contract no longer misrepresents the failed local-model
+diagnostic as a successful host capture. The cloud Copilot scene still requires
+a genuine visible Site-tool call, Evidence answer update and owner-human
+review. The local scene is now a separately labelled generated diagnostic
+receipt visualisation. Before generating it, the builder must independently
+replay the exact mode-`0600` 36-run capture, match the tracked public summary,
+bind both byte digests and the exact Ollama model inventory digest, and retain
+the 6-pass/30-fail selection and execution counts, 36 unobserved page-parity
+states and 36 unreviewed answers. It expressly shows neither a host recording
+nor a page update and supports no safe-host or deployed-release claim. The
+generated 37-second diagnostic release-media clip contains 1,849,825 bytes and
+has SHA-256
+`95bb7ab39361546021601cbb126a41d4530916ab08d9d709abbe89c7cd623f63`.
+Its tracked public receipt binds the exact private and public source digests,
+model identity, failed criteria and presentation boundary; its SHA-256 is
+`182f9308464e5ba1773e316965f627a200d6df2f38a85a70a4a37e3178296fe4`.
+The clip remains ignored release media. Its mode-`0600` private source capture
+is inside the ignored `.evals` directory and outside tracked history.
+
+The evidence follow-up now validates all six supported-host input and output
+schemas, canonical outputs, the complete presented-evidence digest and the
+exact live Pages `v2` receipt. Every publication consumer freshly authenticates
+that receipt in-process, requires ordered `initial`, `after-page-load` and
+`after-execution` deployment checks, matches both stored public and private
+receipt bindings, requires the fresh observation to be at or after both stored
+receipt observations and derives release claims only from the authenticated
+object. Authentication has explicit `owned` and `borrowed` leases. It writes
+the mode-`0600` raw receipt and the reviewed Chrome and
+supported-host projections as one recoverable set. The two
+public projections retain only rejected field names, not rejected values. The
+last pre-hardening corrected-path capture and labelled supported-host
+reconstruction are retained; regenerate and verify the evidence manifest after
+the exact-release recapture. The
+validation counts and durations belong to their named receipts and commits;
+they are not inferred from this handover. Historical partial and flaky browser
+runs remain retained rather than being converted into a product pass. Frozen
+federation quality passes at mean
+nDCG@10 `0.984698009` and Recall@20 `1`; model-free WebMCP smoke passes 7 of 7
+tool envelopes across 3 cases after the expected sandbox `EPERM` retry; and
+`npm audit` reports zero vulnerabilities.
+
+Final-video preflight now revalidates the VoiceOver manifest and every one of
+its nine frame bytes. It also authenticates the private pre-run Pages receipt
+in-process, lends that authentication to exact personal-agent replay and
+supported-host validation, compares the supplied summary byte-canonically and
+revokes the outer lease in `finally`. Borrowed consumers clean their own runtime
+snapshots without revoking the outer authentication; owned success and failure
+paths revoke before awaiting asynchronous clean-up. A structurally valid
+receipt cannot be relabelled as authenticated or bypass the retained
+observation window. A
+shared recoverable output transaction protects live
+interaction, supported-host, Ollama and four-file final-video sets; incomplete
+promotion restores the previous set, while a later backup-clean-up error retains
+the complete new outputs and reports recoverable backups. One canonical helper
+rejects the legislation apex and all subdomains, including trailing-dot forms.
+Private evaluation refuses symbolic `.evals` roots, and privacy cues state that
+bounded free text can still disclose personal details. WebMCP executable
+validation now admits only ordinary plain objects with allowed own enumerable
+string data properties and dense canonical-index arrays. It rejects symbols,
+accessors, non-enumerable fields, sparse items and extra array properties
+without invoking getters. This data-only parsing applies across reviewed,
+combined and lazy federated discovery, Evidence Trace comparison and the shared
+action-budget ingress. Numeric limits accept only actual bounded integer
+numbers and do not invoke coercion hooks. Portable reflection does not claim to
+contain Proxy traps: host JSON cannot carry a Proxy, while same-realm code able
+to construct one already has script-execution authority.
+
+The output and public-evidence helpers now bind and revalidate each ancestor
+device, inode and real path around every stage, link and removal mutation. This
+detects persistent late parent substitution, rejects instead of reporting
+success and prevents later clean-up through the substituted chain. It is not an
+atomic hostile-namespace guarantee: release operations require exclusive
+control of repository and output ancestors. Portable Node cannot root these
+mutations in an already-open directory with `openat`, `linkat` and `unlinkat`;
+same-user or privileged substitution wholly within a filesystem syscall window
+remains explicitly out of scope and can leave an orphan external stage.
+
+Version `v0.3.0-rc.1` remains a historical tagged release at product commit
+`b0bd634579a3abf82bdd1fc83ff688535e0db0bf`; its five-tool, accessibility and
+156.023-second local-video evidence remains historical evidence for that exact
+commit. Nothing in this handover claims a public YouTube upload or Devpost
+submission.
 
 The frozen `v0.2.0-rc.2` pre-federation baseline remains at product commit
 `35fcedd39ed955278d3975a6dd80692fc6e32935`; do not move or rewrite it. Earlier
@@ -53,11 +151,12 @@ The frozen `v0.2.0-rc.2` pre-federation baseline remains at product commit
 historical evidence for their named commits only. No `gis-ai-go` or OKF source
 repository was changed.
 
-## In-progress `0.4.0-rc.1` candidate handover
+## `0.4.0-rc.1` candidate handover
 
-The working branch now identifies package version `0.4.0-rc.1`, but no
-`v0.4.0-rc.1` tag, release, deployment or public-host receipt exists. Keep the
-released five-tool `v0.3.0-rc.1` identity and evidence above unchanged.
+The package identifies version `0.4.0-rc.1`. Product-commit, deployment,
+host-receipt, tag and prerelease state must be established from their live or
+authenticated records rather than inferred from this file. Keep the released
+five-tool `v0.3.0-rc.1` identity and evidence unchanged.
 
 Visible candidate implementation currently includes:
 
@@ -83,9 +182,10 @@ Visible candidate implementation currently includes:
   can be admitted; and
 - a separate versioned `v0.4.0-rc.1` nine-scene demo configuration and
   capture/build validators for the Evidence answer, sixth tool, both views,
-  genuine private Copilot and Ollama inputs, explicit redaction gates and nine
-  candidate VoiceOver checkpoints. Historical `v0.3.0-rc.1` evidence and
-  its original demo configuration remain unchanged;
+  a genuine private Copilot capture, a separately labelled local Ollama
+  diagnostic, explicit redaction gates and nine candidate VoiceOver
+  checkpoints. Historical `v0.3.0-rc.1` evidence and its original demo
+  configuration remain unchanged;
 - one controller-owned latest-started sequence across all three Evidence answer
   actions, so an older direct or asynchronous reviewed projection cannot
   replace a newer selection;
@@ -101,14 +201,15 @@ Visible candidate implementation currently includes:
   directories, aliases and entry-type/listing agreement, plus fixed archive,
   file, directory, byte, concurrency and deadline budgets in receipt schema v2.
 
-This is an implementation checkpoint, not release acceptance. Focused checks
-completed on the uncommitted candidate on 1 September 2026:
+The `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` deployment is a historical
+pre-hardening evaluation checkpoint, not final release acceptance. Settled
+post-hardening source checks completed on 2 September 2026 include:
 
 - `npm run build` passed and projected all 80 reviewed and 58,652 federated
   records through the production Evidence answer contract;
 - `node --test tests/unit/view-routing.test.mjs tests/unit/beginner-presentation.test.mjs tests/unit/evidence-federation.test.mjs tests/unit/federated-search-runtime.test.mjs tests/unit/evidence-answer-view.test.mjs`
   passed before the final remediation, and the complete prepared unit suite now
-  passes 272 of 272;
+  passes 381 of 381;
 - `npx playwright test tests/browser/evidence-answer.spec.mjs` passed 12 of 12
   in installed Chrome with the loopback bind permitted;
 - `node --test tests/unit/demo-video.test.mjs tests/unit/voiceover-screenshot-clip.test.mjs tests/unit/live-pages-verifier.test.mjs`
@@ -121,11 +222,11 @@ completed on the uncommitted candidate on 1 September 2026:
 - the model-free WebMCP smoke passes 7 of 7 result envelopes and `npm audit`
   reports zero vulnerabilities across 162 dependencies; and
 - two complete 1,883-file builds have the same aggregate SHA-256
-  `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`
-  and each contains 128,646,550 bytes.
+  `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`
+  and each contains 128,653,230 bytes.
 
 The first `npm test` browser start was blocked by the restricted sandbox's
-loopback-bind policy after every preceding stage, including all 272 unit tests,
+loopback-bind policy after every preceding stage, including all 381 unit tests,
 had passed. The explicitly authorised Chrome and Edge reruns both passed; do
 not misreport that environmental start failure as an application failure.
 
@@ -151,34 +252,48 @@ budgets. Frozen code-snapshot scan
 completed 36 of 36 items, ran 102 focused tests, found zero findings and
 concluded that there is no security release blocker.
 
-Before integration, run `npm run build:verify-deterministic`; it must leave
-tracked source inputs unchanged and record matching complete `dist` manifests
-only in the ignored mode-`0600`
-`.evals/deterministic-build-verification.json` receipt.
+Protected integration and first exact deployment authentication are complete.
+The admitted live receipt binds product commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, Pages run `33555187118`, 1,884
+files and 128,646,735 bytes with zero mismatches. The separately admitted
+Chrome receipt records all six tools completing on those bytes and matching
+the final displayed Evidence answer digest. Its separately tracked clip
+receipt binds the ignored labelled reconstruction to those exact evidence
+bytes. Any later build-affecting evidence change must pass protected review,
+exact deployment and comparison again before its commit is eligible for
+tagging.
 
-After protected-main validation and the manual Pages workflow complete, use a
-clean checkout at the exact deployed commit. Run the live verifier first without
-admission, review its ignored mode-`0600` receipt and confirm the checkout stayed
-clean before and after replay. Admit reviewed evidence only through the separate
-post-deployment evidence change:
+The patched 36-case local Ollama diagnostic is complete for model digest
+`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
+The raw report is
+`.evals/personal-agent-local/2026-09-01T21-25-56-524Z-8733/report-1788298998487.json`.
+The capture-schema-v3 mode-`0600` converted private capture is
+`.evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json`,
+with SHA-256
+`ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8`;
+the tracked public summary has SHA-256
+`a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f`.
 
-```sh
-WEBMCP_EXPECTED_COMMIT='<exact 40-character protected-main commit>' \
-GOVUK_WEBMCP_PAGES_RUN_ID='<exact successful Pages run ID>' \
-npm run deployment:verify-live
+The summary records 36 local observations and 36 missing Copilot slots. Its 118
+recognised calls contain 108 deterministic successes and 10 explicit rejected
+results across nine runs. Two unavailable or null-result attempts are retained
+only as runner diagnostics. Tool selection and deterministic execution each
+pass 6 runs and fail 30; page parity is not observable for all 36, every answer
+is unreviewed and no execution context is complete. Browser-console, page-
+error, network-error and latency telemetry are explicitly not observable.
+Runner errors are observed: 34 runs are clean and 2 retain bounded errors;
+interaction-step measurements are observed from 1 to 6. US-10 tool-argument
+checks pass 3 of 3 and tool-result checks pass 3 of 3 without synthetic-marker
+leakage. Conversion and receipt-bound replay pass. The authenticated verifier
+correctly rejects the dirty, unbound loopback context, so the claim gate remains
+false. Preserve this
+as diagnostic evidence; do not relabel it as safe local answers or a complete
+host comparison.
 
-WEBMCP_EXPECTED_COMMIT='<same commit>' \
-GOVUK_WEBMCP_PAGES_RUN_ID='<same run ID>' \
-npm run deployment:verify-live -- --admit-public-evidence
-```
-
-Do not use `--overwrite-reviewed-evidence` unless an existing candidate receipt
-has first been reviewed and replacement is explicitly intended. Candidate live
-capture and video commands additionally require
-`GOVUK_WEBMCP_DEMO_COMMIT` and `GOVUK_WEBMCP_DEMO_PAGES_RUN_ID` to match that
-verified deployment. The current video pipeline validates a supported-host
-receipt reconstruction; it does not substitute for the required redacted
-Copilot recording or the local Ollama comparison.
+The private receipt schema now keeps a recognised deterministic `ok: false`
+result as an explicit rejected call with bounded arguments. Normal result
+variants require `ok: true`, so the closed `oneOf` remains disjoint.
+Unavailable tool names and null-result attempts are diagnostics, not calls.
 
 The repository-local optional guided-build workflow has also been repaired by
 adding state and a `docs/hackathon-build/` bridge to the established project
@@ -188,9 +303,10 @@ register, update or submit anything on Devpost.
 ## Beginner trust-pathway discovery and candidate handover
 
 The earlier branch checkpoint was a documentation, research and evaluation
-slice. The current working tree now implements the first `0.4.0-rc.1`
-dual-view candidate while the existing public interface remains the released
-**Technical review** evidence. No deployment has changed.
+slice. Historical pre-hardening product commit
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` deployed the first
+`0.4.0-rc.1` dual-view candidate, with **Evidence answer** as the default bare-
+URL view and the existing interface retained as **Technical review**.
 
 The slice adds:
 
@@ -454,12 +570,17 @@ Generated JSON and checksum sidecars are deterministic.
   federated result shape from one action controller.
 - `search_government_knowledge`, `get_resource_record` and
   `show_provenance` are read-only.
-- `explore_answer_foundations` and `compare_evidence_foundations` change only
-  reversible in-memory page presentation and truthfully use
-  `readOnlyHint: false`.
-- All five tools use closed schemas and executable validation. Unknown,
+- `explore_answer_foundations`, `compare_evidence_foundations` and
+  `present_resource_evidence` change only reversible in-memory page presentation
+  and truthfully use `readOnlyHint: false`.
+- All six tools use closed schemas and executable validation. Unknown,
   oversized, malformed, broad, accessor-bearing and deeply nested rejected
-  inputs fail closed.
+  inputs fail closed. Descriptor-safe data-only parsing spans reviewed,
+  combined and lazy federated discovery, Evidence Trace comparison and the
+  shared action-budget ingress. Numeric limits accept only actual bounded
+  integer numbers and do not invoke coercion hooks. Host JSON cannot carry a
+  Proxy; portable reflection does not claim to contain a same-realm Proxy whose
+  creator already has script-execution authority.
 - Tool execution options are optional at the host boundary. An abort signal is
   forwarded when present, but hosts that call `execute(input)` remain supported.
 - Rejected input is not serialised or hashed. Successful diagnostic input is a
@@ -947,24 +1068,42 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-For the beginner product lane, integrate the locally verified and security-
-reviewed candidate through a protected pull request.
-After protected-main validation, deploy that exact commit, authenticate the live
-Pages receipt and execute all six tools against those bytes. Follow with the
-manual Safari and VoiceOver journey and the repeated Copilot and Ollama matrix.
-Formative
-comprehension evidence remains unobserved and must not be inferred from the
-synthetic personas or automated tests. The page must not claim to inspect the
-AI host's final prose.
+Against pre-integration deployment
+`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, current demonstration preflight
+fails only on the three absent genuine Copilot artefacts. That does not make
+those old candidate inputs final-release evidence. Do not replace Copilot with
+generated or reconstructed media.
 
-For the separate competition-submission lane, use only the exact authenticated
-`v0.4.0-rc.1` release. Capture its Safari, VoiceOver and Caption Panel journey,
-turn both assistive features off, complete both 36-run host matrices, then build
-a new redacted under-three-minute video showing the personal AI call, Evidence
-answer comparison, Technical review and local Ollama alternative. Complete
-audible playback, privacy, branding, rights and caption review on that new cut
-and verify any public player signed out before the final read-only rules and
-Devpost-form refresh. The 156.023-second `v0.3.0-rc.1` video remains historical.
+Retain the completed patched 36-case Ollama diagnostic with every failure and
+unknown as historical diagnostic evidence. After the final protected-main
+deployment, rerun all 36 local slots from a clean exact-release checkout and
+build; bind each run to that deployment and leave page parity or answer review
+unknown unless genuinely observed. Capture the 36-run Copilot matrix only in
+the visible owner-controlled Microsoft Edge MCP Workspace, with a fresh
+conversation and private observed share link for each slot. The authenticated
+72-run media source must combine those two newly release-bound halves. Recapture
+the Safari, VoiceOver and Caption Panel journey against the same deployment and
+retain every limitation and the no-WCAG boundary. Formative comprehension
+evidence remains unobserved and must not be inferred from personas, automated
+tests or host runs. The page must not claim to inspect the AI host's final
+prose.
+
+For any remaining build-affecting hardening, pass protected review,
+protected-main validation, exact deployment and byte comparison. Recapture and
+rebind every exact-release live, Chrome, supported-host, VoiceOver and host
+matrix input before building the new redacted under-three-minute video. The
+local changed-source security gate is closed for sealed post-fix snapshot
+`codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`:
+scan `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected
+executable-source items with zero reportable findings. The following lockstep
+recording edits do not change executable source. Complete audible playback,
+privacy, branding, rights and caption review, then
+inspect GitHub metadata. If the annotated `v0.4.0-rc.1` tag and prerelease do
+not already exist, create them on that exact protected-main product commit. A
+later evidence-documentation commit may record the observations but must not
+move the tag or be represented as the deployed release. Verify any public
+player signed out before the final read-only rules and Devpost-form refresh.
+The 156.023-second `v0.3.0-rc.1` video remains historical.
 
 Do not move the `v0.3.0-rc.1` tag or reuse pre-federation accessibility, host or
 video evidence as proof of the expanded release. Public YouTube upload and

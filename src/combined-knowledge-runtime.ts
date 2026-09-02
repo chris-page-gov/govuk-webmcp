@@ -78,14 +78,16 @@ function plainObject(value: unknown): JsonObject {
     throw new Error("Input must be a plain JSON object.");
   }
   const object = value as JsonObject;
+  const copy: JsonObject = {};
   for (const key of Reflect.ownKeys(object)) {
     if (typeof key !== "string" || !SEARCH_KEYS.has(key)) throw new Error("The search input contains an unknown field.");
     const descriptor = Object.getOwnPropertyDescriptor(object, key);
     if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
       throw new Error("The search input must contain data fields only.");
     }
+    copy[key] = descriptor.value as unknown;
   }
-  return object;
+  return copy;
 }
 
 function boundedString(value: unknown, label: string, maximum: number): string {
@@ -100,20 +102,33 @@ function boundedString(value: unknown, label: string, maximum: number): string {
 }
 
 function dataArray(value: unknown, label: string, minimum: number, maximum: number): unknown[] {
-  if (!Array.isArray(value) || value.length < minimum || value.length > maximum) {
+  if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) {
+    throw new Error(`${label} must be a plain data array.`);
+  }
+  const lengthDescriptor = Object.getOwnPropertyDescriptor(value, "length");
+  if (!lengthDescriptor || !Object.hasOwn(lengthDescriptor, "value") ||
+    !Number.isSafeInteger(lengthDescriptor.value) ||
+    lengthDescriptor.value < minimum || lengthDescriptor.value > maximum) {
     throw new Error(`${label} must be an array with from ${minimum} to ${maximum} values.`);
   }
-  if (Reflect.ownKeys(value).some((key) =>
-    key !== "length" && (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)))) {
+  const length = lengthDescriptor.value;
+  if (Reflect.ownKeys(value).some((key) => {
+    if (key === "length") return false;
+    if (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)) return true;
+    const index = Number(key);
+    return !Number.isSafeInteger(index) || index < 0 || index >= length;
+  })) {
     throw new Error(`${label} must contain indexed data values only.`);
   }
-  for (let index = 0; index < value.length; index += 1) {
+  const copy: unknown[] = [];
+  for (let index = 0; index < length; index += 1) {
     const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
     if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
       throw new Error(`${label} must not contain accessors or empty positions.`);
     }
+    copy.push(descriptor.value);
   }
-  return value;
+  return copy;
 }
 
 function enumArray<T extends string>(
@@ -151,8 +166,8 @@ function parseSearchInput(value: unknown): SearchRequest {
     if (new Set(keys).size !== keys.length) throw new Error("publishers must not contain duplicate values after normalisation.");
   }
 
-  const limit = object.limit === undefined ? 8 : Number(object.limit);
-  if (!Number.isInteger(limit) || limit < 1 || limit > RESULT_LIMIT_MAX) {
+  const limit = object.limit === undefined ? 8 : object.limit;
+  if (typeof limit !== "number" || !Number.isInteger(limit) || limit < 1 || limit > RESULT_LIMIT_MAX) {
     throw new Error(`limit must be an integer from 1 to ${RESULT_LIMIT_MAX}.`);
   }
   return { query, resourceTypes, publishers, accessStatuses, collections, limit };

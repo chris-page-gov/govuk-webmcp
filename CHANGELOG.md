@@ -8,14 +8,16 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- An in-progress `0.4.0-rc.1` Evidence answer candidate in the working tree.
+- The `0.4.0-rc.1` Evidence answer evaluation candidate.
   It adds a pure, closed beginner-presentation projection; separate input and
   output contracts for `present_resource_evidence`; a sixth imperatively
   registered WebMCP tool with a truthful reversible-presentation effect; a
   persistent two-link **Evidence answer** and **Technical review** navigation;
   bounded view routing; and a text-only accessible renderer over the same
-  deterministic result returned to the tool caller. This is candidate code,
-  not a release, deployment, supported-host observation or usability result.
+  deterministic result returned to the tool caller. Deployment, tag,
+  supported-host and personal-AI claims remain valid only when independently
+  bound to the exact product commit; this product version is not itself a
+  personal-AI evaluation result or a usability result.
 - Candidate evaluation support for natural personal-agent cases and the
   repository-local optional guided-build bridge. The bridge points to the
   established PRD, specification, implementation plan and backlog; creating or
@@ -31,9 +33,94 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   and `deployment.json`, and byte-compares every regular artefact file with the
   public site before a separately authorised evidence admission. A versioned
   nine-scene video plan and capture/build validators now cover the Evidence
-  answer, its sixth tool, both persistent views, genuine private Copilot and
-  Ollama inputs, explicit redaction gates and the candidate VoiceOver
-  checkpoints. They create no release or observation by themselves.
+  answer, its sixth tool, both persistent views, a genuine private Copilot
+  capture, a separately labelled local-model diagnostic, explicit redaction
+  gates and the candidate VoiceOver checkpoints. They create no release or
+  observation by themselves.
+- Historical pre-hardening live-Pages and isolated-Chrome evidence for product
+  commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`. Pull request #20 and
+  protected-main validation passed; Pages run `33555187118` deployed the same
+  commit. All 1,884 artefact files, totalling 128,646,735 bytes, returned HTTP
+  200 and matched the deployment byte for byte. Chrome 152 through Chrome
+  DevTools MCP 1.8.0 discovered and completed all six tools, rejected the
+  unrelated `personalContext` input and recorded zero console errors without
+  selecting or calling a model. The observation records Chrome 152.0.7977.66,
+  matching tool and displayed Evidence answer digest
+  `0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3`.
+  It is a time-bound direct-call receipt, not a host-owned recording or a
+  model-selection result. Review subsequently found and corrected a
+  pre-admission validation gap. The last pre-hardening corrected-path capture at
+  `2026-09-02T01:56:15.734Z` has raw, reviewed Chrome and
+  supported-host SHA-256 values
+  `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`,
+  `e9d67af0799ee6772396837bd4ab8df7538ae8a11c6d5c62ef08e1b505d5a8e7`
+  and `b98c43fd394ea74731d59a114aecb69897a60fe978b1ebc352a4347ba1046f33`.
+  Its visibly labelled 40.966667-second reconstruction is ignored release
+  media with SHA-256
+  `db8a9eaaadc0e4b2d6716c52cec5cde995f7a1e56d54fc3e92df96089fcfb835`;
+  the tracked clip receipt has SHA-256
+  `4ee76fa70e48fca22e6874500d4bfa8a9c19d75bdbec5116276c23efffc5a528`.
+- Five silent candidate public-page interaction clips covering the empty
+  Evidence answer, human presentation action, comparison guide, Technical
+  review and personal-AI boundary. The receipt is bound to product commit
+  `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run
+  `33555187118`; agent privacy and branding review passed, while human
+  publication review remains pending. The v4 receipt records an initial
+  deployment check, checks immediately before and after every scene and a
+  final check; its SHA-256 is
+  `4ce8b09bad6a8b9d5a981d31c2e5ad4f0d1d3030d4eba1758e93f4000c0870aa`.
+  The clips are not approved submission media.
+- A completed-with-limitations candidate Safari 26.5.2 and VoiceOver 10
+  observation at the public candidate URL. Six of nine checkpoints
+  passed and three are limited concerning a heading-rotor
+  capture and two Caption Panel pointer selections; the complete headings were
+  separately exposed in Safari's accessibility tree. The record retains eight
+  explicit limitation statements. VoiceOver speech audio
+  was not captured, the sequence is not continuous footage and no WCAG
+  conformance is claimed. The Caption Panel and VoiceOver were both verified
+  off afterwards. The retained capture did not independently snapshot
+  deployment metadata before and after the journey; its commit and Pages run
+  identify the intended candidate rather than a cryptographic capture-time
+  binding. The exact 27-second clip, nine source frames and capture
+  manifest are intentionally tracked as 11 narrowly allowlisted release-build
+  inputs totalling 5,584,101 bytes. Including the tracked manual evidence makes
+  5,591,303 bytes. The manual evidence, manifest and clip have SHA-256 values
+  `77b6737c0ca21661c536f3e62a7fc071c27652290e5c14dcb4dd1474509ac69f`,
+  `4d96de5240d2c15d1ff57330371ba8334381381a2eb9e0c4c178651f6d05b3ef`
+  and `704532eaf6c01706d33ae201efc7b98131b1399340bfea6ca948c2ac775f4921`.
+  All other `output/` content stays ignored.
+- A privacy-minimised tracked summary for the patched local
+  `ollama:gpt-oss:20b` diagnostic. It records 36 observed local runs and all 36
+  Copilot runs as missing; 118 recognised calls include 108 deterministic
+  successes and 10 explicit rejected results across nine runs. Tool selection
+  and deterministic execution each pass 6 runs and fail 30; page parity is not
+  observable for all 36, answers are unreviewed and no run has complete
+  execution context. Capture schema v3 explicitly marks browser-console, page-
+  error, network-error and latency telemetry not observable. Runner errors are
+  observed, with 34 clean runs and 2 bounded errors; interaction steps are
+  observed from 1 to 6. US-10 tool-argument checks pass 3 of 3 and tool-result
+  checks pass 3 of 3 without synthetic-marker leakage. The mode-`0600` private
+  capture remains inside ignored `.evals` and outside tracked history. The
+  matrix and claim gates remain closed.
+- A fail-closed local Ollama diagnostic-scene builder and closed executable
+  media-receipt contract. The generated visualisation must replay and
+  byte-bind the exact mode-`0600` private capture and tracked public summary,
+  retain the exact model inventory digest, display the 6-pass/30-fail
+  selection and execution counts and show page parity as unobserved and
+  answers as unreviewed. It is visibly labelled as neither a host recording
+  nor a page update and cannot support a safe-host or exact-release claim. The
+  cloud Copilot scene keeps its genuine visible-call, Evidence answer update
+  and human-review gates unchanged. The resulting local release-media clip is
+  37 seconds long, contains 1,849,825 bytes and has SHA-256
+  `95bb7ab39361546021601cbb126a41d4530916ab08d9d709abbe89c7cd623f63`;
+  its tracked public receipt binds the exact private and public evaluation
+  bytes, model identity, failed criteria and presentation boundary and has
+  SHA-256
+  `182f9308464e5ba1773e316965f627a200d6df2f38a85a70a4a37e3178296fe4`.
+  The private and public source SHA-256 values are
+  `ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8`
+  and `a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f`.
+  The clip remains ignored release media.
 - A documentation-only beginner evidence interface specification that reviews
   the current page, retains it as the proposed **Technical review** view and
   defines a future **Evidence answer** view over the same deterministic actions
@@ -112,20 +199,44 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Revised the private personal-agent capture contract to v3 so every run has
+  four independent, closed diagnostic dimensions and two required measurement
+  dimensions. Browser-console, page-error, network-error and runner-error
+  evidence is now either a bounded observed error list or explicitly not
+  observable; interaction steps and latency are likewise bounded observations
+  or explicit unknowns. The local adapter derives step count from each
+  validated consecutive trajectory and does not invent console, page, network
+  or latency telemetry that `webmcp-evals` 0.0.4 did not record. Public v2
+  summaries retain their compatible run-level diagnostic counts and add only
+  privacy-minimised per-dimension status/count and numeric-range aggregates.
+  Authenticated evaluation now retains both the supplied pre-run live-receipt
+  observation and the fresh post-run authentication observation. Every run
+  must fall on or after the former and on or before both the latter and capture
+  creation time; a merely structurally valid receipt remains non-claimable.
+- Integrated the first candidate checkpoint through pull request #20. Protected-main run
+  `33554600300` passed and the manual Pages workflow deployed the exact product
+  commit before the release-evidence follow-up. Any later build-affecting
+  change must pass protected review, exact deployment and comparison again
+  before its product commit is eligible for the final tag.
 - Set the working package version to `0.4.0-rc.1` for the Evidence answer
   candidate. The public `v0.3.0-rc.1` release, its five-tool contracts, tag,
   deployed bytes and retained observations remain historical release evidence
   and are not rewritten or carried forward as six-tool evidence.
-- Reconciled the final local candidate checkpoint: research-pack verification,
-  the 80-reviewed plus 58,652-federated projection audit, 272 unit tests, 43
-  Chrome tests, 43 Edge tests, 7 model-free smoke envelopes, frozen retrieval
-  quality and dependency checks pass. The offline double build contains 1,883
-  files and 128,646,550 bytes at aggregate SHA-256
-  `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`.
+- Reconciled the settled local candidate checkpoint: research-pack
+  verification, the 80-reviewed plus 58,652-federated projection audit, 381
+  prepared unit tests, 43 Chrome tests, 43 Edge tests, 7 model-free smoke
+  envelopes, frozen retrieval quality and dependency checks pass. The offline
+  double build contains 1,883 files and 128,653,230 bytes at aggregate SHA-256
+  `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
+  Frozen federation quality passes at mean nDCG@10 `0.984698009` and Recall@20
+  `1`; `npm audit` reports zero vulnerabilities. These local observations do
+  not establish protected integration, deployment, live-host or release state.
 - Updated the application workspace guide and implementation maps to
   distinguish the released five-tool `v0.3.0-rc.1` evidence from the
-  unreleased six-tool, two-view, 36-schema candidate and its still-open manual,
-  live-host and publication gates.
+  six-tool, two-view, 36-schema `v0.4.0-rc.1` product. The retained Pages,
+  isolated-Chrome and bounded VoiceOver observations are explicitly historical
+  pre-hardening evidence; exact-release personal-AI, final-media and
+  publication claims require their own authenticated records.
 - Made the empty candidate route open **Evidence answer** while bounded legacy
   `record`, `answer`, `claim` and `compare` fragments retain **Technical
   review** semantics. A background WebMCP presentation now preserves the
@@ -158,11 +269,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Replaced the invalid privacy-screen capture attempt with the clean, manually
   reviewed current-release VoiceOver sequence and bound the
   resulting manual evidence, media digest and capture-manifest digest.
-- Rebuilt the under-three-minute demonstration from the exact-release clips and
-  current evidence, then refreshed the en-GB captions and transcript from the
-  validated script. Owner playback, privacy, branding, rights and
-  synthetic-voice approval remain pending; no public video upload or Devpost
-  submission is claimed.
+- Prepared an earlier under-three-minute local demonstration from the
+  exact-release clips and evidence, with en-GB captions and transcript. Later
+  evidence and contract hardening invalidated that build, so it is not the
+  final video. Owner playback, privacy, branding, rights and synthetic-voice
+  approval remain pending; no public video upload or Devpost submission is
+  claimed.
 - Guarded public Chrome capture admission: the default full receipt remains
   ignored under `.evals`; `--admit-public-evidence` is restricted to the
   allowlisted public target, binds complete live-byte verification and redacts
@@ -174,6 +286,23 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Added a digest-bound explicit dependency correction for the pinned
+  `webmcp-evals` 0.0.4 browser backend. The upstream browser path accepted a
+  six-step configuration but did not pass that bound into `ToolLoopAgent`, so
+  one completed local diagnostic exceeded the project limit and could not be
+  admitted. The patch applies only to the reviewed package version and source
+  digest. CI and Pages apply it explicitly after their script-disabled install,
+  and the personal-agent runner reapplies it before evaluation. The adapter now
+  counts unsupported or result-less attempts towards the same limit and records
+  them as fail-closed diagnostics. The patched 36-run diagnostic now converts
+  and replays successfully; no host pass is inferred because page state is
+  unobservable, answer safety is unreviewed, the loopback context is dirty and
+  unbound, and all 36 cloud runs are missing.
+- Extended the private evaluation receipt contract to retain recognised
+  deterministic `ok: false` results as explicit rejected calls with bounded
+  arguments. Ordinary result variants now require `ok: true`, keeping the
+  closed `oneOf` branches disjoint. Unsupported tool names and null-result
+  attempts remain runner diagnostics rather than executable calls.
 - Kept the two awaited live-Pages safety deadline handles referenced until
   their operations settle. The first PR #20 validation run `33552638564`
   exposed the Linux event-loop difference: 270 tests passed but the logical
@@ -184,6 +313,57 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `govuk-webmcp.live-pages-verification.v2` receipt emitted by the hardened
   live verifier. A regression prevents the capture path from silently drifting
   back to the historical `v1` receipt used only by earlier releases.
+- Hardened supported-host receipt parsing for the exact Chrome DevTools MCP
+  1.8.0 message envelope. The parser accepts that bounded envelope only and
+  rejects notices, sibling values, raw JSON and multipart envelopes rather
+  than guessing which text is authoritative. Corrected the generated
+  receipt-visualisation wording so it names the observed host once and remains
+  explicitly labelled as a reconstruction, not a host recording.
+- Bound supported-host evidence to the six exact published input and output
+  schemas, canonical result digests, the complete presented-evidence digest,
+  the exact `v2` live Pages receipt and the tracked reviewed Chrome projection.
+  The release contract checks deployment metadata, artefact identifiers and
+  digests, live file and byte counts, and both raw and reviewed receipt
+  size/SHA-256 bindings before the labelled host scene can enter final-video
+  preflight.
+- Revalidated the VoiceOver source sequence during final-video preflight. The
+  closed capture manifest must retain the exact Safari and VoiceOver
+  environment, manual-use and no-WCAG boundaries, nine ordered unique frame
+  paths and digests, increasing timestamps, bounded holds and the complete
+  capture interval. Every frame must then be a bounded regular non-symbolic
+  file whose bytes match the manifest.
+- Closed the final-video personal-agent authentication gap. Preflight now
+  authenticates the private pre-run Pages receipt in-process, replays the exact
+  capture through the authenticated receipt, compares the supplied summary
+  byte-canonically and always disposes authentication. It no longer promotes a
+  shaped `structurally-valid` receipt by manufacturing `authenticated` status;
+  runs outside the retained pre-run and fresh-observation window fail closed.
+- Made both documented local test entry points self-contained after
+  `npm ci --ignore-scripts --no-audit`: `npm test` and
+  `npm run test:unit` now apply or verify the digest-bound `webmcp-evals`
+  browser step-limit correction before evaluator-dependent tests. The patch
+  remains idempotent on the reviewed original and patched bytes and fails
+  closed on an unknown upstream digest.
+- Corrected the release chronology. The current hardening changes built
+  application bytes, so its `a4fabe...` page, Chrome, VoiceOver and media
+  receipts remain pre-integration evidence. Merge, protected-main deployment
+  and byte comparison now precede complete exact-release recapture, a fresh
+  clean 36-slot local matrix and the visible 36-slot Copilot matrix. The
+  annotated tag belongs to that deployed product commit; later evidence
+  documentation may record receipts but cannot move or inherit the tag.
+- Centralised the excluded legislation-host check so the apex, any subdomain,
+  case variants and trailing-dot forms fail consistently in federation build,
+  live capture, supported-host evidence and VoiceOver evidence.
+- Replaced separate media-output promotion code with one shared transactional
+  helper for live interaction, supported-host, Ollama diagnostic and final
+  video outputs. A pre-commit failure restores the complete previous set. A
+  post-commit backup-clean-up failure keeps the complete new set and reports
+  committed outputs and any recoverable backup paths.
+- Made Chrome evidence admission one recoverable raw/reviewed/supported-host
+  operation. Public admission requires the allowlisted target and exact
+  expected commit; replacing the mode-`0600` raw receipt is separately
+  explicit, while path escape, symbolic targets, partial promotion and
+  unreviewed overwrites fail closed.
 - Corrected the release-evaluation sequence so claim authentication consumes
   the ignored mode-`0600` live receipt from a clean exact-Pages checkout.
   Reviewed receipts, summaries and media are admitted only afterwards through
@@ -258,6 +438,49 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+- Required a fresh process-local authenticated live Pages receipt in every
+  supported-host publication consumer. The shared validator now matches that
+  authenticated observation against both exact stored receipts, derives all
+  release claims from the authenticated object and rejects a coordinated
+  shape-valid forgery before evidence promotion. Authentication requires
+  ordered `initial`, `after-page-load` and `after-execution` deployment checks,
+  and the fresh observation must be at or after both stored receipt
+  observations. Authentication now has explicit `owned` and `borrowed` leases.
+  Owned success and failure paths revoke before awaiting asynchronous snapshot
+  clean-up; a borrower cannot revoke its owner's authentication. Final-video
+  preflight owns one fresh authentication, lends it to evaluation replay and
+  supported-host validation, and revokes it in the outer `finally` path.
+- Applied one descriptor-safe data-only boundary across all six page actions,
+  reviewed discovery, combined discovery, lazy federated discovery, Evidence
+  Trace comparison and the shared action-budget ingress. Symbol,
+  non-enumerable, accessor-backed, sparse and extra indexed array properties
+  are rejected before dispatch or diagnostic hashing, and rejected getters are
+  never invoked. Numeric limits accept only actual bounded integer numbers;
+  strings, booleans and coercion-bearing objects fail without invoking
+  conversion hooks. Portable JavaScript reflection cannot prove that a Proxy
+  is trap-free: browser-host JSON cannot carry a Proxy, while a Proxy created
+  in the same realm already has script-execution authority.
+
+- Bound each release-output and public-evidence parent to its validated device,
+  inode and real-path ancestor chain. Stage, link and removal operations now
+  revalidate that chain immediately before and after mutation, reject a
+  persistent late substitution, avoid subsequent clean-up through the changed
+  chain and retain existing external writer targets in the regression cases.
+- Recorded the portable filesystem boundary precisely: these are recoverable
+  set operations, not atomic multi-file or hostile-namespace transactions.
+  Release tooling requires exclusive control of repository and output
+  ancestors. Portable Node has no `openat`, `linkat` or `unlinkat` containment;
+  a same-user or privileged substitution entirely inside a syscall window is
+  out of scope and may leave an exclusive orphan stage before rejection.
+- Rejected symbolic `.evals`, personal-agent output-root and run-directory
+  boundaries before writing private model-evaluation captures. The runner
+  verifies canonical containment and reapplies mode `0700` at each private
+  directory boundary; the capture itself remains mode `0600`.
+- Corrected demonstration privacy wording: the page exposes no dedicated
+  personal-context field, but bounded free-text fields can still disclose
+  personal details. Candidate cues describe only each tool's declared,
+  bounded argument contract; they do not claim observed run minimality or that
+  a schema can make user-entered text private.
 - Completed a full candidate security-diff review over the frozen pre-fix
   patch. It reported no vulnerability crossing the repository's external
   security boundary, but its dynamic and independent follow-up checks exposed
@@ -269,14 +492,29 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   concluded that there is no security release blocker. The complete local
   deterministic, unit, Chrome, Edge, retrieval, smoke and dependency checks now
   pass.
+- Completed sealed post-fix working-tree scan
+  `185ce6fa-a47f-4c5e-9888-c63a9f932205` over all 33 selected
+  executable-source items in snapshot
+  `codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`.
+  Configured coverage is complete and no reportable findings survived. The
+  scan treats non-executable documentation, tests and generated projections as
+  supporting evidence, and excludes binary-media review, ignored private
+  captures, transitive dependencies and upstream services. These following
+  lockstep recording edits do not change executable source.
 
 ### Governance
 
-- Recorded the `0.4.0-rc.1` candidate as unreleased and unobserved on a public
-  host. No tag, GitHub release, Pages deployment, video publication, final
-  Devpost review or submission is claimed for this candidate. The repaired
-  repository-local guided-build workflow has `submission.status` set to
-  `not-started` and is not evidence of a Devpost mutation.
+- Later evidence-only documentation may record release observations but must
+  not move an existing product tag or imply a different deployed identity.
+- Recorded the first `0.4.0-rc.1` product checkpoint as deployed and exactly
+  observed on public Pages while keeping release gates distinct. That
+  historical observation does not establish the current tag, GitHub release,
+  Copilot matrix, complete cross-host comparison, local-answer safety, final
+  video, final Devpost review or submission state. The
+  completed candidate VoiceOver journey is a bounded one-environment
+  observation with three recorded limitations, not a WCAG claim. The
+  repaired repository-local guided-build workflow has `submission.status` set
+  to `not-started` and is not evidence of a Devpost mutation.
 - Closed the specialist-review wording gate for the current candidate without
   rewriting the released `v0.3.0-rc.1` chronology. No positive specialist-
   acceptance claim is admitted; source-snapshot search remains distinct from

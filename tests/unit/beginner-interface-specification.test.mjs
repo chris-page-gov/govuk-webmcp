@@ -59,7 +59,8 @@ test("beginner interface specification records the implemented candidate without
   assert.match(specification, /no overall trust, confidence or quality score/u);
   assert.match(specification, /source-contract correction is complete/u);
   assert.match(specification, /A Life in the UK specialist-/u);
-  assert.match(specification, /The tool is now\s+implemented in the worktree candidate but remains unreleased and has no\s+accepted host evidence/u);
+  assert.match(specification, /Any supported-host claim requires its own fresh,\s+authenticated exact-release observation/u);
+  assert.match(specification, /the retained `a4fabe…` observation is\s+historical pre-hardening evidence/u);
   assert.match(specification, /\{ "readOnlyHint": false, "untrustedContentHint": true \}/u);
   assert.match(specification, /"additionalProperties": false/u);
   assert.match(specification, /does not authorise the separate Devpost submission action/u);

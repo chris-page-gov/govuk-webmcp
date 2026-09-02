@@ -84,11 +84,48 @@ function exactObject(value: unknown, keys: ReadonlySet<string>, label: string): 
   if (value === null || typeof value !== "object" || Array.isArray(value) || Object.getPrototypeOf(value) !== Object.prototype) {
     throw new Error(`${label} must be a plain JSON object.`);
   }
-  const object = value as JsonObject;
-  for (const key of Object.keys(object)) {
-    if (!keys.has(key)) throw new Error(`${label} contains an unknown field: ${key.slice(0, 80)}`);
+  const copy: JsonObject = {};
+  for (const key of Reflect.ownKeys(value)) {
+    if (typeof key !== "string" || !keys.has(key)) {
+      throw new Error(`${label} contains an unknown field.`);
+    }
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
+      throw new Error(`${label} must contain enumerable data fields only.`);
+    }
+    copy[key] = descriptor.value as unknown;
   }
-  return object;
+  return copy;
+}
+
+function exactDataArray(value: unknown, label: string, minimum: number, maximum: number): unknown[] {
+  if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) {
+    throw new Error(`${label} must be a plain data array.`);
+  }
+  const lengthDescriptor = Object.getOwnPropertyDescriptor(value, "length");
+  if (!lengthDescriptor || !Object.hasOwn(lengthDescriptor, "value") ||
+    !Number.isSafeInteger(lengthDescriptor.value) ||
+    lengthDescriptor.value < minimum || lengthDescriptor.value > maximum) {
+    throw new Error(`${label} must contain from ${minimum} to ${maximum} items.`);
+  }
+  const length = lengthDescriptor.value;
+  if (Reflect.ownKeys(value).some((key) => {
+    if (key === "length") return false;
+    if (typeof key !== "string" || !/^(?:0|[1-9][0-9]*)$/u.test(key)) return true;
+    const index = Number(key);
+    return !Number.isSafeInteger(index) || index < 0 || index >= length;
+  })) {
+    throw new Error(`${label} must contain indexed data items only.`);
+  }
+  const copy: unknown[] = [];
+  for (let index = 0; index < length; index += 1) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
+    if (!descriptor?.enumerable || !Object.hasOwn(descriptor, "value")) {
+      throw new Error(`${label} must not contain accessors, hidden items or empty positions.`);
+    }
+    copy.push(descriptor.value as unknown);
+  }
+  return copy;
 }
 
 function requiredString(value: unknown, label: string, maximum: number, minimum = 1): string {
@@ -436,10 +473,8 @@ export async function createEvidenceRuntime(
         if (!ANSWER_ID.test(answerId)) throw new Error("answerId has an invalid format.");
         const trace = traceMap.get(answerId);
         if (!trace) return errorResult("answer_not_found", "No exact evidence answer was found.", { answerId });
-        if (!Array.isArray(object.claimIds) || object.claimIds.length < 2 || object.claimIds.length > 4) {
-          throw new Error("claimIds must contain from two to four exact claim identifiers.");
-        }
-        const claimIds = object.claimIds.map((value, index) => requiredString(value, `claimIds[${index}]`, 96));
+        const claimIds = exactDataArray(object.claimIds, "claimIds", 2, 4)
+          .map((value, index) => requiredString(value, `claimIds[${index}]`, 96));
         if (new Set(claimIds).size !== claimIds.length || claimIds.some((id) => !CLAIM_ID.test(id))) {
           throw new Error("claimIds must be unique and use the supported identifier format.");
         }

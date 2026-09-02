@@ -6,6 +6,8 @@ export const PUBLIC_DEPLOYMENT_SCHEMA = "trusted-govuk-discovery.deployment.v1";
 
 const COMMIT = /^[a-f0-9]{40}$/u;
 const RUN_ID = /^[1-9][0-9]*$/u;
+const MAX_DEPLOYMENT_METADATA_BYTES = 4_096;
+const DEPLOYMENT_METADATA_TIMEOUT_MS = 10_000;
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -80,6 +82,14 @@ export function parseDevtoolsCaptureTarget(environment = process.env) {
   };
 }
 
+export function assertPublicEvidenceAdmissionTarget(target, admissionRequested) {
+  invariant(typeof admissionRequested === "boolean", "Public-evidence admission state must be boolean.");
+  if (!admissionRequested) return target;
+  invariant(target?.publicTarget === true, "Public evidence can be admitted only from the allowlisted public target.");
+  invariant(target.expectedCommit !== null && COMMIT.test(target.expectedCommit), "Public evidence admission requires an exact WEBMCP_EXPECTED_COMMIT.");
+  return target;
+}
+
 export function validatePublicDeploymentMetadata(value, expectedCommit = null) {
   exactKeys(value, ["schema", "repository", "commit", "runId"], "Public deployment metadata");
   invariant(value.schema === PUBLIC_DEPLOYMENT_SCHEMA, "Public deployment metadata has the wrong schema.");
@@ -101,19 +111,106 @@ export function validatePublicDeploymentMetadata(value, expectedCommit = null) {
   };
 }
 
+export function assertMatchingPublicDeploymentSnapshot(expected, observed, label = "Public deployment") {
+  invariant(expected && observed, `${label} snapshots are required.`);
+  invariant(
+    expected.url === observed.url
+      && expected.sha256 === observed.sha256
+      && JSON.stringify(expected.metadata) === JSON.stringify(observed.metadata),
+    `${label} metadata changed during capture. Discard the mixed capture and retry against one stable deployment.`,
+  );
+  return observed;
+}
+
+function deadlineError() {
+  const error = new Error("Public deployment metadata request exceeded its 10-second deadline.");
+  error.name = "TimeoutError";
+  return error;
+}
+
+function settleBeforeAbort(promise, signal) {
+  if (signal.aborted) return Promise.reject(deadlineError());
+  return new Promise((resolve, reject) => {
+    const abort = () => {
+      cleanup();
+      reject(deadlineError());
+    };
+    const cleanup = () => signal.removeEventListener("abort", abort);
+    signal.addEventListener("abort", abort, { once: true });
+    Promise.resolve(promise).then(
+      (value) => {
+        cleanup();
+        resolve(value);
+      },
+      (error) => {
+        cleanup();
+        reject(error);
+      },
+    );
+  });
+}
+
+async function readBoundedDeploymentMetadata(response, signal) {
+  const declaredLength = response.headers?.get?.("content-length");
+  if (declaredLength !== null && declaredLength !== undefined) {
+    invariant(/^(?:0|[1-9][0-9]*)$/u.test(declaredLength), "Public deployment metadata has an invalid Content-Length.");
+    invariant(Number(declaredLength) <= MAX_DEPLOYMENT_METADATA_BYTES, "Public deployment metadata exceeds 4096 bytes.");
+  }
+  invariant(response.body && typeof response.body.getReader === "function", "Public deployment metadata response has no readable body.");
+  const reader = response.body.getReader();
+  const chunks = [];
+  let received = 0;
+  try {
+    while (true) {
+      const { done, value } = await settleBeforeAbort(reader.read(), signal);
+      if (done) break;
+      invariant(value instanceof Uint8Array, "Public deployment metadata returned a non-byte body chunk.");
+      received += value.byteLength;
+      invariant(received <= MAX_DEPLOYMENT_METADATA_BYTES, "Public deployment metadata exceeds 4096 bytes.");
+      chunks.push(value);
+    }
+  } catch (error) {
+    await reader.cancel().catch(() => {});
+    throw error;
+  } finally {
+    reader.releaseLock();
+  }
+  const bytes = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new Error("Public deployment metadata is not valid UTF-8.");
+  }
+}
+
 export async function fetchPublicDeploymentMetadata({
   expectedCommit = null,
   fetchImplementation = fetch,
+  timeoutMs = DEPLOYMENT_METADATA_TIMEOUT_MS,
 } = {}) {
+  invariant(Number.isInteger(timeoutMs) && timeoutMs > 0 && timeoutMs <= DEPLOYMENT_METADATA_TIMEOUT_MS, "Public deployment metadata timeout is invalid.");
   const metadataUrl = new URL("deployment.json", PUBLIC_CAPTURE_TARGET).href;
-  const response = await fetchImplementation(metadataUrl, {
-    cache: "no-store",
-    credentials: "omit",
-    redirect: "error",
-  });
-  invariant(response && response.ok === true, `Public deployment metadata request failed with HTTP ${String(response?.status)}.`);
-  const bytes = await response.text();
-  invariant(Buffer.byteLength(bytes, "utf8") <= 4_096, "Public deployment metadata exceeds 4096 bytes.");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  let bytes;
+  let response;
+  try {
+    response = await settleBeforeAbort(fetchImplementation(metadataUrl, {
+      cache: "no-store",
+      credentials: "omit",
+      redirect: "error",
+      signal: controller.signal,
+    }), controller.signal);
+    invariant(response && response.ok === true, `Public deployment metadata request failed with HTTP ${String(response?.status)}.`);
+    bytes = await readBoundedDeploymentMetadata(response, controller.signal);
+  } finally {
+    clearTimeout(timeout);
+  }
   let value;
   try {
     value = JSON.parse(bytes);

@@ -5,21 +5,21 @@
 1. Entrant/ownership/outside-interest decision.
 2. Baseline, rights and attribution manifests.
 3. 30–80 record reviewed corpus. *(Complete: 80 records and receipts.)*
-4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas and public `v0.3.0-rc.1` with 31 closed schemas. The `0.4.0-rc.1` worktree adds five candidate contracts, bringing the total to 36; their exact release validation is pending. Source-native and target OKF states remain separate.)*
-5. Accessible search, results, record and provenance UI. *(Complete for the bounded released Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The refreshed `v0.3.0-rc.1` Safari and VoiceOver journey is complete with two retained limitations and no WCAG conformance claim. Candidate Evidence answer structure is implemented and its automated Chrome and Edge suites pass, but it has no candidate-specific manual browser or assistive-technology observation.)*
+4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas, `v0.3.0-rc.1` with 31 and the hardened `0.4.0-rc.1` source candidate with 36. Source-native and target OKF states remain separate. No hardened deployment or tag is inferred.)*
+5. Accessible search, results, record and provenance UI. *(Complete for the bounded released Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The hardened Evidence answer structure is implemented and its automated suites pass 43 of 43 in Chrome and 43 of 43 in Edge. The 6-pass/3-limited Safari and VoiceOver record, with eight limitation statements, no captured speech audio, no WCAG claim and no independent capture-time deployment binding, belongs to historical pre-hardening commit `a4fabe...` and must not be relabelled as hardened-release evidence.)*
 6. `search_government_knowledge`. *(Complete.)*
 7. `get_resource_record`. *(Complete.)*
 8. `show_provenance`. *(Complete.)*
-9. Shared execution functions and UI/tool parity. *(Complete for five released tools through one action controller. The worktree routes the sixth candidate action through the same controller and presentation object, and local automated Chrome and Edge parity tests pass; exact deployed-byte and live supported-host parity remain pending.)*
+9. Shared execution functions and UI/tool parity. *(Complete in the hardened source through one action controller and presentation object. Automated parity passes in the 43-test Chrome and Edge suites. Descriptor-safe data-only parsing covers reviewed, combined and lazy federated discovery, Evidence Trace comparison and shared action-budget ingress; it rejects symbols, accessors, non-enumerables, sparse arrays and extra array properties without invoking getters. Numeric limits accept only actual bounded integers without coercion. Host JSON cannot carry a Proxy, and containment of a same-realm Proxy whose creator already has script-execution authority is not claimed. The earlier isolated-Chrome six-tool observation and displayed digest parity belong only to historical pre-hardening commit `a4fabe...`; personal-AI host selection, hardened live execution and answer quality remain separate gates.)*
 10. Authoritative human links. *(Complete.)*
 11. Access/licence/assertion/observation/limitation fields. *(Complete, with eight separate Trace facets and no combined score.)*
 12. Source/record/bundle digests and receipt. *(Complete and extended to Evidence Trace and federation bindings.)*
 13. Fail-closed validation. *(Complete for public `v0.3.0-rc.1`: five source-lock registry entries validate against separately code-reviewed imported SHA-256 pins; the standalone builder directly pins the federation-lock bytes; and the manifest-first lazy plane plus exact ordered per-source population and display contracts validate. Same-count source-and-registry substitution fails closed. Post-remediation build/data, unit, browser and smoke verification passes, immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 items with zero reportable findings, and all 1,879 public files matched the retained Pages artefact.)*
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests. *(Part complete: injection, unsafe URL, missing licence, no-match, deep-input and bounded-fragment cases pass; dedicated stale and conflicting-assertion fixtures remain.)*
 15. CSP, no storage, no external runtime request. *(Complete.)*
-16. ChatGPT/Chrome tests. *(Part complete for host execution: instrumented WebMCP and installed Chrome and Edge contract checks passed, and Codex In-app Browser completed all five tools on public `v0.3.0-rc.1`, rejected unrelated `personalContext` and retained fixed-query human/display parity. Separately, isolated Chrome 152 with browser-native WebMCP enabled completed all five exact-release calls through Chrome DevTools MCP 1.8.0, rejected `personalContext` by stable error code and recorded zero console errors. This closes the rules-named Chrome gate for that host, version, release and time only. Five local fixed-model attempts are retained but all failed the strict gate; attempt 4 retained a null evaluation after structural validation failed and attempt 5 recovered after rejected malformed IDs but failed `verify-reports`. No model-selection claim is made; a passing model result and Microsoft WebMCP Explorer browser execution remain under Should 11.)*
-17. Public deployment, MIT licence and notices. *(Complete: PR #16 passed validation run `33356087333`, merged as `b0bd634579a3abf82bdd1fc83ff688535e0db0bf`, passed exact-main run `33356272534` and deployed through Pages run `33356452048`. Annotated tag and public pre-release `v0.3.0-rc.1` bind that commit; earlier release identities remain unchanged.)*
-18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: guarded build tooling, current-release human interaction clips, supported-host and isolated-Chrome receipts, receipt visualisation, refreshed VoiceOver record, 156.023-second local video and technical review, submission copy, current read-only Devpost receipt, exact public-release hashes and tag `v0.3.0-rc.1` are complete. The unreleased `0.4.0-rc.1` worktree adds a guarded full Pages artefact verifier and a separate versioned nine-scene Evidence answer capture/build plan requiring genuine private Copilot and Ollama inputs plus explicit redaction gates, without rewriting those historical files. It has not yet produced candidate live-byte, personal-AI, Ollama, VoiceOver, video, owner-review or public-player evidence. The 31 August local technical compliance review is complete through `2026-08-31T18:49:38.356Z`, but the final live-rules and Devpost-form refresh remains open. Owner review, public YouTube upload and Devpost form submission remain open. No WCAG conformance, candidate release, registration, submission or upload claim is made.)*
+16. ChatGPT/Chrome tests. *(Part complete for host execution: the historical five-tool observations remain release-bound. Settled hardened local gates pass 381 of 381 unit tests, 43 of 43 Chrome tests, 43 of 43 Edge tests and seven of seven model-free smoke calls. Chrome 152.0.7977.66 and Chrome DevTools MCP 1.8.0 completed all six tools only against historical pre-hardening commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118`; that observation is not final-release evidence. Hardened admission freshly authenticates the exact live receipt process-locally, requires ordered initial, after-page-load and after-execution checks, requires the fresh observation at or after both stored observations, exact-matches the stored private/raw and public/reviewed pair by identity, size and digest, and uses explicit owned/borrowed leases. Sealed post-fix scan `185ce6fa-a47f-4c5e-9888-c63a9f932205` completed all 33 selected executable-source items with complete configured coverage and zero reportable findings. The patched Ollama diagnostic retains 36 local runs, 6 tool-selection and deterministic-execution passes and 30 failures; page parity is unobservable, answers are unreviewed and all 36 Microsoft Copilot MCP Workspace observations remain missing. No hardened live-host or model-safety claim is made.)*
+17. Public deployment, MIT licence and notices. *(Part complete: the licence and notices are public. PR #20, historical pre-hardening commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118` retain their exact chronology but are not final-release evidence. Live GitHub and deployment state must be inspected before acting: integrate hardening only if needed, then deploy and byte-compare the exact hardened protected-main commit only if that gate is still open. Tag only that deployed commit after exact-release recapture. Earlier release identities remain unchanged.)*
+18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: historical pre-hardening page, Chrome, VoiceOver and supported-host evidence plus the separately unclaimable local diagnostic retain their exact identities and limitations. Once item 17 is demonstrably complete, recapture or rebuild every release-context input that does not name the exact hardened deployment; run a clean 36-slot local matrix and 36 visible Copilot slots; then build and review the final video and tag only that deployed protected-main product commit. If work resumes after any gate has changed, verify live state and continue from the first unmet gate. Human review, signed-out public playback, GitHub prerelease, public upload and authorised submission remain open. No new deployment, final host matrix, final video, tag, WCAG conformance, personal-AI safety, submission or upload claim is made.)*
 
 The current official submission boundary closes at 1:00 pm PDT on 3 September
 2026. It requires a public source repository with a visibly detectable open-
@@ -113,8 +113,10 @@ fails closed.
    unavailable. The exact post-remediation candidate passes
    all 30 Chrome and all 30 Edge tests, including the fail-each-source matrix;
    historical `v0.3.0-rc.1` manual accessibility evidence is complete with two
-   retained limitations under gates F, G and K; candidate-specific manual
-   accessibility evidence remains pending.)*
+   retained limitations under gates F, G and K. The candidate-specific Safari
+   and VoiceOver journey is also complete with 6 passed and 3 limited
+   checkpoints, while the no-WCAG and no-formative-comprehension boundaries
+   remain.)*
 7. Add tiny v1/v2 fixtures and raw-corruption, co-digested semantic mutation,
    search-quality, duplicate, injection and exhaustion tests. *(Implemented for
    contracts, corruption, semantic mutation, deterministic ranking,
@@ -247,23 +249,26 @@ formative acceptance and Devpost submission remain separate gates.
    supported-versus-added statements, limitations, plain English, safe next
    steps and privacy/no-call behaviour separate. Four material unsafe answers
    block an acceptance claim.
-8. **Source-contract reconciliation — complete for the current candidate.**
+8. **Source-contract reconciliation — complete for the hardened candidate source.**
    The authored A Life in the UK lock, closed schema, corpus admission,
    generated display contract, executable runtime boundary and tests now record
    zero accepted specialist reviews, two service families where review is not
    required and 291 where it is required. Historical `v0.3.0-rc.1` evidence is
    retained unchanged.
-9. **Technical review and UI specification — implementation candidate in
-   progress.** The worktree now contains the closed projection, sixth
-   `present_resource_evidence` action, bounded persistent two-view navigation
-   and Evidence answer renderer while retaining Technical review. Complete the
-   deterministic, browser, accessibility, security and host gates before
-   proposing release; do not claim formative research or general usability.
-10. **Formative and repeated evaluation — pending candidate verification.** Freeze natural
-    prompts without tool names or record IDs; run at least three times per
-    story; retain variance and hard unsafe failures; then test comprehension
-    with non-technical and assistive-technology users before implementation
-    promotion.
+9. **Technical review and UI specification — hardened implementation complete;
+   live release gate state-neutral.** The source contains the closed projection,
+   sixth `present_resource_evidence` action, bounded persistent two-view
+   navigation and Evidence answer renderer while retaining Technical review.
+   Descriptor-safe validators reject exotic object and array descriptors
+   without invoking getters. Settled local build and browser gates pass. The
+   deployed `a4fabe...` implementation and its 6-pass/3-limited Safari and
+   VoiceOver record are historical pre-hardening evidence only; no WCAG or
+   hardened-deployment claim follows.
+10. **Formative and repeated evaluation — partly observed; acceptance open.**
+    The three-run local Ollama diagnostic is complete for all 12 stories, with
+    failures and unknowns retained and the claim gate false. All 36 Copilot
+    observations and all formative comprehension work with non-technical and
+    assistive-technology users remain pending.
 
 The corresponding evidence and detailed status are in
 [`implementation-plan.md`](implementation-plan.md),
@@ -275,40 +280,66 @@ The proposed dual-view contract is in
 
 ### `0.4.0-rc.1` Evidence answer implementation checklist
 
-1. **Closed projection — focused verification complete; acceptance pending.**
+1. **Closed projection — complete.**
    The build-integrated audit passes all 80 reviewed and 58,652 admitted
    federated records against the production projector and closed presentation
    schema. `npm run build:verify-deterministic` confirms two complete 1,883-file,
-   128,646,550-byte builds at aggregate SHA-256
-   `3d8a46a18ec056190d41e29b825f9f79beae15463c3922d4a8bfcacab7f7094b`;
-   272 unit tests pass. Protected integration and exact public-byte gates remain
-   open.
-2. **Sixth tool — implementation and focused verification complete; acceptance
-   pending.** Closed input, cancellation, timeout, no partial presentation and
-   all-or-none registration tests pass. One latest-started sequence now spans
-   all three presentation actions, with a cross-tool unit and Chrome race
-   regression; exact public-host acceptance remains open.
-3. **Persistent views — focused browser verification complete; acceptance
-   pending.** Empty, explicit, legacy and invalid route unit checks pass;
+   128,653,230-byte builds at aggregate SHA-256
+   `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`;
+   381 of 381 prepared unit tests pass. The prior public-byte gate remains
+   historical pre-hardening evidence for `a4fabe...`; hardened integration and
+   deployment status must be read live rather than inferred here.
+2. **Sixth tool — complete.** Closed input, cancellation, timeout, no partial
+   presentation and all-or-none registration tests pass. One latest-started
+   sequence spans all three presentation actions, with a cross-tool unit and
+   Chrome race regression. Descriptor-safe data-only parsing covers reviewed,
+   combined and lazy federated discovery, Evidence Trace comparison and shared
+   action-budget ingress. It rejects symbols, accessors, non-enumerables, sparse
+   arrays and extra array properties without invoking getters. Numeric limits
+   accept only actual bounded integers without coercion. Host JSON cannot carry
+   a Proxy; same-realm Proxy containment is not claimed. The earlier six-tool
+   Chrome call set covers only the historical pre-hardening deployment.
+3. **Persistent views — automated acceptance complete.** Empty, explicit,
+   legacy and invalid route unit checks pass;
    complete 43-test Chrome and Edge suites verify heading focus,
    sticky-navigation clearance, cross-tool latest-started routing and
-   inactive-view preservation. Manual checks remain open.
-4. **Evidence answer rendering — focused verification complete; acceptance
-   pending.** Focused unit and Chrome checks cover inert rendering, validated
+   inactive-view preservation. The release-specific manual assistive-
+   technology observation remains under item 5.
+4. **Evidence answer rendering — automated acceptance complete.** Focused unit
+   and Chrome checks cover inert rendering, validated
    links, mapped primary plus all other limitations, unknowns, next checks,
    accepted fields, Technical review parity and inactive-view updates without
    view, URL, history, focus or scroll mutation.
-5. **Complete assurance and publication — in progress.** The first exhaustive
+5. **Complete assurance locally; publication conditional on live state.** The first exhaustive
    candidate security-diff review completed with zero reportable
    vulnerabilities; the release-hardening defects it exposed now have targeted
-   regressions. Deterministic build, 272 unit, 43 Chrome, 43 Edge, frozen
-   retrieval, seven-envelope smoke and dependency-audit gates pass. Final
+   regressions. Settled gates pass: research 4 of 4; deterministic build at the
+   exact identity in item 1; 381 of 381 unit; 43 of 43 Chrome; 43 of 43 Edge;
+   mean nDCG@10 `0.984698009`; Recall@20 `1`; seven of seven model-free smoke
+   calls; and zero npm-audit vulnerabilities. Final
    code-snapshot security scan `aedf88e3-6a77-46af-be6b-2c672001dd46`
    completed 36 of 36 items, ran 102 focused tests, found zero findings and
-   concluded that there is no security release blocker. Complete manual
-   accessibility and six-tool host checks
-   before exact deployment, tag, media or submission work. Historical five-tool
-   evidence is not a substitute.
+   concluded that there is no security release blocker for that named snapshot.
+   PR #20, protected-main run `33554600300`, Pages run `33555187118`, exact
+   comparison of 1,884 files and 128,646,735 bytes, isolated-Chrome execution
+   and VoiceOver media are historical pre-hardening evidence only.
+   Hardened supported-host admission must freshly authenticate the exact live
+   receipt in-process, retain ordered initial/after-page-load/after-execution
+   checks, observe at or after both stored receipts, exact-match the stored
+   private/raw and public/reviewed pair and use explicit owned/borrowed leases.
+   Final-video owns the shared receipt, nested consumers borrow it and the outer
+   `finally` revokes it; owned success and failure paths revoke before awaiting
+   asynchronous clean-up. Sealed post-fix scan
+   `185ce6fa-a47f-4c5e-9888-c63a9f932205`, snapshot
+   `codex-security-snapshot/v1:sha256:012c0b4bb3e60271f8d60fca9475976a473ac0a267f87354810e51c2d575c0ad`,
+   completed all 33 selected executable-source items with complete configured
+   coverage and zero reportable findings. The subsequent lockstep recording
+   edits do not change executable source.
+   The patched Ollama diagnostic is complete but unclaimable. The candidate
+   Copilot matrix, complete host comparison, hardened live evidence, final
+   media, tag and GitHub prerelease are not claimed. Inspect live GitHub and
+   Pages state before choosing the next integration or deployment action.
+   Historical five-tool evidence is not a substitute.
 
 ## Should
 
@@ -319,7 +350,11 @@ The proposed dual-view contract is in
 5. Downloadable record and receipt.
 6. Automated SBOM/attestation. *(Local macOS ARM64 sanitised CycloneDX SBOM
    complete; release-platform SBOM and signed attestation pending.)*
-7. Accessibility statement and manual test log. *(Statement, Chrome/Edge, headed-browser and refreshed current-release Safari and VoiceOver evidence are complete for the bounded journeys. Both manual observations retain two limitations; VoiceOver audio is not claimed and no WCAG conformance is claimed.)*
+7. Accessibility statement and manual test log. *(Statement, Chrome/Edge,
+   headed-browser and release-specific Safari and VoiceOver evidence are
+   complete for the bounded journeys. The historical journey retains two
+   limitations and the candidate journey retains three; VoiceOver speech audio
+   is not claimed and no WCAG conformance is claimed.)*
 8. Baseline-to-submission visual compare. *(Part complete: separate retained public search captures show `v0.1.0-rc.1` and deployed `v0.2.0-rc.1`; a bound side-by-side comparison artefact remains.)*
 9. Optional small set of related-record links.
 10. Public status/known-issues page.

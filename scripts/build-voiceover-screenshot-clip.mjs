@@ -1,15 +1,13 @@
 import { spawnSync } from "node:child_process";
-import { createHash, randomUUID } from "node:crypto";
+import { createHash } from "node:crypto";
 import { constants as fsConstants } from "node:fs";
 import {
-  copyFile,
   lstat,
   mkdir,
   mkdtemp,
   open,
   readFile,
   realpath,
-  rename,
   rm,
   writeFile,
 } from "node:fs/promises";
@@ -28,10 +26,13 @@ import {
 import { fileURLToPath } from "node:url";
 
 import { chromium } from "@playwright/test";
+import { parseUtcRfc3339Timestamp } from "./lib/rfc3339-timestamp.mjs";
+import { placeRepositoryOutputs } from "./lib/transactional-output-placement.mjs";
 
 import {
   bindReleaseConfig,
   repositoryRoot,
+  requiredVoiceOverCaptureLimitations,
   requiredVoiceOverJourneyIds,
   validateConfig,
   verifyDemoDeployment,
@@ -41,7 +42,6 @@ const scriptPath = fileURLToPath(import.meta.url);
 const captureRoot = resolve(repositoryRoot, "output/voiceover-capture");
 const defaultManifestPath = join(captureRoot, "capture-manifest.json");
 const demoConfigPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
-const requiredLimitation = "This screenshot sequence is not a continuous recording.";
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -70,26 +70,7 @@ function nonEmptyString(value, label, maximum = 500) {
 }
 
 function validTimestamp(value, label) {
-  const match = typeof value === "string"
-    ? /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?(Z|([+-])(\d{2}):(\d{2}))$/u.exec(value)
-    : null;
-  const parsed = match ? Date.parse(value) : Number.NaN;
-  invariant(match && Number.isFinite(parsed), `${label} must be an RFC 3339 timestamp`);
-  const [, year, month, day, hour, minute, second, fraction = "", zone, sign, zoneHour = "00", zoneMinute = "00"] = match;
-  invariant(Number(zoneHour) <= 14 && Number(zoneMinute) <= 59 && !(Number(zoneHour) === 14 && Number(zoneMinute) !== 0), `${label} has an invalid time-zone offset`);
-  const offsetMinutes = zone === "Z" ? 0 : (sign === "+" ? 1 : -1) * ((Number(zoneHour) * 60) + Number(zoneMinute));
-  const local = new Date(parsed + (offsetMinutes * 60_000));
-  invariant(
-    local.getUTCFullYear() === Number(year)
-      && local.getUTCMonth() + 1 === Number(month)
-      && local.getUTCDate() === Number(day)
-      && local.getUTCHours() === Number(hour)
-      && local.getUTCMinutes() === Number(minute)
-      && local.getUTCSeconds() === Number(second)
-      && local.getUTCMilliseconds() === Number(fraction.padEnd(3, "0") || "0"),
-    `${label} has an invalid calendar date or time`,
-  );
-  return parsed;
+  return parseUtcRfc3339Timestamp(value, label);
 }
 
 function sameValues(left, right) {
@@ -198,7 +179,10 @@ export function validateCaptureManifest(manifest, config) {
   invariant(manifest.screenReader.name === "VoiceOver", "Capture manifest screen reader must be VoiceOver");
   nonEmptyString(manifest.screenReader.version, "VoiceOver version", 100);
   invariant(manifest.continuousRecording === false, "Screenshot capture must not claim to be a continuous recording");
-  invariant(Array.isArray(manifest.limitations) && manifest.limitations.includes(requiredLimitation), `Capture limitations must include: ${requiredLimitation}`);
+  invariant(Array.isArray(manifest.limitations), "Capture limitations must be an array");
+  for (const required of requiredVoiceOverCaptureLimitations) {
+    invariant(manifest.limitations.includes(required), `Capture limitations must include: ${required}`);
+  }
   for (const limitation of manifest.limitations) nonEmptyString(limitation, "Capture limitation", 1_000);
 
   invariant(Array.isArray(manifest.frames), "Capture manifest frames must be an array");
@@ -397,40 +381,11 @@ export function validateRenderedClip(result, expectedDuration) {
   return { durationSeconds: duration, width: video[0].width, height: video[0].height, codec: video[0].codec_name, pixelFormat: video[0].pix_fmt };
 }
 
-async function pathExists(path) {
-  try {
-    await lstat(path);
-    return true;
-  } catch (error) {
-    if (error?.code === "ENOENT") return false;
-    throw error;
-  }
-}
-
 async function placeOutput(source, outputPath, overwrite) {
-  await mkdir(dirname(outputPath), { recursive: true });
-  const parentReal = await realpath(dirname(outputPath));
-  invariant(inside(resolve(repositoryRoot, "output"), parentReal), "VoiceOver output directory resolves outside output");
-  if (await pathExists(outputPath)) {
-    const info = await lstat(outputPath);
-    invariant(info.isFile() && !info.isSymbolicLink(), "Existing VoiceOver output must be a regular non-symbolic-link file");
-    invariant(overwrite, "VoiceOver output exists; rerun with --overwrite after review");
-  }
-  const pending = `${outputPath}.pending-${process.pid}-${randomUUID()}`;
-  await copyFile(source, pending, fsConstants.COPYFILE_EXCL);
-  let backup;
-  try {
-    if (overwrite && await pathExists(outputPath)) {
-      backup = `${outputPath}.backup-${process.pid}-${randomUUID()}`;
-      await rename(outputPath, backup);
-    }
-    await rename(pending, outputPath);
-    if (backup) await rm(backup);
-  } catch (error) {
-    await rm(pending, { force: true });
-    if (backup && await pathExists(backup)) await rename(backup, outputPath);
-    throw error;
-  }
+  return placeRepositoryOutputs(
+    [{ source, destination: outputPath }],
+    { root: repositoryRoot, overwrite },
+  );
 }
 
 export function buildVoiceOverFfmpegArguments(listPath, moviePath, expectedDuration) {
@@ -448,6 +403,26 @@ export function buildVoiceOverFfmpegArguments(listPath, moviePath, expectedDurat
   ];
 }
 
+export function buildVoiceOverSuccessResult({
+  output,
+  outputSha256,
+  media,
+  manifest,
+  frames,
+}) {
+  invariant(typeof output === "string" && output.length > 0, "VoiceOver result output path is required");
+  invariant(/^[a-f0-9]{64}$/u.test(outputSha256), "VoiceOver result SHA-256 is invalid");
+  return {
+    status: "built-local-screenshot-sequence-not-continuous-recording",
+    output,
+    sha256: outputSha256,
+    ...media,
+    manifest,
+    frames,
+    limitations: [...requiredVoiceOverCaptureLimitations],
+  };
+}
+
 async function build(preflight, overwrite) {
   const work = await mkdtemp(join(tmpdir(), "govuk-webmcp-voiceover-sequence-"));
   try {
@@ -462,18 +437,16 @@ async function build(preflight, overwrite) {
     ));
     const media = validateRenderedClip(probe(moviePath), preflight.summary.totalDurationSeconds);
     await placeOutput(moviePath, preflight.outputPath, overwrite);
-    return {
-      status: "built-local-screenshot-sequence-not-continuous-recording",
+    return buildVoiceOverSuccessResult({
       output: relative(repositoryRoot, preflight.outputPath).split(sep).join("/"),
-      sha256: sha256(await readFile(preflight.outputPath)),
-      ...media,
+      outputSha256: sha256(await readFile(preflight.outputPath)),
+      media,
       manifest: {
         path: relative(repositoryRoot, preflight.manifestFile.path).split(sep).join("/"),
         sha256: preflight.manifestFile.sha256,
       },
       frames: preflight.frames.map(({ manifest, file }) => ({ id: manifest.id, path: manifest.path, sha256: file.sha256 })),
-      limitation: requiredLimitation,
-    };
+    });
   } finally {
     await rm(work, { recursive: true, force: true });
   }

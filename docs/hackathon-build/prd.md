@@ -26,8 +26,9 @@ The candidate must:
 
 ## Submission proof points
 
-- the personal AI can choose a small Site tool without sending a personal
-  profile to this page;
+- the personal AI can choose a small Site tool without using a dedicated
+  personal-profile field, while free-text arguments retain an explicit
+  disclosure warning;
 - a non-technical person can independently inspect the evidence supplied;
 - the page is static, same-origin, deterministic and source-linked;
 - cloud and local hosts are reported as observational alternatives rather than

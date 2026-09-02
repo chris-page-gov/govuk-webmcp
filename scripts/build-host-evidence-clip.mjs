@@ -1,18 +1,15 @@
 import { spawnSync } from "node:child_process";
-import { createHash, randomUUID } from "node:crypto";
+import { createHash } from "node:crypto";
 import {
-  copyFile,
   lstat,
   mkdtemp,
-  mkdir,
   readFile,
   realpath,
-  rename,
   rm,
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, extname, isAbsolute, relative, resolve, sep } from "node:path";
+import { extname, isAbsolute, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { chromium } from "@playwright/test";
@@ -24,12 +21,20 @@ import {
   validateHostMediaReceipt,
   validateInteractionCaptureEvidence,
   validateSupportedHostEvidence,
+  validateSupportedHostReviewedArtefact,
   verifyDemoDeployment,
 } from "./build-demo-video.mjs";
+import { resolveCanonicalRepositoryPath } from "./lib/repository-relative-path.mjs";
+import { placeRepositoryOutputs } from "./lib/transactional-output-placement.mjs";
+import {
+  authenticateLivePagesReceipt,
+  disposeAuthenticatedLivePagesReceipt,
+} from "./verify-live-pages-artifact.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
 const reconstructionLabel = "Receipt reconstruction — not a host recording";
+const privateLiveVerificationPath = ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json";
 
 function invariant(condition, message) {
   if (!condition) throw new Error(message);
@@ -49,33 +54,36 @@ function inside(root, candidate) {
   return fromRoot !== ".." && !fromRoot.startsWith(`..${sep}`) && !isAbsolute(fromRoot);
 }
 
-function repositoryPath(value, label) {
-  invariant(typeof value === "string" && value.length > 0 && !isAbsolute(value), `${label} must be repository-relative`);
-  const path = resolve(repositoryRoot, value);
-  invariant(inside(repositoryRoot, path), `${label} resolves outside the repository`);
-  return path;
-}
-
-async function exists(path) {
-  try {
-    await lstat(path);
-    return true;
-  } catch (error) {
-    if (error?.code === "ENOENT") return false;
-    throw error;
-  }
+export function resolveHostClipRepositoryPath(value, label, options = {}) {
+  return resolveCanonicalRepositoryPath(repositoryRoot, value, { label, ...options });
 }
 
 async function regularFile(relativePath, label, extensions, maximumBytes) {
-  const path = repositoryPath(relativePath, label);
+  const path = resolveHostClipRepositoryPath(relativePath, label, { extensions });
   invariant(extensions.includes(extname(path).toLowerCase()), `${label} has an unsupported extension`);
   const info = await lstat(path);
   invariant(info.isFile() && !info.isSymbolicLink() && info.size > 0 && info.size <= maximumBytes, `${label} must be a bounded regular non-symbolic file`);
-  invariant(inside(await realpath(repositoryRoot), await realpath(path)), `${label} resolves outside the repository`);
+  const rootReal = await realpath(repositoryRoot);
+  const candidateReal = await realpath(path);
+  invariant(inside(rootReal, candidateReal), `${label} resolves outside the repository`);
+  const bytes = await readFile(candidateReal);
+  const after = await lstat(path);
+  invariant(
+    after.isFile()
+    && !after.isSymbolicLink()
+    && after.dev === info.dev
+    && after.ino === info.ino
+    && after.size === info.size
+    && bytes.byteLength === info.size,
+    `${label} changed while it was being read`,
+  );
   return {
-    absolutePath: path,
+    absolutePath: candidateReal,
     relativePath,
-    sha256: createHash("sha256").update(await readFile(path)).digest("hex"),
+    bytes,
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    sizeBytes: info.size,
+    mode: info.mode & 0o777,
   };
 }
 
@@ -137,7 +145,7 @@ function pageHtml(evidence) {
       <div class="label">${escapeHtml(reconstructionLabel)}</div>
       <p class="eyebrow">Observed supported-host receipt</p>
       <h1>Six bounded WebMCP tools</h1>
-      <p class="host">Receipt from <strong>${escapeHtml(evidence.host.name)} ${escapeHtml(evidence.host.version)}</strong><br>observed ${escapeHtml(observed)}</p>
+      <p class="host">Receipt from <strong>${escapeHtml(evidence.host.name)}</strong><br>${escapeHtml(evidence.host.version)}<br>observed ${escapeHtml(observed)}</p>
       <div class="tools">${tools.map((tool) => `<div class="tool">${escapeHtml(tool)}</div>`).join("")}</div>
     </section>
     <section>
@@ -147,7 +155,7 @@ function pageHtml(evidence) {
       <div class="card"><strong>Reviewed evidence comparison</strong>${escapeHtml(compare.input.claimIds.join(" · "))}<br><span class="mono digest">SHA-256 ${escapeHtml(compare.canonicalResultDigest)}</span></div>
       <div class="card"><strong>Evidence answer presentation</strong><span class="mono">${escapeHtml(present.input.recordId)}</span><br><span class="mono digest">Evidence SHA-256 ${escapeHtml(present.result.evidenceDigest)}</span></div>
       <div class="card warning"><strong>Personal-AI boundary</strong>The closed search schema has no personal-context field. The executable check rejected <span class="mono">personalContext</span>; only field names and the deterministic error are retained.</div>
-      <div class="card warning"><strong>What this visual proves</strong>It reconstructs an exact host receipt. It does not embed or imitate a host-owned recording and does not claim support in any other host.</div>
+      <div class="card warning"><strong>What this visual proves</strong>It reconstructs the exact reviewed host-evidence projection. It does not embed or imitate a host-owned recording and does not claim support in any other host.</div>
     </section>
   </main>
   <div class="progress"></div>
@@ -158,7 +166,7 @@ function pageHtml(evidence) {
 async function loadInputs() {
   const rawConfig = validateConfig(JSON.parse(await readFile(configPath, "utf8")));
   const config = bindReleaseConfig(rawConfig);
-  await verifyDemoDeployment(config);
+  const liveDeployment = await verifyDemoDeployment(config);
   const scene = config.scenes.find(({ kind }) => kind === "receipt-visualisation");
   invariant(scene, "Demo config has no supported-host receipt scene");
 
@@ -169,59 +177,58 @@ async function loadInputs() {
     mediaById.set(interactionScene.id, { sha256: mediaFile.sha256, durationSeconds: probeDuration(mediaFile.absolutePath) });
   }
   const interactionFile = await regularFile(config.interactionCaptureReceipt, "Live interaction receipt", [".json"], 10_000_000);
-  const interaction = JSON.parse(await readFile(interactionFile.absolutePath, "utf8"));
-  const interactionSummary = validateInteractionCaptureEvidence(interaction, config, interactionScenes, mediaById);
+  const interaction = JSON.parse(interactionFile.bytes.toString("utf8"));
+  const interactionSummary = validateInteractionCaptureEvidence(
+    interaction,
+    config,
+    interactionScenes,
+    mediaById,
+    liveDeployment.sha256,
+  );
+  const deploymentObservation = {
+    metadataUrl: liveDeployment.url,
+    metadataSha256: liveDeployment.sha256,
+  };
 
   const evidenceFile = await regularFile(scene.evidence, "Supported-host evidence", [".json"], 10_000_000);
-  const evidence = JSON.parse(await readFile(evidenceFile.absolutePath, "utf8"));
-  validateSupportedHostEvidence(evidence, config, interactionSummary.demonstratedRecordId);
+  const evidence = JSON.parse(evidenceFile.bytes.toString("utf8"));
+  validateSupportedHostEvidence(evidence, config, interactionSummary.demonstratedRecordId, deploymentObservation);
   const artefactFiles = new Map();
-  for (const artefact of evidence.artefacts) {
-    const file = await regularFile(artefact.path, `Supported-host artefact ${artefact.path}`, [".json", ".png", ".jpg", ".jpeg", ".txt"], 50_000_000);
-    invariant(file.sha256 === artefact.sha256, `Supported-host artefact SHA-256 has drifted: ${artefact.path}`);
-    artefactFiles.set(file.relativePath, file);
-  }
-  return { config, scene, evidence, evidenceFile, artefactFiles };
-}
-
-async function placeOutputs(entries, overwrite) {
-  for (const { destination } of entries) {
-    invariant(inside(repositoryRoot, destination), `Destination is outside the repository: ${destination}`);
-    if (await exists(destination)) {
-      const info = await lstat(destination);
-      invariant(info.isFile() && !info.isSymbolicLink(), `Destination is not a regular file: ${destination}`);
-      invariant(overwrite, `Output exists; rerun with --overwrite after review: ${destination}`);
-    }
-  }
-  const prepared = [];
-  const backups = [];
-  const committed = [];
+  const rawArtefact = evidence.artefacts.find(({ kind }) => kind === "raw-receipt");
+  invariant(rawArtefact, "Supported-host evidence has no private raw receipt");
+  const rawReceiptFile = await regularFile(rawArtefact.path, `Supported-host artefact ${rawArtefact.path}`, [".json"], 50_000_000);
+  invariant(rawReceiptFile.mode === 0o600, "Private Chrome supported-host receipt must have mode 0600");
+  invariant(rawReceiptFile.sha256 === rawArtefact.sha256 && rawReceiptFile.sizeBytes === rawArtefact.sizeBytes, `Supported-host artefact bytes have drifted: ${rawArtefact.path}`);
+  const rawReceipt = JSON.parse(rawReceiptFile.bytes.toString("utf8"));
+  const reviewedArtefact = evidence.artefacts.find(({ kind }) => kind === "reviewed-public-evidence");
+  invariant(reviewedArtefact, "Supported-host evidence has no tracked reviewed projection");
+  const reviewedFile = await regularFile(reviewedArtefact.path, `Supported-host artefact ${reviewedArtefact.path}`, [".json"], 50_000_000);
+  invariant(reviewedFile.sha256 === reviewedArtefact.sha256 && reviewedFile.sizeBytes === reviewedArtefact.sizeBytes, `Supported-host artefact bytes have drifted: ${reviewedArtefact.path}`);
+  const reviewed = JSON.parse(reviewedFile.bytes.toString("utf8"));
+  artefactFiles.set(reviewedFile.relativePath, reviewedFile);
+  const liveVerificationFile = await regularFile(reviewed.releaseEvidence?.liveArtifactVerification, "Supported-host live Pages verification", [".json"], 1_000_000);
+  const liveVerification = JSON.parse(liveVerificationFile.bytes.toString("utf8"));
+  const privateLiveVerificationFile = await regularFile(privateLiveVerificationPath, "Private live Pages verification", [".json"], 1_000_000);
+  invariant(privateLiveVerificationFile.mode === 0o600, "Private live Pages verification must have mode 0600");
+  const privateLiveVerification = JSON.parse(privateLiveVerificationFile.bytes.toString("utf8"));
+  const authenticatedLiveReceipt = await authenticateLivePagesReceipt(liveVerification);
   try {
-    for (const { source, destination } of entries) {
-      await mkdir(dirname(destination), { recursive: true });
-      invariant(inside(await realpath(repositoryRoot), await realpath(dirname(destination))), `Destination parent resolves outside the repository: ${dirname(destination)}`);
-      const temporary = `${destination}.pending-${process.pid}-${randomUUID()}`;
-      await copyFile(source, temporary);
-      prepared.push({ temporary, destination });
-    }
-    for (const { destination } of prepared) {
-      if (await exists(destination)) {
-        const backup = `${destination}.backup-${process.pid}-${randomUUID()}`;
-        await rename(destination, backup);
-        backups.push({ destination, backup });
-      }
-    }
-    for (const item of prepared) {
-      await rename(item.temporary, item.destination);
-      committed.push(item.destination);
-    }
-    for (const { backup } of backups) await rm(backup, { force: true });
-  } catch (error) {
-    for (const destination of committed.reverse()) await rm(destination, { force: true });
-    for (const { destination, backup } of backups.reverse()) if (await exists(backup)) await rename(backup, destination);
-    for (const { temporary } of prepared) await rm(temporary, { force: true });
-    throw error;
+    validateSupportedHostReviewedArtefact(reviewed, evidence, reviewedFile, {
+      config,
+      liveVerificationFile,
+      liveVerification,
+      privateLiveVerificationFile,
+      privateLiveVerification,
+      authenticatedLiveReceipt,
+      deployment: deploymentObservation,
+      rawReceiptFile,
+      rawReceipt,
+    });
+  } finally {
+    disposeAuthenticatedLivePagesReceipt(authenticatedLiveReceipt);
   }
+  artefactFiles.set(liveVerificationFile.relativePath, liveVerificationFile);
+  return { config, scene, evidence, evidenceFile, artefactFiles };
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -231,8 +238,14 @@ export async function main(argv = process.argv.slice(2)) {
   run("ffmpeg", ["-version"], { capture: true });
   run("ffprobe", ["-version"], { capture: true });
   const inputs = await loadInputs();
-  const outputPath = repositoryPath(inputs.scene.media.path, "Supported-host clip output");
-  const receiptPath = repositoryPath(inputs.scene.mediaReceipt, "Supported-host clip receipt");
+  const outputPath = resolveHostClipRepositoryPath(inputs.scene.media.path, "Supported-host clip output", {
+    prefix: "output/demo-clips/v0.4.0-rc.1/",
+    extensions: [".mov", ".mp4", ".mkv"],
+  });
+  const receiptPath = resolveHostClipRepositoryPath(inputs.scene.mediaReceipt, "Supported-host clip receipt", {
+    prefix: "docs/competition/evidence/",
+    extensions: [".json"],
+  });
   const work = await mkdtemp(resolve(tmpdir(), "govuk-webmcp-host-clip-"));
   let browser;
   try {
@@ -266,10 +279,10 @@ export async function main(argv = process.argv.slice(2)) {
     validateHostMediaReceipt(receipt, inputs.config, inputs.scene, { sha256: mediaSha256, durationSeconds }, inputs.evidenceFile, inputs.artefactFiles);
     const temporaryReceipt = resolve(work, "supported-host-webmcp-clip.json");
     await writeFile(temporaryReceipt, `${JSON.stringify(receipt, null, 2)}\n`, "utf8");
-    await placeOutputs([
+    await placeRepositoryOutputs([
       { source: converted, destination: outputPath },
       { source: temporaryReceipt, destination: receiptPath },
-    ], overwrite);
+    ], { root: repositoryRoot, overwrite });
     process.stdout.write(`${JSON.stringify({ output: inputs.scene.media.path, receipt: inputs.scene.mediaReceipt, durationSeconds, sha256: mediaSha256 }, null, 2)}\n`);
   } finally {
     if (browser) await browser.close().catch(() => undefined);

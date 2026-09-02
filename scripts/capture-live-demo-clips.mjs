@@ -1,18 +1,14 @@
 import { spawnSync } from "node:child_process";
-import { createHash, randomUUID } from "node:crypto";
+import { createHash } from "node:crypto";
 import {
-  copyFile,
-  lstat,
   mkdtemp,
   mkdir,
   readFile,
-  realpath,
-  rename,
   rm,
   writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
+import { isAbsolute, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
@@ -22,9 +18,13 @@ import {
   validateConfig,
 } from "./build-demo-video.mjs";
 import {
+  assertMatchingPublicDeploymentSnapshot,
   fetchPublicDeploymentMetadata,
   PUBLIC_CAPTURE_TARGET,
 } from "./lib/chrome-devtools-capture-target.mjs";
+import { isLegislationHostname } from "./lib/legislation-host.mjs";
+import { resolveCanonicalRepositoryPath } from "./lib/repository-relative-path.mjs";
+import { placeRepositoryOutputs } from "./lib/transactional-output-placement.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
 const configPath = resolve(repositoryRoot, "docs/competition/demo-video-script-v0.4.0-rc.1.json");
@@ -55,14 +55,15 @@ async function sha256File(path) {
   return createHash("sha256").update(await readFile(path)).digest("hex");
 }
 
-async function pathExists(path) {
-  try {
-    await lstat(path);
-    return true;
-  } catch (error) {
-    if (error?.code === "ENOENT") return false;
-    throw error;
-  }
+function canonicalJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) =>
+    `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+}
+
+function sha256Canonical(value) {
+  return createHash("sha256").update(canonicalJson(value)).digest("hex");
 }
 
 function inside(parent, candidate) {
@@ -70,11 +71,8 @@ function inside(parent, candidate) {
   return fromParent !== "" && fromParent !== ".." && !fromParent.startsWith(`..${sep}`) && !isAbsolute(fromParent);
 }
 
-function repositoryPath(relativePath, label) {
-  invariant(typeof relativePath === "string" && relativePath.length > 0 && !isAbsolute(relativePath), `${label} must be repository-relative`);
-  const path = resolve(repositoryRoot, relativePath);
-  invariant(inside(repositoryRoot, path), `${label} resolves outside the repository`);
-  return path;
+export function resolveLiveCaptureRepositoryPath(relativePath, label, options = {}) {
+  return resolveCanonicalRepositoryPath(repositoryRoot, relativePath, { label, ...options });
 }
 
 function probeDuration(path) {
@@ -100,6 +98,15 @@ function numberFromText(value, label) {
   const parsed = Number(String(value).replaceAll(",", "").trim());
   invariant(Number.isSafeInteger(parsed) && parsed >= 0, `${label} is not a non-negative integer`);
   return parsed;
+}
+
+function toolCountsFromText(value) {
+  const match = /^(\d+) registered of (\d+) expected:/u.exec(String(value).trim());
+  invariant(match, "Tool diagnostics do not expose registered and expected counts");
+  return {
+    registered: numberFromText(match[1], "Registered tool count"),
+    expected: numberFromText(match[2], "Expected tool count"),
+  };
 }
 
 async function waitForVerifiedRuntime(page) {
@@ -144,7 +151,7 @@ async function runFederatedSearch(page, inputs) {
   invariant(JSON.stringify([...new Set(result.results.map(({ collectionId }) => collectionId))].sort()) === JSON.stringify([...inputs.collections].sort()), "The deployed housing search did not return every selected collection");
   invariant(result.collectionStatuses.length === inputs.collections.length && result.collectionStatuses.every(({ collectionId, evidenceTier, status }) => inputs.collections.includes(collectionId) && evidenceTier === "federated-source-snapshot" && status === "ready"), "The deployed housing search did not retain four ready federated collection states");
   invariant(result.results.every(({ evidenceTier }) => evidenceTier === "federated-source-snapshot"), "The deployed four-source search returned the wrong evidence tier");
-  const excluded = result.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname);
+  const excluded = result.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && isLegislationHostname(new URL(canonicalHumanUrl).hostname));
   invariant(excluded.length === 0, "The deployed housing search returned a legislation.gov.uk link");
   return result;
 }
@@ -214,11 +221,20 @@ function sceneDefinitions(config, state) {
         }, state.federatedRecordId);
         await page.locator(`#evidence-answer-view[data-selection-id="${state.federatedRecordId}"]`).waitFor({ state: "visible" });
         const digest = await page.locator("#evidence-answer-view").getAttribute("data-evidence-digest");
-        invariant(digest === state.evidenceDigest, "Restored Evidence answer digest differs from the human action result");
+        const restored = JSON.parse(await page.locator("#evidence-answer-content details.evidence-answer__structured-result pre").textContent());
+        invariant(restored.acceptedInput === null, "Restored Evidence answer must not claim that a new page action was accepted");
+        invariant(digest === sha256Canonical(restored), "Restored Evidence answer digest does not bind its exact evidence object");
+        invariant(
+          canonicalJson(restored) === canonicalJson({ ...state.presentation, acceptedInput: null }),
+          "Restored Evidence answer differs from the human action beyond its accepted-input boundary",
+        );
         await smoothScroll(page, ".evidence-answer__comparison-guide");
         return {
           selectedRecordId: state.federatedRecordId,
-          evidenceDigest: digest,
+          actionEvidenceDigest: state.evidenceDigest,
+          restoredEvidenceDigest: digest,
+          restoredAcceptedInput: null,
+          sameEvidenceExceptAcceptedInput: true,
           guideHeadings: await page.locator(".evidence-answer__comparison-guide h3").allTextContents(),
           sourceLinkCount: await page.locator(".evidence-answer__sources a").count(),
           limitationCount: state.presentation.allLimitations.length,
@@ -229,6 +245,7 @@ function sceneDefinitions(config, state) {
       sceneId: "technical-review",
       route: answerRoute,
       run: async (page) => {
+        const legacyRoutePreserved = !new URL(page.url()).hash.includes("view=");
         const firstClaim = page.locator(`#analytical-index li[data-claim-id="${inputs.reviewedClaimIds[0]}"]`);
         await firstClaim.getByRole("button", { name: /Show foundations/u }).click();
         await page.locator("#foundation-panel").waitFor({ state: "visible" });
@@ -236,15 +253,17 @@ function sceneDefinitions(config, state) {
         await page.getByRole("button", { name: "Compare 2 selected claims" }).click();
         await page.locator("#comparison-panel").waitFor({ state: "visible" });
         const comparisonRowCount = await page.locator("#comparison-content table tbody tr").count();
+        const toolCounts = toolCountsFromText(await page.locator("#diagnostic-tools").textContent());
         await smoothScroll(page, "#comparison-content");
         return {
           activeView: "technical",
           answerId: inputs.reviewedAnswerId,
           claimIds: inputs.reviewedClaimIds,
           comparisonRowCount,
-          expectedToolCount: numberFromText((await page.locator("#diagnostic-tools").textContent()).split(" ")[0], "Expected tool count"),
+          registeredToolCount: toolCounts.registered,
+          expectedToolCount: toolCounts.expected,
           trustScoreShown: (await page.locator("#foundation-panel, #comparison-panel").allTextContents()).some((text) => /trust score\s*[:=]\s*\d/iu.test(text)),
-          legacyRoutePreserved: !new URL(page.url()).hash.includes("view="),
+          legacyRoutePreserved,
         };
       },
     },
@@ -261,6 +280,7 @@ function sceneDefinitions(config, state) {
         const origin = new URL(config.productUrl).origin;
         const externalRequests = requestUrls.filter((url) => new URL(url).origin !== origin);
         const storage = await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length, cookies: document.cookie }));
+        const toolCounts = toolCountsFromText(await page.locator("#diagnostic-tools").textContent());
         return {
           sameOriginOnly: externalRequests.length === 0,
           browserStorage: storage,
@@ -270,11 +290,12 @@ function sceneDefinitions(config, state) {
           standaloneLegislationCollection: collectionValues.some((value) => /legislation/iu.test(value)),
           standaloneLegislationPayload: requestUrls.some((url) => /legislation.*(?:payload|records)/iu.test(url)),
           standaloneLegislationIndex: requestUrls.some((url) => /legislation.*(?:index|postings)/iu.test(url)),
-          legislationRuntimeRequestCount: requestUrls.filter((url) => new URL(url).hostname === inputs.excludedHostname).length,
-          excludedHostnameResultLinkCount: state.searchResult.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && new URL(canonicalHumanUrl).hostname === inputs.excludedHostname).length,
+          legislationRuntimeRequestCount: requestUrls.filter((url) => isLegislationHostname(new URL(url).hostname)).length,
+          excludedHostnameResultLinkCount: state.searchResult.results.filter(({ canonicalHumanUrl }) => canonicalHumanUrl && isLegislationHostname(new URL(canonicalHumanUrl).hostname)).length,
           impactClaimsFramedAsHypotheses: /hypotheses to test, not guarantees/iu.test(bodyText),
           remoteProviderDisclosureVisible: /remote AI provider may receive/iu.test(bodyText),
-          expectedToolCount: numberFromText((await page.locator("#diagnostic-tools").textContent()).split(" ")[0], "Expected tool count"),
+          registeredToolCount: toolCounts.registered,
+          expectedToolCount: toolCounts.expected,
           reviewedRecordCount: numberFromText(await page.locator("#record-count").textContent(), "Reviewed count"),
           federatedSourceRecordCount: numberFromText(await page.locator("#federated-source-record-count").textContent(), "Federated source count"),
           federatedRecordCount: numberFromText(await page.locator("#federated-record-count").textContent(), "Federated searchable count"),
@@ -329,7 +350,10 @@ async function captureScene(browser, config, sceneConfig, definition, work) {
   return {
     sceneId: definition.sceneId,
     source: preparedPath,
-    destination: repositoryPath(sceneConfig.media.path, `Scene ${definition.sceneId} output`),
+    destination: resolveLiveCaptureRepositoryPath(sceneConfig.media.path, `Scene ${definition.sceneId} output`, {
+      prefix: "output/demo-clips/v0.4.0-rc.1/",
+      extensions: [".mov", ".mp4", ".mkv"],
+    }),
     receipt: {
       sceneId: definition.sceneId,
       path: sceneConfig.media.path,
@@ -345,43 +369,7 @@ async function captureScene(browser, config, sceneConfig, definition, work) {
 
 async function placeOutputs(entries, receiptSource, receiptPath, overwrite) {
   const all = [...entries.map(({ source, destination }) => ({ source, destination })), { source: receiptSource, destination: receiptPath }];
-  for (const { destination } of all) {
-    invariant(inside(repositoryRoot, destination), `Capture destination is outside the repository: ${destination}`);
-    if (await pathExists(destination)) {
-      const info = await lstat(destination);
-      invariant(info.isFile() && !info.isSymbolicLink(), `Capture destination is not a regular file: ${destination}`);
-      invariant(overwrite, `Capture destination exists; review it and rerun with --overwrite: ${destination}`);
-    }
-  }
-  const prepared = [];
-  const backups = [];
-  const committed = [];
-  try {
-    for (const { source, destination } of all) {
-      await mkdir(dirname(destination), { recursive: true });
-      invariant(inside(await realpath(repositoryRoot), await realpath(dirname(destination))), `Capture destination parent resolves outside the repository: ${dirname(destination)}`);
-      const temporary = `${destination}.pending-${process.pid}-${randomUUID()}`;
-      await copyFile(source, temporary);
-      prepared.push({ temporary, destination });
-    }
-    for (const { destination } of prepared) {
-      if (await pathExists(destination)) {
-        const backup = `${destination}.backup-${process.pid}-${randomUUID()}`;
-        await rename(destination, backup);
-        backups.push({ destination, backup });
-      }
-    }
-    for (const item of prepared) {
-      await rename(item.temporary, item.destination);
-      committed.push(item.destination);
-    }
-    for (const { backup } of backups) await rm(backup, { force: true });
-  } catch (error) {
-    for (const destination of committed.reverse()) await rm(destination, { force: true });
-    for (const { destination, backup } of backups.reverse()) if (await pathExists(backup)) await rename(backup, destination);
-    for (const { temporary } of prepared) await rm(temporary, { force: true });
-    throw error;
-  }
+  return placeRepositoryOutputs(all, { root: repositoryRoot, overwrite });
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -390,6 +378,13 @@ export async function main(argv = process.argv.slice(2)) {
   invariant(config.productUrl === PUBLIC_CAPTURE_TARGET, "Demo capture is restricted to the allowlisted public Pages URL");
   const deployment = await fetchPublicDeploymentMetadata({ expectedCommit: config.productCommit });
   invariant(deployment.metadata.runId === config.pagesRunId, "Public deployment run does not match GOVUK_WEBMCP_DEMO_PAGES_RUN_ID");
+  const deploymentChecks = [{
+    label: "initial",
+    observedAt: new Date().toISOString(),
+    metadataSha256: deployment.sha256,
+    commit: deployment.metadata.commit,
+    runId: deployment.metadata.runId,
+  }];
   run("ffmpeg", ["-version"], true);
   run("ffprobe", ["-version"], true);
   const state = {};
@@ -402,15 +397,57 @@ export async function main(argv = process.argv.slice(2)) {
     browser = await chromium.launch({ headless: true });
     const browserVersion = browser.version();
     const results = [];
-    for (const definition of definitions) results.push(await captureScene(browser, config, configuredScenes.get(definition.sceneId), definition, work));
+    for (const definition of definitions) {
+      const beforeDeployment = await fetchPublicDeploymentMetadata({ expectedCommit: config.productCommit });
+      assertMatchingPublicDeploymentSnapshot(
+        deployment,
+        beforeDeployment,
+        `Public deployment before ${definition.sceneId}`,
+      );
+      deploymentChecks.push({
+        label: `before:${definition.sceneId}`,
+        observedAt: new Date().toISOString(),
+        metadataSha256: beforeDeployment.sha256,
+        commit: beforeDeployment.metadata.commit,
+        runId: beforeDeployment.metadata.runId,
+      });
+      results.push(await captureScene(browser, config, configuredScenes.get(definition.sceneId), definition, work));
+      const afterDeployment = await fetchPublicDeploymentMetadata({ expectedCommit: config.productCommit });
+      assertMatchingPublicDeploymentSnapshot(
+        deployment,
+        afterDeployment,
+        `Public deployment after ${definition.sceneId}`,
+      );
+      deploymentChecks.push({
+        label: `after:${definition.sceneId}`,
+        observedAt: new Date().toISOString(),
+        metadataSha256: afterDeployment.sha256,
+        commit: afterDeployment.metadata.commit,
+        runId: afterDeployment.metadata.runId,
+      });
+    }
     await browser.close();
     browser = undefined;
+    const finalDeployment = await fetchPublicDeploymentMetadata({ expectedCommit: config.productCommit });
+    assertMatchingPublicDeploymentSnapshot(
+      deployment,
+      finalDeployment,
+      "Public deployment after the complete interaction capture",
+    );
+    deploymentChecks.push({
+      label: "complete",
+      observedAt: new Date().toISOString(),
+      metadataSha256: finalDeployment.sha256,
+      commit: finalDeployment.metadata.commit,
+      runId: finalDeployment.metadata.runId,
+    });
     invariant(state.federatedRecordId, "Capture did not bind a federated record from the exact deployed search");
     const receipt = {
-      schema: "govuk-webmcp.demo-live-interaction-capture.v3",
+      schema: "govuk-webmcp.demo-live-interaction-capture.v4",
       capturedAt: new Date().toISOString(),
       page: { url: config.productUrl, release: config.release, productCommit: config.productCommit, pagesRunId: config.pagesRunId },
       deployment: { metadataUrl: deployment.url, metadataSha256: deployment.sha256 },
+      deploymentChecks,
       demonstration: { ...config.demonstrationInputs, federatedRecordId: state.federatedRecordId },
       captureMethod: "playwright-public-site-interaction",
       browser: { name: "Playwright Chromium", version: browserVersion },
@@ -421,7 +458,10 @@ export async function main(argv = process.argv.slice(2)) {
     };
     const temporaryReceipt = resolve(work, "demo-live-interaction-capture.json");
     await writeFile(temporaryReceipt, `${JSON.stringify(receipt, null, 2)}\n`, "utf8");
-    const receiptPath = repositoryPath(config.interactionCaptureReceipt, "Live interaction capture receipt");
+    const receiptPath = resolveLiveCaptureRepositoryPath(config.interactionCaptureReceipt, "Live interaction capture receipt", {
+      prefix: "docs/competition/evidence/",
+      extensions: [".json"],
+    });
     await placeOutputs(results, temporaryReceipt, receiptPath, options.overwrite);
     process.stdout.write(`${JSON.stringify({ status: "captured-pending-review", page: receipt.page, deployment: receipt.deployment, demonstration: receipt.demonstration, receipt: config.interactionCaptureReceipt, clips: receipt.clips }, null, 2)}\n`);
   } finally {

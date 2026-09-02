@@ -8,15 +8,16 @@ import {
   mkdtemp,
   readFile,
   readdir,
+  realpath,
   rm,
-  writeFile,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
   CAPTURE_SCHEMA,
+  assertBoundedCapturedArguments,
   assessCapturedCalls,
   summariseEvaluationCapture,
   validateEvaluationCapture,
@@ -45,14 +46,23 @@ import {
   preflightOllamaModel,
   withoutProviderCredentials,
 } from "./lib/webmcp-evals-harness.mjs";
+import {
+  applyWebmcpEvalsBrowserStepLimitPatch,
+} from "./apply-webmcp-evals-browser-step-limit-patch.mjs";
+import { ensurePrivateDirectory } from "./lib/private-directory.mjs";
+import {
+  readBoundedPrivateJsonNoFollow,
+  writePrivateJsonExclusiveNoFollow,
+} from "./lib/private-json-file.mjs";
+import { parseUtcRfc3339Timestamp } from "./lib/rfc3339-timestamp.mjs";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const fixturePath = join(repositoryRoot, "evals", "generated", "personal-agent-webmcp-evals.json");
-const outputRoot = join(repositoryRoot, ".evals", "personal-agent-local");
 const cliPath = join(repositoryRoot, "node_modules", "webmcp-evals", "dist", "bin", "webmcp-evals.js");
 const packagePath = join(repositoryRoot, "node_modules", "webmcp-evals", "package.json");
 const MAX_COMMAND_DURATION_MS = 6 * 60 * 60 * 1_000;
 const MAX_REPORT_BYTES = 64 * 1024 * 1024;
+const MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS = 5 * 60 * 1_000;
 
 function plainObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -128,15 +138,30 @@ function answerReview(rows) {
 
 function exactCalls(rows, caseId) {
   const calls = [];
+  const runnerErrors = [];
+  let attemptedCallCount = 0;
   for (const row of rows) {
     const response = row.response;
-    if (!response?.functionName) continue;
-    if (
-      !TOOL_NAMES.includes(response.functionName)
-      || !plainObject(response.args)
-      || !plainObject(response.result)
-    ) {
-      throw new Error(`${caseId} has no closed exact tool call in the upstream report.`);
+    if (!plainObject(response) || !Object.hasOwn(response, "functionName")) continue;
+    attemptedCallCount += 1;
+    if (typeof response.functionName !== "string" || !TOOL_NAMES.includes(response.functionName)) {
+      runnerErrors.push(
+        `Model tool attempt at step ${String(row.stepIndex)} named an unavailable page tool.`,
+      );
+      continue;
+    }
+    if (!plainObject(response.args)) {
+      runnerErrors.push(
+        `Model tool attempt at step ${String(row.stepIndex)} did not provide a closed argument object.`,
+      );
+      continue;
+    }
+    assertBoundedCapturedArguments(response.args, caseId);
+    if (!plainObject(response.result)) {
+      runnerErrors.push(
+        `Model tool attempt at step ${String(row.stepIndex)} did not return an exact executable result.`,
+      );
+      continue;
     }
     calls.push({
       ordinal: calls.length + 1,
@@ -145,10 +170,10 @@ function exactCalls(rows, caseId) {
       output: response.result,
     });
   }
-  if (calls.length > MAX_BROWSER_AGENT_STEPS) {
+  if (attemptedCallCount > MAX_BROWSER_AGENT_STEPS) {
     throw new Error(`${caseId} exceeds the bounded six-call agent trajectory.`);
   }
-  return calls;
+  return { calls, runnerErrors };
 }
 
 function exposedTools(rows) {
@@ -164,16 +189,29 @@ function exposedTools(rows) {
   return { status: "not-observable", names: null };
 }
 
-function diagnostics(rows) {
-  const browserConsoleErrors = [...new Set(rows.flatMap((row) =>
-    (row.browserConsoleErrors ?? []).map((value) => canonicalJson(value))))];
-  const runnerErrors = rows
-    .filter(({ outcome }) => outcome === "error")
-    .map((row) => `Upstream evaluator error at step ${String(row.stepIndex)}.`);
-  if (browserConsoleErrors.length > 32 || runnerErrors.length > 16) {
+function diagnostics(rows, attemptErrors = []) {
+  const runnerErrors = [
+    ...rows
+      .filter(({ outcome }) => outcome === "error")
+      .map((row) => `Upstream evaluator error at step ${String(row.stepIndex)}.`),
+    ...attemptErrors,
+  ];
+  if (runnerErrors.length > 16) {
     throw new Error("The upstream report exceeds the bounded diagnostic allowance.");
   }
-  return { status: "observed", browserConsoleErrors, runnerErrors };
+  return {
+    browserConsole: { status: "not-observable", errors: null },
+    pageErrors: { status: "not-observable", errors: null },
+    networkErrors: { status: "not-observable", errors: null },
+    runnerErrors: { status: "observed", errors: runnerErrors },
+  };
+}
+
+function measurements(rows) {
+  return {
+    interactionSteps: { status: "observed", value: rows.length },
+    latencyMilliseconds: { status: "not-observable", value: null },
+  };
 }
 
 function groupReportRows(report, fixture) {
@@ -218,6 +256,9 @@ function groupReportRows(report, fixture) {
   }
   for (const rows of groups.values()) {
     rows.sort((left, right) => left.stepIndex - right.stepIndex);
+    if (rows.length > MAX_BROWSER_AGENT_STEPS) {
+      throw new Error("The upstream report exceeds the bounded six-step case trajectory.");
+    }
     if (!rows.every((row, index) => row.stepIndex === index + 1)) {
       throw new Error("The upstream report contains a non-consecutive case trajectory.");
     }
@@ -243,8 +284,11 @@ export async function convertPersonalAgentReport(
     for (let repetition = 1; repetition <= RUNS_PER_STORY_PER_HOST; repetition += 1) {
       const rows = groups.get(`${fixtureName}/${repetition}`);
       if (!rows) throw new Error(`The upstream report is missing ${evalCase.id} repetition ${repetition}.`);
-      const calls = exactCalls(rows, evalCase.id);
-      const assessment = assessCapturedCalls(calls, evalCase);
+      const { calls, runnerErrors } = exactCalls(rows, evalCase.id);
+      const observedDiagnostics = diagnostics(rows, runnerErrors);
+      const assessment = assessCapturedCalls(calls, evalCase, {
+        runnerErrors: observedDiagnostics.runnerErrors.errors,
+      });
       const context = {
         hostVersion: runnerContext.hostVersion
           ? { status: "observed", value: runnerContext.hostVersion }
@@ -261,7 +305,8 @@ export async function convertPersonalAgentReport(
           commitSha: runnerContext.commitSha ?? "0".repeat(40),
           worktreeStatus: runnerContext.worktreeStatus ?? "dirty",
         },
-        diagnostics: diagnostics(rows),
+        diagnostics: observedDiagnostics,
+        measurements: measurements(rows),
       };
       runs.push({
         hostId: "ollama-local",
@@ -394,24 +439,44 @@ export function runCommand(command, arguments_, options) {
   });
 }
 
-async function createRunDirectory(createdAt) {
-  await mkdir(outputRoot, { recursive: true, mode: 0o700 });
-  await chmod(outputRoot, 0o700);
-  const directory = join(outputRoot, `${createdAt.replace(/[:.]/gu, "-")}-${process.pid}`);
+function inside(root, candidate) {
+  const fromRoot = relative(root, candidate);
+  return fromRoot !== ".." && !fromRoot.startsWith(`..${sep}`) && !isAbsolute(fromRoot);
+}
+
+export async function createPrivateEvaluationRunDirectory(createdAt, root = repositoryRoot) {
+  const parsedCreatedAt = parseUtcRfc3339Timestamp(createdAt, "Private evaluation run time");
+  if (parsedCreatedAt > Date.now() + MAX_EVALUATION_FUTURE_SKEW_MILLISECONDS) {
+    throw new Error("Private evaluation run time must not be more than five minutes in the future.");
+  }
+  const rootState = await lstat(root);
+  if (!rootState.isDirectory() || rootState.isSymbolicLink()) throw new Error("The evaluation repository root must be a real non-symbolic directory.");
+  const rootRealPath = await realpath(root);
+  const evalsPath = join(root, ".evals");
+  const evalsRealPath = await ensurePrivateDirectory(evalsPath, rootRealPath, "The private .evals directory");
+  const privateOutputRoot = join(evalsPath, "personal-agent-local");
+  const outputRealPath = await ensurePrivateDirectory(privateOutputRoot, evalsRealPath, "The private personal-agent output root");
+  const runName = `${createdAt.replace(/[:.]/gu, "-")}-${process.pid}`;
+  if (!/^[0-9TZ-]+-[0-9]+$/u.test(runName)) throw new Error("Private evaluation run directory name is invalid.");
+  const directory = join(privateOutputRoot, runName);
   await mkdir(directory, { mode: 0o700 });
+  const state = await lstat(directory);
+  const resolved = await realpath(directory);
+  if (!state.isDirectory() || state.isSymbolicLink() || !inside(outputRealPath, resolved)) {
+    throw new Error("The private evaluation run directory escaped its output root.");
+  }
   return directory;
 }
 
-async function readSingleJsonReport(directory) {
+export async function readSingleJsonReport(directory) {
   const names = (await readdir(directory)).filter((name) => /^report-\d+\.json$/u.test(name));
   if (names.length !== 1) throw new Error("The local evaluator did not produce exactly one JSON report.");
   const path = join(directory, names[0]);
-  const stat = await lstat(path);
-  if (!stat.isFile() || stat.isSymbolicLink() || stat.size > MAX_REPORT_BYTES) {
-    throw new Error("The local evaluator JSON report is not a bounded regular file.");
-  }
-  await chmod(path, 0o600);
-  return JSON.parse(await readFile(path, "utf8"));
+  return readBoundedPrivateJsonNoFollow(
+    path,
+    "The local evaluator JSON report",
+    MAX_REPORT_BYTES,
+  );
 }
 
 function assertModelIdentity(identity, label) {
@@ -438,14 +503,15 @@ export async function runPersonalAgentEvaluation(environment = process.env) {
     await checkGeneratedArtifacts(await buildGeneratedArtifacts(loaded));
     const package_ = JSON.parse(await readFile(packagePath, "utf8"));
     assertPinnedWebmcpEvalsVersion(package_.version);
+    await applyWebmcpEvalsBrowserStepLimitPatch(repositoryRoot);
     assertModelIdentity(await preflightOllamaModel(configuration), "before");
     const [browserVersion, repositoryIdentity, ollamaVersionValue] = await Promise.all([
       installedChromeVersion(),
       gitIdentity(),
       ollamaVersion(configuration),
     ]);
-    const createdAt = new Date().toISOString();
-    const directory = await createRunDirectory(createdAt);
+    const runStartedAt = new Date().toISOString();
+    const directory = await createPrivateEvaluationRunDirectory(runStartedAt);
     server = await createLocalStaticServer(join(repositoryRoot, "dist"));
     const command = buildBrowserEvalArguments({
       configuration,
@@ -463,7 +529,8 @@ export async function runPersonalAgentEvaluation(environment = process.env) {
     assertModelIdentity(await observeOllamaLoadedModel(configuration), "during");
 
     const report = await readSingleJsonReport(directory);
-    const capture = await convertPersonalAgentReport(report, loaded, createdAt, {
+    const captureCompletedAt = new Date().toISOString();
+    const capture = await convertPersonalAgentReport(report, loaded, captureCompletedAt, {
       browserVersion,
       commitSha: repositoryIdentity.commitSha,
       hostVersion: `Ollama ${ollamaVersionValue}; webmcp-evals ${package_.version}`,
@@ -472,9 +539,8 @@ export async function runPersonalAgentEvaluation(environment = process.env) {
     const summary = await summariseEvaluationCapture(capture, loaded);
     const capturePath = join(directory, "private-capture.json");
     const summaryPath = join(directory, "public-summary.json");
-    await writeFile(capturePath, `${JSON.stringify(capture, null, 2)}\n`, { mode: 0o600 });
-    await writeFile(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, { mode: 0o600 });
-    await Promise.all([chmod(capturePath, 0o600), chmod(summaryPath, 0o600)]);
+    await writePrivateJsonExclusiveNoFollow(capturePath, capture, "The private exact capture");
+    await writePrivateJsonExclusiveNoFollow(summaryPath, summary, "The privacy-minimised summary");
     process.stdout.write(`Private exact capture: ${capturePath}\nPublic digest-free summary: ${summaryPath}\n`);
     return { capturePath, summaryPath, summary };
   } finally {

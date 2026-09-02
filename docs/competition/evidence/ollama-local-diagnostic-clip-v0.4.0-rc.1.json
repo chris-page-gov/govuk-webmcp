@@ -1,0 +1,80 @@
+{
+  "schema": "govuk-webmcp.ollama-diagnostic-clip.v1",
+  "builtAt": "2026-09-02T02:11:26.234Z",
+  "demoContext": {
+    "release": "v0.4.0-rc.1",
+    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+    "pagesRunId": "33555187118",
+    "sceneId": "ollama-local"
+  },
+  "sourceEvaluation": {
+    "privatePath": ".evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json",
+    "privateSha256": "ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8",
+    "privateSchema": "govuk-webmcp.personal-agent-evaluation-capture.v3",
+    "publicPath": "docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json",
+    "publicSha256": "a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f",
+    "publicSchema": "govuk-webmcp.personal-agent-evaluation-summary.v2",
+    "suiteId": "beginner-evidence-v1",
+    "caseSetSha256": "9fe430cee9d09090247c857078129623753e229cdab063772a59d881d6d9e0ad"
+  },
+  "host": {
+    "id": "ollama-local",
+    "arrangement": "local-personal-ai",
+    "product": "Ollama through webmcp-evals",
+    "model": "ollama:gpt-oss:20b",
+    "modelInventorySha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7"
+  },
+  "diagnostic": {
+    "status": "claim-gate-did-not-pass",
+    "plannedLocalRunCount": 36,
+    "observedLocalRunCount": 36,
+    "missingCloudRunCount": 36,
+    "matrixComplete": false,
+    "claimGatePassed": false,
+    "liveReleaseBindingStatus": "not-supplied",
+    "criteria": {
+      "toolSelection": {
+        "pass": 6,
+        "fail": 30,
+        "not-observable": 0
+      },
+      "deterministicExecution": {
+        "pass": 6,
+        "fail": 30,
+        "not-observable": 0
+      },
+      "pageParity": {
+        "pass": 0,
+        "fail": 0,
+        "not-observable": 36
+      },
+      "answerSafety": {
+        "pass": 0,
+        "fail": 0,
+        "not-reviewed": 36
+      }
+    },
+    "pageState": "not-observed",
+    "answerState": "not-reviewed"
+  },
+  "rendering": {
+    "kind": "diagnostic-receipt-visualisation",
+    "hostRecordingEmbedded": false,
+    "hostOwnedSurfaceEmbedded": false,
+    "pageUpdateShown": false,
+    "visibleLabel": "Diagnostic receipt — not a host recording"
+  },
+  "media": {
+    "path": "output/demo-clips/v0.4.0-rc.1/07-ollama-local-diagnostic.mov",
+    "sha256": "95bb7ab39361546021601cbb126a41d4530916ab08d9d709abbe89c7cd623f63",
+    "durationSeconds": 37,
+    "startSeconds": 0,
+    "endSeconds": 37
+  },
+  "limitations": [
+    "This generated receipt visualisation is not a host recording.",
+    "A page update was not observed in the headless local evaluation.",
+    "This diagnostic does not support a claim that the local host answers safely.",
+    "The local diagnostic was not bound to the live release and cannot establish deployed-page parity."
+  ]
+}

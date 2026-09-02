@@ -63,7 +63,8 @@
       "cues": [
         "The public page starts with an Evidence answer, not another chatbot.",
         "At first it says that no AI action was presented to this page.",
-        "Your private circumstances stay with the personal AI you choose."
+        "There is no dedicated personal-context field.",
+        "Free text can still disclose personal details."
       ]
     },
     {
@@ -127,7 +128,8 @@
       "evidence": ".evals/personal-agent-media/v0.4.0-rc.1/copilot-video-capture.json",
       "cues": [
         "In Edge MCP Workspace, personal Copilot calls this page's Site tools.",
-        "Only bounded tool arguments reach the page, not the person's private context.",
+        "Each Site tool accepts only its declared, bounded arguments.",
+        "Free text can still disclose personal details.",
         "The same call updates the Evidence answer for an independent check."
       ]
     },
@@ -176,22 +178,22 @@
     {
       "id": "ollama-local",
       "number": "07",
-      "kind": "personal-agent-capture",
-      "hostId": "ollama-local",
-      "caseId": "US-09",
-      "repetition": 1,
-      "eyebrow": "Local personal AI",
-      "title": "Run the same story through local Ollama",
+      "kind": "evaluation-diagnostic",
+      "eyebrow": "Local model diagnostic",
+      "title": "Show where the local Ollama evaluation fell short",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/v0.4.0-rc.1/07-ollama-local.mov",
+        "path": "output/demo-clips/v0.4.0-rc.1/07-ollama-local-diagnostic.mov",
         "startSeconds": 0
       },
-      "evidence": ".evals/personal-agent-media/v0.4.0-rc.1/ollama-video-capture.json",
+      "evidence": "docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json",
+      "privateEvidence": ".evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json",
+      "mediaReceipt": "docs/competition/evidence/ollama-local-diagnostic-clip-v0.4.0-rc.1.json",
       "cues": [
-        "The same story also runs through the pinned local Ollama model.",
-        "Its exact model digest and complete call trace are bound to the receipt.",
-        "This is an observed host comparison, not a claim about model causation."
+        "The pinned local model completed all thirty-six planned local runs.",
+        "Tool selection and execution each failed thirty of those runs.",
+        "Page parity was not observed and answers were not reviewed.",
+        "This diagnostic receipt is not a host recording or page update."
       ]
     },
     {
@@ -207,7 +209,7 @@
       },
       "evidence": "docs/competition/evidence/manual-voiceover-journey-v0.4.0-rc.1.json",
       "cues": [
-        "A fresh manual Safari and VoiceOver journey checks this release.",
+        "A manual Safari and VoiceOver journey was recorded for this intended candidate.",
         "It covers both persistent views, the source and all recorded limits.",
         "The bounded observation is not a claim of WCAG conformance."
       ]
@@ -231,7 +233,8 @@
       "cues": [
         "The page hosts no model, profile or personal chat history.",
         "A cloud personal AI or pinned local model can use the same page tools.",
-        "The page makes no official API call and stores no personal context.",
+        "The page makes no official API call.",
+        "It does not persist tool arguments or chat history.",
         "Land Registry remains metadata-only and legislation stays excluded."
       ]
     }

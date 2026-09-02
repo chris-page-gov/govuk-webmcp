@@ -1,0 +1,269 @@
+{
+  "schema": "govuk-webmcp.demo-live-interaction-capture.v4",
+  "capturedAt": "2026-09-02T01:54:29.048Z",
+  "page": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.4.0-rc.1",
+    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+    "pagesRunId": "33555187118"
+  },
+  "deployment": {
+    "metadataUrl": "https://chris-page-gov.github.io/govuk-webmcp/deployment.json",
+    "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0"
+  },
+  "deploymentChecks": [
+    {
+      "label": "initial",
+      "observedAt": "2026-09-02T01:51:17.277Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "before:evidence-answer",
+      "observedAt": "2026-09-02T01:51:17.526Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after:evidence-answer",
+      "observedAt": "2026-09-02T01:51:55.982Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "before:present-evidence",
+      "observedAt": "2026-09-02T01:51:55.994Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after:present-evidence",
+      "observedAt": "2026-09-02T01:52:34.188Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "before:comparison-guide",
+      "observedAt": "2026-09-02T01:52:34.201Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after:comparison-guide",
+      "observedAt": "2026-09-02T01:53:12.460Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "before:technical-review",
+      "observedAt": "2026-09-02T01:53:12.471Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after:technical-review",
+      "observedAt": "2026-09-02T01:53:50.482Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "before:boundary",
+      "observedAt": "2026-09-02T01:53:50.493Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "after:boundary",
+      "observedAt": "2026-09-02T01:54:29.023Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    },
+    {
+      "label": "complete",
+      "observedAt": "2026-09-02T01:54:29.048Z",
+      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
+      "runId": "33555187118"
+    }
+  ],
+  "demonstration": {
+    "query": "housing",
+    "collections": [
+      "uk-living",
+      "ons",
+      "government-apis",
+      "land-registry"
+    ],
+    "limit": 8,
+    "reviewedAnswerId": "answer:new-child-starting-points",
+    "reviewedClaimIds": [
+      "claim:register-a-birth",
+      "claim:check-parental-pay-and-leave"
+    ],
+    "excludedHostname": "legislation.gov.uk",
+    "federatedRecordId": "govuk-discovery:federated:land-registry:57845"
+  },
+  "captureMethod": "playwright-public-site-interaction",
+  "browser": {
+    "name": "Playwright Chromium",
+    "version": "151.0.7922.34"
+  },
+  "reviews": {
+    "privacy": "agent-reviewed-pass",
+    "branding": "agent-reviewed-pass",
+    "humanPublicationReview": "pending"
+  },
+  "noBrowserChrome": true,
+  "audioCaptured": false,
+  "clips": [
+    {
+      "sceneId": "evidence-answer",
+      "path": "output/demo-clips/v0.4.0-rc.1/01-evidence-answer.mov",
+      "sha256": "f96a0d93b597b35c793a2e1af1c74445187333f24d46331185913088c41c59db",
+      "durationSeconds": 31.933333,
+      "capturedAt": "2026-09-02T01:51:19.000Z",
+      "actions": [
+        "load-bare-public-url",
+        "show-default-evidence-view",
+        "show-no-ai-action-state"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+      "observation": {
+        "activeView": "guided",
+        "heading": "Evidence answer",
+        "activity": "No AI action was presented to this page.",
+        "presentationState": "empty"
+      }
+    },
+    {
+      "sceneId": "present-evidence",
+      "path": "output/demo-clips/v0.4.0-rc.1/02-present-evidence.mov",
+      "sha256": "1f9808430834479ca32602b87ce727aa30949cff43757e0874c5c086272a28a6",
+      "durationSeconds": 32.166667,
+      "capturedAt": "2026-09-02T01:51:56.788Z",
+      "actions": [
+        "open-technical-review",
+        "search-four-federated-collections",
+        "show-evidence-for-selected-result"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#view=technical",
+      "observation": {
+        "query": "housing",
+        "collections": [
+          "uk-living",
+          "ons",
+          "government-apis",
+          "land-registry"
+        ],
+        "limit": 8,
+        "selectedRecordId": "govuk-discovery:federated:land-registry:57845",
+        "resultKind": "federated-record",
+        "evidenceDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3",
+        "sourceCount": 1,
+        "limitationCount": 5,
+        "routeView": "guided"
+      }
+    },
+    {
+      "sceneId": "comparison-guide",
+      "path": "output/demo-clips/v0.4.0-rc.1/03-comparison-guide.mov",
+      "sha256": "429d25c701b5991f854420556d068a3eb9c8ca8ee1368df3510b9b350bd6e140",
+      "durationSeconds": 31.966667,
+      "capturedAt": "2026-09-02T01:52:34.988Z",
+      "actions": [
+        "open-bound-evidence-answer",
+        "show-source-and-limitations",
+        "show-three-part-comparison-guide"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#view=guided",
+      "observation": {
+        "selectedRecordId": "govuk-discovery:federated:land-registry:57845",
+        "actionEvidenceDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3",
+        "restoredEvidenceDigest": "f92531714fd9b2dabee4e04cf4b26f8989f81c2ce9eef6b07f4d00dfd8edde3b",
+        "restoredAcceptedInput": null,
+        "sameEvidenceExceptAcceptedInput": true,
+        "guideHeadings": [
+          "From this page",
+          "From your AI",
+          "Check carefully"
+        ],
+        "sourceLinkCount": 1,
+        "limitationCount": 5
+      }
+    },
+    {
+      "sceneId": "technical-review",
+      "path": "output/demo-clips/v0.4.0-rc.1/05-technical-review.mov",
+      "sha256": "bc95650ec0e8cfa84cb6ca9b10eb5146f0f9bc89d71a3db38219a9195cb9fe61",
+      "durationSeconds": 31.9,
+      "capturedAt": "2026-09-02T01:53:13.275Z",
+      "actions": [
+        "open-technical-review-with-legacy-link",
+        "compare-two-reviewed-claims",
+        "show-six-tool-diagnostics"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#answer=answer%3Anew-child-starting-points",
+      "observation": {
+        "activeView": "technical",
+        "answerId": "answer:new-child-starting-points",
+        "claimIds": [
+          "claim:register-a-birth",
+          "claim:check-parental-pay-and-leave"
+        ],
+        "comparisonRowCount": 11,
+        "registeredToolCount": 0,
+        "expectedToolCount": 6,
+        "trustScoreShown": false,
+        "legacyRoutePreserved": true
+      }
+    },
+    {
+      "sceneId": "boundary",
+      "path": "output/demo-clips/v0.4.0-rc.1/07-boundary.mov",
+      "sha256": "487d757fd25bdc76ef38c0146e1b5ba69fdefee8ec68168791e354d2faa8d985",
+      "durationSeconds": 31.9,
+      "capturedAt": "2026-09-02T01:53:51.291Z",
+      "actions": [
+        "show-personal-ai-boundary",
+        "show-six-tool-diagnostics",
+        "show-four-source-and-legislation-boundary"
+      ],
+      "sourceUrl": "https://chris-page-gov.github.io/govuk-webmcp/#view=technical",
+      "observation": {
+        "sameOriginOnly": true,
+        "browserStorage": {
+          "local": 0,
+          "session": 0,
+          "cookies": ""
+        },
+        "modelProviderRequestCount": 0,
+        "officialApiRequestCount": 0,
+        "landRegistryMetadataOnly": true,
+        "standaloneLegislationCollection": false,
+        "standaloneLegislationPayload": false,
+        "standaloneLegislationIndex": false,
+        "legislationRuntimeRequestCount": 0,
+        "excludedHostnameResultLinkCount": 0,
+        "impactClaimsFramedAsHypotheses": true,
+        "remoteProviderDisclosureVisible": true,
+        "registeredToolCount": 0,
+        "expectedToolCount": 6,
+        "reviewedRecordCount": 80,
+        "federatedSourceRecordCount": 58655,
+        "federatedRecordCount": 58652,
+        "federatedQuarantinedRecordCount": 3
+      }
+    }
+  ]
+}

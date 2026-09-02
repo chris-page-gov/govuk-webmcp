@@ -52,8 +52,9 @@ checkpoint, two reviewed deep-evidence collections provide 80 records with
 item-level receipts and four federated source snapshots contain 58,655 locked
 raw rows, of which 58,652 are searchable and 3 are quarantined. Other entries
 remain described-only, contract-only or quarantined and contribute no
-searchable payload. Recompute the exact admission total after the exact-tree
-rescan before release binding.
+searchable payload. The current build and sealed post-fix scan reconfirm these
+totals; recompute them if source or contract bytes change before release
+binding.
 
 Repository licence labels are recorded as source metadata, not as a blanket
 licence for linked records or upstream material. Rights, access and

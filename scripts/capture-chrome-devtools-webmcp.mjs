@@ -1,15 +1,41 @@
 import { execFile, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { access, chmod, lstat, mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { access, lstat, readFile, realpath } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
 import {
+  assertMatchingPublicDeploymentSnapshot,
+  assertPublicEvidenceAdmissionTarget,
   fetchPublicDeploymentMetadata,
   parseDevtoolsCaptureTarget,
 } from "./lib/chrome-devtools-capture-target.mjs";
+import { completeChromeDevtoolsCaptureCleanup } from "./lib/chrome-devtools-capture-cleanup.mjs";
+import {
+  assertSupportedHostDemoPlan,
+  buildSupportedHostEvidence,
+  FINAL_PAGE_EVALUATION_FUNCTION,
+  parseEvaluateScriptResult,
+  SUPPORTED_HOST_EXPECTED_CALLS,
+  SUPPORTED_HOST_FEDERATED_RECORD_ID,
+  SUPPORTED_HOST_RAW_RECEIPT_PATH,
+  SUPPORTED_HOST_REVIEWED_LIMITATIONS,
+  SUPPORTED_HOST_REVIEWED_EVIDENCE_PATH,
+  validateSupportedHostDeploymentChecks,
+  validateCapturedPageObservation,
+} from "./lib/chrome-devtools-supported-host-evidence.mjs";
+import { admitEvidenceSet } from "./lib/public-evidence-admission.mjs";
+import { ensurePrivateDirectory } from "./lib/private-directory.mjs";
 import { withoutProviderCredentials } from "./lib/webmcp-evals-harness.mjs";
+import {
+  validateSupportedHostEvidence,
+  validateSupportedHostReviewedArtefact,
+} from "./build-demo-video.mjs";
+import {
+  authenticateLivePagesReceipt,
+  disposeAuthenticatedLivePagesReceipt,
+} from "./verify-live-pages-artifact.mjs";
 
 const execFileAsync = promisify(execFile);
 const repositoryRoot = resolve(import.meta.dirname, "..");
@@ -19,79 +45,45 @@ const outputPath = resolve(repositoryRoot, ".evals", captureTarget.receiptName);
 const outputDirectory = dirname(outputPath);
 const reviewedEvidencePath = resolve(
   repositoryRoot,
-  "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
+  SUPPORTED_HOST_REVIEWED_EVIDENCE_PATH,
+);
+const supportedHostEvidencePath = resolve(
+  repositoryRoot,
+  "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json",
 );
 const liveVerificationPath = resolve(
   repositoryRoot,
   "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+);
+const privateLiveVerificationRelativePath = ".evals/personal-agent-media/v0.4.0-rc.1/live-pages-verification.json";
+const privateLiveVerificationPath = resolve(repositoryRoot, privateLiveVerificationRelativePath);
+const demoVideoScriptPath = resolve(
+  repositoryRoot,
+  "docs/competition/demo-video-script-v0.4.0-rc.1.json",
 );
 const portText = process.env.WEBMCP_DEVTOOLS_PORT ?? "4231";
 const port = Number(portText);
 const expectedChromeDevtoolsMcpVersion = "1.8.0";
 const CLI_TIMEOUT_MS = 60_000;
 const cliArguments = new Set(process.argv.slice(2));
-const admittedArguments = new Set(["--admit-public-evidence", "--overwrite-reviewed-evidence"]);
+const admittedArguments = new Set(["--admit-public-evidence", "--overwrite-reviewed-evidence", "--overwrite-raw-evidence"]);
 for (const argument of cliArguments) {
   if (!admittedArguments.has(argument)) throw new Error(`Unknown argument: ${argument}`);
 }
 const admitPublicEvidence = cliArguments.has("--admit-public-evidence");
 const overwriteReviewedEvidence = cliArguments.has("--overwrite-reviewed-evidence");
+const overwriteRawEvidence = cliArguments.has("--overwrite-raw-evidence");
 if (overwriteReviewedEvidence && !admitPublicEvidence) {
   throw new Error("--overwrite-reviewed-evidence requires --admit-public-evidence.");
 }
-if (admitPublicEvidence && !captureTarget.publicTarget) {
-  throw new Error("--admit-public-evidence is accepted only for the allowlisted public target.");
-}
+assertPublicEvidenceAdmissionTarget(captureTarget, admitPublicEvidence);
 
 if (captureTarget.mode === "local" && (!Number.isInteger(port) || port < 1024 || port > 65_535)) {
   throw new Error("WEBMCP_DEVTOOLS_PORT must be an integer from 1024 to 65535.");
 }
 
 const targetUrl = captureTarget.targetUrl ?? `http://127.0.0.1:${port}/`;
-const expectedTools = [
-  {
-    name: "search_government_knowledge",
-    readOnly: true,
-    input: { query: "register a birth", collections: ["deep-evidence"], limit: 3 },
-    schema: "trusted-govuk-discovery.search-result.v2",
-  },
-  {
-    name: "get_resource_record",
-    readOnly: true,
-    input: { recordId: "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363" },
-    schema: "trusted-govuk-discovery.resource-record-result.v1",
-  },
-  {
-    name: "show_provenance",
-    readOnly: true,
-    input: { recordId: "govuk-discovery:govuk-content:28389deb-8fd3-44dc-95a9-e7d1935ac363" },
-    schema: "trusted-govuk-discovery.provenance-result.v1",
-  },
-  {
-    name: "explore_answer_foundations",
-    readOnly: false,
-    input: {
-      answerId: "answer:new-child-starting-points",
-      claimId: "claim:register-a-birth",
-    },
-    schema: "trusted-govuk-discovery.evidence-exploration-result.v1",
-  },
-  {
-    name: "compare_evidence_foundations",
-    readOnly: false,
-    input: {
-      answerId: "answer:new-child-starting-points",
-      claimIds: ["claim:register-a-birth", "claim:check-child-benefit"],
-    },
-    schema: "trusted-govuk-discovery.evidence-comparison-result.v1",
-  },
-  {
-    name: "present_resource_evidence",
-    readOnly: false,
-    input: { recordId: "govuk-discovery:api:flood-monitoring" },
-    schema: "govuk-webmcp.present-resource-evidence-result.v1",
-  },
-];
+const expectedTools = SUPPORTED_HOST_EXPECTED_CALLS;
 
 function canonicalJson(value) {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
@@ -110,6 +102,19 @@ async function fileExists(path) {
     if (error?.code === "ENOENT") return false;
     throw error;
   }
+}
+
+async function readPrivateReceiptBytes(path, label, maximumBytes = 1_000_000) {
+  const before = await lstat(path);
+  if (!before.isFile() || before.isSymbolicLink() || before.size <= 0 || before.size > maximumBytes || (before.mode & 0o777) !== 0o600) {
+    throw new Error(`${label} must be a bounded mode-0600 regular non-symbolic file.`);
+  }
+  const bytes = await readFile(path);
+  const after = await lstat(path);
+  if (!after.isFile() || after.isSymbolicLink() || before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size || bytes.byteLength !== before.size) {
+    throw new Error(`${label} changed while its exact bytes were read.`);
+  }
+  return bytes;
 }
 
 async function runCli(args) {
@@ -185,6 +190,15 @@ async function chromeVersion() {
 const publicDeployment = captureTarget.publicTarget
   ? await fetchPublicDeploymentMetadata({ expectedCommit: captureTarget.expectedCommit })
   : null;
+const deploymentChecks = publicDeployment
+  ? [{
+      label: "initial",
+      observedAt: new Date().toISOString(),
+      metadataSha256: publicDeployment.sha256,
+      commit: publicDeployment.metadata.commit,
+      runId: String(publicDeployment.metadata.runId),
+    }]
+  : [];
 
 const status = await runCli(["status"]);
 if (!status.includes("is not running")) {
@@ -203,9 +217,15 @@ if (packageValue.version !== expectedChromeDevtoolsMcpVersion) {
   );
 }
 
-const { TOOL_INPUT_SCHEMAS: applicationSchemas } = await import(pathToFileURL(
+const {
+  TOOL_DESCRIPTIONS: applicationDescriptions,
+  TOOL_INPUT_SCHEMAS: applicationSchemas,
+  TOOL_TITLES: applicationTitles,
+} = await import(pathToFileURL(
   resolve(repositoryRoot, "dist/src/webmcp-tools.js"),
 ).href);
+const demoConfig = JSON.parse(await readFile(demoVideoScriptPath, "utf8"));
+assertSupportedHostDemoPlan(demoConfig);
 
 const server = captureTarget.mode === "local"
   ? spawn(
@@ -224,6 +244,8 @@ if (server) {
 
 let daemonStarted = false;
 let daemonStartAttempted = false;
+let primaryFailed = false;
+let authenticatedLiveReceipt;
 try {
   if (server) await waitForServer(server);
   daemonStartAttempted = true;
@@ -248,6 +270,21 @@ try {
   if (!page || !Number.isInteger(page.id)) {
     throw new Error("Chrome DevTools MCP did not expose the expected page ID.");
   }
+  if (publicDeployment) {
+    const afterPageLoadDeployment = await fetchPublicDeploymentMetadata({ expectedCommit: captureTarget.expectedCommit });
+    assertMatchingPublicDeploymentSnapshot(
+      publicDeployment,
+      afterPageLoadDeployment,
+      "Public deployment after Chrome page load",
+    );
+    deploymentChecks.push({
+      label: "after-page-load",
+      observedAt: new Date().toISOString(),
+      metadataSha256: afterPageLoadDeployment.sha256,
+      commit: afterPageLoadDeployment.metadata.commit,
+      runId: String(afterPageLoadDeployment.metadata.runId),
+    });
+  }
 
   const discovery = await runCliJson(["list_webmcp_tools", String(page.id)]);
   const names = discovery.webmcpTools?.map(({ name }) => name) ?? [];
@@ -256,6 +293,12 @@ try {
   }
   for (const expected of expectedTools) {
     const observed = discovery.webmcpTools.find(({ name }) => name === expected.name);
+    if (observed.title !== undefined && observed.title !== applicationTitles[expected.name]) {
+      throw new Error(`${expected.name} did not expose the exact canonical application title.`);
+    }
+    if (observed.description !== applicationDescriptions[expected.name]) {
+      throw new Error(`${expected.name} did not expose the exact canonical application description.`);
+    }
     if (canonicalJson(observed.inputSchema) !== canonicalJson(applicationSchemas[expected.name])) {
       throw new Error(`${expected.name} did not expose the exact closed application input schema.`);
     }
@@ -295,6 +338,19 @@ try {
       canonicalOutputSha256: sha256(canonicalJson(execution.output)),
     });
   }
+
+  const presentationCall = calls.find(({ toolName }) => toolName === "present_resource_evidence");
+  const pageEvaluation = await runCliJson([
+    "evaluate_script",
+    FINAL_PAGE_EVALUATION_FUNCTION,
+    `--pageId=${String(page.id)}`,
+    "--waitForStableDom=false",
+  ]);
+  const finalPageObservation = validateCapturedPageObservation(
+    parseEvaluateScriptResult(pageEvaluation),
+    presentationCall?.output?.evidenceDigest,
+    SUPPORTED_HOST_FEDERATED_RECORD_ID,
+  );
 
   const rejectedInput = {
     query: "birth",
@@ -351,10 +407,37 @@ try {
   if (consoleErrors.length > 0) {
     throw new Error(`The isolated WebMCP journey emitted ${consoleErrors.length} console error(s).`);
   }
+  if (publicDeployment) {
+    const afterExecutionDeployment = await fetchPublicDeploymentMetadata({ expectedCommit: captureTarget.expectedCommit });
+    assertMatchingPublicDeploymentSnapshot(
+      publicDeployment,
+      afterExecutionDeployment,
+      "Public deployment after Chrome WebMCP execution",
+    );
+    deploymentChecks.push({
+      label: "after-execution",
+      observedAt: new Date().toISOString(),
+      metadataSha256: afterExecutionDeployment.sha256,
+      commit: afterExecutionDeployment.metadata.commit,
+      runId: String(afterExecutionDeployment.metadata.runId),
+    });
+  }
 
+  const observedAt = new Date().toISOString();
+  if (publicDeployment) {
+    validateSupportedHostDeploymentChecks(
+      deploymentChecks,
+      {
+        metadataSha256: publicDeployment.sha256,
+        commit: publicDeployment.metadata.commit,
+        runId: String(publicDeployment.metadata.runId),
+      },
+      observedAt,
+    );
+  }
   const receipt = {
-    schema: "trusted-govuk-discovery.chrome-devtools-webmcp-capture.v1",
-    observedAt: new Date().toISOString(),
+    schema: "trusted-govuk-discovery.chrome-devtools-webmcp-capture.v2",
+    observedAt,
     target: {
       url: targetUrl,
       mode: captureTarget.mode,
@@ -369,6 +452,7 @@ try {
         },
       } : {}),
     },
+    deploymentChecks,
     environment: {
       chrome: await chromeVersion(),
       chromeChannel: "stable",
@@ -388,6 +472,11 @@ try {
       tools: discovery.webmcpTools,
     },
     calls,
+    finalPageObservation: {
+      command: "evaluate_script",
+      pageId: page.id,
+      ...finalPageObservation,
+    },
     rejectedCall: {
       command: "execute_webmcp_tool",
       pageId: page.id,
@@ -424,29 +513,33 @@ try {
           "The receipt contains source-derived tool output and must be reviewed before admission to public evidence.",
         ],
   };
-  try {
-    if ((await lstat(outputDirectory)).isSymbolicLink()) {
-      throw new Error("The local evidence directory must not be a symbolic link.");
-    }
-  } catch (error) {
-    if (error?.code !== "ENOENT") throw error;
+  const repositoryState = await lstat(repositoryRoot);
+  if (!repositoryState.isDirectory() || repositoryState.isSymbolicLink()) {
+    throw new Error("The capture repository root must be a real non-symbolic directory.");
   }
-  await mkdir(outputDirectory, { recursive: true, mode: 0o700 });
-  await chmod(outputDirectory, 0o700);
-  const temporaryPath = `${outputPath}.tmp-${process.pid}`;
-  await writeFile(temporaryPath, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
-  await rename(temporaryPath, outputPath);
-  await chmod(outputPath, 0o600);
-  console.log(`Captured ${calls.length} Chrome DevTools MCP calls in ${outputPath}.`);
+  await ensurePrivateDirectory(
+    outputDirectory,
+    await realpath(repositoryRoot),
+    "The local .evals evidence directory",
+  );
+  const rawReceiptContent = `${JSON.stringify(receipt, null, 2)}\n`;
 
   if (admitPublicEvidence) {
-    if (!overwriteReviewedEvidence && await fileExists(reviewedEvidencePath)) {
+    if (await fileExists(outputPath) && !overwriteRawEvidence) {
+      throw new Error("The bound raw receipt already exists; inspect the new capture and rerun with --overwrite-raw-evidence only when replacing it together with both public projections.");
+    }
+    if (!overwriteReviewedEvidence && (
+      await fileExists(reviewedEvidencePath)
+      || await fileExists(supportedHostEvidencePath)
+    )) {
       throw new Error(
-        "Reviewed public evidence already exists; inspect the new ignored receipt and rerun with --overwrite-reviewed-evidence only after review.",
+        "Reviewed public evidence already exists; inspect the new ignored receipt and rerun with --overwrite-reviewed-evidence only after reviewing both public projections.",
       );
     }
     const liveVerificationBytes = await readFile(liveVerificationPath);
     const liveVerification = JSON.parse(liveVerificationBytes.toString("utf8"));
+    const privateLiveVerificationBytes = await readPrivateReceiptBytes(privateLiveVerificationPath, "Private live Pages verification receipt");
+    const privateLiveVerification = JSON.parse(privateLiveVerificationBytes.toString("utf8"));
     if (liveVerification.schema !== "govuk-webmcp.live-pages-verification.v2" ||
         liveVerification.baseUrl !== targetUrl ||
         liveVerification.commit !== publicDeployment.metadata.commit ||
@@ -455,29 +548,32 @@ try {
         liveVerification.boundaries?.comparedEveryRegularArtifactFile !== true) {
       throw new Error("The current live-byte verification does not bind the captured public deployment.");
     }
-    const sourceReceiptBytes = await readFile(outputPath);
+    authenticatedLiveReceipt = await authenticateLivePagesReceipt(liveVerification);
+    const sourceReceiptBytes = Buffer.from(rawReceiptContent, "utf8");
+    const sourceReceiptSha256 = sha256(sourceReceiptBytes);
     const reviewedEvidence = {
-      schema: "trusted-govuk-discovery.chrome-devtools-webmcp-public-evidence.v2",
+      schema: "trusted-govuk-discovery.chrome-devtools-webmcp-public-evidence.v3",
       observedAt: receipt.observedAt,
       sourceReceipt: {
         path: ".evals/chrome-devtools-mcp-public.json",
-        sha256: sha256(sourceReceiptBytes),
+        sha256: sourceReceiptSha256,
         sizeBytes: sourceReceiptBytes.byteLength,
         tracking: "ignored local source",
         review: "The exact tool definitions, inputs, outputs, statuses and canonical output digests below were copied from the reviewed source receipt; local page identifiers were omitted.",
       },
       target: receipt.target,
+      deploymentChecks: structuredClone(receipt.deploymentChecks),
       releaseEvidence: {
-        productCommit: liveVerification.commit,
-        pagesRunId: String(liveVerification.runId),
-        pagesArtifactId: liveVerification.artifact.id,
-        artifactApiDigest: liveVerification.artifact.apiDigest,
-        artifactTarSha256: liveVerification.artifact.tarSha256,
+        productCommit: authenticatedLiveReceipt.commit,
+        pagesRunId: String(authenticatedLiveReceipt.runId),
+        pagesArtifactId: authenticatedLiveReceipt.artifact.id,
+        artifactApiDigest: authenticatedLiveReceipt.artifact.apiDigest,
+        artifactTarSha256: authenticatedLiveReceipt.artifact.tarSha256,
         liveArtifactVerification: "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
         liveArtifactVerificationSha256: sha256(liveVerificationBytes),
-        comparedFileCount: liveVerification.fileCount,
-        comparedByteCount: liveVerification.byteCount,
-        liveManifestSha256: liveVerification.manifestSha256,
+        comparedFileCount: authenticatedLiveReceipt.fileCount,
+        comparedByteCount: authenticatedLiveReceipt.byteCount,
+        liveManifestSha256: authenticatedLiveReceipt.manifestSha256,
       },
       environment: receipt.environment,
       capture: {
@@ -506,7 +602,7 @@ try {
       })),
       rejectedCall: {
         toolName: receipt.rejectedCall.toolName,
-        input: receipt.rejectedCall.input,
+        inputFieldNames: Object.keys(receipt.rejectedCall.input).sort(),
         status: receipt.rejectedCall.status,
         output: receipt.rejectedCall.output,
         canonicalOutputSha256: receipt.rejectedCall.canonicalOutputSha256,
@@ -516,43 +612,139 @@ try {
         errorCount: receipt.console.errorCount,
         types: receipt.console.types,
       },
-      limitations: [
-        "This time-bound capture proves browser-native WebMCP discovery and deterministic execution in Chrome DevTools MCP 1.8.0 against exact public release v0.4.0-rc.1; it is not a general compatibility claim.",
-        "Chrome DevTools MCP did not select or evaluate a model, and no model provider was contacted.",
-        "The static page tools are page-scoped progressive enhancement, not a durable government MCP service.",
-        "Source-derived content remains untrusted; this capture did not refetch or independently certify the cited sources.",
-        "The reviewed public record omits the disposable profile path, host page identifiers, network headers and cookies.",
-      ],
+      limitations: [...SUPPORTED_HOST_REVIEWED_LIMITATIONS],
     };
-    const reviewedTemporaryPath = `${reviewedEvidencePath}.tmp-${process.pid}`;
-    await writeFile(reviewedTemporaryPath, `${JSON.stringify(reviewedEvidence, null, 2)}\n`, { mode: 0o644 });
-    await rename(reviewedTemporaryPath, reviewedEvidencePath);
-    console.log(`Admitted reviewed Chrome evidence in ${reviewedEvidencePath}.`);
-  }
-} finally {
-  if (daemonStarted || daemonStartAttempted) {
-    try {
-      await runCli(["stop"]);
-    } catch {
-      // Preserve the primary failure while allowing the server cleanup below.
-    }
-  }
-  if (server) {
-    if (server.exitCode === null) server.kill("SIGTERM");
-    await new Promise((resolveExit) => {
-      if (server.exitCode !== null) {
-        resolveExit();
-        return;
-      }
-      const forcedTermination = setTimeout(() => {
-        if (server.exitCode === null) server.kill("SIGKILL");
-      }, 5_000);
-      forcedTermination.unref();
-      server.once("exit", () => {
-        clearTimeout(forcedTermination);
-        resolveExit();
-      });
+    const reviewedEvidenceContent = `${JSON.stringify(reviewedEvidence, null, 2)}\n`;
+    const reviewedEvidenceBytes = Buffer.from(reviewedEvidenceContent, "utf8");
+    const reviewedEvidenceSha256 = sha256(reviewedEvidenceBytes);
+    const liveVerificationSha256 = sha256(liveVerificationBytes);
+    const supportedHostEvidence = buildSupportedHostEvidence({
+      receipt,
+      sourceReceiptSha256,
+      sourceReceiptSizeBytes: sourceReceiptBytes.byteLength,
+      reviewedEvidenceSha256,
+      reviewedEvidenceSizeBytes: reviewedEvidenceBytes.byteLength,
+      liveVerification: authenticatedLiveReceipt,
+      demoConfig,
     });
-    if (server.exitCode && serverErrors) process.stderr.write(serverErrors);
+    const releaseConfig = {
+      ...demoConfig,
+      productCommit: authenticatedLiveReceipt.commit,
+      pagesRunId: String(authenticatedLiveReceipt.runId),
+    };
+    validateSupportedHostEvidence(
+      supportedHostEvidence,
+      releaseConfig,
+      SUPPORTED_HOST_FEDERATED_RECORD_ID,
+      {
+        metadataUrl: publicDeployment.url,
+        metadataSha256: publicDeployment.sha256,
+      },
+    );
+    validateSupportedHostReviewedArtefact(
+      reviewedEvidence,
+      supportedHostEvidence,
+      {
+        relativePath: SUPPORTED_HOST_REVIEWED_EVIDENCE_PATH,
+        sha256: reviewedEvidenceSha256,
+        sizeBytes: reviewedEvidenceBytes.byteLength,
+      },
+      {
+        config: releaseConfig,
+        liveVerificationFile: {
+          relativePath: "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+          sha256: liveVerificationSha256,
+          sizeBytes: liveVerificationBytes.byteLength,
+          bytes: liveVerificationBytes,
+        },
+        liveVerification,
+        privateLiveVerificationFile: {
+          relativePath: privateLiveVerificationRelativePath,
+          sha256: sha256(privateLiveVerificationBytes),
+          sizeBytes: privateLiveVerificationBytes.byteLength,
+          bytes: privateLiveVerificationBytes,
+        },
+        privateLiveVerification,
+        authenticatedLiveReceipt,
+        deployment: {
+          metadataUrl: publicDeployment.url,
+          metadataSha256: publicDeployment.sha256,
+        },
+        rawReceiptFile: {
+          relativePath: SUPPORTED_HOST_RAW_RECEIPT_PATH,
+          sha256: sourceReceiptSha256,
+          sizeBytes: sourceReceiptBytes.byteLength,
+          bytes: sourceReceiptBytes,
+        },
+        rawReceipt: receipt,
+      },
+    );
+    await admitEvidenceSet({
+      repositoryRoot,
+      entries: [
+        {
+          path: outputPath,
+          content: rawReceiptContent,
+          mode: 0o600,
+          replaceExisting: overwriteRawEvidence,
+        },
+        {
+          path: reviewedEvidencePath,
+          content: reviewedEvidenceContent,
+          mode: 0o644,
+          replaceExisting: overwriteReviewedEvidence,
+        },
+        {
+          path: supportedHostEvidencePath,
+          content: `${JSON.stringify(supportedHostEvidence, null, 2)}\n`,
+          mode: 0o644,
+          replaceExisting: overwriteReviewedEvidence,
+        },
+      ],
+    });
+    console.log(`Captured ${calls.length} Chrome DevTools MCP calls in ${outputPath}.`);
+    console.log(`Admitted reviewed Chrome evidence in ${reviewedEvidencePath}.`);
+    console.log(`Admitted reviewed supported-host evidence in ${supportedHostEvidencePath}.`);
+  } else {
+    await admitEvidenceSet({
+      repositoryRoot,
+      entries: [{
+        path: outputPath,
+        content: rawReceiptContent,
+        mode: 0o600,
+        replaceExisting: overwriteRawEvidence,
+      }],
+    });
+    console.log(`Captured ${calls.length} Chrome DevTools MCP calls in ${outputPath}.`);
   }
+} catch (error) {
+  primaryFailed = true;
+  throw error;
+} finally {
+  if (authenticatedLiveReceipt !== undefined) {
+    disposeAuthenticatedLivePagesReceipt(authenticatedLiveReceipt);
+  }
+  const cleanupSteps = [];
+  if (daemonStarted || daemonStartAttempted) cleanupSteps.push(() => runCli(["stop"]));
+  if (server) {
+    cleanupSteps.push(async () => {
+      if (server.exitCode === null) server.kill("SIGTERM");
+      await new Promise((resolveExit) => {
+        if (server.exitCode !== null) {
+          resolveExit();
+          return;
+        }
+        const forcedTermination = setTimeout(() => {
+          if (server.exitCode === null) server.kill("SIGKILL");
+        }, 5_000);
+        forcedTermination.unref();
+        server.once("exit", () => {
+          clearTimeout(forcedTermination);
+          resolveExit();
+        });
+      });
+      if (server.exitCode && serverErrors) process.stderr.write(serverErrors);
+    });
+  }
+  await completeChromeDevtoolsCaptureCleanup({ primaryFailed, cleanupSteps });
 }
