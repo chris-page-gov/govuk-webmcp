@@ -40,6 +40,17 @@ record retains no answer text, share link or account identifier. This one
 supplemental session is not an extra matrix slot and does not change the false
 claim gate.
 
+A later owner-operated Google Chrome and ChatGPT extension smoke journey
+reported all six Site tools ready, followed the bounded ONS search request and
+visibly updated the page to the `ONS Open Geography portal` Evidence answer.
+The retained response includes the recorded source link and all four displayed
+limitations. The screenshot binds the selected record and evidence digest, but
+the collapsed Chrome integration did not expose an exportable exact call trace,
+Chrome or extension version, or model identity. The answer received only a
+bounded content review. This is one successful visual personal-AI journey, not
+an addition to the frozen matrix or a safe-host or universal-compatibility
+claim.
+
 The honest local review video is built as eight scenes over 120.326 seconds.
 It is 1920 by 1080 H.264 at 30 frames per second with `yuv420p` pixel format,
 48 kHz AAC audio and embedded English `mov_text` captions. Its SHA-256 is

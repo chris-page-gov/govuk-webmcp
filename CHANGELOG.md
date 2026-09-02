@@ -36,6 +36,15 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A privacy-minimised, owner-operated ChatGPT Chrome extension smoke
+  observation against the exact public candidate. ChatGPT reported six ready
+  Site tools, followed the bounded ONS search request and visibly updated the
+  Evidence answer to the selected ONS Open Geography record. The collapsed
+  integration did not expose an exportable exact call trace, version or model
+  identity. The retained answer preserved the source link and all four stated
+  limitations, but received only a bounded content review; this is one
+  successful visual journey rather than a universal compatibility or
+  safe-host claim.
 - A privacy-minimised supplemental personal-profile Microsoft Copilot
   observation against the exact public candidate. The prompt explicitly asked
   for Site tools and page presentation; the response completed, but no

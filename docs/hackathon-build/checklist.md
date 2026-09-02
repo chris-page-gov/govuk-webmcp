@@ -75,14 +75,14 @@
   Checkpoint: The patched 36-case Ollama diagnostic converts and replays. Tool
   selection and deterministic execution each pass 6 and fail 30; all page
   parity is unobservable, all answers are unreviewed and context is 0 complete.
-  The claim gate is false and all 36 Copilot observations remain missing. After
-  the final deployment, rerun all 36 local slots from a clean exact-release
-  checkout and combine only that release-bound half with the visible Copilot
-  half. The importer can now stage the validated merged capture and authenticated
-  summary together with `--stage-release-evidence`; it is no-clobber by default
-  after a 16 MiB per-file preflight, and a successful explicit replacement
-  prints the dependent-evidence recapture warning. It does not attest those
-  still-missing observations. This item stays open.
+  The complete frozen 72-run Copilot and Ollama matrix is retained with a false
+  claim gate. A later owner-operated ChatGPT Chrome extension smoke journey
+  reported six ready Site tools and visibly updated Evidence Answer to the
+  selected ONS Open Geography record. Its collapsed integration exposed no
+  exportable exact call trace, versions or model identity, and the answer
+  received only a bounded content review. It is not an extra matrix slot or a
+  safe-host claim. This item stays open only for future answer-safety and
+  broader-host research, not for the competition submission.
 
 - [ ] **8. Complete browser, accessibility and security assurance**
   Spec ref: `spec.md > Verification strategy`
@@ -134,6 +134,9 @@
   VoiceOver sequence and its nine source
   frames are bound and packaged for the release build. The local Ollama
   diagnostic remains unclaimable; its generated clip is visibly labelled as a
-  diagnostic receipt, not a host recording or page update. Human publication
-  review, Copilot, complete host comparison, final video, public-player,
-  release and compliance-review gates remain open.
+  diagnostic receipt, not a host recording or page update. The complete host
+  matrix and one successful ChatGPT Chrome extension visual smoke journey are
+  retained with their limitations. Chris will record the required public
+  YouTube demonstration; do not rebuild the existing local cut. Public-player
+  verification, the tag and prerelease, custom answers and the separately
+  authorised Devpost action remain open.

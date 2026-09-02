@@ -43,6 +43,16 @@ no Site-tool call was observed. Its public receipt is deliberately separate
 from the frozen 72-run matrix, contains no answer text, private share link or
 account identifier and does not change the false claim gate.
 
+One later owner-operated Google Chrome and ChatGPT extension smoke journey
+reported six ready Site tools and visibly presented the selected `ONS Open
+Geography portal` Evidence answer after the bounded ONS request. Its public
+record retains the displayed record identifier, digest, source link and four
+limitations but not the original screenshot, which includes browser chrome,
+an avatar and unrelated tabs. The collapsed integration exposed no exportable
+exact call trace, versions or model identity, and the answer received only a
+bounded content review. Treat it as a successful visual smoke observation
+outside the frozen 72-run matrix.
+
 The honest local review video now shows that negative Copilot compatibility
 finding alongside the exact supported-host success without reconstructing or
 implying a Copilot tool call. It has 8 scenes over 120.326 seconds, 1920 by 1080

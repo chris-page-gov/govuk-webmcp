@@ -12,7 +12,12 @@ Protected-main commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passed
 validation run `33656288475` and Pages run `33657069203`; all 1,884 live files
 and 128,653,415 bytes matched with zero mismatches. Exact Chrome DevTools
 evidence completed all six tools through fixed direct calls, not model selection
-or a host-owned UI. The nine-step VoiceOver journey records eight passes and one
+or a host-owned UI. A later owner-operated ChatGPT Chrome extension smoke
+journey reported six ready Site tools and visibly updated Evidence Answer to
+the selected ONS Open Geography record. Its retained answer preserved the
+source link and four limitations, but the collapsed integration exposed no
+exportable exact call trace, versions or model identity and the answer received
+only a bounded content review. The nine-step VoiceOver journey records eight passes and one
 limitation, with VoiceOver and its Caption Panel off afterwards. All 72 host
 slots are observed, but the claim gate is false. No Site tool invocation or Evidence answer update was observed. Copilot page and call states are
 unobservable, all answers are unreviewed, and Ollama records 6
@@ -60,11 +65,11 @@ following custom answers remain preparation copy only.
 | Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — verify its published `deployment.json`, final tag identity and signed-out access immediately before final entry. |
 | Testing instructions (`28255`, optional) | Open the deployed live URL in a supported WebMCP host. Confirm six tools; run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`; inspect one record and provenance; then call `present_resource_evidence` for that exact record. Compare the Evidence answer with the AI's prose and the Technical review. No site account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Tested agents or clients (`28257`) | Exact Chrome DevTools host evidence completed all six tools through fixed direct calls against commit `a4d2db44…`; this did not observe model selection or a host-owned UI. The 36 visible Microsoft Copilot MCP Workspace observations did not expose tools, calls or page parity, and no Site tool invocation or Evidence answer update was observed. The 36 local Ollama runs record 6 selection/execution passes, 30 failures and 3 runner errors. Every answer remains unreviewed and the claim gate is false; this proves neither universal compatibility nor safe answers. |
+| Tested agents or clients (`28257`) | Google Chrome with the ChatGPT extension completed one owner-observed search-and-present journey: ChatGPT reported six Site tools ready and visibly updated Evidence Answer to the ONS Open Geography record, retaining its source link and four limitations. The collapsed integration exposed no exportable exact call trace, versions or model identity, so this is visual host evidence. Separately, exact Chrome DevTools MCP 1.8.0 evidence completed all six fixed direct calls with page-result parity. No Site-tool invocation or Evidence answer update was observed for personal Microsoft Copilot or Gemini. The 36 local Ollama runs record 6 selection/execution passes, 30 failures and 3 runner errors. No universal-compatibility or safe-answer claim is made. |
 | AI tools used (`28258`) | Prepared from Chris Page's assurance: ChatGPT, Codex, Claude, Gemini, Microsoft Copilot and local Ollama were used for research, design, implementation and evaluation; no model is embedded in the deployed application. |
 | Learning level (`28259`) | Prepared: `Significant`; owner confirmation remains required. |
 | Career value (`28260`) | Prepared: `Yes`; owner confirmation remains required. |
-| Public video URL | **Blocking:** the eight-scene 120.326-second local review MP4 exists, but add a URL only after owner privacy, branding, rights, voice and playback review, upload and signed-out public playback pass for its exact SHA-256. |
+| Public video URL | **Blocking:** Chris will record the required public, under-three-minute YouTube demonstration. Do not rebuild the existing 120.326-second local cut; add the URL only after signed-out playback verifies its audio and captions. |
 
 The project title and one-line description are now present in the live project.
 The entrant remains responsible for the final claims, custom answers, video and
@@ -327,6 +332,8 @@ submitted and still requires owner and signed-out public-player review.
   128,653,415 bytes match with zero mismatches.
 - [x] Exact Chrome DevTools evidence completes all six fixed direct calls.
   It is not model-selection or host-owned-UI evidence.
+- [x] One owner-operated ChatGPT Chrome extension smoke journey visibly
+  completes the ONS search-and-present path, with no safe-host claim.
 - [x] The exact nine-step VoiceOver journey records eight passes and one
   limitation; VoiceOver and its Caption Panel were turned off afterwards.
 - [x] All 72 host slots have observations. The Copilot call, tool and page
@@ -340,8 +347,7 @@ submitted and still requires owner and signed-out public-player review.
   Copilot compatibility finding and exact direct supported-host success. The
   120.326-second H.264 1080p/AAC MP4 has embedded English captions and SHA-256
   `4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
-- [ ] Chris Page approves privacy, branding, rights, synthetic voice, captions,
-  continuous playback and claims.
+- [ ] Chris Page records the public, under-three-minute YouTube demonstration.
 - [ ] The public video works signed out.
 - [ ] Create the annotated `v0.4.0-rc.1` tag and GitHub prerelease.
 - [ ] Refresh every live Devpost field and attestation without submitting.

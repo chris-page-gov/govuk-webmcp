@@ -4,9 +4,9 @@ Evidence Answer: check what your AI tells you
 
 ## One-line Summary
 
-Your compatible AI can query bounded government evidence, while an accessible
-Evidence Answer shows every source, limitation and unknown so you can check
-before you act.
+Your compatible AI can query Open Knowledge Format bounded government
+evidence, while an accessible Evidence Answer shows every source, limitation
+and unknown so you can check your AI before you act.
 
 ## Problem
 
@@ -53,16 +53,18 @@ information that does not make an AI answer canonical.
 ## How We Used AI
 
 Personal ChatGPT, Claude and Gemini subscriptions supported research, design
-critique and evaluation planning. Microsoft Copilot in Edge MCP Workspace and
-a pinned local Ollama model were evaluated as distinct personal-AI host
-arrangements. Their results are reported observationally, not as a causal model
-comparison.
+critique and evaluation planning. In an owner-operated Google Chrome and
+ChatGPT extension smoke journey, ChatGPT reported all six Site tools ready,
+followed the bounded ONS search request and visibly updated Evidence Answer to
+the selected ONS Open Geography record. Its retained answer included the
+source link and all four displayed limitations. The collapsed integration
+exposed no exportable exact call trace, versions or model identity, and the
+answer received only a bounded content review.
 
-The latest personal Copilot observation could read the active page but did not
-produce an observable Site-tool call or Evidence answer update. The local
-Ollama evaluation also had mixed results. These negative findings are retained:
-the candidate makes no claim that either host answers safely or supports every
-WebMCP interaction.
+No Site-tool invocation or Evidence answer update was observed for Microsoft
+Copilot or Gemini. The pinned local Ollama evaluation had mixed results. All
+are reported observationally, not as a causal model comparison or evidence
+that any host answers safely or supports every WebMCP interaction.
 
 ## How We Used Codex
 
@@ -115,9 +117,9 @@ the URL, history, focus or scroll position.
    WebMCP enabled. No credentials are required.
 2. Confirm the page reports that all knowledge artefacts are verified and six
    WebMCP tools are ready.
-3. Ask the host to use Site tools to search for `ONS statistics`, then inspect
-   the most relevant record, its source and limitations, and present its
-   evidence.
+3. In the ChatGPT extension or another compatible host, ask it to use Site
+   tools to search for `ONS statistics`, then inspect the most relevant record,
+   its source and limitations, and present its evidence.
 4. If the host does not expose page tools, use the Technical review interface
    to perform the same human search. This is a recorded compatibility outcome,
    not a site failure.
@@ -125,10 +127,12 @@ the URL, history, focus or scroll position.
    evidence tier, observation date, every limitation, the remaining unknowns
    and the next check.
 
-Exact direct Chrome DevTools evidence has completed all six WebMCP tools
-against the deployed release and matched the final tool/page digest. That is a
-fixed-call supported-host result; it does not claim that a model selected the
-tools.
+One owner-operated ChatGPT Chrome extension journey completed the visible
+search-and-present outcome. Its collapsed integration did not expose an
+exportable exact call trace or model identity. Separately, exact direct Chrome
+DevTools evidence completed all six WebMCP tools against the deployed release
+and matched the final tool/page digest. That fixed-call result does not claim
+that a model selected the tools.
 
 ## Public Demo Link
 
@@ -140,32 +144,41 @@ tools.
 
 ## Demo Video
 
-TODO: add the public YouTube URL after owner review, upload and signed-out
-playback verification of the exact 120.326-second captioned release cut.
+TODO: add Chris's public, under-three-minute YouTube demonstration after
+signed-out playback verification. Do not rebuild the existing 120.326-second
+local review cut; it remains an optional private reference.
 
 ## Screenshot Shot List
 
 1. The public Evidence answer landing view and verified corpus totals.
 2. Human search and a selected result in Technical review.
 3. A completed Evidence answer showing its source and limitations.
-4. Direct supported-host confirmation of all six WebMCP tools.
-5. Personal Copilot beside the candidate, honestly showing that no Site-tool
-   invocation or Evidence answer update was observed.
+4. ChatGPT in Chrome completing the ONS search-and-present journey beside the
+   visibly updated Evidence answer.
+5. The independent direct six-tool receipt and the honest Copilot, Gemini and
+   Ollama limitations.
 
 ## Submission Readiness Notes
 
-- The live Devpost project is `1406973`, currently `Untitled` and
-  `submission_pre_draft`.
+- The live Devpost project `1406973` is populated and publicly viewable, but
+  its challenge submission timestamp remains null.
 - The official deadline is 3 September 2026 at 20:00 UTC (9pm BST).
 - The live application and public repository exist.
 - The exact release tag and GitHub prerelease remain to be created.
-- The local video exists but is not yet public; owner and signed-out playback
-  review remain required.
+- Chris will record the required public YouTube demonstration. The existing
+  local cut will not be rebuilt. Signed-out playback remains required.
+- GitHub Pages is the only repository-recorded, exact-byte-verified candidate
+  and is the sole submission URL. No second ChatGPT Sites deployment is
+  recorded in this repository; do not spend the submission window trying to
+  synchronise or claim one.
 - The final Devpost submission remains a separate explicit action.
 
 ## Known Limitations
 
 - WebMCP is experimental and host support varies.
+- The successful ChatGPT Chrome extension journey is one owner-operated visual
+  smoke observation. Its exact call trace, versions and model identity were
+  not captured, and its answer received only a bounded content review.
 - The latest personal Microsoft Copilot observation did not expose or invoke
   the page tools; it used ordinary page-reading instead.
 - The local Ollama evaluation produced mixed tool-selection results and does
@@ -191,7 +204,7 @@ playback verification of the exact 120.326-second captioned release cut.
 | Live URL | `https://chris-page-gov.github.io/govuk-webmcp/` |
 | Testing instructions | Use the five-step procedure above; no credentials are required. |
 | Public repository | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Agents or clients tested | Google Chrome with WebMCP enabled through direct Chrome DevTools calls: all six fixed calls completed with page/result digest parity. Microsoft Copilot in personal Edge MCP Workspace: page reading completed, but no Site-tool invocation or Evidence answer update was observed. Local Ollama `gpt-oss:20b`: 36 diagnostic runs with 6 tool-selection/execution passes, 30 failures and 3 runner errors. These observations support no universal-compatibility or safe-answer claim. |
+| Agents or clients tested | Google Chrome with the ChatGPT extension completed one owner-observed search-and-present journey: ChatGPT reported all six Site tools ready and visibly updated Evidence Answer to the ONS Open Geography record. Its retained answer included the source link and four limitations. No exportable exact call trace, versions or model identity were captured, so this is visual host evidence. Separately, Chrome DevTools MCP 1.8.0 completed all six fixed direct calls with deterministic page-result parity. No Site-tool invocation or Evidence answer update was observed for personal Microsoft Copilot or Gemini. Local Ollama `gpt-oss:20b` selected and executed tools in 6 of 36 runs, failed in 30 and recorded 3 runner errors. No universal-compatibility or safe-answer claim is made. |
 | AI tools used | ChatGPT, Codex, Claude, Gemini, Microsoft Copilot and local Ollama. |
 | Learning | `Significant` — owner to confirm before submission |
 | Career value | `Yes` — owner to confirm before submission |
