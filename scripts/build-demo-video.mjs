@@ -42,7 +42,10 @@ import {
   assertCanonicalRepositoryRelativePath,
   resolveCanonicalRepositoryPath,
 } from "./lib/repository-relative-path.mjs";
-import { RELEASE_EVIDENCE_PATHS } from "./lib/release-evidence-paths.mjs";
+import {
+  RELEASE_EVIDENCE_PATHS,
+  RELEASE_VOICEOVER_FRAME_PATHS,
+} from "./lib/release-evidence-paths.mjs";
 import {
   validateSupportedHostCallSchemas,
   validateSupportedHostPublishedInputSchema,
@@ -86,10 +89,15 @@ const expectedPrivateEvaluationCapture = RELEASE_EVIDENCE_PATHS.privateEvaluatio
 const expectedPrivateLiveReleaseReceipt = RELEASE_EVIDENCE_PATHS.privateLivePagesVerification;
 const expectedPrivateAuthenticatedSummary = RELEASE_EVIDENCE_PATHS.privateAuthenticatedSummary;
 const expectedSupportedHostEvidence = RELEASE_EVIDENCE_PATHS.supportedHostEvidence;
+const expectedPersonalAgentObservationEvidence = "docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json";
+const expectedPersonalAgentObservationMediaReceipt = "docs/competition/evidence/personal-agent-comparison-clip-v0.4.0-rc.1.json";
 const MAXIMUM_VIDEO_DURATION_SECONDS = 180;
 const COMMIT = /^[a-f0-9]{40}$/u;
 const RUN_ID = /^[1-9][0-9]*$/u;
 const SHA256 = /^[a-f0-9]{64}$/u;
+const EXPECTED_PERSONAL_AGENT_STORY_IDS = Object.freeze(
+  Array.from({ length: 12 }, (_, index) => `US-${String(index + 1).padStart(2, "0")}`),
+);
 const FEDERATED_RECORD_ID = /^govuk-discovery:federated:(?:uk-living|ons|government-apis|land-registry):(?:0|[1-9][0-9]{0,5})$/u;
 const MAX_EVIDENCE_FUTURE_SKEW_MILLISECONDS = 5 * 60 * 1_000;
 const MAX_CAPTURE_RECEIPT_LAG_MILLISECONDS = 5 * 60 * 1_000;
@@ -941,7 +949,7 @@ export function validateVoiceOverEvidence(evidence, config) {
   nonEmptyString(evidence.media.path, "VoiceOver media path", 300);
   invariant(SHA256.test(evidence.media.sha256), "VoiceOver media SHA-256 is invalid");
   nonEmptyString(evidence.media.captureManifestPath, "VoiceOver capture manifest path", 300);
-  invariant(evidence.media.captureManifestPath.startsWith("output/voiceover-capture/") && evidence.media.captureManifestPath.endsWith(".json"), "VoiceOver capture manifest must stay beneath output/voiceover-capture");
+  invariant(evidence.media.captureManifestPath === RELEASE_EVIDENCE_PATHS.voiceOverCaptureManifest, "VoiceOver capture manifest must use the exact canonical release path");
   invariant(SHA256.test(evidence.media.captureManifestSha256), "VoiceOver capture manifest SHA-256 is invalid");
   invariant(Number.isFinite(evidence.media.startSeconds) && evidence.media.startSeconds >= 0 && Number.isFinite(evidence.media.endSeconds) && evidence.media.endSeconds > evidence.media.startSeconds, "VoiceOver media time range is invalid");
   validObservedAt(evidence.media.captureStartedAt, "VoiceOver media capture start");
@@ -982,6 +990,7 @@ export function validateVoiceOverCaptureManifest(manifest, evidence, config) {
 
   invariant(Array.isArray(manifest.frames) && manifest.frames.length === requiredVoiceOverJourneyIds.length, "VoiceOver capture manifest must contain exactly nine frames");
   invariant(sameValues(manifest.frames.map(({ id }) => id), requiredVoiceOverJourneyIds), "VoiceOver capture manifest must retain the exact nine-frame order");
+  invariant(sameValues(manifest.frames.map(({ path }) => path), RELEASE_VOICEOVER_FRAME_PATHS), "VoiceOver capture manifest must retain the exact nine canonical release frame paths");
   const paths = new Set();
   const hashes = new Set();
   let previousTime = -Infinity;
@@ -1149,6 +1158,277 @@ export function validateOllamaDiagnosticEvidence(publicSummary, privateCapture, 
       answerState: "not-reviewed",
     }),
   });
+}
+
+function validatePersonalAgentHostCaseEvidence(host, hostId) {
+  const label = hostId === "copilot-mcp-workspace" ? "Copilot" : "Ollama";
+  invariant(
+    Array.isArray(host.caseEvidence)
+      && host.caseEvidence.length === EXPECTED_PERSONAL_AGENT_STORY_IDS.length
+      && sameValues(host.caseEvidence.map(({ caseId }) => caseId), EXPECTED_PERSONAL_AGENT_STORY_IDS),
+    `${label} observation must retain the exact ordered unique US-01 to US-12 case coverage`,
+  );
+
+  let observedRunCount = 0;
+  let pageNotObservableCount = 0;
+  for (const [index, caseEvidence] of host.caseEvidence.entries()) {
+    const caseLabel = `${label} ${EXPECTED_PERSONAL_AGENT_STORY_IDS[index]} case evidence`;
+    exactKeys(
+      caseEvidence,
+      ["caseId", "observedRunCount", "toolSequences", "pageResults", "pageNotObservableCount"],
+      ["caseId", "observedRunCount", "toolSequences", "pageResults", "pageNotObservableCount"],
+      caseLabel,
+    );
+    invariant(
+      caseEvidence.caseId === EXPECTED_PERSONAL_AGENT_STORY_IDS[index]
+        && caseEvidence.observedRunCount === 3,
+      `${caseLabel} must retain exactly three observations`,
+    );
+    invariant(
+      Array.isArray(caseEvidence.toolSequences)
+        && Array.isArray(caseEvidence.pageResults)
+        && Number.isInteger(caseEvidence.pageNotObservableCount)
+        && caseEvidence.pageNotObservableCount >= 0
+        && caseEvidence.pageNotObservableCount <= caseEvidence.observedRunCount,
+      `${caseLabel} has invalid tool or page evidence`,
+    );
+    invariant(
+      new Set(caseEvidence.toolSequences.map(canonicalJson)).size === caseEvidence.toolSequences.length
+        && caseEvidence.toolSequences.every((sequence) =>
+          Array.isArray(sequence)
+            && sequence.length <= 24
+            && sequence.every((name) => expectedToolNames.includes(name))),
+      `${caseLabel} has invalid or duplicate tool sequences`,
+    );
+    invariant(
+      new Set(caseEvidence.pageResults.map(canonicalJson)).size === caseEvidence.pageResults.length
+        && caseEvidence.pageResults.length <= caseEvidence.observedRunCount - caseEvidence.pageNotObservableCount,
+      `${caseLabel} has inconsistent page-result evidence`,
+    );
+    invariant(
+      caseEvidence.pageNotObservableCount === caseEvidence.observedRunCount
+        && caseEvidence.pageResults.length === 0,
+      `${caseLabel} must retain the completely unobservable page-state boundary`,
+    );
+    if (hostId === "copilot-mcp-workspace") {
+      invariant(caseEvidence.toolSequences.length === 0, `${caseLabel} must not claim an observed tool sequence`);
+    } else {
+      invariant(
+        caseEvidence.toolSequences.length > 0
+          && caseEvidence.toolSequences.length <= caseEvidence.observedRunCount,
+        `${caseLabel} must retain one to three distinct observed tool sequences`,
+      );
+    }
+    observedRunCount += caseEvidence.observedRunCount;
+    pageNotObservableCount += caseEvidence.pageNotObservableCount;
+  }
+  invariant(
+    observedRunCount === host.observedRunCount
+      && pageNotObservableCount === host.observedRunCount,
+    `${label} case evidence does not reconcile with its host observation count`,
+  );
+  return Object.freeze({ observedRunCount, pageNotObservableCount });
+}
+
+function validatePersonalAgentCountObject(value, fields, label, expectedTotal) {
+  exactKeys(value, fields, fields, label);
+  invariant(
+    fields.every((field) => Number.isInteger(value[field]) && value[field] >= 0),
+    `${label} must contain non-negative integer counts`,
+  );
+  if (expectedTotal !== undefined) {
+    invariant(fields.reduce((total, field) => total + value[field], 0) === expectedTotal, `${label} does not reconcile with ${expectedTotal} observations`);
+  }
+}
+
+function validatePersonalAgentHostShape(host, label) {
+  const hostKeys = [
+    "hostId", "plannedRunCount", "observedRunCount", "missingRunCount", "callTrace",
+    "hostVersion", "browsers", "visibleModes", "exposedTools", "observedToolLists",
+    "share", "caseEvidence", "deploymentBindings", "diagnostics", "diagnosticDimensions",
+    "measurements",
+  ];
+  exactKeys(host, hostKeys, hostKeys, `${label} host summary`);
+  validatePersonalAgentCountObject(host.callTrace, ["observed", "not-observable"], `${label} call-trace counts`, host.observedRunCount);
+  validatePersonalAgentCountObject(host.hostVersion, ["observed", "not-observable"], `${label} host-version counts`, host.observedRunCount);
+  validatePersonalAgentCountObject(host.visibleModes, ["visible", "headless", "not-observable"], `${label} visible-mode counts`, host.observedRunCount);
+  validatePersonalAgentCountObject(host.exposedTools, ["observed", "not-observable"], `${label} exposed-tool counts`, host.observedRunCount);
+  validatePersonalAgentCountObject(host.share, ["observed", "not-observable", "not-applicable"], `${label} share counts`, host.observedRunCount);
+
+  invariant(Array.isArray(host.browsers), `${label} browsers must be an array`);
+  for (const browser of host.browsers) {
+    const required = browser?.versionStatus === "published-numeric"
+      ? ["product", "versionStatus", "version"]
+      : ["product", "versionStatus"];
+    exactKeys(browser, ["product", "versionStatus", "version"], required, `${label} browser`);
+    invariant(["published-numeric", "withheld-non-numeric"].includes(browser.versionStatus), `${label} browser has an invalid version status`);
+    if (browser.versionStatus === "withheld-non-numeric") invariant(browser.version === undefined, `${label} withheld browser version must not be published`);
+  }
+  invariant(Array.isArray(host.observedToolLists) && host.observedToolLists.every((tools) => Array.isArray(tools) && tools.every((name) => typeof name === "string")), `${label} observed tool lists are invalid`);
+  invariant(Array.isArray(host.deploymentBindings), `${label} deployment bindings must be an array`);
+  for (const binding of host.deploymentBindings) {
+    exactKeys(binding, ["kind", "commitSha", "worktreeStatus"], ["kind", "commitSha", "worktreeStatus"], `${label} deployment binding`);
+  }
+
+  validatePersonalAgentCountObject(host.diagnostics, ["observedClean", "observedWithErrors", "notObservable"], `${label} diagnostic counts`, host.observedRunCount);
+  const diagnosticFields = ["browserConsole", "pageErrors", "networkErrors", "runnerErrors"];
+  exactKeys(host.diagnosticDimensions, diagnosticFields, diagnosticFields, `${label} diagnostic dimensions`);
+  for (const field of diagnosticFields) {
+    validatePersonalAgentCountObject(host.diagnosticDimensions[field], ["observedClean", "observedWithErrors", "notObservable"], `${label} ${field} diagnostic counts`, host.observedRunCount);
+  }
+
+  const measurementFields = ["interactionSteps", "latencyMilliseconds"];
+  exactKeys(host.measurements, measurementFields, measurementFields, `${label} measurements`);
+  for (const field of measurementFields) {
+    const measurement = host.measurements[field];
+    exactKeys(measurement, ["observed", "notObservable", "minimum", "maximum"], ["observed", "notObservable", "minimum", "maximum"], `${label} ${field} measurement`);
+    invariant(Number.isInteger(measurement.observed) && measurement.observed >= 0 && Number.isInteger(measurement.notObservable) && measurement.notObservable >= 0 && measurement.observed + measurement.notObservable === host.observedRunCount, `${label} ${field} measurement counts do not reconcile`);
+    if (measurement.observed === 0) invariant(measurement.minimum === null && measurement.maximum === null, `${label} ${field} unobserved measurement must not publish a range`);
+    else invariant(Number.isFinite(measurement.minimum) && Number.isFinite(measurement.maximum) && measurement.minimum <= measurement.maximum, `${label} ${field} measurement range is invalid`);
+  }
+}
+
+function validatePersonalAgentSummaryNestedShape(summary) {
+  exactKeys(summary.liveReleaseBinding.artifact, ["id", "apiDigest", "tarSha256"], ["id", "apiDigest", "tarSha256"], "Personal-agent live release artefact");
+  invariant(sameValues(summary.hosts.map(({ hostId }) => hostId), ["copilot-mcp-workspace", "ollama-local"]), "Personal-agent hosts must retain their exact ordered identities");
+  validatePersonalAgentHostShape(summary.hosts[0], "Copilot");
+  validatePersonalAgentHostShape(summary.hosts[1], "Ollama");
+
+  validatePersonalAgentCountObject(summary.executionContext, ["complete", "incomplete", "missing"], "Personal-agent execution-context counts", EXPECTED_RUN_COUNT);
+  const criterionFields = ["toolSelection", "deterministicExecution", "pageParity", "answerSafety"];
+  exactKeys(summary.criteria, criterionFields, criterionFields, "Personal-agent criteria");
+  validatePersonalAgentCountObject(summary.criteria.toolSelection, ["pass", "fail", "not-observable", "missing"], "Personal-agent tool-selection counts", EXPECTED_RUN_COUNT);
+  validatePersonalAgentCountObject(summary.criteria.deterministicExecution, ["pass", "fail", "not-observable", "missing"], "Personal-agent deterministic-execution counts", EXPECTED_RUN_COUNT);
+  validatePersonalAgentCountObject(summary.criteria.pageParity, ["pass", "fail", "not-observable", "missing"], "Personal-agent page-parity counts", EXPECTED_RUN_COUNT);
+  validatePersonalAgentCountObject(summary.criteria.answerSafety, ["pass", "fail", "not-reviewed", "missing"], "Personal-agent answer-safety counts", EXPECTED_RUN_COUNT);
+  validatePersonalAgentCountObject(summary.answerOutcomes, ["usable", "revise", "unsafe", "not-reviewed", "missing"], "Personal-agent answer outcomes", EXPECTED_RUN_COUNT);
+  validatePersonalAgentCountObject(summary.reviewerClasses, ["agent", "human", "domain-specialist", "not-reviewed", "missing"], "Personal-agent reviewer classes", EXPECTED_RUN_COUNT);
+  const unsafeCategoryFields = [
+    "invented-amount", "invented-eligibility", "invented-legal-rule", "invented-deadline",
+    "invented-ownership", "invented-licence", "invented-access-contract", "invented-live-value",
+    "unqualified-currentness", "unqualified-official-status", "personal-context-leakage",
+    "government-attribution-on-unrelated-answer", "other-material-unsupported-claim",
+  ];
+  validatePersonalAgentCountObject(summary.unsafeCategoryCounts, unsafeCategoryFields, "Personal-agent unsafe-category counts");
+  const privacyFields = ["toolArguments", "toolResults", "pageUrl", "pageHistory", "pageStorage", "publicSummary"];
+  exactKeys(summary.privacyChecks, privacyFields, privacyFields, "Personal-agent privacy checks");
+  for (const field of privacyFields.filter((value) => value !== "publicSummary")) {
+    validatePersonalAgentCountObject(summary.privacyChecks[field], ["pass", "fail", "not-observable", "missing"], `Personal-agent ${field} privacy counts`, 6);
+  }
+  validatePersonalAgentCountObject(summary.privacyChecks.publicSummary, ["pass", "fail"], "Personal-agent public-summary privacy counts", 1);
+}
+
+export function validatePersonalAgentObservationEvidence(summary, config, authenticatedLiveReceipt, authenticatedPrivateSummary) {
+  const keys = [
+    "schema", "suiteId", "caseSetSha256", "comparisonDesign", "observationWindow",
+    "evidenceStatus", "plannedRunCount", "observedRunCount", "missingRunCount",
+    "missingRunKeys", "matrixComplete", "hosts", "liveReleaseBinding", "criteria",
+    "answerOutcomes", "reviewerClasses", "unsafeCategoryCounts", "claimGatePassed",
+    "causalClaimSupported", "privacyChecks", "executionContext",
+  ];
+  exactKeys(summary, keys, keys, "Personal-agent observation summary");
+  invariant(summary.schema === "govuk-webmcp.personal-agent-evaluation-summary.v2" && summary.suiteId === "beginner-evidence-v1", "Personal-agent observation summary has the wrong identity");
+  invariant(SHA256.test(summary.caseSetSha256) && summary.comparisonDesign === "observational" && summary.causalClaimSupported === false, "Personal-agent observation summary has the wrong case-set or causal boundary");
+  exactKeys(summary.observationWindow, ["earliest", "latest"], ["earliest", "latest"], "Personal-agent observation window");
+  const earliest = validObservedAt(summary.observationWindow.earliest, "Personal-agent earliest observation");
+  const latest = validObservedAt(summary.observationWindow.latest, "Personal-agent latest observation");
+  invariant(earliest <= latest, "Personal-agent observation window is reversed");
+  invariant(summary.evidenceStatus === "complete" && summary.plannedRunCount === EXPECTED_RUN_COUNT && summary.observedRunCount === EXPECTED_RUN_COUNT && summary.missingRunCount === 0 && summary.missingRunKeys.length === 0 && summary.matrixComplete === true, "Personal-agent observation summary must retain the complete 72-run matrix");
+  invariant(summary.claimGatePassed === false, "Personal-agent observation summary must retain the failed claim gate");
+  const binding = summary.liveReleaseBinding;
+  exactKeys(
+    binding,
+    ["status", "repository", "baseUrl", "commit", "runId", "artifact", "fileCount", "byteCount", "manifestSha256", "boundRunCount", "unboundRunCount"],
+    ["status", "repository", "baseUrl", "commit", "runId", "artifact", "fileCount", "byteCount", "manifestSha256", "boundRunCount", "unboundRunCount"],
+    "Personal-agent observation live release binding",
+  );
+  invariant(binding.status === "authenticated" && binding.repository === supportedHostCandidateReleaseContract.repository && binding.baseUrl === config.productUrl && binding.commit === config.productCommit && binding.runId === config.pagesRunId && binding.boundRunCount === EXPECTED_RUN_COUNT && binding.unboundRunCount === 0, "Personal-agent observation summary is not bound to the configured release");
+  invariant(Number.isInteger(binding.fileCount) && binding.fileCount > 0 && Number.isInteger(binding.byteCount) && binding.byteCount > 0 && SHA256.test(binding.manifestSha256), "Personal-agent observation release binding is incomplete");
+  invariant(isAuthenticatedLivePagesReceipt(authenticatedLiveReceipt), "Personal-agent observation validation requires a freshly authenticated live Pages receipt");
+  const authenticated = validateLiveReleaseReceipt(authenticatedLiveReceipt);
+  const expectedBinding = {
+    status: "authenticated",
+    repository: authenticated.repository,
+    baseUrl: authenticated.baseUrl,
+    commit: authenticated.commit,
+    runId: authenticated.runId,
+    artifact: structuredClone(authenticated.artifact),
+    fileCount: authenticated.fileCount,
+    byteCount: authenticated.byteCount,
+    manifestSha256: authenticated.manifestSha256,
+    boundRunCount: EXPECTED_RUN_COUNT,
+    unboundRunCount: 0,
+  };
+  invariant(
+    canonicalJson(binding) === canonicalJson(expectedBinding),
+    "Personal-agent observation summary does not exactly match the freshly authenticated live release artefact, file, byte and manifest binding",
+  );
+
+  invariant(Array.isArray(summary.hosts) && summary.hosts.length === 2, "Personal-agent observation summary must contain exactly two hosts");
+  validatePersonalAgentSummaryNestedShape(summary);
+  const copilot = summary.hosts.find(({ hostId }) => hostId === "copilot-mcp-workspace");
+  const ollama = summary.hosts.find(({ hostId }) => hostId === "ollama-local");
+  invariant(copilot?.plannedRunCount === 36 && copilot.observedRunCount === 36 && copilot.missingRunCount === 0, "Copilot observation counts are incomplete");
+  exactKeys(copilot.callTrace, ["observed", "not-observable"], ["observed", "not-observable"], "Copilot call-trace counts");
+  exactKeys(copilot.exposedTools, ["observed", "not-observable"], ["observed", "not-observable"], "Copilot exposed-tool counts");
+  invariant(copilot.callTrace?.observed === 0 && copilot.callTrace?.["not-observable"] === 36 && copilot.exposedTools?.observed === 0 && copilot.exposedTools?.["not-observable"] === 36, "Copilot tool observability boundary has drifted");
+  invariant(Array.isArray(copilot.observedToolLists) && copilot.observedToolLists.length === 0, "Copilot observation must not claim an observed Site-tool list");
+  invariant(copilot.browsers?.length === 1 && copilot.browsers[0].product === "Microsoft Edge" && copilot.browsers[0].versionStatus === "published-numeric" && /^\d+\.\d+\.\d+\.\d+$/u.test(copilot.browsers[0].version), "Copilot observation must retain its published Edge version without inferring the model");
+  invariant(ollama?.plannedRunCount === 36 && ollama.observedRunCount === 36 && ollama.missingRunCount === 0 && ollama.callTrace?.observed === 36 && ollama.exposedTools?.observed === 36, "Ollama observation counts are incomplete");
+  exactKeys(ollama.callTrace, ["observed", "not-observable"], ["observed", "not-observable"], "Ollama call-trace counts");
+  exactKeys(ollama.exposedTools, ["observed", "not-observable"], ["observed", "not-observable"], "Ollama exposed-tool counts");
+  invariant(ollama.callTrace["not-observable"] === 0 && ollama.exposedTools["not-observable"] === 0, "Ollama observation counts must reconcile all 36 visible tool runs");
+  invariant(ollama.observedToolLists?.length === 1 && sameValues(ollama.observedToolLists[0], expectedToolNames), "Ollama observation must retain the exact six exposed Site tools");
+  invariant(ollama.diagnosticDimensions?.runnerErrors?.observedWithErrors === 3, "Ollama observation must retain its three runner-error runs");
+  const copilotCases = validatePersonalAgentHostCaseEvidence(copilot, "copilot-mcp-workspace");
+  const ollamaCases = validatePersonalAgentHostCaseEvidence(ollama, "ollama-local");
+  invariant(
+    copilotCases.pageNotObservableCount + ollamaCases.pageNotObservableCount === EXPECTED_RUN_COUNT,
+    "Personal-agent case evidence does not reconcile with the 72 unobservable page-parity observations",
+  );
+
+  invariant(canonicalJson(summary.criteria?.toolSelection) === canonicalJson({ pass: 6, fail: 30, "not-observable": 36, missing: 0 }), "Personal-agent tool-selection counts have drifted");
+  invariant(canonicalJson(summary.criteria?.deterministicExecution) === canonicalJson({ pass: 6, fail: 30, "not-observable": 36, missing: 0 }), "Personal-agent deterministic-execution counts have drifted");
+  invariant(canonicalJson(summary.criteria?.pageParity) === canonicalJson({ pass: 0, fail: 0, "not-observable": 72, missing: 0 }), "Personal-agent page-parity counts have drifted");
+  invariant(canonicalJson(summary.criteria?.answerSafety) === canonicalJson({ pass: 0, fail: 0, "not-reviewed": 72, missing: 0 }), "Personal-agent answer-safety counts have drifted");
+  invariant(summary.answerOutcomes?.["not-reviewed"] === 72 && summary.reviewerClasses?.["not-reviewed"] === 72 && summary.executionContext?.complete === 0 && summary.executionContext?.incomplete === 72, "Personal-agent observation must retain the unreviewed, incomplete execution-context boundary");
+  invariant(summary.privacyChecks?.publicSummary?.pass === 1 && summary.privacyChecks?.publicSummary?.fail === 0, "Personal-agent public-summary privacy check did not pass");
+  const serialised = canonicalJson(summary);
+  invariant(!/@/u.test(serialised) && !/copilot\.microsoft\.com\/shares\//iu.test(serialised), "Personal-agent public summary contains private account or share-link material");
+  invariant(authenticatedPrivateSummary !== undefined, "Personal-agent observation validation requires the independently replayed private authenticated summary");
+  invariant(canonicalJson(summary) === canonicalJson(authenticatedPrivateSummary), "Tracked public personal-agent comparison does not exactly match the independently replayed private authenticated summary");
+  return Object.freeze({
+    comparisonDesign: summary.comparisonDesign,
+    observedRunCount: summary.observedRunCount,
+    claimGatePassed: summary.claimGatePassed,
+    causalClaimSupported: summary.causalClaimSupported,
+    copilot: Object.freeze({ observedRunCount: copilot.observedRunCount, callTraceStatus: "not-observable", pageParityStatus: "not-observable" }),
+    ollama: Object.freeze({ observedRunCount: ollama.observedRunCount, toolSelectionPass: 6, toolSelectionFail: 30, runnerErrorRuns: 3 }),
+  });
+}
+
+export function validatePersonalAgentObservationClipReceipt(receipt, config, scene, media, evidenceFile, observation) {
+  exactKeys(receipt,
+    ["schema", "builtAt", "demoContext", "sourceEvidence", "rendering", "media", "limitations"],
+    ["schema", "builtAt", "demoContext", "sourceEvidence", "rendering", "media", "limitations"],
+    "Personal-agent comparison clip receipt");
+  invariant(receipt.schema === "govuk-webmcp.personal-agent-comparison-clip.v1", "Personal-agent comparison clip receipt has the wrong schema");
+  const builtAt = validObservedAt(receipt.builtAt, "Personal-agent comparison clip build time");
+  const sourceLatest = validObservedAt(receipt.sourceEvidence.observationWindow.latest, "Personal-agent comparison source latest observation");
+  invariant(builtAt >= sourceLatest, "Personal-agent comparison clip was built before its source observation window ended");
+  exactKeys(receipt.demoContext, ["release", "productCommit", "pagesRunId", "sceneId"], ["release", "productCommit", "pagesRunId", "sceneId"], "Personal-agent comparison demo context");
+  invariant(receipt.demoContext.release === config.release && receipt.demoContext.productCommit === config.productCommit && receipt.demoContext.pagesRunId === config.pagesRunId && receipt.demoContext.sceneId === scene.id, "Personal-agent comparison clip is not bound to the configured demo context");
+  exactKeys(receipt.sourceEvidence, ["path", "sha256", "schema", "suiteId", "caseSetSha256", "observationWindow"], ["path", "sha256", "schema", "suiteId", "caseSetSha256", "observationWindow"], "Personal-agent comparison source evidence");
+  invariant(receipt.sourceEvidence.path === scene.evidence && receipt.sourceEvidence.path === evidenceFile.relativePath && receipt.sourceEvidence.sha256 === evidenceFile.sha256, "Personal-agent comparison clip is not bound to the exact public summary bytes");
+  invariant(receipt.sourceEvidence.schema === "govuk-webmcp.personal-agent-evaluation-summary.v2" && receipt.sourceEvidence.suiteId === "beginner-evidence-v1" && SHA256.test(receipt.sourceEvidence.caseSetSha256), "Personal-agent comparison clip has the wrong source identity");
+  invariant(canonicalJson(receipt.sourceEvidence.observationWindow) === canonicalJson(evidenceFile.parsed.observationWindow), "Personal-agent comparison clip has the wrong source observation window");
+  exactKeys(receipt.rendering, ["kind", "hostRecordingEmbedded", "hostOwnedSurfaceEmbedded", "pageUpdateShown", "visibleLabel"], ["kind", "hostRecordingEmbedded", "hostOwnedSurfaceEmbedded", "pageUpdateShown", "visibleLabel"], "Personal-agent comparison rendering");
+  invariant(receipt.rendering.kind === "privacy-minimised-observation-visualisation" && receipt.rendering.hostRecordingEmbedded === false && receipt.rendering.hostOwnedSurfaceEmbedded === false && receipt.rendering.pageUpdateShown === false && receipt.rendering.visibleLabel === "Observation summary — not a host recording", "Personal-agent comparison rendering overstates its evidence");
+  exactKeys(receipt.media, ["path", "sha256", "durationSeconds", "startSeconds", "endSeconds"], ["path", "sha256", "durationSeconds", "startSeconds", "endSeconds"], "Personal-agent comparison media");
+  invariant(receipt.media.path === scene.media.path && receipt.media.sha256 === media.sha256 && Math.abs(receipt.media.durationSeconds - media.durationSeconds) <= 0.05 && receipt.media.startSeconds === scene.media.startSeconds && receipt.media.endSeconds <= media.durationSeconds && receipt.media.endSeconds > receipt.media.startSeconds, "Personal-agent comparison media binding is invalid");
+  invariant(Array.isArray(receipt.limitations) && receipt.limitations.length >= 4 && receipt.limitations.every((value) => typeof value === "string" && value.length > 0), "Personal-agent comparison limitations are incomplete");
+  invariant(receipt.limitations.some((value) => /not a host recording/iu.test(value)) && receipt.limitations.some((value) => /No Site tool invocation or Evidence answer update was observed/u.test(value)) && receipt.limitations.some((value) => /safe-host|safe-answer/iu.test(value)) && receipt.limitations.some((value) => /causal/iu.test(value)), "Personal-agent comparison clip must retain its recording, Copilot, safety and causal boundaries");
+  return Object.freeze({ kind: receipt.rendering.kind, durationSeconds: receipt.media.durationSeconds, observedRunCount: observation.observedRunCount, claimGatePassed: observation.claimGatePassed });
 }
 
 export function validateOllamaDiagnosticClipReceipt(receipt, config, scene, media, privateFile, publicFile, diagnosticEvidence) {
@@ -1636,7 +1916,7 @@ export function validateConfig(config) {
     ["privacy", "branding", "rights", "voicePublicationBasis", "personalAgentCapturePublication", "finalHumanPlayback"],
     ["privacy", "branding", "rights", "voicePublicationBasis", "personalAgentCapturePublication", "finalHumanPlayback"],
     "Demo reviews");
-  invariant(config.reviews.privacy === "pending-human-review" && config.reviews.branding === "pending-human-review" && config.reviews.rights === "pending-human-review" && config.reviews.voicePublicationBasis === "pending-owner-review" && config.reviews.personalAgentCapturePublication === "pending-capture-and-human-review" && config.reviews.finalHumanPlayback === "pending", "Privacy, branding, rights, personal-agent capture, voice-publication and final-playback reviews must remain pending in the local build script");
+  invariant(config.reviews.privacy === "pending-human-review" && config.reviews.branding === "pending-human-review" && config.reviews.rights === "pending-human-review" && config.reviews.voicePublicationBasis === "pending-owner-review" && config.reviews.personalAgentCapturePublication === "not-included-unobservable" && config.reviews.finalHumanPlayback === "pending", "Privacy, branding, rights, voice-publication and final-playback reviews must remain pending, and the unobservable personal-agent capture must stay excluded");
   invariant(config.interactionCaptureReceipt === expectedInteractionCaptureReceipt, "Demo script must use the reviewed live-interaction capture receipt path");
   exactKeys(config.demonstrationInputs,
     ["query", "collections", "limit", "reviewedAnswerId", "reviewedClaimIds", "excludedHostname"],
@@ -1661,7 +1941,7 @@ export function validateConfig(config) {
     ids.add(scene.id);
     invariant(/^\d{2}$/u.test(scene.number) && !numbers.has(scene.number), `Scene ${scene.id} has an invalid or duplicate number`);
     numbers.add(scene.number);
-    invariant(["interaction", "receipt-visualisation", "personal-agent-capture", "evaluation-diagnostic", "voiceover", "context"].includes(scene.kind), `Scene ${scene.id} has an invalid kind`);
+    invariant(["interaction", "receipt-visualisation", "personal-agent-capture", "evaluation-observation", "evaluation-diagnostic", "voiceover", "context"].includes(scene.kind), `Scene ${scene.id} has an invalid kind`);
     nonEmptyString(scene.eyebrow, `Scene ${scene.id} eyebrow`, 80);
     nonEmptyString(scene.title, `Scene ${scene.id} title`, 100);
     exactKeys(scene.media, ["type", "path", "startSeconds"], ["type", "path", "startSeconds"], `Scene ${scene.id} media`);
@@ -1678,9 +1958,9 @@ export function validateConfig(config) {
       invariant(!cue.includes("-->") && !/[\r\n]/u.test(cue), `Scene ${scene.id} has unsafe WebVTT cue text`);
       wrapCaption(cue);
     }
-    if (["receipt-visualisation", "personal-agent-capture", "evaluation-diagnostic", "voiceover"].includes(scene.kind)) nonEmptyString(scene.evidence, `Scene ${scene.id} evidence path`, 240);
+    if (["receipt-visualisation", "personal-agent-capture", "evaluation-observation", "evaluation-diagnostic", "voiceover"].includes(scene.kind)) nonEmptyString(scene.evidence, `Scene ${scene.id} evidence path`, 240);
     else invariant(scene.evidence === undefined, `Scene ${scene.id} must not claim unrelated evidence`);
-    if (["receipt-visualisation", "evaluation-diagnostic"].includes(scene.kind)) nonEmptyString(scene.mediaReceipt, `Scene ${scene.id} media receipt path`, 240);
+    if (["receipt-visualisation", "evaluation-observation", "evaluation-diagnostic"].includes(scene.kind)) nonEmptyString(scene.mediaReceipt, `Scene ${scene.id} media receipt path`, 240);
     else invariant(scene.mediaReceipt === undefined, `Scene ${scene.id} must not claim an unrelated media receipt`);
     if (scene.kind === "interaction") {
       invariant(Array.isArray(scene.requiredActions) && scene.requiredActions.length > 0 && scene.requiredActions.length <= 8, `Scene ${scene.id} must name its required live-capture actions`);
@@ -1701,10 +1981,13 @@ export function validateConfig(config) {
     } else invariant(scene.privateEvidence === undefined, `Scene ${scene.id} must not claim unrelated private diagnostic evidence`);
   }
   invariant(config.scenes.filter(({ kind }) => kind === "receipt-visualisation").length === 1, "Demo must contain exactly one supported-host receipt visualisation");
-  invariant(config.scenes.filter(({ kind }) => kind === "personal-agent-capture").length === 1, "Demo must contain exactly one genuine cloud personal-agent capture");
-  invariant(config.scenes.filter(({ kind }) => kind === "evaluation-diagnostic").length === 1, "Demo must contain exactly one local evaluation diagnostic visualisation");
+  invariant(config.scenes.filter(({ kind }) => kind === "personal-agent-capture").length === 0, "Demo must not include an unobservable cloud personal-agent capture");
+  invariant(config.scenes.filter(({ kind }) => kind === "evaluation-observation").length === 1, "Demo must contain exactly one bounded personal-agent observation");
+  const personalAgentObservation = config.scenes.find(({ kind }) => kind === "evaluation-observation");
+  invariant(personalAgentObservation.id === "personal-agent-comparison" && personalAgentObservation.evidence === expectedPersonalAgentObservationEvidence && personalAgentObservation.mediaReceipt === expectedPersonalAgentObservationMediaReceipt, "Demo personal-agent observation must use the exact privacy-minimised comparison evidence and clip receipt");
+  invariant(config.scenes.filter(({ kind }) => kind === "evaluation-diagnostic").length === 0, "Demo must not include the superseded pre-hardening local diagnostic scene");
   invariant(config.scenes.filter(({ kind }) => kind === "voiceover").length === 1, "Demo must contain exactly one VoiceOver scene");
-  invariant(sameValues(config.scenes.map(({ id }) => id), ["evidence-answer", "present-evidence", "comparison-guide", "copilot-personal-ai", "webmcp", "technical-review", "ollama-local", "voiceover", "boundary"]), "Demo must contain the exact nine-scene Evidence answer story in order");
+  invariant(sameValues(config.scenes.map(({ id }) => id), ["evidence-answer", "present-evidence", "comparison-guide", "personal-agent-comparison", "webmcp", "technical-review", "voiceover", "boundary"]), "Demo must contain the exact eight-scene Evidence answer story in order");
   return config;
 }
 
@@ -1846,22 +2129,31 @@ async function preflight(options) {
       }
     }
     try {
+      const liveReleaseFile = await regularRepositoryFile(expectedPrivateLiveReleaseReceipt, "Private live Pages verification receipt", [".json"], 1_000_000);
+      liveReleaseFile.publiclyReportable = false;
+      invariant(liveReleaseFile.mode === 0o600, "Private live Pages verification receipt must have mode 0600");
+      const liveRelease = validateLiveReleaseReceipt(JSON.parse(liveReleaseFile.bytes.toString("utf8")));
+      invariant(liveRelease.commit === config.productCommit && liveRelease.runId === config.pagesRunId && liveRelease.baseUrl === config.productUrl, "Private live Pages verification receipt does not match the configured release");
+      privateLiveVerificationFile = liveReleaseFile;
+      privateLiveVerification = liveRelease;
+      authenticatedLiveVerification = await authenticateLivePagesReceipt(liveRelease);
+      inputs.push(liveReleaseFile);
+    } catch (error) {
+      errors.push(error.message);
+    }
+    try {
       const personalAgentScenes = config.scenes.filter(({ kind }) => kind === "personal-agent-capture");
-      if (personalAgentScenes.length > 0) {
+      const personalAgentObservationScenes = config.scenes.filter(({ kind }) => kind === "evaluation-observation");
+      if (personalAgentScenes.length > 0 || personalAgentObservationScenes.length > 0) {
         const loadedCaseSet = await loadAndValidateCaseSet();
         const sourceCaptureFile = await regularRepositoryFile(expectedPrivateEvaluationCapture, "Private personal-agent evaluation capture", [".json"], 64 * 1024 * 1024);
         sourceCaptureFile.publiclyReportable = false;
         invariant(sourceCaptureFile.mode === 0o600, "Private personal-agent evaluation capture must have mode 0600");
         const sourceCapture = JSON.parse(sourceCaptureFile.bytes.toString("utf8"));
 
-        const liveReleaseFile = await regularRepositoryFile(expectedPrivateLiveReleaseReceipt, "Private live Pages verification receipt", [".json"], 1_000_000);
-        liveReleaseFile.publiclyReportable = false;
-        invariant(liveReleaseFile.mode === 0o600, "Private live Pages verification receipt must have mode 0600");
-        const liveRelease = validateLiveReleaseReceipt(JSON.parse(liveReleaseFile.bytes.toString("utf8")));
-        invariant(liveRelease.commit === config.productCommit && liveRelease.runId === config.pagesRunId && liveRelease.baseUrl === config.productUrl, "Private live Pages verification receipt does not match the configured release");
-        privateLiveVerificationFile = liveReleaseFile;
-        privateLiveVerification = liveRelease;
-        authenticatedLiveVerification = await authenticateLivePagesReceipt(liveRelease);
+        invariant(privateLiveVerificationFile && privateLiveVerification && authenticatedLiveVerification, "Exact private live Pages verification is unavailable for the personal-agent release binding");
+        const liveReleaseFile = privateLiveVerificationFile;
+        const liveRelease = privateLiveVerification;
 
         const authenticatedSummaryFile = await regularRepositoryFile(expectedPrivateAuthenticatedSummary, "Private authenticated personal-agent summary", [".json"], 8 * 1024 * 1024);
         authenticatedSummaryFile.publiclyReportable = false;
@@ -1887,7 +2179,18 @@ async function preflight(options) {
             liveReceiptLease: "borrowed",
           }),
         });
-        inputs.push(sourceCaptureFile, liveReleaseFile, authenticatedSummaryFile);
+        inputs.push(sourceCaptureFile, authenticatedSummaryFile);
+
+        for (const scene of personalAgentObservationScenes) {
+          const observation = evidence.get(scene.id);
+          invariant(observation, `Personal-agent observation scene ${scene.id} is unavailable`);
+          observation.summary = validatePersonalAgentObservationEvidence(
+            observation.parsed,
+            config,
+            authenticatedLiveVerification,
+            authenticatedSummary,
+          );
+        }
 
         for (const scene of personalAgentScenes) {
           try {
@@ -1940,6 +2243,17 @@ async function preflight(options) {
         );
         evidence.set(`${scene.id}-media`, { ...receiptFile, parsed: receipt, summary: receiptSummary });
         inputs.push(privateEvidenceFile, receiptFile);
+      } catch (error) { errors.push(error.message); }
+    }
+    for (const scene of config.scenes.filter(({ kind }) => kind === "evaluation-observation")) {
+      try {
+        const observation = evidence.get(scene.id);
+        invariant(observation?.summary, `Personal-agent observation scene ${scene.id} has no independently replayed private summary binding`);
+        const receiptFile = await regularRepositoryFile(scene.mediaReceipt, `Scene ${scene.id} comparison media receipt`, [".json"], 1_000_000);
+        const receipt = JSON.parse(receiptFile.bytes.toString("utf8"));
+        const receiptSummary = validatePersonalAgentObservationClipReceipt(receipt, config, scene, media.get(scene.id), observation, observation.summary);
+        evidence.set(`${scene.id}-media`, { ...receiptFile, parsed: receipt, summary: receiptSummary });
+        inputs.push(receiptFile);
       } catch (error) { errors.push(error.message); }
     }
     for (const scene of config.scenes.filter(({ kind }) => kind === "voiceover")) {
@@ -2171,7 +2485,7 @@ function buildTranscript(config) {
     "- Source-clip audio: omitted from the edit",
     "- Music: none",
     "",
-    "The reviewed live-interaction clips are paired with an original British-English script. The Copilot scene must be a genuine, exact-release recording with clip-level privacy, branding and owner review; it cannot be reconstructed. The supported-host and local Ollama scenes are separately labelled receipt visualisations, not host recordings. The Ollama diagnostic shows failed and unobserved evaluation states, not a page update or a safe-host claim. The VoiceOver evidence record, not the synthetic soundtrack, is the basis for the bounded assistive-technology observation.",
+    "The reviewed live-interaction clips are paired with an original British-English script. The cloud-and-local comparison is a privacy-minimised receipt visualisation, not a reconstructed host recording: no Copilot Site tool invocation or Evidence answer update was observed, while the local model passed tool selection in only 6 of 36 runs. The separate supported-host scene records six fixed direct calls, not model selection. The VoiceOver evidence record, not the synthetic soundtrack, is the basis for the bounded assistive-technology observation.",
     "",
     ...config.scenes.flatMap((scene) => [`## ${scene.number}. ${scene.title}`, "", scene.cues.join(" "), ""]),
     "## Boundary",
@@ -2209,14 +2523,6 @@ export function describePrivateInputPublication(inputs) {
         bindingCount: 1,
         sourceBytesDirectlyVerifiedByBuild: false,
         purpose: "Retain one deduplicated binding to the ignored raw Chrome receipt in the reviewed supported-host evidence without publishing those receipt bytes.",
-      },
-      {
-        privateInputPath: ollamaDiagnosticSceneContract.privateEvidencePath,
-        publicReceiptPaths: [ollamaDiagnosticSceneContract.mediaReceiptPath],
-        privateInputPathAndSha256BindingPublished: true,
-        bindingCount: 1,
-        sourceBytesDirectlyVerifiedByBuild: true,
-        purpose: "Bind the Ollama diagnostic visualisation to the exact private evaluation input without publishing those input bytes.",
       },
     ],
   };
@@ -2271,19 +2577,17 @@ async function build(options, preflightResult) {
       narration: { type: config.narration.type, engine: config.narration.engine, voice: config.narration.voice, locale: config.narration.locale, speechRate: config.narration.speechRate, publicationBasis: config.narration.publicationBasis, sourceClipAudioIncluded: false, backgroundMusic: false, measuredOutput: finalLoudness },
       evidence: {
         interactionCapture: evidence.get("live-interaction-capture").summary,
-        personalAgentCaptures: Object.fromEntries(config.scenes
-          .filter(({ kind }) => kind === "personal-agent-capture")
-          .map((scene) => [scene.hostId, evidence.get(scene.id).summary])),
+        personalAgentObservation: evidence.get("personal-agent-comparison").summary,
+        personalAgentObservationMedia: evidence.get("personal-agent-comparison-media").summary,
+        personalAgentCaptures: {},
         supportedHost: evidence.get("webmcp").summary,
         supportedHostMedia: evidence.get("webmcp-media").summary,
-        ollamaDiagnostic: evidence.get("ollama-local-media").summary,
         voiceOver: evidence.get("voiceover").summary,
       },
-      reviews: { privacy: "pending-human-review", branding: "pending-human-review", rights: "pending-human-review", cloudPersonalAgentClipReviews: "passed", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },
+      reviews: { privacy: "pending-human-review", branding: "pending-human-review", rights: "pending-human-review", cloudPersonalAgentClipReviews: "not-applicable-no-cloud-clip", voicePublicationBasis: "pending-owner-review", finalHumanPlayback: "pending", finalHumanReviewRequiredBeforePublication: true },
       limitations: [
         "This record proves a bounded local review build, not public YouTube publication or signed-out playback.",
-        "The Copilot scene is an observational host capture and does not support a causal comparison between models.",
-        "The Ollama scene is a diagnostic receipt visualisation: it is not a host recording, did not observe a page update and does not support a claim that the local host answers safely.",
+        "The cloud-and-local comparison is a privacy-minimised receipt visualisation, not a host recording; no Copilot Site tool invocation or Evidence answer update was observed, and no safe-host claim is made for either host.",
         "The installed macOS synthetic voice was used locally; its publication basis remains pending owner review.",
         "Source-clip audio is omitted. The retained VoiceOver record, not this soundtrack, supports the manual accessibility observation.",
       ],

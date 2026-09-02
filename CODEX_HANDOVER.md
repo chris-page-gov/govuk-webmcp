@@ -2,11 +2,83 @@
 
 ## Current outcome
 
-This source defines the six-tool `0.4.0-rc.1` Evidence answer experimental
-evaluation candidate. A checkout does not establish whether it is merged,
-deployed or tagged; determine that from the live `deployment.json`, a fresh
-authenticated byte-comparison receipt and GitHub tag and release metadata. A
-dated historical observation records that commit
+Protected-main product commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c` is the deployed six-tool
+`0.4.0-rc.1` Evidence answer experimental evaluation candidate. Validation run
+`33656288475` and Pages run `33657069203` passed. The authenticated live
+comparison fetched all 1,884 regular artefact files and 128,653,415 bytes with
+zero byte mismatches. The public site is at:
+
+- <https://chris-page-gov.github.io/govuk-webmcp/>
+
+The exact-release Chrome DevTools supported-host observation discovered and
+completed all six WebMCP tools through direct, fixed calls. It proves the
+bounded contracts and deterministic page-result parity in that named harness;
+no model selected a tool, no model provider was called and no host-owned
+surface was captured.
+
+The exact-release Safari, VoiceOver and Caption Panel journey completed eight
+of nine checkpoints without a limitation. One retained a limitation because
+the first frame used accessibility focus rather than retaining the VoiceOver
+rotor. VoiceOver speech audio was not captured, the sequence is not continuous
+footage and no WCAG conformance is claimed. The Caption Panel and VoiceOver
+were both confirmed off immediately afterwards.
+The capture did not independently read deployment metadata before and after
+the journey, so the named commit and Pages run identify the intended candidate
+rather than provide a cryptographic capture-time binding.
+
+The exact-release personal-agent matrix contains 36 personal Microsoft Copilot
+observations and 36 local Ollama observations. Copilot tool discovery, calls
+and page parity were not observable, and every answer remains unreviewed.
+**No Site tool invocation or Evidence answer update was observed.**
+The local Ollama half passed tool selection and execution in 6 runs, failed in
+30 and retained 3 runner errors. The combined claim gate is false and supports no safe-host
+claim. Private share links and answer text remain outside tracked public
+evidence.
+
+One supplemental owner-controlled personal-profile Edge 152.0.4191.53 session
+explicitly requested Site tools and Evidence answer presentation. Copilot
+completed a response, but the page remained at its initial no-action state and
+no Site-tool call was observed. Its public receipt is deliberately separate
+from the frozen 72-run matrix, contains no answer text, private share link or
+account identifier and does not change the false claim gate.
+
+The honest local review video now shows that negative Copilot compatibility
+finding alongside the exact supported-host success without reconstructing or
+implying a Copilot tool call. It has 8 scenes over 120.326 seconds, 1920 by 1080
+H.264 video at 30 frames per second with `yuv420p` pixel format, 48 kHz AAC audio
+and embedded English `mov_text` captions. Its SHA-256 is
+`4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`.
+The generated cloud-versus-local card is privacy-minimised, derived from the
+complete 72-run public summary and explicitly not a host recording. It supports
+no safe-host or causal claim; direct six-call supported-host evidence remains
+separate.
+
+Exact post-remediation Codex Security scan
+`8111841c-37a9-430f-82ee-e0d938275c35`, snapshot
+`codex-security-snapshot/v1:sha256:fa7f13cac45d27832514469e74a3dc012e85cab5da9339fbccddcd05354aa6f3`,
+completed the four changed release-media and evidence surfaces with zero
+reportable findings. The final and standalone comparison consumers now
+authenticate the live release, replay the canonical mode-`0600` 72-run pair
+and require exact public parity. Closed nested-summary, exact story-matrix and
+canonical VoiceOver-path mutations pass in the focused 36-test file. The
+portable scan is retained in
+`docs/competition/evidence/security-scan-2026-09-02-release-media/`.
+
+This is local review material only. The annotated `v0.4.0-rc.1` tag, GitHub
+prerelease, owner playback and privacy, branding, rights and voice approval,
+signed-out public playback, public upload and final Devpost review and
+submission remain open.
+
+The reversible Devpost project fields are now populated at
+<https://devpost.com/software/evidence-answer-check-what-your-ai-tells-you>.
+The authenticated record has no submission timestamp: the video, custom
+answers, owner attestations, final review and explicit challenge submission
+remain open.
+
+## Historical pre-integration and hardening trail
+
+The following dated observation records that commit
 `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` passed pull request #20,
 protected-main validation run `33554600300` and exact-commit Pages run
 `33555187118`. The public site is at:
@@ -36,7 +108,8 @@ The rebuilt 40.966667-second ignored receipt reconstruction has SHA-256
 its tracked receipt has SHA-256
 `4ee76fa70e48fca22e6874500d4bfa8a9c19d75bdbec5116276c23efffc5a528`.
 
-Pull request #21 contains the subsequent release-hardening follow-up. Its first
+Before merge, pull request #21 contained the subsequent release-hardening
+follow-up. Its first
 Linux CI run `33593265033`, job `100131452398`, failed because an ignored raw
 Chrome fixture was absent on the clean runner, two filesystem-substitution
 regressions assumed APFS-style inode non-reuse, and `webmcp-evals` backup
@@ -61,7 +134,10 @@ record is retained under
 failed run, the local passes nor that exact-range scan proves protected
 integration, deployment or the final complete release gate for this revision.
 The canonical personal-agent pair producer was added after the sealed snapshot
-and still requires its own final review and exact-release use.
+and therefore required its own final review and exact-release use. That review
+is now closed by exact post-remediation scan
+`8111841c-37a9-430f-82ee-e0d938275c35`; do not extend either scan beyond its
+named snapshot.
 
 Five silent exact-candidate page-interaction clips are captured for the empty
 Evidence answer, human presentation action, comparison guide, Technical review
@@ -86,13 +162,14 @@ The manual evidence SHA-256 is
 `77b6737c0ca21661c536f3e62a7fc071c27652290e5c14dcb4dd1474509ac69f`.
 The clip, manifest and nine source frames are intentionally tracked as 11
 narrowly allowlisted release-build inputs totalling 5,584,101 bytes; including
-the tracked manual evidence makes 5,591,303 bytes. No final video has been
-completed.
+the tracked manual evidence makes 5,591,303 bytes. At that historical
+checkpoint, no final video had been completed.
 
-The final-video contract no longer misrepresents the failed local-model
-diagnostic as a successful host capture. The cloud Copilot scene still requires
-a genuine visible Site-tool call, Evidence answer update and owner-human
-review. The local scene is now a separately labelled generated diagnostic
+At that historical checkpoint, the final-video contract no longer
+misrepresented the failed local-model diagnostic as a successful host capture.
+The proposed cloud Copilot scene still required a genuine visible Site-tool
+call, Evidence answer update and owner-human review. The local scene was a
+separately labelled generated diagnostic
 receipt visualisation. Before generating it, the builder must independently
 replay the exact mode-`0600` 36-run capture, match the tracked public summary,
 bind both byte digests and the exact Ollama model inventory digest, and retain
@@ -222,10 +299,12 @@ repository was changed.
 
 ## `0.4.0-rc.1` candidate handover
 
-The package identifies version `0.4.0-rc.1`. Product-commit, deployment,
-host-receipt, tag and prerelease state must be established from their live or
-authenticated records rather than inferred from this file. Keep the released
-five-tool `v0.3.0-rc.1` identity and evidence unchanged.
+The package identifies version `0.4.0-rc.1`. The authenticated records bind its
+deployed product to commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c`,
+validation run `33656288475` and Pages run `33657069203`. Tag and prerelease
+state must still be established from GitHub metadata rather than inferred from
+this file. Keep the released five-tool `v0.3.0-rc.1` identity and evidence
+unchanged.
 
 Visible candidate implementation currently includes:
 
@@ -249,10 +328,10 @@ Visible candidate implementation currently includes:
   Pages run to protected main, checks archive and deployment identity and
   compares every regular artefact file with the live site before public evidence
   can be admitted; and
-- a separate versioned `v0.4.0-rc.1` nine-scene demo configuration and
+- a separate versioned `v0.4.0-rc.1` demonstration configuration and
   capture/build validators for the Evidence answer, sixth tool, both views,
-  a genuine private Copilot capture, a separately labelled local Ollama
-  diagnostic, explicit redaction gates and nine candidate VoiceOver
+  the observed negative Copilot compatibility result, a separately labelled
+  local Ollama diagnostic, explicit redaction gates and nine VoiceOver
   checkpoints. Historical `v0.3.0-rc.1` evidence and its original demo
   configuration remain unchanged;
 - one controller-owned latest-started sequence across all three Evidence answer
@@ -341,48 +420,26 @@ completed the immutable range
 with complete configured coverage and zero findings. The retained portable
 record is
 `docs/competition/evidence/security-scan-2026-09-02-pre-staging/`. It closes the
-changed-source security gate only for that exact range, not protected
-integration, deployment, live staging or host and human evidence gates. The
-canonical personal-agent pair producer postdates that scan and requires the
-final changed-source review before protected integration.
+changed-source security gate only for that exact range. Protected integration,
+deployment and exact-release capture were established later by their own
+receipts; the scan must not be stretched to those later evidence artefacts.
 
-Protected integration and first exact deployment authentication are complete.
-The admitted live receipt binds product commit
-`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, Pages run `33555187118`, 1,884
-files and 128,646,735 bytes with zero mismatches. The separately admitted
-Chrome receipt records all six tools completing on those bytes and matching
-the final displayed Evidence answer digest. Its separately tracked clip
-receipt binds the ignored labelled reconstruction to those exact evidence
-bytes. Any later build-affecting evidence change must pass protected review,
-exact deployment and comparison again before its commit is eligible for
-tagging.
+Protected integration and exact deployment authentication are complete. The
+admitted live receipt binds product commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c`, Pages run `33657069203`, 1,884
+files and 128,653,415 bytes with zero mismatches. The separately admitted
+Chrome DevTools receipt records all six tools completing on those bytes through
+direct fixed calls. It is not evidence of model selection or a host-owned
+surface.
 
-The patched 36-case local Ollama diagnostic is complete for model digest
-`17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7`.
-The raw report is
-`.evals/personal-agent-local/2026-09-01T21-25-56-524Z-8733/report-1788298998487.json`.
-The capture-schema-v3 mode-`0600` converted private capture is
-`.evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json`,
-with SHA-256
-`ac6dd41ef1733b2ea8e553da5d7aa5666c5f55d23643a89fb57d22632c63f5a8`;
-the tracked public summary has SHA-256
-`a249548772fefed95b87db48c27ccda8f66baa09e43a2087c8dc6390509f283f`.
-
-The summary records 36 local observations and 36 missing Copilot slots. Its 118
-recognised calls contain 108 deterministic successes and 10 explicit rejected
-results across nine runs. Two unavailable or null-result attempts are retained
-only as runner diagnostics. Tool selection and deterministic execution each
-pass 6 runs and fail 30; page parity is not observable for all 36, every answer
-is unreviewed and no execution context is complete. Browser-console, page-
-error, network-error and latency telemetry are explicitly not observable.
-Runner errors are observed: 34 runs are clean and 2 retain bounded errors;
-interaction-step measurements are observed from 1 to 6. US-10 tool-argument
-checks pass 3 of 3 and tool-result checks pass 3 of 3 without synthetic-marker
-leakage. Conversion and receipt-bound replay pass. The authenticated verifier
-correctly rejects the dirty, unbound loopback context, so the claim gate remains
-false. Preserve this
-as diagnostic evidence; do not relabel it as safe local answers or a complete
-host comparison.
+The exact-release private comparison contains all 36 local Ollama and all 36
+personal Microsoft Copilot observations. The local half passed tool selection
+and execution in 6 runs, failed in 30 and retained 3 runner errors. In the
+Copilot half, tool discovery, calls and page parity were not observable, and all
+answers remain unreviewed.
+**No Site tool invocation or Evidence answer update was observed.**
+The claim gate remains false. Preserve this as diagnostic evidence; do not
+relabel it as safe answers or a controlled host comparison.
 
 The private receipt schema now keeps a recognised deterministic `ok: false`
 result as an explicit rejected call with bounded arguments. Normal result
@@ -1162,42 +1219,21 @@ repository, live project and submission after the close.
 
 ## Recommended next step
 
-Against pre-integration deployment
-`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`, current demonstration preflight
-fails only on the three absent genuine Copilot artefacts. That does not make
-those old candidate inputs final-release evidence. Do not replace Copilot with
-generated or reconstructed media.
+Review the completed 120.326-second local cut through audible owner playback,
+privacy, branding, rights, voice and caption checks. It uses the exact page
+clips, successful six-tool Chrome DevTools supported-host receipt, truthful
+negative Copilot compatibility finding, local Ollama diagnostic and exact
+Safari VoiceOver sequence. It says “No Site tool invocation or Evidence answer
+update was observed.” Do not reconstruct or imply a Copilot call, and do not
+claim that either personal-agent host answered safely.
 
-Retain the completed patched 36-case Ollama diagnostic with every failure and
-unknown as historical diagnostic evidence. After the final protected-main
-deployment, rerun all 36 local slots from a clean exact-release checkout and
-build; bind each run to that deployment and leave page parity or answer review
-unknown unless genuinely observed. Capture the 36-run Copilot matrix only in
-the visible owner-controlled Microsoft Edge MCP Workspace, with a fresh
-conversation and private observed share link for each slot. The authenticated
-72-run media source must combine those two newly release-bound halves. Recapture
-the Safari, VoiceOver and Caption Panel journey against the same deployment and
-retain every limitation and the no-WCAG boundary. Formative comprehension
-evidence remains unobserved and must not be inferred from personas, automated
-tests or host runs. The page must not claim to inspect the AI host's final
-prose.
-
-For any remaining build-affecting hardening, pass protected review,
-protected-main validation, exact deployment and byte comparison. Recapture and
-rebind every exact-release live, Chrome, supported-host, VoiceOver and host
-matrix input before building the new redacted under-three-minute video. The
-pre-staging exact-range security review is complete; next finish the review of
-the canonical pair producer, then require green protected pull-request
-validation for the current pull request #21 snapshot. Run
-`33593265033`, job `100131452398`, is the retained failed clean-run and
-Linux-portability diagnostic, not an integration pass. Complete audible playback,
-privacy, branding, rights and caption review, then
-inspect GitHub metadata. If the annotated `v0.4.0-rc.1` tag and prerelease do
-not already exist, create them on that exact protected-main product commit. A
-later evidence-documentation commit may record the observations but must not
-move the tag or be represented as the deployed release. Verify any public
-player signed out before the final read-only rules and Devpost-form refresh.
-The 156.023-second `v0.3.0-rc.1` video remains historical.
+After approval, upload it and verify the public player while signed out. Inspect
+GitHub metadata;
+if the annotated `v0.4.0-rc.1` tag and prerelease do not exist, create them on
+product commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c`. A later evidence-
+documentation commit must not move the tag or be represented as the deployed
+product. Finish with the read-only rules and Devpost-form review. Devpost
+submission remains a separate explicit action.
 
 Do not move the `v0.3.0-rc.1` tag or reuse pre-federation accessibility, host or
 video evidence as proof of the expanded release. Public YouTube upload and

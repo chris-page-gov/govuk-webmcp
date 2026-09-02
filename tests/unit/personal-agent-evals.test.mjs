@@ -757,7 +757,7 @@ function executionContext(hostId, interactionSteps = 1) {
     exposedTools: { status: "observed", names: [...TOOL_NAMES] },
     share: local
       ? { status: "not-applicable", url: null }
-      : { status: "observed", url: "https://copilot.microsoft.com/shares/G6UPWiDJ2VK4RfGycoxdr" },
+      : { status: "observed", url: "https://copilot.microsoft.com/shares/SYNTHETICTESTSHARE0001" },
     deployment: {
       kind: local ? "local-loopback" : "public-pages",
       url: local ? "http://127.0.0.1:4173/" : PUBLIC_URL,
@@ -1640,8 +1640,8 @@ test("host, browser, visible-mode, tool-list, share, deployment and diagnostics 
   }
 
   for (const shareUrl of [
-    "https://copilot.microsoft.com/private/../shares/G6UPWiDJ2VK4RfGycoxdr",
-    "https://copilot.microsoft.com:443/shares/G6UPWiDJ2VK4RfGycoxdr",
+    "https://copilot.microsoft.com/private/../shares/SYNTHETICTESTSHARE0001",
+    "https://copilot.microsoft.com:443/shares/SYNTHETICTESTSHARE0001",
   ]) {
     const shareAlias = await completeSyntheticCapture();
     shareAlias.runs.find(({ hostId }) => hostId === "copilot-mcp-workspace")

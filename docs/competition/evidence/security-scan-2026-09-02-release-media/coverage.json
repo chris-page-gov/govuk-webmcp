@@ -1,0 +1,78 @@
+{
+  "completeness": "complete",
+  "deferred": [],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [
+    {
+      "pattern": "deployed static browser application",
+      "reason": "The protected deployed product commit is unchanged."
+    },
+    {
+      "pattern": "visual truth, genuine host/VoiceOver operation, answer safety and publication approval",
+      "reason": "These remain explicitly separate manual evidence gates."
+    },
+    {
+      "pattern": "same-user PATH or concurrent ancestor replacement",
+      "reason": "Explicitly outside the supported hostile boundary."
+    }
+  ],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "diff",
+  "mode": "working_tree",
+  "openQuestions": [],
+  "scanId": "8111841c-37a9-430f-82ee-e0d938275c35",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_personal-agent-final-video-evidence-admission",
+      "label": "Personal-agent final-video evidence admission",
+      "notes": "Fresh live authentication, borrowed-lease private replay, canonical public/private equality and disposal are mandatory.",
+      "receiptRefs": [],
+      "riskArea": "Private provenance replay and exact live/public/private parity"
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_standalone-personal-agent-comparison-publication",
+      "label": "Standalone personal-agent comparison publication",
+      "notes": "The builder now loads canonical mode-0600 inputs, authenticates the live release once, replays the private 72-run pair and requires exact public parity before rendering.",
+      "receiptRefs": [],
+      "riskArea": "Authentication bypass in an alternate publication consumer"
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_public-aggregate-schema-and-story-coverage",
+      "label": "Public aggregate schema and story coverage",
+      "notes": "Every nested object is closed; both hosts require exact ordered US-01 to US-12 rows with three observations and aggregate reconciliation.",
+      "receiptRefs": [],
+      "riskArea": "Private nested fields or false 12-story coverage"
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_voiceover-manifest-and-frame-identity",
+      "label": "VoiceOver manifest and frame identity",
+      "notes": "Exact canonical manifest and ordered nine frame paths, digests, timing and image checks are required.",
+      "receiptRefs": [],
+      "riskArea": "Alternate co-digested evidence admitted as the candidate"
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_html-network-and-subprocess-boundary",
+      "label": "HTML, network and subprocess boundary",
+      "notes": "Data-derived values are escaped, rendering is offline with request abortion, and fixed media tools receive argument arrays without a shell.",
+      "receiptRefs": [],
+      "riskArea": "Active markup, unintended requests or shell injection"
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_path-and-output-boundary",
+      "label": "Path and output boundary",
+      "notes": "Inputs are bounded canonical regular files and output uses recoverable no-clobber transactional placement.",
+      "receiptRefs": [],
+      "riskArea": "Traversal, symbols, overwrite and partial promotion"
+    }
+  ]
+}

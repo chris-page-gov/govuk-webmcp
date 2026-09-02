@@ -1,24 +1,24 @@
 {
   "schema": "trusted-govuk-discovery.supported-host-webmcp-clip.v1",
-  "builtAt": "2026-09-02T01:57:30.530Z",
+  "builtAt": "2026-09-02T19:50:12.680Z",
   "page": {
     "url": "https://chris-page-gov.github.io/govuk-webmcp/",
     "release": "v0.4.0-rc.1",
-    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-    "pagesRunId": "33555187118"
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203"
   },
   "sourceEvidence": {
     "path": "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json",
-    "sha256": "b98c43fd394ea74731d59a114aecb69897a60fe978b1ebc352a4347ba1046f33"
+    "sha256": "be1b4ba72b64100ff970244bcdc53d389c7c13602529b740badb94afa0036037"
   },
   "sourceArtefacts": [
     {
       "path": "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
-      "sha256": "e9d67af0799ee6772396837bd4ab8df7538ae8a11c6d5c62ef08e1b505d5a8e7"
+      "sha256": "6f734d4e945d4c5e4b2c8c30f27efab9bb66758b376c372993e7739e8b37d823"
     },
     {
       "path": "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
-      "sha256": "3cd5c735a6d6cdf4259b1cc8cee6b3ec8969ed54926303e3583301d61dc5d30a"
+      "sha256": "e2eae684bd2d238d538e74e0becdf694f0a61ddcf5a05c07407a021443bff661"
     }
   ],
   "rendering": {
@@ -29,9 +29,9 @@
   },
   "media": {
     "path": "output/demo-clips/v0.4.0-rc.1/04-supported-host-webmcp.mov",
-    "sha256": "db8a9eaaadc0e4b2d6716c52cec5cde995f7a1e56d54fc3e92df96089fcfb835",
-    "durationSeconds": 40.966667,
+    "sha256": "2392d5d4f2d32729612c6b7b71da5530dc0cbf73d15b2e23689e14a6c57c3874",
+    "durationSeconds": 40.933333,
     "startSeconds": 0,
-    "endSeconds": 40.966667
+    "endSeconds": 40.933333
   }
 }

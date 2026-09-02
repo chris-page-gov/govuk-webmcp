@@ -1,11 +1,11 @@
 {
   "schema": "trusted-govuk-discovery.voiceover-screenshot-sequence-capture.v1",
-  "capturedAt": "2026-09-01T22:13:36Z",
+  "capturedAt": "2026-09-02T18:27:53Z",
   "page": {
     "url": "https://chris-page-gov.github.io/govuk-webmcp/",
     "release": "v0.4.0-rc.1",
-    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-    "pagesRunId": "33555187118"
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203"
   },
   "captureMethod": "manual-safari-voiceover-screenshot-sequence",
   "manual": true,
@@ -14,7 +14,7 @@
   "noWcagConformanceClaim": true,
   "browser": {
     "name": "Safari",
-    "version": "26.5.2 (21624.2.5.11.8)"
+    "version": "26.6.2 (21624.5.1.11.3)"
   },
   "screenReader": {
     "name": "VoiceOver",
@@ -25,72 +25,72 @@
     {
       "id": "page-title-and-headings",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-01-page-title-and-headings.png",
-      "sha256": "3b28c92d0c202bcc6626b3975f2a6718f3d425c8c8e1eadfcc653de270336107",
-      "capturedAt": "2026-09-01T22:04:24Z",
+      "sha256": "44486d7a04df9908177d5f9ba744eac1125838aa45168f0fe0f8864d019f1dcd",
+      "capturedAt": "2026-09-02T18:12:46Z",
       "holdSeconds": 3,
       "label": "Page title, visible heading and VoiceOver Caption Panel"
     },
     {
       "id": "skip-link-and-main-focus",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-02-skip-link-and-main-focus.png",
-      "sha256": "65c8aae92d21cdd89f6bf0ff06fe2f5c8aa1f063c9220c144712689e73a37aa7",
-      "capturedAt": "2026-09-01T22:05:46Z",
+      "sha256": "8fb7af23ad731ee6be2206960fe122d87be3d6a821f6d993ba3ffb3c7c580ca7",
+      "capturedAt": "2026-09-02T18:13:18Z",
       "holdSeconds": 3,
       "label": "Skip link moves VoiceOver focus to main content"
     },
     {
       "id": "persistent-view-navigation",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-03-persistent-view-navigation.png",
-      "sha256": "c1a0ee17cda27f6dd8063b46b75295b15669bf5f912bd9e7ddced824fcd6b08b",
-      "capturedAt": "2026-09-01T22:06:41Z",
+      "sha256": "5bbdf930b2f4fff98848fdc8b0c9ccf65cb3a2b7035a00d5c6d8c98bd599639b",
+      "capturedAt": "2026-09-02T18:13:52Z",
       "holdSeconds": 3,
       "label": "Persistent view navigation identifies the Technical review heading"
     },
     {
       "id": "evidence-presentation-action",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-04-evidence-presentation-action.png",
-      "sha256": "f5167080f15eafff9300a3fb5049f8d8afed2c2ee973754bb8e206aa26563a3e",
-      "capturedAt": "2026-09-01T22:10:11Z",
+      "sha256": "ae55c097e3e269ae9c26ac812d608ac413abfb954198247c474e0d9664c794a6",
+      "capturedAt": "2026-09-02T18:16:34Z",
       "holdSeconds": 3,
       "label": "Human action presents the selected Land Registry Evidence answer"
     },
     {
       "id": "evidence-answer-sections",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-05-evidence-answer-sections.png",
-      "sha256": "74a1d8520877f9211081c193c9464647e1a7d1e02aa0eab5d394e8a13d7a731c",
-      "capturedAt": "2026-09-01T22:10:44Z",
+      "sha256": "344c2a1a33c9f7d3bb94c75d72b4e5e61e33e48cdd7d642ae81404237b105270",
+      "capturedAt": "2026-09-02T18:21:58Z",
       "holdSeconds": 3,
       "label": "Evidence answer exposes freshness, integrity, access, rights and coverage"
     },
     {
       "id": "source-link-role-and-destination",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-06-source-link-role-and-destination.png",
-      "sha256": "d91ca78b2ab290d3a2a1c1963ad1c78b555b8cfa28c36aded3ab84a133c53423",
-      "capturedAt": "2026-09-01T22:11:18Z",
+      "sha256": "71885241d1cba193cd4fe7d702c29127fb3a01ce98177bc675011dd32868d20e",
+      "capturedAt": "2026-09-02T18:25:13Z",
       "holdSeconds": 3,
       "label": "Recorded source role, authority, publisher, link and hostname"
     },
     {
       "id": "comparison-guide",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-07-comparison-guide.png",
-      "sha256": "54c4f8572a8ac85393e060d3ca5bc5da5f2d821ca21acfa35915482395640d5e",
-      "capturedAt": "2026-09-01T22:11:47Z",
+      "sha256": "4462ccc0bc10b92b4c228251a728ace57544b06e5028ccaa2ab4dc53007b2c7e",
+      "capturedAt": "2026-09-02T18:26:31Z",
       "holdSeconds": 3,
       "label": "Comparison guide separates page evidence, AI wording and checks"
     },
     {
       "id": "technical-review-controls",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-08-technical-review-controls.png",
-      "sha256": "b0d14e8d7c056117fbc65d0ae77cd9bec86500915f1fbb84d581bf066224b6da",
-      "capturedAt": "2026-09-01T22:12:24Z",
+      "sha256": "58338ceab451dd717e3fe9dd637b8b9b08fb2ceeae59889eb5c2cd0f8488fbc5",
+      "capturedAt": "2026-09-02T18:27:20Z",
       "holdSeconds": 3,
       "label": "Technical review retains the bounded search and collection controls"
     },
     {
       "id": "focus-restoration",
       "path": "output/voiceover-capture/v0.4.0-rc.1-frame-09-focus-restoration.png",
-      "sha256": "2a436e72140c45e67329e2cf573293a5c5d0aa2f5a8d71fe6684f2b02ef4d143",
-      "capturedAt": "2026-09-01T22:13:36Z",
+      "sha256": "09c66ac989f164cdaa02854bcc9e5d6f7f5035d54b255e81990b031311c906f0",
+      "capturedAt": "2026-09-02T18:27:53Z",
       "holdSeconds": 3,
       "label": "Closing provenance restores focus to its originating record control"
     }
@@ -98,8 +98,7 @@
   "limitations": [
     "This screenshot sequence is not a continuous recording.",
     "VoiceOver speech audio was not captured; the sequence retains the Caption Panel and manual Safari accessibility observations.",
-    "The page title and level-one heading were visible while VoiceOver was active, but a heading-rotor selection was not retained in the nine-frame sequence.",
-    "Direct pointer selection made the Caption Panel retain only the final word of some visible section headings; the complete headings were separately exposed in Safari's accessibility tree.",
+    "The first frame used accessibility focus rather than retaining the VoiceOver rotor itself; later frames retain native VoiceOver heading and link navigation in the Caption Panel.",
     "One manual journey in one environment is not a WCAG conformance assessment.",
     "The capture did not retain independent deployment metadata before and after the manual journey; the commit and Pages run identify the intended candidate rather than a cryptographic capture-time binding."
   ]

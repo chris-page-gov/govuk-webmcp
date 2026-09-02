@@ -5,21 +5,21 @@
 1. Entrant/ownership/outside-interest decision.
 2. Baseline, rights and attribution manifests.
 3. 30–80 record reviewed corpus. *(Complete: 80 records and receipts.)*
-4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas, `v0.3.0-rc.1` with 31 and the hardened `0.4.0-rc.1` source candidate with 36. Source-native and target OKF states remain separate. No hardened deployment or tag is inferred.)*
-5. Accessible search, results, record and provenance UI. *(Complete for the bounded released Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The hardened Evidence answer structure is implemented and its automated suites pass 43 of 43 in Chrome and 43 of 43 in Edge. The 6-pass/3-limited Safari and VoiceOver record, with eight limitation statements, no captured speech audio, no WCAG claim and no independent capture-time deployment binding, belongs to historical pre-hardening commit `a4fabe...` and must not be relabelled as hardened-release evidence.)*
+4. Minimal OKF profile and JSON Schema. *(Complete for the historical `v0.2` release with 20 closed schemas, `v0.3.0-rc.1` with 31 and the hardened deployed `0.4.0-rc.1` candidate with 36. Source-native and target OKF states remain separate. The candidate tag remains open.)*
+5. Accessible search, results, record and provenance UI. *(Complete for the bounded released Chrome and Edge journeys covering the analytical index, Evidence Trace and comparison. The hardened Evidence answer structure is deployed and its automated suites pass 43 of 43 in Chrome and 43 of 43 in Edge. The exact-release nine-step Safari and VoiceOver journey records eight passes and one limitation; VoiceOver and its Caption Panel were verified off afterwards. This is one bounded environment observation, not a WCAG conformance or participant-comprehension claim.)*
 6. `search_government_knowledge`. *(Complete.)*
 7. `get_resource_record`. *(Complete.)*
 8. `show_provenance`. *(Complete.)*
-9. Shared execution functions and UI/tool parity. *(Complete in the hardened source through one action controller and presentation object. Automated parity passes in the 43-test Chrome and Edge suites. Descriptor-safe data-only parsing covers reviewed, combined and lazy federated discovery, Evidence Trace comparison and shared action-budget ingress; it rejects symbols, accessors, non-enumerables, sparse arrays and extra array properties without invoking getters. Numeric limits accept only actual bounded integers without coercion. Host JSON cannot carry a Proxy, and containment of a same-realm Proxy whose creator already has script-execution authority is not claimed. The earlier isolated-Chrome six-tool observation and displayed digest parity belong only to historical pre-hardening commit `a4fabe...`; personal-AI host selection, hardened live execution and answer quality remain separate gates.)*
+9. Shared execution functions and UI/tool parity. *(Complete in the hardened deployed product through one action controller and presentation object. Automated parity passes in the 43-test Chrome and Edge suites. Descriptor-safe data-only parsing covers reviewed, combined and lazy federated discovery, Evidence Trace comparison and shared action-budget ingress; it rejects symbols, accessors, non-enumerables, sparse arrays and extra array properties without invoking getters. Numeric limits accept only actual bounded integers without coercion. Host JSON cannot carry a Proxy, and containment of a same-realm Proxy whose creator already has script-execution authority is not claimed. Exact Chrome DevTools evidence completed all six tools by fixed direct calls. That is not model-selection or host-UI evidence; personal-AI answer quality remains a separate gate.)*
 10. Authoritative human links. *(Complete.)*
 11. Access/licence/assertion/observation/limitation fields. *(Complete, with eight separate Trace facets and no combined score.)*
 12. Source/record/bundle digests and receipt. *(Complete and extended to Evidence Trace and federation bindings.)*
 13. Fail-closed validation. *(Complete for public `v0.3.0-rc.1`: five source-lock registry entries validate against separately code-reviewed imported SHA-256 pins; the standalone builder directly pins the federation-lock bytes; and the manifest-first lazy plane plus exact ordered per-source population and display contracts validate. Same-count source-and-registry substitution fails closed. Post-remediation build/data, unit, browser and smoke verification passes, immutable scan `040ad945-3723-4aef-9c03-1bb552630deb` completed all 55 items with zero reportable findings, and all 1,879 public files matched the retained Pages artefact.)*
 14. Injection, unsafe URL, stale/missing/conflict/no-match tests. *(Part complete: injection, unsafe URL, missing licence, no-match, deep-input and bounded-fragment cases pass; dedicated stale and conflicting-assertion fixtures remain.)*
 15. CSP, no storage, no external runtime request. *(Complete.)*
-16. ChatGPT/Chrome tests. *(Part complete for host execution: the historical five-tool observations remain release-bound. Current release-hardening work passes 404 of 404 prepared unit tests; the most recent complete runtime suites pass 43 of 43 Chrome tests, 43 of 43 Edge tests and seven of seven model-free smoke calls. Chrome 152.0.7977.66 and Chrome DevTools MCP 1.8.0 completed all six tools only against historical pre-hardening commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118`; that observation is not final-release evidence. Hardened admission freshly authenticates the exact live receipt process-locally, requires ordered initial, after-page-load and after-execution checks, requires the fresh observation at or after both stored observations, exact-matches the stored private/raw and public/reviewed pair by identity, size and digest, and uses explicit owned/borrowed leases. Ordinary evaluation requires the exact clean Pages commit; only final-video admission may use a clean, tightly allowlisted evidence descendant whose page runtime remains pinned to the ancestor commit. The patched Ollama diagnostic retains 36 local runs, 6 tool-selection and deterministic-execution passes and 30 failures; page parity is unobservable, answers are unreviewed and all 36 Microsoft Copilot MCP Workspace observations remain missing. No hardened live-host or model-safety claim is made.)*
-17. Public deployment, MIT licence and notices. *(Part complete: the licence and notices are public. PR #20, historical pre-hardening commit `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` and Pages run `33555187118` retain their exact chronology but are not final-release evidence. Hardened integration is pending in PR #21. Its first validation run `33593265033`, job `100131452398`, failed on clean-runner portability and preservation assumptions; local corrections now pass 404 prepared unit tests but protected validation has not yet passed. Deploy and byte-compare only the exact hardened protected-main commit after integration. Tag only that deployed commit after exact-release recapture. Earlier release identities remain unchanged.)*
-18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: historical pre-hardening page, Chrome, VoiceOver and supported-host evidence plus the separately unclaimable local diagnostic retain their exact identities and limitations. Once item 17 is demonstrably complete, recapture or rebuild every release-context input that does not name the exact hardened deployment; run a clean 36-slot local matrix and 36 visible Copilot slots; then build and review the final video and tag only that deployed protected-main product commit. If work resumes after any gate has changed, verify live state and continue from the first unmet gate. Human review, signed-out public playback, GitHub prerelease, public upload and authorised submission remain open. No new deployment, final host matrix, final video, tag, WCAG conformance, personal-AI safety, submission or upload claim is made.)*
+16. ChatGPT/Chrome tests. *(Part complete for personal-agent claims and complete for direct host execution: exact product commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passed validation run `33656288475`. Exact Chrome DevTools evidence completed all six tools through fixed direct calls, not model selection or a host-UI recording. All 72 personal-agent slots are observed. Exact Ollama evidence records 6 selection/execution passes, 30 failures and 3 runner errors. Copilot tools, calls and page parity are unobservable and every answer is unreviewed. No Site tool invocation or Evidence answer update was observed. A separate personal-profile Edge 152 session explicitly asked for Site tools and presentation, but retained the page's initial no-action state and exposed no call trace; it is not an extra matrix slot. The claim gate is false, so no safe-host or model-safety claim is made.)*
+17. Public deployment, MIT licence and notices. *(Product deployment complete: the licence and notices are public. Protected-main commit `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passed validation run `33656288475` and Pages run `33657069203`; all 1,884 live files and 128,653,415 bytes matched with zero mismatches. The annotated candidate tag and GitHub prerelease remain open. Earlier release identities remain unchanged.)*
+18. Demo, transcript, submission copy, final tag and hashes. *(Part complete: exact-release live-byte, direct supported-host, VoiceOver and 72-slot observational evidence is retained with its limitations. The honest eight-scene local review MP4 is built at 120.326 seconds with H.264 1080p video, AAC audio, embedded English captions and SHA-256 `4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58`. Its visibly labelled personal-agent comparison is not a host recording and supports no safe-host or causal claim. Both comparison publication consumers now authenticate the live release, replay the canonical private pair and require exact public parity; focused mutations pass 36 of 36 and exact scan `8111841c-37a9-430f-82ee-e0d938275c35` reports zero findings for its four changed surfaces. The live Devpost project contains the prepared core fields and public links but no challenge submission timestamp. Owner privacy, branding, rights, voice and playback review, signed-out public playback, annotated tag, GitHub prerelease, public upload, custom answers and the separately authorised Devpost action remain open. No WCAG conformance or personal-AI safety claim is made.)*
 
 The current official submission boundary closes at 1:00 pm PDT on 3 September
 2026. It requires a public source repository with a visibly detectable open-
@@ -255,8 +255,8 @@ formative acceptance and Devpost submission remain separate gates.
    zero accepted specialist reviews, two service families where review is not
    required and 291 where it is required. Historical `v0.3.0-rc.1` evidence is
    retained unchanged.
-9. **Technical review and UI specification — hardened implementation complete;
-   live release gate state-neutral.** The source contains the closed projection,
+9. **Technical review and UI specification — hardened implementation and
+   deployment complete.** The source contains the closed projection,
    sixth `present_resource_evidence` action, bounded persistent two-view
    navigation and Evidence answer renderer while retaining Technical review.
    Descriptor-safe validators reject exotic object and array descriptors
@@ -265,15 +265,25 @@ formative acceptance and Devpost submission remain separate gates.
    installed Edge passed 43 of 43 in 16.8 seconds; and two deterministic builds
    each contained 1,883 files and 128,653,230 bytes at aggregate SHA-256
    `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`.
-   The
-   deployed `a4fabe...` implementation and its 6-pass/3-limited Safari and
-   VoiceOver record are historical pre-hardening evidence only; no WCAG or
-   hardened-deployment claim follows.
-10. **Formative and repeated evaluation — partly observed; acceptance open.**
-    The three-run local Ollama diagnostic is complete for all 12 stories, with
-    failures and unknowns retained and the claim gate false. All 36 Copilot
-    observations and all formative comprehension work with non-technical and
-    assistive-technology users remain pending.
+   Exact protected-main commit
+   `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passed validation and Pages;
+   all 1,884 live files and 128,653,415 bytes matched. Its direct Chrome
+   six-tool evidence and 8-pass/1-limitation VoiceOver journey do not establish
+   model selection, a host-UI recording, WCAG conformance or comprehension.
+10. **Formative and repeated evaluation — all slots observed; acceptance
+    open.** The exact Ollama half records 6 selection/execution passes, 30
+    failures and 3 runner errors. Copilot tools, calls and page parity are
+    unobservable and every answer remains unreviewed. No Site tool invocation
+    or Evidence answer update was observed. The claim gate is false and all
+    formative comprehension work with non-technical and assistive-technology
+    users remains pending.
+
+    The tracked public summary
+    `docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json`
+    reports 72 of 72 observations and a false claim gate without private URLs
+    or answer text. Its tracked clip receipt binds the visibly labelled
+    generated comparison, which is not a host recording. That comparison has
+    replaced the historical Ollama-only diagnostic in the final local cut.
 
 The corresponding evidence and detailed status are in
 [`implementation-plan.md`](implementation-plan.md),
@@ -291,9 +301,10 @@ The proposed dual-view contract is in
    schema. `npm run build:verify-deterministic` confirms two complete 1,883-file,
    128,653,230-byte builds at aggregate SHA-256
    `cef7aec3253c9f3e5a12b851299b1c24386df96c7f2ae37c681b71ccebfd27f6`;
-   404 of 404 prepared unit tests pass. The prior public-byte gate remains
-   historical pre-hardening evidence for `a4fabe...`; hardened integration and
-   deployment status must be read live rather than inferred here.
+   404 of 404 prepared unit tests pass. Protected-main commit
+   `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` passed validation run
+   `33656288475` and Pages run `33657069203`; all 1,884 live files and
+   128,653,415 bytes matched with zero mismatches.
 2. **Sixth tool — complete.** Closed input, cancellation, timeout, no partial
    presentation and all-or-none registration tests pass. One latest-started
    sequence spans all three presentation actions, with a cross-tool unit and
@@ -302,8 +313,9 @@ The proposed dual-view contract is in
    action-budget ingress. It rejects symbols, accessors, non-enumerables, sparse
    arrays and extra array properties without invoking getters. Numeric limits
    accept only actual bounded integers without coercion. Host JSON cannot carry
-   a Proxy; same-realm Proxy containment is not claimed. The earlier six-tool
-   Chrome call set covers only the historical pre-hardening deployment.
+   a Proxy; same-realm Proxy containment is not claimed. Exact-release Chrome
+   DevTools evidence completed all six tools by fixed direct calls, not model
+   selection or a host-UI journey.
 3. **Persistent views — automated acceptance complete.** Empty, explicit,
    legacy and invalid route unit checks pass;
    complete 43-test Chrome and Edge suites verify heading focus,
@@ -315,10 +327,10 @@ The proposed dual-view contract is in
    links, mapped primary plus all other limitations, unknowns, next checks,
    accepted fields, Technical review parity and inactive-view updates without
    view, URL, history, focus or scroll mutation.
-5. **Release assurance implemented locally; integration and live acceptance
-   pending.** The first exhaustive candidate security-diff review completed
+5. **Release assurance, integration and direct live acceptance complete.** The
+   first exhaustive candidate security-diff review completed
    with zero reportable vulnerabilities; the release-hardening defects it
-   exposed now have targeted regressions. Current local gates include research
+   exposed now have targeted regressions. The earlier local gates included research
    4 of 4; the settled deterministic double-build identity in item 1; 398 of
    398 unit;
    43 of 43 Chrome; 43 of 43 Edge;
@@ -349,8 +361,9 @@ The proposed dual-view contract is in
    range with complete configured coverage and zero findings. Its portable
    record is retained under
    `docs/competition/evidence/security-scan-2026-09-02-pre-staging/`.
-   The canonical personal-agent pair producer was added afterwards and still
-   requires the final changed-source review.
+   The canonical personal-agent pair producer was added afterwards; the later
+   protected validation and release observations do not extend or rewrite this
+   historical scan boundary.
    The first PR #21 validation, run `33593265033` and job `100131452398`, found
    four clean-runner failures: an ignored raw Chrome fixture read during test
    module initialisation, two APFS-specific inode-reuse assumptions and backup
@@ -358,21 +371,25 @@ The proposed dual-view contract is in
    reconstructed from tracked evidence as exactly 133,272 bytes with SHA-256
    `2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e`;
    validated clean-up and rollback also recheck exact bytes and mode. These
-   corrections pass locally, but a green protected validation is not claimed.
-   The patched Ollama diagnostic is complete but unclaimable. The candidate
-   Copilot matrix, complete host comparison, hardened live evidence, final
-   media, tag and GitHub prerelease are not claimed. Inspect live GitHub and
-   Pages state before choosing the next integration or deployment action.
-   Historical five-tool evidence is not a substitute.
-6. **Canonical release-evidence admission — implemented locally; live use
-   pending.** One canonical path contract now serves the live verifier,
+   corrections passed before protected-main validation run `33656288475` and
+   Pages run `33657069203`. All 1,884 files and 128,653,415 live bytes matched
+   with zero mismatches. Exact Chrome DevTools evidence completed all six fixed
+   direct calls, and the exact VoiceOver journey recorded eight passes and one
+   limitation with both features off afterwards. The complete 72-slot matrix
+   remains unclaimable: its Copilot calls and page state are unobservable, its
+   answers are unreviewed, and the exact Ollama results are 6 passes, 30
+   failures and 3 runner errors. The eight-scene 120.326-second local review
+   video is built and technically described; owner review, publication,
+   signed-out playback, tag and GitHub prerelease remain open.
+6. **Canonical release-evidence admission — implemented and used.** One
+   canonical path contract now serves the live verifier,
    supported-host capture and final-video builders. The live verifier, rather
    than a manual copy, can stage identical mode-`0600` local and private receipts
    and an optional mode-`0644` reviewed receipt in one recoverable admission.
    This stages the authenticated live receipt only; it does not perform or
    attest the visible Copilot matrix, private share-link record, genuine
    Copilot video or human privacy, branding, rights and playback reviews.
-   After those host observations exist, the importer can promote its validated
+   After those host observations existed, the importer promoted its validated
    merged capture and freshly authenticated summary together to their two
    canonical private paths with `--stage-release-evidence`. It writes the
    run-scoped outputs first, preserves an existing canonical pair by default
@@ -396,8 +413,10 @@ The proposed dual-view contract is in
    `v0.4.0-rc.1` capture manifest. Focused post-fix tests pass 116 of 116; six
    focused canonical-staging tests pass independently; and the updated complete
    prepared suite passes 404 of 404.
-   Protected integration, exact deployment, hardened live-host and VoiceOver
-   capture, final media, tag and GitHub prerelease remain pending.
+   Protected integration, exact deployment, hardened direct-host and VoiceOver
+   capture, the 72 observation slots and the local eight-scene review video are
+   complete. Owner and public-player review, publication, tag and GitHub
+   prerelease remain pending.
 
 ## Should
 
@@ -409,10 +428,10 @@ The proposed dual-view contract is in
 6. Automated SBOM/attestation. *(Local macOS ARM64 sanitised CycloneDX SBOM
    complete; release-platform SBOM and signed attestation pending.)*
 7. Accessibility statement and manual test log. *(Statement, Chrome/Edge,
-   headed-browser and release-specific Safari and VoiceOver evidence are
-   complete for the bounded journeys. The historical journey retains two
-   limitations and the candidate journey retains three; VoiceOver speech audio
-   is not claimed and no WCAG conformance is claimed.)*
+   headed-browser and exact-release Safari and VoiceOver evidence are complete
+   for the bounded journeys. The current nine-step journey records eight passes
+   and one limitation; VoiceOver and its Caption Panel were turned off
+   afterwards. VoiceOver speech audio and WCAG conformance are not claimed.)*
 8. Baseline-to-submission visual compare. *(Part complete: separate retained public search captures show `v0.1.0-rc.1` and deployed `v0.2.0-rc.1`; a bound side-by-side comparison artefact remains.)*
 9. Optional small set of related-record links.
 10. Public status/known-issues page.
@@ -420,7 +439,14 @@ The proposed dual-view contract is in
     pinned Chrome DevTools MCP and `webmcp-evals` harnesses, context-minimisation
     and no-call fixtures, isolated model-free receipts, exact current-release
     Chrome DevTools MCP execution and historical native Chrome-panel evidence
-    exist.
+    exist. All 72 current host slots are observed, but the claim gate is false:
+    Copilot Site tools, calls and page parity are not observable, all answers
+    are unreviewed, and Ollama records 6 selection/execution passes, 30 failures
+    and 3 runner errors. No Site tool invocation or Evidence answer update was
+    observed in Copilot.
+    The privacy-minimised public comparison summary and generated clip receipt
+    are tracked. The clip is visibly labelled as an observation summary, not a
+    host recording, and supports neither a safe-host nor a causal claim.
     Five exact local fixed-model attempts and their failures and variance are
     retained, but no model-backed pass exists. Attempts 4 and 5 exercised receipt v2,
     binding matching pre/post `/api/tags` identity to daemon-reported post-run

@@ -26,6 +26,7 @@
     "deployment:verify-live": "node scripts/verify-live-pages-artifact.mjs",
     "demo:capture-live": "node scripts/capture-live-demo-clips.mjs",
     "demo:host-clip": "node scripts/build-host-evidence-clip.mjs",
+    "demo:personal-agent-comparison-clip": "node scripts/build-personal-agent-comparison-clip.mjs",
     "demo:ollama-diagnostic-clip": "node scripts/build-ollama-diagnostic-clip.mjs",
     "demo:voiceover-screenshot-clip": "node scripts/build-voiceover-screenshot-clip.mjs",
     "demo:preview-clips": "node scripts/build-preview-scene-clips.mjs",

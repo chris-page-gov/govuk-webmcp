@@ -1,100 +1,100 @@
 {
   "schema": "govuk-webmcp.demo-live-interaction-capture.v4",
-  "capturedAt": "2026-09-02T01:54:29.048Z",
+  "capturedAt": "2026-09-02T19:43:02.149Z",
   "page": {
     "url": "https://chris-page-gov.github.io/govuk-webmcp/",
     "release": "v0.4.0-rc.1",
-    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-    "pagesRunId": "33555187118"
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203"
   },
   "deployment": {
     "metadataUrl": "https://chris-page-gov.github.io/govuk-webmcp/deployment.json",
-    "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0"
+    "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b"
   },
   "deploymentChecks": [
     {
       "label": "initial",
-      "observedAt": "2026-09-02T01:51:17.277Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:39:45.910Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "before:evidence-answer",
-      "observedAt": "2026-09-02T01:51:17.526Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:39:46.050Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after:evidence-answer",
-      "observedAt": "2026-09-02T01:51:55.982Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:40:24.850Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "before:present-evidence",
-      "observedAt": "2026-09-02T01:51:55.994Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:40:24.862Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after:present-evidence",
-      "observedAt": "2026-09-02T01:52:34.188Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:41:04.314Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "before:comparison-guide",
-      "observedAt": "2026-09-02T01:52:34.201Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:41:04.327Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after:comparison-guide",
-      "observedAt": "2026-09-02T01:53:12.460Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:41:43.475Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "before:technical-review",
-      "observedAt": "2026-09-02T01:53:12.471Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:41:43.488Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after:technical-review",
-      "observedAt": "2026-09-02T01:53:50.482Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:42:22.607Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "before:boundary",
-      "observedAt": "2026-09-02T01:53:50.493Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:42:22.621Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after:boundary",
-      "observedAt": "2026-09-02T01:54:29.023Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:43:02.120Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "complete",
-      "observedAt": "2026-09-02T01:54:29.048Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:43:02.149Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     }
   ],
   "demonstration": {
@@ -130,9 +130,9 @@
     {
       "sceneId": "evidence-answer",
       "path": "output/demo-clips/v0.4.0-rc.1/01-evidence-answer.mov",
-      "sha256": "f96a0d93b597b35c793a2e1af1c74445187333f24d46331185913088c41c59db",
-      "durationSeconds": 31.933333,
-      "capturedAt": "2026-09-02T01:51:19.000Z",
+      "sha256": "aded0c04458500ddc06ef1999eca86f7bdc1e6346a4bed65c37df3966a82aae2",
+      "durationSeconds": 31.866667,
+      "capturedAt": "2026-09-02T19:39:46.969Z",
       "actions": [
         "load-bare-public-url",
         "show-default-evidence-view",
@@ -149,9 +149,9 @@
     {
       "sceneId": "present-evidence",
       "path": "output/demo-clips/v0.4.0-rc.1/02-present-evidence.mov",
-      "sha256": "1f9808430834479ca32602b87ce727aa30949cff43757e0874c5c086272a28a6",
-      "durationSeconds": 32.166667,
-      "capturedAt": "2026-09-02T01:51:56.788Z",
+      "sha256": "aff0bca43845c9f0cee7d0d480e2d3f3f55e1950a1ecfeb93304d45faaee2c22",
+      "durationSeconds": 31.933333,
+      "capturedAt": "2026-09-02T19:40:25.775Z",
       "actions": [
         "open-technical-review",
         "search-four-federated-collections",
@@ -178,9 +178,9 @@
     {
       "sceneId": "comparison-guide",
       "path": "output/demo-clips/v0.4.0-rc.1/03-comparison-guide.mov",
-      "sha256": "429d25c701b5991f854420556d068a3eb9c8ca8ee1368df3510b9b350bd6e140",
-      "durationSeconds": 31.966667,
-      "capturedAt": "2026-09-02T01:52:34.988Z",
+      "sha256": "fe349fb066663ed50c14179be8f6aa9a3cb6fc3e1c2e667ca78f43e157e5bab2",
+      "durationSeconds": 31.9,
+      "capturedAt": "2026-09-02T19:41:05.206Z",
       "actions": [
         "open-bound-evidence-answer",
         "show-source-and-limitations",
@@ -205,9 +205,9 @@
     {
       "sceneId": "technical-review",
       "path": "output/demo-clips/v0.4.0-rc.1/05-technical-review.mov",
-      "sha256": "bc95650ec0e8cfa84cb6ca9b10eb5146f0f9bc89d71a3db38219a9195cb9fe61",
-      "durationSeconds": 31.9,
-      "capturedAt": "2026-09-02T01:53:13.275Z",
+      "sha256": "a8fedb87f94f7809f5749d76d82dcac6c661fc4e621a16b29df43203051f3c4c",
+      "durationSeconds": 31.833333,
+      "capturedAt": "2026-09-02T19:41:44.412Z",
       "actions": [
         "open-technical-review-with-legacy-link",
         "compare-two-reviewed-claims",
@@ -231,9 +231,9 @@
     {
       "sceneId": "boundary",
       "path": "output/demo-clips/v0.4.0-rc.1/07-boundary.mov",
-      "sha256": "487d757fd25bdc76ef38c0146e1b5ba69fdefee8ec68168791e354d2faa8d985",
-      "durationSeconds": 31.9,
-      "capturedAt": "2026-09-02T01:53:51.291Z",
+      "sha256": "eab26131e0ef72d07e15793027d648de04941d8ead583bb13a1e7778b2cec3d8",
+      "durationSeconds": 31.933008,
+      "capturedAt": "2026-09-02T19:42:23.435Z",
       "actions": [
         "show-personal-ai-boundary",
         "show-six-tool-diagnostics",

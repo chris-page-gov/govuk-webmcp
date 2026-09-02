@@ -29,13 +29,17 @@ run `33356087333`, protected-main run `33356272534` and exact-commit Pages run
 `v0.3.0-rc.1`. Pages run `33356452048` historically deployed it at the mutable
 <https://chris-page-gov.github.io/govuk-webmcp/> URL. The tree below records that
 released shape. Its VoiceOver and local final-video technical evidence are
-complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0
-receipt also binds five completed WebMCP calls to the exact release. Owner
-review, public upload and player verification, the optional fixed-model gate,
-final live-rules and form review, and Devpost submission are separate evidence
-gates whose current state is not established by this file. The tree below
-distinguishes that released implementation from the versioned `0.4.0-rc.1`
-Evidence answer overlay.
+complete. An isolated Chrome 152 / Chrome DevTools MCP 1.8.0 receipt also binds
+five completed WebMCP calls to that exact release.
+
+The current Evidence answer product is protected-main commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c`, deployed by Pages run
+`33657069203`. Exact-release evidence records 1,884 matching live files, six
+fixed direct Chrome calls, the 8-pass/1-limitation VoiceOver journey, a
+privacy-minimised 72-run host summary with a false claim gate, and a
+120.326-second local review video. Owner review, public upload, signed-out
+player verification, tagging, final live-rules and form review, and Devpost
+submission remain separate gates.
 
 ## 20.2 Released tree and versioned overlay
 
@@ -43,11 +47,10 @@ Evidence answer overlay.
 pre-hardening product commit
 `a4fabe12184f47177b3a20c0e04c64d1eef9b4a8` passed protected review and exact
 Pages deployment, but its page, host, accessibility and media receipts do not
-apply to later built bytes. Any release claim must bind protected integration,
-fresh exact deployment and complete release-bound recapture to the product
-commit named by the tag. A later evidence-documentation commit must not move
-that tag. Presence does not establish media publication, personal-AI evaluation
-or Devpost submission.
+apply to later built bytes. The exact protected product and its evidence are
+recorded above; its tag must point to that product commit rather than a later
+evidence descendant. Presence does not establish media publication, a safe
+personal-AI host or Devpost submission.
 
 ```text
 govuk-webmcp/
@@ -61,7 +64,8 @@ govuk-webmcp/
 ├── ACCESSIBILITY.md
 ├── PRIVACY.md
 ├── SECURITY.md
-├── .devpost-hackathon-state.json # local guided-build state; submission not started
+├── .devpost-hackathon-state.json # local guided-build state; submission drafting only
+├── devpost-submission.md         # field-ready draft; no final submission action
 ├── SEED-MANIFEST.sha256
 ├── package.json
 ├── package-lock.json
@@ -180,6 +184,7 @@ govuk-webmcp/
 │   ├── setup-webmcp-explorer.sh # pinned isolated Explorer source and build
 │   ├── build-demo-video.mjs        # guarded local review cut, captions and transcript
 │   ├── build-host-evidence-clip.mjs # labelled receipt visualisation, not host video
+│   ├── build-personal-agent-comparison-clip.mjs # privacy-minimised 72-run observation visualisation
 │   ├── build-ollama-diagnostic-clip.mjs # failed-run receipt visualisation, not host video
 │   ├── build-voiceover-screenshot-clip.mjs # guarded sequence; exact v0.4 manifest is the default
 │   ├── build-preview-scene-clips.mjs # explicitly non-live editorial previews
@@ -266,7 +271,9 @@ govuk-webmcp/
 │       ├── demo-storyboard.md
 │       ├── federated-demo-storyboard.md
 │       ├── demo-video-script.json
-│       ├── demo-video-script-v0.4.0-rc.1.json # versioned nine-scene Evidence answer plan
+│       ├── demo-video-script-v0.4.0-rc.1.json # versioned eight-scene Evidence answer plan
+│       ├── demo-captions.v0.4.0-rc.1.en-GB.vtt # local review cut captions
+│       ├── demo-transcript-v0.4.0-rc.1.md # local review cut transcript
 │       ├── demo-captions.en-GB.vtt
 │       ├── demo-transcript.md
 │       ├── evidence-manifest-registry.json
@@ -286,6 +293,7 @@ govuk-webmcp/
 │           ├── security-scan-2026-08-30/
 │           ├── security-candidate-snapshot-2026-08-30/
 │           ├── security-scan-2026-09-02-pre-staging/ # exact-range zero-finding Codex Security scan
+│           ├── security-scan-2026-09-02-release-media/ # exact post-remediation four-item media/evidence scan
 │           ├── security-scan-and-remediation-2026-08-30.md
 │           ├── candidate-verification-2026-08-30.md
 │           ├── accessibility-test-2026-08-30.md
@@ -309,16 +317,20 @@ govuk-webmcp/
 │           ├── public-deployment-verification-v0.3.0-rc.1.md
 │           ├── demo-live-interaction-capture-2026-08-30.json
 │           ├── demo-live-interaction-capture-v0.3.0-rc.1.json
-│           ├── demo-live-interaction-capture-v0.4.0-rc.1.json # historical pre-hardening input
+│           ├── demo-live-interaction-capture-v0.4.0-rc.1.json # exact protected-main interaction capture
+│           ├── manual-copilot-presentation-observation-v0.4.0-rc.1.json # supplemental personal-profile negative observation
 │           ├── manual-voiceover-journey-2026-08-30.json
 │           ├── manual-voiceover-journey-v0.3.0-rc.1.json
-│           ├── manual-voiceover-journey-v0.4.0-rc.1.json # historical pre-hardening input
+│           ├── manual-voiceover-journey-v0.4.0-rc.1.json # exact nine-step Safari/VoiceOver observation
 │           ├── ollama-local-diagnostic-v0.4.0-rc.1.json
 │           ├── ollama-local-diagnostic-clip-v0.4.0-rc.1.json
-│           ├── supported-host-webmcp-capture-v0.4.0-rc.1.json # historical pre-hardening observation
+│           ├── personal-agent-comparison-v0.4.0-rc.1.json # privacy-minimised exact-release 72-run summary
+│           ├── personal-agent-comparison-clip-v0.4.0-rc.1.json # generated comparison visualisation receipt
+│           ├── supported-host-webmcp-capture-v0.4.0-rc.1.json # exact protected-main six-call observation
 │           ├── supported-host-webmcp-clip-v0.4.0-rc.1.json
 │           ├── demo-video-build-2026-08-30.json
 │           ├── demo-video-build-v0.3.0-rc.1.json
+│           ├── demo-video-build-v0.4.0-rc.1.json # local review build, not published
 │           ├── demo-video-technical-review-2026-08-30.json
 │           ├── demo-video-technical-review-v0.3.0-rc.1.json
 │           ├── devpost-read-only-status-2026-08-30.json
@@ -332,7 +344,7 @@ govuk-webmcp/
 │           ├── live-artifact-verification-2026-08-30.json
 │           ├── live-artifact-verification-2026-08-30-edd4ce6.json
 │           ├── live-artifact-verification-v0.3.0-rc.1.json
-│           ├── live-artifact-verification-v0.4.0-rc.1.json # historical pre-hardening receipt
+│           ├── live-artifact-verification-v0.4.0-rc.1.json # exact 1,884-file Pages comparison
 │           ├── live-deployment-metadata-2026-08-30.json
 │           ├── live-deployment-metadata-2026-08-30-edd4ce6.json
 │           ├── public-live-search-2026-08-30.png
@@ -474,9 +486,9 @@ calls, closed-input rejection and zero console errors.
 
 The later six-tool admission path additionally authenticates the exact live
 Pages receipt in-process and requires ordered `initial`, `after-page-load` and
-`after-execution` deployment checks. Its historical `a4fabe...` records remain
-pre-hardening evidence only; they cannot be relabelled for another product
-commit.
+`after-execution` deployment checks. It now records all six fixed direct calls
+against `a4d2db44e60024c3eadbdb2b1722153ce19dff4c` and Pages run
+`33657069203`. Historical `a4fabe...` records remain pre-hardening evidence.
 
 `npm run webmcp:explorer:setup` built Microsoft WebMCP Explorer 0.1.0 at commit
 `f7091c12420e713b11361630dc1649d5678f62ab` twice idempotently in isolated
@@ -549,6 +561,14 @@ and bounded VoiceOver evidence. Those records establish only that named
 checkpoint. They do not authenticate the settled `0.4.0-rc.1` source tree or a
 later tag; release identity must come from live deployment metadata, a
 fresh authenticated receipt and GitHub tag and release metadata.
+
+The replacement exact-release receipt binds protected-main commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c` to Pages run `33657069203` and
+byte-verifies all 1,884 deployed files, totalling 128,653,415 bytes, with zero
+mismatches. Its supported-host, VoiceOver, 72-run comparison and local-video
+records retain separate limitations. They do not establish Copilot tool
+invocation, safe model answers, owner approval, public playback, a tag or
+prerelease, or Devpost submission.
 
 The older evidence remains historical and revision-specific. The earlier
 `v0.2.0-rc.1` evidence records 58 unit, 19 Chromium and 19 installed-Microsoft-

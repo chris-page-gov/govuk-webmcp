@@ -1,0 +1,320 @@
+{
+  "schema": "govuk-webmcp.demo-video-build.v4",
+  "status": "local-review-build-not-published",
+  "product": {
+    "url": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "release": "v0.4.0-rc.1",
+    "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203"
+  },
+  "environment": {
+    "node": "v26.7.0",
+    "platform": "darwin",
+    "operatingSystemRelease": "25.6.0",
+    "architecture": "arm64",
+    "tools": {
+      "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+      "ffprobe": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers",
+      "say": "Daniel en-GB"
+    }
+  },
+  "inputs": [
+    {
+      "path": "docs/competition/demo-video-script-v0.4.0-rc.1.json",
+      "sizeBytes": 7850,
+      "sha256": "15885e4363e0a4080c6aae5d63bba6c417819cc82877e69ff261ac1e9ba59757"
+    },
+    {
+      "path": "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
+      "sizeBytes": 134239,
+      "sha256": "6f734d4e945d4c5e4b2c8c30f27efab9bb66758b376c372993e7739e8b37d823"
+    },
+    {
+      "path": "docs/competition/evidence/demo-live-interaction-capture-v0.4.0-rc.1.json",
+      "sizeBytes": 9838,
+      "sha256": "9549aa5d6b5343f7a01bbda59850c231479d54397fdd7bee8a71a114a99437d8"
+    },
+    {
+      "path": "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
+      "sizeBytes": 1196,
+      "sha256": "e2eae684bd2d238d538e74e0becdf694f0a61ddcf5a05c07407a021443bff661"
+    },
+    {
+      "path": "docs/competition/evidence/manual-voiceover-journey-v0.4.0-rc.1.json",
+      "sizeBytes": 5885,
+      "sha256": "4b6505d719c7990f176894347d7a64027d926655b6cd02fa64fd95acc7b86eb8"
+    },
+    {
+      "path": "docs/competition/evidence/personal-agent-comparison-clip-v0.4.0-rc.1.json",
+      "sizeBytes": 1755,
+      "sha256": "37e1ee2b1af95f3e5aa8658444f450cf090b87968d1c582a0f5361cb8bde82f8"
+    },
+    {
+      "path": "docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json",
+      "sizeBytes": 17357,
+      "sha256": "6852084ec153c4bd00e2f7b84758b45b9c3741d41e95327201c1bd69e9746e58"
+    },
+    {
+      "path": "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json",
+      "sizeBytes": 133214,
+      "sha256": "be1b4ba72b64100ff970244bcdc53d389c7c13602529b740badb94afa0036037"
+    },
+    {
+      "path": "docs/competition/evidence/supported-host-webmcp-clip-v0.4.0-rc.1.json",
+      "sizeBytes": 1364,
+      "sha256": "02ba8810c7c787479d828354ec3c8f47c93e4525e6a91f75a8973cdd9a7a2ea3"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/01-evidence-answer.mov",
+      "sizeBytes": 1965994,
+      "sha256": "aded0c04458500ddc06ef1999eca86f7bdc1e6346a4bed65c37df3966a82aae2"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/02-present-evidence.mov",
+      "sizeBytes": 7012012,
+      "sha256": "aff0bca43845c9f0cee7d0d480e2d3f3f55e1950a1ecfeb93304d45faaee2c22"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/03-comparison-guide.mov",
+      "sizeBytes": 3679039,
+      "sha256": "fe349fb066663ed50c14179be8f6aa9a3cb6fc3e1c2e667ca78f43e157e5bab2"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/04-personal-agent-comparison.mov",
+      "sizeBytes": 2533008,
+      "sha256": "7cb5311e5d04b39891d233a7fd8dad1e0f8fbddab07c846647f05f3ca29cb9e7"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/04-supported-host-webmcp.mov",
+      "sizeBytes": 3502152,
+      "sha256": "2392d5d4f2d32729612c6b7b71da5530dc0cbf73d15b2e23689e14a6c57c3874"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/05-technical-review.mov",
+      "sizeBytes": 2520297,
+      "sha256": "a8fedb87f94f7809f5749d76d82dcac6c661fc4e621a16b29df43203051f3c4c"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/06-voiceover.mov",
+      "sizeBytes": 941706,
+      "sha256": "73690d77a78fd271ec4d28fb4670c42630e2fa000b183dfe225c19475ee7654b"
+    },
+    {
+      "path": "output/demo-clips/v0.4.0-rc.1/07-boundary.mov",
+      "sizeBytes": 6663501,
+      "sha256": "eab26131e0ef72d07e15793027d648de04941d8ead583bb13a1e7778b2cec3d8"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-capture-manifest.json",
+      "sizeBytes": 4816,
+      "sha256": "6a4b0fcce1ada15c1a966b4fcb4a5145398e937745362bec33abd1ac2e560645"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-01-page-title-and-headings.png",
+      "sizeBytes": 486207,
+      "sha256": "44486d7a04df9908177d5f9ba744eac1125838aa45168f0fe0f8864d019f1dcd"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-02-skip-link-and-main-focus.png",
+      "sizeBytes": 447343,
+      "sha256": "8fb7af23ad731ee6be2206960fe122d87be3d6a821f6d993ba3ffb3c7c580ca7"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-03-persistent-view-navigation.png",
+      "sizeBytes": 509843,
+      "sha256": "5bbdf930b2f4fff98848fdc8b0c9ccf65cb3a2b7035a00d5c6d8c98bd599639b"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-04-evidence-presentation-action.png",
+      "sizeBytes": 497702,
+      "sha256": "ae55c097e3e269ae9c26ac812d608ac413abfb954198247c474e0d9664c794a6"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-05-evidence-answer-sections.png",
+      "sizeBytes": 478209,
+      "sha256": "344c2a1a33c9f7d3bb94c75d72b4e5e61e33e48cdd7d642ae81404237b105270"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-06-source-link-role-and-destination.png",
+      "sizeBytes": 500235,
+      "sha256": "71885241d1cba193cd4fe7d702c29127fb3a01ce98177bc675011dd32868d20e"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-07-comparison-guide.png",
+      "sizeBytes": 470817,
+      "sha256": "4462ccc0bc10b92b4c228251a728ace57544b06e5028ccaa2ab4dc53007b2c7e"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-08-technical-review-controls.png",
+      "sizeBytes": 498123,
+      "sha256": "58338ceab451dd717e3fe9dd637b8b9b08fb2ceeae59889eb5c2cd0f8488fbc5"
+    },
+    {
+      "path": "output/voiceover-capture/v0.4.0-rc.1-frame-09-focus-restoration.png",
+      "sizeBytes": 603845,
+      "sha256": "09c66ac989f164cdaa02854bcc9e5d6f7f5035d54b255e81990b031311c906f0"
+    }
+  ],
+  "privateInputs": {
+    "directlyVerifiedCount": 2,
+    "directPrivateInputInventoryPublished": false,
+    "publicProvenanceBindings": [
+      {
+        "privateInputPath": ".evals/chrome-devtools-mcp-public.json",
+        "publicReceiptPaths": [
+          "docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json",
+          "docs/competition/evidence/supported-host-webmcp-capture-v0.4.0-rc.1.json"
+        ],
+        "privateInputPathAndSha256BindingPublished": true,
+        "bindingCount": 1,
+        "sourceBytesDirectlyVerifiedByBuild": false,
+        "purpose": "Retain one deduplicated binding to the ignored raw Chrome receipt in the reviewed supported-host evidence without publishing those receipt bytes."
+      }
+    ]
+  },
+  "video": {
+    "fileName": "govuk-webmcp-demo-v0.4.0-rc.1.mp4",
+    "sha256": "4de822637eda5a7a5b89ed7285e304f45510378ff5b3b7995e6bc59f57025e58",
+    "durationSeconds": 120.326,
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "tags": {
+          "language": "und"
+        }
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 1,
+        "r_frame_rate": "0/0",
+        "tags": {
+          "language": "und"
+        }
+      },
+      {
+        "index": 2,
+        "codec_name": "mov_text",
+        "codec_type": "subtitle",
+        "r_frame_rate": "0/0",
+        "tags": {
+          "language": "eng"
+        }
+      }
+    ],
+    "publicUrl": null,
+    "signedOutPlaybackVerified": false
+  },
+  "captions": {
+    "path": "docs/competition/demo-captions.v0.4.0-rc.1.en-GB.vtt",
+    "sha256": "122fdef54a1684c95393f2991199b6d8fdbaf4479b260d2ab6ba514035e2a378",
+    "language": "en-GB",
+    "embeddedTrack": true,
+    "publicPlayerTrackVerified": false
+  },
+  "transcript": {
+    "path": "docs/competition/demo-transcript-v0.4.0-rc.1.md",
+    "sha256": "8eb0bb6fd7d52ba383cd0d7e31038f9d9a32ed22474620b9d51612aa78b040a6"
+  },
+  "script": {
+    "path": "docs/competition/demo-video-script-v0.4.0-rc.1.json",
+    "sha256": "15885e4363e0a4080c6aae5d63bba6c417819cc82877e69ff261ac1e9ba59757"
+  },
+  "narration": {
+    "type": "synthetic-local-review",
+    "engine": "macOS Speech Synthesis",
+    "voice": "Daniel",
+    "locale": "en-GB",
+    "speechRate": 170,
+    "publicationBasis": "pending-owner-review",
+    "sourceClipAudioIncluded": false,
+    "backgroundMusic": false,
+    "measuredOutput": {
+      "input_i": "-16.07",
+      "input_tp": "-0.31",
+      "input_lra": "2.00",
+      "input_thresh": "-26.28",
+      "output_i": "-15.96",
+      "output_tp": "-1.50",
+      "output_lra": "2.00",
+      "output_thresh": "-26.16",
+      "normalization_type": "dynamic",
+      "target_offset": "-0.04"
+    }
+  },
+  "evidence": {
+    "interactionCapture": {
+      "clipCount": 5,
+      "captureMethod": "playwright-public-site-interaction",
+      "deployment": {
+        "metadataUrl": "https://chris-page-gov.github.io/govuk-webmcp/deployment.json",
+        "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b"
+      },
+      "demonstratedRecordId": "govuk-discovery:federated:land-registry:57845",
+      "presentationDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3"
+    },
+    "personalAgentObservation": {
+      "comparisonDesign": "observational",
+      "observedRunCount": 72,
+      "claimGatePassed": false,
+      "causalClaimSupported": false,
+      "copilot": {
+        "observedRunCount": 36,
+        "callTraceStatus": "not-observable",
+        "pageParityStatus": "not-observable"
+      },
+      "ollama": {
+        "observedRunCount": 36,
+        "toolSelectionPass": 6,
+        "toolSelectionFail": 30,
+        "runnerErrorRuns": 3
+      }
+    },
+    "personalAgentObservationMedia": {
+      "kind": "privacy-minimised-observation-visualisation",
+      "durationSeconds": 38.933333,
+      "observedRunCount": 72,
+      "claimGatePassed": false
+    },
+    "personalAgentCaptures": {},
+    "supportedHost": {
+      "canonicalCallResultDigest": "0a9e560e3587f5a5c6bec9fe1c3b06224f315a7ee77b8a55dcc0ecba9cb2568c",
+      "demonstratedRecordId": "govuk-discovery:federated:land-registry:57845",
+      "fourSourceResultCount": 8,
+      "host": "Google Chrome stable through Chrome DevTools MCP",
+      "presentationDigest": "0424acfc7ad7869b7e7320f6bea9c822a6453101f26e2719fdfe8b5c2c9fd0e3"
+    },
+    "supportedHostMedia": {
+      "kind": "receipt-reconstruction",
+      "sourceArtefactCount": 2,
+      "durationSeconds": 40.933333
+    },
+    "voiceOver": {
+      "overallStatus": "completed-with-limitations",
+      "screenReaderAudioCaptured": false
+    }
+  },
+  "reviews": {
+    "privacy": "pending-human-review",
+    "branding": "pending-human-review",
+    "rights": "pending-human-review",
+    "cloudPersonalAgentClipReviews": "not-applicable-no-cloud-clip",
+    "voicePublicationBasis": "pending-owner-review",
+    "finalHumanPlayback": "pending",
+    "finalHumanReviewRequiredBeforePublication": true
+  },
+  "limitations": [
+    "This record proves a bounded local review build, not public YouTube publication or signed-out playback.",
+    "The cloud-and-local comparison is a privacy-minimised receipt visualisation, not a host recording; no Copilot Site tool invocation or Evidence answer update was observed, and no safe-host claim is made for either host.",
+    "The installed macOS synthetic voice was used locally; its publication basis remains pending owner review.",
+    "Source-clip audio is omitted. The retained VoiceOver record, not this soundtrack, supports the manual accessibility observation."
+  ]
+}

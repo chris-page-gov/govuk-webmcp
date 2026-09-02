@@ -1,9 +1,9 @@
 {
   "schema": "trusted-govuk-discovery.chrome-devtools-webmcp-public-evidence.v3",
-  "observedAt": "2026-09-02T01:56:15.734Z",
+  "observedAt": "2026-09-02T19:32:33.954Z",
   "sourceReceipt": {
     "path": ".evals/chrome-devtools-mcp-public.json",
-    "sha256": "2078a6aab131c5724a7d9364183641107c56efd446dbf6452226ebffa9d1b25e",
+    "sha256": "20ef269c4245e197246d181fbcba646956a12479294e1953bb3f4c37ab79b6bc",
     "sizeBytes": 133272,
     "tracking": "ignored local source",
     "review": "The exact tool definitions, inputs, outputs, statuses and canonical output digests below were copied from the reviewed source receipt; local page identifiers were omitted."
@@ -15,48 +15,48 @@
     "personalDataUsed": false,
     "deployment": {
       "metadataUrl": "https://chris-page-gov.github.io/govuk-webmcp/deployment.json",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
       "schema": "trusted-govuk-discovery.deployment.v1",
       "repository": "chris-page-gov/govuk-webmcp",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118",
-      "expectedCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8"
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203",
+      "expectedCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c"
     }
   },
   "deploymentChecks": [
     {
       "label": "initial",
-      "observedAt": "2026-09-02T01:56:10.849Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:32:27.171Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after-page-load",
-      "observedAt": "2026-09-02T01:56:13.110Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:32:30.672Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     },
     {
       "label": "after-execution",
-      "observedAt": "2026-09-02T01:56:15.734Z",
-      "metadataSha256": "a9aacdc9bde619634cf27ee43101a7b5c6304454b816c573b0793a5ec7dd52c0",
-      "commit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-      "runId": "33555187118"
+      "observedAt": "2026-09-02T19:32:33.954Z",
+      "metadataSha256": "8f83911839498b48014e4db773994757bc5675f616dc0af0791076ed381c633b",
+      "commit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+      "runId": "33657069203"
     }
   ],
   "releaseEvidence": {
-    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-    "pagesRunId": "33555187118",
-    "pagesArtifactId": 9819226488,
-    "artifactApiDigest": "sha256:f0a27c177ffb0c0448d38da0be66bcb4125f5206930b1e58fc51f74be123eeb0",
-    "artifactTarSha256": "8b64bc4269b0eb8fcab56eee009711c812d8b3364073740e3192fa6521ac346f",
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
+    "pagesArtifactId": 9857365400,
+    "artifactApiDigest": "sha256:b40149a4c3a0c95571e8afd5ad8a3d4c71cdb7a783cda3b4e4d2bae90939cc30",
+    "artifactTarSha256": "dde47e789e3c69bc34b84df205e91a32ef1dc9b45cb587f9c056eae3e853956a",
     "liveArtifactVerification": "docs/competition/evidence/live-artifact-verification-v0.4.0-rc.1.json",
-    "liveArtifactVerificationSha256": "3cd5c735a6d6cdf4259b1cc8cee6b3ec8969ed54926303e3583301d61dc5d30a",
+    "liveArtifactVerificationSha256": "e2eae684bd2d238d538e74e0becdf694f0a61ddcf5a05c07407a021443bff661",
     "comparedFileCount": 1884,
-    "comparedByteCount": 128646735,
-    "liveManifestSha256": "23c88e4d67c4d75f687f0b4c53763ea755dcbaa566753bc3d213a5a9ba714442"
+    "comparedByteCount": 128653415,
+    "liveManifestSha256": "4691f98d7e4c73f7971a3af573d0b2aff7bc6e2fab951bbf680b9df12ac0bdd6"
   },
   "environment": {
     "chrome": "Google Chrome 152.0.7977.66",

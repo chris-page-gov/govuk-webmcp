@@ -1,10 +1,10 @@
 {
   "schema": "govuk-webmcp.ollama-diagnostic-clip.v1",
-  "builtAt": "2026-09-02T02:11:26.234Z",
+  "builtAt": "2026-09-02T20:06:43.279Z",
   "demoContext": {
     "release": "v0.4.0-rc.1",
-    "productCommit": "a4fabe12184f47177b3a20c0e04c64d1eef9b4a8",
-    "pagesRunId": "33555187118",
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
     "sceneId": "ollama-local"
   },
   "sourceEvaluation": {
@@ -66,10 +66,10 @@
   },
   "media": {
     "path": "output/demo-clips/v0.4.0-rc.1/07-ollama-local-diagnostic.mov",
-    "sha256": "95bb7ab39361546021601cbb126a41d4530916ab08d9d709abbe89c7cd623f63",
-    "durationSeconds": 37,
+    "sha256": "e0c5d4e11981a073ddc70fd41b2e3474e788f4599b73cf767b747621d4bb0f35",
+    "durationSeconds": 36.966667,
     "startSeconds": 0,
-    "endSeconds": 37
+    "endSeconds": 36.966667
   },
   "limitations": [
     "This generated receipt visualisation is not a host recording.",

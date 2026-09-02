@@ -1,0 +1,52 @@
+{
+  "schema": "trusted-govuk-discovery.manual-copilot-presentation-observation.v1",
+  "recordedAt": "2026-09-02T21:21:40Z",
+  "observationTiming": "Recorded immediately after completion; the exact response-completion timestamp was not captured.",
+  "release": {
+    "version": "0.4.0-rc.1",
+    "commitSha": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
+    "publicUrl": "https://chris-page-gov.github.io/govuk-webmcp/"
+  },
+  "method": "manual-operator-driven",
+  "environment": {
+    "browserName": "Microsoft Edge",
+    "browserVersion": "152.0.4191.53",
+    "host": "Microsoft Copilot in Edge MCP Workspace",
+    "profileClass": "owner-controlled-personal",
+    "workProfileUsed": false,
+    "accountIdentifierRetained": false,
+    "underlyingModel": {
+      "status": "not-disclosed",
+      "value": null
+    }
+  },
+  "prompt": {
+    "text": "Use Site tools. Search the catalogue for ONS statistics, filter to provider, then describe the most relevant record, its sources and its limitations. Present its evidence on the page. Do not add facts that are not returned by the Site tools.",
+    "siteToolsExplicitlyRequested": true,
+    "evidencePresentationExplicitlyRequested": true,
+    "personalContextIncluded": false
+  },
+  "hostObservation": {
+    "responseCompleted": true,
+    "siteToolInvocation": "not-observed",
+    "presentationToolInvocation": "not-observed",
+    "exactCallTrace": "not-exposed",
+    "answerTextRetained": false,
+    "privateShareUrlRetained": false
+  },
+  "pageObservation": {
+    "beforeActivityText": "No AI action was presented to this page.",
+    "afterActivityText": "No AI action was presented to this page.",
+    "evidenceAnswerUpdated": false
+  },
+  "overallStatus": "completed-without-observed-site-tool-call",
+  "claimImpact": "does-not-change-false-personal-agent-claim-gate",
+  "limitations": [
+    "This is one supplemental manual session and is not an additional slot in the frozen 72-run matrix.",
+    "The exact underlying Copilot model was not disclosed.",
+    "Copilot did not expose an exact Site-tool call trace, so this record states not observed rather than proved not executed.",
+    "The answer text was not safety-reviewed and is not retained in this public record.",
+    "The observation does not establish why the host integration did not invoke the page tools or predict future compatibility."
+  ]
+}

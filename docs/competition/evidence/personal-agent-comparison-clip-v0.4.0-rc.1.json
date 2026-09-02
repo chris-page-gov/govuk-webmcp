@@ -1,0 +1,42 @@
+{
+  "schema": "govuk-webmcp.personal-agent-comparison-clip.v1",
+  "builtAt": "2026-09-02T20:14:46.088Z",
+  "demoContext": {
+    "release": "v0.4.0-rc.1",
+    "productCommit": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
+    "sceneId": "personal-agent-comparison"
+  },
+  "sourceEvidence": {
+    "path": "docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json",
+    "sha256": "6852084ec153c4bd00e2f7b84758b45b9c3741d41e95327201c1bd69e9746e58",
+    "schema": "govuk-webmcp.personal-agent-evaluation-summary.v2",
+    "suiteId": "beginner-evidence-v1",
+    "caseSetSha256": "9fe430cee9d09090247c857078129623753e229cdab063772a59d881d6d9e0ad",
+    "observationWindow": {
+      "earliest": "2026-09-02T17:15:08.013Z",
+      "latest": "2026-09-02T18:04:04.391Z"
+    }
+  },
+  "rendering": {
+    "kind": "privacy-minimised-observation-visualisation",
+    "hostRecordingEmbedded": false,
+    "hostOwnedSurfaceEmbedded": false,
+    "pageUpdateShown": false,
+    "visibleLabel": "Observation summary — not a host recording"
+  },
+  "media": {
+    "path": "output/demo-clips/v0.4.0-rc.1/04-personal-agent-comparison.mov",
+    "sha256": "7cb5311e5d04b39891d233a7fd8dad1e0f8fbddab07c846647f05f3ca29cb9e7",
+    "durationSeconds": 38.933333,
+    "startSeconds": 0,
+    "endSeconds": 38.933333
+  },
+  "limitations": [
+    "This privacy-minimised generated visualisation is not a host recording.",
+    "No Site tool invocation or Evidence answer update was observed in the Copilot surface.",
+    "Neither host result supports a safe-host or safe-answer claim.",
+    "The observational comparison does not establish a causal model effect.",
+    "Personal identifiers, private share links and answer text are not published."
+  ]
+}

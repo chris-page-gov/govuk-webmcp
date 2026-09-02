@@ -3,8 +3,9 @@
 This statement applies to **Trusted government knowledge discovery**, an
 independent experimental prototype.
 
-The released human interface remains usable without WebMCP. Its primary
-evidence view is an analytical index. The visual Evidence Trace is a
+The released human interface remains usable without WebMCP. Its default
+**Evidence answer** view presents plain English evidence, while **Technical
+review** retains the analytical index. The visual Evidence Trace is a
 progressive explanation of the same deterministic data, not the only way to
 understand it.
 
@@ -39,25 +40,31 @@ pixel layout, 400% reflow, forced colours, reduced motion and preservation of
 the active Technical review view, URL, history, focus and scroll during a
 background WebMCP presentation.
 
-These are automated observations of named browsers and states. A bounded
-Safari, VoiceOver and Caption Panel journey was completed against historical
-pre-hardening product commit
-`a4fabe12184f47177b3a20c0e04c64d1eef9b4a8`: 6 of 9 checkpoints passed and 3
-were limited. It was a non-continuous screenshot sequence without VoiceOver
-speech audio or independent capture-time deployment binding. Exact-release
-manual recapture remains required after any build-affecting hardening. No
-existing `v0.3.0-rc.1` manual observation is carried forward, and no WCAG
-conformance or beginner-comprehension claim is made.
+These are automated observations of named browsers and states. The exact-release
+nine-step Safari 26.6.2, VoiceOver 10 and Caption Panel journey was completed on
+2 September 2026 against product commit
+`a4d2db44e60024c3eadbdb2b1722153ce19dff4c` and Pages run `33657069203`.
+Eight checkpoints passed. One retained a limitation because the first frame
+used accessibility focus rather than retaining the VoiceOver rotor; later
+frames retain native VoiceOver heading and link navigation in the Caption
+Panel. The sequence is not continuous footage and contains no VoiceOver speech
+audio. The Caption Panel and VoiceOver were both confirmed off immediately
+afterwards. This single manual environment does not establish WCAG conformance
+or beginner comprehension.
+The capture did not independently read deployment metadata before and after
+the journey, so its commit and Pages run identify the intended candidate rather
+than provide a cryptographic capture-time binding.
 
-The repository owner has authorised the exact-release nine-step Safari journey,
-including temporary use of VoiceOver and its Caption Panel, after the hardened
-public candidate has been deployed and byte-verified. That recapture is still
-pending: authorisation is not an observation. VoiceOver and the Caption Panel
-must both be turned off immediately after the journey, and the retained record
-must identify the exact deployment and any limitations actually observed.
-The no-argument screenshot-sequence builder selects the canonical exact
-`v0.4.0-rc.1` capture manifest; this default does not turn the pending capture
-into completed evidence.
+The retained machine-readable record is
+[`manual-voiceover-journey-v0.4.0-rc.1.json`](docs/competition/evidence/manual-voiceover-journey-v0.4.0-rc.1.json).
+
+The completed local review video includes the exact VoiceOver sequence and has
+embedded English `mov_text` captions alongside 48 kHz AAC audio. It is 120.326
+seconds long. This is technical media presence, not evidence of caption
+accuracy, audible owner playback, assistive-technology usability or WCAG
+conformance. Owner playback and caption, privacy, branding, rights and voice
+review remain pending before public upload; signed-out public playback has not
+been checked.
 
 ## Released automated testing
 
@@ -91,7 +98,7 @@ the limitations below. The retained media is a hash-bound nine-frame screenshot
 sequence labelled as not a continuous recording. VoiceOver speech audio was not
 captured.
 
-## Current federated-release Safari and VoiceOver observation
+## Historical federated-release Safari and VoiceOver observation
 
 Version `0.3.0-rc.1` extends the same human journey to distinguish 80 reviewed
 deep-evidence records from 58,652 searchable records in exactly four
@@ -124,12 +131,11 @@ publication.
 
 - Candidate sticky navigation, view focus, inactive-view update, route
   restoration, result reading order and accepted-input disclosure have
-  automated coverage in installed Chrome and Edge. The retained candidate
-  manual observation is historical pre-hardening evidence and must be
-  recaptured for the exact release bytes.
-- The current manual journey did not retain a heading-rotor selection and did
-  not prove automatic spoken live-status wording. These are the 2 recorded
-  limitations; the other 7 checkpoints passed.
+  automated coverage in installed Chrome and Edge. The exact-release manual
+  observation completed eight of nine checkpoints without a limitation.
+- The exact-release manual journey did not retain the VoiceOver rotor in its
+  first frame. This is the one recorded checkpoint limitation; later frames
+  retain native VoiceOver heading and link navigation in the Caption Panel.
 - The nine-step manual journey did not exercise a partial-source failure.
   Deterministic and browser coverage of that state remains separate from the
   manual VoiceOver observation.

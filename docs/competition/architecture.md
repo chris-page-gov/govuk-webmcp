@@ -248,16 +248,17 @@ observations require literal `null` history state and empty local and session
 storage; local runs additionally require the exact credential-free loopback root
 URL with no query or fragment.
 
-Media admission does not convert a failed local evaluation into a successful
-host demonstration. The cloud Copilot scene still requires genuine visible
-Microsoft Edge MCP Workspace media, a Site-tool invocation, an Evidence answer
-update and owner-human review. The local Ollama scene instead uses a generated,
-visibly labelled diagnostic receipt visualisation. Its executable closed
-contract independently replays all 36 private runs, matches the tracked public
-summary, binds both source-byte digests and the exact model inventory digest,
-and retains failed, unobserved and unreviewed states. It cannot claim a host
-recording, page update, live-release parity or safe local answers. The complete
-72-run and release-authentication gates below remain unchanged.
+Media admission does not convert an unobservable or failed host evaluation into
+a successful demonstration. This release cut therefore contains no reconstructed
+Copilot host recording. It uses a privacy-minimised, visibly labelled comparison
+visualisation derived from the complete 72-run public summary. The closed
+validator requires all 36 Copilot tool lists, call traces and page states to
+remain unobservable, and the 36 local runs to retain 6 tool-selection and
+execution passes, 30 failures and 3 runner-error runs. It also requires the
+false claim gate, unreviewed answers, exact deployed release binding and absence
+of account or private share-link material. The visualisation cannot claim a host
+recording, page update, safe host or causal model effect. The historical local
+diagnostic remains in the evidence estate but is not used in the final cut.
 
 Exact-release receipt paths are defined once in the canonical release-evidence
 path module. The live verifier always stages
@@ -310,11 +311,21 @@ compiled before deployment: the configured commit/run, freshly verified
 deployment, authenticated receipt and both projections must agree exactly.
 
 The media pipeline uses one transactional output-placement component for live
-interaction clips, supported-host and Ollama visualisations, and the four final
-video outputs. Failure before every pending output is promoted removes partial
-new files and restores all backups. Backup clean-up is a separate post-commit
-phase: if it fails, the complete new outputs remain in place and the error
-identifies committed outputs and any recoverable backup paths.
+interaction clips, supported-host, personal-agent comparison and historical
+Ollama visualisations, and the four final video outputs. Failure before every
+pending output is promoted removes partial new files and restores all backups.
+Backup clean-up is a separate post-commit phase: if it fails, the complete new
+outputs remain in place and the error identifies committed outputs and any
+recoverable backup paths.
+
+Both personal-agent comparison publication consumers now use the same
+provenance gate. The standalone clip builder and final-video builder each load
+the canonical mode-`0600` capture, authenticated summary and private live Pages
+receipt, authenticate the live release, replay all 72 source runs and require
+the tracked public summary to match the replayed private summary exactly.
+Every nested public-summary object is closed and both hosts must retain the
+exact ordered `US-01` to `US-12` three-run case matrix. The standalone builder
+renders only after this gate; it cannot produce a weaker public receipt.
 
 VoiceOver assurance remains a manual observation, but the final-video build no
 longer trusts only the already-rendered clip. It revalidates the closed capture
@@ -336,7 +347,7 @@ release status is established only by protected integration and a fresh
 authenticated deployment receipt for the exact product commit; it is not
 inferred from this document.
 
-Only final-video personal-agent admission may authenticate from a clean,
+The dormant genuine personal-agent-capture contract may authenticate from a clean,
 reviewed evidence descendant while the page runtime remains pinned to its
 ancestor Pages product commit. The policy admits only `A` or `M` changes: inert
 `.md`, `.csv` and `.vtt` files under `docs/`, reviewed evidence JSON, the
@@ -346,17 +357,23 @@ commit that is not an ancestor, deletes, renames, copies, type changes,
 non-canonical paths and any code, workflow, package or other page-runtime
 change. NUL-delimited Git output is parsed as strict UTF-8, and both `HEAD` and
 the exact admitted change set are pinned and rechecked through authentication
-and replay.
+and replay. The current cut invokes this path to prove deterministic derivation
+of the privacy-minimised observation summary. That does not create a claimable
+cloud-host recording or make the unobserved Copilot call and page states known.
 
-Final-video personal-agent admission performs that authentication in-process,
+When used, genuine personal-agent admission performs that authentication in-process,
 replays the exact 72-run capture within the retained pre-run/fresh-observation
 window, exact-compares the supplied summary and disposes the authentication. A
 dirty unbound diagnostic cannot supply the local half. Any claimable local half
 must contain 36 slots captured after the exact product deployment from either
 the product checkout or the admitted clean evidence descendant; the receipt
-records whether that condition has been met. Integration, exact deployment,
-live host capture, release VoiceOver capture, final video and tagging remain
-pending.
+records whether that condition has been met. For this cut, the tracked public
+72-run summary and its generated-media receipt are validated against that
+authenticated private replay, while the exact six direct calls remain separate
+supported-host evidence. Protected
+integration, exact deployment, exact supported-host and VoiceOver captures, and
+a 120.326-second local review video are complete. Owner media approval, public
+upload, signed-out playback, tagging and Devpost review remain pending.
 
 ## Authored and generated boundaries
 

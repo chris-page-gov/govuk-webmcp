@@ -23,7 +23,7 @@
     "branding": "pending-human-review",
     "rights": "pending-human-review",
     "voicePublicationBasis": "pending-owner-review",
-    "personalAgentCapturePublication": "pending-capture-and-human-review",
+    "personalAgentCapturePublication": "not-included-unobservable",
     "finalHumanPlayback": "pending"
   },
   "demonstrationInputs": {
@@ -112,25 +112,23 @@
       ]
     },
     {
-      "id": "copilot-personal-ai",
+      "id": "personal-agent-comparison",
       "number": "04",
-      "kind": "personal-agent-capture",
-      "hostId": "copilot-mcp-workspace",
-      "caseId": "US-09",
-      "repetition": 1,
-      "eyebrow": "Cloud personal AI",
-      "title": "Watch Copilot call the page's Site tools",
+      "kind": "evaluation-observation",
+      "eyebrow": "Observed host comparison",
+      "title": "Compare the cloud and local evidence honestly",
       "media": {
         "type": "video",
-        "path": "output/demo-clips/v0.4.0-rc.1/04-copilot-personal-ai.mov",
+        "path": "output/demo-clips/v0.4.0-rc.1/04-personal-agent-comparison.mov",
         "startSeconds": 0
       },
-      "evidence": ".evals/personal-agent-media/v0.4.0-rc.1/copilot-video-capture.json",
+      "evidence": "docs/competition/evidence/personal-agent-comparison-v0.4.0-rc.1.json",
+      "mediaReceipt": "docs/competition/evidence/personal-agent-comparison-clip-v0.4.0-rc.1.json",
       "cues": [
-        "In Edge MCP Workspace, personal Copilot calls this page's Site tools.",
-        "Each Site tool accepts only its declared, bounded arguments.",
-        "Free text can still disclose personal details.",
-        "The same call updates the Evidence answer for an independent check."
+        "The comparison contains thirty-six cloud and thirty-six local observations.",
+        "Copilot's Site tools, calls and page updates were not observable.",
+        "The local model exposed tools, but selection passed only six runs.",
+        "Neither result supports a safe-answer or causal model claim."
       ]
     },
     {
@@ -176,29 +174,8 @@
       ]
     },
     {
-      "id": "ollama-local",
-      "number": "07",
-      "kind": "evaluation-diagnostic",
-      "eyebrow": "Local model diagnostic",
-      "title": "Show where the local Ollama evaluation fell short",
-      "media": {
-        "type": "video",
-        "path": "output/demo-clips/v0.4.0-rc.1/07-ollama-local-diagnostic.mov",
-        "startSeconds": 0
-      },
-      "evidence": "docs/competition/evidence/ollama-local-diagnostic-v0.4.0-rc.1.json",
-      "privateEvidence": ".evals/personal-agent-local/2026-09-02T02-04-23-905Z-75561/private-capture.json",
-      "mediaReceipt": "docs/competition/evidence/ollama-local-diagnostic-clip-v0.4.0-rc.1.json",
-      "cues": [
-        "The pinned local model completed all thirty-six planned local runs.",
-        "Tool selection and execution each failed thirty of those runs.",
-        "Page parity was not observed and answers were not reviewed.",
-        "This diagnostic receipt is not a host recording or page update."
-      ]
-    },
-    {
       "id": "voiceover",
-      "number": "08",
+      "number": "07",
       "kind": "voiceover",
       "eyebrow": "Manual accessibility observation",
       "title": "Follow both views with Safari and VoiceOver",
@@ -216,7 +193,7 @@
     },
     {
       "id": "boundary",
-      "number": "09",
+      "number": "08",
       "kind": "interaction",
       "eyebrow": "Personal AI boundary",
       "title": "Publish evidence and tools, not another chatbot",
@@ -232,7 +209,7 @@
       ],
       "cues": [
         "The page hosts no model, profile or personal chat history.",
-        "A cloud personal AI or pinned local model can use the same page tools.",
+        "Compatible hosts can use the same page tools; support must be observed.",
         "The page makes no official API call.",
         "It does not persist tool arguments or chat history.",
         "Land Registry remains metadata-only and legislation stays excluded."
