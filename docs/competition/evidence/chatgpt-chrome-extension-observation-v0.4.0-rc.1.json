@@ -1,0 +1,78 @@
+{
+  "schema": "trusted-govuk-discovery.chatgpt-chrome-extension-observation.v1",
+  "recordedAt": "2026-09-02T22:11:58Z",
+  "observationTiming": "Recorded from an owner-supplied screenshot and pasted response after the completed journey; exact call timestamps were not exported.",
+  "release": {
+    "version": "0.4.0-rc.1",
+    "commitSha": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
+    "publicUrl": "https://chris-page-gov.github.io/govuk-webmcp/"
+  },
+  "method": "manual-owner-operated-visual-smoke-observation",
+  "environment": {
+    "browserName": "Google Chrome",
+    "browserVersion": null,
+    "host": "ChatGPT Chrome extension side panel",
+    "extensionVersion": null,
+    "underlyingModel": {
+      "status": "not-captured",
+      "value": null
+    }
+  },
+  "prompt": {
+    "text": "Use Site tools. Search the catalogue for ONS statistics, filter to provider, then describe the most relevant record, its sources and its limitations. Present its evidence on the page. Do not add facts that are not returned by the Site tools.",
+    "siteToolsExplicitlyRequested": true,
+    "evidencePresentationExplicitlyRequested": true,
+    "personalContextIncluded": false
+  },
+  "hostObservation": {
+    "responseCompleted": true,
+    "reportedReadySiteToolCount": 6,
+    "visibleIntegrationLabel": "Used Chrome integration",
+    "exactCallTrace": "not-expanded-or-exported",
+    "answerTextRetained": true
+  },
+  "pageObservation": {
+    "evidenceAnswerUpdated": true,
+    "recordId": "govuk-discovery:dataset:ons-open-geography",
+    "recordTitle": "ONS Open Geography portal",
+    "evidenceTier": "reviewed-deep-evidence",
+    "evidenceAnswerDigest": "988f003142369bfc25c97ee5ee9a64430d5c362ff2e123ff0209d6f916d69ae6"
+  },
+  "retainedAnswer": {
+    "publisher": "Office for National Statistics",
+    "sourceTitle": "Open Geography portal — API Catalogue",
+    "sourceUrl": "https://www.api.gov.uk/ons/open-geography-portal/",
+    "observedDate": "2026-08-29",
+    "access": "Catalogue states free and open access",
+    "licence": "Open Government Licence v3.0, except where otherwise stated",
+    "limitations": [
+      "Individual products can state licence exceptions.",
+      "Definitive status and currency must be checked for each product.",
+      "The prototype does not call portal services.",
+      "The checksum verifies packaged bytes, not whether the source remains current."
+    ]
+  },
+  "answerReview": {
+    "sourceLinkRetained": true,
+    "limitationCountRetained": 4,
+    "obviousUnsupportedAdditionObserved": false,
+    "status": "bounded-manual-content-review",
+    "boundary": "The exact tool result and call trace were not exported, so this is not independent machine parity or a complete safety review."
+  },
+  "sourceCapture": {
+    "sha256": "b2e79d465761b2b386ad69f331e0801cdb46469e25f66ef228e816f91b8950f6",
+    "bytes": 1062928,
+    "retainedInRepository": false,
+    "reasonNotRetained": "The original screenshot contains browser chrome, an account avatar and unrelated tabs. Only this privacy-minimised observation is admitted."
+  },
+  "overallStatus": "completed-with-visible-evidence-answer-update",
+  "claimImpact": "one-successful-personal-ai-smoke-observation-not-a-safe-host-or-universal-compatibility-claim",
+  "limitations": [
+    "This is one owner-operated visual smoke observation, not a repetition of the frozen 72-run Copilot and Ollama matrix.",
+    "The exact Chrome version, extension version and underlying model identity were not captured.",
+    "The visible integration activity was collapsed, so no exportable exact Site-tool call trace was retained.",
+    "The answer received a bounded content review only; exact machine parity and broader answer safety were not established.",
+    "The observation demonstrates one search-and-present journey and does not establish universal host compatibility or future availability."
+  ]
+}

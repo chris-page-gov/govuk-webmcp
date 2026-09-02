@@ -63,6 +63,15 @@ completed all six tools through direct, fixed calls. This proves deterministic
 tool execution in that named harness, not model selection or a host-owned user
 journey.
 
+A later owner-operated ChatGPT Chrome extension smoke journey provides the
+personal-AI demonstration path: ChatGPT reported six ready Site tools, followed
+the bounded ONS request and visibly presented the selected `ONS Open Geography
+portal` Evidence answer. The retained answer preserved its source link and all
+four limitations. The collapsed integration exposed no exportable exact call
+trace, versions or model identity, and the answer received only a bounded
+content review. This is one successful visual journey, not a safe-host or
+universal-compatibility claim.
+
 No model is embedded in the page. The page cannot see or validate the AI
 host's final wording; Evidence answer therefore shows what the page supports
 and asks the person to compare the AI's dates, amounts, eligibility statements

@@ -14,8 +14,8 @@
   },
   "project": {
     "name": "Evidence Answer: check what your AI tells you",
-    "summary": "Your compatible AI can query bounded government evidence, while an accessible Evidence Answer shows every source, limitation and unknown so you can check before you act.",
-    "ai_usage": "Cloud Microsoft Copilot and local Ollama are evaluated as separate personal-AI host classes.",
+    "summary": "Your compatible AI can query Open Knowledge Format bounded government evidence, while an accessible Evidence Answer shows every source, limitation and unknown so you can check your AI before you act.",
+    "ai_usage": "ChatGPT in Chrome completed one visual search-and-present smoke journey; Copilot, Gemini and local Ollama retain their reported limitations.",
     "codex_usage": "Codex implements, verifies and documents the deterministic WebMCP application and release evidence."
   },
   "current_stage": "prepare-submission",
