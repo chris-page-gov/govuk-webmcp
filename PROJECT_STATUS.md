@@ -51,6 +51,34 @@ bounded content review. This is one successful visual personal-AI journey, not
 an addition to the frozen matrix or a safe-host or universal-compatibility
 claim.
 
+A second owner-directed Google Chrome and ChatGPT extension run covered all 12
+published stories. Its public narrative reports 20 successful calls, two
+deliberate no-call cases and two rejected preliminary API-shape probes. It
+discovered all six tools but exercised only four: `get_resource_record` and
+`show_provenance` were not used. The share contains no raw call arguments or
+tool results, so its reported final digest parity and zero console errors are
+not independently trace-backed. It remains supplemental observational evidence,
+not a safe-answer, autonomous-host or universal-compatibility claim.
+
+A separate owner-authorised Microsoft Edge and ChatGPT extension run also
+covered all 12 stories. The editorially qualified host report reports 38
+successful registered-tool calls across all six tools and records
+host-reported arguments plus the available presentation and trace digests;
+US-11 and US-12 deliberately made no call, and three preliminary
+invocation-interface probes were rejected. The operator directly observed the
+final US-10 Evidence answer and its page digest
+`3238aee7c3b76552d289490f69abe8d1a8fc7f9e5720b1d89272308c956835ea`.
+That page digest matches the tool digest recorded in the host report.
+This was Edge 152.0.4191.53 with ChatGPT for Edge 1.26.827.12125. The visible
+`5.6 Sol` label is not an independently verified model identity, and the report
+is not a raw browser tool trace. This one owner-directed run does not establish
+answer safety, autonomous selection, universal compatibility, end-to-end
+privacy or future availability.
+
+The repository landing README now explains the public proposition for a
+first-time reader. The previous audit-oriented README is preserved unchanged as
+`TECHNICAL_README.md` for reviewers who need the detailed assurance record.
+
 The honest local review video is built as eight scenes over 120.326 seconds.
 It is 1920 by 1080 H.264 at 30 frames per second with `yuv420p` pixel format,
 48 kHz AAC audio and embedded English `mov_text` captions. Its SHA-256 is

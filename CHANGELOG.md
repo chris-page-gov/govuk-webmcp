@@ -6,6 +6,13 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Reframed `README.md` as the beginner-facing explanation of the personal-AI,
+  WebMCP, OKF and Evidence answer proposition. The previous audit-heavy README
+  is preserved intact as `TECHNICAL_README.md`, with release identities,
+  assurance history, operating instructions and evidence boundaries unchanged.
+
 ### Fixed
 
 - Made the supported-host public-evidence privacy guard inspect decoded string
@@ -36,6 +43,19 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A second owner-directed ChatGPT Chrome extension evaluation covering all 12
+  published stories. Its public narrative reports 20 successful calls, two
+  deliberate no-call cases, four of six discovered tools exercised and two
+  rejected preliminary probes. It retains no raw call or result trace and
+  supports no safe-answer, autonomous-host or universal-compatibility claim.
+- A separate owner-authorised ChatGPT Edge extension evaluation covering all
+  12 stories. Its editorially qualified host report records 38 successful
+  calls across all six tools, two deliberate no-call cases and three rejected
+  invocation-interface probes. The operator observed the final US-10 page
+  digest, which matches the tool digest recorded in the host report. The
+  report is not a raw browser trace, and this single
+  directed run does not establish safety, autonomy, privacy or universal
+  compatibility.
 - A privacy-minimised, owner-operated ChatGPT Chrome extension smoke
   observation against the exact public candidate. ChatGPT reported six ready
   Site tools, followed the bounded ONS search request and visibly updated the

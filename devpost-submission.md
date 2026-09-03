@@ -61,6 +61,22 @@ source link and all four displayed limitations. The collapsed integration
 exposed no exportable exact call trace, versions or model identity, and the
 answer received only a bounded content review.
 
+A second owner-directed ChatGPT Chrome extension evaluation covered all 12
+published stories. Its public narrative reports 20 successful calls, two
+deliberate no-call cases and two rejected preliminary probes. All six tools
+were discovered, but only four were exercised and the share exported no raw
+call or result trace. It is supplemental observational evidence, not proof of
+answer safety, autonomous host behaviour or universal compatibility.
+
+An owner-authorised Edge and ChatGPT extension follow-up also covered all 12
+stories. Its editorially qualified host report reports 38 successful calls
+across all six tools and records host-reported arguments plus the available
+presentation and trace digests, alongside two deliberate no-call cases and
+three rejected interface probes. The operator observed the final US-10 page
+digest, which matches the tool digest in the host report. The report is not a
+raw browser trace and its visible model
+label is unverified, so this remains one supplemental directed observation.
+
 No Site-tool invocation or Evidence answer update was observed for Microsoft
 Copilot or Gemini. The pinned local Ollama evaluation had mixed results. All
 are reported observationally, not as a causal model comparison or evidence
@@ -128,11 +144,18 @@ the URL, history, focus or scroll position.
    and the next check.
 
 One owner-operated ChatGPT Chrome extension journey completed the visible
-search-and-present outcome. Its collapsed integration did not expose an
-exportable exact call trace or model identity. Separately, exact direct Chrome
-DevTools evidence completed all six WebMCP tools against the deployed release
-and matched the final tool/page digest. That fixed-call result does not claim
-that a model selected the tools.
+search-and-present outcome. A second owner-directed run covered all 12 stories
+and its public narrative reports 20 successful calls and two deliberate
+no-call cases. It discovered all six tools but exercised only four, rejected
+two preliminary probes and exported no raw call or result trace. Separately,
+an Edge and ChatGPT extension run reported 38 successful calls across all six
+tools and recorded host-reported arguments plus available presentation and
+trace digests in its narrative report; the observed final US-10 page digest
+matches the tool digest in that report. It had three rejected interface probes
+and no raw browser trace. Exact direct Chrome DevTools evidence
+also completed all six WebMCP tools against the deployed release and matched
+the final tool/page digest. These observations do not establish answer safety,
+autonomous tool selection or universal compatibility.
 
 ## Public Demo Link
 
@@ -179,6 +202,15 @@ local review cut; it remains an optional private reference.
 - The successful ChatGPT Chrome extension journey is one owner-operated visual
   smoke observation. Its exact call trace, versions and model identity were
   not captured, and its answer received only a bounded content review.
+- The second Chrome extension run is an owner-directed public narrative: it
+  reports 12 stories, 20 successful calls and 2 deliberate no-calls, but only
+  4 of 6 discovered tools were exercised, 2 preliminary probes were rejected
+  and no raw call or result trace was exported.
+- The Edge extension follow-up is one owner-directed run. Its report records
+  38 successful calls, host-reported arguments and available presentation and
+  trace digests across all 6 tools, but it is not a raw browser trace; 3
+  interface probes were rejected and the
+  visible model label was not independently verified.
 - The latest personal Microsoft Copilot observation did not expose or invoke
   the page tools; it used ordinary page-reading instead.
 - The local Ollama evaluation produced mixed tool-selection results and does
@@ -204,7 +236,7 @@ local review cut; it remains an optional private reference.
 | Live URL | `https://chris-page-gov.github.io/govuk-webmcp/` |
 | Testing instructions | Use the five-step procedure above; no credentials are required. |
 | Public repository | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Agents or clients tested | Google Chrome with the ChatGPT extension completed one owner-observed search-and-present journey: ChatGPT reported all six Site tools ready and visibly updated Evidence Answer to the ONS Open Geography record. Its retained answer included the source link and four limitations. No exportable exact call trace, versions or model identity were captured, so this is visual host evidence. Separately, Chrome DevTools MCP 1.8.0 completed all six fixed direct calls with deterministic page-result parity. No Site-tool invocation or Evidence answer update was observed for personal Microsoft Copilot or Gemini. Local Ollama `gpt-oss:20b` selected and executed tools in 6 of 36 runs, failed in 30 and recorded 3 runner errors. No universal-compatibility or safe-answer claim is made. |
+| Agents or clients tested | Google Chrome with the ChatGPT extension completed one visible search-and-present journey. A second owner-directed Chrome narrative covers all 12 stories and reports 20 successful calls and 2 deliberate no-calls; it exercised 4 of 6 tools, rejected 2 probes and exported no raw trace. An Edge 152.0.4191.53 and ChatGPT for Edge 1.26.827.12125 follow-up reports 38 successful calls across all 6 tools and records host-reported arguments plus available presentation and trace digests in its narrative report; the observed final US-10 page digest matches the tool digest in that report. It had 3 rejected probes and no raw browser trace, and `5.6 Sol` is an unverified UI label. Separately, Chrome DevTools MCP 1.8.0 completed all six fixed direct calls with deterministic page-result parity. No Site-tool invocation or Evidence answer update was observed for personal Microsoft Copilot or Gemini. Local Ollama `gpt-oss:20b` selected and executed tools in 6 of 36 runs, failed in 30 and recorded 3 runner errors. No autonomous-host, universal-compatibility, privacy or safe-answer claim is made. |
 | AI tools used | ChatGPT, Codex, Claude, Gemini, Microsoft Copilot and local Ollama. |
 | Learning | `Significant` — owner to confirm before submission |
 | Career value | `Yes` — owner to confirm before submission |

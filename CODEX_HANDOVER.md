@@ -53,6 +53,35 @@ exact call trace, versions or model identity, and the answer received only a
 bounded content review. Treat it as a successful visual smoke observation
 outside the frozen 72-run matrix.
 
+A second owner-directed Google Chrome and ChatGPT extension run covered all 12
+published stories. Its public narrative reports 20 successful calls, two
+deliberate no-call cases and two rejected preliminary API-shape probes. It
+discovered all six tools but exercised only four; `get_resource_record` and
+`show_provenance` were not exercised. The share exports no raw call arguments
+or tool results, so its reported final digest parity and zero console errors
+are not independently trace-backed. Keep it as supplemental observational
+evidence outside the frozen matrix, with no safe-answer, autonomous-host or
+universal-compatibility claim.
+
+A separate owner-authorised Microsoft Edge and ChatGPT extension run covered
+all 12 stories. The editorially qualified host report reports 38 successful
+registered-tool calls across all six tools and records host-reported arguments
+plus the available presentation and trace digests; US-11 and US-12 deliberately
+made no call, and three preliminary invocation-interface probes were rejected.
+The operator directly observed the final US-10 Evidence answer and its page digest
+`3238aee7c3b76552d289490f69abe8d1a8fc7f9e5720b1d89272308c956835ea`.
+That page digest matches the tool digest recorded in the host report.
+The environment was Edge 152.0.4191.53 with ChatGPT for Edge
+1.26.827.12125. Treat `5.6 Sol` as an unverified visible label, not an exact
+model identity, and the host-generated report as detailed narrative evidence,
+not a raw browser tool trace. This is one supplemental owner-directed run, not
+the 72-run matrix or proof of safety, autonomy, universal compatibility,
+end-to-end privacy or future availability.
+
+The public landing README is now written for first-time readers. The complete
+previous audit-oriented README is preserved unchanged as
+`TECHNICAL_README.md` for technical reviewers.
+
 The honest local review video now shows that negative Copilot compatibility
 finding alongside the exact supported-host success without reconstructing or
 implying a Copilot tool call. It has 8 scenes over 120.326 seconds, 1920 by 1080

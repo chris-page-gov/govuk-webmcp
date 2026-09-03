@@ -1,0 +1,79 @@
+{
+  "schema": "trusted-govuk-discovery.chatgpt-chrome-extension-evaluation-summary.v1",
+  "recordedDate": "2026-09-03",
+  "observationTiming": "Recorded from the owner-directed public ChatGPT share after the completed run; exact call timestamps were not exported.",
+  "release": {
+    "version": "0.4.0-rc.1",
+    "commitSha": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
+    "publicUrl": "https://chris-page-gov.github.io/govuk-webmcp/"
+  },
+  "method": "manual-owner-directed-public-share-observational-summary",
+  "environment": {
+    "browserName": "Google Chrome",
+    "browserVersion": null,
+    "host": "ChatGPT Chrome extension side panel",
+    "extensionVersion": null,
+    "underlyingModel": {
+      "status": "not-captured",
+      "value": null
+    }
+  },
+  "publicShare": {
+    "url": "https://chatgpt.com/s/cx_6a99ab2f12b88191820b60cc252f1ae9",
+    "accessObservation": "opened-without-authentication",
+    "payloadSha256": "9664ed34f9ea1c3d5e139cda3c380084c0bb9390c5e9120e733886600452c11f",
+    "rawCallsOrResultsIncluded": false
+  },
+  "evaluationDefinitionComparison": {
+    "productCommitSha": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "mainCommitSha": "bd1e83cad53551af39d14be20848f619d43b1da7",
+    "scope": "evaluation files only",
+    "status": "unchanged"
+  },
+  "hostObservation": {
+    "storyCount": 12,
+    "successfulCallCount": 20,
+    "deliberateNoCallCaseCount": 2,
+    "discoveredTools": [
+      "search_government_knowledge",
+      "get_resource_record",
+      "show_provenance",
+      "explore_answer_foundations",
+      "compare_evidence_foundations",
+      "present_resource_evidence"
+    ],
+    "exercisedTools": [
+      "search_government_knowledge",
+      "explore_answer_foundations",
+      "compare_evidence_foundations",
+      "present_resource_evidence"
+    ],
+    "unexercisedTools": [
+      "get_resource_record",
+      "show_provenance"
+    ],
+    "preliminaryRejectedProbeCount": 2,
+    "preliminaryRejectedProbeReason": "The preliminary probes used rejected API shapes and are excluded from the successful-call count.",
+    "exactCallTrace": "not-exported",
+    "rawCallArgumentsRetained": false,
+    "rawToolResultsRetained": false
+  },
+  "reportedFinalObservation": {
+    "caseId": "US-10",
+    "pageAndToolDigestParity": true,
+    "consoleErrorCount": 0,
+    "evidenceBoundary": "These are observations reported in the public share. No exported raw call or result trace independently substantiates them."
+  },
+  "overallStatus": "completed-owner-directed-observational-summary",
+  "claimImpact": "supplemental-live-host-observation-not-a-safe-host-autonomy-or-universal-compatibility-claim",
+  "limitations": [
+    "This was an owner-directed run and does not demonstrate autonomous scenario selection by the host.",
+    "Six tools were discovered, but only four were exercised during the run.",
+    "Two preliminary API-shape probes were rejected before the successful calls.",
+    "The public share does not retain raw call arguments, raw tool results or an independently replayable call trace.",
+    "Reported US-10 page-and-tool digest parity and zero console errors are observations, not independently trace-backed findings.",
+    "The exact browser version, extension version and underlying model identity were not captured.",
+    "This summary does not establish safe answers, autonomous host behaviour, universal compatibility or future availability."
+  ]
+}
