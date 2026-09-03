@@ -117,6 +117,13 @@ at `2026-09-03T18:43:34Z` confirmed both changes and no submission timestamp:
 the video, custom answers, owner attestations, final review and explicit
 challenge submission remain open.
 
+Use `docs/competition/devpost-product-story.md` as the canonical long-form
+Devpost description. It is owner-provided copy with terminology and current
+evaluation facts aligned to the repository evidence; do not replace it with
+the earlier shorter live description. An authenticated read-after-write at
+`2026-09-03T19:03:50Z` confirmed the live formatting-stripped description is
+semantically identical and the challenge submission timestamp remains null.
+
 ## Historical pre-integration and hardening trail
 
 The following dated observation records that commit

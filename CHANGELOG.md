@@ -12,6 +12,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   to the owner-selected title **Government Knowledge for Your AI** and the
   129-character WebMCP description. An authenticated read-after-write confirmed
   both values while the video and final challenge submission remain open.
+- Adopted the owner-provided long-form product story as the canonical Devpost
+  description. It frames WebMCP as the publisher-defined interaction layer,
+  OKF as the knowledge and provenance layer and Evidence answer as the human
+  verification layer, while retaining the observed host limitations. An
+  authenticated live read-back confirmed semantic parity after Devpost removed
+  the Markdown formatting and still returned no challenge submission timestamp.
 - Reframed `README.md` as the beginner-facing explanation of the personal-AI,
   WebMCP, OKF and Evidence answer proposition. The previous audit-heavy README
   is preserved intact as `TECHNICAL_README.md`, with release identities,

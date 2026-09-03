@@ -7,6 +7,13 @@ Government Knowledge for Your AI
 Your AI uses WebMCP to access government knowledge, while you can inspect the
 sources, provenance and limits behind every result.
 
+## Product Story
+
+The owner-approved long-form Devpost description is maintained in
+[`docs/competition/devpost-product-story.md`](docs/competition/devpost-product-story.md).
+It is the canonical copy for the live project description; the sections below
+remain the field-ready technical and evaluation reference.
+
 ## Problem
 
 Government information is authoritative only within its scope, yet it is
@@ -29,7 +36,7 @@ same object in an accessible Evidence answer, so the person can compare the
 AI's prose with the source, status, limitations, remaining unknowns and next
 appropriate check.
 
-The public candidate combines 80 deeply reviewed records with 58,652
+The public candidate combines 80 receipt-bound reviewed records with 58,652
 searchable source-snapshot records from four governed OKF collections: A Life
 in the UK, Office for National Statistics metadata, the UK Government API
 catalogue and metadata-only HM Land Registry discovery. Three standalone

@@ -102,6 +102,14 @@ and pitch and still returned no challenge submission timestamp. The public
 video, custom answers, owner attestations and explicit submission action remain
 open.
 
+The owner-provided long-form narrative is retained as
+`docs/competition/devpost-product-story.md` and is the canonical live project
+description. It separates direct tool execution, AI tool selection and human
+understanding rather than treating them as one interoperability claim. An
+authenticated read-after-write at `2026-09-03T19:03:50Z` confirmed semantic
+parity between the Markdown source and Devpost's formatting-stripped text; the
+challenge submission timestamp remained null.
+
 ## Historical assurance and implementation detail
 
 The release hardening controls how those observations can be admitted

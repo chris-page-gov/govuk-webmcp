@@ -58,6 +58,18 @@ Your AI uses WebMCP to access government knowledge, while you can inspect the so
 
 129 characters; Devpost limit: 200.
 
+## Product story
+
+The owner-approved long-form description is
+[`devpost-product-story.md`](devpost-product-story.md). It leads with the
+personal-AI and publisher division of responsibility, explains the six-tool
+WebMCP and OKF design, and keeps direct execution, AI tool selection and human
+understanding as separate evidence questions. This file is the canonical copy
+for the live Devpost project description. An authenticated read-after-write at
+`2026-09-03T19:03:50Z` confirmed that Devpost's plain-text projection matches
+the canonical Markdown after formatting is removed; the challenge submission
+timestamp remained null.
+
 ## Live Devpost form mapping
 
 Authenticated Devpost calls on 2 September 2026 confirmed registration and an
