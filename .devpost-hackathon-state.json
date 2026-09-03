@@ -13,8 +13,8 @@
     "display_name": "Chris"
   },
   "project": {
-    "name": "Evidence Answer: check what your AI tells you",
-    "summary": "Your compatible AI can query Open Knowledge Format bounded government evidence, while an accessible Evidence Answer shows every source, limitation and unknown so you can check your AI before you act.",
+    "name": "Government Knowledge for Your AI",
+    "summary": "Your AI uses WebMCP to access government knowledge, while you can inspect the sources, provenance and limits behind every result.",
     "ai_usage": "ChatGPT in Chrome completed one visual search-and-present smoke journey. A second Chrome narrative covers 12 stories with 20 reported calls, 2 no-calls and 4 of 6 tools exercised. An Edge follow-up reports 38 calls across all 6 tools; the observed final page digest matches its report. Neither report is a raw browser trace. Copilot, Gemini and local Ollama retain their limitations.",
     "codex_usage": "Codex implements, verifies and documents the deterministic WebMCP application and release evidence."
   },

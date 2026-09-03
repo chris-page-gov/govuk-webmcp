@@ -48,24 +48,24 @@ final live-rules and form refresh.
 
 ## Project title
 
-**Evidence Answer: check what your AI tells you**
+**Government Knowledge for Your AI**
 
-45 characters; Devpost limit: 60.
+32 characters; Devpost limit: 60.
 
 ## One-line description
 
-Your own AI can use bounded government evidence, while an accessible Evidence answer shows every source, limitation and unknown so you can check before you act.
+Your AI uses WebMCP to access government knowledge, while you can inspect the sources, provenance and limits behind every result.
 
-160 characters; Devpost limit: 200.
+129 characters; Devpost limit: 200.
 
 ## Live Devpost form mapping
 
 Authenticated Devpost calls on 2 September 2026 confirmed registration and an
-open submission phase, then populated the reversible project fields. A
-read-after-write at `2026-09-02T21:20:48Z` returned the selected title, pitch,
-description and public links, with `video_url: null` and `submitted_at: null`.
-This is a time-bounded project-draft observation, not a submission receipt. The
-following custom answers remain preparation copy only.
+open submission phase, then populated the reversible project fields. A later
+read-after-write at `2026-09-03T18:43:34Z` returned the owner-selected title and
+pitch above, the existing description and public links, with no video URL and
+`submitted_at: null`. This is a time-bounded project-draft observation, not a
+submission receipt. The following custom answers remain preparation copy only.
 
 | Live field | Prepared value or owner action |
 | --- | --- |
