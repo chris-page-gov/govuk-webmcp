@@ -17,10 +17,22 @@ journey reported six ready Site tools and visibly updated Evidence Answer to
 the selected ONS Open Geography record. Its retained answer preserved the
 source link and four limitations, but the collapsed integration exposed no
 exportable exact call trace, versions or model identity and the answer received
-only a bounded content review. The nine-step VoiceOver journey records eight passes and one
+only a bounded content review. A second owner-directed Chrome and ChatGPT
+extension run covered all 12 stories; its public narrative reports 20 successful
+calls, 2 deliberate no-calls and 2 rejected preliminary probes. It discovered
+all 6 tools but exercised only 4 and exported no raw call or result trace. The
+owner-authorised Edge and ChatGPT extension follow-up also covered all 12
+stories. Its editorially qualified host report reports 38 successful calls
+across all 6 tools and records host-reported arguments plus available
+presentation and trace digests, alongside 2 deliberate no-calls and 3 rejected
+interface probes. The observed final US-10 page digest matches the tool digest
+in that report. The report is not a raw browser trace and its visible model
+label is unverified. The nine-step VoiceOver journey records eight passes and one
 limitation, with VoiceOver and its Caption Panel off afterwards. All 72 host
-slots are observed, but the claim gate is false. No Site tool invocation or Evidence answer update was observed. Copilot page and call states are
-unobservable, all answers are unreviewed, and Ollama records 6
+slots are observed, but the claim gate is false. Within the 36 Copilot matrix
+observations, no Site-tool invocation or Evidence answer update was observed;
+Copilot page and call states are unobservable, all answers are unreviewed, and
+Ollama records 6
 selection/execution passes, 30 failures and 3 runner errors. The honest local
 review video is now built from eight scenes: 120.326 seconds, H.264 1080p video,
 AAC audio, embedded English captions and SHA-256
@@ -65,7 +77,7 @@ following custom answers remain preparation copy only.
 | Live URL (`28254`) | `https://chris-page-gov.github.io/govuk-webmcp/` — verify its published `deployment.json`, final tag identity and signed-out access immediately before final entry. |
 | Testing instructions (`28255`, optional) | Open the deployed live URL in a supported WebMCP host. Confirm six tools; run `search_government_knowledge` with `{"query":"housing","collections":["uk-living","ons","government-apis","land-registry"],"limit":8}`; inspect one record and provenance; then call `present_resource_evidence` for that exact record. Compare the Evidence answer with the AI's prose and the Technical review. No site account or credential should be required. |
 | Public repository (`28256`) | `https://github.com/chris-page-gov/govuk-webmcp` |
-| Tested agents or clients (`28257`) | Google Chrome with the ChatGPT extension completed one owner-observed search-and-present journey: ChatGPT reported six Site tools ready and visibly updated Evidence Answer to the ONS Open Geography record, retaining its source link and four limitations. The collapsed integration exposed no exportable exact call trace, versions or model identity, so this is visual host evidence. Separately, exact Chrome DevTools MCP 1.8.0 evidence completed all six fixed direct calls with page-result parity. No Site-tool invocation or Evidence answer update was observed for personal Microsoft Copilot or Gemini. The 36 local Ollama runs record 6 selection/execution passes, 30 failures and 3 runner errors. No universal-compatibility or safe-answer claim is made. |
+| Tested agents or clients (`28257`) | Google Chrome with the ChatGPT extension completed one visible search-and-present journey. A second owner-directed Chrome narrative covers all 12 stories and reports 20 successful calls and 2 deliberate no-calls; it exercised 4 of 6 tools, rejected 2 probes and exported no raw trace. An Edge 152.0.4191.53 and ChatGPT for Edge 1.26.827.12125 follow-up reports 38 successful calls across all 6 tools and records host-reported arguments plus available presentation and trace digests in its narrative report; the observed final US-10 page digest matches the tool digest in that report. It had 3 rejected probes and no raw browser trace, and `5.6 Sol` is an unverified UI label. Separately, Chrome DevTools MCP 1.8.0 completed all six fixed direct calls with page-result parity. No Site-tool invocation or Evidence answer update was observed for personal Microsoft Copilot or Gemini. The 36 local Ollama runs record 6 selection/execution passes, 30 failures and 3 runner errors. No autonomous-host, universal-compatibility, privacy or safe-answer claim is made. |
 | AI tools used (`28258`) | Prepared from Chris Page's assurance: ChatGPT, Codex, Claude, Gemini, Microsoft Copilot and local Ollama were used for research, design, implementation and evaluation; no model is embedded in the deployed application. |
 | Learning level (`28259`) | Prepared: `Significant`; owner confirmation remains required. |
 | Career value (`28260`) | Prepared: `Yes`; owner confirmation remains required. |
@@ -254,7 +266,9 @@ DevTools evidence completed all six tools through fixed direct calls; it is not
 model-selection or host-UI evidence. The exact nine-step VoiceOver journey
 records eight passes and one limitation, with VoiceOver and its Caption Panel
 verified off afterwards. The full 72-slot observational matrix is structurally
-complete, but its false claim gate supports no safe-host conclusion. No Site tool invocation or Evidence answer update was observed. The Copilot observation retains that limitation. The final
+complete, but its false claim gate supports no safe-host conclusion. Within
+the Copilot matrix observations, no Site-tool invocation or Evidence answer
+update was observed. The final
 local review video now shows that negative compatibility finding separately
 from exact direct supported-host success. Its tracked public comparison summary
 and clip receipt publish no private URLs or answer text; the clip is visibly
@@ -334,6 +348,19 @@ submitted and still requires owner and signed-out public-player review.
   It is not model-selection or host-owned-UI evidence.
 - [x] One owner-operated ChatGPT Chrome extension smoke journey visibly
   completes the ONS search-and-present path, with no safe-host claim.
+- [x] A second owner-directed public ChatGPT Chrome extension narrative covers
+  all 12 stories and reports 20 successful calls and 2 deliberate no-calls. It
+  discovered 6 tools but exercised only 4, rejected 2 preliminary probes and
+  exported no raw call or result trace; no safe-answer or universal-
+  compatibility claim follows.
+- [x] A separate Edge and ChatGPT extension run reports 38 successful calls
+  across all 6 tools and records host-reported arguments plus available
+  presentation and trace digests in its narrative report. The observed final
+  US-10 page digest matches the tool digest in that
+  report. It had 3 rejected
+  interface probes and no raw browser trace; its visible model label is
+  unverified and no safety, autonomy, privacy or universal-compatibility claim
+  follows.
 - [x] The exact nine-step VoiceOver journey records eight passes and one
   limitation; VoiceOver and its Caption Panel were turned off afterwards.
 - [x] All 72 host slots have observations. The Copilot call, tool and page

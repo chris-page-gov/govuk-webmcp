@@ -1,0 +1,148 @@
+{
+  "schema": "trusted-govuk-discovery.chatgpt-edge-extension-observation.v1",
+  "recordedDate": "2026-09-03",
+  "observationTiming": "The owner authorised the prompt at 18:44 BST; the side-panel response completed at 18:53 BST. Times are minute-resolution UI observations.",
+  "release": {
+    "version": "0.4.0-rc.1",
+    "commitSha": "a4d2db44e60024c3eadbdb2b1722153ce19dff4c",
+    "pagesRunId": "33657069203",
+    "publicUrl": "https://chris-page-gov.github.io/govuk-webmcp/"
+  },
+  "method": "agent-operated-owner-authorised-live-observation",
+  "evaluation": {
+    "suiteId": "beginner-evidence-v1",
+    "caseSetPath": "evals/personal-agent-cases.json",
+    "caseSetSha256": "9fe430cee9d09090247c857078129623753e229cdab063772a59d881d6d9e0ad",
+    "requestedCases": [
+      "US-01",
+      "US-02",
+      "US-03",
+      "US-04",
+      "US-05",
+      "US-06",
+      "US-07",
+      "US-08",
+      "US-09",
+      "US-10",
+      "US-11",
+      "US-12"
+    ],
+    "repetitionsPerCase": 1
+  },
+  "environment": {
+    "browserName": "Microsoft Edge",
+    "browserVersion": "152.0.4191.53",
+    "browserVersionEvidence": "Read from the installed Microsoft Edge executable after the run.",
+    "host": "ChatGPT Edge extension side panel",
+    "extensionDisplayName": "ChatGPT for Edge",
+    "extensionVersion": "1.26.827.12125",
+    "extensionVersionEvidence": "Matched the version visible before the run and the installed extension manifest after the run.",
+    "profileClass": "owner-controlled-personal",
+    "workProfileUsed": false,
+    "accountIdentifierRetained": false,
+    "visibleModelLabel": "5.6 Sol",
+    "modelIdentity": {
+      "status": "ui-label-only-not-independently-verified",
+      "exactIdentity": null
+    }
+  },
+  "prompt": {
+    "sha256": "ac3e5663af3695ff5dfeabc0e3928c256fa77f38bf3b86a07da4596c5b6cad26",
+    "personalContextIncluded": false,
+    "caseSetReferenceStatus": "The prompt's mutable main URL is retained exactly as sent. The checked case-set SHA-256 matches the immutable product-commit copy.",
+    "immutableCaseSetUrl": "https://github.com/chris-page-gov/govuk-webmcp/blob/a4d2db44e60024c3eadbdb2b1722153ce19dff4c/evals/personal-agent-cases.json",
+    "text": "This is an owner-directed observational evaluation of the public site already open in this tab. Use the Site tools exposed by this page to run the 12 predefined natural-language cases in the public repository at https://github.com/chris-page-gov/govuk-webmcp/blob/main/evals/personal-agent-cases.json.\n\nFor each case, answer it within this chat and use only the page's Site tools when the case requires them. Follow the checked-in call policy and maximum calls. Do not call an official government API. Do not invent values, eligibility decisions, legal conclusions, property ownership, access conditions, licences, current statistics or deadlines. For US-11 ask for clarification before any tool call; for US-12 answer without a government tool call. Do not send DEV-EXAMPLE, TEST-ONLY-ADDRESS or TEST-ONLY-INSURANCE-4421 to a page tool or retain them in page state or storage.\n\nAt the end, report separately: tools discovered; tools actually exercised; exact calls and arguments if exposed; result schemas; returned Evidence answer digests; visible page update and page/tool digest parity; deliberate no-call cases; rejected calls or errors; and limitations. Record browser, extension and model versions only if actually observable, and mark anything else unknown. Do not claim autonomous model selection, answer safety or universal compatibility. Return a concise summary plus an exportable Markdown evidence report."
+  },
+  "hostReported": {
+    "responseCompleted": true,
+    "storyCount": 12,
+    "successfulCallCount": 38,
+    "successfulCallsByTool": {
+      "explore_answer_foundations": 1,
+      "compare_evidence_foundations": 1,
+      "search_government_knowledge": 9,
+      "get_resource_record": 9,
+      "show_provenance": 9,
+      "present_resource_evidence": 9
+    },
+    "discoveredTools": [
+      "search_government_knowledge",
+      "get_resource_record",
+      "show_provenance",
+      "explore_answer_foundations",
+      "compare_evidence_foundations",
+      "present_resource_evidence"
+    ],
+    "exercisedTools": [
+      "search_government_knowledge",
+      "get_resource_record",
+      "show_provenance",
+      "explore_answer_foundations",
+      "compare_evidence_foundations",
+      "present_resource_evidence"
+    ],
+    "deliberateNoCallCases": [
+      "US-11",
+      "US-12"
+    ],
+    "rejectedInvocationProbeCount": 3,
+    "rejectedInvocationProbesExecutedRegisteredTool": false,
+    "successfulCallAnomaly": "US-06's exact search returned zero matches; the subsequent exact-record, provenance and presentation calls completed.",
+    "officialApiCallsReported": false,
+    "officialApiCallEvidence": "The host reported officialApiCall: false in returned boundaries; the network log was not independently inspected.",
+    "hostReportedResourceHostnames": [
+      "chris-page-gov.github.io"
+    ],
+    "visibleDigestParityCases": [
+      "US-02",
+      "US-10"
+    ],
+    "hostReportedCallArgumentsRetainedInReport": true,
+    "availablePresentationAndTraceDigestsRetainedInReport": true,
+    "perCallResultDigestsRetained": false,
+    "rawBrowserToolTraceExported": false
+  },
+  "operatorObserved": {
+    "responseCompleted": true,
+    "allCasesListedInFinalResponse": true,
+    "finalPageActivity": "Your AI updated the Evidence answer. No source, storage or external state changed.",
+    "finalRecordId": "govuk-discovery:api:flood-monitoring",
+    "finalRecordTitle": "Flood-monitoring API",
+    "finalEvidenceTier": "reviewed-deep-evidence",
+    "finalDisplayedDigest": "3238aee7c3b76552d289490f69abe8d1a8fc7f9e5720b1d89272308c956835ea",
+    "finalToolReturnedDigestInHostReport": "3238aee7c3b76552d289490f69abe8d1a8fc7f9e5720b1d89272308c956835ea",
+    "observedPageDigestMatchesHostReportedToolDigest": true,
+    "finalUrl": "https://chris-page-gov.github.io/govuk-webmcp/",
+    "visiblePageError": false,
+    "browserConsole": "not-independently-inspected",
+    "network": "host-reported-resource-log-only"
+  },
+  "report": {
+    "path": "docs/competition/evidence/chatgpt-edge-extension-evaluation-report-v0.4.0-rc.1.md",
+    "repositoryFileSha256": "bef405de5ee17faf6b474052d793c99816b829dafb0928c4d1116640ec0490ac",
+    "originalHostExportSha256": "fc845609e56e10bde6fb36fb9faa174e85e4777b4b4fad45c17e5ef8f5007126",
+    "derivation": "The checked-in report is an editorially qualified derivative of the host export. Its evidence-attribution wording was corrected without changing the reported calls, results or digests.",
+    "kind": "editorially-qualified-host-generated-observation-report-not-a-raw-browser-tool-trace"
+  },
+  "privacy": {
+    "accountIdentifierRetained": false,
+    "unrelatedTabsRetained": false,
+    "rawScreenshotRetained": false,
+    "testMarkersPresentInPrompt": true,
+    "testMarkerPromptExplanation": "The three markers are named only in a negative instruction telling the host not to send or retain them.",
+    "testMarkerScanOfReport": "none-found",
+    "testMarkersReportedAbsentFromSuccessfulArguments": true,
+    "storageInspection": "reported-by-host-not-independently-repeated"
+  },
+  "overallStatus": "completed-supplemental-one-run-observational-evaluation",
+  "claimImpact": "evidence-of-live-edge-chatgpt-extension-interoperation-not-a-safe-host-autonomy-or-universal-compatibility-claim",
+  "limitations": [
+    "This was one owner-directed run, not the planned 72-run, two-host comparison.",
+    "The prompt directed the host to use the checked-in cases, so the run does not demonstrate autonomous scenario selection.",
+    "The report records host-reported arguments plus available presentation and trace digests, but not a digest for every call or a raw browser tool-call trace.",
+    "Only the final US-10 page state and digest were independently observed in full after completion; US-02 parity and intermediate digests are host-reported.",
+    "Three interface-shape probes were rejected before the 38 successful registered-tool calls.",
+    "The exact model identity behind the visible host label was not independently verifiable.",
+    "The observation does not establish answer safety, official endorsement, end-to-end privacy, universal compatibility or future availability."
+  ]
+}

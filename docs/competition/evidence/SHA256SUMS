@@ -1945,7 +1945,10 @@ de1d920fe3284def4b3a9833c7fa2979fd3e1fe7c1bc56067cdd755970578dce  docs/competiti
 0dd7996f5cc97c4834929c6a40eedb3342cf3016046ef768926041656ba0252f  docs/competition/evidence/beginner-conversation-evaluation-receipt-2026-08-31.json
 e2c0342d40c08ad7f8784176781af4a8f479b907704b6127d3f2f951f5655fe0  docs/competition/evidence/candidate-verification-2026-08-30.md
 ef0dfc7a2b705ddfc0bd8730ca54a9bcbc6789eee8cd8d65edceea0fc6c0cb86  docs/competition/evidence/challenge-provenance.json
+7a3d386f0f4743587b412fbc23eb59493ce139d1be9fdb8070b06cd3cad90b3d  docs/competition/evidence/chatgpt-chrome-extension-evaluation-run-2-v0.4.0-rc.1.json
 178f44773012c1196dbddb024372d4ef64ddac3614e49e2949e6ab2f5b0628e4  docs/competition/evidence/chatgpt-chrome-extension-observation-v0.4.0-rc.1.json
+bef405de5ee17faf6b474052d793c99816b829dafb0928c4d1116640ec0490ac  docs/competition/evidence/chatgpt-edge-extension-evaluation-report-v0.4.0-rc.1.md
+8a21e160100cc59ae90014e9ea8654ec0895c02c96eb48e3b9017a3bbea35725  docs/competition/evidence/chatgpt-edge-extension-observation-v0.4.0-rc.1.json
 b7830ddf76719c7cfe8c38f8dc11233d01099e03a723b14fe91fc4e1e154d2a5  docs/competition/evidence/chrome-devtools-mcp-2026-08-30-edd4ce6.json
 4d87c3d55379266f68f633896e016f9294b991aa88458ea3f4b91b883c430396  docs/competition/evidence/chrome-devtools-mcp-v0.3.0-rc.1.json
 6f734d4e945d4c5e4b2c8c30f27efab9bb66758b376c372993e7739e8b37d823  docs/competition/evidence/chrome-devtools-mcp-v0.4.0-rc.1.json

@@ -77,12 +77,24 @@
   parity is unobservable, all answers are unreviewed and context is 0 complete.
   The complete frozen 72-run Copilot and Ollama matrix is retained with a false
   claim gate. A later owner-operated ChatGPT Chrome extension smoke journey
-  reported six ready Site tools and visibly updated Evidence Answer to the
+  reported six ready Site tools and visibly updated the Evidence answer to the
   selected ONS Open Geography record. Its collapsed integration exposed no
   exportable exact call trace, versions or model identity, and the answer
-  received only a bounded content review. It is not an extra matrix slot or a
-  safe-host claim. This item stays open only for future answer-safety and
-  broader-host research, not for the competition submission.
+  received only a bounded content review. A second owner-directed Chrome and
+  ChatGPT extension run covered all 12 stories; its public narrative reports
+  20 successful calls, 2 deliberate no-calls and 2 rejected preliminary
+  probes. It discovered all 6 tools but exercised only 4 and exported no raw
+  call or result trace. A separate Edge and ChatGPT extension run covered all
+  12 stories; its editorially qualified host report reports 38 successful
+  calls across all 6 tools and records host-reported arguments plus available
+  presentation and trace digests, alongside 2 deliberate no-calls and 3
+  rejected probes. The observed final US-10 page digest matches the tool digest in the
+  host report, but the
+  report is not a raw browser trace and its visible model label is unverified.
+  None is an extra matrix slot or supports a safe-answer, autonomous-host,
+  universal-compatibility or privacy claim. This item stays open only for
+  future answer-safety and broader-host research, not for the competition
+  submission.
 
 - [ ] **8. Complete browser, accessibility and security assurance**
   Spec ref: `spec.md > Verification strategy`
@@ -135,8 +147,13 @@
   frames are bound and packaged for the release build. The local Ollama
   diagnostic remains unclaimable; its generated clip is visibly labelled as a
   diagnostic receipt, not a host recording or page update. The complete host
-  matrix and one successful ChatGPT Chrome extension visual smoke journey are
-  retained with their limitations. Chris will record the required public
-  YouTube demonstration; do not rebuild the existing local cut. Public-player
-  verification, the tag and prerelease, custom answers and the separately
-  authorised Devpost action remain open.
+  matrix, one successful ChatGPT Chrome extension visual smoke journey and a
+  second 12-story public narrative are retained with their limitations. The
+  second run reports 20 successful calls and 2 deliberate no-calls, but only 4
+  of 6 discovered tools were exercised and no raw call or result trace was
+  exported. The Edge follow-up records all 6 tools exercised; the observed
+  final US-10 page digest matches its report, with 3 rejected probes and no raw browser
+  trace. Chris will record the required public YouTube demonstration; do not
+  rebuild the existing local cut. Public-player verification, the tag and
+  prerelease, custom answers and the separately authorised Devpost action
+  remain open.
