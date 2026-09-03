@@ -1,12 +1,11 @@
 # Title
 
-Evidence Answer: check what your AI tells you
+Government Knowledge for Your AI
 
 ## One-line Summary
 
-Your compatible AI can query Open Knowledge Format bounded government
-evidence, while an accessible Evidence Answer shows every source, limitation
-and unknown so you can check your AI before you act.
+Your AI uses WebMCP to access government knowledge, while you can inspect the
+sources, provenance and limits behind every result.
 
 ## Problem
 

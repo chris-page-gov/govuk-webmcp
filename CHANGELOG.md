@@ -8,6 +8,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Changed the live editable Devpost project and its lockstep preparation copy
+  to the owner-selected title **Government Knowledge for Your AI** and the
+  129-character WebMCP description. An authenticated read-after-write confirmed
+  both values while the video and final challenge submission remain open.
 - Reframed `README.md` as the beginner-facing explanation of the personal-AI,
   WebMCP, OKF and Evidence answer proposition. The previous audit-heavy README
   is preserved intact as `TECHNICAL_README.md`, with release identities,

@@ -95,8 +95,10 @@ and environments they name.
 
 The live Devpost project draft is now populated at
 <https://devpost.com/software/evidence-answer-check-what-your-ai-tells-you>
-with its title, pitch, description, technology list and public links. Its
-authenticated record still has no challenge submission timestamp. The public
+with the owner-selected title **Government Knowledge for Your AI**, its new
+129-character pitch, description, technology list and public links. An
+authenticated read-after-write at `2026-09-03T18:43:34Z` confirmed the title
+and pitch and still returned no challenge submission timestamp. The public
 video, custom answers, owner attestations and explicit submission action remain
 open.
 

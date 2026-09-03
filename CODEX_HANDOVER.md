@@ -111,9 +111,11 @@ submission remain open.
 
 The reversible Devpost project fields are now populated at
 <https://devpost.com/software/evidence-answer-check-what-your-ai-tells-you>.
-The authenticated record has no submission timestamp: the video, custom
-answers, owner attestations, final review and explicit challenge submission
-remain open.
+The owner-selected project title is **Government Knowledge for Your AI** and
+the one-line description is 129 characters. An authenticated read-after-write
+at `2026-09-03T18:43:34Z` confirmed both changes and no submission timestamp:
+the video, custom answers, owner attestations, final review and explicit
+challenge submission remain open.
 
 ## Historical pre-integration and hardening trail
 
