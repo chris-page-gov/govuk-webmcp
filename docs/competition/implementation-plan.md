@@ -1,5 +1,12 @@
 # Implementation plan and backlog tracking
 
+## Dependency maintenance — 2 November 2026
+
+The security candidate pins fast-uri 3.1.9 and Undici 6.29.1 and adds synthetic
+URI regression controls. This maps to Must 16 assurance in the backlog. It
+requires the existing deterministic build, unit and browser gates before
+merge; publication and personal-agent claims remain separately gated.
+
 This is the lockstep implementation map for
 `docs/competition/backlog.md`. It preserves the published `v0.2.0-rc.1`
 history and records the separately released `v0.3.0-rc.1` OKF federation.

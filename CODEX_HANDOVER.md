@@ -1,5 +1,11 @@
 # Codex handover
 
+## Dependency candidate — 2 November 2026
+
+Review the fast-uri 3.1.9 and Undici 6.29.1 lock update and synthetic URI
+regression tests through the existing complete validation. This is a draft
+maintenance candidate; merge, deployment and alert closure remain separate.
+
 ## Current outcome
 
 Protected-main product commit

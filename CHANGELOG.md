@@ -6,6 +6,12 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Security
+
+- Pin transitive fast-uri 3.1.9 and Undici 6.29.1, with encoded-scheme and
+  legitimate HTTPS resolution regression tests. Preserve the static data,
+  published release and personal-agent evidence boundaries.
+
 ### Changed
 
 - Changed the live editable Devpost project and its lockstep preparation copy
