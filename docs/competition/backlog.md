@@ -1,5 +1,10 @@
 # Appendix B — prioritised backlog
 
+Dependency maintenance on 2 November 2026 maps to Must 16: the candidate
+refreshes fast-uri and Undici and checks encoded URI schemes alongside the
+existing build, unit and browser gates. This candidate does not change the
+published release or close the remaining acceptance gates.
+
 ## Must
 
 1. Entrant/ownership/outside-interest decision.

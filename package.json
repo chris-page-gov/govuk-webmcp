@@ -69,5 +69,9 @@
     "@google/genai": false,
     "fsevents": false,
     "protobufjs": false
+  },
+  "overrides": {
+    "fast-uri": "3.1.9",
+    "undici": "6.29.1"
   }
 }
